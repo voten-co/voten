@@ -25,11 +25,14 @@
 
 <script>
 import Markdown from '../components/Markdown.vue';
+import Helpers from '../mixins/Helpers';
 
 export default {
 	props: ['list', 'selected', 'previous', 'chatting'],
 
 	components: { Markdown },
+
+	mixins: [Helpers],
 
 	data () {
 		return {
@@ -90,11 +93,11 @@ export default {
 		 * @return String
 		 */
 		date () {
-			if (moment(this.list.created_at).format('DD/MM/YYYY') == moment(new Date()).format('DD/MM/YYYY')) {
-				return moment().utc(this.list.created_at).format("LT")
+			if (this.isItToday(this.list.created_at)) {
+				return this.parseDateForToday(this.list.created_at)
 			}
 
-			return moment(this.list.created_at).utc(moment().format("MMM Do")).format("MMM Do")
+			return this.parseDate(this.list.created_at);
 		},
 
 		/**
@@ -103,7 +106,7 @@ export default {
 		 * @return String
 		 */
 		longDate () {
-			return moment().utc(this.list.created_at).format("LLL")
+			return this.parseFullDate(this.list.created_at);
 		},
 
 		/**
@@ -113,7 +116,7 @@ export default {
 		 */
 		seenDate () {
 			if (this.list.read_at) {
-				return moment().utc(this.list.read_at).format("LLL")
+				return this.parseFullDate(this.list.read_at);
 			}
 
 			return "Not seen yet"

@@ -1,5 +1,5 @@
-window.moment = require('moment-timezone')
-window.moment.tz.setDefault("UTC")
+window.moment = require('moment-timezone');
+window.moment.tz.setDefault("UTC");
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -10,39 +10,28 @@ window.axios = require('axios');
 window.axios.defaults.headers.common['X-CSRF-TOKEN'] = window.Laravel.csrfToken;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+
 axios.interceptors.response.use(function (response) {
-
-	// catch general errors
-    if (response.status === 401) {
-        location.reload()
-    }
-
 	return response;
-});
+}, function (error) {
+	if (error.response.status === 401) location.reload();
 
-axios.interceptors.response.use(function (response) {
-    return response;
-  }, function (error) {
-    // Do something with response error
-    if (error.response.status === 401) {
-        location.reload()
-    }
-    return Promise.reject(error);
-  });
+	return Promise.reject(error);
+});
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
  */
-import Echo from "laravel-echo"
+import Echo from "laravel-echo";
 
 if (Laravel.env == 'local') {
 	window.Echo = new Echo({
 	    broadcaster: 'pusher',
 	    key: '690c67d5d78d1c7ace97',
 	    cluster: 'eu'
-	})
+	});
 } else {
 	window.Echo = new Echo({
 	    broadcaster: 'socket.io',
@@ -54,7 +43,7 @@ if (Laravel.env == 'local') {
 	            'Authorization': 'Bearer ' + 'nb35mdq2ca9928qgl4sgjf3imil5811sn41qsmcaph0p3h6sa5ht8hoktdeg'
 	        }
 	    }
-	})
+	});
 }
 
 // The rest of (non-NPM) packages
