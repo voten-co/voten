@@ -2,12 +2,12 @@
 
 namespace App;
 
-use DB;
-use Carbon\Carbon;
-use Laravel\Scout\Searchable;
 use App\Events\CategoryWasUpdated;
+use Carbon\Carbon;
+use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 class Category extends Model
 {
@@ -25,7 +25,7 @@ class Category extends Model
      * @var array
      */
     protected $hidden = [
-        'deleted_at', 'updated_at', 'public', 'active', 'settings'
+        'deleted_at', 'updated_at', 'public', 'active', 'settings',
     ];
 
     /**
@@ -34,33 +34,28 @@ class Category extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'language', 'avatar', 'color', 'nsfw', 'subscribers'
+        'name', 'description', 'language', 'avatar', 'color', 'nsfw', 'subscribers',
     ];
-
 
     public function submissions()
     {
         return $this->hasMany(Submission::class);
     }
 
-
     public function comments()
     {
         return $this->hasMany(Comment::class);
     }
-
 
     public function subscriptions()
     {
         return $this->belongsToMany(User::class, 'subscriptions');
     }
 
-
     public function rules()
     {
         return $this->hasMany(Rule::class);
     }
-
 
     public function bannedUsers()
     {
@@ -75,10 +70,10 @@ class Category extends Model
     {
         return DB::table('roles')->where([
             'category_id' => $this->id,
-            'role' => 'administrator'
+            'role'        => 'administrator',
         ])->orWhere([
             'category_id' => $this->id,
-            'role' => 'moderator'
+            'role'        => 'moderator',
         ])->pluck('user_id');
     }
 
@@ -88,7 +83,6 @@ class Category extends Model
         return $this->belongsToMany('App\User', 'roles')->withPivot('role');
     }
 
-
     /**
      * Get the indexable data array for the model.
      *
@@ -97,10 +91,10 @@ class Category extends Model
     public function toSearchableArray()
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
+            'id'          => $this->id,
+            'name'        => $this->name,
             'description' => $this->description,
-            'subscribers' => $this->subscribers
+            'subscribers' => $this->subscribers,
         ];
     }
 }

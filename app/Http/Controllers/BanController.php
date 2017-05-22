@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Ban;
-use App\User;
 use App\Category;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -14,6 +14,7 @@ class BanController extends Controller
      * Stores a record on the database to ban the user.
      *
      * @param Illuminate\Http\Request $request
+     *
      * @return response
      */
     public function store(Request $request)
@@ -21,7 +22,7 @@ class BanController extends Controller
         $this->validate($request, [
             'username' => 'required',
             'category' => 'alpha_num|max:25',
-            'duration' => 'integer|min:0|max:999'
+            'duration' => 'integer|min:0|max:999',
         ]);
 
         if ($request->category != 'all') {
@@ -45,10 +46,10 @@ class BanController extends Controller
         }
 
         $blockedUser = new Ban([
-            "user_id" => $user->id,
-            "category" => $request->category,
-            "description" => $request->description,
-            "unban_at" => $unban_at
+            'user_id'     => $user->id,
+            'category'    => $request->category,
+            'description' => $request->description,
+            'unban_at'    => $unban_at,
         ]);
         $blockedUser->save();
 
@@ -57,17 +58,17 @@ class BanController extends Controller
         return $blockedUser;
     }
 
-
     /**
-     * Returns all the users that are banned from submitting to this category
+     * Returns all the users that are banned from submitting to this category.
      *
      * @param Illuminate\Http\Request $request
+     *
      * @return Illuminate\Support\Collection
      */
     public function index(Request $request)
     {
         $this->validate($request, [
-            'category' => 'required|max:25'
+            'category' => 'required|max:25',
         ]);
 
         if ($request->category != 'all') {
@@ -88,18 +89,18 @@ class BanController extends Controller
                     ->get();
     }
 
-
     /**
-     * Unban
+     * Unban.
      *
      * @param Illuminate\Http\Request $request
+     *
      * @return response
      */
     public function destroy(Request $request)
     {
         $this->validate($request, [
-            'user_id' => 'required|integer',
-            'category' => 'alpha_num|max:25'
+            'user_id'  => 'required|integer',
+            'category' => 'alpha_num|max:25',
         ]);
 
         if ($request->category != 'all') {
@@ -117,6 +118,6 @@ class BanController extends Controller
                     ->where('category', $request->category)
                     ->delete();
 
-        return response("Unbanned from " . $request->category, 200);
+        return response('Unbanned from '.$request->category, 200);
     }
 }

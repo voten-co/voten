@@ -3,11 +3,10 @@
 namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Queue\SerializesModels;
 
 class ConversationRead implements ShouldBroadcast
 {
@@ -16,12 +15,11 @@ class ConversationRead implements ShouldBroadcast
     public $contact_id;
     public $user_id;
 
-
     /**
-    * Create a new event instance.
-	*
-    * @return void
-    */
+     * Create a new event instance.
+     *
+     * @return void
+     */
     public function __construct($contact_id, $user_id)
     {
         $this->contact_id = $user_id;
@@ -29,12 +27,12 @@ class ConversationRead implements ShouldBroadcast
     }
 
     /**
-    *   Get the channels the event should broadcast on.
-    *
-    *   @return Channel|array
-    */
+     *   Get the channels the event should broadcast on.
+     *
+     *   @return Channel|array
+     */
     public function broadcastOn()
     {
-        return new PrivateChannel('App.User.' . $this->user_id);
+        return new PrivateChannel('App.User.'.$this->user_id);
     }
 }

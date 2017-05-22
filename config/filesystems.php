@@ -51,27 +51,27 @@ return [
 
             // Optional FTP Settings...
             // 'port'     => env('FTP_PORT', 21),
-            'root'     => env('FTP_ROOT', '/'),
-            'passive'  => true,
-            'ssl'      => true,
+            'root'         => env('FTP_ROOT', '/'),
+            'passive'      => true,
+            'ssl'          => true,
             'cdn_url'      => env('CDN_URL', 'https://cdn.voten.co/'),
             // 'timeout'  => 30,
         ],
 
         'local' => [
             'driver' => 'local',
-            'root' => storage_path('app'),
+            'root'   => storage_path('app'),
         ],
 
         'public' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public'),
+            'driver'     => 'local',
+            'root'       => storage_path('app/public'),
             'visibility' => 'public',
         ],
 
         's3' => [
             'driver' => 's3',
-            'key' => 'your-key',
+            'key'    => 'your-key',
             'secret' => 'your-secret',
             'region' => 'your-region',
             'bucket' => 'your-bucket',

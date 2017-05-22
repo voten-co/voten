@@ -2,24 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use Auth;
-use App\User;
+use App\Category;
 use App\Comment;
 use App\Filters;
-use App\Category;
-use App\Submission;
-use App\Http\Requests;
-use App\Traits\CachableUser;
-use App\Traits\CachableComment;
 use App\Traits\CachableCategory;
+use App\Traits\CachableComment;
 use App\Traits\CachableSubmission;
+use App\Traits\CachableUser;
+use App\User;
+use Auth;
 use Illuminate\Http\Request;
-
 
 class BookmarksController extends Controller
 {
-	use Filters, CachableUser, CachableCategory, CachableSubmission, CachableComment;
+    use Filters, CachableUser, CachableCategory, CachableSubmission, CachableComment;
 
     public function __construct()
     {
@@ -27,48 +23,47 @@ class BookmarksController extends Controller
     }
 
     /**
-     * Favorited submissions by Auth user
+     * Favorited submissions by Auth user.
      *
      * @return Illuminate\Support\Collection
      */
     public function getBookmarkedSubmissions()
     {
-    	return Auth::user()->bookmarkedSubmissions()->simplePaginate(10);
+        return Auth::user()->bookmarkedSubmissions()->simplePaginate(10);
     }
 
-
     /**
-     * Favorited comments by Auth user
+     * Favorited comments by Auth user.
      *
      * @return Illuminate\Support\Collection
      */
     public function getBookmarkedComments()
     {
-    	return $this->withoutChildren( Auth::user()->bookmarkedComments()->simplePaginate(10) );
+        return $this->withoutChildren(Auth::user()->bookmarkedComments()->simplePaginate(10));
     }
 
     /**
-     * Favorited categories by Auth user
+     * Favorited categories by Auth user.
      *
      * @return Illuminate\Support\Collection
      */
     public function getBookmarkedCategories()
     {
-    	return Auth::user()->bookmarkedCategories()->simplePaginate(10);
+        return Auth::user()->bookmarkedCategories()->simplePaginate(10);
     }
 
     /**
-     * Favorited categories by Auth user
+     * Favorited categories by Auth user.
      *
      * @return Illuminate\Support\Collection
      */
     public function getBookmarkedUsers()
     {
-    	return Auth::user()->bookmarkedUsers()->simplePaginate(10);
+        return Auth::user()->bookmarkedUsers()->simplePaginate(10);
     }
 
     /**
-     * Favorited submissions by Auth user
+     * Favorited submissions by Auth user.
      *
      * @return Illuminate\Support\Collection
      */
@@ -82,17 +77,17 @@ class BookmarksController extends Controller
 
         $type = $submission->bookmark();
 
-		if ($type == 'bookmarked') {
-			$this->updateBookmarkedSubmissions(Auth::user()->id, $submission->id, true);
-		} else {
-			$this->updateBookmarkedSubmissions(Auth::user()->id, $submission->id, false);
-		}
+        if ($type == 'bookmarked') {
+            $this->updateBookmarkedSubmissions(Auth::user()->id, $submission->id, true);
+        } else {
+            $this->updateBookmarkedSubmissions(Auth::user()->id, $submission->id, false);
+        }
 
-		return $type;
+        return $type;
     }
 
     /**
-     * (un)Bookmarks the comment
+     * (un)Bookmarks the comment.
      *
      * @return status
      */
@@ -106,17 +101,17 @@ class BookmarksController extends Controller
 
         $type = $comment->bookmark();
 
-		if ($type == 'bookmarked') {
-			$this->updateBookmarkedComments(Auth::user()->id, $comment->id, true);
-		} else {
-			$this->updateBookmarkedComments(Auth::user()->id, $comment->id, false);
-		}
+        if ($type == 'bookmarked') {
+            $this->updateBookmarkedComments(Auth::user()->id, $comment->id, true);
+        } else {
+            $this->updateBookmarkedComments(Auth::user()->id, $comment->id, false);
+        }
 
-		return $type;
+        return $type;
     }
 
     /**
-     * (un)Bookmarks the category
+     * (un)Bookmarks the category.
      *
      * @return status
      */
@@ -130,17 +125,17 @@ class BookmarksController extends Controller
 
         $type = $category->bookmark();
 
-		if ($type == 'bookmarked') {
-			$this->updateBookmarkedCategories(Auth::user()->id, $category->id, true);
-		} else {
-			$this->updateBookmarkedCategories(Auth::user()->id, $category->id, false);
-		}
+        if ($type == 'bookmarked') {
+            $this->updateBookmarkedCategories(Auth::user()->id, $category->id, true);
+        } else {
+            $this->updateBookmarkedCategories(Auth::user()->id, $category->id, false);
+        }
 
-		return $type;
+        return $type;
     }
 
     /**
-     * (un)Bookmarks the user
+     * (un)Bookmarks the user.
      *
      * @return status
      */
@@ -154,12 +149,12 @@ class BookmarksController extends Controller
 
         $type = $user->bookmark();
 
-		if ($type == 'bookmarked') {
-			$this->updateBookmarkedUsers(Auth::user()->id, $user->id, true);
-		} else {
-			$this->updateBookmarkedUsers(Auth::user()->id, $user->id, false);
-		}
+        if ($type == 'bookmarked') {
+            $this->updateBookmarkedUsers(Auth::user()->id, $user->id, true);
+        } else {
+            $this->updateBookmarkedUsers(Auth::user()->id, $user->id, false);
+        }
 
-		return $type;
+        return $type;
     }
 }

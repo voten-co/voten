@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Auth;
-use App\User;
-use Socialite;
-use App\PhotoTools;
-use Faker\Factory as Faker;
-use App\Mail\WelcomeToVoten;
-use App\Mail\NewRegistration;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Redis;
+use App\Mail\NewRegistration;
+use App\Mail\WelcomeToVoten;
+use App\PhotoTools;
+use App\User;
+use Auth;
+use Faker\Factory as Faker;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
+use Illuminate\Support\Facades\Redis;
+use Socialite;
 
 class LoginController extends Controller
 {
@@ -50,11 +49,9 @@ class LoginController extends Controller
         $this->middleware('guest', ['except' => 'logout']);
     }
 
-
     /* --------------------------------------------------------------------- */
     /* ------------------------- Laravel Socialite ------------------------- */
     /* --------------------------------------------------------------------- */
-
 
     /**
      * Redirect the user to the Facebook authentication page.
@@ -116,11 +113,11 @@ class LoginController extends Controller
         return redirect($this->redirectTo);
     }
 
-
     /**
-     * Return user if exists; create and return if doesn't
+     * Return user if exists; create and return if doesn't.
      *
      * @param $providerUser
+     *
      * @return User
      */
     private function findOrCreateUser($providerUser)
@@ -130,78 +127,78 @@ class LoginController extends Controller
         }
 
         $user = User::create([
-            'username' => $this->generateUsername($providerUser),
-            'name' => $providerUser->getName(),
-            'email' => $providerUser->getEmail(),
+            'username'  => $this->generateUsername($providerUser),
+            'name'      => $providerUser->getName(),
+            'email'     => $providerUser->getEmail(),
             'confirmed' => 1,
-            'password' => bcrypt(str_random(20)),
-            'avatar' => $this->downloadImg($providerUser->getAvatar(), 'users/avatars'),
+            'password'  => bcrypt(str_random(20)),
+            'avatar'    => $this->downloadImg($providerUser->getAvatar(), 'users/avatars'),
 
             'settings' => [
-                "font" => 'Lato',
-                "sidebar_color" => 'Dark Blue',
-                "nsfw" => false,
-                "nsfw_media" => false,
-                "notify_submissions_replied" => true,
-                "notify_comments_replied" => true,
-                "exclude_upvoted_submissions" => false,
-                "exclude_downvoted_submissions" => true,
-                "submission_small_thumbnail" => true,
+                'font'                          => 'Lato',
+                'sidebar_color'                 => 'Dark Blue',
+                'nsfw'                          => false,
+                'nsfw_media'                    => false,
+                'notify_submissions_replied'    => true,
+                'notify_comments_replied'       => true,
+                'exclude_upvoted_submissions'   => false,
+                'exclude_downvoted_submissions' => true,
+                'submission_small_thumbnail'    => true,
             ],
             'info' => [
                 'website' => null,
-                'twitter' => null
-            ]
+                'twitter' => null,
+            ],
         ]);
 
         \Mail::to($user->email)->queue(new WelcomeToVoten($user->username));
 
-		// let us know :D
-		\Mail::to("fischersully@gmail.com")->queue(new NewRegistration($user->username));
+        // let us know :D
+        \Mail::to('fischersully@gmail.com')->queue(new NewRegistration($user->username));
 
-		// set user's default data into cache to save few queries
-		$userData = [
-            "submissionsCount" => 0,
-            "commentsCount" => 0,
+        // set user's default data into cache to save few queries
+        $userData = [
+            'submissionsCount' => 0,
+            'commentsCount'    => 0,
 
-            "submissionKarma" => 0,
-            "commentKarma" => 0,
+            'submissionKarma' => 0,
+            'commentKarma'    => 0,
 
-            "hiddenSubmissions" => collect(),
-            "subscriptions" => collect(),
+            'hiddenSubmissions' => collect(),
+            'subscriptions'     => collect(),
 
-            "blockedUsers" => collect(),
+            'blockedUsers' => collect(),
 
-            "submissionUpvotes" => collect(),
-            "submissionDownvotes" => collect(),
+            'submissionUpvotes'   => collect(),
+            'submissionDownvotes' => collect(),
 
-            "bookmarkedSubmissions" => collect(),
-            "bookmarkedComments" => collect(),
-            "bookmarkedCategories" => collect(),
-            "bookmarkedUsers" => collect(),
+            'bookmarkedSubmissions' => collect(),
+            'bookmarkedComments'    => collect(),
+            'bookmarkedCategories'  => collect(),
+            'bookmarkedUsers'       => collect(),
 
-            "commentUpvotes" => collect(),
-            "commentDownvotes" => collect(),
+            'commentUpvotes'   => collect(),
+            'commentDownvotes' => collect(),
         ];
 
-        Redis::hmset('user.'. $user->id . '.data', $userData);
+        Redis::hmset('user.'.$user->id.'.data', $userData);
 
-        $this->redirectTo = "/find-channels?newbie=1&sidebar=0";
+        $this->redirectTo = '/find-channels?newbie=1&sidebar=0';
 
         return $user;
     }
 
-
     /**
      * Generates a unique username. First we check if the provider contains a valid username, if it does,
      * we just make sure it's a unique one and that's it. If it doesn't we give it another try with the
-     * str_slug($string, '.') version of it. It that fails as well or if the nickname is not available
+     * str_slug($string, '.') version of it. It that fails as well or if the nickname is not available.
      *
      * we try the same logic this time for the name provided. If that fails too, then we try it with the
      * email address mines after @ pattern. If that fails as well (which is unlikely) then we just go
      * ahead and generate a random username using the faker library which is included in Laravel.
      *
      * @param Socialite $providerUser
+     *
      * @return string
      */
     protected function generateUsername($providerUser)
@@ -217,7 +214,6 @@ class LoginController extends Controller
             }
         }
 
-
         // now lets try if with the name
         if ($name = $providerUser->getName()) {
             if ($this->isUsernameInValidFormat($name)) {
@@ -229,7 +225,6 @@ class LoginController extends Controller
             }
         }
 
-
         // lets give the provider its last shot
         $email = $providerUser->getEmail();
         $parts = explode('@', $email);
@@ -239,7 +234,6 @@ class LoginController extends Controller
             return $this->makeSureUsernameIsUnique($emailUsername);
         }
 
-
         // if we don't have a unique username by now, then it's not gonna work! let's just generate one using the faker library!
         $faker = Faker::create();
         $fakeUsername = $faker->username;
@@ -247,20 +241,18 @@ class LoginController extends Controller
             return $this->makeSureUsernameIsUnique($fakeUsername);
         }
 
-
         // I give up :|
         return $this->makeSureUsernameIsUnique(str_random(8));
     }
 
-
     /**
-     * makes sure the username is unique (if it's not, creates one)
+     * makes sure the username is unique (if it's not, creates one).
      *
      * @return string
      */
     public function makeSureUsernameIsUnique($username)
     {
-    	if (! User::where('username', $username)->exists()) {
+        if (!User::where('username', $username)->exists()) {
             return $username;
         }
 
@@ -270,19 +262,18 @@ class LoginController extends Controller
         $users = User::where('username', 'LIKE', $username.'%')->get();
 
         while ($users->contains($newUsername)) {
-            $newUsername = $username . $usernameNumber;
-            $usernameNumber ++;
+            $newUsername = $username.$usernameNumber;
+            $usernameNumber++;
         }
 
         return $newUsername;
     }
 
-
-
     /**
      * Is the $username in the right format?
      *
      * @param string $username
+     *
      * @return void
      */
     protected function isUsernameInValidFormat($username)

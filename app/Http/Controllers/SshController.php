@@ -3,20 +3,17 @@
 namespace App\Http\Controllers;
 
 use Artisan;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Symfony\Component\Process\Process;
-use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class SshController extends Controller
 {
-	public function __construct()
+    public function __construct()
     {
         $this->middleware('auth');
     }
 
     /**
-     * flushes all the cache in redis
+     * flushes all the cache in redis.
      *
      * @return redirect
      */
@@ -29,9 +26,8 @@ class SshController extends Controller
         return back();
     }
 
-
     /**
-     * clears the artisan cache
+     * clears the artisan cache.
      *
      * @return redirect
      */
@@ -44,9 +40,8 @@ class SshController extends Controller
         return back();
     }
 
-
     /**
-     * clears the artisan cache
+     * clears the artisan cache.
      *
      * @return redirect
      */
@@ -59,9 +54,8 @@ class SshController extends Controller
         return back();
     }
 
-
     /**
-     * clears the artisan cache
+     * clears the artisan cache.
      *
      * @return redirect
      */

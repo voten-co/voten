@@ -2,19 +2,19 @@
 
 namespace App;
 
-use DB;
 use Auth;
-use App\AppointeddUser;
-use Illuminate\Http\Request;
+use DB;
+
 use Illuminate\Support\Facades\Cache;
 
 trait Permissions
 {
     /**
-     * Is Auth user a Voten official administrator
+     * Is Auth user a Voten official administrator.
      *
      * @param $user_id
-     * @return boolean
+     *
+     * @return bool
      */
     protected function mustBeVotenAdministrator($user_id = 0)
     {
@@ -28,9 +28,9 @@ trait Permissions
     }
 
     /**
-     * Is Auth user a Voten official administrator
+     * Is Auth user a Voten official administrator.
      *
-     * @return boolean
+     * @return bool
      */
     protected function mustBeWhitelisted()
     {
@@ -39,85 +39,85 @@ trait Permissions
         return $users->contains(Auth::user()->id);
     }
 
-
     /**
-     * Is Auth user the administrator of category
+     * Is Auth user the administrator of category.
      *
-     * @param integer $category
-     * @return boolean
+     * @param int $category
+     *
+     * @return bool
      */
     protected function mustBeAdministrator($category)
     {
         return $this->mustBeVotenAdministrator() || Auth::user()->roles()->where('category_id', $category)->pluck('role')->contains('administrator');
     }
 
-
     /**
-     * Is Auth user the (at least ) moderator of category
+     * Is Auth user the (at least ) moderator of category.
      *
-     * @param integer $category
-     * @return boolean
+     * @param int $category
+     *
+     * @return bool
      */
     protected function mustBeModerator($category)
     {
         $roles = Auth::user()->roles()->where('category_id', $category)->pluck('role');
 
-        return ($this->mustBeVotenAdministrator() || $roles->contains('moderator') || $roles->contains('administrator'));
+        return $this->mustBeVotenAdministrator() || $roles->contains('moderator') || $roles->contains('administrator');
     }
 
-
     /**
-     * Is Auth user the (at least ) subscriber of category
+     * Is Auth user the (at least ) subscriber of category.
      *
-     * @param integer $category
-     * @return boolean
+     * @param int $category
+     *
+     * @return bool
      */
     protected function mustBeSubscriber($category)
     {
         $roles = Auth::user()->roles()->where('category_id', $category)->pluck('role');
 
-        return ($roles->contains('subscriber') || $roles->contains('moderator') || $roles->contains('administrator'));
+        return $roles->contains('subscriber') || $roles->contains('moderator') || $roles->contains('administrator');
     }
 
-
     /**
-     * Wether or not the Auth user owns the model(the model could be anything: submissions, comment, photo etc...)
+     * Wether or not the Auth user owns the model(the model could be anything: submissions, comment, photo etc...).
      *
      * @param Collection $model
-     * @return boolean
+     *
+     * @return bool
      */
     protected function mustBeOwner($model)
     {
         return $model->ownedBy(Auth::user());
     }
 
-
     /**
-     * Wether or not the Auth user is in the blocked list of the User $user
+     * Wether or not the Auth user is in the blocked list of the User $user.
      *
-     * @param integer $user1
-     * @param integer $user2
-     * @return boolean
+     * @param int $user1
+     * @param int $user2
+     *
+     * @return bool
      */
     protected function areBlockedToEachOther($user1, $user2)
     {
-    	return DB::table('hidden_users')->where([
-    		'user_id' => $user1,
-    		'blocked_user_id' => $user2
-		])->orWhere([
-    		'user_id' => $user2,
-    		'blocked_user_id' => $user1
-		])->count() > 0;
+        return DB::table('hidden_users')->where([
+            'user_id'         => $user1,
+            'blocked_user_id' => $user2,
+        ])->orWhere([
+            'user_id'         => $user2,
+            'blocked_user_id' => $user1,
+        ])->count() > 0;
     }
-
 
     /**
      * Is the domain of the submitted $url blocked in $category or everwhere(specified
      * by voten-administrators).
      *
-     * @param  String $url
-     * @param  String $category
-     * @return Boolean
+     * @param string $url
+     * @param string $category
+     *
+     * @return bool
      */
     protected function isDomainBlocked($url, $category)
     {
@@ -130,15 +130,15 @@ trait Permissions
         ])->exists();
     }
 
-
     /**
      * Whether or not the Auth user is banned from submitting to this category.
      *
-     * @param  string $category
-     * @param  integer $user_id
-     * @return boolean
+     * @param string $category
+     * @param int    $user_id
+     *
+     * @return bool
      */
-    protected function isUserBanned($user_id = 0, $category)
+    protected function isUserBanned($user_id, $category)
     {
         if ($user_id === 0) {
             $user_id = Auth::user()->id;

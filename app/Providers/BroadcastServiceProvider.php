@@ -3,18 +3,16 @@
 namespace App\Providers;
 
 use App\Chat;
-
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Support\ServiceProvider;
 
 class BroadcastServiceProvider extends ServiceProvider
 {
-
     /**
-    *   Bootstrap any application services.
-    *
-    *   @return void
-    */
+     *   Bootstrap any application services.
+     *
+     *   @return void
+     */
     public function boot()
     {
         Broadcast::routes();
@@ -30,15 +28,14 @@ class BroadcastServiceProvider extends ServiceProvider
         *   Authenticate the user's submissionPage channel
         */
         Broadcast::channel('submission.*', function ($user) {
-		    return ['id' => $user->id];
-		});
+            return ['id' => $user->id];
+        });
 
-		/*
+        /*
         *   Authenticate the user's chat channel
         */
   //       Broadcast::channel('App.User.*', function ($user) {
-		//     return ['id' => $user->id];
-		// });
-
+        //     return ['id' => $user->id];
+        // });
     }
 }

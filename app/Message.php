@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Auth;
 use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model
@@ -13,11 +12,11 @@ class Message extends Model
      * @var array
      */
     protected $fillable = [
-        'data', 'user_id', 'read_at'
+        'data', 'user_id', 'read_at',
     ];
 
     protected $casts = [
-        'data' => 'json'
+        'data' => 'json',
     ];
 
     protected $with = ['owner'];
@@ -25,6 +24,6 @@ class Message extends Model
     public function owner()
     {
         return $this->belongsTo(User::class, 'user_id')
-        			->select('id', 'username', 'name', 'avatar');
+                    ->select('id', 'username', 'name', 'avatar');
     }
 }

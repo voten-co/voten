@@ -2,14 +2,11 @@
 
 namespace App\Events;
 
-use App\Message;
-
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Queue\SerializesModels;
 
 class MessageRead implements ShouldBroadcast
 {
@@ -19,27 +16,26 @@ class MessageRead implements ShouldBroadcast
     public $contact_id;
     public $user_id;
 
-
     /**
-    * Create a new event instance.
-	*
-    * @return void
-    */
+     * Create a new event instance.
+     *
+     * @return void
+     */
     public function __construct($message_id, $contact_id, $user_id)
     {
-	    $this->message_id = $message_id;
+        $this->message_id = $message_id;
         $this->contact_id = $user_id;
         $this->user_id = $contact_id;
         // $this->dontBroadcastToCurrentUser();
     }
 
     /**
-    *   Get the channels the event should broadcast on.
-    *
-    *   @return Channel|array
-    */
+     *   Get the channels the event should broadcast on.
+     *
+     *   @return Channel|array
+     */
     public function broadcastOn()
     {
-        return new PrivateChannel('App.User.' . $this->user_id);
+        return new PrivateChannel('App.User.'.$this->user_id);
     }
 }

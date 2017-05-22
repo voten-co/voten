@@ -1,12 +1,10 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateSubmissionsTable extends Migration
 {
-
-
     public function up()
     {
         Schema::create('submissions', function (Blueprint $table) {
@@ -35,7 +33,6 @@ class CreateSubmissionsTable extends Migration
             $table->timestamps();
         });
     }
-
 
     public function down()
     {

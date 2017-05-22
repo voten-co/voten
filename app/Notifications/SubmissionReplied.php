@@ -4,17 +4,12 @@ namespace App\Notifications;
 
 use App\Comment;
 use App\Submission;
-use Illuminate\Bus\Queueable;
-use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Notifications\Notification;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
+use Illuminate\Queue\SerializesModels;
 
 class SubmissionReplied extends Notification implements ShouldBroadcast
 {
@@ -37,7 +32,8 @@ class SubmissionReplied extends Notification implements ShouldBroadcast
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function via($notifiable)
@@ -52,33 +48,34 @@ class SubmissionReplied extends Notification implements ShouldBroadcast
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                    ->title($this->comment->user->username . ' replied:')
-                    ->subject('Your submission "' . $this->submission->title . '" just got a new comment.')
-                    ->line('"' . $this->comment->body . '"')
-                    ->action('Reply', 'https://voten.co/' . $this->submission->slug)
+        return (new MailMessage())
+                    ->title($this->comment->user->username.' replied:')
+                    ->subject('Your submission "'.$this->submission->title.'" just got a new comment.')
+                    ->line('"'.$this->comment->body.'"')
+                    ->action('Reply', 'https://voten.co/'.$this->submission->slug)
                     ->line('Thank you for being a part of our alpha program!');
     }
-
 
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function toArray($notifiable)
     {
         return [
-            "url" => '/c/' . $this->submission->category_name . '/' . $this->submission->slug,
-            "name" => $this->comment->owner->username,
-            "avatar" => $this->comment->owner->avatar,
-            "body" => '@' . $this->comment->owner->username . ' left a comment on "' . $this->submission->title . '"',
+            'url'    => '/c/'.$this->submission->category_name.'/'.$this->submission->slug,
+            'name'   => $this->comment->owner->username,
+            'avatar' => $this->comment->owner->avatar,
+            'body'   => '@'.$this->comment->owner->username.' left a comment on "'.$this->submission->title.'"',
         ];
     }
 }

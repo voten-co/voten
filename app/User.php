@@ -2,15 +2,15 @@
 
 namespace App;
 
-use DB;
-use Carbon\Carbon;
 use App\Traits\CachableUser;
-use Laravel\Passport\HasApiTokens;
-use Laravel\Scout\Searchable;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Notifications\Notifiable;
+use Carbon\Carbon;
+use DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Cache;
+use Laravel\Passport\HasApiTokens;
+use Laravel\Scout\Searchable;
 
 class User extends Authenticatable
 {
@@ -24,12 +24,12 @@ class User extends Authenticatable
     protected $fillable = [
         'username', 'name', 'email', 'password', 'location', 'bio',
         'website', 'settings', 'color', 'avatar', 'confirmed',
-        'active', 'info', 'comment_karma', 'submission_karma'
+        'active', 'info', 'comment_karma', 'submission_karma',
     ];
 
     protected $casts = [
         'settings' => 'json',
-        'info' => 'json'
+        'info'     => 'json',
     ];
 
     /**
@@ -38,11 +38,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'deleted_at', 'email', 'settings', 'verified'
+        'password', 'remember_token', 'deleted_at', 'email', 'settings', 'verified',
     ];
 
     /**
-     * returns users stats (fetched from cache)
+     * returns users stats (fetched from cache).
      *
      * @return Illuminate\Support\Collection
      */
@@ -63,7 +63,7 @@ class User extends Authenticatable
 
     public function hiddenSubmissions()
     {
-    	return DB::table('hides')->where('user_id', $this->id)->get()->pluck('submission_id');
+        return DB::table('hides')->where('user_id', $this->id)->get()->pluck('submission_id');
     }
 
     public function hides()
@@ -73,24 +73,23 @@ class User extends Authenticatable
 
     public function hiddenUsers()
     {
-        return $this->belongsToMany(User::class, 'hidden_users', 'user_id', 'blocked_user_id');
+        return $this->belongsToMany(self::class, 'hidden_users', 'user_id', 'blocked_user_id');
     }
 
     public function categoryRoles()
     {
-    	return $this->belongsToMany(Category::class, 'roles');
+        return $this->belongsToMany(Category::class, 'roles');
     }
 
     public function roles()
     {
-    	return DB::table('roles')->where('user_id', $this->id)->select('role', 'category_id')->get();
+        return DB::table('roles')->where('user_id', $this->id)->select('role', 'category_id')->get();
     }
 
     public function subscriptions()
     {
         return $this->belongsToMany(Category::class, 'subscriptions');
     }
-
 
     /* --------------------------------------------------------------------- */
     /* -------------------------- Home Feed methods ------------------------ */
@@ -99,25 +98,24 @@ class User extends Authenticatable
     public function feedHot()
     {
         return $this->belongsToMany(Category::class, 'subscriptions')->with(['submissions' => function ($query) {
-		    $query->orderBy('rate', 'desc');
-		}]);
+            $query->orderBy('rate', 'desc');
+        }]);
     }
 
     public function feedNew()
     {
         return $this->belongsToMany(Category::class, 'subscriptions')->with(['submissions' => function ($query) {
-		    $query->orderBy('created_at', 'desc');
-		}]);
+            $query->orderBy('created_at', 'desc');
+        }]);
     }
 
     public function feedRising()
     {
         return $this->belongsToMany(Category::class, 'subscriptions')->with(['submissions' => function ($query) {
-		    $query->orderBy('created_at', 'desc');
-		    $query->where('created_at', '>=', Carbon::now()->subHour());
-		}]);
+            $query->orderBy('created_at', 'desc');
+            $query->where('created_at', '>=', Carbon::now()->subHour());
+        }]);
     }
-
 
     /* --------------------------------------------------------------------- */
     /* --------------------- submission voting methods --------------------- */
@@ -163,7 +161,6 @@ class User extends Authenticatable
         return DB::table('comment_upvotes')->where('user_id', $this->id)->get()->pluck('comment_id');
     }
 
-
     public function commentDownvotes()
     {
         return $this->belongsToMany(Comment::class, 'comment_downvotes')
@@ -175,7 +172,6 @@ class User extends Authenticatable
     {
         return DB::table('comment_downvotes')->where('user_id', $this->id)->get()->pluck('comment_id');
     }
-
 
     /* --------------------------------------------------------------------- */
     /* -------------------------- Messaging methods ------------------------ */
@@ -202,14 +198,13 @@ class User extends Authenticatable
 
     public function myContactIds()
     {
-    	return $this->hasMany(Conversation::class)->groupBy('contact_id')->pluck('contact_id');
+        return $this->hasMany(Conversation::class)->groupBy('contact_id')->pluck('contact_id');
     }
 
     public function blockedUsers()
     {
         return DB::table('hidden_users')->where('user_id', $this->id)->pluck('blocked_user_id');
     }
-
 
      /* --------------------------------------------------------------------- */
      /* -------------------------- bookmark methods ------------------------- */
@@ -247,7 +242,6 @@ class User extends Authenticatable
                     ->orderBy('bookmarks.created_at', 'desc');
     }
 
-
     /**
      * Get the indexable data array for the model.
      *
@@ -256,16 +250,16 @@ class User extends Authenticatable
     public function toSearchableArray()
     {
         return [
-            'id' => $this->id,
-        	'username' => $this->username,
-        	'name' => $this->name
+            'id'       => $this->id,
+            'username' => $this->username,
+            'name'     => $this->name,
         ];
     }
 
     /**
-     * Whether or not the auth user is a voten administrator
+     * Whether or not the auth user is a voten administrator.
      *
-     * @return boolean
+     * @return bool
      */
     public function isVotenAdministrator()
     {
@@ -273,11 +267,12 @@ class User extends Authenticatable
             $users = AppointeddUser::where('appointed_as', 'administrator')->pluck('user_id');
         });
 
-        if (!$users) return false;
+        if (!$users) {
+            return false;
+        }
 
         return $users->contains($this->id);
     }
-
 
     /**
      * Get the user settings.

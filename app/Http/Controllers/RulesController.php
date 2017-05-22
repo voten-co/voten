@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Rule;
 use App\Category;
+use App\Rule;
 use Illuminate\Http\Request;
 
 class RulesController extends Controller
@@ -13,11 +13,11 @@ class RulesController extends Controller
         $this->middleware('auth');
     }
 
-
     /**
-     * indexes all the related records
+     * indexes all the related records.
      *
      * @param Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function index(Request $request)
@@ -30,15 +30,16 @@ class RulesController extends Controller
     }
 
     /**
-     * stores a new rule record
+     * stores a new rule record.
      *
      * @param Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required|max:300',
+            'title'         => 'required|max:300',
             'category_name' => 'required',
         ]);
 
@@ -51,56 +52,56 @@ class RulesController extends Controller
         }
 
         $rule = new Rule([
-            "title" => $request->title,
-            "category_id" => $category_id
+            'title'       => $request->title,
+            'category_id' => $category_id,
         ]);
         $rule->save();
 
         return $rule;
     }
 
-
     /**
-     * patches the model
+     * patches the model.
      *
      * @param Illuminate\Http\Request $request
+     *
      * @return response
      */
     public function patch(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required',
+            'title'       => 'required',
             'category_id' => 'required',
-            'rule_id' => 'required|integer'
+            'rule_id'     => 'required|integer',
         ]);
 
         abort_unless($this->mustBeAdministrator($request->category_id), 403);
 
         Rule::find($request->rule_id)->update([
-            "title" => $request->title
+            'title' => $request->title,
         ]);
 
-        return response("Rule updated successfully", 200);
+        return response('Rule updated successfully', 200);
     }
 
-
     /**
-     * destroys the rule record
+     * destroys the rule record.
      *
      * @param Illuminate\Http\Request $request
+     *
      * @return response
      */
     public function destroy(Request $request)
     {
         $this->validate($request, [
             'category_id' => 'required|integer',
-            'rule_id' => 'required|integer'
+            'rule_id'     => 'required|integer',
         ]);
 
         abort_unless($this->mustBeAdministrator($request->category_id), 403);
 
         Rule::destroy($request->rule_id);
 
-        return response("Rule was deleted.", 200);
+        return response('Rule was deleted.', 200);
     }
 }

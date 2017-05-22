@@ -13,9 +13,7 @@ class Suggested extends Model
      */
     protected $fillable = ['z_index', 'group', 'category_id'];
 
-
     protected $with = ['category'];
-
 
     /**
      * A comment has an owner.

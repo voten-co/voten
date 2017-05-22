@@ -3,12 +3,6 @@
 namespace App\Http\Controllers;
 
 use Auth;
-use App\Faq;
-use App\Category;
-use Carbon\Carbon;
-use App\Submission;
-use App\Http\Requests;
-use Illuminate\Http\Request;
 
 class PagesController extends Controller
 {
@@ -29,7 +23,7 @@ class PagesController extends Controller
 
     public function welcome()
     {
-        if (! Auth::check()) {
+        if (!Auth::check()) {
             return view('landing');
         }
 
@@ -37,7 +31,7 @@ class PagesController extends Controller
     }
 
     /**
-     * loads the features page
+     * loads the features page.
      *
      * @return view
      */

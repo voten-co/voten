@@ -16,12 +16,10 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/admin/reported-comments', 'AdminController@reportedComments');
     Route::post('/admin/reported-submissions', 'AdminController@reportedSubmissions');
 
-
     // feedback
     Route::post('/feedback', 'FeedbacksController@store');
     Route::post('/feedback/delete', 'FeedbacksController@destroy');
     Route::post('/big-daddy/feedbacks', 'FeedbacksController@index');
-
 
     // help
     Route::post('/new-help', 'HelpController@store');
@@ -29,11 +27,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/help-index', 'HelpController@index');
     Route::post('/delete-help', 'HelpController@destroy');
 
-
     // Find Channels
     Route::post('/find-categories', 'SuggestionController@findCategories');
     Route::post('/store-suggested-channel', 'SuggestionController@store');
-
 
     // User
     Route::post('/auth', 'UserController@getAuth');
@@ -49,7 +45,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/update-home-feed', 'UserSettingsController@updateHomeFeed');
     Route::post('/downvoted-submissions', 'UserController@downVotedSubmissions');
 
-
     // submission
     Route::post('/submit', 'SubmissionController@store');
     Route::post('/hide-submission', 'SubmissionController@hide');
@@ -61,19 +56,16 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/get-submission-by-id', 'SubmissionController@getById');
     Route::post('/remove-thumbnail', 'SubmissionController@removeThumbnail');
 
-
-	// home
-	Route::get('/home', 'HomeController@feed');
-	Route::get('/category-submissions', 'CategoryController@submissionsAPI');
-	Route::get('/notifications', 'NotificationsController@unreadIndex');
-
+    // home
+    Route::get('/home', 'HomeController@feed');
+    Route::get('/category-submissions', 'CategoryController@submissionsAPI');
+    Route::get('/notifications', 'NotificationsController@unreadIndex');
 
     // voting
     Route::post('/upvote-comment', 'CommentVotesController@upVote');
     Route::post('/downvote-comment', 'CommentVotesController@downVote');
     Route::post('/upvote-submission', 'SubmissionVotesController@upVote');
     Route::post('/downvote-submission', 'SubmissionVotesController@downVote');
-
 
     // bookmarks
     Route::post('/bookmark-user', 'BookmarksController@bookmarkUser');
@@ -85,13 +77,10 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/bookmarked-categories', 'BookmarksController@getBookmarkedCategories');
     Route::post('/bookmarked-submissions', 'BookmarksController@getBookmarkedSubmissions');
 
-
-
     // Comment
     Route::post('/comment', 'CommentController@store');
     Route::post('/edit-comment', 'CommentController@patch');
     Route::get('/submission-comments', 'CommentController@index');
-
 
     // Category
     Route::post('/channel', 'CategoryController@store');
@@ -100,17 +89,14 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/get-category-store', 'CategoryController@fillStore');
     Route::get('/category-moderators', 'CategoryController@moderators');
 
-
     // rule
     Route::get('/rules', 'RulesController@index');
     Route::post('/create-rule', 'RulesController@store');
     Route::post('/patch-rule', 'RulesController@patch');
     Route::post('/destroy-rule', 'RulesController@destroy');
 
-
     // Suggestions
     Route::post('/suggested-category', 'SuggestionController@category');
-
 
     // block domain
     Route::post('/block-domain', 'BlockDomainController@store');
@@ -132,7 +118,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/disapprove-comment', 'ModeratorController@disapproveComment');
     Route::post('/disapprove-submission', 'ModeratorController@disapproveSubmission');
 
-
     // messages
     Route::post('/message', 'MessagesController@store');
     Route::get('/contacts', 'MessagesController@getContacts');
@@ -145,10 +130,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/leave-conversation', 'MessagesController@leaveConversation');
     Route::post('/conversation-read', 'MessagesController@broadcastConversaionAsRead');
 
-
     // search
     Route::get('/search', 'SearchController@index');
-
 
     // Photo uploading
     Route::post('/user-avatar-crop', 'PhotoController@cropUserAvatar');
@@ -156,16 +139,13 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/categroy-avatar', 'PhotoController@categoryAvatarAPI');
     Route::post('/category-avatar-crop', 'PhotoController@cropCategoryAvatar');
 
-
     // notification
     Route::post('/all-notifications', 'NotificationsController@readIndex');
     Route::post('/mark-notifications-read', 'NotificationsController@markAsRead');
 
-
     // subscribe
     Route::post('/subscribe', 'SubscribeController@subscribeToggle');
     Route::get('/is-subscribed', 'SubscribeController@isSubscribed');
-
 
     // report
     Route::post('/report-comment', 'ReportsController@comment');

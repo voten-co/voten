@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 
 class PassportInstall extends Migration
@@ -13,7 +13,7 @@ class PassportInstall extends Migration
      */
     public function up()
     {
-        if (! File::exists(storage_path('oauth-private.key'))) {
+        if (!File::exists(storage_path('oauth-private.key'))) {
             Artisan::call('passport:install');
         }
     }
@@ -25,6 +25,5 @@ class PassportInstall extends Migration
      */
     public function down()
     {
-
     }
 }

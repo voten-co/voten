@@ -2,12 +2,11 @@
 
 namespace App\Mail;
 
-use App\User;
 use App\Feedback;
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class NewFeedback extends Mailable
 {
@@ -34,8 +33,9 @@ class NewFeedback extends Mailable
      */
     public function build()
     {
-    	$user = $this->user;
-    	$feedback = $this->feedback;
+        $user = $this->user;
+        $feedback = $this->feedback;
+
         return $this->view('emails.feedback', compact('user', 'feedback'));
     }
 }

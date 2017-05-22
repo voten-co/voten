@@ -26,6 +26,6 @@ return [
     |
     */
 
-    'include_status_code' => true
+    'include_status_code' => true,
 
 ];

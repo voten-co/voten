@@ -12,5 +12,5 @@ return [
     'paths' => [
         'components' => 'assets/js/components',
         'mixins'     => 'assets/js/mixins',
-    ]
+    ],
 ];

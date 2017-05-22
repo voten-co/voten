@@ -12,12 +12,11 @@ class Invite extends Model
      *   @var array
      */
     protected $fillable = [
-        'claimed_at', 'invitation', 'email', 'sent'
+        'claimed_at', 'invitation', 'email', 'sent',
     ];
 
-
     /**
-     * sends the invite email and marks the invitation model as sent
+     * sends the invite email and marks the invitation model as sent.
      *
      * @return void
      */
@@ -26,7 +25,7 @@ class Invite extends Model
         \Mail::to($this->email)->queue(new \App\Mail\InvitedToVoten($this->email, $this->invitation));
 
         $this->update([
-            "sent" => true
+            'sent' => true,
         ]);
     }
 }

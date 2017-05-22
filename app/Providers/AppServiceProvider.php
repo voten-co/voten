@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use Auth;
 use App\User;
+use Auth;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,8 +15,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-    	// uncommenting below code will enable the query logging which is great for testing
-    	// \DB::listen(function($query) { \ Log::info($query->sql, $query->bindings); });
+        // uncommenting below code will enable the query logging which is great for testing
+        // \DB::listen(function($query) { \ Log::info($query->sql, $query->bindings); });
     }
 
     /**
@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('App\Settings', function() {
+        $this->app->singleton('App\Settings', function () {
             return Auth::user()->settings();
         });
     }

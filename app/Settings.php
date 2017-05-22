@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+
 use Exception;
 
 class Settings
@@ -34,7 +35,8 @@ class Settings
     /**
      * Retrieve the given setting.
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @return string
      */
     public function get($key)
@@ -57,8 +59,9 @@ class Settings
     /**
      * Determine if the given setting exists.
      *
-     * @param  string $key
-     * @return boolean
+     * @param string $key
+     *
+     * @return bool
      */
     public function has($key)
     {
@@ -79,7 +82,8 @@ class Settings
      * Merge the given attributes with the current settings.
      * But do not assign any new settings.
      *
-     * @param  array  $attributes
+     * @param array $attributes
+     *
      * @return mixed
      */
     public function merge(array $attributes)
@@ -88,6 +92,7 @@ class Settings
             $this->settings,
             array_only($attributes, array_keys($this->settings))
         );
+
         return $this->persist();
     }
 
@@ -104,8 +109,10 @@ class Settings
     /**
      * Magic property access for settings.
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @throws Exception
+     *
      * @return
      */
     public function __get($key)

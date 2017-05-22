@@ -1,9 +1,8 @@
 <?php
 
 /**
- * Voten - Where your vote matters
+ * Voten - Where your vote matters.
  *
- * @package  Voten
  * @author   Sully Fischer <fischersully@gmail.com>
  */
 

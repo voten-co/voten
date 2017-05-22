@@ -5,19 +5,18 @@ Route::group(['middleware' => ['maintenance', 'http2']], function () {
     Route::get('/logout', 'Auth\LoginController@logout');
 
     // Public Pages
-	Route::get('/tos', 'PagesController@tos');
-	Route::get('/', 'PagesController@welcome');
-	Route::get('/credits', 'PagesController@credits');
-	Route::get('/features', 'PagesController@features');
-	Route::get('/privacy-policy', 'PagesController@privacyPolicy');
+    Route::get('/tos', 'PagesController@tos');
+    Route::get('/', 'PagesController@welcome');
+    Route::get('/credits', 'PagesController@credits');
+    Route::get('/features', 'PagesController@features');
+    Route::get('/privacy-policy', 'PagesController@privacyPolicy');
 
-	// social logins
-	Route::get('/login/google', 'Auth\LoginController@redirectToGoogle');
-	Route::get('/login/facebook', 'Auth\LoginController@redirectToFacebook');
-	Route::get('/login/google/callback', 'Auth\LoginController@handleGoogleCallback');
-	Route::get('/login/facebook/callback', 'Auth\LoginController@handleFacebookCallback');
+    // social logins
+    Route::get('/login/google', 'Auth\LoginController@redirectToGoogle');
+    Route::get('/login/facebook', 'Auth\LoginController@redirectToFacebook');
+    Route::get('/login/google/callback', 'Auth\LoginController@handleGoogleCallback');
+    Route::get('/login/facebook/callback', 'Auth\LoginController@handleFacebookCallback');
 });
-
 
 // backend-admin
 Route::get('/backend', 'BackendController@index');
@@ -30,20 +29,16 @@ Route::post('/forbidden-category-name/store', 'BackendController@storeForbiddenC
 Route::delete('/forbidden-username/destroy/{forbidden}', 'BackendController@destroyForbiddenUsername');
 Route::delete('/forbidden-category-name/destroy/{forbidden}', 'BackendController@destroyForbiddenCategoryName');
 
-
 // ssh control
 Route::get('/ssh/flush-all', 'SshController@flushAll');
 Route::get('/ssh/cache-clear', 'SshController@clearCache');
 Route::get('/ssh/stop-maintenance', 'SshController@stopMaintenanceMode');
 Route::get('/ssh/start-maintenance', 'SshController@startMaintenanceMode');
 
-
 // used for uploading photos via dropzone
 Route::post('/upload-photo', 'PhotoController@upload');
-
 
 // catch wild routes
 Route::group(['middleware' => ['maintenance', 'http2', 'auth']], function () {
     Route::get('/{any}', 'PagesController@welcome')->where('any', '.*');
 });
-

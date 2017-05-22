@@ -9,11 +9,11 @@ class BlockedDomain extends Model
     use RecordsActivity;
 
     /**
-    *   The attributes that are mass assignable.
-    *
-    *   @var array
-    */
+     *   The attributes that are mass assignable.
+     *
+     *   @var array
+     */
     protected $fillable = [
-        'domain', 'category', 'description'
+        'domain', 'category', 'description',
     ];
 }

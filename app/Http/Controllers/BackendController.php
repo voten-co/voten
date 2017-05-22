@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
-use App\User;
 use App\AppointeddUser;
-use App\UserForbiddenName;
-use Illuminate\Http\Request;
 use App\CategoryForbiddenName;
+use App\User;
+use App\UserForbiddenName;
+use Auth;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class BackendController extends Controller
@@ -17,9 +17,8 @@ class BackendController extends Controller
         $this->middleware('auth');
     }
 
-
     /**
-     * indexes the backend page
+     * indexes the backend page.
      *
      * @return view
      */
@@ -34,9 +33,8 @@ class BackendController extends Controller
         return view('backend.index', compact('forbiddenUsernames', 'forbiddenCategoryNames'));
     }
 
-
     /**
-     * indexes the backend page
+     * indexes the backend page.
      *
      * @return view
      */
@@ -49,10 +47,8 @@ class BackendController extends Controller
         return view('backend.appointed-users', compact('appointed_users'));
     }
 
-
-
     /**
-     * indexes the backend page
+     * indexes the backend page.
      *
      * @return view
      */
@@ -63,12 +59,12 @@ class BackendController extends Controller
         return view('backend.server-controls');
     }
 
-
     /**
      * stores a new forbidden model in the database. This when a user is registering or changing his
      * username. We don't want them to use these names.
      *
-     * @param  Request $request
+     * @param Request $request
+     *
      * @return redirect
      */
     public function storeForbiddenUsername(Request $request)
@@ -76,21 +72,21 @@ class BackendController extends Controller
         abort_unless($this->mustBeVotenAdministrator(), 403);
 
         $this->validate($request, [
-            'username' => 'required|min:3|max:25|unique:users|regex:/^[A-Za-z0-9\._]+$/'
+            'username' => 'required|min:3|max:25|unique:users|regex:/^[A-Za-z0-9\._]+$/',
         ]);
 
         UserForbiddenName::create([
-            'username' => $request->username
+            'username' => $request->username,
         ]);
 
         return back();
     }
 
-
     /**
-     * destroys a forbidden-username model
+     * destroys a forbidden-username model.
      *
      * @param \App\UserForbiddenName $forbidden
+     *
      * @return redirect
      */
     public function destroyForbiddenUsername(UserForbiddenName $forbidden)
@@ -102,12 +98,12 @@ class BackendController extends Controller
         return back();
     }
 
-
     /**
      * stores a new forbidden model in the database. This when a user is registering or changing his
      * username. We don't want them to use these names.
      *
-     * @param  Request $request
+     * @param Request $request
+     *
      * @return redirect
      */
     public function storeForbiddenCategoryName(Request $request)
@@ -115,21 +111,21 @@ class BackendController extends Controller
         abort_unless($this->mustBeVotenAdministrator(), 403);
 
         $this->validate($request, [
-            'name' => 'required|unique:categories'
+            'name' => 'required|unique:categories',
         ]);
 
         CategoryForbiddenName::create([
-            'name' => $request->name
+            'name' => $request->name,
         ]);
 
         return back();
     }
 
-
     /**
-     * destroys a forbidden-username model
+     * destroys a forbidden-username model.
      *
      * @param \App\CategoryForbiddenName $forbidden
+     *
      * @return redirect
      */
     public function destroyForbiddenCategoryName(CategoryForbiddenName $forbidden)
@@ -141,11 +137,11 @@ class BackendController extends Controller
         return back();
     }
 
-
     /**
-     * stores a new AppointedUser record in the databas and cache
+     * stores a new AppointedUser record in the databas and cache.
      *
-     * @param  Request $request
+     * @param Request $request
+     *
      * @return redirect
      */
     public function storeAppointed(Request $request)
@@ -153,15 +149,15 @@ class BackendController extends Controller
         abort_unless($this->mustBeVotenAdministrator(), 403);
 
         $this->validate($request, [
-            'username' => 'required',
+            'username'     => 'required',
             'appointed_as' => 'in:administrator,moderator,whitelisted',
         ]);
 
         $user = User::where('username', $request->username)->firstOrFail();
 
         AppointeddUser::create([
-            'user_id' => $user->id,
-            'appointed_as' => $request->appointed_as
+            'user_id'      => $user->id,
+            'appointed_as' => $request->appointed_as,
         ]);
 
         Cache::forget('general.voten-administrators');
@@ -170,11 +166,11 @@ class BackendController extends Controller
         return back();
     }
 
-
     /**
-     * destroys a AppointedUser record in the databas and cache
+     * destroys a AppointedUser record in the databas and cache.
      *
-     * @param  \App\AppointeddUser $appointed
+     * @param \App\AppointeddUser $appointed
+     *
      * @return redirect
      */
     public function destroyAppointed(AppointeddUser $appointed)
