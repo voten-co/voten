@@ -1,0 +1,253 @@
+.v-box {
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    margin: 0 0 20px;
+    padding: 1em;
+}
+
+.box-typical {
+    border-radius: 2px;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    margin: 0 0 20px;
+}
+
+.box-typical .box-typical-header-sm {
+    padding: 12px 15px;
+    font-weight: 600;
+    position: relative;
+    border-bottom: 1px solid #d8e2e7;
+}
+
+.friends-list {
+    padding: 0 0 6px;
+}
+
+.friends-list .friends-list-item {
+    padding: 0 15px 12px;
+}
+
+.friends-list .friends-list-item .user-card-row {
+    font-size: .9375rem;
+}
+
+.tbl-row {
+    display: table-row;
+}
+
+.user-card-row .tbl-cell.tbl-cell-photo {
+    width: 42px;
+    padding-right: 10px;
+}
+
+.user-card-row a {
+    -webkit-transition: none;
+    transition: none;
+}
+
+.profile-card {
+    text-align: center;
+    padding: 28px 15px 14px;
+}
+
+.profile-statistic {
+    text-align: center;
+    table-layout: fixed;
+    font-size: 0.9375rem;
+}
+
+.tbl {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tbl-cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.user-card-row .user-card-row-name {
+    font-weight: 600;
+    color: #343434;
+    font-size: 90%;
+}
+
+.user-card-row .user-card-row-name a {
+    color: #343434;
+}
+
+.friends-list.stripped {
+    padding: 0;
+}
+
+.friends-list.stripped .friends-list-item:nth-child(odd) {
+    background-color: #fbfcfd;
+}
+
+.friends-list.stripped .friends-list-item {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.user-card-row {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8125rem;
+}
+
+.user-card-row .tbl-cell.tbl-cell-action {
+    width: 20px;
+    white-space: nowrap;
+    padding-left: 10px;
+    vertical-align: middle;
+}
+
+// notifications
+.pull-right > .dropdown-menu {
+    right: 0;
+    left: auto;
+}
+
+.open > .dropdown-menu {
+    display: block;
+}
+
+.header-voten .dropdown-menu-notif .dropdown-menu-notif-header {
+    padding: 12px 15px;
+    border-bottom: solid 1px #d8e2e7;
+    font-weight: 600;
+}
+
+* {
+    outline: none !important;
+}
+
+.label-danger {
+    background-color: #fa424a;
+}
+
+.label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    background-color: #adb7be;
+}
+
+.label-danger {
+    background-color: #db6f6f;
+}
+
+.label-pill {
+    padding-right: .6em;
+    padding-left: .6em;
+    border-radius: 10rem;
+}
+
+.label {
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: bold;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25rem;
+}
+
+.box-typical .box-typical-footer {
+    padding: 4px 15px 4px 0;
+}
+
+.box-typical-footer .label {
+    margin-top: 7px;
+    background: #f2f3f5;
+    border: 1px solid #dee2e6;
+    color: #808080;
+}
+
+.avatar-preview {
+    display: inline-block;
+    border: none;
+    background: none;
+    position: relative;
+    margin: 0 auto 20px;
+    color: #fff;
+    text-align: center;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.avatar-preview img {
+    display: block;
+}
+
+.avatar-preview .update {
+    display: block;
+    position: absolute;
+    top: 2px;
+    width: 138px;
+    height: 138px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.4);
+    font-size: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    z-index: 10;
+    font-weight: 600;
+}
+
+.avatar-preview button {
+    background: none;
+    border: none;
+    color: #fff;
+}
+
+.avatar-preview .update i {
+    display: block;
+    font-size: 35px;
+    margin-bottom: 0.3em;
+}
+
+.avatar-preview input[type="file"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    font-size: 100rem;
+    cursor: pointer;
+    z-index: 100;
+    opacity: 0;
+    width: 100%;
+    border-radius: 50%;
+}
+
+.user-profile .update {
+    border-radius: 50%;
+}
+
+.profile-post .profile-post-header .shared {
+    position: absolute;
+    right: 30px;
+    top: 43%;
+    margin-top: -10px;
+    text-decoration: none;
+    color: #919fa9;
+    border: none;
+    font-size: 24px;
+}
+
+.page-content {
+    padding: 32px 15px 10px;
+    -webkit-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}

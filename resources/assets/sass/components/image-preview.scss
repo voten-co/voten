@@ -1,0 +1,42 @@
+// image preview
+.Image-input {
+    display: flex;
+}
+.Image-input__image-wrapper {
+    max-height: 250px;
+    overflow-y: hidden;
+    border-radius: 2px;
+    background: #eee;
+    text-align: center;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 1em;
+}
+.Image-input__image {
+    max-width: 100%;
+    border-radius: 1px;
+}
+.Image-input__input-wrapper {
+    overflow: hidden;
+    position: relative;
+    background: #eee;
+    border-radius: 4px;
+    display: block;
+    text-align: center;
+    width: 200px;
+    margin: 0 auto;
+    transition: 0.4s background;
+    margin-bottom: 1em;
+}
+.Image-input__input {
+    cursor: inherit;
+    display: block;
+    font-size: 999px;
+    min-height: 100%;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    text-align: right;
+    top: 0;
+    cursor: pointer;
+}

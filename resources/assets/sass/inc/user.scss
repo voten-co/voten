@@ -1,0 +1,116 @@
+.profile-cover {
+    min-height: 240px;
+    width: 100%;
+    border-bottom: 2px solid #000;
+    color: #f8f8f8;
+    position: relative;
+    padding-bottom: 1em;
+}
+
+.profile-cover a {
+    color: #f8f8f8;
+    text-decoration: none;
+    word-break: break-all;
+}
+
+.profile-cover a:hover {
+    color: #ebebeb;
+    transition: .2s;
+}
+
+.profile-cover a h1 i {
+    font-size: 0.88em;
+}
+
+.profile-cover .pull-right {
+    margin-left: 10px;
+}
+
+// .profile-cover .container{
+// position: relative;
+// height: 218px;
+// padding-top: 140px;
+// padding-left: 170px;
+// }
+@media (max-width: 768px) {
+    .profile-cover {
+        text-align: center;
+    }
+}
+
+.profile-cover .row {
+    padding-top: 3em;
+}
+
+.profile-cover h1 {
+    margin-top: 20px;
+    word-break: break-all;
+}
+
+.profile-cover .col-md-4 {
+    padding-top: 2em;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .profile-cover .col-md-4 {
+        padding-top: 0em;
+    }
+}
+
+.profile-avatar {
+    text-align: center;
+}
+
+.profile-avatar img {
+    border-radius: 4px;
+    width: 138px;
+    height: 138px;
+    border: 2px solid #fff;
+    box-shadow: 1px 1px 2px 2px rgba(21, 21, 21, 0.38);
+    border-color: rgba(255, 255, 255, 0.38) hsla(0, 0%, 74%, 0.68) rgba(159, 159, 159, 0.95);
+}
+
+.profile-avatar .fa-pulse {
+    margin-top: 1em;
+}
+
+.profile-second-nav {
+    background-color: #fff;
+    width: 100%;
+    height: 50px;
+    box-shadow: inset 0 -2px transparent;
+    border-bottom: 1px solid rgba(137, 137, 137, 0.3);
+    margin-bottom: 50px;
+}
+
+.profile-second-nav ul {
+    padding: 0;
+    list-style: none;
+}
+
+.profile-second-nav ul li {
+    display: inline-block;
+    padding-top: 10px;
+    margin-right: -3px;
+}
+
+.profile-second-nav ul li a {
+    padding: 14px;
+    color: #333;
+    text-decoration: none;
+}
+
+.profile-second-nav ul li a:hover,
+.profile-second-nav .active {
+    border-bottom: 3px solid $primary-color;
+}
+
+.dark-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, transparent 0, rgba(0, 0, 0, 0.03) 8%, rgba(0, 0, 0, 0.11) 21%, rgba(0, 0, 0, 0.61) 78%, rgba(0, 0, 0, 0.7) 95%, rgba(0, 0, 0, 0.7) 100%);
+}

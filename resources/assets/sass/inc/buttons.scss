@@ -1,0 +1,98 @@
+// VUI
+.v-button {
+    -webkit-font-smoothing: antialiased;
+}
+
+.v-button.v-button--primary {
+    background-color: #5587d7;
+    border-bottom: 2px solid #476087;
+}
+
+.v-button.v-button--green {
+    background-color: $green-color;
+    color: #fff;
+    border-color: transparent;
+    border-bottom: 2px solid #5b9178;
+}
+
+.v-button.v-button--red {
+    background-color: #db6e6e;
+    color: #fff;
+    border-color: transparent;
+    border-bottom: 2px solid #844343;
+}
+
+.v-button--white-inverted {
+    background: transparent none !important;
+    color: #fff !important;
+    border: 2px solid #fff !important;
+    border-radius: 2px !important;
+}
+
+.v-button.v-button--purple {
+    background-color: $purple-color;
+    color: #fff;
+    border-color: transparent;
+}
+
+.v-button.v-button--purple:hover {
+    background-color: #rgb(154, 135, 230);
+}
+
+.v-button.v-button-sm {
+    padding: 3px 12px;
+}
+
+label.v-toggle--checked.v-toggle {
+    background: #5587d7;
+    border-color: #407bd9;
+}
+
+.btn-nth {
+    background: none;
+    border: 0;
+    cursor: pointer;
+}
+
+.btn-no-back {
+    background: none;
+    border: 0;
+    cursor: pointer;
+}
+
+.btn-no-back i {
+    color: #919fa9;
+    padding: 3px 6px;
+    font-size: 29px;
+}
+
+.btn-no-back i:hover {
+    background: #efefef;
+    border-radius: 2px;
+}
+
+.v-button,
+a.v-button,
+button.v-button {
+    font-family: inherit;
+    border-bottom: 2px solid #d1d1d1;
+}
+
+.ui.button {
+    font-family: inherit;
+}
+
+.link-list-info {
+    padding: 1em;
+    background: #fff;
+    text-align: left;
+}
+
+.link-list-info a {
+    color: #343434;
+}
+
+.v-button-small {
+    padding: 2px 6px !important;
+    font-size: 70% !important;
+}

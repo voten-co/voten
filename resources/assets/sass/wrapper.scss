@@ -1,0 +1,383 @@
+.v-content-wrapper {
+    display: flex;
+    height: 100%;
+}
+
+.v-content {
+    flex: 1;
+    padding-top: 52px;
+    max-width: 100%;
+}
+
+.v-modal {
+    flex: 1;
+    background: #fff;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.v-modal .title {
+    font-weight: 600;
+    color: #404040;
+    margin-left: 1em;
+    display: inline-flex;
+    align-items: center;
+}
+
+.v-modal .title a {
+    color: #404040;
+}
+
+.v-modal .sub-title {
+    color: #777;
+    margin-bottom: 3em;
+    font-weight: 400;
+    margin-left: 2em;
+    margin-top: 0;
+}
+
+.v-modal .v-close {
+    position: fixed;
+    top: 2.3em;
+    right: 1em;
+    font-size: 33px;
+    color: #777;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 101;
+}
+
+.v-modal .v-close:hover {
+    color: #333;
+    background: #d6d6d6;
+}
+
+.v-modal .v-back {
+    position: fixed;
+    top: 2.3em;
+    right: 5em;
+    font-size: 33px;
+    color: #777;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 101;
+}
+
+.v-modal .v-back:hover {
+    color: #333;
+    background: #d6d6d6;
+}
+
+.v-modal .v-more-actions {
+    position: fixed;
+    top: 2.3em;
+    right: 3em;
+    font-size: 33px;
+    color: #777;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 101;
+}
+
+.v-modal .v-more-actions:hover {
+    color: #333;
+    background: #d6d6d6;
+}
+
+.v-modal .v-delete-button {
+    position: fixed;
+    top: 2.3em;
+    right: 7em;
+    font-size: 33px;
+    color: $red-color;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 101;
+}
+
+.v-modal .v-delete-button:hover {
+    color: #333;
+    background: #d6d6d6;
+}
+
+.v-modal .ui.top.right.pointing.dropdown > .menu {
+    right: -17px;
+    top: 62%;
+    padding: 0.3em;
+}
+
+.v-modal .v-modal-title {
+    position: fixed;
+    top: 3em;
+    width: 100%;
+    background: #fff;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    z-index: 100;
+}
+
+.v-modal .form-control {
+    border: 2px solid #ddd;
+}
+
+.v-modal .container {
+    min-height: 100%;
+}
+
+.v-side {
+    color: #fff;
+    flex-basis: 19em;
+    z-index: 103;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+@media screen and (max-width: 768px) {
+    .v-side {
+        // display: none;
+        position: fixed;
+    }
+}
+
+.sidebar-avatar {
+    padding-top: 3em;
+}
+
+.sidebar-avatar img {
+    border-radius: 50%;
+    width: 40%;
+    height: auto;
+    border: 4px solid #fff;
+    box-shadow: 1px 1px 2px 2px rgba(21, 21, 21, 0.38);
+    border-color: rgba(255, 255, 255, 0.38) hsla(0, 0%, 74%, 0.68) rgba(159, 159, 159, 0.95);
+}
+
+.side-fixed {
+    overflow-y: auto;
+    background: linear-gradient(#343d5a, #49516b);
+    position: fixed;
+    top: 3em;
+    bottom: 0;
+    width: 19em;
+    border-right: 1px solid rgba(62, 62, 62, 0.4);
+}
+// bulma menu
+
+.menu-nav a {
+    display: block;
+    padding: 5px 10px;
+}
+
+.menu-list a {
+    border-radius: 2px;
+    color: inherit;
+    display: block;
+    padding: 5px 10px;
+}
+
+.menu-list a:hover {
+    background-color: rgba(204, 204, 204, 0.12);
+    color: #fff;
+}
+
+.menu-list a.is-active {
+    background-color: #1fc8db;
+    color: white;
+}
+
+.menu-list li ul {
+    border-left: 1px solid #d3d6db;
+    margin: 10px;
+    padding-left: 10px;
+}
+
+.menu-label {
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    font-size: 80%;
+    display: flex;
+    align-items: center;
+}
+
+.menu-label:not(:first-child) {
+    margin-top: 20px;
+}
+// end bulma menu
+
+.v-side aside {
+    padding: 1em;
+}
+
+.v-side aside img {
+    width: 28px;
+    height: 28px;
+}
+
+.v-side aside .ui.icon.input input {
+    background: inherit;
+    color: #fff;
+    font-size: 0.9em;
+    border: 1.5px dashed rgba(255, 255, 255, 0.38);
+}
+
+.v-side .profile-card-name a {
+    color: inherit;
+}
+
+.side-box-search {
+    padding: 12px;
+}
+
+.menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.v-channels-text {
+    display: inline-block;
+    margin-left: 0.3em;
+}
+
+.v-title-number {
+    border-radius: 2px;
+    background: #db6e6e;
+    color: #fff;
+    display: inline-flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    font-size: 0.6em;
+    padding: 0.2em 0.4em;
+    margin-left: 0.6em;
+}
+
+.v-nth-box {
+    display: flex;
+    flex-direction: column;
+    font-size: 30px;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    color: #333;
+    margin-bottom: 2em;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.v-nth-box i {
+    font-size: 5em;
+    margin-bottom: 20px;
+}
+
+.side-fixed hr {
+    border-top: 1px solid rgba(192, 192, 192, 0.14);
+}
+
+,
+.side-fixed a,
+.side-fixed a:focus,
+.side-fixed a:hover {
+    color: #fff;
+}
+
+.side-fixed a:hover {
+    font-weight: 600;
+}
+
+.v-side-quick-actions {
+    padding: 1em 1em 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.v-side-quick-actions i {
+    text-align: center;
+    font-size: 22px;
+    cursor: pointer;
+    padding: 1em;
+    width: 50px;
+    height: 50px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.v-side-quick-actions i:hover {
+    background: rgba(115, 115, 115, 0.32);
+}
+
+.no-subsciption {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed;
+    padding: 1em;
+    margin: 1em;
+}
+
+.v-modal-search-box {
+    position: fixed;
+    top: 11em;
+    right: 1em;
+    left: 20em;
+    background: #fff;
+    z-index: 100;
+}
+
+.left-1 {
+    left: 1em;
+}
+
+.v-modal .col-7 {
+    margin-bottom: auto;
+}
+
+.v-push-20 {
+    height: 20em;
+    display: inline-table;
+}
+
+.v-push-15 {
+    height: 15em;
+    display: inline-table;
+}
+
+.v-push-9 {
+    height: 9em;
+    display: inline-table;
+}
+
+.background-white {
+    background: #fff;
+}

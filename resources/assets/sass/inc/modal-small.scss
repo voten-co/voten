@@ -1,0 +1,122 @@
+.v-modal-small {
+    width: calc(100% - 300px);
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 1em;
+    // background: #fff;
+    // opacity: 0.8;
+    z-index: 10;
+    display: flex;
+}
+
+.v-modal-small .fond {
+    padding: 5em 0;
+}
+
+.v-modal-small .jcrop-active,
+.v-modal-small img {
+    max-width: 100%;
+    height: auto !important;
+    margin: 2em 0;
+}
+
+.v-modal-small-box {
+    margin: auto;
+    background: linear-gradient(#333, #282828, #222);
+    z-index: 11;
+    color: #fff;
+    width: 100%;
+    max-width: 500px;
+    // max-height: 700px;
+    max-height: 77%;
+    overflow-y: auto;
+    // height: 400px;
+    padding: 1em;
+    border-radius: 4px;
+    opacity: 0.98;
+}
+
+.v-blur-blackandwhite {
+    filter: blur(1.5px) saturate(0);
+}
+
+.ui.checkbox + label,
+.v-modal-small-box .ui.checkbox label {
+    color: #e0e0e0;
+}
+
+.ui.checkbox + label:hover,
+.v-modal-small-box .ui.checkbox label:hover {
+    color: #fff;
+}
+
+.v-modal-small-box .ui.checkbox input:focus ~ .box:after,
+.v-modal-small-box .ui.checkbox input:focus ~ label,
+.v-modal-small-box .ui.checkbox input:focus ~ label:after {
+    color: #fff;
+}
+
+.ui.checkbox label:before,
+.v-modal-small-box .ui.checkbox .box:before {
+    background: #565656;
+    border: 2px solid #646464;
+}
+
+.ui.radio.checkbox input:checked ~ label:after,
+.ui.radio.checkbox input:focus:checked ~ label:after,
+.v-modal-small-box .ui.radio.checkbox input:checked ~ .box:after,
+.v-modal-small-box .ui.radio.checkbox input:focus:checked ~ .box:after {
+    background-color: #46ba85;
+}
+
+.v-modal-small-box textarea,
+.v-modal-small-box textarea:focus {
+    background: #333;
+    color: #fff;
+    border: 2px solid #373737;
+}
+
+.v-modal-small-box .sent i {
+    display: block;
+    font-size: 5em;
+    margin-bottom: 15px;
+}
+
+.v-modal-small-box a {
+    color: inherit;
+}
+
+.v-modal-small table {
+	color: #fff;
+}
+
+.v-modal-small .table td,
+.v-modal-small .table th {
+    border: 1px solid #444444;
+    border-width: 0 0 0px;
+}
+
+.v-modal-small table thead {
+	border-bottom: 2px solid #404040;
+}
+
+.v-modal-small .table tr:hover {
+    background-color: #313131;
+    color: #ffffff;
+}
+
+.v-modal-small-box::-webkit-scrollbar {
+	width: 5px;
+}
+
+.v-modal-small-box::-webkit-scrollbar-thumb {
+	background: #404040;
+    box-shadow: none;
+}
+
+.v-modal-small-box::-webkit-scrollbar-track {
+    background: #333333;
+	box-shadow: none;
+}

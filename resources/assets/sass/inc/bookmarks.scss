@@ -1,0 +1,42 @@
+.bookmarked-item {
+    border: 2px dashed #dcdcdc;
+    padding: 1em;
+    border-radius: 4px;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 1em;
+}
+
+.bookmarked-item .v-bookmark,
+.bookmarked-item .v-unbookmark {
+    font-size: 15px;
+    margin-left: .2em;
+}
+
+.bookmarked-item a {
+    color: #333;
+}
+
+.bookmarked-item p,
+.bookmarked-item h2 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.bookmarked-item .avatar {
+    flex-basis: 65px;
+    margin-right: 2em;
+}
+
+.bookmarked-item img {
+    border-radius: 2px;
+}
+
+.find-categories .action {
+    flex-basis: 5.4em;
+    text-align: right;
+}

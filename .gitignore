@@ -1,0 +1,10 @@
+/node_modules
+/public/storage
+/.idea
+Homestead.json
+Homestead.yaml
+.env
+/storage/*.key
+.DS_Store
+Envoy.blade.php
+/vendor

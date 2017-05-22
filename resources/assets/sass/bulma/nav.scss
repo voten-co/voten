@@ -1,0 +1,247 @@
+.menu-nav a {
+    display: block;
+    padding: 5px 10px;
+}
+
+@media screen and (min-width: 769px) {
+    .nav-toggle {
+        display: none;
+    }
+}
+
+.nav-item {
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.nav-item a {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+}
+
+.nav-item img {
+    max-height: 24px;
+}
+
+.nav-item .button + .button {
+    margin-left: 10px;
+}
+
+.nav-item .tag:first-child {
+    margin-right: 5px;
+}
+
+.nav-item .tag:last-child {
+    margin-left: 5px;
+}
+
+@media screen and (max-width: 768px) {
+    .nav-item {
+        -webkit-box-pack: start;
+        -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+    }
+}
+
+.nav-item a,
+a.nav-item {
+    color: #69707a;
+}
+
+.nav-item a:hover,
+a.nav-item:hover {
+    color: #222324;
+}
+
+.nav-item a.is-active,
+a.nav-item.is-active {
+    color: #222324;
+}
+
+.nav-item a.is-tab,
+a.nav-item.is-tab {
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    padding-left: 12px;
+    padding-right: 12px;
+    cursor: pointer;
+}
+
+.nav-item a.is-tab:hover,
+a.nav-item.is-tab:hover {
+    border-bottom: 1px solid $primary-color;
+    border-top: 1px solid transparent;
+}
+
+.nav-item a.is-tab.is-active,
+a.nav-item.is-tab.is-active {
+    border-bottom: 3px solid $primary-color;
+    border-top: 3px solid transparent;
+    color: $primary-color;
+    font-weight: 600;
+}
+
+@media screen and (max-width: 768px) {
+    .nav-menu {
+        background-color: #fff;
+        box-shadow: 0 4px 7px rgba(17, 17, 17, 0.1);
+        left: 0;
+        display: none;
+        right: 0;
+        top: 100%;
+        position: absolute;
+    }
+    .nav-menu .nav-item {
+        border-top: 1px solid rgba(211, 214, 219, 0.5);
+        padding: 10px;
+    }
+    .nav-menu.is-active {
+        display: block;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 979px) {
+    .nav-menu {
+        padding-right: 20px;
+    }
+}
+
+.nav-left {
+    -webkit-box-align: stretch;
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    overflow: hidden;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.nav-center {
+    -webkit-box-align: stretch;
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media screen and (min-width: 769px) {
+    .nav-right {
+        -webkit-box-align: stretch;
+        -webkit-align-items: stretch;
+        -ms-flex-align: stretch;
+        align-items: stretch;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex-basis: 0;
+        -ms-flex-preferred-size: 0;
+        flex-basis: 0;
+        -webkit-box-flex: 1;
+        -webkit-flex-grow: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        -webkit-box-pack: end;
+        -webkit-justify-content: flex-end;
+        -ms-flex-pack: end;
+        justify-content: flex-end;
+    }
+}
+
+.nav {
+    -webkit-box-align: stretch;
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+    background-color: #fff;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    min-height: 50px;
+    position: relative;
+    text-align: center;
+    z-index: 2;
+}
+
+.nav > .container {
+    -webkit-box-align: stretch;
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    min-height: 50px;
+    width: 100%;
+    padding: 0 1em;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.nav > .container > .nav-left > .nav-item:first-child:not(.is-tab) {
+    padding-left: 0;
+}
+
+.nav > .container > .nav-right > .nav-item:last-child:not(.is-tab) {
+    padding-right: 0;
+}
+
+.container > .nav > .nav-left > .nav-item:first-child:not(.is-tab) {
+    padding-left: 0;
+}
+
+.container > .nav > .nav-right > .nav-item:last-child:not(.is-tab) {
+    padding-right: 0;
+}
+
+.nav.has-shadow {
+    box-shadow: 0 2px 3px rgba(17, 17, 17, 0.1);
+    margin-bottom: 3em;
+}
+
+@media screen and (max-width: 979px) {
+    .nav > .container > .nav-left > .nav-item.is-brand:first-child,
+    .container > .nav > .nav-left > .nav-item.is-brand:first-child {
+        padding-left: 20px;
+    }
+}

@@ -1,0 +1,44 @@
+.item-enter {
+    opacity: 0;
+}
+
+.item-leave {
+    opacity: 0;
+    position: absolute;
+}
+
+.item-move {
+    color: red;
+    transition: transform 0.5s cubic-bezier(.55,0,.1,1);
+}
+
+.plus-link-circle {
+    display: block;
+    width: 25px;
+    height: 25px;
+    border: solid 2px #42b983;
+    text-align: left;
+    line-height: 10px;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    color: #42b983;
+    /*20/16*/
+    font-size: 1.25rem;
+    font-weight: 700;
+    position: relative;
+}
+
+a.plus-link-circle:hover {
+    color: #fff;
+    background-color: #42b983;
+}
+
+.plus-link-circle > span {
+    position: absolute;
+    left: 6px;
+    top: 6px;
+}
+
+.ui.input {
+    height: 35px;
+}

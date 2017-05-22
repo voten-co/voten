@@ -1,0 +1,69 @@
+.v-contact-list li .category-search-item-avatar,
+.v-contact-list li a .category-search-item-avatar {
+    flex-basis: 65px;
+    margin-right: 2em;
+}
+
+.category-search-item-avatar img {
+    border-radius: 4px;
+}
+
+.v-search-items {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.v-search-items li .category-search-item-avatar,
+.v-search-items li a .category-search-item-avatar,
+.v-search-items li a .user-search-item-avatar,
+.v-search-items li .user-search-item-avatar {
+    flex-basis: 65px;
+    margin-right: 2em;
+}
+
+.user-search-item-avatar img {
+    border-radius: 50%;
+    border: 2px solid #989898;
+}
+
+.v-contact-list li .v-contact,
+.v-contact-list li a .v-contact {
+    flex: 1;
+    margin: auto;
+}
+
+.category-search-item-arrow {
+    flex-basis: 40px;
+    padding: 1em;
+}
+
+.v-search-items li {
+    border-bottom: 1px solid #f6f6f6;
+}
+
+.v-search-items a {
+    display: flex;
+    cursor: pointer;
+    border-radius: 2px;
+    padding: 0.5em;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.v-search-items li:hover,
+.v-search-items li a:hover {
+    background: #f6f6f6;
+}
+
+.comment-search-item {
+    padding: .5em 1em;
+    margin: 1em 0;
+    border-radius: 2px;
+    border: 1px solid #dedede;
+    background: #fefefe;
+}
+
+.huge .v-icon {
+    font-size: 24px !important;
+}
