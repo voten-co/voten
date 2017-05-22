@@ -91,10 +91,10 @@ export default {
 		 */
 		date () {
 			if (moment(this.list.created_at).format('DD/MM/YYYY') == moment(new Date()).format('DD/MM/YYYY')) {
-				return moment().utc(this.list.created_at).format("LT")
+				return moment(this.list.created_at).format("LT")
 			}
 
-			return moment(this.list.created_at).utc(moment().format("MMM Do")).format("MMM Do")
+			return moment(this.list.created_at).format("MMM Do")
 		},
 
 		/**
@@ -103,7 +103,7 @@ export default {
 		 * @return String
 		 */
 		longDate () {
-			return moment().utc(this.list.created_at).format("LLL")
+			return moment(this.list.created_at).format("LLL")
 		},
 
 		/**
@@ -113,7 +113,7 @@ export default {
 		 */
 		seenDate () {
 			if (this.list.read_at) {
-				return moment().utc(this.list.read_at).format("LLL")
+				return moment(this.list.read_at).format("LLL")
 			}
 
 			return "Not seen yet"
