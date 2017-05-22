@@ -12,7 +12,7 @@ class AppointeddUser extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'appointed_as'
+        'user_id', 'appointed_as',
     ];
 
     /**
@@ -23,6 +23,6 @@ class AppointeddUser extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id')
-        			->select(['id', 'username', 'avatar']);
+                    ->select(['id', 'username', 'avatar']);
     }
 }

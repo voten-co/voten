@@ -3,11 +3,9 @@
 namespace App\Listeners;
 
 use App\Events\ReportWasCreated;
-use App\Traits\CachableCategory;
 use App\Notifications\CommentReported;
-use Illuminate\Queue\InteractsWithQueue;
 use App\Notifications\SubmissionReported;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Traits\CachableCategory;
 
 class NewReport
 {
@@ -26,7 +24,8 @@ class NewReport
     /**
      * Handle the event.
      *
-     * @param  ReportWasCreated  $event
+     * @param ReportWasCreated $event
+     *
      * @return void
      */
     public function handle(ReportWasCreated $event)
@@ -37,9 +36,9 @@ class NewReport
 
         foreach ($category_mods as $user) {
             if ($event->report->reportable_type == 'App\Submission') {
-                $user->notify( new SubmissionReported($category, $event->report->submission) );
+                $user->notify(new SubmissionReported($category, $event->report->submission));
             } elseif ($event->report->reportable_type == 'App\Comment') {
-                $user->notify( new CommentReported($category, $event->report->comment) );
+                $user->notify(new CommentReported($category, $event->report->comment));
             }
         }
     }

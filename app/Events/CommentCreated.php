@@ -4,12 +4,9 @@ namespace App\Events;
 
 use App\Comment;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-
+use Illuminate\Queue\SerializesModels;
 
 class CommentCreated implements ShouldBroadcast
 {
@@ -18,10 +15,10 @@ class CommentCreated implements ShouldBroadcast
     public $comment;
 
     /**
-    *   Create a new event instance.
-    *
-    *   @return void
-    */
+     *   Create a new event instance.
+     *
+     *   @return void
+     */
     public function __construct(Comment $comment)
     {
         $this->comment = $comment;
@@ -35,6 +32,6 @@ class CommentCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['submission.' . $this->comment->submission->slug];
+        return ['submission.'.$this->comment->submission->slug];
     }
 }

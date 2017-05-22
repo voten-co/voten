@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -27,7 +27,7 @@ class EventServiceProvider extends ServiceProvider
         //     'App\Listeners\DestroyedComment',
         // ],
 
-    	// shouldn't this be UpdatedCategory?!
+        // shouldn't this be UpdatedCategory?!
         // 'App\Events\CategoryWasUpdated' => [
         //     'App\Listeners\UpdatedComment',
         // ],

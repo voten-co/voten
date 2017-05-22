@@ -1,12 +1,10 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateReportsTable extends Migration
 {
-
-
     public function up()
     {
         Schema::create('reports', function (Blueprint $table) {
@@ -21,7 +19,6 @@ class CreateReportsTable extends Migration
             $table->softDeletes();
         });
     }
-
 
     public function down()
     {

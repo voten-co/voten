@@ -2,24 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
-use App\Category;
-use Carbon\Carbon;
 use App\Submission;
-use App\Http\Requests;
-use Illuminate\Http\Request;
-use App\Traits\CachableUser;
 use App\Traits\CachableCategory;
 use App\Traits\CachableSubmission;
+use App\Traits\CachableUser;
+use Auth;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     use CachableUser, CachableSubmission, CachableCategory;
 
     /**
-     * Returns the submissions for the homepage of Auth user
+     * Returns the submissions for the homepage of Auth user.
      *
      * @param Illuminate\Http\Request $request
+     *
      * @return Illuminate\Support\Collection
      */
     public function feed(Request $request)
@@ -29,19 +28,19 @@ class HomeController extends Controller
             'page' => 'required|integer',
         ]);
 
-        if (! Auth::check()) {
-        	return $this->guestHome($request);
+        if (!Auth::check()) {
+            return $this->guestHome($request);
         }
 
-        $submissions = (new Submission)->newQuery();
+        $submissions = (new Submission())->newQuery();
 
-		$submissions->whereIn('category_id', $this->subscriptions())
-					->whereNotIn('id', $this->hiddenSubmissions()); // exclude user's hidden submissions
+        $submissions->whereIn('category_id', $this->subscriptions())
+                    ->whereNotIn('id', $this->hiddenSubmissions()); // exclude user's hidden submissions
 
         // exclude NSFW if user doens't want to see them
-		if (!settings('nsfw')) {
-			$submissions->where('nsfw', false);
-		}
+        if (!settings('nsfw')) {
+            $submissions->where('nsfw', false);
+        }
 
         if (settings('exclude_upvoted_submissions')) {
             $submissions->whereNotIn('id', $this->submissionUpvotesIds());
@@ -52,53 +51,51 @@ class HomeController extends Controller
         }
 
         if ($request->sort == 'new') {
-        	$submissions->orderBy('created_at', 'desc');
+            $submissions->orderBy('created_at', 'desc');
         }
 
         if ($request->sort == 'rising') {
-			$submissions->where('created_at', '>=', Carbon::now()->subHour())
-						->orderBy('rate', 'desc');
+            $submissions->where('created_at', '>=', Carbon::now()->subHour())
+                        ->orderBy('rate', 'desc');
         }
 
-		if ($request->sort == 'hot') {
-			$submissions->orderBy('rate', 'desc');
-		}
+        if ($request->sort == 'hot') {
+            $submissions->orderBy('rate', 'desc');
+        }
 
-		return $submissions->simplePaginate(10);
+        return $submissions->simplePaginate(10);
     }
 
-
-
-
     /**
-     * returns submisisons from default categories. by time we're gonna improve this
+     * returns submisisons from default categories. by time we're gonna improve this.
      *
      * @param Illuminate\Http\Request $request
+     *
      * @return Illuminate\Support\Collection
      */
     protected function guestHome(Request $request)
     {
-		$submissions = (new Submission)->newQuery();
+        $submissions = (new Submission())->newQuery();
 
-		$submissions->whereIn(
-			'category_id', $this->getDefaultCategories()
-		);
+        $submissions->whereIn(
+            'category_id', $this->getDefaultCategories()
+        );
 
         $submissions->where('nsfw', false);
 
         if ($request->sort == 'new') {
-        	$submissions->orderBy('created_at', 'desc');
+            $submissions->orderBy('created_at', 'desc');
         }
 
         if ($request->sort == 'rising') {
-			$submissions->where('created_at', '>=', Carbon::now()->subHour())
-						->orderBy('rate', 'desc');
+            $submissions->where('created_at', '>=', Carbon::now()->subHour())
+                        ->orderBy('rate', 'desc');
         }
 
-		if ($request->sort == 'hot') {
-			$submissions->orderBy('rate', 'desc');
-		}
+        if ($request->sort == 'hot') {
+            $submissions->orderBy('rate', 'desc');
+        }
 
-		return $submissions->simplePaginate(10);
+        return $submissions->simplePaginate(10);
     }
 }

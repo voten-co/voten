@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Submission;
-use Illuminate\Http\Request;
 use App\Traits\CachableSubmission;
+use Illuminate\Http\Request;
 
 class NsfwController extends Controller
 {
-	use CachableSubmission;
+    use CachableSubmission;
 
     public function __construct()
     {
@@ -16,9 +16,10 @@ class NsfwController extends Controller
     }
 
     /**
-     * marks the submission model as NSFW (not safe for work)
+     * marks the submission model as NSFW (not safe for work).
      *
      * @param Illuminate\Http\Request $request
+     *
      * @return response
      */
     public function markAsNSFW(Request $request)
@@ -34,19 +35,19 @@ class NsfwController extends Controller
         ), 403);
 
         $submission->update([
-            "nsfw" => true
+            'nsfw' => true,
         ]);
 
         $this->putSubmissionInTheCache($submission);
 
-        return response("Submission was marked as NSFW", 200);
+        return response('Submission was marked as NSFW', 200);
     }
 
-
     /**
-     * marks the submission model as SFW (safe for work)
+     * marks the submission model as SFW (safe for work).
      *
      * @param Illuminate\Http\Request $request
+     *
      * @return response
      */
     public function markAsSFW(Request $request)
@@ -62,11 +63,11 @@ class NsfwController extends Controller
         ), 403);
 
         $submission->update([
-            "nsfw" => false
+            'nsfw' => false,
         ]);
 
         $this->putSubmissionInTheCache($submission);
 
-        return response("Submission was marked as SFW", 200);
+        return response('Submission was marked as SFW', 200);
     }
 }

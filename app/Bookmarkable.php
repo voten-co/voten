@@ -14,12 +14,12 @@ trait Bookmarkable
         return $this->morphMany(Bookmark::class, 'bookmarkable');
     }
 
-
     /**
      * Scope a query to records bookmarked by the given user.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder $query
-     * @param  User $user
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param User                                  $user
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeBookmarkedBy($query, User $user)
@@ -29,12 +29,12 @@ trait Bookmarkable
         });
     }
 
-
     /**
      * Determine if the model is bookmarked by the given user.
      *
-     * @param  User $user
-     * @return boolean
+     * @param User $user
+     *
+     * @return bool
      */
     public function isBookmarkedBy(User $user)
     {
@@ -42,7 +42,6 @@ trait Bookmarkable
             ->where('user_id', $user->id)
             ->exists();
     }
-
 
     /**
      * Have the authenticated user bookmark the model.
@@ -52,12 +51,13 @@ trait Bookmarkable
      */
     public function bookmark()
     {
-    	if ( $this->isBookmarkedBy( auth()->user() ) ) {
-    		$this->bookmarks()->where(['user_id' => auth()->id()])->delete();
-            return 'unbookmarked';
-    	}
+        if ($this->isBookmarkedBy(auth()->user())) {
+            $this->bookmarks()->where(['user_id' => auth()->id()])->delete();
 
-    	$this->bookmarks()->save(
+            return 'unbookmarked';
+        }
+
+        $this->bookmarks()->save(
             new Bookmark(['user_id' => auth()->id()])
         );
 

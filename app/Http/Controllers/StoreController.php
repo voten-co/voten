@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use Auth;
-use Illuminate\Http\Request;
 use App\Traits\CachableUser;
+use Auth;
+use DB;
+use Illuminate\Http\Request;
 
 class StoreController extends Controller
 {
@@ -15,7 +15,6 @@ class StoreController extends Controller
     {
         $this->middleware('auth');
     }
-
 
     /**
      * Returns all the neccessary information for filling the Store. To reduce the number
@@ -29,21 +28,20 @@ class StoreController extends Controller
         $user = Auth::user();
 
         return collect([
-            'submissionUpvotes' => $this->submissionUpvotes(), // cached
-            'submissionDownvotes' => $this->submissionDownvotes(), // cached
-            'commentUpvotes' => $this->commentUpvotes(), // cached
-            'commentDownvotes' => $this->commentDownvotes(), // cached
-            'bookmarkedSubmissions' => $this->bookmarkedSubmissions(), // cached
-            'bookmarkedComments' => $this->bookmarkedComments(), // cached
-            'bookmarkedCategories' => $this->bookmarkedCategories(), // cached
-            'bookmarkedUsers' => $this->bookmarkedUsers(), // cached
-            'subscribedCategories' => $this->subscribedCategories(),
-            'moderatingCategories' => $this->moderatingCategories(),
+            'submissionUpvotes'           => $this->submissionUpvotes(), // cached
+            'submissionDownvotes'         => $this->submissionDownvotes(), // cached
+            'commentUpvotes'              => $this->commentUpvotes(), // cached
+            'commentDownvotes'            => $this->commentDownvotes(), // cached
+            'bookmarkedSubmissions'       => $this->bookmarkedSubmissions(), // cached
+            'bookmarkedComments'          => $this->bookmarkedComments(), // cached
+            'bookmarkedCategories'        => $this->bookmarkedCategories(), // cached
+            'bookmarkedUsers'             => $this->bookmarkedUsers(), // cached
+            'subscribedCategories'        => $this->subscribedCategories(),
+            'moderatingCategories'        => $this->moderatingCategories(),
             'moderatingCategoriesRecords' => $this->moderatingCategoriesRecords(),
-            'blockedUsers' => $this->blockedUsers() // cached
+            'blockedUsers'                => $this->blockedUsers(), // cached
         ]);
     }
-
 
     protected function moderatingCategoriesRecords()
     {
@@ -56,7 +54,6 @@ class StoreController extends Controller
         return Auth::user()->categoryRoles->unique('name');
     }
 
-
     // Returns Auth user's (submission) upvote records
     protected function submissionUpvotes()
     {
@@ -68,7 +65,6 @@ class StoreController extends Controller
     {
         return $this->submissionDownvotesIds();
     }
-
 
     // Returns Auth user's (submission) upvote records
     protected function commentUpvotes()

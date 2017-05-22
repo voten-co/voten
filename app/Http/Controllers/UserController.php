@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use Auth;
-use App\User;
 use App\Filters;
-use App\Http\Requests;
 use App\Traits\CachableUser;
+use App\User;
+use Auth;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -19,11 +17,11 @@ class UserController extends Controller
         $this->middleware('auth');
     }
 
-
     /**
-     * Returns user's submissions
+     * Returns user's submissions.
      *
      * @param Illuminate\Http\Request $request
+     *
      * @return Collections
      */
     public function submissions(Request $request)
@@ -35,11 +33,11 @@ class UserController extends Controller
         return User::where('username', $request->username)->firstOrFail()->submissions()->withTrashed()->orderBy('created_at', 'desc')->simplePaginate(10);
     }
 
-
     /**
      * Returns every submission that user has upvoted.
      *
      * @param Illuminate\Http\Request $request
+     *
      * @return Collections
      */
     public function upVotedSubmissions(Request $request)
@@ -51,6 +49,7 @@ class UserController extends Controller
      * Returns every submission that user has upvoted.
      *
      * @param Illuminate\Http\Request $request
+     *
      * @return Collections
      */
     public function downVotedSubmissions(Request $request)
@@ -58,11 +57,11 @@ class UserController extends Controller
         return Auth::user()->submissionDownvotes()->simplePaginate(10);
     }
 
-
     /**
-     * retunds a colleciton of user's submitted comments
+     * retunds a colleciton of user's submitted comments.
      *
      * @param Illuminate\Http\Request $request
+     *
      * @return Collection
      */
     public function comments(Request $request)
@@ -71,20 +70,20 @@ class UserController extends Controller
             'username' => 'required',
         ]);
 
-        return $this->withoutChildren( User::where('username', $request->username)->firstOrFail()->comments()->withTrashed()->orderBy('created_at', 'desc')->simplePaginate(10) );
+        return $this->withoutChildren(User::where('username', $request->username)->firstOrFail()->comments()->withTrashed()->orderBy('created_at', 'desc')->simplePaginate(10));
     }
 
-
     /**
-     * Returns all the nesseccary info to fill userStore in forn-end
+     * Returns all the nesseccary info to fill userStore in forn-end.
      *
      * @param Illuminate\Http\Request $request
+     *
      * @return JSON
      */
     public function fillStore(Request $request)
     {
         $this->validate($request, [
-            'username' => 'required|max:25'
+            'username' => 'required|max:25',
         ]);
 
         $user = User::withTrashed()->where('username', $request->username)->firstOrFail();
@@ -94,9 +93,8 @@ class UserController extends Controller
         return $user;
     }
 
-
     /**
-     * Returns all the needed info for Auth user
+     * Returns all the needed info for Auth user.
      *
      * @return $collectiom
      */

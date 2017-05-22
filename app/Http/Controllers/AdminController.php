@@ -2,23 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use App\Rule;
-use App\User;
-use App\Report;
+use App\Category;
 use App\Comment;
 use App\Filters;
 use App\Message;
-use App\Category;
-use Carbon\Carbon;
+use App\Report;
 use App\Submission;
-use App\Http\Requests;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-
 
 class AdminController extends Controller
 {
-	use Filters;
+    use Filters;
 
     public function __construct()
     {
@@ -56,94 +52,89 @@ class AdminController extends Controller
         $submissionVotesToday = 0;
 
         return collect([
-        	'usersTotal' => $usersTotal,
-        	'usersToday' => $usersToday,
-        	'categoriesTotal' => $categoriesTotal,
-        	'categoriesToday' => $categoriesToday,
-        	'submissionsTotal' => $submissionsTotal,
-        	'submissionsToday' => $submissionsToday,
-        	'commentsTotal' => $commentsTotal,
-        	'commentsToday' => $commentsToday,
-        	'messagesTotal' => $messagesTotal,
-        	'messagesToday' => $messagesToday,
-        	'submissionVotesTotal' => $submissionVotesTotal,
-			'submissionVotesToday' => $submissionVotesToday,
-			'reportsTotal' => $reportsTotal,
-			'reportsToday' => $reportsToday,
-    	])->all();
+            'usersTotal'           => $usersTotal,
+            'usersToday'           => $usersToday,
+            'categoriesTotal'      => $categoriesTotal,
+            'categoriesToday'      => $categoriesToday,
+            'submissionsTotal'     => $submissionsTotal,
+            'submissionsToday'     => $submissionsToday,
+            'commentsTotal'        => $commentsTotal,
+            'commentsToday'        => $commentsToday,
+            'messagesTotal'        => $messagesTotal,
+            'messagesToday'        => $messagesToday,
+            'submissionVotesTotal' => $submissionVotesTotal,
+            'submissionVotesToday' => $submissionVotesToday,
+            'reportsTotal'         => $reportsTotal,
+            'reportsToday'         => $reportsToday,
+        ])->all();
     }
 
-
     /**
-     * Returns the latest submissions
+     * Returns the latest submissions.
      *
      * @return Illuminate\Support\Collection
      */
     public function submissions(Request $request)
     {
-    	abort_unless($this->mustBeVotenAdministrator(), 403);
+        abort_unless($this->mustBeVotenAdministrator(), 403);
 
-    	return Submission::orderBy('id', 'desc')->simplePaginate(10);
+        return Submission::orderBy('id', 'desc')->simplePaginate(10);
     }
 
-
     /**
-     * Returns the latest submitted comments
+     * Returns the latest submitted comments.
      *
      * @return Illuminate\Support\Collection
      */
     public function comments()
     {
-    	abort_unless($this->mustBeVotenAdministrator(), 403);
+        abort_unless($this->mustBeVotenAdministrator(), 403);
 
-    	return $this->withoutChildren( Comment::orderBy('id', 'desc')->simplePaginate(30) );
+        return $this->withoutChildren(Comment::orderBy('id', 'desc')->simplePaginate(30));
     }
 
-
     /**
-     * Returns the latest created categories
+     * Returns the latest created categories.
      *
      * @return Illuminate\Support\Collection
      */
     public function categories()
     {
-    	abort_unless($this->mustBeVotenAdministrator(), 403);
+        abort_unless($this->mustBeVotenAdministrator(), 403);
 
-    	return Category::orderBy('id', 'desc')->simplePaginate(30);
+        return Category::orderBy('id', 'desc')->simplePaginate(30);
     }
 
-
     /**
-     * Returns the latest registered users
+     * Returns the latest registered users.
      *
      * @return Illuminate\Support\Collection
      */
     public function indexUsers()
     {
-    	abort_unless($this->mustBeVotenAdministrator(), 403);
+        abort_unless($this->mustBeVotenAdministrator(), 403);
 
-    	return User::orderBy('id', 'desc')->simplePaginate(30);
+        return User::orderBy('id', 'desc')->simplePaginate(30);
     }
 
+    /**
+     * searches through users by username.
+     *
+     * @return Illuminate\Support\Collection
+     */
+    public function searchUsers(Request $request)
+    {
+        abort_unless($this->mustBeVotenAdministrator(), 403);
 
-	/**
-	 * searches through users by username
-	 *
-	 * @return Illuminate\Support\Collection
-	 */
-	public function searchUsers(Request $request)
-	{
-		abort_unless($this->mustBeVotenAdministrator(), 403);
-
-		return User::where('username', 'like', '%'.$request->username.'%')
+        return User::where('username', 'like', '%'.$request->username.'%')
                     ->select('username')->take(100)->get()->pluck('username');
-	}
-
+    }
 
     /**
-     * Indexes the reported submissions
+     * Indexes the reported submissions.
      *
      * @param Illuminate\Http\Request $request
+     *
      * @return Illuminate\Support\Collection
      */
     public function reportedSubmissions(Request $request)
@@ -152,7 +143,7 @@ class AdminController extends Controller
             'type' => 'required',
         ]);
 
-		abort_unless($this->mustBeVotenAdministrator(), 403);
+        abort_unless($this->mustBeVotenAdministrator(), 403);
 
         if ($request->type == 'solved') {
             return Report::onlyTrashed()->where([
@@ -162,15 +153,15 @@ class AdminController extends Controller
 
         // default type which is "unsolved"
         return Report::where([
-            'reportable_type' => 'App\Submission'
+            'reportable_type' => 'App\Submission',
         ])->with('reporter', 'submission')->orderBy('created_at', 'desc')->simplePaginate(50);
     }
 
-
     /**
-     * Indexes the reported comments
+     * Indexes the reported comments.
      *
      * @param Illuminate\Http\Request $request
+     *
      * @return Illuminate\Support\Collection
      */
     public function reportedComments(Request $request)
@@ -179,7 +170,7 @@ class AdminController extends Controller
             'type' => 'required',
         ]);
 
-		abort_unless($this->mustBeVotenAdministrator(), 403);
+        abort_unless($this->mustBeVotenAdministrator(), 403);
 
         if ($request->type == 'solved') {
             return Report::onlyTrashed()->where([
@@ -189,26 +180,26 @@ class AdminController extends Controller
 
         // default type which is "unsolved"
         return Report::where([
-            'reportable_type' => 'App\Comment'
+            'reportable_type' => 'App\Comment',
         ])->with('reporter', 'comment')->orderBy('created_at', 'desc')->simplePaginate(50);
     }
 
-
-	/**
-	 * searches the categories
-	 *
-	 * @param Illuminate\Http\Request $request
+    /**
+     * searches the categories.
+     *
+     * @param Illuminate\Http\Request $request
+     *
      * @return Illuminate\Support\Collection
-	 */
-	public function getCategories(Request $request)
-	{
-		$this->validate($request, [
+     */
+    public function getCategories(Request $request)
+    {
+        $this->validate($request, [
             'name' => 'required',
         ]);
 
-		abort_unless($this->mustBeVotenAdministrator(), 403);
+        abort_unless($this->mustBeVotenAdministrator(), 403);
 
         return Category::where('name', 'like', '%'.$request->name.'%')
                     ->select('id', 'name')->take(100)->get()->pluck('name');
-	}
+    }
 }

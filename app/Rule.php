@@ -9,13 +9,14 @@ class Rule extends Model
     use RecordsActivity;
 
     /**
-    * Fillable fields for the table.
-    *
-    * @var array
-    */
+     * Fillable fields for the table.
+     *
+     * @var array
+     */
     protected $fillable = ['title', 'category_id'];
 
-    public function category(){
+    public function category()
+    {
         return $this->belongsTo(Category::class);
     }
 }

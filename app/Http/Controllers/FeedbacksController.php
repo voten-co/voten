@@ -13,7 +13,6 @@ class FeedbacksController extends Controller
         $this->middleware('auth');
     }
 
-
     /**
      * Display a listing of the feedback.
      *
@@ -26,36 +25,35 @@ class FeedbacksController extends Controller
         return Feedback::with('owner')->get();
     }
 
-
     /**
      * Store a newly created feedback in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $this->validate($request, [
-            'subject' => 'required',
+            'subject'     => 'required',
             'description' => 'required',
         ]);
 
-        $feedback = new Feedback;
+        $feedback = new Feedback();
         $feedback->subject = $request->subject;
         $feedback->user_id = auth()->user()->id;
         $feedback->description = $request->description;
         $feedback->save();
 
-        \Mail::to("fischersully@gmail.com")->queue(new NewFeedback(auth()->user(), $feedback));
+        \Mail::to('fischersully@gmail.com')->queue(new NewFeedback(auth()->user(), $feedback));
 
-        return response("Feedback submitted", 200);
+        return response('Feedback submitted', 200);
     }
-
 
     /**
      * Remove the specified feedback from storage.
      *
-     * @param  int  $id
+     * @param int $id
      */
     public function destroy(Request $request)
     {

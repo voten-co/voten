@@ -2,16 +2,14 @@
 
 namespace App\Listeners;
 
-use App\Traits\CachableUser;
+use App\Events\SubmissionWasCreated;
 use App\Traits\CachableCategory;
 use App\Traits\CachableSubmission;
-use App\Events\SubmissionWasCreated;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Traits\CachableUser;
 
 class NewSubmission
 {
-	use CachableUser, CachableSubmission, CachableCategory;
+    use CachableUser, CachableSubmission, CachableCategory;
 
     /**
      * Create the event listener.
@@ -26,13 +24,14 @@ class NewSubmission
     /**
      * Handle the event.
      *
-     * @param  SubmissionWasCreated  $event
+     * @param SubmissionWasCreated $event
+     *
      * @return void
      */
     public function handle(SubmissionWasCreated $event)
     {
-    	$this->updateUserSubmissionsCount($event->submission->user_id);
+        $this->updateUserSubmissionsCount($event->submission->user_id);
 
-		$this->updateCategorySubmissionsCount($event->submission->category_id);
+        $this->updateCategorySubmissionsCount($event->submission->category_id);
     }
 }

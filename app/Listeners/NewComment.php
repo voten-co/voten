@@ -2,15 +2,13 @@
 
 namespace App\Listeners;
 
-use App\Traits\CachableUser;
-use App\Traits\CachableCategory;
 use App\Events\CommentWasCreated;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Traits\CachableCategory;
+use App\Traits\CachableUser;
 
 class NewComment
 {
-	use CachableUser, CachableCategory;
+    use CachableUser, CachableCategory;
 
     /**
      * Create the event listener.
@@ -25,13 +23,14 @@ class NewComment
     /**
      * Handle the event.
      *
-     * @param  CommentWasCreated  $event
+     * @param CommentWasCreated $event
+     *
      * @return void
      */
     public function handle(CommentWasCreated $event)
     {
-    	$this->updateUserCommentsCount($event->comment->user_id);
+        $this->updateUserCommentsCount($event->comment->user_id);
 
-		$this->updateCategoryCommentsCount($event->comment->category_id);
+        $this->updateCategoryCommentsCount($event->comment->category_id);
     }
 }

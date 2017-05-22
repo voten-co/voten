@@ -2,10 +2,8 @@
 
 namespace App\Listeners;
 
-use App\Traits\CachableCategory;
 use App\Events\CategoryWasUpdated;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Traits\CachableCategory;
 
 class UpdatedComment
 {
@@ -24,7 +22,8 @@ class UpdatedComment
     /**
      * Handle the event.
      *
-     * @param  CategoryWasUpdated  $event
+     * @param CategoryWasUpdated $event
+     *
      * @return void
      */
     public function handle(CategoryWasUpdated $event)

@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use Auth;
-use App\Traits\CachableUser;
-use Illuminate\Http\Request;
 use App\Traits\CachableCategory;
+use App\Traits\CachableUser;
+use Auth;
+use Illuminate\Http\Request;
 
 class SubscribeController extends Controller
 {
@@ -18,9 +17,10 @@ class SubscribeController extends Controller
     }
 
     /**
-     * subscribing/unsubscrbing to categories
+     * subscribing/unsubscrbing to categories.
      *
      * @param Illuminate\Http\Request $request
+     *
      * @return status
      */
     public function subscribeToggle(Request $request)
@@ -34,7 +34,7 @@ class SubscribeController extends Controller
         try {
             $result = $user->subscriptions()->toggle($request->category_id);
         } catch (\Exception $e) {
-            return response("duplicate action", 200);
+            return response('duplicate action', 200);
         }
 
         // subscibed
@@ -43,24 +43,24 @@ class SubscribeController extends Controller
 
             $this->updateCategorySubscribersCount($request->category_id);
 
-			return response("Subscribed", 200);
+            return response('Subscribed', 200);
         }
 
-		// unsubscribed
+        // unsubscribed
         $this->updateSubscriptions($user->id, $request->category_id, false);
 
         $this->updateCategorySubscribersCount($request->category_id, -1);
 
-        return response("Unsubscribed", 200);
+        return response('Unsubscribed', 200);
     }
 
-
     /**
-    * whether or not the user is subscribed to the category
-    *
-    * @param Illuminate\Http\Request $request
-    * @return string
-    */
+     * whether or not the user is subscribed to the category.
+     *
+     * @param Illuminate\Http\Request $request
+     *
+     * @return string
+     */
     public function isSubscribed(Request $request)
     {
         $this->validate($request, [

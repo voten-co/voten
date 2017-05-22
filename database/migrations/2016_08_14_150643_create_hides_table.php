@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateHidesTable extends Migration
 {
@@ -17,7 +17,7 @@ class CreateHidesTable extends Migration
             $table->primary(['user_id', 'submission_id']);
             $table->integer('user_id')->unsigned()->index();
             $table->integer('submission_id')->unsigned()->index();
-          	// $table->timestamps();
+              // $table->timestamps();
         });
     }
 

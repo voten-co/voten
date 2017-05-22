@@ -2,25 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use Auth;
-use App\Ban;
-use App\Photo;
-use Embed\Embed;
-use App\Filters;
 use App\Category;
+use App\Filters;
+use App\Photo;
 use App\PhotoTools;
 use App\Submission;
-use App\Http\Requests;
-use App\BlockedDomain;
-use App\Traits\Submit;
-use Illuminate\Http\Request;
-use App\Traits\CachableUser;
 use App\Traits\CachableCategory;
 use App\Traits\CachableSubmission;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Storage;
-use Pbmedia\LaravelFFMpeg\FFMpegFacade as FFMpeg;
+use App\Traits\CachableUser;
+use App\Traits\Submit;
+use Auth;
+use DB;
+use Embed\Embed;
+use Illuminate\Http\Request;
 
 class SubmissionController extends Controller
 {
@@ -28,9 +22,8 @@ class SubmissionController extends Controller
 
     public function __construct()
     {
-    	$this->middleware('auth', ['except' => ['getBySlug', 'getById', 'getPhotos']]);
+        $this->middleware('auth', ['except' => ['getBySlug', 'getById', 'getPhotos']]);
     }
-
 
     /**
      * Stores the submitted submission into database. There are 3 types of submissions:
@@ -38,6 +31,7 @@ class SubmissionController extends Controller
      * types. After storing the submission, redirects to the submission page.
      *
      * @param Illuminate\Support\Request $request
+     *
      * @return Illuminate\Support\Collection
      */
     public function store(Request $request)
@@ -46,14 +40,14 @@ class SubmissionController extends Controller
 
         // first make sure user is allowed to submit to this category. (not banned from it)
         if ($this->isUserBanned($user->id, $request->name)) {
-            return response("You have been banned from submitting to #" . $request->name . ". If you think there has been some kind of mistake, please contact the moderators of #" . $request->name . ".", 500);
+            return response('You have been banned from submitting to #'.$request->name.'. If you think there has been some kind of mistake, please contact the moderators of #'.$request->name.'.', 500);
         }
 
         if ($request->type == 'link') {
             $this->validate($request, [
-                'url' => 'required|url',
+                'url'   => 'required|url',
                 'title' => 'required|between:7,150',
-                'name' => 'required|exists:categories',
+                'name'  => 'required|exists:categories',
             ]);
 
             // check if it's in the blocked domains list
@@ -65,25 +59,25 @@ class SubmissionController extends Controller
                 $data = $this->linkSubmission($request);
             } catch (\Exception $e) {
                 $data = [
-                    "url" => $request->url,
-                    "title" => $request->title,
-                    "description" => null,
-                    "type" => 'link',
-                    "embed" => null,
-                    "img" => null,
-                    "thumbnail" => null,
-                    "providerName" => null,
-                    "publishedTime" => null,
-                    "domain" => domain($request->url),
+                    'url'           => $request->url,
+                    'title'         => $request->title,
+                    'description'   => null,
+                    'type'          => 'link',
+                    'embed'         => null,
+                    'img'           => null,
+                    'thumbnail'     => null,
+                    'providerName'  => null,
+                    'publishedTime' => null,
+                    'domain'        => domain($request->url),
                 ];
             }
         }
 
         if ($request->type == 'img') {
             $this->validate($request, [
-                'title' => 'required|between:7,150',
+                'title'  => 'required|between:7,150',
                 'photos' => 'required',
-                'name' => 'required|exists:categories',
+                'name'   => 'required|exists:categories',
             ]);
 
             $data = $this->imgSubmission($request);
@@ -92,8 +86,8 @@ class SubmissionController extends Controller
         if ($request->type == 'gif') {
             $this->validate($request, [
                 'title' => 'required|between:7,150',
-                'gif' => 'required|mimes:gif|max:40960',
-                'name' => 'required|exists:categories',
+                'gif'   => 'required|mimes:gif|max:40960',
+                'name'  => 'required|exists:categories',
             ]);
 
             try {
@@ -103,14 +97,13 @@ class SubmissionController extends Controller
 
                 return response("We couldn't process this GIF, please try another one. ", 500);
             }
-
         }
 
         if ($request->type == 'text') {
             $this->validate($request, [
                 'title' => 'required|between:7,150',
-                'type' => 'required|in:link,img,text',
-                'name' => 'required|exists:categories',
+                'type'  => 'required|in:link,img,text',
+                'name'  => 'required|exists:categories',
             ]);
 
             $data = $this->textSubmission($request);
@@ -120,25 +113,25 @@ class SubmissionController extends Controller
 
         try {
             $submission = Submission::create([
-                "title" => $request->title,
-                "slug" => $this->slug($request->title),
-                "type" => $request->type,
-                "category_name" => $request->name,
-                "category_id" => $category->id,
-                "nsfw" => $category->nsfw,
-                "rate" => firstRate(),
-                "user_id" => $user->id,
-                "data" => $data
+                'title'         => $request->title,
+                'slug'          => $this->slug($request->title),
+                'type'          => $request->type,
+                'category_name' => $request->name,
+                'category_id'   => $category->id,
+                'nsfw'          => $category->nsfw,
+                'rate'          => firstRate(),
+                'user_id'       => $user->id,
+                'data'          => $data,
             ]);
 
             // it's better to use the SubmissionWasCreated event later for this
             $this->updateUserSubmissionsCount($submission->user_id);
-			$this->updateCategorySubmissionsCount($submission->category_id);
-			// end
+            $this->updateCategorySubmissionsCount($submission->category_id);
+            // end
         } catch (\Exception $exception) {
             app('sentry')->captureException($exception);
 
-            return response("Ooops, something went wrong", 500);
+            return response('Ooops, something went wrong', 500);
         }
 
         // Update the submission_id field in photos (We just found access to the submission_id)
@@ -155,12 +148,12 @@ class SubmissionController extends Controller
         return $submission;
     }
 
-
     /**
-     * Fetches the title from an external URL
+     * Fetches the title from an external URL.
      *
-     * @param  Illuminate\Http\Request $request
-     * @return String title
+     * @param Illuminate\Http\Request $request
+     *
+     * @return string title
      */
     public function getTitleAPI(Request $request)
     {
@@ -171,11 +164,11 @@ class SubmissionController extends Controller
         return $this->getTitle($request->url);
     }
 
-
     /**
-     * hides the submission so the user won't see it (=== block)
+     * hides the submission so the user won't see it (=== block).
      *
      * @param Illuminate\Http\Request $request
+     *
      * @return response
      */
     public function hide(Request $request)
@@ -191,14 +184,14 @@ class SubmissionController extends Controller
         // update the cach record for hiddenSubmissions:
         $this->updateHiddenSubmissions($user->id, $request->submission_id);
 
-        return response("submission added to the hidden list", 200);
+        return response('submission added to the hidden list', 200);
     }
 
-
     /**
-     * Returns the submission
+     * Returns the submission.
      *
      * @param Illuminate\Http\Request $request
+     *
      * @return Illuminate\Support\Collection
      */
     public function getBySlug(Request $request)
@@ -218,27 +211,26 @@ class SubmissionController extends Controller
         return $submission;
     }
 
-
     /**
-     * Returns the submission (even if it's been soft-deleted)
+     * Returns the submission (even if it's been soft-deleted).
      *
-     * @return Illuminate\Http\Request $request
+     * @return Illuminate\Http\Request       $request
      * @return Illuminate\Support\Collection
      */
     public function getById(Request $request)
     {
-    	$this->validate($request, [
+        $this->validate($request, [
             'id' => 'required|integer',
         ]);
 
-    	return $this->getSubmissionById($request->id);
+        return $this->getSubmissionById($request->id);
     }
 
-
     /**
-     * Returns all the uploaded photos for a specific submission
+     * Returns all the uploaded photos for a specific submission.
      *
      * @param Illuminate\Http\Request $request
+     *
      * @return Illuminate\Support\Collection
      */
     public function getPhotos(Request $request)
@@ -250,11 +242,11 @@ class SubmissionController extends Controller
         return Photo::where('submission_id', $request->id)->get();
     }
 
-
     /**
      * Destroys the submisison record from the database.
      *
      * @param Illuminate\Http\Request $request
+     *
      * @return response
      */
     public function destroy(Request $request)
@@ -269,14 +261,14 @@ class SubmissionController extends Controller
 
         // it's better to use the SubmissionWasDeleted event later for this
         $this->updateUserSubmissionsCount($submission->user_id, -1);
-		$this->updateCategorySubmissionsCount($submission->category_id, -1);
-    	$this->removeSubmissionFromCache($submission);
+        $this->updateCategorySubmissionsCount($submission->category_id, -1);
+        $this->removeSubmissionFromCache($submission);
         \App\Report::where([
-            'reportable_id' => $submission->id,
-            'reportable_type' => 'App\Submission'
+            'reportable_id'   => $submission->id,
+            'reportable_type' => 'App\Submission',
         ])->forceDelete();
-        if ($submission->type == "img") {
-        	Photo::where("submission_id", $submission->id)->forceDelete();
+        if ($submission->type == 'img') {
+            Photo::where('submission_id', $submission->id)->forceDelete();
         }
         // end
 
@@ -285,9 +277,8 @@ class SubmissionController extends Controller
         return response('Submission was successfully deleted', 200);
     }
 
-
     /**
-     * Removes the thumbnail
+     * Removes the thumbnail.
      *
      * @return response
      */
@@ -303,21 +294,21 @@ class SubmissionController extends Controller
 
         $submission->update([
             'data' => [
-                "url" => $submission->data['url'],
-                "title" => $submission->data['title'],
-                "description" => $submission->data['description'],
-                "type" => $submission->data['type'],
-                "embed" => $submission->data['embed'],
-                "img" => null,
-                "thumbnail" => null,
-                "providerName" => $submission->data['providerName'],
-                "publishedTime" => $submission->data['publishedTime'],
-                "domain" => $submission->data['domain'] ?? domain($submission->data['url']),
-            ]
+                'url'           => $submission->data['url'],
+                'title'         => $submission->data['title'],
+                'description'   => $submission->data['description'],
+                'type'          => $submission->data['type'],
+                'embed'         => $submission->data['embed'],
+                'img'           => null,
+                'thumbnail'     => null,
+                'providerName'  => $submission->data['providerName'],
+                'publishedTime' => $submission->data['publishedTime'],
+                'domain'        => $submission->data['domain'] ?? domain($submission->data['url']),
+            ],
         ]);
 
         $this->putSubmissionInTheCache($submission);
 
-        return response("thumbnail removed", 200);
+        return response('thumbnail removed', 200);
     }
 }

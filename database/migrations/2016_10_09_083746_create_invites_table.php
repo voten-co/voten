@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateInvitesTable extends Migration
 {
@@ -15,11 +15,11 @@ class CreateInvitesTable extends Migration
     {
         Schema::create('invites', function (Blueprint $table) {
             $table->increments('id');
-			$table->string('invitation')->index();
-			$table->string('email')->unique()->nullable();
-			$table->string('category')->nullable(); // Add the ability to invite to join specific categories.
-			$table->boolean('sent')->default(0);
-			$table->timestamp('claimed_at')->nullable();
+            $table->string('invitation')->index();
+            $table->string('email')->unique()->nullable();
+            $table->string('category')->nullable(); // Add the ability to invite to join specific categories.
+            $table->boolean('sent')->default(0);
+            $table->timestamp('claimed_at')->nullable();
             $table->timestamps();
         });
     }

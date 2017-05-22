@@ -2,11 +2,11 @@
 
 namespace App;
 
-use Laravel\Scout\Searchable;
 use App\Events\SubmissionWasCreated;
 use App\Events\SubmissionWasDeleted;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 class Submission extends Model
 {
@@ -20,11 +20,11 @@ class Submission extends Model
     protected $fillable = [
         'data', 'title', 'slug', 'type', 'category_id', 'category_name', 'rate',
         'upvotes', 'downvotes', 'user_id', 'data', 'nsfw', 'approved_at',
-        'deleted_at', 'comments_number'
+        'deleted_at', 'comments_number',
     ];
 
     protected $casts = [
-        'data' => 'json'
+        'data' => 'json',
     ];
 
     protected $with = ['owner'];
@@ -44,18 +44,18 @@ class Submission extends Model
     public function owner()
     {
         return $this->belongsTo(User::class, 'user_id')
-        			->select(['id', 'username', 'avatar']);
+                    ->select(['id', 'username', 'avatar']);
     }
 
     /**
-     * used for notifying
+     * used for notifying.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function notifiable()
     {
         return $this->belongsTo(User::class, 'user_id')
-        			->select(['id', 'settings']);
+                    ->select(['id', 'settings']);
     }
 
     public function ownedBy(User $user)
@@ -101,9 +101,9 @@ class Submission extends Model
     public function toSearchableArray()
     {
         return [
-            'id' => $this->id,
+            'id'    => $this->id,
             'title' => $this->title,
-            'rate' => $this->rate
+            'rate'  => $this->rate,
         ];
     }
 }

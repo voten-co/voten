@@ -5,7 +5,6 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class NewRegistration extends Mailable
 {
@@ -31,6 +30,7 @@ class NewRegistration extends Mailable
     public function build()
     {
         $username = $this->username;
+
         return $this->view('emails.new-registeration', compact('username'));
     }
 }
