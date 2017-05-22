@@ -301,15 +301,16 @@
                     this.$router.push('/c/' + this.selectedCat + '/' + response.data.slug)
 
 					this.loading = false
-                }, (response) => {
+                }, (error) => {
                     // error
-                    if(response.status == 500){
-                        this.customError = response.data
+                    if(error.response.status == 500){
+                        this.customError = error.response.data
                         this.errors = []
                         this.loading = false
                         return
                     }
-                    this.errors = response.data
+
+                    this.errors = error.response.data
                     this.loading = false
                 })
             },
