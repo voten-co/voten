@@ -24,6 +24,23 @@ Voten is a Laravel application that runs on the following software:
 
 To install all the required stack on a server, we recommend an auto-installation service such as [Codepier](https://codepier.io/).
 
+## Installation Steps
+
+After cloning the repository, first create a .env from the example file:
+
+```
+cp .env.example .env
+```
+
+Open ".env" file with your desired editor and enter your services info.
+Now run below commands:
+
+```
+composer install
+php artisan migrate
+php artisan passport:install
+```
+
 ## Security Vulnerabilities
 
 If you discover any security vulnerability within Voten's source code, please send an e-mail to Sully Fischer at fischersully@gmail.com instead of opening an issue. All security vulnerabilities will be promptly addressed.
