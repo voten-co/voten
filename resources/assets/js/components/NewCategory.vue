@@ -77,14 +77,14 @@ export default {
                 Store.subscribedCategories.push(response.data)
 
                 this.$router.push('/c/' + response.data.name + '/mod/settings?created=1')
-            }, (response) => {
-                if (response.status == 500) {
-                    this.customError = response.data
+            }, (error) => {
+                if (error.response.status == 500) {
+                    this.customError = error.response.data
                     this.errors = []
                     return
                 }
 
-                this.errors = response.data
+                this.errors = error.response.data
             })
         },
     }
