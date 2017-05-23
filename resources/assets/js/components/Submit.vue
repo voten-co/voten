@@ -336,7 +336,7 @@
                         return
                     }
 
-                    this.errors = response.data
+                    this.errors = error.response.data
                     this.loadingTitle = false
                 });
             },
