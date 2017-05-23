@@ -14,10 +14,10 @@
                     <div class="metadata user-select">
                         <router-link class="go-gray h-underline" v-if="!full"
                         :to="'/submission/' + list.submission_id">
-                            <small>{{ date }} - {{ points }} Points</small>
+                            <small><span data-toggle="tooltip" data-placement="bottom" :title="'Created: ' + longDate">{{ date }}</span> - {{ points }} Points</small>
                         </router-link>
 
-                        <small v-else>{{ date }} - {{ points }} Points</small>
+                        <small v-else><span data-toggle="tooltip" data-placement="bottom" :title="'Created: ' + longDate">{{ date }}</span> - {{ points }} Points</small>
                     </div>
                 </div>
 
@@ -109,8 +109,9 @@
 
 
 <script>
-    import CommentForm from '../components/CommentForm.vue'
-    import Markdown from '../components/Markdown.vue'
+    import CommentForm from '../components/CommentForm.vue';
+    import Markdown from '../components/Markdown.vue';
+    import Helpers from '../mixins/Helpers';
 
     export default {
 
@@ -122,6 +123,8 @@
             CommentForm,
             Markdown
         },
+        
+        mixins: [Helpers],
 
         data() {
             return {
@@ -197,6 +200,15 @@
 
             date () {
             	return moment(this.list.created_at).utc(moment().format("Z")).fromNow()
+            },
+
+            /**
+            * Calculates the long date to display for hover over date.
+            *
+            * @return String
+            */
+            longDate () {
+                return this.parseFullDate(this.list.created_at);
             },
 
             /**
