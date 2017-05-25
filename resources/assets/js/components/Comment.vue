@@ -14,10 +14,10 @@
                     <div class="metadata user-select">
                         <router-link class="go-gray h-underline" v-if="!full"
                         :to="'/submission/' + list.submission_id">
-                            <small>{{ date }} - {{ points }} Points</small>
+                            <small><span data-toggle="tooltip" data-placement="bottom" :title="'Created: ' + longDate">{{ date }}</span> - {{ points }} Points</small>
                         </router-link>
 
-                        <small v-else>{{ date }} - {{ points }} Points</small>
+                        <small v-else><span data-toggle="tooltip" data-placement="bottom" :title="'Created: ' + longDate">{{ date }}</span> - {{ points }} Points</small>
                     </div>
                 </div>
 
@@ -105,8 +105,9 @@
 
 
 <script>
-    import CommentForm from '../components/CommentForm.vue'
-    import Markdown from '../components/Markdown.vue'
+    import CommentForm from '../components/CommentForm.vue';
+    import Markdown from '../components/Markdown.vue';
+    import Helpers from '../mixins/Helpers';
 
     export default {
 
@@ -118,6 +119,8 @@
             CommentForm,
             Markdown
         },
+
+        mixins: [Helpers],
 
         data() {
             return {
@@ -134,25 +137,25 @@
         },
 
         created () {
-        	this.setBookmarked()
-        	this.setVoteds()
-            this.$eventHub.$on('newComment', this.newComment)
+        	this.setBookmarked();
+        	this.setVoteds();
+            this.$eventHub.$on('newComment', this.newComment);
         },
 
 		mounted () {
 			this.$nextTick(function () {
-	        	this.$root.loadSemanticTooltip()
-	        	this.$root.loadSemanticDropdown()
+	        	this.$root.loadSemanticTooltip();
+	        	this.$root.loadSemanticDropdown();
 			})
 		},
 
         computed: {
             points() {
-                let total = this.list.upvotes - this.list.downvotes
+                let total = this.list.upvotes - this.list.downvotes;
 
-				if (total < 0 ) return 0
+				if (total < 0 ) return 0;
 
-				return total
+				return total;
             },
 
 
@@ -162,7 +165,7 @@
         	 * @return Boolean
         	 */
         	owns () {
-        		return auth.id == this.list.user_id
+        		return auth.id == this.list.user_id;
         	},
 
         	/**
@@ -171,7 +174,7 @@
         	 * @return {Array} comments
         	 */
         	sortedComments () {
-        		return _.orderBy(this.list.children, this.commentsOrder, 'desc')
+        		return _.orderBy(this.list.children, this.commentsOrder, 'desc');
         	},
 
             /**
@@ -181,18 +184,27 @@
 			 */
 			currentVote () {
 			    if (this.upvoted) {
-			    	return "upvote"
+			    	return "upvote";
 			    }
 
 				if (this.downvoted) {
-					return "downvote"
+					return "downvote";
 				}
 
 				return null;
 			},
 
             date () {
-            	return moment(this.list.created_at).utc(moment().format("Z")).fromNow()
+            	return moment(this.list.created_at).utc(moment().format("Z")).fromNow();
+            },
+
+            /**
+             * Calculates the long date to display for hover over date.
+             *
+             * @return String
+             */
+            longDate () {
+                return this.parseFullDate(this.list.created_at);
             },
 
             /**

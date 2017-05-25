@@ -328,15 +328,15 @@
                     this.fTitle = response.data;
                     this.loadingTitle = false
                     this.errors.url = []
-                }, (response) => {
-                    if (response.status == 500) {
-                        this.customError = response.data
+                }, (error) => {
+                    if (error.response.status == 500) {
+                        this.customError = error.response.data
                         this.errors = []
                         this.loadingTitle = false
                         return
                     }
 
-                    this.errors = response.data
+                    this.errors = error.response.data
                     this.loadingTitle = false
                 });
             },
