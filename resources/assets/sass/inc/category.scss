@@ -72,6 +72,7 @@
 .category-header-middle h1,
 .category-header-middle h2 {
     display: inline;
+    font-size: 1.7em;
 }
 
 .category-header-middle h1 {
@@ -140,10 +141,22 @@
 }
 
 .category-suggestion-wrapper {
-    padding: 1em;
     border: 2px dashed #dcdcdc;
-    border-radius: 4px;
     margin-bottom: 1em;
+    margin-top: 1em;
+    padding: 1em;
+    background: #f9f9f9;
+    border-radius: 4px;
+    margin: 1em;
+}
+
+@media screen and (max-width: 768px) {
+	.category-suggestion-wrapper {
+	    padding: 1em;
+	    background: #f9f9f9;
+	    border-radius: 4px;
+	    margin: 1em;
+	}
 }
 
 .category-suggestion-wrapper a {

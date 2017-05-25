@@ -1,8 +1,10 @@
 <template>
 <div>
-	<category-header v-if="loaded"></category-header>
+	<category-header v-if="loaded && !auth.isMobileDevice"></category-header>
 
-	<div class="col-7 padding-bottom-10">
+	<category-header-mobile v-if="loaded && auth.isMobileDevice"></category-header-mobile>
+
+	<div class="col-full padding-bottom-10">
 		<nsfw-warning v-if="submission.nsfw == 1 && !auth.nsfw"
 			:text="'This submission contains NSFW content which can not be displayed according to your personal settings.'">
 		</nsfw-warning>
@@ -10,7 +12,7 @@
 		<div v-if="submission.nsfw == 0 || auth.nsfw">
 			<loading v-if="loadingSubmission"></loading>
 
-			<submission v-if="!loadingSubmission" :list="submission" :full="true"></submission>
+			<full-submission v-if="!loadingSubmission" :list="submission" :full="true"></full-submission>
 
 		    <section class="box-typical comments" id="comments-section" v-if="!loadingSubmission">
 		        <header class="box-typical-header-sm bordered user-select flex-space">
@@ -48,21 +50,23 @@
 </template>
 
 <script>
-	import Submission from '../components/Submission.vue'
-	import Comment from '../components/Comment.vue'
-	import CommentForm from '../components/CommentForm.vue'
+	import FullSubmission from '../components/FullSubmission.vue';
+	import Comment from '../components/Comment.vue';
+	import CommentForm from '../components/CommentForm.vue';
 	import CategoryHeader from '../components/CategoryHeader.vue';
-	import Loading from '../components/Loading.vue'
-	import NsfwWarning from '../components/NsfwWarning.vue'
+	import CategoryHeaderMobile from '../components/CategoryHeaderMobile.vue';
+	import Loading from '../components/Loading.vue';
+	import NsfwWarning from '../components/NsfwWarning.vue';
 
     export default {
 
         components: {
-            Submission,
+            FullSubmission,
             Comment,
             CommentForm,
             Loading,
             CategoryHeader,
+            CategoryHeaderMobile,
 			NsfwWarning
         },
 

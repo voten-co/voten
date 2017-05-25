@@ -27,11 +27,11 @@
 	            </div>
 
 	            <div class="category-header-middle">
-                    <h1>
+                    <h2>
         				<router-link :to="'/c/' + Store.category.name" class="flex-center-inline">
 	                        <i class="v-icon v-channel" aria-hidden="true"></i>{{ Store.category.name }}
 	                	</router-link>
-                    </h1>
+                    </h2>
 
 	                <p>
 	                    {{ Store.category.description }}
@@ -91,17 +91,15 @@
 	        	<i class="v-icon h-yellow pointer" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'" @click="bookmark"
 	        	data-toggle="tooltip" data-placement="bottom" title="Bookmark"></i>
 
-				<div class="ui icon top right pointing dropdown" data-toggle="tooltip" data-placement="bottom" title="More">
+				<div class="ui icon top right green pointing dropdown" data-toggle="tooltip" data-placement="bottom" title="More">
 					<i class="v-icon v-more" aria-hidden="true"></i>
 
 					<div class="menu">
 						<button class="item" @click="emitModerators">
-							<i class="v-icon v-users" aria-hidden="true"></i>
 							Moderators
 						</button>
 
 						<button class="item" @click="emitRules">
-							<i class="v-icon v-attention-alt go-green" aria-hidden="true"></i>
 							Rules
 						</button>
 					</div>
@@ -204,8 +202,7 @@ export default {
     		return Store.moderatingAt.indexOf(Store.category.id) != -1
     	},
 
-		coverBackground ()
-        {
+		coverBackground () {
         	if (Store.category.color == 'Red') {
         		return '#9a4e4e'
         	} else if (Store.category.color == 'Blue') {

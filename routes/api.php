@@ -96,7 +96,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/destroy-rule', 'RulesController@destroy');
 
     // Suggestions
-    Route::post('/suggested-category', 'SuggestionController@category');
+    Route::get('/suggested-category', 'SuggestionController@category');
 
     // block domain
     Route::post('/block-domain', 'BlockDomainController@store');

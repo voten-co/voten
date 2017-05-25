@@ -696,6 +696,17 @@ select.ui.dropdown {
     color: rgba(0, 0, 0, 0.95);
     z-index: 13;
 }
+.ui.dropdown.left .menu .item:hover {
+    color: rgba(255, 255, 255, 0.95);
+    z-index: 13;
+    background: #78b38a;
+}
+
+.ui.dropdown.right.green .menu .item:hover {
+    color: rgba(255, 255, 255, 0.95);
+    z-index: 13;
+    background: #78b38a;
+}
 /*--------------------
        Loading
 ---------------------*/
@@ -1145,6 +1156,7 @@ select.ui.dropdown {
     left: 0;
     right: auto;
     margin: 1em 0 0;
+    padding: .5em;
 }
 
 .ui.top.left.pointing.dropdown > .menu {
@@ -1372,6 +1384,8 @@ select.ui.dropdown {
 
 .ui.dropdown .menu > .item {
     color: #75797b;
+    font-size: 13px;
+    font-weight: bold;
 }
 
 .ui.dropdown i {

@@ -56,27 +56,23 @@
                         <i class="v-icon v-edit h-purple"></i>
                     </a>
 
-                    <div class="ui icon top right pointing dropdown" data-toggle="tooltip" data-placement="top" title="More">
+                    <div class="ui icon top left pointing dropdown" data-toggle="tooltip" data-placement="top" title="More">
                         <i class="v-icon v-more" aria-hidden="true"></i>
 
                         <div class="menu">
                             <button class="item" @click="report" v-if="!owns">
-                                <i class="v-icon v-flag-empty go-green" aria-hidden="true"></i>
                                 Report
                             </button>
 
                             <button class="item" @click="destroy" v-if="owns">
-                                <i class="v-icon v-trash go-red" aria-hidden="true"></i>
                                 Delete
                             </button>
 
                             <button class="item" @click="approve" v-if="showApprove">
-                                <i class="v-icon v-approve go-primary" aria-hidden="true"></i>
                                 Approve
                             </button>
 
                             <button class="item" @click="disapprove" v-if="showDisapprove">
-                                <i class="v-icon v-trash go-red" aria-hidden="true"></i>
                                 Delete
                             </button>
                         </div>

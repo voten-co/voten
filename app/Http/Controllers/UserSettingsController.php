@@ -100,7 +100,6 @@ class UserSettingsController extends Controller
         $user = Auth::user();
 
         $this->validate($request, [
-            'submission_small_thumbnail'    => 'boolean',
             'nsfw_media'                    => 'boolean',
             'nsfw'                          => 'boolean',
             'exclude_downvoted_submissions' => 'boolean',
@@ -115,8 +114,7 @@ class UserSettingsController extends Controller
             'notify_submissions_replied'    => settings('notify_submissions_replied'),
             'notify_comments_replied'       => settings('notify_comments_replied'),
             'exclude_upvoted_submissions'   => $request->exclude_upvoted_submissions,
-            'exclude_downvoted_submissions' => $request->exclude_downvoted_submissions,
-            'submission_small_thumbnail'    => isMobileDevice() ? settings('submission_small_thumbnail') : $request->submission_small_thumbnail,
+            'exclude_downvoted_submissions' => $request->exclude_downvoted_submissions
         ];
 
         $user->update([

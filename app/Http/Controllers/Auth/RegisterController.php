@@ -142,7 +142,7 @@ class RegisterController extends Controller
             'confirmed' => 0, // User has received the invitation code so clearly his email address is for real.
             'settings'  => [
                 'font'                          => 'Lato',
-                'sidebar_color'                 => 'Dark Blue',
+                'sidebar_color'                 => 'Gray',
                 'nsfw'                          => false,
                 'nsfw_media'                    => false,
                 'notify_submissions_replied'    => true,

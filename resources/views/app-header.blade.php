@@ -13,25 +13,25 @@
         	@if(Auth::check())
 				<button type="button" class="btn-nth relative" id="messages-btn" @click="changeRoute('messages')"
 	            data-toggle="tooltip" data-placement="bottom" title="Messages">
-	                <i class="v-icon v-inbox-1 h-primary" aria-hidden="true"></i>
+	                <i class="v-icon v-inbox-1" aria-hidden="true"></i>
 	                <span class="queue-number" v-show="unreadMessages" v-text="unreadMessages"></span>
 	            </button>
 
 	            <button type="button" class="btn-nth relative" aria-haspopup="true"
 				data-toggle="tooltip" data-placement="bottom" title="Notifications" aria-expanded="false" @click="changeRoute('notifications')">
-	           		<i class="v-icon v-bell-2 h-red" aria-hidden="true"></i>
+	           		<i class="v-icon v-bell-2" aria-hidden="true"></i>
 	               	<span class="queue-number" v-show="unreadNotifications" v-text="unreadNotifications"></span>
 	            </button>
         	@endif
 
             <button type="button" class="btn-nth relative" aria-haspopup="true"
 			data-toggle="tooltip" data-placement="bottom" title="Search" aria-expanded="false" @click="changeRoute('search')">
-           		<i class="v-icon v-search-2 h-green" aria-hidden="true"></i>
+           		<i class="v-icon v-search-2" aria-hidden="true"></i>
             </button>
 
 			<router-link :to="'/'" class="btn-nth relative" aria-haspopup="true"
 			data-toggle="tooltip" data-placement="bottom" title="Home" aria-expanded="false">
-           		<i class="v-icon v-home h-primary" aria-hidden="true" @click="closeModals"></i>
+           		<i class="v-icon v-home" aria-hidden="true" @click="closeModals"></i>
             </router-link>
         </div>
 
@@ -100,7 +100,7 @@
 	                    Find #Channels
 	                </router-link>
 
-	                <a class="item" @click="changeModalRoute('keyboard-shortcuts-guide')">
+	                <a class="item desktop-only" @click="changeModalRoute('keyboard-shortcuts-guide')">
 	                	<i class="v-icon v-keyboard" aria-hidden="true"></i>
 	                    Keyboard Shortcuts
 	                </a>

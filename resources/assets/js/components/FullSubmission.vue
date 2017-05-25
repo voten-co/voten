@@ -1,51 +1,114 @@
 <template>
 	<transition name="fade">
-		<div class="submission-item submission-wrapper" v-show="!hidden">
-			<!-- side-voting -->
-			<div class="side-voting desktop-only">
-				<a class="fa-stack align-right" @click="voteUp"
-					data-toggle="tooltip" data-placement="top" title="Upvote">
-					<i class="v-icon v-up-fat side-vote-icon" :class="upvoted ? 'go-primary' : 'go-gray'"></i>
-				</a>
+		<div class="submission-wrapper" v-show="!hidden">
+			<article class="flex1" v-bind:class="'box-typical profile-post ' + list.type">
+				<!-- header -->
+				<div class="submission-header user-select">
+					<div class="submission-header-container">
+						<div class="submission-submitter-wrapper">
+							<router-link :to="'/' + '@' + list.owner.username" class="desktop-only">
+								<img v-bind:src="list.owner.avatar"  v-bind:alt="list.owner.username" class="submission-avatar">
+							</router-link>
 
-				<div class="user-select vote-number">
-					{{ points }}
+							<div class="submission-submitter">
+								<router-link :to="'/' + '@' + list.owner.username" class="username">
+									@{{ list.owner.username }}
+								</router-link>
+
+								<span class="date">
+									{{ date }}
+								</span>
+							</div>
+						</div>
+
+						<div class="flex-center">
+							<div class="voting-wrapper display-none">
+								<a class="fa-stack align-right" @click="voteUp"
+									data-toggle="tooltip" data-placement="top" title="Upvote">
+									<i class="v-icon v-up-fat" :class="upvoted ? 'go-primary' : 'go-gray'"></i>
+								</a>
+
+								<div class="detail">
+									{{ points }} Points
+								</div>
+
+								<a class="fa-stack align-right" @click="voteDown"
+									data-toggle="tooltip" data-placement="top" title="Downvote">
+									<i class="v-icon v-down-fat" :class="downvoted ? 'go-red' : 'go-gray'"></i>
+								</a>
+							</div>
+
+							<div>
+								<div class="ui icon top right green pointing dropdown">
+									<i class="v-icon v-more" aria-hidden="true"></i>
+
+									<div class="menu">
+										<button class="item" @click="report" v-if="!owns">
+											Report
+										</button>
+
+										<button class="item" @click="hide" v-if="!owns">
+											Hide
+										</button>
+
+										<button class="item" @click="markAsNSFW" v-if="showNSFW">
+											NSFW
+										</button>
+
+										<button class="item" @click="markAsSFW" v-if="showSFW">
+											Family Safe
+										</button>
+
+										<button class="item" @click="destroy" v-if="owns">
+											Delete
+										</button>
+
+										<button class="item" @click="approve" v-if="showApprove">
+											Approve
+										</button>
+
+										<button class="item" @click="disapprove" v-if="showDisapprove">
+											Delete
+										</button>
+
+										<button class="item" @click="removeThumbnail" v-if="showRemoveTumbnail">
+											Remove Thumbnail
+										</button>
+									</div>
+								</div>
+
+								<a class="fa-stack" @click="bookmark"
+									data-toggle="tooltip" data-placement="top" title="Bookmark">
+									<i class="v-icon h-yellow" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'"></i>
+								</a>
+							</div>
+						</div>
+					</div>
 				</div>
 
-				<a class="fa-stack align-right" @click="voteDown"
-					data-toggle="tooltip" data-placement="bottom" title="Downvote">
-					<i class="v-icon v-down-fat side-vote-icon" :class="downvoted ? 'go-red' : 'go-gray'"></i>
-				</a>
-			</div>
-
-			<article class="flex1" v-bind:class="'box-typical profile-post ' + list.type">
 				<!-- content -->
 				<div class="profile-post-content">
-					<text-submission v-if="list.type == 'text'" :submission="list" :nsfw="nsfw" :full="full" @bookmark="bookmark"
-					:url="'/c/' + list.category_name + '/' + list.slug" :comments="list.comments_number" :bookmarked="bookmarked"
-					@report="report" @hide="hide" @nsfw="markAsNSFW" @sfw="markAsSFW" @destroy="destroy" @approve="approve" @disapprove="disapprove" @removethumbnail="removeThumbnail" :upvoted="upvoted" :downvoted="downvoted" @upvote="voteUp" @downvote="voteDown" :points="points"
-					></text-submission>
+					<text-submission v-if="list.type == 'text'" :submission="list" :nsfw="nsfw" :full="full"></text-submission>
 
 					<img-submission v-if="list.type == 'img'" :submission="list" :nsfw="nsfw" :full="full"
-						@zoom="showPhotoViewer" @bookmark="bookmark"
-						:url="'/c/' + list.category_name + '/' + list.slug" :comments="list.comments_number" :bookmarked="bookmarked"
-						@report="report" @hide="hide" @nsfw="markAsNSFW" @sfw="markAsSFW" @destroy="destroy" @approve="approve" @disapprove="disapprove" @removethumbnail="removeThumbnail" :upvoted="upvoted" :downvoted="downvoted" @upvote="voteUp" @downvote="voteDown" :points="points"
+						@zoom="showPhotoViewer"
 					></img-submission>
 
 					<gif-submission v-if="list.type == 'gif'" :submission="list" :nsfw="nsfw" :full="full"
-						@play-gif="showGifPlayer" @bookmark="bookmark"
-						:url="'/c/' + list.category_name + '/' + list.slug" :comments="list.comments_number" :bookmarked="bookmarked"
-						@report="report" @hide="hide" @nsfw="markAsNSFW" @sfw="markAsSFW" @destroy="destroy" @approve="approve" @disapprove="disapprove" @removethumbnail="removeThumbnail" :upvoted="upvoted" :downvoted="downvoted" @upvote="voteUp" @downvote="voteDown" :points="points"
+						@play-gif="showGifPlayer"
 					></gif-submission>
 
 					<link-submission v-if="list.type == 'link'" :submission="list" :nsfw="nsfw" :full="full"
-						@embed="showEmbed" @bookmark="bookmark"
-						:url="'/c/' + list.category_name + '/' + list.slug" :comments="list.comments_number" :bookmarked="bookmarked"
-						@report="report" @hide="hide" @nsfw="markAsNSFW" @sfw="markAsSFW" @destroy="destroy" @approve="approve" @disapprove="disapprove" @removethumbnail="removeThumbnail" :upvoted="upvoted" :downvoted="downvoted" @upvote="voteUp" @downvote="voteDown" :points="points"
+						@embed="showEmbed"
 					></link-submission>
 				</div>
 
-				<!-- full page modals -->
+
+				<!-- footer -->
+<!-- 				<div class="box-typical-footer profile-post-meta user-select">
+
+				</div> -->
+
 				<photo-viewer v-if="photoViewer" :bookmarked="bookmarked" :points="points" @close="closeViwer"
 				:list="list" :photoindex="photoViewerIndex"
 					:upvoted="upvoted" :downvoted="downvoted" @bookmark="bookmark" @upvote="voteUp" @downvote="voteDown"
@@ -66,13 +129,13 @@
 </template>
 
 <script>
-    import TextSubmission from '../components/submission/TextSubmission.vue';
-    import LinkSubmission from '../components/submission/LinkSubmission.vue';
-    import ImgSubmission from '../components/submission/ImgSubmission.vue';
-    import GifSubmission from '../components/submission/GifSubmission.vue';
-	import PhotoViewer from '../components/PhotoViewer.vue';
-	import EmbedViewer from '../components/Embed.vue';
-	import GifPlayer from '../components/GifPlayer.vue';
+    import TextSubmission from '../components/submission/TextSubmission.vue'
+    import LinkSubmission from '../components/submission/LinkSubmission.vue'
+    import ImgSubmission from '../components/submission/ImgSubmission.vue'
+    import GifSubmission from '../components/submission/GifSubmission.vue'
+	import PhotoViewer from '../components/PhotoViewer.vue'
+	import EmbedViewer from '../components/Embed.vue'
+	import GifPlayer from '../components/GifPlayer.vue'
 
     export default {
         props: ['list', 'full'],
@@ -94,8 +157,6 @@
                 downvoted: false,
                 hidden: false,
                 reported: false,
-                sendingQuickComment: false,
-				quickComment: '',
 				photoViewerIndex: null,
 				photoViewer: false,
 				embedViewer: false,
@@ -137,26 +198,6 @@
 				return total
 			},
 
-			typeIcon(){
-				if (this.list.type == 'img') {
-					return this.list.data.album ? 'v-image' : 'v-photo'
-				}
-
-				if (this.list.type == 'text') {
-					return 'v-text'
-				}
-
-				if (this.list.data.type == 'video') {
-					return 'v-video'
-				}
-
-				if (this.list.type == 'gif') {
-					return 'v-gif'
-				}
-
-				return 'v-link'
-			},
-
 			/**
         	 * Does the auth user own the submission
         	 *
@@ -166,24 +207,26 @@
         		return auth.id == this.list.owner.id
         	},
 
-			typeTooltip(){
-				if (this.list.type == 'img') {
-					return this.list.data.album ? 'Album' : 'Image'
-				}
+			showApprove(){
+				return !this.list.approved_at && Store.moderatingAt.indexOf(this.list.category_id) != -1 && !this.owns
+			},
 
-				if (this.list.type == 'text') {
-					return 'Text'
-				}
+			showDisapprove(){
+				return !this.list.deleted_at && Store.moderatingAt.indexOf(this.list.category_id) != -1 && !this.owns
+			},
 
-				if (this.list.data.type == 'video') {
-					return 'Video'
-				}
+			showNSFW(){
+				return (this.owns || Store.moderatingAt.indexOf(this.list.category_id) != -1) && !this.list.nsfw
+			},
 
-				if (this.list.type == 'gif') {
-					return 'GIF'
-				}
+			showSFW(){
+				return (this.owns || Store.moderatingAt.indexOf(this.list.category_id) != -1) && this.list.nsfw
+			},
 
-				return 'Link'
+			showRemoveTumbnail(){
+				if (this.owns && this.list.data.thumbnail)
+					return true
+				return false
 			},
 
             /**
@@ -229,36 +272,6 @@
 
 				axios.post('/remove-thumbnail', {
 				    id: this.list.id
-				})
-			},
-
-			/**
-			 * Submits the (quick)comment
-			 *
-			 * @return void
-			 */
-			submit(event){
-				event.preventDefault()
-
-				if (!this.quickComment.trim()) return
-
-				let temp = this.quickComment
-				this.quickComment = ''
-
-				this.sendingQuickComment = true
-
-				axios.post('/comment', {
-					parent_id: 0,
-					submission_id: this.list.id,
-					body: temp,
-				}).then((response) => {
-				    Store.commentUpVotes.push(response.data.id)
-
-				    this.list.comments_number ++
-
-				    this.sendingQuickComment = false
-				}, (response) => {
-					this.sendingQuickComment = false
 				})
 			},
 
