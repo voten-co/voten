@@ -4,17 +4,15 @@
 	        <i class="v-icon block-before v-cancel" aria-hidden="true"></i>
 	    </div>
 
-		<div class="ui icon top right pointing dropdown v-more-actions" v-show="pageRoute == 'chat'">
+		<div class="ui icon top right green pointing dropdown v-more-actions" v-show="pageRoute == 'chat'">
 			<i class="v-icon block-before v-dot-3" aria-hidden="true"></i>
 
 			<div class="menu">
 				<button class="item" @click="leaveConversation">
-					<i class="v-icon v-delete go-purple" aria-hidden="true"></i>
 					Leave Conversation
 				</button>
 
 				<button class="item" @click="blockUser">
-					<i class="v-icon v-block" :class="isBlocked ? 'go-green' : 'go-yellow'" aria-hidden="true"></i>
 					{{ isBlocked ? 'Unblock User' : 'Block User' }}
 				</button>
 			</div>

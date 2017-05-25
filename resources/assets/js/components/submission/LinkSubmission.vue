@@ -10,34 +10,65 @@
             </span>
 		</div>
 
-		<div class="link-list-info">
-			<a v-bind:href="submission.data.url" target="_blank" class="flex-space">
-				<span class="submission-img-title">
-					<img v-bind:src="submission.data.thumbnail" v-bind:alt="submission.title"
+		<div class="link-list-info flex-space">
+			<span class="submission-img-title">
+				<a v-bind:href="submission.data.url" target="_blank" class="submisison-small-thumbnail" v-if="submission.data.thumbnail && !full">
+					<div v-bind:style="thumbnail"
 						v-if="submission.data.thumbnail && showSmallThumbnail" class="small-thumbnail"
 						@click="embedOrOpen" :class="showEmbed ? 'pointer' : ''"
-					 />
+						>
+					</div>
+				</a>
 
-					<span class="v-ultra-bold">
+				<h1 class="submission-title" v-if="full">
+					<a v-bind:href="submission.data.url" target="_blank">
+						<i class="v-icon v-shocked go-red" aria-hidden="true" v-if="submission.nsfw"
+							data-toggle="tooltip" data-placement="bottom" title="NSFW"
+						></i>
+
 						{{ submission.title }}
 
 						<small class="go-gray">
 							 - {{ submission.data.domain }}
 						</small>
-					</span>
+					</a>
+				</h1>
+
+				<span v-else class="full-width">
+					<h3 class="v-ultra-bold no-margin">
+						<a v-bind:href="submission.data.url" target="_blank">
+							{{ submission.title }}
+
+							<small class="go-gray">
+								 - {{ submission.data.domain }}
+							</small>
+						</a>
+					</h3>
+
+					<submission-footer :url="url" :comments="comments" :bookmarked="bookmarked" :submission="submission"
+					@bookmark="$emit('bookmark')" @report="$emit('report')" @hide="$emit('hide')" @nsfw="$emit('nsfw')" @sfw="$emit('sfw')" @destroy="$emit('destroy')" @approve="$emit('approve')" @disapprove="$emit('disapprove')" @removethumbnail="$emit('removethumbnail')" :upvoted="upvoted" :downvoted="downvoted" :points="points"
+					@upvote="$emit('upvote')" @downvote="$emit('downvote')"
+					></submission-footer>
 				</span>
-			</a>
+			</span>
 		</div>
 	</div>
 </template>
 
 <script>
-	import EmbedValidator from '../../mixins/EmbedValidator'
+	import EmbedValidator from '../../mixins/EmbedValidator';
+	import SubmissionFooter from '../../components/SubmissionFooter.vue';
 
     export default {
 		mixins: [EmbedValidator],
 
-        props: ['nsfw', 'submission', 'full'],
+		components: {
+			SubmissionFooter
+		},
+
+        props: [
+        	'nsfw', 'submission', 'full', 'url', 'comments', 'bookmarked', 'points', 'downvoted', 'upvoted'
+        ],
 
 		data(){
 			return {
@@ -46,6 +77,12 @@
 		},
 
 		computed: {
+			thumbnail() {
+				return {
+					backgroundImage: 'url(' + this.submission.data.thumbnail + ')'
+				};
+			},
+
 			showBigThumbnail() {
 				if (this.full) return true
 

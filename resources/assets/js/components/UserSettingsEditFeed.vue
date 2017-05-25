@@ -47,15 +47,6 @@
             </div>
         </div>
 
-        <div class="form-group ui form" v-if="!auth.isMobileDevice">
-            <div class="inline field">
-                <div class="ui toggle checkbox">
-                    <input type="checkbox" tabindex="1" class="hidden" v-model="submission_small_thumbnail">
-                    <label>Use small thumbnail for submissions(classic view)</label>
-                </div>
-            </div>
-        </div>
-
         <button class="v-button v-button--green" @click="save" :disabled="sending" v-if="changed">Save</button>
     </section>
 </template>
@@ -72,7 +63,6 @@
                 nsfwMedia: auth.nsfwMedia,
                 exclude_upvoted_submissions: auth.exclude_upvoted_submissions,
                 exclude_downvoted_submissions: auth.exclude_downvoted_submissions,
-                submission_small_thumbnail: auth.submission_small_thumbnail,
             }
         },
 
@@ -92,7 +82,6 @@
 	                auth.nsfw != this.nsfw ||
 	                auth.nsfwMedia != this.nsfwMedia ||
 	                auth.exclude_upvoted_submissions != this.exclude_upvoted_submissions ||
-	                auth.submission_small_thumbnail != this.submission_small_thumbnail ||
 	                auth.exclude_downvoted_submissions != this.exclude_downvoted_submissions
 	                ) {
 		    			return true
@@ -116,7 +105,6 @@
                     nsfw_media: this.nsfwMedia,
                     exclude_downvoted_submissions: this.exclude_downvoted_submissions,
                     exclude_upvoted_submissions: this.exclude_upvoted_submissions,
-                    submission_small_thumbnail: this.submission_small_thumbnail,
                 }).then((response) => {
 	                this.errors = []
 	                this.customError = ''
@@ -125,7 +113,6 @@
 	                auth.nsfwMedia = this.nsfwMedia
                     auth.exclude_upvoted_submissions = this.exclude_upvoted_submissions
 	                auth.exclude_downvoted_submissions = this.exclude_downvoted_submissions
-	                auth.submission_small_thumbnail = this.submission_small_thumbnail
 
                     this.sending = false
 	            }, (response) => {

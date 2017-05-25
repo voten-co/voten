@@ -93,7 +93,7 @@
             if (isMobileDevice()) {
                 $submission_small_thumbnail = 'false';
             } else {
-                $submission_small_thumbnail = settings('submission_small_thumbnail') ? 'true' : 'false';
+                $submission_small_thumbnail = 'true';
             }
         ?>
         submission_small_thumbnail: {{ $submission_small_thumbnail }},

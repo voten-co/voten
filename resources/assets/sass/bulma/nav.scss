@@ -235,8 +235,8 @@ a.nav-item.is-tab.is-active {
 }
 
 .nav.has-shadow {
-    box-shadow: 0 2px 3px rgba(17, 17, 17, 0.1);
-    margin-bottom: 3em;
+    border-bottom: 2px solid #d8e2e7;
+    margin-bottom: 1em;
 }
 
 @media screen and (max-width: 979px) {
