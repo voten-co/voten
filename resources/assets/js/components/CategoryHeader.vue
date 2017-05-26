@@ -105,6 +105,10 @@
 					</div>
 				</div>
 
+            	<router-link class="v-button desktop-only" :to="'/submit?channel=' + $route.params.name">
+            		Submit
+            	</router-link>
+
             	<subscribe></subscribe>
 	        </div>
 	    </div>

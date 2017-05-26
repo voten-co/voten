@@ -345,7 +345,8 @@ button.v-button {
 }
 
 .v-button:hover {
-    opacity: .8
+    opacity: .8;
+    color: initial;
 }
 
 .v-button:active {
