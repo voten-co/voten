@@ -136,14 +136,13 @@ class LoginController extends Controller
 
             'settings' => [
                 'font'                          => 'Lato',
-                'sidebar_color'                 => 'Dark Blue',
+                'sidebar_color'                 => 'Gray',
                 'nsfw'                          => false,
                 'nsfw_media'                    => false,
                 'notify_submissions_replied'    => true,
                 'notify_comments_replied'       => true,
                 'exclude_upvoted_submissions'   => false,
                 'exclude_downvoted_submissions' => true,
-                'submission_small_thumbnail'    => true,
             ],
             'info' => [
                 'website' => null,

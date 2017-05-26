@@ -194,11 +194,11 @@ const app = new Vue({
                 if (Store.user.id == auth.id) {
                 	auth.stats = Store.user.stats
                 }
-            }, (response) => {
-                if (response.status === 404) {
+            }).catch((error) => {
+                if (error.response.status === 404) {
                     this.$router.push('/404')
                 }
-            })
+            });
         },
 
         /**
@@ -231,11 +231,11 @@ const app = new Vue({
 		            	Store.moderatingCategories[i].avatar = response.data.avatar
 		            	this.putLS('moderatingCategories', Store.moderatingCategories)
 		            }
-	            }, (response) => {
-	                if (response.status === 404) {
+	            }).catch((error) => {
+	                if (error.response.status === 404) {
 	                    this.$router.push('/404')
 	                }
-	            })
+	            });
         },
 
         /**

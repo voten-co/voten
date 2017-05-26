@@ -268,19 +268,20 @@
                         this.$router.push('/c/' + this.selectedCat + '/' + response.data.slug)
 
     					this.loading = false
-                    }, (response) => {
+                    }).catch((error) => {
                         // error
-                        if(response.status == 500){
-                            this.customError = response.data
+                        if(error.response.status == 500){
+                            this.customError = error.response.data
                             this.errors = []
                             this.loading = false
                             return
                         }
-                        this.errors = response.data
-                        this.loading = false
-                    })
 
-                    return
+                        this.errors = error.response.data
+                        this.loading = false
+                    });
+
+                    return;
                 }
 
 
@@ -328,7 +329,7 @@
                     this.fTitle = response.data;
                     this.loadingTitle = false
                     this.errors.url = []
-                }, (error) => {
+                }).catch((error) => {
                     if (error.response.status == 500) {
                         this.customError = error.response.data
                         this.errors = []
@@ -344,7 +345,11 @@
             getSuggestedCats: _.debounce(function (typed) {
                 if(!typed) return
 
-                axios.post( '/get-categories', { name: typed } ).then((response) => {
+                axios.get( '/get-categories', {
+                	params: {
+                		name: typed
+                	}
+                }).then((response) => {
                     this.suggestedCats = response.data
                 })
             }, 600),

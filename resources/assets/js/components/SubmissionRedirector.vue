@@ -22,19 +22,21 @@
 
         methods: {
             getSubmission() {
-				axios.post('/get-submission-by-id', {
-				    id: this.$route.params.id
+				axios.get('/get-submission-by-id', {
+				    params: {
+				    	id: this.$route.params.id
+				    }
 				}).then((response) => {
 					this.loading = false
 
 				    this.$router.push('/c/' + response.data.category_name + '/' + response.data.slug)
-				}, (response) => {
+				}).catch((error) => {
 					this.loading = false;
 
-					if (response.status === 404) {
+					if (error.response.status === 404) {
 						this.$router.push('/deleted-submission')
 					}
-				})
+				});
             }
         }
     };

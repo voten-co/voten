@@ -122,25 +122,22 @@
 
 
             invite: function () {
-            	if(!this.inviteTo){
-            		return;
-            	}
+            	if(!this.inviteTo) return;
+
             	this.sentInvite = '';
             	this.inviteErrors = [];
 
                 axios.post( '/send-invite', {
                     email: this.inviteTo,
                     category: this.catInfo.category_name,
-                } ).then((response) => {
-                    // success
+                }).then((response) => {
                     this.inviteTo = '';
                     this.inviteErrors = [];
                     this.sentInvite = response.data;
-                }, (response) => {
-                        // error
-                        this.inviteErrors = response.data;
-                    });
-                },
+                }).catch((error) => {
+                    this.inviteErrors = error.response.data;
+                });
+            },
 
 
                 blockDomain: function () {
@@ -158,9 +155,9 @@
 	                    this.domain = '';
 	                    this.blockErrors = [];
 	                    this.blockedDomain = response.data;
-	                }, (response) => {
-	                        this.blockErrors = response.data;
-	                    });
+	                }).catch((error) => {
+                        this.blockErrors = error.response.data;
+                    });
                 },
 
 
@@ -179,9 +176,9 @@
 	                    this.username = '';
 	                    this.banErrors = [];
 	                    this.bannedUser = response.data;
-	                }, (response) => {
-	                        this.banErrors = response.data;
-	                    });
+	                }).catch((error) => {
+                        this.banErrors = error.response.data;
+                    });
                 },
         },
     }

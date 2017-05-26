@@ -129,12 +129,11 @@
                         this.loading = false
 
                         this.$emit('patched-comment', this.temp)
-                    }, (response) => {
-                        // error
+                    }).catch((error) => {
                         this.loading = false
-                    })
+                    });
 
-                    return
+                    return;
                 }
 
                 // new comment
@@ -152,10 +151,9 @@
                     this.$eventHub.$emit('newComment', response.data)
 
         			this.loading = false
-                }, (response) => {
-                    // error
+                }).catch((error) => {
                     this.loading = false
-                })
+                });
         	},
         },
 

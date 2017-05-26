@@ -138,8 +138,10 @@
 
                 this.loading = true
 
-                axios.post( '/admin/get-categories', {
-                    name: query
+                axios.get( '/admin/get-categories', {
+                    params: {
+                    	name: query
+                    }
                 }).then((response) => {
                     this.categories = response.data
                     this.loading = false

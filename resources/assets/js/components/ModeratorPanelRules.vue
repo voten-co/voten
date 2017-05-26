@@ -69,8 +69,8 @@
                 }).then((response) => {
                     this.items.unshift(response.data)
                     this.clear()
-                }, (response) => {
-                    this.errors = response.data
+                }).catch((error) => {
+                    this.errors = error.response.data
                 })
             },
 
@@ -122,9 +122,9 @@
 		            this.items.find(findObject).title = this.title
 
                     this.clear()
-                }, (response) => {
-                    this.errors = response.data
-                })
+                }).catch((error) => {
+                    this.errors = error.response.data
+                });
             },
 
             clear(){

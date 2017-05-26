@@ -257,7 +257,7 @@
 				    this.list.comments_number ++
 
 				    this.sendingQuickComment = false
-				}, (response) => {
+				}).catch((error) => {
 					this.sendingQuickComment = false
 				})
 			},

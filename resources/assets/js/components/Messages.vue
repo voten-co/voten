@@ -341,9 +341,9 @@ export default {
                 this.searchedUsers = response.data
 
 				this.loadingContacts = false
-            }, (response) => {
+            }).catch((error) => {
 				this.loadingContacts = false
-			})
+			});
     	}, 600),
 
     	close () {
@@ -363,9 +363,9 @@ export default {
                 Store.contacts = response.data
 
 				this.loadingContacts = false
-            }, (response) => {
+            }).catch((error) => {
 				this.loadingContacts = false
-			})
+			});
         },
 
         getMessagesByContact (contact) {
@@ -413,9 +413,9 @@ export default {
 				if(this.messages.length){
 					this.markLastMessageAsRead(contact_id)
 				}
-            }, (response) => {
+            }).catch((error) => {
 				this.loadingMessages = false
-			})
+			});
         },
 
         /**
@@ -442,9 +442,9 @@ export default {
 				if(response.data.next_page_url == null){
 					this.moreToLoad = false
 				}
-       		}, (response) => {
+       		}).catch((error) => {
 				this.loadingMessages = false
-			})
+			});
         },
 
         /**

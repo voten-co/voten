@@ -11,7 +11,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/admin/submissions', 'AdminController@submissions');
     Route::post('/admin/search-users', 'AdminController@searchUsers');
     Route::post('/admin/suggesteds', 'SuggestionController@adminIndex');
-    Route::post('/admin/get-categories', 'AdminController@getCategories');
+    Route::get('/admin/get-categories', 'AdminController@getCategories');
     Route::post('/admin/suggested/destroy', 'SuggestionController@destroy');
     Route::post('/admin/reported-comments', 'AdminController@reportedComments');
     Route::post('/admin/reported-submissions', 'AdminController@reportedSubmissions');
@@ -53,7 +53,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/get-submission', 'SubmissionController@getBySlug');
     Route::post('/mark-submission-nsfw', 'NsfwController@markAsNSFW');
     Route::post('/submission-photos', 'SubmissionController@getPhotos');
-    Route::post('/get-submission-by-id', 'SubmissionController@getById');
+    Route::get('/get-submission-by-id', 'SubmissionController@getById');
     Route::post('/remove-thumbnail', 'SubmissionController@removeThumbnail');
 
     // home
@@ -85,7 +85,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     // Category
     Route::post('/channel', 'CategoryController@store');
     Route::post('/category-patch', 'CategoryController@patch');
-    Route::post('/get-categories', 'CategoryController@getCategories');
+    Route::get('/get-categories', 'CategoryController@getCategories');
     Route::post('/get-category-store', 'CategoryController@fillStore');
     Route::get('/category-moderators', 'CategoryController@moderators');
 

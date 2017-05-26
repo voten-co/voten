@@ -106,16 +106,16 @@
         			Store.category.color = this.color
         			Store.category.description = this.description
 					this.sending = false
-        		}, (response) => {
-	                if(response.status == 500){
-	                    this.customError = response.data.error.message
+        		}).catch((error) => {
+	                if(error.response.status == 500) {
+	                    this.customError = error.response.data.error.message
 	                    this.errors = []
 	                    return
 	                }
 
-	                this.errors = response.data
+	                this.errors = error.response.data
 					this.sending = false
-	            })
+	            });
         	},
 
             // used for multi select

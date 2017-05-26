@@ -80,8 +80,8 @@
                     this.errors = []
                     this.blockedDomains.unshift(response.data)
                     this.loading = false
-                }, (response) => {
-                    this.errors = response.data
+                }).catch((error) => {
+                    this.errors = error.response.data
                     this.loading = false
                 });
             },
