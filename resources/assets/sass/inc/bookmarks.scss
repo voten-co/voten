@@ -6,8 +6,20 @@
     display: flex;
     -webkit-box-align: center;
     align-items: center;
-    width: 100%;
     margin-bottom: 1em;
+    background: #f9f9f9;
+}
+
+@media screen and (max-width: 768px) {
+	.bookmarked-item {
+	    margin: .5em 1em;
+	}
+}
+
+@media screen and (min-width: 768px) {
+	.bookmarked-item {
+	    width: 100%;
+	}
 }
 
 .bookmarked-item .v-bookmark,
