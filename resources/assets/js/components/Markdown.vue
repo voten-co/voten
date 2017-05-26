@@ -40,3 +40,13 @@
         }
     }
 </script>
+
+<style>
+	.markdown a {
+		color: rgb(85, 135, 215);
+	}
+
+	.markdown a:hover {
+		text-decoration: underline;
+	}
+</style>
