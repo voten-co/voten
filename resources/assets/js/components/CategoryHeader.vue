@@ -80,11 +80,6 @@
 				<router-link :to="{ path: '/c/' + $route.params.name + '/rising'  }" class="nav-item is-tab" active-class="is-active">
 					Rising
 				</router-link>
-
-				<router-link :to="{ path: '/c/' + $route.params.name + '/mod' }" class="nav-item is-tab" active-class="is-active"
-				v-if="isModerator">
-					Moderation
-				</router-link>
 	        </div>
 
 	        <div class="channel-admin-btn">
@@ -104,6 +99,11 @@
 						</button>
 					</div>
 				</div>
+
+            	<router-link :to="{ path: '/c/' + $route.params.name + '/mod' }" class="v-button v-button--primary"
+				v-if="isModerator">
+					Moderation
+				</router-link>
 
             	<router-link class="v-button desktop-only" :to="'/submit?channel=' + $route.params.name">
             		Submit
