@@ -38,6 +38,13 @@
     align-items: center;
 }
 
+@media (max-width: 768px) {
+	.v-contact-list li,
+	.v-contact-list li a {
+	    padding: 0.5em;
+	}
+}
+
 .v-contact-list li:hover {
     background: #f6f6f6;
     border-radius: 2px;
@@ -52,6 +59,13 @@
 .v-contact-list li a .v-contact-avatar {
     flex-basis: 65px;
     margin-right: 2em;
+}
+@media (max-width: 768px) {
+	.v-contact-list li .v-contact-avatar,
+	.v-contact-list li a .v-contact-avatar {
+	    flex-basis: 45px;
+	    margin-right: .5em;
+	}
 }
 
 .v-contact-list li .v-contact,

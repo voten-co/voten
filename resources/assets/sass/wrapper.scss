@@ -281,21 +281,10 @@
 .v-nth-box {
     display: flex;
     flex-direction: column;
-    font-size: 30px;
     align-items: center;
     justify-content: center;
     background-color: white;
     color: #333;
-    margin-bottom: 2em;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-.v-nth-box i {
-    font-size: 5em;
-    margin-bottom: 20px;
 }
 
 .side-fixed hr {

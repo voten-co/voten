@@ -15,10 +15,11 @@
 	    	<div class="v-push-9"></div>
 
             <div class="col-7">
-
                 <div class="v-nth-box" v-if=" !Store.notifications || ! Store.notifications.length">
                     <i class="v-icon v-bell icon-block-big" aria-hidden="true"></i>
-                    No unread notifications
+                    <h3>
+                    	No unread notifications
+                    </h3>
                 </div>
 
                 <ul class="v-contact-list user-select">
