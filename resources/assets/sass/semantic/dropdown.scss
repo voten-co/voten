@@ -707,6 +707,11 @@ select.ui.dropdown {
     z-index: 13;
     background: #78b38a;
 }
+.ui.dropdown .left.menu.green .item:hover {
+    color: rgba(255, 255, 255, 0.95);
+    z-index: 13;
+    background: #78b38a;
+}
 /*--------------------
        Loading
 ---------------------*/

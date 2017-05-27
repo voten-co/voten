@@ -113,35 +113,33 @@
 					<div class="item">
 						<i class="v-icon v-left-hand"></i>
 						<span class="text">Voten</span>
-						<div class="left menu">
+						<div class="left menu green">
 							<a href="mailto:info@voten.co" class="item">
-			                    <i class="v-icon v-letter go-green" aria-hidden="true"></i>
 			                    Contact Us
 			                </a>
 
 			                <a class="item" @click="changeModalRoute('feedback')">
-			                    <i class="v-icon v-attention go-primary" aria-hidden="true"></i>
 			                    Feedback
 			                </a>
 
 			                <a class="item" href="https://voten.co/tos">
-			                    <i class="v-icon v-rules go-red" aria-hidden="true"></i>
 			                    Site Rules
 			                </a>
 
 			                <a class="item" href="https://voten.co/privacy-policy">
-			                    <i class="v-icon v-attention-alt go-purple" aria-hidden="true"></i>
 			                    Privacy Policy
 			                </a>
 
 							<a href="https://medium.com/voten" class="item">
-			                    <i class="v-icon v-blog go-yellow" aria-hidden="true"></i>
 			                    Blog
 			                </a>
 
 							<a href="/credits" class="item">
-			                    <i class="v-icon v-credits" aria-hidden="true"></i>
 			                    Credits
+			                </a>
+
+			                <a href="https://github.com/voten-co/voten" class="item" target="_blank">
+			                    Source Code
 			                </a>
 						</div>
 					</div>
