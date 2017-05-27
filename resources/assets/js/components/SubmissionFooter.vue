@@ -88,10 +88,6 @@
 
 <script>
     export default {
-        components: {},
-
-        mixins: [],
-
         props: [
         	'url', 'comments', 'bookmarked', 'submission', 'upvoted', 'downvoted', 'points'
         ],
@@ -140,19 +136,11 @@
             },
         },
 
-        created () {
-            //
-        },
-
         mounted () {
 			this.$nextTick(function () {
 	        	this.$root.loadSemanticTooltip()
 	        	this.$root.loadSemanticDropdown()
 			})
-        },
-
-        methods: {
-            //
         }
     };
 </script>

@@ -22,6 +22,13 @@
 						</div>
 
 						<div class="flex-center">
+							<div>
+								<a class="reply"  v-if="owns" @click="edit"
+			                    data-toggle="tooltip" data-placement="top" title="Edit">
+			                        <i class="v-icon v-edit go-gray h-purple pointer"></i>
+			                    </a>
+							</div>
+
 							<div class="voting-wrapper display-none">
 								<a class="fa-stack align-right" @click="voteUp"
 									data-toggle="tooltip" data-placement="top" title="Upvote">
@@ -266,7 +273,21 @@
         },
 
         methods: {
-			removeThumbnail(){
+        	/**
+        	 * Fires the "submission-edit" event that gets picked up by the TextSubmission.vue component.
+        	 *
+        	 * @return void
+        	 */
+        	edit() {
+        	    this.$eventHub.$emit('edit-submission');
+        	},
+
+        	/**
+        	 * Removes the thumbnail
+        	 *
+        	 * @return
+        	 */
+			removeThumbnail() {
 				this.list.data.thumbnail = null
 				this.list.data.img = null
 
@@ -294,11 +315,11 @@
 			 * @return void
 			 */
 			markAsSFW() {
-			     axios.post('/mark-submission-sfw', {
-			         id: this.list.id
-			     }).then((response) => {
-			         this.list.nsfw = false
-			     })
+				axios.post('/mark-submission-sfw', {
+					id: this.list.id
+				}).then((response) => {
+					this.list.nsfw = false
+				})
 			},
 
         	/**

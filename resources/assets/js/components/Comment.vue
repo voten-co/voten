@@ -1,4 +1,4 @@
-.tsil<template>
+<template>
     <transition name="fade">
         <div class="comment v-comment-wrapper" v-show="visible">
             <div class="content">

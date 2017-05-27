@@ -47,6 +47,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     // submission
     Route::post('/submit', 'SubmissionController@store');
+    Route::post('/patch-text-submission', 'SubmissionController@patchTextSubmission');
     Route::post('/hide-submission', 'SubmissionController@hide');
     Route::get('/fetch-url-title', 'SubmissionController@getTitleAPI');
     Route::post('/mark-submission-sfw', 'NsfwController@markAsSFW');

@@ -4,7 +4,7 @@
 
 	<category-header-mobile v-if="loaded && auth.isMobileDevice"></category-header-mobile>
 
-	<div class="col-full padding-bottom-10">
+	<div class="col-full">
 		<nsfw-warning v-if="submission.nsfw == 1 && !auth.nsfw"
 			:text="'This submission contains NSFW content which can not be displayed according to your personal settings.'">
 		</nsfw-warning>
