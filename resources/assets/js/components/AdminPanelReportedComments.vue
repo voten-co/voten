@@ -33,7 +33,7 @@
 	        <h3 v-text="'No records were found'"></h3>
 	    </div>
 
-	    <reported-comment v-for="item in items" :list="item" :key="item.id"
+	    <reported-comment v-for="item in items" :list="item" :key="item.id" v-if="item.comment"
 	    @disapprove-comment="disapproveComment" @approve-comment="approveComment"></reported-comment>
 	</div>
 </section>

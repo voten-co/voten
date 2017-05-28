@@ -32,7 +32,7 @@
         <h3 v-text="'No records were found'"></h3>
     </div>
 
-    <reported-submission v-for="item in items" :list="item" :key="item.id"
+    <reported-submission v-for="item in items" :list="item" :key="item.id" v-if="item.submission"
     @disapprove-submission="disapproveSubmission" @approve-submission="approveSubmission"></reported-submission>
 </section>
 </template>
