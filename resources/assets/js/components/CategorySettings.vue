@@ -108,7 +108,8 @@
 					this.sending = false
         		}).catch((error) => {
 	                if(error.response.status == 500) {
-	                    this.customError = error.response.data.error.message
+	                	this.sending = false
+	                    this.customError = error.response.data
 	                    this.errors = []
 	                    return
 	                }

@@ -68,6 +68,11 @@ class UserSettingsController extends Controller
             'username'                   => 'min:3|max:25|regex:/^[A-Za-z0-9\._]+$/|unique:users,username,'.$user->id,
         ]);
 
+        // make sure the username is not in the blacklist
+        if ($this->isForbiddenUsername($request->username)) {
+            return response('This username is forbidden. Please pick another one.', 500);
+        }
+
         $settings = [
             'font'                          => $request->font,
             'sidebar_color'                 => $request->sidebar_color,
@@ -122,5 +127,15 @@ class UserSettingsController extends Controller
          ]);
 
         return response('Your settings has been updated', 200);
+    }
+
+    /**
+     * is the username forbidden for users?
+     *
+     * @return bool
+     */
+    protected function isForbiddenUsername($username)
+    {
+        return \App\UserForbiddenName::where('username', $username)->exists();
     }
 }

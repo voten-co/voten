@@ -6,6 +6,10 @@
             </span>
         </h3>
 
+        <div class="v-status v-status--error" v-if="customError">
+            {{ customError }}
+        </div>
+
         <div class="form-group">
             <label for="username" class="form-label">Username:</label>
 
@@ -163,7 +167,8 @@
 
 	            }).catch((error) => {
 	                if(error.response.status == 500){
-	                    this.customError = error.response.data.error.message
+	                	this.sending = false
+	                    this.customError = error.response.data
 	                    this.errors = []
 	                    return
 	                }

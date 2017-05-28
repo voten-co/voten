@@ -6,6 +6,10 @@
             </span>
         </h3>
 
+        <div class="v-status v-status--error" v-if="customError">
+            {{ customError }}
+        </div>
+
         <p>
             Other than subscribing to channels, there are more filters available to make sure you get the
             content that suits you the best.
@@ -117,7 +121,8 @@
                     this.sending = false
 	            }).catch((error) => {
 	                if(error.response.status == 500){
-	                    this.customError = error.response.data.error.message
+	                	this.sending = false
+	                    this.customError = error.response.data
 	                    this.errors = []
 	                    return
 	                }
