@@ -30,7 +30,12 @@ class UserController extends Controller
             'username' => 'required',
         ]);
 
-        return User::where('username', $request->username)->firstOrFail()->submissions()->withTrashed()->orderBy('created_at', 'desc')->simplePaginate(10);
+        return User::where('username', $request->username)
+        			->firstOrFail()
+        			->submissions()
+        			->withTrashed()
+        			->orderBy('created_at', 'desc')
+        			->simplePaginate(10);
     }
 
     /**
@@ -70,7 +75,12 @@ class UserController extends Controller
             'username' => 'required',
         ]);
 
-        return $this->withoutChildren(User::where('username', $request->username)->firstOrFail()->comments()->withTrashed()->orderBy('created_at', 'desc')->simplePaginate(10));
+        return $this->withoutChildren(User::where('username', $request->username)
+    				->firstOrFail()
+        			->comments()
+        			->withTrashed()
+        			->orderBy('created_at', 'desc')
+        			->simplePaginate(10));
     }
 
     /**
@@ -101,5 +111,28 @@ class UserController extends Controller
     public function getAuth()
     {
         return Auth::user();
+    }
+
+    /**
+     * Destroys a user record from the database.
+     *
+     * @return response
+     */
+    public function destroy(Request $request)
+    {
+    	// check for confirm password
+    	// check for confirm password
+    	// check for confirm password
+
+    	$user = Auth::user();
+
+    	$user->submissions()->forceDelete();
+    	$user->comments()->forceDelete();
+    	$user->messages()->delete();
+    	$user->conversations()->delete();
+
+    	$user->forceDelete();
+
+    	return response('Your account is deleted now. You happy now?!', 200);
     }
 }

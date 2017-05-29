@@ -75,6 +75,7 @@
         id: '{{ Auth::user()->id }}',
         bio: `{!! Auth::user()->bio !!}`,
         name: '{{ Auth::user()->name }}',
+        email: '{{ Auth::user()->email }}',
         color: '{{ Auth::user()->color }}',
         avatar: '{{ Auth::user()->avatar }}',
         location: '{{ Auth::user()->location }}',

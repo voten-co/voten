@@ -48,6 +48,7 @@ import ModeratorPanelBlockDomains from './components/ModeratorPanelBlockDomains.
 import AdminPanelReportedComments from './components/AdminPanelReportedComments.vue'
 import AdminPanelReportedSubmissions from './components/AdminPanelReportedSubmissions.vue'
 import ModeratorPanelReportedComments from './components/ModeratorPanelReportedComments.vue'
+import UserSettingsEditEmailAndPassword from './components/UserSettingsEditEmailAndPassword.vue'
 import ModeratorPanelReportedSubmissions from './components/ModeratorPanelReportedSubmissions.vue'
 
 
@@ -109,6 +110,7 @@ const routes = [
                      { path: 'account', component: UserSettingsEditAccount, name: 'user-settings-account' },
                      { path: 'profile', component: UserSettingsEditProfile, name: 'user-settings-profile' },
                      { path: 'feed', component: UserSettingsEditFeed, name: 'user-settings-feed' },
+                     { path: 'email-and-password', component: UserSettingsEditEmailAndPassword, name: 'user-settings-email-and-password' },
                  ]
              },
             { path: 'comments', component: UserComments, name: 'user-comments' },

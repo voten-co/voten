@@ -36,6 +36,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/user-comments', 'UserController@comments');
     Route::get('/fill-basic-store', 'StoreController@index');
     Route::get('/get-user-store', 'UserController@fillStore');
+    Route::post('/delete-my-account', 'UserController@destroy');
     Route::post('/destroy-comment', 'CommentController@destroy');
     Route::post('/user-submissions', 'UserController@submissions');
     Route::post('/destroy-submission', 'SubmissionController@destroy');

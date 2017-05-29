@@ -13,7 +13,7 @@
 			<span class="submission-img-title">
 				<a class="submisison-small-thumbnail" v-if="submission.data.thumbnail_path && !full">
 					<!-- img -->
-					<div v-if="showSmallThumbnail" class="small-thumbnail" v-bind:style="thumbnail"
+					<div v-if="showSmallThumbnail" class="small-thumbnail zoom-in" v-bind:style="thumbnail"
 					@click="$emit('zoom')"></div>
 				</a>
 

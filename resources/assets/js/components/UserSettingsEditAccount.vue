@@ -55,6 +55,18 @@
         </div>
 
         <button class="v-button v-button--green" @click="save" :disabled="sending" v-if="changed">Save</button>
+
+        <h3 class="dotted-title go-red">
+            <span>
+                Delete Account
+            </span>
+        </h3>
+
+        <p>
+        	Deleting an account is a permanent action and cannot be undone.
+        </p>
+
+        <button class="v-button v-button--red" @click="destroyAccount">Delete my account</button>
     </section>
 </template>
 
@@ -179,6 +191,16 @@
 	            })
             },
 
+            /**
+             * Destroys account, logs out
+             *
+             * @return void
+             */
+            destroyAccount() {
+                axios.post('/delete-my-account').then((response) => {
+                	window.location = "/logout";
+                });
+            },
         }
     };
 </script>

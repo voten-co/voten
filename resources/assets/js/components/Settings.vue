@@ -13,6 +13,10 @@
 				<router-link :to="{ name: 'user-settings-feed' }" active-class="is-active">
 					Home Feed
 				</router-link>
+
+				<router-link :to="{ name: 'user-settings-email-and-password' }" active-class="is-active">
+					Email & Password
+				</router-link>
             </div>
 
             <div class="content">

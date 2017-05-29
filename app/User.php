@@ -185,8 +185,8 @@ class User extends Authenticatable
     public function conversations()
     {
         return $this->belongsToMany(Message::class, 'conversations')
-                    ->withTimestamps()->
-                    orderBy('conversations.created_at', 'desc');
+                    ->withTimestamps()
+                    ->orderBy('conversations.created_at', 'desc');
     }
 
     public function contacts()
@@ -267,9 +267,7 @@ class User extends Authenticatable
             $users = AppointeddUser::where('appointed_as', 'administrator')->pluck('user_id');
         });
 
-        if (!$users) {
-            return false;
-        }
+        if (!$users) return false;
 
         return $users->contains($this->id);
     }
