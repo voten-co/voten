@@ -63,10 +63,27 @@
         </h3>
 
         <p>
-        	Deleting an account is a permanent action and cannot be undone.
+        	Deleting an account is a permanent action and <b>cannot be undone</b>. It is also going to make us miss you.
         </p>
 
-        <button class="v-button v-button--red" @click="destroyAccount">Delete my account</button>
+        <button class="v-button v-button--red" @click="deleteMyAccount = true" v-if="!deleteMyAccount">
+        	Delete my account
+        </button>
+
+        <div class="form-group" v-if="deleteMyAccount">
+    		<label for="password" class="form-label">To confirm this action please enter your password:</label>
+
+            <input type="password" class="form-control" placeholder="Password..." v-model="password" id="password">
+
+            <small class="text-muted go-red" v-if="passwordError">{{ passwordError }}</small>
+        </div>
+
+        <button class="v-button v-button--green" v-if="deleteMyAccount" @click="destroyAccount" :disabled="!password">
+        	Confirm
+        </button>
+        <button class="v-button v-button--red" v-if="deleteMyAccount" @click="deleteMyAccount = false">
+        	Cancel
+        </button>
     </section>
 </template>
 
@@ -83,6 +100,9 @@
         data: function () {
             return {
                 sending: false,
+                deleteMyAccount: false,
+                password: '',
+                passwordError: '',
             	errors: [],
             	customError: '',
                 auth,
@@ -148,7 +168,8 @@
              */
             save () {
             	// whether or not a page-refresh is needed
-            	var refresh = false
+            	let refresh = false
+
             	if ( auth.font != this.font || auth.sidebar_color != this.sidebar_color) {
             		refresh = true
             	}
@@ -171,7 +192,7 @@
 	                auth.notify_submissions_replied = this.notify_submissions_replied
 	                auth.notify_comments_replied = this.notify_comments_replied
 
-	                if (refresh){
+	                if (refresh) {
 	                	location.reload()
 	                }
 
@@ -197,8 +218,15 @@
              * @return void
              */
             destroyAccount() {
-                axios.post('/delete-my-account').then((response) => {
+                axios.post('/delete-my-account', {
+                	password: this.password
+                })
+                .then((response) => {
                 	window.location = "/logout";
+                }).catch((error) => {
+                	if (error.response.status == 500) {
+                		this.passwordError = error.response.data;
+                	}
                 });
             },
         }
