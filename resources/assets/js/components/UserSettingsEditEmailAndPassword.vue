@@ -130,7 +130,7 @@
 
                 	this.passwordError = '';
                 }).catch((error) => {
-                	if (error.response.status == 500) {
+                	if (error.response.status == 422) {
                 		this.errors = [];
                 		this.passwordError = error.response.data;
                 		this.sending = false;
@@ -165,7 +165,7 @@
 
 					this.passwordSaved = true;
                 }).catch((error) => {
-                	if (error.response.status == 500) {
+                	if (error.response.status == 422) {
                 		this.errors = [];
                 		this.passwordError = error.response.data;
                 		this.sending = false;

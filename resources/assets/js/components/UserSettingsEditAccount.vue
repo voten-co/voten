@@ -74,7 +74,7 @@
 			<div class="form-group">
 	    		<label for="password" class="form-label">To confirm this action please enter your password:</label>
 
-	            <input type="password" class="form-control" placeholder="Password..." v-model="password" id="password">
+	            <input type="password" class="form-control" placeholder="Password..." v-model="password" id="password" autocomplete="off">
 
 	            <small class="text-muted go-red" v-if="passwordError">{{ passwordError }}</small>
 	        </div>
@@ -201,7 +201,7 @@
                     this.sending = false
 
 	            }).catch((error) => {
-	                if(error.response.status == 500){
+	                if(error.response.status == 422){
 	                	this.sending = false
 	                    this.customError = error.response.data
 	                    this.errors = []
@@ -226,7 +226,7 @@
                 .then((response) => {
                 	window.location = "/logout";
                 }).catch((error) => {
-                	if (error.response.status == 500) {
+                	if (error.response.status == 422) {
                 		this.passwordError = error.response.data;
                 	}
                 });

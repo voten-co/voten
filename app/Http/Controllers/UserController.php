@@ -125,7 +125,7 @@ class UserController extends Controller
     	$user = Auth::user();
 
 		if (!confirmPassword($request->password)) {
-		    return response('Password is incorrect. Please try again.', 500);
+		    return response('Password is incorrect. Please try again.', 422);
 		}
 
     	// remove all user's data stored on the database
