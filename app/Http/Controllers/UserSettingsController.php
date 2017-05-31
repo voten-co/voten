@@ -138,4 +138,50 @@ class UserSettingsController extends Controller
     {
         return \App\UserForbiddenName::where('username', $username)->exists();
     }
+
+
+    /**
+     * updates email address
+     *
+     * @param Illuminate\Http\Request $request
+     * @return response
+     */
+    public function updateEmail(Request $request)
+    {
+    	if (!confirmPassword($request->password)) {
+		    return response('Password is incorrect. Please try again.', 500);
+		}
+
+    	$this->validate($request, [
+            'email' => 'email|max:255|unique:users',
+        ]);
+
+		Auth::user()->update([
+			'email' => $request->email
+		]);
+
+    	return response('Your account is deleted now. You happy now?!', 200);
+    }
+
+    /**
+     * updates user's password
+     *
+     * @return
+     */
+    public function updatePassword(Request $request)
+    {
+    	if (!confirmPassword($request->oldpassword)) {
+		    return response('Password is incorrect. Please try again.', 500);
+		}
+
+		$this->validate($request, [
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        Auth::user()->update([
+        	'password' => bcrypt($request->password)
+    	]);
+
+    	return response('Password has been successfully updated.', 200);
+    }
 }

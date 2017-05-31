@@ -42,6 +42,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/destroy-submission', 'SubmissionController@destroy');
     Route::post('/update-profile', 'UserSettingsController@updateProfile');
     Route::post('/update-account', 'UserSettingsController@updateAccount');
+    Route::post('/update-email', 'UserSettingsController@updateEmail');
+    Route::post('/update-password', 'UserSettingsController@updatePassword');
     Route::post('/upvoted-submissions', 'UserController@upVotedSubmissions');
     Route::post('/update-home-feed', 'UserSettingsController@updateHomeFeed');
     Route::post('/downvoted-submissions', 'UserController@downVotedSubmissions');

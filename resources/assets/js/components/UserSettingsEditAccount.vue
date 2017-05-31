@@ -70,20 +70,22 @@
         	Delete my account
         </button>
 
-        <div class="form-group" v-if="deleteMyAccount">
-    		<label for="password" class="form-label">To confirm this action please enter your password:</label>
+		<div v-if="deleteMyAccount">
+			<div class="form-group">
+	    		<label for="password" class="form-label">To confirm this action please enter your password:</label>
 
-            <input type="password" class="form-control" placeholder="Password..." v-model="password" id="password">
+	            <input type="password" class="form-control" placeholder="Password..." v-model="password" id="password">
 
-            <small class="text-muted go-red" v-if="passwordError">{{ passwordError }}</small>
-        </div>
+	            <small class="text-muted go-red" v-if="passwordError">{{ passwordError }}</small>
+	        </div>
 
-        <button class="v-button v-button--green" v-if="deleteMyAccount" @click="destroyAccount" :disabled="!password">
-        	Confirm
-        </button>
-        <button class="v-button v-button--red" v-if="deleteMyAccount" @click="deleteMyAccount = false">
-        	Cancel
-        </button>
+	        <button class="v-button v-button--green" @click="destroyAccount" :disabled="!password">
+	        	Confirm
+	        </button>
+	        <button class="v-button v-button--red" @click="deleteMyAccount = false">
+	        	Cancel
+	        </button>
+		</div>
     </section>
 </template>
 
