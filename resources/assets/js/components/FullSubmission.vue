@@ -185,6 +185,14 @@
 			'$route' () {
 	        	this.setBookmarked()
 	        	this.setVoteds()
+			},
+
+			'Store.submissionUpVotes' () {
+				this.setVoteds()
+			},
+
+			'Store.submissionDownVotes' () {
+				this.setVoteds()
 			}
 		},
 
@@ -323,10 +331,10 @@
 			},
 
         	/**
-            * whether or not the user has voted on submission
-            *
-            * @return void
-            */
+             * whether or not the user has voted on submission
+             *
+             * @return void
+             */
             setVoteds () {
             	if (Store.submissionUpVotes.indexOf(this.list.id) != -1) {
             		this.upvoted = true

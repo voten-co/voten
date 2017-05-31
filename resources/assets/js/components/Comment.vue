@@ -149,6 +149,16 @@
 			})
 		},
 
+		watch: {
+			'Store.commentUpVotes' () {
+				this.setVoteds()
+			},
+
+			'Store.commentDownVotes' () {
+				this.setVoteds()
+			}
+		},
+
         computed: {
             points() {
                 let total = this.list.upvotes - this.list.downvotes;

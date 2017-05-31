@@ -106,24 +106,32 @@
         },
 
         created () {
-        	this.setBookmarked()
-        	this.setVoteds()
-			this.$eventHub.$on('photo-viewer', this.showPhotoViewer)
-			this.$eventHub.$on('scape', this.closeViwer)
+        	this.setBookmarked();
+        	this.setVoteds();
+			this.$eventHub.$on('photo-viewer', this.showPhotoViewer);
+			this.$eventHub.$on('scape', this.closeViwer);
         },
 
 	    watch: {
 			// call again the method if the route changes
 			'$route' () {
-	        	this.setBookmarked()
-	        	this.setVoteds()
+	        	this.setBookmarked();
+	        	this.setVoteds();
+			},
+
+			'Store.submissionUpVotes' () {
+				this.setVoteds()
+			},
+
+			'Store.submissionDownVotes' () {
+				this.setVoteds()
 			}
 		},
 
 		mounted () {
 			this.$nextTick(function () {
-	        	this.$root.loadSemanticTooltip()
-	        	this.$root.loadSemanticDropdown()
+	        	this.$root.loadSemanticTooltip();
+	        	this.$root.loadSemanticDropdown();
 			})
 		},
 
