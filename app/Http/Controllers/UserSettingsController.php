@@ -70,7 +70,7 @@ class UserSettingsController extends Controller
 
         // make sure the username is not in the blacklist
         if ($this->isForbiddenUsername($request->username)) {
-            return response('This username is forbidden. Please pick another one.', 500);
+            return response('This username is forbidden. Please pick another one.', 422);
         }
 
         $settings = [
@@ -149,7 +149,7 @@ class UserSettingsController extends Controller
     public function updateEmail(Request $request)
     {
     	if (!confirmPassword($request->password)) {
-		    return response('Password is incorrect. Please try again.', 500);
+		    return response('Password is incorrect. Please try again.', 422);
 		}
 
     	$this->validate($request, [
@@ -171,7 +171,7 @@ class UserSettingsController extends Controller
     public function updatePassword(Request $request)
     {
     	if (!confirmPassword($request->oldpassword)) {
-		    return response('Password is incorrect. Please try again.', 500);
+		    return response('Password is incorrect. Please try again.', 422);
 		}
 
 		$this->validate($request, [
