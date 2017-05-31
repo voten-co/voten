@@ -23,7 +23,7 @@
 
 						<div class="flex-center">
 							<div>
-								<a class="reply"  v-if="owns" @click="edit"
+								<a class="reply" v-if="owns && (list.type == 'text')" @click="edit"
 			                    data-toggle="tooltip" data-placement="top" title="Edit">
 			                        <i class="v-icon v-edit go-gray h-purple pointer"></i>
 			                    </a>
