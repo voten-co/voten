@@ -4,7 +4,6 @@ namespace App;
 
 use Auth;
 use DB;
-
 use Illuminate\Support\Facades\Cache;
 
 trait Permissions

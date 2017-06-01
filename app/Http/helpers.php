@@ -136,11 +136,11 @@ if (!function_exists('isMobileDevice')) {
 
 if (!function_exists('confirmPassword')) {
     /**
-     * Used for "Enter your password to confirm cases"
+     * Used for "Enter your password to confirm cases".
      *
      * @param string $password
      *
-     * @return boolean
+     * @return bool
      */
     function confirmPassword($password)
     {
