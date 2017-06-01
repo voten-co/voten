@@ -119,7 +119,7 @@ class UserSettingsController extends Controller
             'notify_submissions_replied'    => settings('notify_submissions_replied'),
             'notify_comments_replied'       => settings('notify_comments_replied'),
             'exclude_upvoted_submissions'   => $request->exclude_upvoted_submissions,
-            'exclude_downvoted_submissions' => $request->exclude_downvoted_submissions
+            'exclude_downvoted_submissions' => $request->exclude_downvoted_submissions,
         ];
 
         $user->update([
@@ -139,49 +139,49 @@ class UserSettingsController extends Controller
         return \App\UserForbiddenName::where('username', $username)->exists();
     }
 
-
     /**
-     * updates email address
+     * updates email address.
      *
      * @param Illuminate\Http\Request $request
+     *
      * @return response
      */
     public function updateEmail(Request $request)
     {
-    	if (!confirmPassword($request->password)) {
-		    return response('Password is incorrect. Please try again.', 422);
-		}
+        if (!confirmPassword($request->password)) {
+            return response('Password is incorrect. Please try again.', 422);
+        }
 
-    	$this->validate($request, [
+        $this->validate($request, [
             'email' => 'email|max:255|unique:users',
         ]);
 
-		Auth::user()->update([
-			'email' => $request->email
-		]);
+        Auth::user()->update([
+            'email' => $request->email,
+        ]);
 
-    	return response('Your account is deleted now. You happy now?!', 200);
+        return response('Your account is deleted now. You happy now?!', 200);
     }
 
     /**
-     * updates user's password
+     * updates user's password.
      *
      * @return
      */
     public function updatePassword(Request $request)
     {
-    	if (!confirmPassword($request->oldpassword)) {
-		    return response('Password is incorrect. Please try again.', 422);
-		}
+        if (!confirmPassword($request->oldpassword)) {
+            return response('Password is incorrect. Please try again.', 422);
+        }
 
-		$this->validate($request, [
+        $this->validate($request, [
             'password' => 'required|min:6|confirmed',
         ]);
 
         Auth::user()->update([
-        	'password' => bcrypt($request->password)
-    	]);
+            'password' => bcrypt($request->password),
+        ]);
 
-    	return response('Password has been successfully updated.', 200);
+        return response('Password has been successfully updated.', 200);
     }
 }

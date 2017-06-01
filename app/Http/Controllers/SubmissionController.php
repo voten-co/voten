@@ -313,13 +313,13 @@ class SubmissionController extends Controller
     }
 
     /**
-     * Patches the Text Submission
+     * Patches the Text Submission.
      *
      * @return reponse
      */
     public function patchTextSubmission(Request $request)
     {
-    	$this->validate($request, [
+        $this->validate($request, [
             'id' => 'required|integer',
         ]);
 
@@ -327,15 +327,15 @@ class SubmissionController extends Controller
 
         abort_unless($this->mustBeOwner($submission), 403);
         // make sure submission's type is "text" (at the moment submission editing is only available for text submissions)
-        abort_unless($submission->type == "text", 403);
+        abort_unless($submission->type == 'text', 403);
 
         $submission->update([
-        	'data' => array_only($request->all(), ['text'])
-    	]);
+            'data' => array_only($request->all(), ['text']),
+        ]);
 
         // so next time it'll fetch the updated copy
         $this->removeSubmissionFromCache($submission);
 
-    	return response('Text Submission has been updated. ', 200);
+        return response('Text Submission has been updated. ', 200);
     }
 }

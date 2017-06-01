@@ -2,7 +2,6 @@
 
 namespace App;
 
-
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
 
