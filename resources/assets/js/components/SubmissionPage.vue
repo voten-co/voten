@@ -18,7 +18,7 @@
 		        <header class="box-typical-header-sm bordered user-select flex-space">
 		            <div>
 		            	<span v-show="comments.length">{{ submission.comments_number }}</span>
-		            	Comments: <span class="go-gray go-small">({{ onlineUsers }} online users)</span>
+		            	Comments: <span class="go-gray go-small" v-if="!isGuest">({{ onlineUsers }} online users)</span>
 		            </div>
 		            <div class="head-sort-icon" v-show="comments.length > 1">
 		                <i class="v-icon v-like pointer" aria-hidden="true"
@@ -57,8 +57,10 @@
 	import CategoryHeaderMobile from '../components/CategoryHeaderMobile.vue';
 	import Loading from '../components/Loading.vue';
 	import NsfwWarning from '../components/NsfwWarning.vue';
+	import Helpers from '../mixins/Helpers';
 
     export default {
+    	mixins: [Helpers],
 
         components: {
             FullSubmission,
@@ -82,7 +84,8 @@
                 sort: 'hot',
                 onlineUsers: 0,
                 category: this.$route.params.name,
-                Store
+                Store,
+                preload
             }
         },
 
@@ -96,11 +99,12 @@
 	    watch: {
 			// call again the method if the route changes
 			'$route' () {
-	            this.getSubmission()
-	            this.getComments()
-	            this.clearContent()
-	            this.listen()
-	            this.$eventHub.$on('newComment', this.newComment)
+	            this.getSubmission();
+	            this.getComments();
+	            this.clearContent();
+	            this.listen();
+	            this.updateCategoryStore();
+	            this.$eventHub.$on('newComment', this.newComment);
 			}
 		},
 
@@ -123,12 +127,12 @@
 					}
 				})
 
-				return unique
+				return unique;
 			},
 
 
         	loaded () {
-	            return Store.category.name == this.category
+	            return Store.category.name == this.$route.params.name;
 	        },
 
             /**
@@ -162,9 +166,9 @@
 	    	 * @return void
 	    	 */
 	    	updateCategoryStore () {
-	    		if ( Store.category.name == undefined || Store.category.name != this.submission.category_name )
-	    		{
-		    		this.$root.getCategoryStore(this.submission.category_name)
+	    		if ( Store.category.name == undefined || Store.category.name != this.$route.params.name ) {
+		    		this.$root.getCategoryStore(this.$route.params.name);
+		    		this.category = this.$route.params.name;
 	    		}
 	    	},
 
@@ -181,6 +185,9 @@
                     	this.$eventHub.$emit('newComment', event.comment)
                     })
 
+                // we can't do presence channel if the user is a guest
+                if (this.isGuest) return;
+
                 Echo.join('submission.' + this.$route.params.slug)
 				    .here((users) => {
 				        this.onlineUsers = users.length
@@ -193,6 +200,14 @@
             },
 
             getSubmission () {
+            	// if landed on a submission page
+            	if (preload.submission) {
+            		this.submission = preload.submission;
+            		Store.category = preload.submission.category;
+            		this.loadingSubmission = false
+            		return;
+            	}
+
                 axios.get('/get-submission', {
             		params: {
             			slug: this.$route.params.slug
