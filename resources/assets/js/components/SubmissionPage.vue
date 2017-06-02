@@ -214,6 +214,7 @@
             		}
             	}).then((response) => {
 					this.submission = response.data
+					this.setPageTitle(this.submission.title);
 
                     if( !this.loaded ) {
                     	Store.category = response.data.category

@@ -161,7 +161,7 @@ const routes = [
     { path: '/submission/:id', component: SubmissionRedirector },
     { path: '/find-channels', component: FindCategories, name: 'find-categories' },
     { path: '/404', component: NotFound, name: 'not-found', meta: { title: 'Not Found' } },
-    { path: '/c/:name/:slug', component: SubmissionPage },
+    { path: '/c/:name/:slug', component: SubmissionPage, name: 'submission-page' },
 
     { path: '/bookmarks', redirect: '/bookmarks/submissions' },
     {
@@ -200,7 +200,9 @@ router.beforeEach((to, from, next) => {
     if (to.meta.title) {
         document.title = to.meta.title
     } else {
-        document.title = 'Voten'
+    	if (to.name != "submission-page") {
+    		document.title = 'Voten'
+    	}
     }
 
     next()

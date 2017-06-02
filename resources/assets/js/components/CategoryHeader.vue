@@ -109,7 +109,7 @@
             		Submit
             	</router-link>
 
-            	<subscribe></subscribe>
+            	<subscribe v-if="!isGuest"></subscribe>
 	        </div>
 	    </div>
 	</nav>
@@ -118,8 +118,11 @@
 
 <script>
 import Subscribe from '../components/Subscribe-button.vue'
+import Helpers from '../mixins/Helpers';
 
 export default {
+	mixins: [Helpers],
+
     components: {
     	Subscribe
     },
@@ -171,16 +174,21 @@ export default {
 		},
 
     	/**
-        *  Whether or not user has bookmarked the submission
-        *
-        *  @return Boolean
-        */
+         *  Whether or not user has bookmarked the submission
+         *
+         *  @return Boolean
+         */
         setBookmarked () { if ( Store.categoryBookmarks.indexOf(Store.category.id) != -1 ) this.bookmarked = true },
 
         /**
-        *  Toggles the category into bookmarks
-        */
+         *  Toggles the category into bookmarks
+         */
     	bookmark (category) {
+    		if (this.isGuest) {
+        		this.mustBeLogin();
+        		return;
+        	}
+
     		this.bookmarked = !this.bookmarked
 
 			axios.post('/bookmark-category', {
@@ -227,7 +235,6 @@ export default {
         		return '#333'
         	}
         }
-
     }
 }
 </script>

@@ -11,6 +11,10 @@ Route::group(['middleware' => ['maintenance', 'http2']], function () {
     Route::get('/features', 'PagesController@features');
     Route::get('/privacy-policy', 'PagesController@privacyPolicy');
 
+    // guest browsing routes
+    Route::get('/c/{category}', 'CategoryController@show');
+    Route::get('/c/{category}/{slug}', 'SubmissionController@show');
+
     // social logins
     Route::get('/login/google', 'Auth\LoginController@redirectToGoogle');
     Route::get('/login/facebook', 'Auth\LoginController@redirectToFacebook');

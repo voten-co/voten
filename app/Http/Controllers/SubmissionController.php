@@ -22,7 +22,28 @@ class SubmissionController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['getBySlug', 'getById', 'getPhotos']]);
+        $this->middleware('auth', ['except' => ['getBySlug', 'getById', 'getPhotos', 'show']]);
+    }
+
+    /**
+     * shows the submission page to guests
+     *
+     * @param string  $category
+     * @param string  $slug
+     * @return view
+     */
+    public function show($category, $slug)
+    {
+    	if (Auth::check()) {
+    		return view('welcome');
+    	}
+
+    	$submission = $this->getSubmissionBySlug($slug);
+        $category = $this->getCategoryByName($submission->category_name);
+        $category->stats = $this->categoryStats($category->id);
+        $submission->category = $category;
+
+    	return view('submission.show', compact('submission'));
     }
 
     /**

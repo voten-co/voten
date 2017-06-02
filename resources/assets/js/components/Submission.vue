@@ -326,6 +326,11 @@
              *  Toggles the submission into bookmarks
              */
         	bookmark (submission) {
+        		if (this.isGuest) {
+            		this.mustBeLogin();
+            		return;
+            	}
+
         		this.bookmarked = !this.bookmarked
 
 				axios.post('/bookmark-submission', {
@@ -411,6 +416,11 @@
              *  @return void
              */
             voteUp () {
+            	if (this.isGuest) {
+            		this.mustBeLogin();
+            		return;
+            	}
+
 				let id = this.list.id
 
 				axios.post('/upvote-submission', {
@@ -451,6 +461,11 @@
              *  @return void
              */
             voteDown () {
+            	if (this.isGuest) {
+            		this.mustBeLogin();
+            		return;
+            	}
+
 				let id = this.list.id
 
 				axios.post('/downvote-submission', {

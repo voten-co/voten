@@ -1,8 +1,6 @@
 <?php
 
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::get('/emoji-list', 'EmojiController@index');
-
     // Administrator routes
     Route::post('/big-daddy', 'AdminController@index');
     Route::post('/admin/users', 'AdminController@indexUsers');
@@ -54,10 +52,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/hide-submission', 'SubmissionController@hide');
     Route::get('/fetch-url-title', 'SubmissionController@getTitleAPI');
     Route::post('/mark-submission-sfw', 'NsfwController@markAsSFW');
-    Route::get('/get-submission', 'SubmissionController@getBySlug');
+
     Route::post('/mark-submission-nsfw', 'NsfwController@markAsNSFW');
-    Route::post('/submission-photos', 'SubmissionController@getPhotos');
-    Route::get('/get-submission-by-id', 'SubmissionController@getById');
+
     Route::post('/remove-thumbnail', 'SubmissionController@removeThumbnail');
 
     // home
@@ -91,10 +88,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/category-patch', 'CategoryController@patch');
     Route::get('/get-categories', 'CategoryController@getCategories');
     Route::post('/get-category-store', 'CategoryController@fillStore');
-    Route::get('/category-moderators', 'CategoryController@moderators');
 
     // rule
-    Route::get('/rules', 'RulesController@index');
     Route::post('/create-rule', 'RulesController@store');
     Route::post('/patch-rule', 'RulesController@patch');
     Route::post('/destroy-rule', 'RulesController@destroy');
@@ -134,9 +129,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/leave-conversation', 'MessagesController@leaveConversation');
     Route::post('/conversation-read', 'MessagesController@broadcastConversaionAsRead');
 
-    // search
-    Route::get('/search', 'SearchController@index');
-
     // Photo uploading
     Route::post('/user-avatar-crop', 'PhotoController@cropUserAvatar');
     Route::post('/upload-temp-avatar', 'PhotoController@uploadTempAvatar');
@@ -157,3 +149,14 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/reported-comments', 'ReportsController@reportedComments');
     Route::post('/reported-submissions', 'ReportsController@reportedSubmissions');
 });
+
+
+// For both logged in users and guests
+Route::get('/get-submission', 'SubmissionController@getBySlug');
+Route::get('/get-submission-by-id', 'SubmissionController@getById');
+Route::get('/submission-comments', 'CommentController@index');
+Route::get('/category-moderators', 'CategoryController@moderators');
+Route::get('/rules', 'RulesController@index');
+Route::get('/emoji-list', 'EmojiController@index');
+Route::get('/submission-photos', 'SubmissionController@getPhotos');
+Route::get('/search', 'SearchController@index');

@@ -5,7 +5,39 @@ export default {
         }
     },
 
+    computed: {
+    	/**
+         * Is the user a guest
+         *
+         * @return bool
+         */
+        isGuest() {
+            return auth.isGuest;
+        },
+    },
+
     methods: {
+    	/**
+    	 * sets the page title
+    	 *
+    	 * @param string title
+    	 * @return void
+    	 */
+    	setPageTitle(title)
+    	{
+    	    document.title = title + ' - Voten';
+    	},
+
+    	/**
+    	 * the user must be login other wise rais a warning
+    	 *
+    	 * @return void
+    	 */
+    	mustBeLogin()
+    	{
+    		console.log('must be login')
+    	},
+
         /**
          * simulates Laravel's str_limit in JS
          *

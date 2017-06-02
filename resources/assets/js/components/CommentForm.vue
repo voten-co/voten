@@ -28,10 +28,11 @@
 </template>
 
 <script>
-	import MoonLoader from '../components/MoonLoader.vue'
-	import EmojiPicker from '../components/EmojiPicker.vue'
+	import MoonLoader from '../components/MoonLoader.vue';
+	import EmojiPicker from '../components/EmojiPicker.vue';
     import { mixin as clickaway } from 'vue-clickaway';
-	import { focus } from 'vue-focus'
+	import { focus } from 'vue-focus';
+	import Helpers from '../mixins/Helpers';
 
     export default {
 
@@ -41,7 +42,7 @@
 
         props: ['parent', 'submission', 'editing', 'before', 'id'],
 
-        mixins: [clickaway],
+        mixins: [clickaway, Helpers],
 
         data: function () {
             return {
@@ -112,6 +113,11 @@
         		if(!this.message.trim()) return
 
                 this.closeEmojiPicker()
+
+            	if (this.isGuest) {
+            		this.mustBeLogin();
+            		return;
+            	}
 
         		this.temp = this.message
         		this.message = ''
