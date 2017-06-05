@@ -2,19 +2,19 @@
     <div class="col-7 padding-bottom-10">
 		<div class="tabs is-fullwidth">
 			<ul>
-				<router-link tag="li" active-class="is-active" :to="{ name: 'home-hot' }">
+				<router-link tag="li" :to="{ path: '/' }" :class="{ 'is-active': sort == 'hot' }">
 					<a>
 						Hot
 					</a>
 				</router-link>
 
-				<router-link tag="li" active-class="is-active" :to="{ name: 'home-new' }">
+				<router-link tag="li" :to="{ path: '/?sort=new' }" :class="{ 'is-active': sort == 'new' }">
 					<a>
 						New
 					</a>
 				</router-link>
 
-				<router-link tag="li" active-class="is-active" :to="{ name: 'home-rising' }">
+				<router-link tag="li" :to="{ path: '/?sort=rising' }" :class="{ 'is-active': sort == 'rising' }">
 					<a>
 						Rising
 					</a>
@@ -22,15 +22,41 @@
 			</ul>
 		</div>
 
-		<router-view></router-view>
+		<home-submissions></home-submissions>
     </div>
 </template>
 
 <script>
-    export default {
+	import HomeSubmissions from '../components/HomeSubmissions.vue';
+	import Helpers from '../mixins/Helpers';
 
-        created: function() {
-            this.askNotificationPermission()
+    export default {
+    	mixins: [Helpers],
+
+	    components: {
+	        HomeSubmissions
+	    },
+
+        created() {
+            this.setPageTitle('Voten - Social Bookmarking For The 21st Century', true);
+            this.askNotificationPermission();
+        },
+
+        computed: {
+        	/**
+    	 	 * the sort of the page
+	    	 *
+	    	 * @return mixed
+	    	 */
+	    	sort() {
+	    	    if (this.$route.query.sort == 'new')
+	    	    	return 'new';
+
+	    	    if (this.$route.query.sort == 'rising')
+	    	    	return 'rising';
+
+	    	    return 'hot';
+	    	},
         },
 
         methods: {
@@ -39,7 +65,7 @@
         	 *
         	 * @return void
         	 */
-        	 askNotificationPermission () {
+        	 askNotificationPermission() {
                  if (this.$route.query.newbie == 1) {
                      if ('Notification' in window) {
                          Notification.requestPermission()

@@ -15,11 +15,11 @@
 </template>
 
 <script>
-	import Submission from '../components/Submission.vue'
-	import SuggestedCategory from '../components/SuggestedCategory.vue'
-	import Loading from '../components/Loading.vue'
-	import NoContent from '../components/NoContent.vue'
-	import NoMoreItems from '../components/NoMoreItems.vue'
+	import Submission from '../components/Submission.vue';
+	import SuggestedCategory from '../components/SuggestedCategory.vue';
+	import Loading from '../components/Loading.vue';
+	import NoContent from '../components/NoContent.vue';
+	import NoMoreItems from '../components/NoMoreItems.vue';
 
 
     export default {
@@ -56,6 +56,21 @@
 
 		computed: {
 			/**
+	    	 * the sort of the page
+	    	 *
+	    	 * @return string
+	    	 */
+	    	sort() {
+	    	    if (this.$route.query.sort == 'new')
+	    	    	return 'new';
+
+	    	    if (this.$route.query.sort == 'rising')
+	    	    	return 'rising';
+
+	    	    return 'hot';
+	    	},
+
+			/**
 			 * Due to the issue with duplicate notifiactions (cuz the present ones have diffrent
 			 * timestamps) we need a different approch to make sure the list is always unique.
 			 * This ugly coded methods does it! Maybe move this to the Helpers.js mixin?!
@@ -78,19 +93,39 @@
 		},
 
 	    methods: {
-			loadMore () {
-				if ( Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems && this.$route.name == 'home-hot' ) {
+			loadMore() {
+				if (Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems && this.$route.name == 'home') {
 					this.getSubmissions()
 				}
 			},
 
-	        getSubmissions () {
+	        getSubmissions() {
 				this.page ++
 	            this.loading = true
 
+	            // if landed on the home page as guest
+	        	if (preload.submissions && this.$route.name == 'home' && this.page == 1) {
+	        		this.submissions = preload.submissions.data;
+
+					if (!this.submissions.length) {
+						this.nothingFound = true
+					}
+
+					if (preload.submissions.next_page_url == null) {
+						this.NoMoreItems = true
+					}
+
+					this.loading = false;
+
+					// clear the preload
+					preload = {};
+
+					return;
+	        	}
+
 	            axios.get('/home', {
 	            	params: {
-		                sort: 'hot',
+		                sort: this.sort,
 		                page: this.page
 				    }
 	            }).then((response) => {
@@ -113,11 +148,12 @@
 	         *
 	         * @return void
 	         */
-	        clearContent () {
-				this.nothingFound = false
-				this.NoMoreItems = false
-				this.submissions = []
-				this.loading = true
+	        clearContent() {
+				this.nothingFound = false;
+				this.NoMoreItems = false;
+				this.submissions = [];
+				this.loading = true;
+				this.page = 0;
 	    	}
 	    }
     };

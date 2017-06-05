@@ -6,18 +6,22 @@
 			:text="'This channel contains NSFW content which can not be displayed according to your personal settings.'">
 		</nsfw-warning>
 
-		<router-view v-else></router-view>
+		<category-submissions v-else></category-submissions>
 	</section>
 </template>
 
 <script>
 
-import CategoryHeader from '../components/CategoryHeader.vue'
-import NsfwWarning from '../components/NsfwWarning.vue'
+import CategoryHeader from '../components/CategoryHeader.vue';
+import NsfwWarning from '../components/NsfwWarning.vue';
+import CategorySubmissions from '../components/CategorySubmissions.vue';
+import Helpers from '../mixins/Helpers';
 
 export default {
+	mixins: [Helpers],
 
     components: {
+        CategorySubmissions,
         CategoryHeader,
 		NsfwWarning
     },
@@ -30,18 +34,19 @@ export default {
     },
 
    	created () {
-   		this.updateCategoryStore()
+   		this.updateCategoryStore();
+   		this.setPageTitle('#' + this.$route.params.name);
    	},
 
     watch: {
 		'$route': function () {
-			this.updateCategoryStore()
+			this.updateCategoryStore();
 		}
 	},
 
    	computed: {
 		nsfw(){
-			return Store.category.nsfw && !auth.nsfw
+			return Store.category.nsfw && !auth.nsfw;
 		},
 
    		/**
@@ -50,7 +55,7 @@ export default {
    		 * @return Boolean
    		 */
         loaded () {
-            return Store.category.name == this.$route.params.name
+            return Store.category.name == this.$route.params.name;
         }
     },
 
@@ -61,8 +66,8 @@ export default {
     	 * @return void
     	 */
     	updateCategoryStore () {
-    		if ( Store.category.name == undefined || Store.category.name != this.$route.params.name ) {
-	    		this.$root.getCategoryStore(this.$route.params.name)
+    		if (Store.category.name == undefined || Store.category.name != this.$route.params.name) {
+	    		this.$root.getCategoryStore(this.$route.params.name);
     		}
     	},
     }

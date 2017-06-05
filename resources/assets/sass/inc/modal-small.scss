@@ -38,6 +38,13 @@
     opacity: 0.98;
 }
 
+.v-modal-small-box--light {
+    background: linear-gradient(#ffffff, #fefefe, #fff);
+    border: 2px solid #e2e2e2;
+    box-shadow: 0 2px 4px 0 hsla(0, 0%, 80%, 0.62);
+    color: #000;
+}
+
 .v-blur-blackandwhite {
     filter: blur(1.5px) saturate(0);
 }

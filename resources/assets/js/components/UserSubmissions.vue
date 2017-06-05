@@ -13,13 +13,15 @@
 </template>
 
 <script>
-    import Submission from '../components/Submission.vue'
-    import Loading from '../components/Loading.vue'
-    import NoMoreItems from '../components/NoMoreItems.vue'
-    import NoContent from '../components/NoContent.vue'
-    import UserHeader from '../components/UserHeader.vue'
+    import Submission from '../components/Submission.vue';
+    import Loading from '../components/Loading.vue';
+    import NoMoreItems from '../components/NoMoreItems.vue';
+    import NoContent from '../components/NoContent.vue';
+    import UserHeader from '../components/UserHeader.vue';
+    import Helpers from '../mixins/Helpers';
 
     export default {
+    	mixins: [Helpers],
 
         components: {
             Submission,
@@ -40,8 +42,9 @@
         },
 
        created: function() {
-           this.$eventHub.$on('scrolled-to-bottom', this.loadMore)
-            this.getSubmissions()
+           	this.$eventHub.$on('scrolled-to-bottom', this.loadMore);
+        	this.getSubmissions();
+        	this.setPageTitle('@' + this.$route.params.username);
        },
 
        	watch: {
@@ -74,9 +77,31 @@
                 this.page ++
            		this.loading = true
 
-        		axios.post('/user-submissions', {
-        			page: this.page,
-        			username: this.$route.params.username
+           		// if landed on the user page as guest
+	        	if (preload.submissions && this.$route.name == 'user-submissions' && this.page == 1) {
+	        		this.submissions = preload.submissions.data;
+
+					if (!this.submissions.length) {
+						this.nothingFound = true
+					}
+
+					if (preload.submissions.next_page_url == null) {
+						this.NoMoreItems = true
+					}
+
+					this.loading = false;
+
+					// clear the preload
+					delete preload.submissions;
+
+					return;
+	        	}
+
+        		axios.get('/user-submissions', {
+        			params: {
+        				page: this.page,
+        				username: this.$route.params.username
+        			}
         		}).then((response) => {
                     this.submissions = [...this.submissions, ...response.data.data]
 

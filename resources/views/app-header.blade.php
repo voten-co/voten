@@ -24,6 +24,10 @@
 	            </button>
         	@endif
 
+        	<button class="v-button v-button--green relative" v-if="isGuest" @click="mustBeLogin">
+        		Sign up/Log in
+        	</button>
+
             <button type="button" class="btn-nth relative" aria-haspopup="true"
 			data-toggle="tooltip" data-placement="bottom" title="Search" aria-expanded="false" @click="changeRoute('search')">
            		<i class="v-icon v-search-2" aria-hidden="true"></i>

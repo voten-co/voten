@@ -27,7 +27,13 @@
 	            </div>
 
 	            <div class="category-header-middle">
-                    <h2>
+                    <h1 v-if="$route.name == 'category'">
+        				<router-link :to="'/c/' + Store.category.name" class="flex-center-inline">
+	                        <i class="v-icon v-channel" aria-hidden="true"></i>{{ Store.category.name }}
+	                	</router-link>
+                    </h1>
+
+                    <h2 v-else>
         				<router-link :to="'/c/' + Store.category.name" class="flex-center-inline">
 	                        <i class="v-icon v-channel" aria-hidden="true"></i>{{ Store.category.name }}
 	                	</router-link>
@@ -69,15 +75,15 @@
 	<nav class="nav has-shadow user-select">
 	    <div class="container">
 	        <div class="nav-left">
-	        	<router-link :to="{ path: '/c/' + $route.params.name + '/hot' }" class="nav-item is-tab" active-class="is-active">
+	        	<router-link :to="{ path: '/c/' + $route.params.name }" class="nav-item is-tab" :class="{ 'is-active': sort == 'hot' }">
 					Hot
 				</router-link>
 
-				<router-link :to="{ path: '/c/' + $route.params.name + '/new' }" class="nav-item is-tab" active-class="is-active">
+				<router-link :to="{ path: '/c/' + $route.params.name + '?sort=new' }" class="nav-item is-tab" :class="{ 'is-active': sort == 'new' }">
 					New
 				</router-link>
 
-				<router-link :to="{ path: '/c/' + $route.params.name + '/rising'  }" class="nav-item is-tab" active-class="is-active">
+				<router-link :to="{ path: '/c/' + $route.params.name + '?sort=rising'  }" class="nav-item is-tab" :class="{ 'is-active': sort == 'rising' }">
 					Rising
 				</router-link>
 	        </div>
@@ -206,6 +212,24 @@ export default {
     },
 
     computed: {
+    	/**
+    	 * the sort of the page
+    	 *
+    	 * @return mixed
+    	 */
+    	sort() {
+    		if (this.$route.name != 'category')
+    			return null;
+
+    	    if (this.$route.query.sort == 'new')
+    	    	return 'new';
+
+    	    if (this.$route.query.sort == 'rising')
+    	    	return 'rising';
+
+    	    return 'hot';
+    	},
+
     	date () {
     		return moment(Store.category.created_at).utc(moment().format("MMM Do")).format("MMM Do")
     	},

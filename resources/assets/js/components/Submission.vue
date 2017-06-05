@@ -73,9 +73,12 @@
 	import PhotoViewer from '../components/PhotoViewer.vue';
 	import EmbedViewer from '../components/Embed.vue';
 	import GifPlayer from '../components/GifPlayer.vue';
+	import Helpers from '../mixins/Helpers';
 
     export default {
         props: ['list', 'full'],
+
+        mixins: [Helpers],
 
         components: {
             TextSubmission,
@@ -405,9 +408,9 @@
             *
             *  @return void
             */
-            report () {
-                this.reported = true
-        		this.$eventHub.$emit('report-submission', this.list.id, this.list.category_name)
+            report() {
+                this.reported = true;
+        		this.$eventHub.$emit('report-submission', this.list.id, this.list.category_name);
             },
 
             /**
@@ -415,7 +418,7 @@
              *
              *  @return void
              */
-            voteUp () {
+            voteUp() {
             	if (this.isGuest) {
             		this.mustBeLogin();
             		return;

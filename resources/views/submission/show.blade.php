@@ -19,8 +19,8 @@
 		<meta property="og:image" content="/imgs/voten-circle.png">
 		<meta name="twitter:image" content="/imgs/voten-circle.png" />
 	@else
-		<meta property="og:image" content="{{ $submission->data['thumbnail'] ?? $submission->data['path'] }}" />
-		<meta name="twitter:image" content="{{ $submission->data['thumbnail'] ?? $submission->data['path'] }}" />
+		<meta property="og:image" content="{{ $submission->data['thumbnail'] ?? $submission->data['path'] ?? '/imgs/voten-circle.png' }}" />
+		<meta name="twitter:image" content="{{ $submission->data['thumbnail'] ?? $submission->data['path'] ?? '/imgs/voten-circle.png' }}" />
 	@endif
 @stop
 

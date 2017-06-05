@@ -1,9 +1,5 @@
 @extends('layouts.landing-layout')
 
-@section('title')
-	<title>Voten | Terms Of Service</title>
-@stop
-
 @section('content')
 	<section class="container">
 		<h1 class="align-center">Terms Of Service</h1>
@@ -28,19 +24,19 @@
 			</li>
 
 			<li>
-				<b>Are involuntary pornography</b>: Voten banes the posting of photographs, videos,
+				<b>Are involuntary pornography</b>: Voten bans the posting of photographs, videos,
 				or digital images of users in a state of nudity or engaged in any act of sexual activity,
 				taken or posted without their direct permission. <br>
 				Other banned materials are child sexual abuse imagery,
-				material that encourage or promote pedophilia, as well as materials that glorify or encourage rape or non-consensual sexual violence.
+				material that encourages or promote pedophilia, as well as materials that glorify or encourage rape or non-consensual sexual violence.
 				<br>
 				To report involuntary pornography or encouragement of sexual violence,
-				please use the report button in application. Voten banns the posting of such materials without consent.
+				please use the report button in the application. Voten bans the posting of such materials without consent.
 			</li>
 
 			<li>
 				<b>Encourage or stimulate violence</b>: Do not post materials that stimulate harm against any person or groups of people.
-				Furthermore, if you're going to post something violent in nature, think about including a NSFW tag.
+				Furthermore, if you're going to post something violent in nature, think about including the NSFW tag.
 			</li>
 
 			<li>
@@ -52,10 +48,10 @@
 
 			<li>
 				<b>Are personal and confidential information</b>: Voten is pro-free speech,
-				but it is not okay to post someone's personal information, or post any link directing to those stuff.
+				but it is not okay to post someone's personal information or post any link directing to such stuff.
 				This includes links to public Facebook pages and screenshots of Facebook pages with the names still readable.
 				We all get outraged by the ignorant things people say and do online,
-				but exposing personal information can hurt innocent people, and personal information found online (and elsewhere) is often false or out of date. Posting someone's personal information will get you banned. When posting screenshots, be sure to edit out any personally identifiable information . Public figures can be an exception to this rule, such as posting professional links to contact a congressman or the CEO of a company.
+				but exposing personal information can hurt innocent people, and personal information found online (and elsewhere) is often false or out of date. Posting someone's personal information will get you banned. When posting screenshots, be sure to edit out any personally identifiable information. Public figures can be an exception to this rule, such as posting professional links to contact a congressman or the CEO of a company.
 				But don't post anything inviting harassment, don't harass, and don't cheer on or upvote obvious vigilantism.
 			</li>
 
@@ -66,8 +62,8 @@
 
 			<li>
 				<b>Are spam</b>: Sometimes spam is obvious, but often it is hard to figure out. 
-				If you are posting your own content and other Voteners appreciate and upvote your posts, you shouldn't have anything to worry about BUT: If your activities on Voten consists mainly of sending links only about a certain topic, you should be careful. Additionally, if you do not engage in other conversations and different activities, you may be considered a spammer and banned from Voten. If your contributions are often off-topic or not relevant to the community you are posting in, you may be considered a spammer. If you flood a Voten group with posts or comments, you may be considered a spammer. It is better to send a message to the moderators of the community you'd like to submit to. They'll probably appreciate the advance notice.
-				It is okey for Voten groups to have their additional laws. Thus, they can decide what is spam and what is not.
+				If you are posting your own content and other voters appreciate and upvote your posts, you shouldn't have anything to worry about BUT: If your activities on Voten consists mainly of sending links only about a certain topic, you should be careful. Additionally, if you do not engage in other conversations and different activities, you may be considered a spammer and banned from Voten. If your contributions are often off-topic or not relevant to the community you are posting in, you may be considered a spammer. If you flood a Voten group with posts or comments, you may be considered a spammer. It is better to send a message to the moderators of the community you'd like to submit to. They'll probably appreciate the advance notice.
+				Voten channels are allowed to have their additional rules. Thus, they can decide what is spam and what is not.
 			</li>
 		</ul>
 
@@ -125,8 +121,28 @@
 		</h2>
 
 		<p>
-			Individual groups on Voten which are called channels, may have their own rules in addition to ours and their own moderators to enforce them.
-			Voten provides tools to aid moderators, but does not prescribe their usage.
+			Individual groups on Voten which are called channels may have their own rules in addition to ours and their own moderators to enforce them.
+			Voten provides tools to aid moderators but does not prescribe their usage.
 		</p>
 	</section>
+@endsection
+
+
+
+@section('head')
+	<title>Voten | Terms Of Service</title>
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Voten | Terms Of Service" />
+	<meta property="og:url" content="{{ config('app.url') }}/tos" />
+	<meta property="og:site_name" content="Voten" />
+
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@voten_co" />
+	<meta name="twitter:title" content="Voten | Terms Of Service" />
+
+	<meta name="description" content="While Voten enables users to apply leeway to what content is acceptable, here are some guidelines for content that is not:"/>
+	<meta property="og:description" content="While Voten enables users to apply leeway to what content is acceptable, here are some guidelines for content that is not:" />
+	<meta name="twitter:description" content="While Voten enables users to apply leeway to what content is acceptable, here are some guidelines for content that is not:" />
+	<meta property="og:image" content="{{ config('app.url') }}/imgs/voten-circle.png">
+	<meta name="twitter:image" content="{{ config('app.url') }}/imgs/voten-circle.png" />
 @endsection

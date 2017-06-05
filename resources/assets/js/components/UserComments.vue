@@ -17,12 +17,15 @@
 </template>
 
 <script>
-    import Loading from '../components/Loading.vue'
-    import Comment from '../components/Comment.vue'
-    import NoContent from '../components/NoContent.vue'
-    import NoMoreItems from '../components/NoMoreItems.vue'
+    import Loading from '../components/Loading.vue';
+    import Comment from '../components/Comment.vue';
+    import NoContent from '../components/NoContent.vue';
+    import NoMoreItems from '../components/NoMoreItems.vue';
+    import Helpers from '../mixins/Helpers';
 
     export default {
+    	mixins: [Helpers],
+
         components: {
             Loading,
             Comment,
@@ -41,26 +44,27 @@
         },
 
         created () {
-            this.$eventHub.$on('scrolled-to-bottom', this.loadMore)
-            this.getComments()
+            this.$eventHub.$on('scrolled-to-bottom', this.loadMore);
+            this.getComments();
+            this.setPageTitle('@' + this.$route.params.username);
         },
 
        	watch: {
 	    	'$route': function () {
-	    		this.clearContent()
-	    		this.getComments()
+	    		this.clearContent();
+	    		this.getComments();
 	    	}
 	    },
 
 
         methods: {
-            loadMore () {
-				if ( Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems ) {
-					this.getComments()
+            loadMore() {
+				if (Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems) {
+					this.getComments();
 				}
 			},
 
-        	clearContent () {
+        	clearContent() {
                	this.comments = []
                 this.loading = true
                 this.nothingFound = false
@@ -71,13 +75,34 @@
         	 *
         	 * @return void
         	 */
-        	getComments () {
+        	getComments() {
                 this.loading = true
 				this.page ++
 
-        		axios.post('/user-comments', {
-        			page: this.page,
-	    			username: this.$route.params.username
+				if (preload.comments && this.$route.name == 'user-comments' && this.page == 1) {
+	        		this.comments = preload.comments.data;
+
+					if (!this.comments.length) {
+						this.nothingFound = true
+					}
+
+					if (preload.comments.next_page_url == null) {
+						this.NoMoreItems = true
+					}
+
+					this.loading = false;
+
+					// clear the preload
+					delete preload.comments;
+
+					return;
+	        	}
+
+        		axios.get('/user-comments', {
+        			params: {
+        				page: this.page,
+	    				username: this.$route.params.username
+        			}
 	    		}).then((response) => {
                     this.comments = [...this.comments, ...response.data.data]
 

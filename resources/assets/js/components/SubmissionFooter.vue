@@ -12,7 +12,7 @@
 					<i class="v-icon h-yellow pointer" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'"></i>
 				</a>
 
-				<div class="ui icon top left pointing dropdown">
+				<div class="ui icon top left pointing dropdown" v-if="!isGuest">
 					<i class="v-icon v-more" aria-hidden="true"></i>
 
 					<div class="menu">
@@ -87,7 +87,11 @@
 </template>
 
 <script>
+	import Helpers from '../mixins/Helpers';
+
     export default {
+    	mixins: [Helpers],
+
         props: [
         	'url', 'comments', 'bookmarked', 'submission', 'upvoted', 'downvoted', 'points'
         ],

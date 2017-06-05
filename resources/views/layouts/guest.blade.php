@@ -36,7 +36,7 @@
 
     <div class="v-content-wrapper">
 		<div class="v-side" v-show="sidebar">
-		    {{-- <sidebar></sidebar> --}}
+		    <guest-sidebar></guest-sidebar>
 		</div>
 
 		<search-modal v-if="Store.contentRouter == 'search'" :sidebar="sidebar"></search-modal>
@@ -47,6 +47,7 @@
                 <moderators v-if="modalRouter == 'moderators'" :sidebar="sidebar"></moderators>
                 <keyboard-shortcuts-guide v-if="modalRouter == 'keyboard-shortcuts-guide'" :sidebar="sidebar"></keyboard-shortcuts-guide>
                 <markdown-guide v-if="modalRouter == 'markdown-guide'" :sidebar="sidebar"></markdown-guide>
+                <login-modal v-if="modalRouter == 'login'" :sidebar="sidebar"></login-modal>
             </transition>
 
             <div :class="{ 'v-blur-blackandwhite': smallModal }">

@@ -14,6 +14,17 @@ class HomeController extends Controller
 {
     use CachableUser, CachableSubmission, CachableCategory;
 
+    public function homePage(Request $request)
+    {
+        if (!Auth::check()) {
+        	$submissions = $this->guestHome($request);
+
+            return view('home', compact('submissions'));
+        }
+
+        return view('welcome');
+    }
+
     /**
      * Returns the submissions for the homepage of Auth user.
      *

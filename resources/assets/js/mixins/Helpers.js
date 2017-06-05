@@ -1,7 +1,8 @@
 export default {
     data: function () {
         return {
-            Store
+            Store,
+            auth
         }
     },
 
@@ -11,7 +12,8 @@ export default {
          *
          * @return bool
          */
-        isGuest() {
+        isGuest()
+        {
             return auth.isGuest;
         },
     },
@@ -21,10 +23,16 @@ export default {
     	 * sets the page title
     	 *
     	 * @param string title
+    	 * @param bool explicit
     	 * @return void
     	 */
-    	setPageTitle(title)
+    	setPageTitle(title, explicit = false)
     	{
+    		if (explicit == true) {
+    			document.title = title;
+    			return;
+    		}
+
     	    document.title = title + ' - Voten';
     	},
 
@@ -36,6 +44,7 @@ export default {
     	mustBeLogin()
     	{
     		console.log('must be login')
+    		this.$eventHub.$emit('login-modal');
     	},
 
         /**

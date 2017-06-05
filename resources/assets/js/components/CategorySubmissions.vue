@@ -11,10 +11,10 @@
 </template>
 
 <script>
-import Submission from '../components/Submission.vue'
-import Loading from '../components/Loading.vue'
-import NoContent from '../components/NoContent.vue'
-import NoMoreItems from '../components/NoMoreItems.vue'
+import Submission from '../components/Submission.vue';
+import Loading from '../components/Loading.vue';
+import NoContent from '../components/NoContent.vue';
+import NoMoreItems from '../components/NoMoreItems.vue';
 
 export default {
     components: {
@@ -29,6 +29,7 @@ export default {
 			NoMoreItems: false,
 			nothingFound: false,
         	Store,
+        	preload,
             submissions: [],
             loading: true,
 			page: 0
@@ -47,6 +48,21 @@ export default {
 	},
 
 	computed: {
+		/**
+    	 * the sort of the page
+    	 *
+    	 * @return string
+    	 */
+    	sort() {
+    	    if (this.$route.query.sort == 'new')
+    	    	return 'new';
+
+    	    if (this.$route.query.sort == 'rising')
+    	    	return 'rising';
+
+    	    return 'hot';
+    	},
+
 		/**
 		 * Due to the issue with duplicate notifiactions (cuz the present ones have diffrent
 		 * timestamps) we need a different approch to make sure the list is always unique.
@@ -72,8 +88,8 @@ export default {
 
     methods: {
 		loadMore () {
-			if ( Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems ) {
-				this.getSubmissions()
+			if (Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems) {
+				this.getSubmissions();
 			}
 		},
 
@@ -101,7 +117,7 @@ export default {
     	 * @return void
     	 */
     	updateCategoryStore () {
-    		if ( Store.category.name == undefined || Store.category.name != this.$route.params.name ) {
+    		if (Store.category.name == undefined || Store.category.name != this.$route.params.name) {
 	    		this.$root.getCategoryStore(this.$route.params.name)
     		}
     	},
@@ -110,13 +126,33 @@ export default {
 			this.page ++
             this.loading = true
 
+            // if landed on a category page
+        	if (preload.submissions && preload.category.name == this.$route.params.name && this.$route.name == 'category' && this.page == 1) {
+        		this.submissions = preload.submissions.data;
+
+				if (!this.submissions.length) {
+					this.nothingFound = true
+				}
+
+				if (preload.submissions.next_page_url == null) {
+					this.NoMoreItems = true
+				}
+
+				this.loading = false;
+
+				// clear the preload
+				preload = {};
+
+				return;
+        	}
+
             axios.get('/category-submissions', {
             	params: {
-	                sort: 'new',
+			    	sort: this.sort,
 	                page: this.page,
 	                category: this.$route.params.name
 			    }
-            } ).then((response) => {
+            }).then((response) => {
 				this.submissions = [...this.submissions, ...response.data.data]
 
 				if (!this.submissions.length) {
@@ -128,7 +164,7 @@ export default {
 				}
 
 				this.loading = false
-            })
+            });
         }
     }
 };

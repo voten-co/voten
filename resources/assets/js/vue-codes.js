@@ -12,6 +12,7 @@ import SearchModal from './components/SearchModal.vue';
 import WebNotification from './mixins/WebNotification';
 import AvatarEdit from './components/AvatarEdit.vue';
 import Moderators from './components/Moderators.vue';
+import LoginModal from './components/LoginModal.vue';
 import CropModal from './components/CropModal.vue';
 import Dashboard from './components/Dashboard.vue';
 import Feedback from './components/Feedback.vue';
@@ -44,7 +45,6 @@ Vue.prototype.$eventHub = new Vue();
  * also plays a role in switching states and maintaining the Store.
  */
 const app = new Vue({
-
     router,
 
     mixins: [Helpers, LocalStorage, StoreStorage, WebNotification],
@@ -60,6 +60,7 @@ const app = new Vue({
         VuiMenuButton,
         GuestSidebar,
         SearchModal,
+        LoginModal,
         AvatarEdit,
         Moderators,
         CropModal,
@@ -134,6 +135,7 @@ const app = new Vue({
         this.$eventHub.$on('close', this.closeModals);
         this.$eventHub.$on('new-modal', this.newModal);
         this.$eventHub.$on('rules', this.categoryRules);
+        this.$eventHub.$on('login-modal', this.loginModal);
         this.$eventHub.$on('category-sort', this.categorySort);
         this.$eventHub.$on('report-comment', this.reportComment);
         this.$eventHub.$on('moderators', this.categoryModerators);
@@ -493,6 +495,11 @@ const app = new Vue({
         // Displays a smallModal containing category rules
         categoryRules() {
             this.modalRouter = 'rules'
+        },
+
+        // Displays the login modal
+        loginModal() {
+            this.modalRouter = 'login'
         },
 
         // Displays a smallModal containing category moderators

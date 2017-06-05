@@ -24,7 +24,7 @@ class PagesController extends Controller
     public function welcome()
     {
         if (!Auth::check()) {
-            return view('landing');
+            return view('home');
         }
 
         return view('welcome');

@@ -19,7 +19,7 @@
 				<ul>
 					<li :class="{ 'is-active--green': type == 'Categories'}">
 						<a class="h-green" @click="changeType('Categories')">
-							<span>#Channels</span>
+							<span>Channels</span>
 						</a>
 					</li>
 

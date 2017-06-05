@@ -16,7 +16,7 @@ class SuggestionController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => ['category']]);
     }
 
     /**
@@ -27,7 +27,11 @@ class SuggestionController extends Controller
     public function category()
     {
         try {
-            return Suggested::whereNotIn('category_id', $this->subscriptions())->inRandomOrder()->firstOrFail()->category;
+        	if (Auth::check()) {
+        		return Suggested::whereNotIn('category_id', $this->subscriptions())->inRandomOrder()->firstOrFail()->category;
+        	}
+
+        	return Suggested::inRandomOrder()->firstOrFail()->category;
         } catch (\Exception $e) {
             return 'null';
         }

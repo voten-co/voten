@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     @yield('title')
-
     @yield('head')
+
     <meta property="og:locale" content="en_US" />
     <meta property="og:site_name" content="Voten.co" />
 
@@ -23,6 +23,7 @@
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
+            'env' => config('app.env')
         ]); ?>
     </script>
 
