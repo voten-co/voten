@@ -66,7 +66,7 @@ trait Submit
      */
     protected function linkSubmission(Request $request)
     {
-        $apiURL = 'https://mid.voten.co/link-submission?url='.$request->url;
+        $apiURL = 'https://midd.voten.co/link-submission?url='.$request->url;
 
         $info = json_decode(file_get_contents($apiURL));
 
@@ -179,7 +179,7 @@ trait Submit
      */
     protected function getTitle($url)
     {
-        $apiURL = 'https://mid.voten.co/embed/title?url='.$url;
+        $apiURL = 'https://midd.voten.co/embed/title?url='.$url;
 
         try {
             $title = file_get_contents($apiURL);

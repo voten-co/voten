@@ -2,6 +2,7 @@ import AdminPanelSuggestedCategories from './components/AdminPanelSuggestedCateg
 import BookmarkedCategories from './components/BookmarkedCategories.vue';
 import SubmissionRedirector from './components/SubmissionRedirector.vue';
 import AdminPanelFeedbacks from './components/AdminPanelFeedbacks.vue';
+import CategorySubmissions from './components/CategorySubmissions.vue';
 import BookmarkedComments from './components/BookmarkedComments.vue';
 import AdminPanelCategory from './components/AdminPanelCategory.vue';
 import BookmarkedUsers from './components/BookmarkedUsers.vue';
@@ -113,6 +114,7 @@ const routes = [
         component: Category,
         name: 'category',
         children: [
+        	{ path: '', component: CategorySubmissions, name: 'category-submissions' },
             {
                 path: 'mod',
                 component: ModeratorPanel,

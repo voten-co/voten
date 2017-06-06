@@ -5,7 +5,7 @@
 
     <router-link :to="{ path: '/' }" class="desktop-only">
         <img src="/imgs/voten-logo.png" alt="Voten" @click="closeModals"
-        class="logo-voten" data-toggle="tooltip" data-placement="bottom" title="Home">
+        	class="logo-voten" data-toggle="tooltip" data-placement="bottom" title="Home">
     </router-link>
 
     <div class="flex-display">
@@ -24,9 +24,11 @@
 	            </button>
         	@endif
 
-        	<button class="v-button v-button--green relative" v-if="isGuest" @click="mustBeLogin">
-        		Sign up/Log in
-        	</button>
+        	@if (!Auth::check())
+        		<button class="v-button v-button--green relative" @click="mustBeLogin">
+	        		Sign up/Log in
+	        	</button>
+        	@endif
 
             <button type="button" class="btn-nth relative" aria-haspopup="true"
 			data-toggle="tooltip" data-placement="bottom" title="Search" aria-expanded="false" @click="changeRoute('search')">

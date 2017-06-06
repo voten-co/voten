@@ -46,7 +46,7 @@ class CategoryController extends Controller
         }
 
         // exclude NSFW if user doens't want to see them or if the user is not authinticated
-        if (!Auth::check() || Auth::user()->settings['nsfw'] == false) {
+        if (!Auth::check() || !settings('nsfw')) {
             $submissions->where('nsfw', false);
         }
 

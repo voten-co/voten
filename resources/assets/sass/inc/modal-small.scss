@@ -127,3 +127,13 @@
     background: #333333;
 	box-shadow: none;
 }
+
+.v-modal-small-box--light .ui.checkbox + label,
+.v-modal-small-box--light .ui.checkbox label {
+    color: #333;
+}
+
+.v-modal-small-box--light .ui.checkbox + label:hover,
+.v-modal-small-box--light .ui.checkbox label:hover {
+    color: #000;
+}

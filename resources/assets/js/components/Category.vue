@@ -6,7 +6,7 @@
 			:text="'This channel contains NSFW content which can not be displayed according to your personal settings.'">
 		</nsfw-warning>
 
-		<category-submissions v-else></category-submissions>
+		<router-view v-else></router-view>
 	</section>
 </template>
 

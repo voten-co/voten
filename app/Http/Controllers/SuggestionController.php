@@ -31,7 +31,7 @@ class SuggestionController extends Controller
         		return Suggested::whereNotIn('category_id', $this->subscriptions())->inRandomOrder()->firstOrFail()->category;
         	}
 
-        	return Suggested::inRandomOrder()->firstOrFail()->category;
+        	return Suggested::where('z_index', '>', 6)->inRandomOrder()->firstOrFail()->category;
         } catch (\Exception $e) {
             return 'null';
         }

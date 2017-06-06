@@ -218,7 +218,7 @@ export default {
     	 * @return mixed
     	 */
     	sort() {
-    		if (this.$route.name != 'category')
+    		if (this.$route.name != 'category-submissions')
     			return null;
 
     	    if (this.$route.query.sort == 'new')

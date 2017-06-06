@@ -228,7 +228,7 @@ const app = new Vue({
          * @return void
          * @param string name
          */
-        getCategoryStore (name) {
+        getCategoryStore(name) {
         	// if landed on a submission page
         	if (preload.category && preload.category.name == this.$route.params.name) {
         		Store.category = preload.category;
@@ -273,20 +273,25 @@ const app = new Vue({
          *
          * @return Boolean
          */
-        setSidebar () {
-    		if ( this.$route.query.sidebar == 0 ) {
-   				this.sidebar = false
-   				return
+        setSidebar() {
+    		if (this.$route.query.sidebar == 0) {
+   				this.sidebar = false;
+   				return;
    			}
 
-            if ( this.$route.query.sidebar == 1 ) {
-   				this.sidebar = true
-   				return
+            if (this.$route.query.sidebar == 1) {
+   				this.sidebar = true;
+   				return;
+   			}
+
+   			if (auth.isMobileDevice) {
+   				this.sidebar = false;
+   				return;
    			}
 
    			if (this.isSetLS('sidebar')) {
-   				this.sidebar = this.getLS('sidebar')
-   				return
+   				this.sidebar = this.getLS('sidebar');
+   				return;
    			}
     	},
 
