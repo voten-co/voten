@@ -15,6 +15,7 @@ import Moderators from './components/Moderators.vue';
 import LoginModal from './components/LoginModal.vue';
 import CropModal from './components/CropModal.vue';
 import Dashboard from './components/Dashboard.vue';
+import NotFound from './components/NotFound.vue';
 import Feedback from './components/Feedback.vue';
 import Messages from './components/Messages.vue';
 import LocalStorage from './mixins/LocalStorage';
@@ -66,6 +67,7 @@ const app = new Vue({
         CropModal,
         Subscribe,
         Dashboard,
+        NotFound,
         Feedback,
         Messages,
         Sidebar,
@@ -232,6 +234,7 @@ const app = new Vue({
         	// if landed on a submission page
         	if (preload.category && preload.category.name == this.$route.params.name) {
         		Store.category = preload.category;
+        		delete preload.category;
         		return;
         	}
 

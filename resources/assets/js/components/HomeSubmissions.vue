@@ -20,9 +20,11 @@
 	import Loading from '../components/Loading.vue';
 	import NoContent from '../components/NoContent.vue';
 	import NoMoreItems from '../components/NoMoreItems.vue';
-
+	import Helpers from '../mixins/Helpers';
 
     export default {
+    	mixins: [Helpers],
+
 	    components: {
 	        Submission,
 	        Loading,
@@ -117,13 +119,12 @@
 
 					this.loading = false;
 
-					// clear the preload
-					preload = {};
+					delete preload.submissions;
 
 					return;
 	        	}
 
-	            axios.get('/home', {
+	            axios.get(this.authUrl('home'), {
 	            	params: {
 		                sort: this.sort,
 		                page: this.page

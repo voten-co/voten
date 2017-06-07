@@ -201,11 +201,11 @@
 
             getSubmission () {
             	// if landed on a submission page
-            	if (preload.submission && preload.submission.category == this.$route.params.name) {
+            	if (preload.submission) {
             		this.submission = preload.submission;
             		Store.category = preload.submission.category;
             		this.loadingSubmission = false;
-            		preload = {};
+            		delete preload.submission;
             		return;
             	}
 

@@ -143,7 +143,14 @@ Route::group(['middleware' => 'auth:api'], function () {
 });
 
 
+Route::group(['prefix' => 'auth', 'middleware' => 'auth:api'], function () {
+    Route::get('/home', 'HomeController@feed');
+	Route::get('/category-submissions', 'CategoryController@submissions');
+});
+
+
 // For both logged in users and guests
+Route::get('/home', 'HomeController@feed');
 Route::get('/get-submission', 'SubmissionController@getBySlug');
 Route::get('/get-submission-by-id', 'SubmissionController@getById');
 Route::get('/submission-comments', 'CommentController@index');

@@ -15,8 +15,11 @@ import Submission from '../components/Submission.vue';
 import Loading from '../components/Loading.vue';
 import NoContent from '../components/NoContent.vue';
 import NoMoreItems from '../components/NoMoreItems.vue';
+import Helpers from '../mixins/Helpers';
 
 export default {
+	mixins: [Helpers],
+
     components: {
         Submission,
         Loading,
@@ -127,7 +130,7 @@ export default {
             this.loading = true
 
             // if landed on a category page
-        	if (preload.submissions && preload.category.name == this.$route.params.name && this.$route.name == 'category' && this.page == 1) {
+        	if (preload.submissions && this.page == 1) {
         		this.submissions = preload.submissions.data;
 
 				if (!this.submissions.length) {
@@ -141,12 +144,12 @@ export default {
 				this.loading = false;
 
 				// clear the preload
-				preload = {};
+				delete preload.submissions;
 
 				return;
         	}
 
-            axios.get('/category-submissions', {
+            axios.get(this.authUrl('category-submissions'), {
             	params: {
 			    	sort: this.sort,
 	                page: this.page,

@@ -281,6 +281,6 @@ class User extends Authenticatable
      */
     public function settings()
     {
-        return new Settings($this->settings, $this);
+        return new \App\Settings($this->settings, $this);
     }
 }

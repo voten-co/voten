@@ -129,5 +129,16 @@ export default {
 
             return moment(timestamp).tz(timezone).format("LLL");
         },
+
+        /**
+         * prefixes the route with /auth if it's for authenticated users
+         *
+         * @param string route
+         * @return string
+         */
+        authUrl(route)
+        {
+            return !this.isGuest ? '/auth/' + route : '/' + route;
+        },
     }
 };
