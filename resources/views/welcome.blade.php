@@ -24,16 +24,21 @@
 	<meta name="twitter:image" content="{{ config('app.url') }}/imgs/voten-circle.png" />
 
 	<script type="application/ld+json">
-	{
-	    "@context": "http://schema.org",
-	    "@type": "WebSite",
-	    "url": "https://voten.co",
-	    "name": "Voten",
-	    "logo": "https://voten.co/imgs/voten-circle.png",
-	    "sameAs": [
-	        "https://www.facebook.com/voten.co/",
-	        "https://twitter.com/voten_co"
-	    ]
-	}
+		{
+		    "@context": "http://schema.org",
+		    "@type": "Organization",
+		    "url": "https://voten.co",
+		    "name": "Voten",
+		    "logo": {
+	            "@type": "ImageObject",
+	            "url": "https://voten.co/imgs/voten-circle.png",
+	            "width": "512",
+	            "height": "512"
+	        },
+		    "sameAs": [
+		        "https://www.facebook.com/voten.co/",
+		        "https://twitter.com/voten_co"
+		    ]
+		}
 	</script>
 @endsection

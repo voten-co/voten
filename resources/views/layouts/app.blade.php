@@ -35,7 +35,7 @@
     @include('app-header')
 
     <div class="v-content-wrapper">
-		<div class="v-side" v-show="sidebar">
+		<div class="v-side {{ settings('sidebar_color') }}" v-show="sidebar">
 		    <sidebar></sidebar>
 		</div>
 

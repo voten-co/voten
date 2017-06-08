@@ -16,6 +16,15 @@ export default {
         {
             return auth.isGuest;
         },
+
+        /**
+         * is user a moderator?
+         *
+         * @return bool
+         */
+        isModerating() {
+            return Store.moderatingAt.length > 0;
+        },
     },
 
     methods: {
@@ -43,6 +52,8 @@ export default {
     	 */
     	mustBeLogin()
     	{
+    		if (!this.isGuest) return;
+
     		console.log('must be login')
     		this.$eventHub.$emit('login-modal');
     	},

@@ -20,10 +20,11 @@
 	import Loading from '../components/Loading.vue';
 	import NoContent from '../components/NoContent.vue';
 	import NoMoreItems from '../components/NoMoreItems.vue';
+	import LocalStorage from '../mixins/LocalStorage';
 	import Helpers from '../mixins/Helpers';
 
     export default {
-    	mixins: [Helpers],
+    	mixins: [LocalStorage, Helpers],
 
 	    components: {
 	        Submission,
@@ -39,14 +40,16 @@
 				nothingFound: false,
 	            submissions: [],
 	            loading: true,
-				page: 0
+				page: 0,
+				Store
             }
         },
 
 
 	    created: function() {
-	        this.getSubmissions()
-			this.$eventHub.$on('scrolled-to-bottom', this.loadMore)
+	        this.getSubmissions();
+			this.$eventHub.$on('scrolled-to-bottom', this.loadMore);
+			this.$eventHub.$on('refresh-home', this.refresh);
 	    },
 
 	    watch: {
@@ -102,11 +105,11 @@
 			},
 
 	        getSubmissions() {
-				this.page ++
-	            this.loading = true
+				this.page ++;
+	            this.loading = true;
 
 	            // if landed on the home page as guest
-	        	if (preload.submissions && this.$route.name == 'home' && this.page == 1) {
+	        	if (preload.submissions && this.$route.name == 'home') {
 	        		this.submissions = preload.submissions.data;
 
 					if (!this.submissions.length) {
@@ -124,10 +127,18 @@
 					return;
 	        	}
 
+	        	// make sure feedFitler is set
+	        	if (this.isSetLS('feed-filter')) {
+	   				Store.feedFilter = this.getLS('feed-filter');
+	   			} else {
+	   				Store.feedFilter = 'subscribed-channels';
+	   			}
+
 	            axios.get(this.authUrl('home'), {
 	            	params: {
 		                sort: this.sort,
-		                page: this.page
+		                page: this.page,
+		                filter: Store.feedFilter
 				    }
 	            }).then((response) => {
 					this.submissions = [...this.submissions, ...response.data.data]
@@ -155,7 +166,12 @@
 				this.submissions = [];
 				this.loading = true;
 				this.page = 0;
-	    	}
+	    	},
+
+	    	refresh() {
+	    	    this.clearContent();
+	    	    this.getSubmissions();
+	    	},
 	    }
     };
 </script>

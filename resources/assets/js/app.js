@@ -33,6 +33,7 @@ window.Store = {
     contacts: [],
 
     contentRouter: 'content',
+    feedFilter: '',
 
     subscribedCategories: [],
 

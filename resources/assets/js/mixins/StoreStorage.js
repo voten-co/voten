@@ -11,7 +11,6 @@ export default {
         	}
 
             axios.get('/fill-basic-store').then((response) => {
-
                 Store.submissionUpVotes = response.data.submissionUpvotes
                 Store.submissionDownVotes = response.data.submissionDownvotes
                 Store.commentUpVotes = response.data.commentUpvotes
@@ -36,7 +35,7 @@ export default {
                     }
                 })
 
-                Store.loading = false
+                Store.loading = false;
             })
         },
     }

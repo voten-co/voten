@@ -15,33 +15,37 @@
 						Rising
 					</router-link>
 				</ul>
-				<!-- <ul>
-					<router-link tag="li" :to="{ path: '/' }" :class="{ 'is-active': sort == 'hot' }">
-						<a>
-							Hot
-						</a>
-					</router-link>
-
-					<router-link tag="li" :to="{ path: '/?sort=new' }" :class="{ 'is-active': sort == 'new' }">
-						<a>
-							New
-						</a>
-					</router-link>
-
-					<router-link tag="li" :to="{ path: '/?sort=rising' }" :class="{ 'is-active': sort == 'rising' }">
-						<a>
-							Rising
-						</a>
-					</router-link>
-				</ul> -->
 			</div>
 
 			<div>
-				<button class="btn-nth">
+				<div class="ui icon top right active-blue pointing dropdown feed-panel-button" @click="mustBeLogin">
 					<i class="v-icon v-config"></i>
-				</button>
 
-				<button class="btn-nth">
+					<div class="menu">
+						<button class="item" @click="changeFilter('subscribed-channels')" :class="{ 'active' : filter == 'subscribed-channels' }">
+							Subscribed channels
+						</button>
+
+						<button class="item" @click="changeFilter('all-channels')" :class="{ 'active' : filter == 'all-channels' }">
+							All channels
+						</button>
+
+						<button class="item" @click="changeFilter('moderating-channels')" :class="{ 'active' : filter == 'moderating-channels' }" v-if="isModerating">
+							Moderating channels
+						</button>
+
+						<button class="item" @click="changeFilter('bookmarked-channels')" :class="{ 'active' : filter == 'bookmarked-channels' }">
+							Bookmarked channels
+						</button>
+
+						<button class="item" @click="changeFilter('by-bookmarked-users')" :class="{ 'active' : filter == 'by-bookmarked-users' }">
+							By bookmarked users
+						</button>
+					</div>
+				</div>
+
+				<button class="feed-panel-button btn-nth--h" @click="refresh"
+				data-toggle="tooltip" data-placement="bottom" title="Refresh">
 					<i class="v-icon v-refetch"></i>
 				</button>
 			</div>
@@ -54,9 +58,10 @@
 <script>
 	import HomeSubmissions from '../components/HomeSubmissions.vue';
 	import Helpers from '../mixins/Helpers';
+	import LocalStorage from '../mixins/LocalStorage';
 
     export default {
-    	mixins: [Helpers],
+    	mixins: [Helpers, LocalStorage],
 
 	    components: {
 	        HomeSubmissions
@@ -67,7 +72,18 @@
             this.askNotificationPermission();
         },
 
+		mounted () {
+			this.$nextTick(function () {
+	        	this.$root.loadSemanticTooltip();
+	        	this.$root.loadSemanticDropdown();
+			})
+		},
+
         computed: {
+        	filter() {
+        	    return Store.feedFilter;
+        	},
+
         	/**
     	 	 * the sort of the page
 	    	 *
@@ -85,6 +101,30 @@
         },
 
         methods: {
+        	/**
+        	 * changes the filter for home feed
+        	 *
+        	 * @return void
+        	 */
+        	changeFilter(filter) {
+        		if (Store.feedFilter == filter) return;
+
+        	    Store.feedFilter = filter;
+
+        	    this.putLS('feed-filter', filter);
+
+        	    this.refresh();
+        	},
+
+        	/**
+        	 * fires the refresh event
+        	 *
+        	 * @return void
+        	 */
+        	refresh() {
+        	    this.$eventHub.$emit('refresh-home');
+        	},
+
         	/**
         	 * In case the user has just joined to the Voten community let's ask them for the awesome Desktop notifications permission.
         	 *

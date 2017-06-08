@@ -45,14 +45,41 @@
 
 
         <aside class="menu">
-            <p class="menu-label">
-                <i class="v-icon v-channels" aria-hidden="true"></i>
-                Subscribed Channels <span v-if="Store.subscribedCategories.length">({{ Store.subscribedCategories.length }})</span>
-            </p>
+        	<div class="flex-space">
+	            <p class="menu-label">
+	                Subscribed Channels <span v-if="Store.subscribedCategories.length">({{ Store.subscribedCategories.length }})</span>
+	            </p>
+
+        		<div class="ui icon top right active-blue pointing dropdown sidebar-panel-button">
+					<i class="v-icon v-config"></i>
+
+					<div class="menu">
+						<button class="item" @click="changeFilter('subscribed-channels')" :class="{ 'active' : filter == 'subscribed-channels' }">
+							Subscribed channels
+						</button>
+
+						<button class="item" @click="changeFilter('all-channels')" :class="{ 'active' : filter == 'all-channels' }">
+							All channels
+						</button>
+
+						<button class="item" @click="changeFilter('moderating-channels')" :class="{ 'active' : filter == 'moderating-channels' }" v-if="isModerating">
+							Moderating channels
+						</button>
+
+						<button class="item" @click="changeFilter('bookmarked-channels')" :class="{ 'active' : filter == 'bookmarked-channels' }">
+							Bookmarked channels
+						</button>
+
+						<button class="item" @click="changeFilter('by-bookmarked-users')" :class="{ 'active' : filter == 'by-bookmarked-users' }">
+							By bookmarked users
+						</button>
+					</div>
+        		</div>
+    		</div>
 
             <div class="ui category search side-box-search">
                 <div class="ui mini icon input">
-                  <input class="prompt" type="text" placeholder="Subscribed Channels..." v-model="subscribedFilter">
+                  <input class="prompt" type="text" placeholder="Channels..." v-model="subscribedFilter">
                   <i class="v-icon v-search search icon"></i>
                 </div>
             </div>
@@ -74,13 +101,18 @@
 </template>
 
 <script>
+import Helpers from '../mixins/Helpers';
+import LocalStorage from '../mixins/LocalStorage';
+
 export default {
+	mixins: [Helpers, LocalStorage],
 
     data: function () {
         return {
             subscribedFilter: '',
             auth,
-            Store
+            Store,
+            filter: 'test'
         };
     },
 
@@ -113,6 +145,15 @@ export default {
     },
 
     methods: {
+    	/**
+    	 * changes the filter for sidebar
+    	 *
+    	 * @return void
+    	 */
+    	changeFilter() {
+    	    return
+    	},
+
         changeRoute: function(newRoute) {
         	this.$eventHub.$emit('new-route', newRoute)
         },

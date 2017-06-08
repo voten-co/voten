@@ -54,6 +54,42 @@ label.v-toggle--checked.v-toggle {
     cursor: pointer;
 }
 
+.feed-panel-button {
+    background: none;
+    border: 0;
+    cursor: pointer;
+    width: 42px;
+    height: 42px;
+    display: inline-flex !important;
+    align-items: center;
+    border-radius: 2px;
+    color: #75797b;
+}
+
+.feed-panel-button:hover {
+    background: rgb(240, 240, 240);
+}
+
+.sidebar-panel-button {
+	background: none;
+    border: 0;
+    cursor: pointer;
+    width: 42px;
+    height: 42px;
+    display: inline-flex !important;
+    align-items: center;
+    border-radius: 2px;
+    color: #75797b;
+}
+
+.sidebar-panel-button i:hover {
+	color: #fff;
+}
+
+.Gray .sidebar-panel-button i:hover {
+	color: #000;
+}
+
 .btn-no-back {
     background: none;
     border: 0;
