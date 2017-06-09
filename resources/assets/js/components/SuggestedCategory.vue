@@ -52,7 +52,7 @@
 
         methods: {
             getCategory() {
-            	axios.get('/suggested-category').then((response) => {
+            	axios.get(this.authUrl('suggested-category')).then((response) => {
 					if (response.data != null) {
 						this.visible = true
 						this.category = response.data

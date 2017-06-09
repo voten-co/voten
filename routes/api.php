@@ -147,6 +147,7 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:api'], function () {
     Route::get('/home', 'HomeController@feed');
 	Route::get('/category-submissions', 'CategoryController@submissions');
 	Route::get('/sidebar-categories', 'StoreController@sidebarCategories');
+	Route::get('/suggested-category', 'SuggestionController@category');
 });
 
 

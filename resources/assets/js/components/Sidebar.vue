@@ -165,7 +165,7 @@ export default {
 
     	    this.putLS('sidebar-filter', filter);
 
-    	    axios.get('/sidebar-categories', {
+    	    axios.get(this.authUrl('sidebar-categories'), {
     	    	params: {
     	    		sidebar_filter: Store.sidebarFilter
     	    	}
