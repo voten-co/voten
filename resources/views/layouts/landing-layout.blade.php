@@ -83,10 +83,11 @@
 			<div class="flex1">
 				<h3 class="go-primary">Voten 	&#10084;</h3>
 				<ul>
+					<li><a href="/about">About</a></li>
+
 					@if(Auth::check())
 						<li><a href="/logout">Sign out</a></li>
 					@else
-						<li><a href="/login">Sign in</a></li>
 						<li><a href="/register">Sign Up</a></li>
 					@endif
 
@@ -107,7 +108,7 @@
 				<h3 class="go-green">Follow Voten</h3>
 				<ul>
 					<li><a href="https://medium.com/voten" target="_blank">Blog</a></li>
-					<li><a href="https://www.reddit.com/r/voten/" target="_blank">Reddit</a></li>
+					<li><a href="https://github.com/voten-co/voten" target="_blank">Github</a></li>
 					<li><a href="https://twitter.com/voten_co/" target="_blank">Twitter</a></li>
 					<li><a href="https://facebook.com/voten.co/" target="_blank">Facebook</a></li>
 				</ul>

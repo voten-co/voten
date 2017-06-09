@@ -2,13 +2,14 @@
 
 @section('content')
 	<section class="container">
-		<h1 class="align-center">Terms Of Service</h1>
+		<h1 class="title align-center">Terms Of Service</h1>
 
 		<p>
 			Voten is a website for groups and individuals to communicate, meet, and contribute in an open atmosphere, resort to some of the most authentic materials online. The nature of this online materials might be funny, serious, offensive, scientific, political or anywhere in between. While participating, it’s crucial to remember this value above all others: be respectful to all users, so we all can enjoy Voten for what it is.
 		</p>
 
-		<h2>
+		<br>
+		<h2 class="title">
 			Unwelcome content
 		</h2>
 
@@ -68,7 +69,8 @@
 		</ul>
 
 
-		<h2>
+		<br>
+		<h2 class="title">
 			Prohibited behavior
 		</h2>
 
@@ -81,7 +83,8 @@
 			Creating multiple accounts to evade punishment or avoid restrictions
 		</p>
 
-		<h2>
+		<br>
+		<h2 class="title">
 			NSFW (Not Safe For Work) content
 		</h2>
 
@@ -90,7 +93,8 @@
 			This tag can be applied to individual pieces of content or to entire communities.
 		</p>
 
-		<h2>
+		<br>
+		<h2 class="title">
 			Enforcement
 		</h2>
 
@@ -116,7 +120,8 @@
 			</li>
 		</ul>
 
-		<h2>
+		<br>
+		<h2 class="title">
 			Moderation within communities
 		</h2>
 

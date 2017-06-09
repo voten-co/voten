@@ -39,4 +39,14 @@ class PagesController extends Controller
     {
         return view('landing');
     }
+
+    /**
+     * loads the about page
+     *
+     * @return
+     */
+    public function about()
+    {
+    	return view('pages.about');
+    }
 }

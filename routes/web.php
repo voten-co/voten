@@ -9,6 +9,7 @@ Route::group(['middleware' => ['maintenance', 'http2']], function () {
     Route::get('/', 'HomeController@homePage');
     Route::get('/credits', 'PagesController@credits');
     Route::get('/features', 'PagesController@features');
+    Route::get('/about', 'PagesController@about');
     Route::get('/privacy-policy', 'PagesController@privacyPolicy');
 
     // guest browsing routes
