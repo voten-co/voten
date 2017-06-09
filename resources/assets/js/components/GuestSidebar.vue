@@ -13,7 +13,7 @@
         		Sign up now to get your own personalized timeline, modified sidebar, customizable design, and real-time experience!
         	</p>
 
-        	<button class="v-button v-button--block" @click="mustBeLogin">
+        	<button class="v-button v-button--block" @click="signUp">
         		Sign up
         	</button>
         </div>
@@ -120,6 +120,10 @@ export default {
         changeRoute: function(newRoute) {
         	this.$eventHub.$emit('new-route', newRoute)
         },
+        signUp: function(){
+            this.$eventHub.$emit('toggle-sidebar');
+            this.mustBeLogin();
+        }
     },
 }
 </script>
