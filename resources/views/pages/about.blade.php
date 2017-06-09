@@ -53,7 +53,7 @@ Voten's mission is to give people the power to share their content with not just
 		<br>
 		<h2 class="title">Users are voters</h2>
 		<p>
-			On Voten users get to decide what deserves more attention by voting. After all the word "Voten" means "vote" in German and Spanish.
+			On Voten users are in charge. They get to decide what deserves more attention by voting. After all the word "Voten" means "vote" in German and Spanish.
 		</p>
 
 		<br>

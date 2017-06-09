@@ -11,10 +11,16 @@
 
 				<!-- login form  -->
 				<div v-show="type == 'login'">
+					<div class="v-status v-status--error" v-if="errors.username">
+			            {{ errors.username }}
+			        </div>
+
+			        <div class="v-status v-status--success" v-if="successfulLogin">
+			            Welcome back {{ '@' + loginUsername }}
+			        </div>
+
 					<div class="form-group">
 						<input type="text" class="form-control" id="username" v-model="loginUsername" name="username" placeholder="Username..." required>
-
-						<small class="text-muted go-red" v-for="e in errors.username">{{ e }}</small>
 					</div>
 
 					<div class="form-group">
@@ -33,7 +39,7 @@
 		            </div>
 
 					<div class="flex-space">
-						<button class="v-button v-button--green">Login</button>
+						<button class="v-button v-button--green" @click="login" :disabled="!goodToLogin">Login</button>
 						<a class="v-button" href="/password/reset">Forgot my password</a>
 					</div>
 				</div>
@@ -60,13 +66,11 @@
 
 					<div class="form-group">
 						<input id="password" type="password" class="form-control" name="confirm_password" v-model="registerConfirmPassword" placeholder="Confirm Password" required>
-
-						<small class="text-muted go-red" v-for="e in errors.confirm_password">{{ e }}</small>
 					</div>
 
 					<div class="flex-space">
 						<span class="form-notice">By clicking Sign Up, you agree to our <a href="/tos" class="go-primary">terms</a>.</span>
-						<button class="v-button v-button--green">Sign up</button>
+						<button class="v-button v-button--green" @click="register" :disabled="!goodToRegister">Sign up</button>
 					</div>
 				</div>
             </div>
@@ -87,9 +91,11 @@ export default {
         return {
         	type: 'login',
         	errors: [],
+        	loading: false,
         	loginUsername: '',
         	loginPassword: '',
         	remember: true,
+        	successfulLogin: false,
 
         	registerUsername: '',
         	registerEmail: '',
@@ -104,13 +110,72 @@ export default {
 		})
 	},
 
+	computed: {
+		goodToLogin() {
+			return this.loginUsername.length > 2 && this.loginPassword.length > 5 && !this.loading;
+		},
+
+		goodToRegister() {
+			return this.registerUsername.length > 2 && this.registerPassword.length > 5 && this.registerConfirmPassword.length > 5 && !this.loading;
+		}
+	},
+
     methods: {
+    	/**
+    	 * Fakes the login form
+    	 *
+    	 * @return void
+    	 */
+    	login() {
+    		this.loading = true;
+
+    	    axios.post('/login', {
+    	    	username: this.loginUsername,
+    	    	password: this.loginPassword,
+    	    	remember: this.remember
+    	    }).then((response) => {
+    	    	this.loading = false;
+    	    	this.errors = [];
+    	    	this.successfulLogin = true;
+    	    	location.reload();
+    	    }).catch((error) => {
+    	    	this.loading = false;
+    	    	this.errors = error.response.data;
+    	    });
+    	},
+
+    	/**
+    	 * Fakes the register form
+    	 *
+    	 * @return void
+    	 */
+    	register() {
+    		this.loading = true;
+
+    	    axios.post('/register', {
+    	    	username: this.registerUsername,
+    	    	email: this.registerEmail,
+    	    	password: this.registerPassword,
+    	    	password_confirmation: this.registerConfirmPassword,
+    	    	remember: this.remember
+    	    }).then((response) => {
+    	    	this.loading = false;
+    	    	this.errors = [];
+    	    	window.location = "/find-channels?newbie=1&sidebar=0";
+    	    }).catch((error) => {
+    	    	this.loading = false;
+    	    	this.errors = error.response.data;
+    	    });
+    	},
+
     	/**
     	 * switches the type
     	 *
     	 * @return void
     	 */
     	switchType(type) {
+    		this.errors = [];
+
     	    this.type = type;
     	},
 

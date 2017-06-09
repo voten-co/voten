@@ -19,7 +19,7 @@
 
 					or
 
-					<router-link class="v-button v-button--primary" :to="{name: 'home-hot', query: { sidebar: 1, newbie: 1 }}">
+					<router-link class="v-button v-button--primary" :to="{name: 'home', query: { sidebar: 1, newbie: 1 }}">
 						Start Voting
 					</router-link>
 				</div>
