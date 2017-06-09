@@ -15,7 +15,57 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => ['fillStore', 'submissions', 'comments', 'showSubmissions', 'showComments']]);
+    }
+
+    /**
+     * shows the submissions page of users profile
+     *
+     * @return view
+     */
+    public function showSubmissions($username)
+    {
+    	if (Auth::check()) {
+    		return view('welcome');
+    	}
+
+    	$user = User::withTrashed()->where('username', $username)->firstOrFail();
+
+        $user->stats = $this->userStats($user->id);
+
+        $submissions = User::where('username', $username)
+                    ->firstOrFail()
+                    ->submissions()
+                    ->withTrashed()
+                    ->orderBy('created_at', 'desc')
+                    ->simplePaginate(10);
+
+        return view('user.submissions', compact('user', 'submissions'));
+    }
+
+    /**
+     * shows the comments page of users profile
+     *
+     * @return view
+     */
+    public function showComments($username)
+    {
+    	if (Auth::check()) {
+    		return view('welcome');
+    	}
+
+    	$user = User::withTrashed()->where('username', $username)->firstOrFail();
+
+        $user->stats = $this->userStats($user->id);
+
+        $comments = $this->withoutChildren(User::where('username', $username)
+                    ->firstOrFail()
+                    ->comments()
+                    ->withTrashed()
+                    ->orderBy('created_at', 'desc')
+                    ->simplePaginate(10));
+
+        return view('user.comments', compact('user', 'comments'));
     }
 
     /**

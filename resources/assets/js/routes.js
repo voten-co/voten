@@ -1,69 +1,58 @@
-import AdminPanelSuggestedCategories from './components/AdminPanelSuggestedCategories.vue'
-import BookmarkedCategories from './components/BookmarkedCategories.vue'
-import SubmissionRedirector from './components/SubmissionRedirector.vue'
-import AdminPanelFeedbacks from './components/AdminPanelFeedbacks.vue'
-import BookmarkedComments from './components/BookmarkedComments.vue'
-import AdminPanelCategory from './components/AdminPanelCategory.vue'
-import BookmarkedUsers from './components/BookmarkedUsers.vue'
-import UserSubmissions from './components/UserSubmissions.vue'
-import ModeratorPanel from './components/ModeratorPanel.vue'
-import AdminPanelUser from './components/AdminPanelUser.vue'
-import AdminPanelHelp from './components/AdminPanelHelp.vue'
-import FindCategories from './components/FindCategories.vue'
-import SubmissionPage from './components/SubmissionPage.vue'
-import UserComments from './components/UserComments.vue'
-import NewCategory from './components/NewCategory.vue'
-import AdminPanel from './components/AdminPanel.vue'
-import HomeRising from './components/HomeRising.vue'
-import Bookmarks from './components/Bookmarks.vue'
-import NotFound from './components/NotFound.vue'
-import Settings from './components/Settings.vue'
-import Help from './components/Help.vue'
-import Home from './components/Home.vue'
-import Submit from './components/Submit.vue'
-import HomeNew from './components/HomeNew.vue'
-import HomeHot from './components/HomeHot.vue'
-import Category from './components/Category.vue'
-import UserPage from './components/UserPage.vue'
-import CategoryHot from './components/CategoryHot.vue'
-import CategoryNew from './components/CategoryNew.vue'
-import CategoryRising from './components/CategoryRising.vue'
-import AdminPanelUsers from './components/AdminPanelUsers.vue'
-import CategorySettings from './components/CategorySettings.vue'
-import AdminPanelBanUser from './components/AdminPanelBanUser.vue'
-import AdminPanelComments from './components/AdminPanelComments.vue'
-import ModeratorPanelRules from './components/ModeratorPanelRules.vue'
-import AdminPanelStatistics from './components/AdminPanelStatistics.vue'
-import UserSettingsEditFeed from './components/UserSettingsEditFeed.vue'
-import AdminPanelSubmissions from './components/AdminPanelSubmissions.vue'
-import DeletedSubmissionPage from './components/DeletedSubmissionPage.vue'
-import BookmarkedSubmissions from './components/BookmarkedSubmissions.vue'
-import ModeratorPanelBanUsers from './components/ModeratorPanelBanUsers.vue'
-import UserUpvotedSubmissions from './components/UserUpvotedSubmissions.vue'
-import UserSettingsEditProfile from './components/UserSettingsEditProfile.vue'
-import UserSettingsEditAccount from './components/UserSettingsEditAccount.vue'
-import UserDownvotedSubmissions from './components/UserDownvotedSubmissions.vue'
-import ModeratorPanelModerators from './components/ModeratorPanelModerators.vue'
-import ModeratorPanelBlockDomains from './components/ModeratorPanelBlockDomains.vue'
-import AdminPanelReportedComments from './components/AdminPanelReportedComments.vue'
-import AdminPanelReportedSubmissions from './components/AdminPanelReportedSubmissions.vue'
-import ModeratorPanelReportedComments from './components/ModeratorPanelReportedComments.vue'
-import UserSettingsEditEmailAndPassword from './components/UserSettingsEditEmailAndPassword.vue'
-import ModeratorPanelReportedSubmissions from './components/ModeratorPanelReportedSubmissions.vue'
+import AdminPanelSuggestedCategories from './components/AdminPanelSuggestedCategories.vue';
+import BookmarkedCategories from './components/BookmarkedCategories.vue';
+import SubmissionRedirector from './components/SubmissionRedirector.vue';
+import AdminPanelFeedbacks from './components/AdminPanelFeedbacks.vue';
+import CategorySubmissions from './components/CategorySubmissions.vue';
+import BookmarkedComments from './components/BookmarkedComments.vue';
+import AdminPanelCategory from './components/AdminPanelCategory.vue';
+import BookmarkedUsers from './components/BookmarkedUsers.vue';
+import UserSubmissions from './components/UserSubmissions.vue';
+import ModeratorPanel from './components/ModeratorPanel.vue';
+import AdminPanelUser from './components/AdminPanelUser.vue';
+import AdminPanelHelp from './components/AdminPanelHelp.vue';
+import FindCategories from './components/FindCategories.vue';
+import SubmissionPage from './components/SubmissionPage.vue';
+import UserComments from './components/UserComments.vue';
+import NewCategory from './components/NewCategory.vue';
+import AdminPanel from './components/AdminPanel.vue';
+import Bookmarks from './components/Bookmarks.vue';
+import NotFound from './components/NotFound.vue';
+import Settings from './components/Settings.vue';
+import Help from './components/Help.vue';
+import Home from './components/Home.vue';
+import Submit from './components/Submit.vue';
+import Category from './components/Category.vue';
+import UserPage from './components/UserPage.vue';
+import AdminPanelUsers from './components/AdminPanelUsers.vue';
+import CategorySettings from './components/CategorySettings.vue';
+import AdminPanelBanUser from './components/AdminPanelBanUser.vue';
+import AdminPanelComments from './components/AdminPanelComments.vue';
+import ModeratorPanelRules from './components/ModeratorPanelRules.vue';
+import AdminPanelStatistics from './components/AdminPanelStatistics.vue';
+import UserSettingsEditFeed from './components/UserSettingsEditFeed.vue';
+import AdminPanelSubmissions from './components/AdminPanelSubmissions.vue';
+import DeletedSubmissionPage from './components/DeletedSubmissionPage.vue';
+import BookmarkedSubmissions from './components/BookmarkedSubmissions.vue';
+import ModeratorPanelBanUsers from './components/ModeratorPanelBanUsers.vue';
+import UserUpvotedSubmissions from './components/UserUpvotedSubmissions.vue';
+import UserSettingsEditProfile from './components/UserSettingsEditProfile.vue';
+import UserSettingsEditAccount from './components/UserSettingsEditAccount.vue';
+import UserDownvotedSubmissions from './components/UserDownvotedSubmissions.vue';
+import ModeratorPanelModerators from './components/ModeratorPanelModerators.vue';
+import ModeratorPanelBlockDomains from './components/ModeratorPanelBlockDomains.vue';
+import AdminPanelReportedComments from './components/AdminPanelReportedComments.vue';
+import AdminPanelReportedSubmissions from './components/AdminPanelReportedSubmissions.vue';
+import ModeratorPanelReportedComments from './components/ModeratorPanelReportedComments.vue';
+import UserSettingsEditEmailAndPassword from './components/UserSettingsEditEmailAndPassword.vue';
+import ModeratorPanelReportedSubmissions from './components/ModeratorPanelReportedSubmissions.vue';
 
 
 
 const routes = [
-    { path: '/', redirect: '/hot' },
     {
         name: 'home',
         path: '/',
-        component: Home,
-        children: [
-            { path: 'hot', component: HomeHot, name: 'home-hot', meta: { title: 'Hot | Home' } },
-            { path: 'new', component: HomeNew, name: 'home-new', meta: { title: 'New | Home' } },
-            { path: 'rising', component: HomeRising, name: 'home-rising', meta: { title: 'Rising | Home' } },
-        ]
+        component: Home
     },
 
     { path: '/help', component: Help, meta: { title: 'Help Center' } },
@@ -95,13 +84,12 @@ const routes = [
         ]
     },
 
-    { path: '/@:username', redirect: '/@:username/submissions' },
     { path: '/@:username/settings', redirect: '/@:username/settings/account' },
     {
         path: '/@:username',
         component: UserPage,
         children: [
-            { path: 'submissions', component: UserSubmissions, name: 'user-submissions' },
+            { path: '', component: UserSubmissions, name: 'user-submissions' },
             {
                  path: 'settings',
                  component: Settings,
@@ -119,16 +107,14 @@ const routes = [
         ]
     },
 
-    { path: '/c/:name', redirect: '/c/:name/hot' },
     { path: '/c/:name/mod/reports', redirect: '/c/:name/mod/reports/submissions' },
     { path: '/c/:name/mod', redirect: '/c/:name/mod/reports/submissions' },
     {
         path: '/c/:name',
         component: Category,
+        name: 'category',
         children: [
-            { path: 'hot', component: CategoryHot },
-            { path: 'new', component: CategoryNew },
-            { path: 'rising', component: CategoryRising },
+        	{ path: '', component: CategorySubmissions, name: 'category-submissions' },
             {
                 path: 'mod',
                 component: ModeratorPanel,
@@ -161,7 +147,7 @@ const routes = [
     { path: '/submission/:id', component: SubmissionRedirector },
     { path: '/find-channels', component: FindCategories, name: 'find-categories' },
     { path: '/404', component: NotFound, name: 'not-found', meta: { title: 'Not Found' } },
-    { path: '/c/:name/:slug', component: SubmissionPage },
+    { path: '/c/:name/:slug', component: SubmissionPage, name: 'submission-page' },
 
     { path: '/bookmarks', redirect: '/bookmarks/submissions' },
     {
@@ -200,7 +186,15 @@ router.beforeEach((to, from, next) => {
     if (to.meta.title) {
         document.title = to.meta.title
     } else {
-        document.title = 'Voten'
+    	if (
+	    		to.name != "submission-page" &&
+	    		to.name != "category" &&
+	    		to.name != "home" &&
+	    		to.name != "user-submissions" &&
+	    		to.name != "user-comments"
+    		) {
+    		document.title = 'Voten'
+    	}
     }
 
     next()

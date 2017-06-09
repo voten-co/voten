@@ -27,7 +27,13 @@
 	            </div>
 
 	            <div class="category-header-middle">
-                    <h2>
+                    <h1 v-if="$route.name == 'category'">
+        				<router-link :to="'/c/' + Store.category.name" class="flex-center-inline">
+	                        <i class="v-icon v-channel" aria-hidden="true"></i>{{ Store.category.name }}
+	                	</router-link>
+                    </h1>
+
+                    <h2 v-else>
         				<router-link :to="'/c/' + Store.category.name" class="flex-center-inline">
 	                        <i class="v-icon v-channel" aria-hidden="true"></i>{{ Store.category.name }}
 	                	</router-link>
@@ -69,15 +75,15 @@
 	<nav class="nav has-shadow user-select">
 	    <div class="container">
 	        <div class="nav-left">
-	        	<router-link :to="{ path: '/c/' + $route.params.name + '/hot' }" class="nav-item is-tab" active-class="is-active">
+	        	<router-link :to="{ path: '/c/' + $route.params.name }" class="nav-item is-tab" :class="{ 'is-active': sort == 'hot' }">
 					Hot
 				</router-link>
 
-				<router-link :to="{ path: '/c/' + $route.params.name + '/new' }" class="nav-item is-tab" active-class="is-active">
+				<router-link :to="{ path: '/c/' + $route.params.name + '?sort=new' }" class="nav-item is-tab" :class="{ 'is-active': sort == 'new' }">
 					New
 				</router-link>
 
-				<router-link :to="{ path: '/c/' + $route.params.name + '/rising'  }" class="nav-item is-tab" active-class="is-active">
+				<router-link :to="{ path: '/c/' + $route.params.name + '?sort=rising'  }" class="nav-item is-tab" :class="{ 'is-active': sort == 'rising' }">
 					Rising
 				</router-link>
 	        </div>
@@ -105,11 +111,11 @@
 					Moderation
 				</router-link>
 
-            	<router-link class="v-button desktop-only" :to="'/submit?channel=' + $route.params.name">
+            	<button class="v-button desktop-only" @click="submitButton">
             		Submit
-            	</router-link>
+            	</button>
 
-            	<subscribe></subscribe>
+            	<subscribe v-if="!isGuest"></subscribe>
 	        </div>
 	    </div>
 	</nav>
@@ -118,8 +124,11 @@
 
 <script>
 import Subscribe from '../components/Subscribe-button.vue'
+import Helpers from '../mixins/Helpers';
 
 export default {
+	mixins: [Helpers],
+
     components: {
     	Subscribe
     },
@@ -144,6 +153,15 @@ export default {
 	},
 
     methods: {
+    	submitButton() {
+    	    if (this.isGuest) {
+    	    	this.mustBeLogin();
+    	    	return;
+    	    }
+
+    	    this.$router.push('/submit?channel=' + this.$route.params.name);
+    	},
+
 		emitRules(){
 			this.$eventHub.$emit('rules')
 		},
@@ -171,16 +189,21 @@ export default {
 		},
 
     	/**
-        *  Whether or not user has bookmarked the submission
-        *
-        *  @return Boolean
-        */
+         *  Whether or not user has bookmarked the submission
+         *
+         *  @return Boolean
+         */
         setBookmarked () { if ( Store.categoryBookmarks.indexOf(Store.category.id) != -1 ) this.bookmarked = true },
 
         /**
-        *  Toggles the category into bookmarks
-        */
+         *  Toggles the category into bookmarks
+         */
     	bookmark (category) {
+    		if (this.isGuest) {
+        		this.mustBeLogin();
+        		return;
+        	}
+
     		this.bookmarked = !this.bookmarked
 
 			axios.post('/bookmark-category', {
@@ -198,6 +221,24 @@ export default {
     },
 
     computed: {
+    	/**
+    	 * the sort of the page
+    	 *
+    	 * @return mixed
+    	 */
+    	sort() {
+    		if (this.$route.name != 'category-submissions')
+    			return null;
+
+    	    if (this.$route.query.sort == 'new')
+    	    	return 'new';
+
+    	    if (this.$route.query.sort == 'rising')
+    	    	return 'rising';
+
+    	    return 'hot';
+    	},
+
     	date () {
     		return moment(Store.category.created_at).utc(moment().format("MMM Do")).format("MMM Do")
     	},
@@ -227,7 +268,6 @@ export default {
         		return '#333'
         	}
         }
-
     }
 }
 </script>

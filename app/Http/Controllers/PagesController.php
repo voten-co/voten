@@ -24,7 +24,7 @@ class PagesController extends Controller
     public function welcome()
     {
         if (!Auth::check()) {
-            return view('landing');
+            return view('home');
         }
 
         return view('welcome');
@@ -38,5 +38,15 @@ class PagesController extends Controller
     public function features()
     {
         return view('landing');
+    }
+
+    /**
+     * loads the about page
+     *
+     * @return
+     */
+    public function about()
+    {
+    	return view('pages.about');
     }
 }

@@ -8,7 +8,6 @@
 @stop
 
 @section('content')
-	{{-- Invite --}}
 	<div class="landing-layout-gray">
 		<div class="landing-wrapper align-center">
 			<h1 class="home-title-big">

@@ -3,17 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Traits\CachableUser;
+use App\Traits\CachableCategory;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
 
 class StoreController extends Controller
 {
-    use CachableUser;
+    use CachableUser, CachableCategory;
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => ['sidebarCategories']]);
     }
 
     /**
@@ -23,7 +24,7 @@ class StoreController extends Controller
      *
      * @return collection
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
 
@@ -36,7 +37,7 @@ class StoreController extends Controller
             'bookmarkedComments'          => $this->bookmarkedComments(), // cached
             'bookmarkedCategories'        => $this->bookmarkedCategories(), // cached
             'bookmarkedUsers'             => $this->bookmarkedUsers(), // cached
-            'subscribedCategories'        => $this->subscribedCategories(),
+            'subscribedCategories'        => $this->subscribedCategories($request->sidebar_filter),
             'moderatingCategories'        => $this->moderatingCategories(),
             'moderatingCategoriesRecords' => $this->moderatingCategoriesRecords(),
             'blockedUsers'                => $this->blockedUsers(), // cached
@@ -79,8 +80,29 @@ class StoreController extends Controller
     }
 
     // returns subscriptions of Auth user
-    protected function subscribedCategories()
+    protected function subscribedCategories($filter = "subscribed-channels")
     {
+    	if (!Auth::check()) {
+    		return $this->getDefaultCategoryRecords();
+    	}
+
+        if ($filter == "moderating-channels") {
+        	return Auth::user()->categoryRoles;
+        } elseif ($filter == "bookmarked-channels") {
+        	return Auth::user()->bookmarkedCategories;
+        }
+
+        // $filter == "subscribed channels"
         return Auth::user()->subscriptions;
+    }
+
+    /**
+     * returns categoeis for sidebar
+     *
+     * @return collection
+     */
+    public function sidebarCategories(Request $request)
+    {
+    	return $this->subscribedCategories($request->sidebar_filter);
     }
 }

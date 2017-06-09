@@ -5,14 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>
-    	@section('title')
-    		Voten
-    	@show
-    </title>
-
     @yield('head')
-    <link href="/icons/css/fontello.6.css" rel="stylesheet">
+    <link href="/icons/css/fontello.7.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
@@ -41,7 +35,7 @@
     @include('app-header')
 
     <div class="v-content-wrapper">
-		<div class="v-side" v-show="sidebar">
+		<div class="v-side {{ settings('sidebar_color') }}" v-show="sidebar">
 		    <sidebar></sidebar>
 		</div>
 
@@ -104,13 +98,15 @@
         },
         stats: {!! Auth::user()->stats() !!},
         isGuest: {{ 'false' }}
-    }
+    };
+
+    var preload = {};
 </script>
 
 @yield('script')
-<script src="{{ mix('/js/manifest.js') }}"></script>
-<script src="{{ mix('/js/vendor.js') }}"></script>
-<script src="{{ mix('/js/app.js') }}"></script>
+	<script src="{{ mix('/js/manifest.js') }}"></script>
+	<script src="{{ mix('/js/vendor.js') }}"></script>
+	<script src="{{ mix('/js/app.js') }}"></script>
 @yield('footer')
 
 </body>

@@ -40,11 +40,9 @@
 		                @endif
 					</div>
 
-                    <div class="flex-space">
-						<button class="v-button v-button--green v-button--block" type="submit">
-						    Reset Password
-						</button>
-					</div>
+                    <button class="v-button v-button--green" type="submit">
+					    Reset Password
+					</button>
                 </form>
             </div>
         </div>

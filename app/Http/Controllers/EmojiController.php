@@ -4,11 +4,6 @@ namespace App\Http\Controllers;
 
 class EmojiController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index()
     {
         $json = <<<'JSON'

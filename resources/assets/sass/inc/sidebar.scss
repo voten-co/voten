@@ -1,0 +1,38 @@
+.sidebar-copyright {
+    margin: 0;
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    padding: 1em;
+}
+
+.sidebar-copyright li,
+.sidebar-copyright li a {
+    color: #657786;
+    float: left;
+    padding-right: 8px;
+    font-size: 12px;
+}
+
+.sidebar-copyright li a:hover {
+    font-weight: 400;
+    text-decoration: underline;
+}
+
+.sidebar-offer-wrapper {
+    padding: 0 1em;
+    margin: 1em .5em;
+    background: rgba(199, 199, 199, 0.16);
+    border: 1px solid rgba(212, 207, 207, 0.08);
+    border-radius: 2px;
+}
+
+.sidebar-offer-wrapper p {
+    font-size: 14px;
+    margin-top: 0;
+}
+
+.sidebar-offer-wrapper h3 {
+	font-weight: bold;
+	margin: .5em 0;
+}

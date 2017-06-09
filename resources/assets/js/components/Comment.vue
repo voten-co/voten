@@ -56,7 +56,7 @@
                         <i class="v-icon v-edit h-purple"></i>
                     </a>
 
-                    <div class="ui icon top left pointing dropdown" data-toggle="tooltip" data-placement="top" title="More">
+                    <div class="ui icon top left pointing dropdown" data-toggle="tooltip" data-placement="top" title="More" v-if="!isGuest">
                         <i class="v-icon v-more" aria-hidden="true"></i>
 
                         <div class="menu">
@@ -298,6 +298,11 @@
             *  Toggles the comment into bookmarks
             */
         	bookmark () {
+        		if (this.isGuest) {
+            		this.mustBeLogin();
+            		return;
+            	}
+
         		this.bookmarked = !this.bookmarked
 
 				axios.post('/bookmark-comment', {
@@ -315,7 +320,14 @@
         	/**
             *  toggles the reply form
             */
-            commentReply () { this.reply = !this.reply },
+            commentReply () {
+            	if (this.isGuest) {
+            		this.mustBeLogin();
+            		return;
+            	}
+
+            	this.reply = !this.reply;
+        	},
 
             /**
             *  upVote comment
@@ -323,6 +335,11 @@
             *  @return void
             */
             voteUp () {
+            	if (this.isGuest) {
+            		this.mustBeLogin();
+            		return;
+            	}
+
 				let id = this.list.id
 
 				axios.post('/upvote-comment', {
@@ -362,6 +379,11 @@
             *  @return void
             */
             voteDown () {
+            	if (this.isGuest) {
+            		this.mustBeLogin();
+            		return;
+            	}
+
 				let id = this.list.id
 
 				axios.post('/downvote-comment', {

@@ -45,20 +45,40 @@
 
 
         <aside class="menu">
-            <p class="menu-label">
-                <i class="v-icon v-channels" aria-hidden="true"></i>
-                Subscribed Channels <span v-if="Store.subscribedCategories.length">({{ Store.subscribedCategories.length }})</span>
-            </p>
+        	<div class="flex-space">
+	            <p class="menu-label">
+	                {{ categoriesTitle }} <span v-if="Store.subscribedCategories.length">({{ Store.subscribedCategories.length }})</span>
+	            </p>
+
+        		<div class="ui icon top right active-blue pointing dropdown sidebar-panel-button">
+					<i class="v-icon v-config"></i>
+
+					<div class="menu">
+						<button class="item" @click="changeFilter('subscribed-channels')" :class="{ 'active' : filter == 'subscribed-channels' }">
+							Subscribed channels
+						</button>
+
+						<button class="item" @click="changeFilter('moderating-channels')" :class="{ 'active' : filter == 'moderating-channels' }" v-if="isModerating">
+							Moderating channels
+						</button>
+
+						<button class="item" @click="changeFilter('bookmarked-channels')" :class="{ 'active' : filter == 'bookmarked-channels' }">
+							Bookmarked channels
+						</button>
+					</div>
+        		</div>
+    		</div>
 
             <div class="ui category search side-box-search">
                 <div class="ui mini icon input">
-                  <input class="prompt" type="text" placeholder="Subscribed Channels..." v-model="subscribedFilter">
+                  <input class="prompt" type="text" placeholder="Channels..." v-model="subscribedFilter">
                   <i class="v-icon v-search search icon"></i>
                 </div>
             </div>
 
             <div class="no-subsciption" v-if="!Store.subscribedCategories.length && !Store.loading">
-            	No subscribed #channels
+            	<i class="v-icon v-sad" aria-hidden="true"></i>
+            	No channels to display
             </div>
 
             <ul class="menu-list" v-else>
@@ -74,7 +94,11 @@
 </template>
 
 <script>
+import Helpers from '../mixins/Helpers';
+import LocalStorage from '../mixins/LocalStorage';
+
 export default {
+	mixins: [Helpers, LocalStorage],
 
     data: function () {
         return {
@@ -91,7 +115,23 @@ export default {
 	},
 
     computed: {
-        submitURL(){
+    	filter() {
+    		return Store.sidebarFilter;
+    	},
+
+    	categoriesTitle() {
+    		if (Store.sidebarFilter == "moderating-channels") {
+    			return "Moderating Channels";
+    		}
+
+    		if (Store.sidebarFilter == "bookmarked-channels") {
+    			return "Bookmarked Channels";
+    		}
+
+    		return "Subscribed Channels";
+    	},
+
+        submitURL() {
             if (this.$route.params.name)
             	return "/submit?channel=" + this.$route.params.name
 
@@ -103,7 +143,7 @@ export default {
     	 *
     	 * @return {Array} comments
     	 */
-    	sortedSubscribeds () {
+    	sortedSubscribeds() {
 			var self = this
 
     		return _.orderBy(Store.subscribedCategories.filter(function (category) {
@@ -113,6 +153,27 @@ export default {
     },
 
     methods: {
+    	/**
+    	 * changes the filter for sidebar
+    	 *
+    	 * @return void
+    	 */
+    	changeFilter(filter) {
+    		if (Store.sidebarFilter == filter) return;
+
+    	    Store.sidebarFilter = filter;
+
+    	    this.putLS('sidebar-filter', filter);
+
+    	    axios.get('/sidebar-categories', {
+    	    	params: {
+    	    		sidebar_filter: Store.sidebarFilter
+    	    	}
+    	    }).then((response) => {
+    	    	Store.subscribedCategories = response.data;
+    	    });
+    	},
+
         changeRoute: function(newRoute) {
         	this.$eventHub.$emit('new-route', newRoute)
         },

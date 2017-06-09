@@ -1,27 +1,30 @@
-import KeyboardShortcutsGuide from './components/KeyboardShortcutsGuide.vue'
-import ReportSubmission from './components/ReportSubmission.vue'
-import ReportTableItem from './components/ReportTableItem.vue'
-import CategoryAvatar from './components/CategoryAvatar.vue'
-import ReportComment from './components/ReportComment.vue'
-import Notifications from './components/Notifications.vue'
-import MarkdownGuide from './components/MarkdownGuide.vue'
-import Subscribe from './components/Subscribe-button.vue'
-import VuiMenuButton from './components/Menu-button.vue'
-import SearchModal from './components/SearchModal.vue'
-import WebNotification from './mixins/WebNotification'
-import AvatarEdit from './components/AvatarEdit.vue'
-import Moderators from './components/Moderators.vue'
-import CropModal from './components/CropModal.vue'
-import Dashboard from './components/Dashboard.vue'
-import Feedback from './components/Feedback.vue'
-import Messages from './components/Messages.vue'
-import LocalStorage from './mixins/LocalStorage'
-import StoreStorage from './mixins/StoreStorage'
-import Sidebar from './components/Sidebar.vue'
-import Rules from './components/Rules.vue'
-import Helpers from './mixins/Helpers'
-import autosize from 'autosize'
-import router from './routes'
+import KeyboardShortcutsGuide from './components/KeyboardShortcutsGuide.vue';
+import ReportSubmission from './components/ReportSubmission.vue';
+import ReportTableItem from './components/ReportTableItem.vue';
+import CategoryAvatar from './components/CategoryAvatar.vue';
+import ReportComment from './components/ReportComment.vue';
+import Notifications from './components/Notifications.vue';
+import MarkdownGuide from './components/MarkdownGuide.vue';
+import Subscribe from './components/Subscribe-button.vue';
+import VuiMenuButton from './components/Menu-button.vue';
+import GuestSidebar from './components/GuestSidebar.vue';
+import SearchModal from './components/SearchModal.vue';
+import WebNotification from './mixins/WebNotification';
+import AvatarEdit from './components/AvatarEdit.vue';
+import Moderators from './components/Moderators.vue';
+import LoginModal from './components/LoginModal.vue';
+import CropModal from './components/CropModal.vue';
+import Dashboard from './components/Dashboard.vue';
+import NotFound from './components/NotFound.vue';
+import Feedback from './components/Feedback.vue';
+import Messages from './components/Messages.vue';
+import LocalStorage from './mixins/LocalStorage';
+import StoreStorage from './mixins/StoreStorage';
+import Sidebar from './components/Sidebar.vue';
+import Rules from './components/Rules.vue';
+import Helpers from './mixins/Helpers';
+import autosize from 'autosize';
+import router from './routes';
 
 
 /**
@@ -34,7 +37,7 @@ import router from './routes'
  * event, passes the data to the defined funciton. In this example case it's newComment() but notice that
  * it doesn't require to be actually written as argumans! ) Happy eventing in your awesome components.
  */
-Vue.prototype.$eventHub = new Vue()
+Vue.prototype.$eventHub = new Vue();
 
 
 /**
@@ -43,7 +46,6 @@ Vue.prototype.$eventHub = new Vue()
  * also plays a role in switching states and maintaining the Store.
  */
 const app = new Vue({
-
     router,
 
     mixins: [Helpers, LocalStorage, StoreStorage, WebNotification],
@@ -57,12 +59,15 @@ const app = new Vue({
         ReportComment,
         Notifications,
         VuiMenuButton,
+        GuestSidebar,
         SearchModal,
+        LoginModal,
         AvatarEdit,
         Moderators,
         CropModal,
         Subscribe,
         Dashboard,
+        NotFound,
         Feedback,
         Messages,
         Sidebar,
@@ -118,29 +123,31 @@ const app = new Vue({
 
 
     created: function() {
-        window.addEventListener('keydown', this.keydown)
+        window.addEventListener('keydown', this.keydown);
 
-        this.fillBasicStore()
+        this.fillBasicStore();
 
-        this.setSidebar()
+        this.setSidebar();
 
         // Let's hear it for the events, shall we?
-        this.$eventHub.$on('start-conversation', this.startConversation)
-        this.$eventHub.$on('report-submission', this.reportSubmission)
-        this.$eventHub.$on('toggle-sidebar', this.toggleSidebar)
-        this.$eventHub.$on('new-route', this.newRoute)
-        this.$eventHub.$on('close', this.closeModals)
-        this.$eventHub.$on('new-modal', this.newModal)
-        this.$eventHub.$on('rules', this.categoryRules)
-        this.$eventHub.$on('category-sort', this.categorySort)
-        this.$eventHub.$on('report-comment', this.reportComment)
-        this.$eventHub.$on('moderators', this.categoryModerators)
-        this.$eventHub.$on('markdown-guide', this.openMarkdownGuide)
-        this.$eventHub.$on('crop-user-photo', this.cropUserModal)
-        this.$eventHub.$on('crop-category-photo', this.cropCategoryModal)
+        this.$eventHub.$on('start-conversation', this.startConversation);
+        this.$eventHub.$on('report-submission', this.reportSubmission);
+        this.$eventHub.$on('toggle-sidebar', this.toggleSidebar);
+        this.$eventHub.$on('new-route', this.newRoute);
+        this.$eventHub.$on('close', this.closeModals);
+        this.$eventHub.$on('new-modal', this.newModal);
+        this.$eventHub.$on('rules', this.categoryRules);
+        this.$eventHub.$on('login-modal', this.loginModal);
+        this.$eventHub.$on('category-sort', this.categorySort);
+        this.$eventHub.$on('report-comment', this.reportComment);
+        this.$eventHub.$on('moderators', this.categoryModerators);
+        this.$eventHub.$on('markdown-guide', this.openMarkdownGuide);
+        this.$eventHub.$on('crop-user-photo', this.cropUserModal);
+        this.$eventHub.$on('push-notification', this.pushNotification)
+        this.$eventHub.$on('crop-category-photo', this.cropCategoryModal);
     },
 
-    mounted: function() {
+    mounted() {
         this.$nextTick(function() {
             this.loadCheckBox()
             this.loadSemanticTooltip()
@@ -149,7 +156,7 @@ const app = new Vue({
     },
 
     methods: {
-        openMarkdownGuide(){
+        openMarkdownGuide() {
             this.changeModalRoute('markdown-guide')
         },
 
@@ -159,7 +166,7 @@ const app = new Vue({
          * @param {Object} data
          * @return void
          */
-        pushNotification (data) {
+        pushNotification(data) {
             this.webNotification(data.title, data.body, data.url, data.icon)
         },
 
@@ -169,7 +176,7 @@ const app = new Vue({
          *
          * @return void
          */
-        scrolled (event) {
+        scrolled(event) {
             let box = event.target
 
             if ( (box.scrollHeight - box.scrollTop) < (box.clientHeight + 100) ) {
@@ -184,6 +191,22 @@ const app = new Vue({
          * @param {String} username
          */
         getUserStore() {
+        	// if landed on the user page as guest
+        	if (preload.user) {
+        		this.submissions = preload.user;
+
+				Store.user = preload.user
+
+                if (Store.user.id == auth.id) {
+                	auth.stats = Store.user.stats
+                }
+
+				// clear the preload
+				delete preload.user;
+
+				return;
+        	}
+
             axios.get('/get-user-store', {
             	params: {
             		username: this.$route.params.username
@@ -205,37 +228,47 @@ const app = new Vue({
          * Fetches the info about the category which we need later
          *
          * @return void
-         * @param {String} name
+         * @param string name
          */
-        getCategoryStore (name) {
-            axios.post('/get-category-store', { name: name })
-	            .then((response) => {
-	                Store.category = response.data
+        getCategoryStore(name) {
+        	// if landed on a submission page
+        	if (preload.category && preload.category.name == this.$route.params.name) {
+        		Store.category = preload.category;
+        		delete preload.category;
+        		return;
+        	}
 
-	                // update the category in the user's subscriptions (avatar might have changed)
-	                let category_id = Store.category.id
-	                function findObject(ob) {
-		                return ob.id === category_id
-		            }
-		            let i = Store.subscribedCategories.findIndex(findObject)
+            axios.get('/get-category-store', {
+            	params: {
+            		name: name
+            	}
+            }).then((response) => {
+                Store.category = response.data
 
-		            if ( i != -1 && Store.subscribedCategories[i].avatar != response.data.avatar) {
-		            	Store.subscribedCategories[i].avatar = response.data.avatar
-		            	this.putLS('subscribedCategories', Store.subscribedCategories)
-		            }
+                // update the category in the user's subscriptions (avatar might have changed)
+                let category_id = Store.category.id
+                function findObject(ob) {
+	                return ob.id === category_id
+	            }
+	            let i = Store.subscribedCategories.findIndex(findObject)
 
-		            // update the category in the user's moderating (avatar might have changed)
-		            i = Store.moderatingCategories.findIndex(findObject)
+	            if (i != -1 && Store.subscribedCategories[i].avatar != response.data.avatar) {
+	            	Store.subscribedCategories[i].avatar = response.data.avatar
+	            	this.putLS('subscribedCategories', Store.subscribedCategories)
+	            }
 
-		            if ( i != -1 && Store.moderatingCategories[i].avatar != response.data.avatar) {
-		            	Store.moderatingCategories[i].avatar = response.data.avatar
-		            	this.putLS('moderatingCategories', Store.moderatingCategories)
-		            }
-	            }).catch((error) => {
-	                if (error.response.status === 404) {
-	                    this.$router.push('/404')
-	                }
-	            });
+	            // update the category in the user's moderating (avatar might have changed)
+	            i = Store.moderatingCategories.findIndex(findObject)
+
+	            if ( i != -1 && Store.moderatingCategories[i].avatar != response.data.avatar) {
+	            	Store.moderatingCategories[i].avatar = response.data.avatar
+	            	this.putLS('moderatingCategories', Store.moderatingCategories)
+	            }
+            }).catch((error) => {
+                if (error.response.status === 404) {
+                    this.$router.push('/404')
+                }
+            });
         },
 
         /**
@@ -243,20 +276,25 @@ const app = new Vue({
          *
          * @return Boolean
          */
-        setSidebar () {
-    		if ( this.$route.query.sidebar == 0 ) {
-   				this.sidebar = false
-   				return
+        setSidebar() {
+    		if (this.$route.query.sidebar == 0) {
+   				this.sidebar = false;
+   				return;
    			}
 
-            if ( this.$route.query.sidebar == 1 ) {
-   				this.sidebar = true
-   				return
+            if (this.$route.query.sidebar == 1) {
+   				this.sidebar = true;
+   				return;
+   			}
+
+   			if (auth.isMobileDevice) {
+   				this.sidebar = false;
+   				return;
    			}
 
    			if (this.isSetLS('sidebar')) {
-   				this.sidebar = this.getLS('sidebar')
-   				return
+   				this.sidebar = this.getLS('sidebar');
+   				return;
    			}
     	},
 
@@ -355,7 +393,7 @@ const app = new Vue({
         },
 
         /**
-         * Opens that submission-reporting modal
+         * Opens that user avatar crop modal
          *
          * @return void
          */
@@ -365,7 +403,7 @@ const app = new Vue({
         },
 
         /**
-         * Opens that submission-reporting modal
+         * Opens that category avatar crop modal
          *
          * @return void
          */
@@ -467,6 +505,11 @@ const app = new Vue({
             this.modalRouter = 'rules'
         },
 
+        // Displays the login modal
+        loginModal() {
+            this.modalRouter = 'login'
+        },
+
         // Displays a smallModal containing category moderators
         categoryModerators() {
             this.modalRouter = 'moderators'
@@ -514,9 +557,13 @@ const app = new Vue({
 			        this.toggleSidebar()
 			        break
 			    case 78: // "n"
+			    	if (this.isGuest()) break;
+
 			        this.changeRoute('notifications')
 			        break
 		        case 77: // "m"
+		        	if (this.isGuest()) break;
+
 			        this.changeRoute('messages')
 			        break
     	        case 191: // "/"
@@ -524,10 +571,12 @@ const app = new Vue({
 			        this.changeRoute('search')
 			        break
     	        case 66: // "b"
+    	        	if (this.isGuest()) break;
+
 			        this.$router.push('/bookmarks')
 			        break
     	        case 72: // "h"
-			        this.$router.push('/home')
+			        this.$router.push('/')
 			        break
 			    default:
 			        return

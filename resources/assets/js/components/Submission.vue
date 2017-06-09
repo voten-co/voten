@@ -73,9 +73,12 @@
 	import PhotoViewer from '../components/PhotoViewer.vue';
 	import EmbedViewer from '../components/Embed.vue';
 	import GifPlayer from '../components/GifPlayer.vue';
+	import Helpers from '../mixins/Helpers';
 
     export default {
         props: ['list', 'full'],
+
+        mixins: [Helpers],
 
         components: {
             TextSubmission,
@@ -326,6 +329,11 @@
              *  Toggles the submission into bookmarks
              */
         	bookmark (submission) {
+        		if (this.isGuest) {
+            		this.mustBeLogin();
+            		return;
+            	}
+
         		this.bookmarked = !this.bookmarked
 
 				axios.post('/bookmark-submission', {
@@ -400,9 +408,9 @@
             *
             *  @return void
             */
-            report () {
-                this.reported = true
-        		this.$eventHub.$emit('report-submission', this.list.id, this.list.category_name)
+            report() {
+                this.reported = true;
+        		this.$eventHub.$emit('report-submission', this.list.id, this.list.category_name);
             },
 
             /**
@@ -410,7 +418,12 @@
              *
              *  @return void
              */
-            voteUp () {
+            voteUp() {
+            	if (this.isGuest) {
+            		this.mustBeLogin();
+            		return;
+            	}
+
 				let id = this.list.id
 
 				axios.post('/upvote-submission', {
@@ -451,6 +464,11 @@
              *  @return void
              */
             voteDown () {
+            	if (this.isGuest) {
+            		this.mustBeLogin();
+            		return;
+            	}
+
 				let id = this.list.id
 
 				axios.post('/downvote-submission', {

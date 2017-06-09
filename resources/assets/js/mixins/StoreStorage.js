@@ -10,8 +10,18 @@ export default {
         		return
         	}
 
-            axios.get('/fill-basic-store').then((response) => {
+        	// make sure sideFilter is set
+        	if (this.isSetLS('sidebar-filter')) {
+   				Store.sidebarFilter = this.getLS('sidebar-filter');
+   			} else {
+   				Store.sidebarFilter = 'subscribed-channels';
+   			}
 
+            axios.get('/fill-basic-store', {
+            	params: {
+            		sidebar_filter: Store.sidebarFilter
+            	}
+            }).then((response) => {
                 Store.submissionUpVotes = response.data.submissionUpvotes
                 Store.submissionDownVotes = response.data.submissionDownvotes
                 Store.commentUpVotes = response.data.commentUpvotes
@@ -36,7 +46,7 @@ export default {
                     }
                 })
 
-                Store.loading = false
+                Store.loading = false;
             })
         },
     }

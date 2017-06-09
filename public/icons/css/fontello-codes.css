@@ -44,7 +44,7 @@
 .v-search-1:before { content: '\e82a'; } /* '' */
 .v-search:before { content: '\e82b'; } /* '' */
 .v-settings:before { content: '\e82c'; } /* '' */
-.v-config:before { content: '\e82d'; } /* '' */
+.v-refetch:before { content: '\e82d'; } /* '' */
 .v-channel:before { content: '\e82e'; } /* '' */
 .v-rules:before { content: '\e82f'; } /* '' */
 .v-ok:before { content: '\e830'; } /* '' */
@@ -59,6 +59,7 @@
 .v-user:before { content: '\e839'; } /* '' */
 .v-video-thin:before { content: '\e83a'; } /* '' */
 .v-seen:before { content: '\e83b'; } /* '' */
+.v-config:before { content: '\e83c'; } /* '' */
 .v-reddit:before { content: '\e83e'; } /* '' */
 .v-twitter:before { content: '\e83f'; } /* '' */
 .v-sad:before { content: '\e840'; } /* '' */

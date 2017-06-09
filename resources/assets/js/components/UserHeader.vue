@@ -94,11 +94,11 @@
 		<nav class="nav has-shadow user-select">
 		    <div class="container">
 		        <div class="nav-left">
-					<router-link :to="'/@' + $route.params.username + '/submissions'" class="nav-item is-tab" active-class="is-active">
+					<router-link :to="'/@' + $route.params.username" class="nav-item is-tab" active-class="is-active" exact>
 						Submissions
 					</router-link>
 
-					<router-link :to="'/@' + $route.params.username + '/comments'" class="nav-item is-tab" active-class="is-active">
+					<router-link :to="'/@' + $route.params.username + '/comments'" class="nav-item is-tab" active-class="is-active" exact>
 						Comments
 					</router-link>
 
@@ -120,7 +120,7 @@
 		        	@click="bookmark" v-if="$route.params.username != auth.username"
 	        		data-toggle="tooltip" data-placement="bottom" title="Bookmark"></i>
 
-		            <message-button :id="userStore.id" v-if="$route.params.username != auth.username"></message-button>
+		            <message-button :id="userStore.id" v-if="$route.params.username != auth.username && !isGuest"></message-button>
 
 					<router-link class="v-button" :to="{ name: 'user-settings-profile' }" v-show="$route.params.username == auth.username">
 						Edit Profile
@@ -132,9 +132,12 @@
 </template>
 
 <script>
-import MessageButton from '../components/MessageButton.vue'
+import MessageButton from '../components/MessageButton.vue';
+import Helpers from '../mixins/Helpers';
 
 export default {
+	mixins: [Helpers],
+
     components: {
     	MessageButton
     },
@@ -191,6 +194,11 @@ export default {
          */
     	bookmark (user)
     	{
+    		if (this.isGuest) {
+        		this.mustBeLogin();
+        		return;
+        	}
+
     		this.bookmarked = !this.bookmarked
 
 			axios.post('/bookmark-user', {

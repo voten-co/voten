@@ -217,9 +217,8 @@
 
 .menu-label {
     letter-spacing: 1px;
-    margin-bottom: 5px;
     text-transform: uppercase;
-    font-size: 80%;
+    font-size: 79%;
     display: flex;
     align-items: center;
 }
@@ -330,9 +329,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 2px dashed;
-    padding: 1em;
-    margin: 1em;
+    flex-direction: column;
+}
+
+.no-subsciption i {
+    font-size: 43px;
 }
 
 .v-modal-search-box {

@@ -1,4 +1,4 @@
- <template>
+<template>
     <button class="v-button v-button--green" @click="sendMessage">
         Message
     </button>
@@ -27,10 +27,12 @@
         	 *
         	 * @return void
         	 */
-        	getUser: function () {
-        		axios.post('/contact-info', {
-	                user_id: this.id,
-	            } ).then((response) => {
+        	getUser() {
+        		axios.get('/contact-info', {
+	                params: {
+	                	user_id: this.id
+	                }
+	            }).then((response) => {
 	            	this.contact = response.data;
 	            });
         	},
@@ -40,7 +42,7 @@
         	 *
         	 * @return void
         	 */
-        	sendMessage: function () {
+        	sendMessage() {
         		this.$eventHub.$emit('start-conversation', this.contact)
         	}
         }

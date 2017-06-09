@@ -6,15 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     @yield('title')
-
     @yield('head')
+
     <meta property="og:locale" content="en_US" />
     <meta property="og:site_name" content="Voten.co" />
 
     <link href="https://fonts.googleapis.com/css?family=Dosis:300,400,700" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
 
-    <link href="/icons/css/fontello.6.css" rel="stylesheet">
+    <link href="/icons/css/fontello.7.css" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
 
@@ -23,6 +23,7 @@
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
+            'env' => config('app.env')
         ]); ?>
     </script>
 
@@ -82,10 +83,11 @@
 			<div class="flex1">
 				<h3 class="go-primary">Voten 	&#10084;</h3>
 				<ul>
+					<li><a href="/about">About</a></li>
+
 					@if(Auth::check())
 						<li><a href="/logout">Sign out</a></li>
 					@else
-						<li><a href="/login">Sign in</a></li>
 						<li><a href="/register">Sign Up</a></li>
 					@endif
 
@@ -106,7 +108,7 @@
 				<h3 class="go-green">Follow Voten</h3>
 				<ul>
 					<li><a href="https://medium.com/voten" target="_blank">Blog</a></li>
-					<li><a href="https://www.reddit.com/r/voten/" target="_blank">Reddit</a></li>
+					<li><a href="https://github.com/voten-co/voten" target="_blank">Github</a></li>
 					<li><a href="https://twitter.com/voten_co/" target="_blank">Twitter</a></li>
 					<li><a href="https://facebook.com/voten.co/" target="_blank">Facebook</a></li>
 				</ul>

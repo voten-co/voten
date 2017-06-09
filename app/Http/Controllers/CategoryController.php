@@ -24,7 +24,84 @@ class CategoryController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['submissionsAPI', 'getCategory', 'moderators']]);
+        $this->middleware('auth', ['except' => ['show', 'submissions', 'getCategory', 'moderators', 'fillStore', 'redirect']]);
+    }
+
+    /**
+     * gets submissions
+     *
+     * @param string $category
+     *
+     * @return Illuminate\Support\Collection
+     */
+    protected function getSubmissions($category, $sort)
+    {
+    	$submissions = (new Submission())->newQuery();
+
+        $submissions->where('category_name', $category);
+
+        // exclude user's hidden submissions
+        if (Auth::check()) {
+            $submissions->whereNotIn('id', $this->hiddenSubmissions());
+        }
+
+        // exclude NSFW if user doens't want to see them or if the user is not authinticated
+        if (!Auth::check() || !settings('nsfw')) {
+            $submissions->where('nsfw', false);
+        }
+
+        if ($sort == 'new') {
+            $submissions->orderBy('created_at', 'desc');
+        }
+
+        if ($sort == 'rising') {
+            $submissions->where('created_at', '>=', Carbon::now()->subHour())
+                        ->orderBy('rate', 'desc');
+        }
+
+        if ($sort == 'hot') {
+            $submissions->orderBy('rate', 'desc');
+        }
+
+        return $submissions->simplePaginate(10);
+    }
+
+    /**
+     * Get submissions API with ajax calls.
+     *
+     * @param Illuminate\Http\Request $request
+     *
+     * @return Illuminate\Support\Collection
+     */
+    public function submissions(Request $request)
+    {
+        $this->validate($request, [
+            'sort'     => 'alpha_num|max:25',
+            'page'     => 'Integer',
+            'category' => 'required|alpha_num|max:25',
+        ]);
+
+        return $this->getSubmissions($request->category, $request->sort);
+    }
+
+    /**
+     * shows the submission page to guests
+     *
+     * @param string  $category
+     * @param string  $slug
+     * @return view
+     */
+    public function show($category, Request $request)
+    {
+    	if (Auth::check()) {
+    		return view('welcome');
+    	}
+
+    	$submissions = $this->getSubmissions($category, $request->sort ?? 'hot');
+    	$category = $this->getCategoryByName($category);
+        $category->stats = $this->categoryStats($category->id);
+
+    	return view('category.show', compact('submissions', 'category'));
     }
 
     /**
@@ -195,51 +272,6 @@ class CategoryController extends Controller
     }
 
     /**
-     * Get submissions API with ajax calls.
-     *
-     * @param Illuminate\Http\Request $request
-     *
-     * @return Illuminate\Support\Collection
-     */
-    public function submissionsAPI(Request $request)
-    {
-        $this->validate($request, [
-            'sort'     => 'alpha_num|max:25',
-            'page'     => 'Integer',
-            'category' => 'required|alpha_num|max:25',
-        ]);
-
-        $submissions = (new Submission())->newQuery();
-
-        $submissions->where('category_name', $request->category);
-
-        // exclude user's hidden submissions
-        if (Auth::check()) {
-            $submissions->whereNotIn('id', $this->hiddenSubmissions());
-        }
-
-        // exclude NSFW if user doens't want to see them or if the user is not authinticated
-        if (!Auth::check() || Auth::user()->settings['nsfw'] == false) {
-            $submissions->where('nsfw', false);
-        }
-
-        if ($request->sort == 'new') {
-            $submissions->orderBy('created_at', 'desc');
-        }
-
-        if ($request->sort == 'rising') {
-            $submissions->where('created_at', '>=', Carbon::now()->subHour())
-                        ->orderBy('rate', 'desc');
-        }
-
-        if ($request->sort == 'hot') {
-            $submissions->orderBy('rate', 'desc');
-        }
-
-        return $submissions->simplePaginate(10);
-    }
-
-    /**
      * @param App\Category $category
      *
      * @return bool
@@ -265,5 +297,17 @@ class CategoryController extends Controller
         $category = $this->getCategoryByName($request->name);
 
         return $category->moderators;
+    }
+
+    /**
+     * redirects old channel URLs (/c/channel/hot) to the new one (/c/channel). This is just to
+     * to prevent dead URLS and also to respect our old users who shared their channels on
+     * social media to support us. To them!
+     *
+     * @return redirect
+     */
+    public function redirect($category)
+    {
+    	return redirect('/c/' . $category);
     }
 }

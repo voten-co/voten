@@ -5,16 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>
-    	Home | Voten
-    </title>
-
-    <link href="/icons/css/fontello.6.css" rel="stylesheet">
+    @yield('head')
+    <link href="/icons/css/fontello.7.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
-
-	{{-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script> --}}
-	{{-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/2.0.3/vue-router.min.js"></script> --}}
-
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
 
@@ -27,37 +20,41 @@
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
-            'env' => env('APP_ENV', 'production')
+            'env' => config('app.env')
         ]); ?>
     </script>
 
     <link rel="shortcut icon" href="/imgs/favicon.png">
+    @include('user.user-style')
 </head>
 
 <body>
+@include('google-analytics')
 
-<div id="guest-app" :class="{ 'background-white': Store.contentRouter != 'content' }" @scroll="scrolled">
-	@include('app-header')
+<div id="voten-app" :class="{ 'background-white': Store.contentRouter != 'content' }" @scroll="scrolled">
+    @include('app-header')
 
-	<div class="v-content-wrapper">
+    <div class="v-content-wrapper">
 		<div class="v-side" v-show="sidebar">
 		    <guest-sidebar></guest-sidebar>
 		</div>
 
 		<search-modal v-if="Store.contentRouter == 'search'" :sidebar="sidebar"></search-modal>
 
-		<div class="v-content" v-show="Store.contentRouter == 'content'">
-			<transition name="fade">
+        <div class="v-content" v-show="Store.contentRouter == 'content'">
+            <transition name="fade">
                 <rules v-if="modalRouter == 'rules'" :sidebar="sidebar"></rules>
                 <moderators v-if="modalRouter == 'moderators'" :sidebar="sidebar"></moderators>
+                <keyboard-shortcuts-guide v-if="modalRouter == 'keyboard-shortcuts-guide'" :sidebar="sidebar"></keyboard-shortcuts-guide>
                 <markdown-guide v-if="modalRouter == 'markdown-guide'" :sidebar="sidebar"></markdown-guide>
-			</transition>
+                <login-modal v-if="modalRouter == 'login'" :sidebar="sidebar"></login-modal>
+            </transition>
 
-			<div :class="{ 'v-blur-blackandwhite': smallModal }">
-                <router-view></router-view>
+            <div :class="{ 'v-blur-blackandwhite': smallModal }">
+                @yield('content')
             </div>
-		</div>
-	</div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -75,11 +72,17 @@
             }
         ?>
         submission_small_thumbnail: {{ $submission_small_thumbnail }},
-        isGuest: {{ 'false' }}
-    }
+        isGuest: {{ 'true' }}
+    };
+
+    var preload = {};
 </script>
 
-<script src="{{ mix('/js/app.js') }}"></script>
+@yield('script')
+	<script src="{{ mix('/js/manifest.js') }}"></script>
+	<script src="{{ mix('/js/vendor.js') }}"></script>
+	<script src="{{ mix('/js/app.js') }}"></script>
+@yield('footer')
 
 </body>
 </html>

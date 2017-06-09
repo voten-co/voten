@@ -31,9 +31,7 @@
 		                @endif
 					</div>
 
-					<div class="flex-space">
-						<button class="v-button v-button--green v-button--block" type="submit">Send Password Reset Link</button>
-					</div>
+					<button class="v-button v-button--green" type="submit">Send Password Reset Link</button>
 				</form>
 			</div>
         </div>

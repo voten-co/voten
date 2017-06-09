@@ -201,7 +201,11 @@
             getPhotos: function () {
                 this.loading = true
 
-        		axios.post('/submission-photos', { id: this.list.id } ).then((response) => {
+        		axios.get('/submission-photos', {
+        			params: {
+        				id: this.list.id
+        			}
+        		} ).then((response) => {
                     this.photos = response.data
                     this.currentPhoto = this.photos[this.counter].path
                     this.loading = false

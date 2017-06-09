@@ -46,7 +46,7 @@
 							</div>
 
 							<div>
-								<div class="ui icon top right green pointing dropdown">
+								<div class="ui icon top right green pointing dropdown" v-if="!isGuest">
 									<i class="v-icon v-more" aria-hidden="true"></i>
 
 									<div class="menu">
@@ -136,16 +136,19 @@
 </template>
 
 <script>
-    import TextSubmission from '../components/submission/TextSubmission.vue'
-    import LinkSubmission from '../components/submission/LinkSubmission.vue'
-    import ImgSubmission from '../components/submission/ImgSubmission.vue'
-    import GifSubmission from '../components/submission/GifSubmission.vue'
-	import PhotoViewer from '../components/PhotoViewer.vue'
-	import EmbedViewer from '../components/Embed.vue'
-	import GifPlayer from '../components/GifPlayer.vue'
+    import TextSubmission from '../components/submission/TextSubmission.vue';
+    import LinkSubmission from '../components/submission/LinkSubmission.vue';
+    import ImgSubmission from '../components/submission/ImgSubmission.vue';
+    import GifSubmission from '../components/submission/GifSubmission.vue';
+	import PhotoViewer from '../components/PhotoViewer.vue';
+	import EmbedViewer from '../components/Embed.vue';
+	import GifPlayer from '../components/GifPlayer.vue';
+	import Helpers from '../mixins/Helpers';
 
     export default {
         props: ['list', 'full'],
+
+        mixins: [Helpers],
 
         components: {
             TextSubmission,
@@ -360,6 +363,11 @@
              *  Toggles the submission into bookmarks
              */
         	bookmark (submission) {
+        		if (this.isGuest) {
+            		this.mustBeLogin();
+            		return;
+            	}
+
         		this.bookmarked = !this.bookmarked
 
 				axios.post('/bookmark-submission', {
@@ -445,6 +453,11 @@
              *  @return void
              */
             voteUp () {
+            	if (this.isGuest) {
+            		this.mustBeLogin();
+            		return;
+            	}
+
 				let id = this.list.id
 
 				axios.post('/upvote-submission', {
@@ -485,6 +498,11 @@
              *  @return void
              */
             voteDown () {
+            	if (this.isGuest) {
+            		this.mustBeLogin();
+            		return;
+            	}
+
 				let id = this.list.id
 
 				axios.post('/downvote-submission', {

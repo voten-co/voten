@@ -1,11 +1,63 @@
 export default {
     data: function () {
         return {
-            Store
+            Store,
+            auth
         }
     },
 
+    computed: {
+    	/**
+         * Is the user a guest
+         *
+         * @return bool
+         */
+        isGuest()
+        {
+            return auth.isGuest;
+        },
+
+        /**
+         * is user a moderator?
+         *
+         * @return bool
+         */
+        isModerating() {
+            return Store.moderatingAt.length > 0;
+        },
+    },
+
     methods: {
+    	/**
+    	 * sets the page title
+    	 *
+    	 * @param string title
+    	 * @param bool explicit
+    	 * @return void
+    	 */
+    	setPageTitle(title, explicit = false)
+    	{
+    		if (explicit == true) {
+    			document.title = title;
+    			return;
+    		}
+
+    	    document.title = title + ' - Voten';
+    	},
+
+    	/**
+    	 * the user must be login other wise rais a warning
+    	 *
+    	 * @return void
+    	 */
+    	mustBeLogin()
+    	{
+    		if (!this.isGuest) return;
+
+    		console.log('must be login')
+    		this.$eventHub.$emit('login-modal');
+    	},
+
         /**
          * simulates Laravel's str_limit in JS
          *
@@ -87,6 +139,17 @@ export default {
             }
 
             return moment(timestamp).tz(timezone).format("LLL");
+        },
+
+        /**
+         * prefixes the route with /auth if it's for authenticated users
+         *
+         * @param string route
+         * @return string
+         */
+        authUrl(route)
+        {
+            return !this.isGuest ? '/auth/' + route : '/' + route;
         },
     }
 };

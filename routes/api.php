@@ -1,8 +1,6 @@
 <?php
 
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::get('/emoji-list', 'EmojiController@index');
-
     // Administrator routes
     Route::post('/big-daddy', 'AdminController@index');
     Route::post('/admin/users', 'AdminController@indexUsers');
@@ -33,12 +31,9 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     // User
     Route::post('/auth', 'UserController@getAuth');
-    Route::post('/user-comments', 'UserController@comments');
     Route::get('/fill-basic-store', 'StoreController@index');
-    Route::get('/get-user-store', 'UserController@fillStore');
     Route::post('/delete-my-account', 'UserController@destroy');
     Route::post('/destroy-comment', 'CommentController@destroy');
-    Route::post('/user-submissions', 'UserController@submissions');
     Route::post('/destroy-submission', 'SubmissionController@destroy');
     Route::post('/update-profile', 'UserSettingsController@updateProfile');
     Route::post('/update-account', 'UserSettingsController@updateAccount');
@@ -54,15 +49,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/hide-submission', 'SubmissionController@hide');
     Route::get('/fetch-url-title', 'SubmissionController@getTitleAPI');
     Route::post('/mark-submission-sfw', 'NsfwController@markAsSFW');
-    Route::get('/get-submission', 'SubmissionController@getBySlug');
+
     Route::post('/mark-submission-nsfw', 'NsfwController@markAsNSFW');
-    Route::post('/submission-photos', 'SubmissionController@getPhotos');
-    Route::get('/get-submission-by-id', 'SubmissionController@getById');
+
     Route::post('/remove-thumbnail', 'SubmissionController@removeThumbnail');
 
-    // home
-    Route::get('/home', 'HomeController@feed');
-    Route::get('/category-submissions', 'CategoryController@submissionsAPI');
     Route::get('/notifications', 'NotificationsController@unreadIndex');
 
     // voting
@@ -90,17 +81,13 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/channel', 'CategoryController@store');
     Route::post('/category-patch', 'CategoryController@patch');
     Route::get('/get-categories', 'CategoryController@getCategories');
-    Route::post('/get-category-store', 'CategoryController@fillStore');
-    Route::get('/category-moderators', 'CategoryController@moderators');
+
 
     // rule
-    Route::get('/rules', 'RulesController@index');
     Route::post('/create-rule', 'RulesController@store');
     Route::post('/patch-rule', 'RulesController@patch');
     Route::post('/destroy-rule', 'RulesController@destroy');
 
-    // Suggestions
-    Route::get('/suggested-category', 'SuggestionController@category');
 
     // block domain
     Route::post('/block-domain', 'BlockDomainController@store');
@@ -128,14 +115,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/messages', 'MessagesController@getMessages');
     Route::post('/message-read', 'MessagesController@markAsRead');
     Route::post('/block-contact', 'MessagesController@blockUser');
-    Route::post('/contact-info', 'MessagesController@contactInfo');
+    Route::get('/contact-info', 'MessagesController@contactInfo');
     Route::post('/search-contacts', 'MessagesController@searchContact');
     Route::post('/delete-messages', 'MessagesController@destroyMessages');
     Route::post('/leave-conversation', 'MessagesController@leaveConversation');
     Route::post('/conversation-read', 'MessagesController@broadcastConversaionAsRead');
-
-    // search
-    Route::get('/search', 'SearchController@index');
 
     // Photo uploading
     Route::post('/user-avatar-crop', 'PhotoController@cropUserAvatar');
@@ -157,3 +141,30 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/reported-comments', 'ReportsController@reportedComments');
     Route::post('/reported-submissions', 'ReportsController@reportedSubmissions');
 });
+
+
+Route::group(['prefix' => 'auth', 'middleware' => 'auth:api'], function () {
+    Route::get('/home', 'HomeController@feed');
+	Route::get('/category-submissions', 'CategoryController@submissions');
+	Route::get('/sidebar-categories', 'StoreController@sidebarCategories');
+});
+
+
+// For both logged in users and guests
+Route::get('/home', 'HomeController@feed');
+Route::get('/get-submission', 'SubmissionController@getBySlug');
+Route::get('/get-submission-by-id', 'SubmissionController@getById');
+Route::get('/submission-comments', 'CommentController@index');
+Route::get('/category-moderators', 'CategoryController@moderators');
+Route::get('/rules', 'RulesController@index');
+Route::get('/emoji-list', 'EmojiController@index');
+Route::get('/submission-photos', 'SubmissionController@getPhotos');
+Route::get('/search', 'SearchController@index');
+Route::get('/home', 'HomeController@feed');
+Route::get('/category-submissions', 'CategoryController@submissions');
+Route::get('/get-category-store', 'CategoryController@fillStore');
+Route::get('/suggested-category', 'SuggestionController@category');
+Route::get('/get-user-store', 'UserController@fillStore');
+Route::get('/user-submissions', 'UserController@submissions');
+Route::get('/user-comments', 'UserController@comments');
+Route::get('/sidebar-categories', 'StoreController@sidebarCategories');

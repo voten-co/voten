@@ -712,6 +712,22 @@ select.ui.dropdown {
     z-index: 13;
     background: #78b38a;
 }
+
+.ui.dropdown.right.blue .menu .item:hover {
+    color: rgba(255, 255, 255, 0.95);
+    z-index: 13;
+    background: $primary-color;
+}
+.ui.dropdown .left.menu.blue .item:hover {
+    color: rgba(255, 255, 255, 0.95);
+    z-index: 13;
+    background: $primary-color;
+}
+
+.ui.dropdown.right.active-blue .active{
+	background: $primary-color;
+	color: rgba(255, 255, 255, 0.95);
+}
 /*--------------------
        Loading
 ---------------------*/

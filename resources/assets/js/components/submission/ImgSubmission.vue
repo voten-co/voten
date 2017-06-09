@@ -87,7 +87,11 @@
 
 	    methods: {
 	    	getPhotos: function () {
-	    		axios.post('/submission-photos', { id: this.submission.id } ).then((response) => {
+	    		axios.get('/submission-photos', {
+	    			params: {
+	    				id: this.submission.id
+	    			}
+	    		}).then((response) => {
 	                this.photos = response.data
 	            });
 	    	},

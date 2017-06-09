@@ -6,10 +6,19 @@ Route::group(['middleware' => ['maintenance', 'http2']], function () {
 
     // Public Pages
     Route::get('/tos', 'PagesController@tos');
-    Route::get('/', 'PagesController@welcome');
+    Route::get('/', 'HomeController@homePage');
     Route::get('/credits', 'PagesController@credits');
     Route::get('/features', 'PagesController@features');
+    Route::get('/about', 'PagesController@about');
     Route::get('/privacy-policy', 'PagesController@privacyPolicy');
+
+    // guest browsing routes
+    Route::get('/c/{category}', 'CategoryController@show');
+    Route::get('/c/{category}/hot', 'CategoryController@redirect');
+    Route::get('/c/{category}/{slug}', 'SubmissionController@show');
+
+    Route::get('/@{username}', 'UserController@showSubmissions');
+    Route::get('/@{username}/comments', 'UserController@showComments');
 
     // social logins
     Route::get('/login/google', 'Auth\LoginController@redirectToGoogle');

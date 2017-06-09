@@ -86,6 +86,11 @@ class User extends Authenticatable
         return DB::table('roles')->where('user_id', $this->id)->select('role', 'category_id')->get();
     }
 
+    public function moderatingIds()
+    {
+        return DB::table('roles')->where('user_id', $this->id)->select('category_id')->get()->pluck('category_id');
+    }
+
     public function subscriptions()
     {
         return $this->belongsToMany(Category::class, 'subscriptions');
@@ -281,6 +286,6 @@ class User extends Authenticatable
      */
     public function settings()
     {
-        return new Settings($this->settings, $this);
+        return new \App\Settings($this->settings, $this);
     }
 }

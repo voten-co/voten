@@ -245,3 +245,102 @@ a.nav-item.is-tab.is-active {
         padding-left: 20px;
     }
 }
+
+
+.tabs {
+    -webkit-overflow-scrolling: touch;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-box-align: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    font-size: 1rem;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    overflow: hidden;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.tabs ul {
+    list-style: none;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border-bottom: 1px solid #dbdbdb;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+}
+.tabs li {
+    display: block;
+}
+.tabs a {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    border-bottom: 1px solid #dbdbdb;
+    color: #4a4a4a;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin-bottom: -1px;
+    padding: 0.5em 1em;
+    vertical-align: top;
+}
+.tabs.is-boxed a {
+    border: 1px solid transparent;
+    border-radius: 3px 3px 0 0;
+}
+.tabs li.is-active a {
+    border-bottom-color: #00d1b2;
+    color: #00d1b2;
+}
+.tabs.is-boxed li.is-active a {
+    background-color: white;
+    border-color: #dbdbdb;
+    border-bottom-color: transparent !important;
+}
+
+.flat-nav {
+	list-style: none;
+	display: flex;
+	align-items: center;
+    padding: 0;
+}
+
+.flat-nav .item {
+    display: block;
+    padding: .5em .5em;
+    margin-right: .5em;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.flat-nav .item:hover {
+	background: rgba(189, 189, 189, 0.23);
+}
+
+.flat-nav .active {
+	color: $primary-color;
+	font-weight: bold;
+	background: rgba(189, 189, 189, 0.23);
+}
