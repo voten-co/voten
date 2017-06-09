@@ -47,7 +47,7 @@
         },
 
         methods: {
-            getCategory () {
+            getCategory() {
             	axios.get('/suggested-category').then((response) => {
 					if (response.data != null) {
 						this.visible = true
@@ -56,7 +56,12 @@
             	});
             },
 
-            subscribe () {
+            subscribe() {
+            	if (this.isGuest) {
+            		this.mustBeLogin();
+            		return;
+            	}
+
             	Store.subscribedCategories.push(this.category);
 
             	axios.post('/subscribe', {

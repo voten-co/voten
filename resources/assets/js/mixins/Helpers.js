@@ -54,7 +54,6 @@ export default {
     	{
     		if (!this.isGuest) return;
 
-    		console.log('must be login')
     		this.$eventHub.$emit('login-modal');
     	},
 
