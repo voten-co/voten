@@ -117,14 +117,10 @@ class HomeController extends Controller
 
         if ($request->sort == 'new') {
             $submissions->orderBy('created_at', 'desc');
-        }
-
-        if ($request->sort == 'rising') {
+        } elseif ($request->sort == 'rising') {
             $submissions->where('created_at', '>=', Carbon::now()->subHour())
                         ->orderBy('rate', 'desc');
-        }
-
-        if ($request->sort == 'hot') {
+        } else {
             $submissions->orderBy('rate', 'desc');
         }
 
