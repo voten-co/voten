@@ -42,6 +42,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/upvoted-submissions', 'UserController@upVotedSubmissions');
     Route::post('/update-home-feed', 'UserSettingsController@updateHomeFeed');
     Route::post('/downvoted-submissions', 'UserController@downVotedSubmissions');
+    Route::get('/sidebar-categories', 'StoreController@sidebarCategories');
 
     // submission
     Route::post('/submit', 'SubmissionController@store');

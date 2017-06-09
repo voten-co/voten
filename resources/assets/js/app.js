@@ -34,6 +34,7 @@ window.Store = {
 
     contentRouter: 'content',
     feedFilter: '',
+    sidebarFilter: '',
 
     subscribedCategories: [],
 

@@ -329,9 +329,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 2px dashed;
-    padding: 1em;
-    margin: 1em;
+    flex-direction: column;
+}
+
+.no-subsciption i {
+    font-size: 43px;
 }
 
 .v-modal-search-box {

@@ -58,20 +58,12 @@
 							Subscribed channels
 						</button>
 
-						<button class="item" @click="changeFilter('all-channels')" :class="{ 'active' : filter == 'all-channels' }">
-							All channels
-						</button>
-
 						<button class="item" @click="changeFilter('moderating-channels')" :class="{ 'active' : filter == 'moderating-channels' }" v-if="isModerating">
 							Moderating channels
 						</button>
 
 						<button class="item" @click="changeFilter('bookmarked-channels')" :class="{ 'active' : filter == 'bookmarked-channels' }">
 							Bookmarked channels
-						</button>
-
-						<button class="item" @click="changeFilter('by-bookmarked-users')" :class="{ 'active' : filter == 'by-bookmarked-users' }">
-							By bookmarked users
 						</button>
 					</div>
         		</div>
@@ -85,7 +77,8 @@
             </div>
 
             <div class="no-subsciption" v-if="!Store.subscribedCategories.length && !Store.loading">
-            	No subscribed #channels
+            	<i class="v-icon v-sad" aria-hidden="true"></i>
+            	No channels to display
             </div>
 
             <ul class="menu-list" v-else>
@@ -111,8 +104,7 @@ export default {
         return {
             subscribedFilter: '',
             auth,
-            Store,
-            filter: 'test'
+            Store
         };
     },
 
@@ -123,7 +115,11 @@ export default {
 	},
 
     computed: {
-        submitURL(){
+    	filter() {
+    		return Store.sidebarFilter;
+    	},
+
+        submitURL() {
             if (this.$route.params.name)
             	return "/submit?channel=" + this.$route.params.name
 
@@ -135,7 +131,7 @@ export default {
     	 *
     	 * @return {Array} comments
     	 */
-    	sortedSubscribeds () {
+    	sortedSubscribeds() {
 			var self = this
 
     		return _.orderBy(Store.subscribedCategories.filter(function (category) {
@@ -150,8 +146,20 @@ export default {
     	 *
     	 * @return void
     	 */
-    	changeFilter() {
-    	    return
+    	changeFilter(filter) {
+    		if (Store.sidebarFilter == filter) return;
+
+    	    Store.sidebarFilter = filter;
+
+    	    this.putLS('sidebar-filter', filter);
+
+    	    axios.get('/sidebar-categories', {
+    	    	params: {
+    	    		sidebar_filter: Store.sidebarFilter
+    	    	}
+    	    }).then((response) => {
+    	    	Store.subscribedCategories = response.data;
+    	    });
     	},
 
         changeRoute: function(newRoute) {
