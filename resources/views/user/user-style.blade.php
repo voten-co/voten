@@ -121,6 +121,9 @@
 			.sidebar-offer-wrapper {
 				border: 1px solid rgba(212, 207, 207, 0.62);
 			}
+			.sidebar-panel-button i:hover {
+				color: #000;
+			}
 	    @endif
 	</style>
 @else

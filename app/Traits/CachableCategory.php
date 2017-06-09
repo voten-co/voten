@@ -192,4 +192,18 @@ trait CachableCategory
             return \App\Suggested::groupBy('category_id')->select('id', 'category_id')->pluck('category_id');
         });
     }
+
+    /**
+     * returns the IDs of the default categories.
+     *
+     * @return array
+     */
+    protected function getDefaultCategoryRecords()
+    {
+        return Cache::remember('default-categories-records', 60 * 60 * 24, function () {
+            $ids = \App\Suggested::groupBy('category_id')->select('id', 'category_id')->pluck('category_id');
+
+            return Category::whereIn('id', $ids)->get();
+        });
+    }
 }

@@ -18,50 +18,28 @@
         	</button>
         </div>
 
-        <!-- <hr> -->
-
-<!--         <div class="v-side-quick-actions">
-            <router-link :to="{ path: submitURL }">
-                <i class="v-icon v-submit"
-                    data-toggle="tooltip" data-placement="bottom" title="Submit"
-                ></i>
-            </router-link>
-
-            <router-link :to="{ path: '/@' + auth.username + '/settings' }">
-			    <i class="v-icon v-tools" aria-hidden="true"
-			        data-toggle="tooltip" data-placement="bottom" title="Settings"
-			    ></i>
-			</router-link>
-
-            <router-link :to="{ path: '/bookmarks' }">
-                <i class="v-icon v-bookmark" aria-hidden="true"
-                    data-toggle="tooltip" data-placement="bottom" title="Bookmarks"
-                ></i>
-            </router-link>
-
-            <router-link :to="{ path: '/' }">
-			    <i class="v-icon v-home" aria-hidden="true"
-			        data-toggle="tooltip" data-placement="bottom" title="Home"
-			    ></i>
-			</router-link>
-        </div> -->
-
 
         <aside class="menu">
-            <p class="menu-label">
-                <i class="v-icon v-channels" aria-hidden="true"></i>
-                Subscribed Channels <span v-if="Store.subscribedCategories.length">({{ Store.subscribedCategories.length }})</span>
-            </p>
+        	<div class="flex-space">
+	            <p class="menu-label">
+	                #Recommendeds<span v-if="Store.subscribedCategories.length">({{ Store.subscribedCategories.length }})</span>
+	            </p>
+
+				<div class="ui icon top right active-blue pointing dropdown sidebar-panel-button">
+	            	<i class="v-icon v-config" @click="mustBeLogin"></i>
+				</div>
+        	</div>
 
             <div class="ui category search side-box-search">
                 <div class="ui mini icon input">
-                  <input class="prompt" type="text" placeholder="Subscribed Channels..." v-model="subscribedFilter">
+                  <input class="prompt" type="text" placeholder="Channels..." v-model="subscribedFilter">
                   <i class="v-icon v-search search icon"></i>
                 </div>
             </div>
 
             <div class="no-subsciption" v-if="!Store.subscribedCategories.length && !Store.loading">
-            	No subscribed #channels
+            	<i class="v-icon v-sad" aria-hidden="true"></i>
+            	No channels to display
             </div>
 
             <ul class="menu-list" v-else>
@@ -108,6 +86,12 @@ export default {
 		'$route': function () {
 			this.subscribedFilter = ''
 		}
+	},
+
+	created() {
+		axios.get(this.authUrl('sidebar-categories')).then((response) => {
+	    	Store.subscribedCategories = response.data;
+	    });
 	},
 
     computed: {

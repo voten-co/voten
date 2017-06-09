@@ -42,7 +42,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/upvoted-submissions', 'UserController@upVotedSubmissions');
     Route::post('/update-home-feed', 'UserSettingsController@updateHomeFeed');
     Route::post('/downvoted-submissions', 'UserController@downVotedSubmissions');
-    Route::get('/sidebar-categories', 'StoreController@sidebarCategories');
 
     // submission
     Route::post('/submit', 'SubmissionController@store');
@@ -147,6 +146,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 Route::group(['prefix' => 'auth', 'middleware' => 'auth:api'], function () {
     Route::get('/home', 'HomeController@feed');
 	Route::get('/category-submissions', 'CategoryController@submissions');
+	Route::get('/sidebar-categories', 'StoreController@sidebarCategories');
 });
 
 
@@ -167,3 +167,4 @@ Route::get('/suggested-category', 'SuggestionController@category');
 Route::get('/get-user-store', 'UserController@fillStore');
 Route::get('/user-submissions', 'UserController@submissions');
 Route::get('/user-comments', 'UserController@comments');
+Route::get('/sidebar-categories', 'StoreController@sidebarCategories');
