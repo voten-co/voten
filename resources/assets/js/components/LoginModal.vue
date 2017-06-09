@@ -69,7 +69,7 @@
 					</div>
 
 					<div class="flex-space">
-						<span class="form-notice">By clicking Sign Up, you agree to our <a href="/tos" class="go-primary">terms</a>.</span>
+						<span class="form-notice">By clicking Sign Up, you agree to our <a href="/tos" target="_blank" class="go-primary">terms</a>.</span>
 						<button class="v-button v-button--green" @click="register" :disabled="!goodToRegister">Sign up</button>
 					</div>
 				</div>

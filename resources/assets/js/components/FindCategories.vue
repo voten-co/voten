@@ -48,7 +48,6 @@
 			NoMoreItems
     	},
 
-
         data: function () {
             return {
 				Store,
@@ -60,7 +59,6 @@
 				counter: 0,
             }
         },
-
 
 		computed: {
 			noContent() {
@@ -95,12 +93,10 @@
 
 		},
 
-
         created () {
             this.getCategories()
 			this.$eventHub.$on('scrolled-to-bottom', this.loadMore)
         },
-
 
         methods: {
 			subscribed(index) {
@@ -133,7 +129,6 @@
 				   })
             },
         },
-
 
 		beforeRouteLeave(to, from, next) {
 			if (!this.canLeave) {
