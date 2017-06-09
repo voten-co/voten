@@ -47,7 +47,7 @@
         <aside class="menu">
         	<div class="flex-space">
 	            <p class="menu-label">
-	                Subscribed Channels <span v-if="Store.subscribedCategories.length">({{ Store.subscribedCategories.length }})</span>
+	                {{ categoriesTitle }} <span v-if="Store.subscribedCategories.length">({{ Store.subscribedCategories.length }})</span>
 	            </p>
 
         		<div class="ui icon top right active-blue pointing dropdown sidebar-panel-button">
@@ -117,6 +117,18 @@ export default {
     computed: {
     	filter() {
     		return Store.sidebarFilter;
+    	},
+
+    	categoriesTitle() {
+    		if (Store.sidebarFilter == "moderating-channels") {
+    			return "Moderating Channels";
+    		}
+
+    		if (Store.sidebarFilter == "bookmarked-channels") {
+    			return "Bookmarked Channels";
+    		}
+
+    		return "Subscribed Channels";
     	},
 
         submitURL() {

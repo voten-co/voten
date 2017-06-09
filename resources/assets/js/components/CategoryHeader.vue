@@ -111,9 +111,9 @@
 					Moderation
 				</router-link>
 
-            	<router-link class="v-button desktop-only" :to="'/submit?channel=' + $route.params.name">
+            	<button class="v-button desktop-only" @click="submitButton">
             		Submit
-            	</router-link>
+            	</button>
 
             	<subscribe v-if="!isGuest"></subscribe>
 	        </div>
@@ -153,6 +153,15 @@ export default {
 	},
 
     methods: {
+    	submitButton() {
+    	    if (this.isGuest) {
+    	    	this.mustBeLogin();
+    	    	return;
+    	    }
+
+    	    this.$router.push('/submit?channel=' + this.$route.params.name);
+    	},
+
 		emitRules(){
 			this.$eventHub.$emit('rules')
 		},
