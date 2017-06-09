@@ -33,7 +33,11 @@
 </template>
 
 <script>
+	import Helpers from '../mixins/Helpers';
+
     export default {
+    	mixins: [Helpers],
+
         data: function () {
             return {
             	visible: false,
