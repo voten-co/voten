@@ -94,6 +94,15 @@
 					      		Home
 					      	</td>
 					    </tr>
+
+                        <tr>
+                            <td>
+                                <kbd>P</kbd>
+                            </td>
+                            <td>
+                                Profile
+                            </td>
+                        </tr>
 				  	</tbody>
 				</table>
 
