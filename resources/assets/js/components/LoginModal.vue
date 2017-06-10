@@ -10,7 +10,7 @@
 				</div>
 
 				<!-- login form  -->
-				<div v-show="type == 'login'">
+				<div v-show="type == 'login'"  @keyup.enter="login">
 					<div class="v-status v-status--error" v-if="errors.username">
 			            {{ errors.username }}
 			        </div>
@@ -45,7 +45,7 @@
 				</div>
 
 				<!-- register form -->
-				<div v-show="type == 'register'">
+				<div v-show="type == 'register'" @keyup.enter="register" >
 					<div class="form-group">
 						<input type="text" class="form-control" id="username" v-model="registerUsername" name="username" placeholder="Username..." required>
 
@@ -127,7 +127,9 @@ export default {
     	 * @return void
     	 */
     	login() {
-    		this.loading = true;
+    	    if(!this.goodToLogin) return;
+
+    	    this.loading = true;
 
     	    axios.post('/login', {
     	    	username: this.loginUsername,
@@ -150,7 +152,9 @@ export default {
     	 * @return void
     	 */
     	register() {
-    		this.loading = true;
+            if(!this.goodToRegister) return;
+
+            this.loading = true;
 
     	    axios.post('/register', {
     	    	username: this.registerUsername,

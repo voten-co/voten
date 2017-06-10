@@ -557,12 +557,12 @@ const app = new Vue({
 			        this.toggleSidebar()
 			        break
 			    case 78: // "n"
-			    	if (this.isGuest()) break;
+			    	if (this.isGuest) break;
 
 			        this.changeRoute('notifications')
 			        break
 		        case 77: // "m"
-		        	if (this.isGuest()) break;
+		        	if (this.isGuest) break;
 
 			        this.changeRoute('messages')
 			        break
@@ -571,12 +571,17 @@ const app = new Vue({
 			        this.changeRoute('search')
 			        break
     	        case 66: // "b"
-    	        	if (this.isGuest()) break;
+    	        	if (this.isGuest) break;
 
 			        this.$router.push('/bookmarks')
 			        break
     	        case 72: // "h"
 			        this.$router.push('/')
+			        break
+    	        case 80: // "p"
+                    if (this.isGuest) break
+
+			        this.$router.push('/@' + this.auth.username)
 			        break
 			    default:
 			        return
