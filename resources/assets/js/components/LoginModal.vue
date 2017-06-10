@@ -10,7 +10,7 @@
 				</div>
 
 				<!-- login form  -->
-				<div v-show="type == 'login'">
+				<div v-show="type == 'login'"  @keyup.enter="login">
 					<div class="v-status v-status--error" v-if="errors.username">
 			            {{ errors.username }}
 			        </div>
@@ -24,7 +24,7 @@
 					</div>
 
 					<div class="form-group">
-						<input id="password" @keyup.enter="login" type="password" class="form-control" name="password" v-model="loginPassword" placeholder="Password" required>
+						<input id="password" type="password" class="form-control" name="password" v-model="loginPassword" placeholder="Password" required>
 
 						<small class="text-muted go-red" v-for="e in errors.password">{{ e }}</small>
 					</div>
@@ -45,7 +45,7 @@
 				</div>
 
 				<!-- register form -->
-				<div v-show="type == 'register'">
+				<div v-show="type == 'register'" @keyup.enter="register" >
 					<div class="form-group">
 						<input type="text" class="form-control" id="username" v-model="registerUsername" name="username" placeholder="Username..." required>
 
@@ -65,7 +65,7 @@
 					</div>
 
 					<div class="form-group">
-						<input id="password" type="password" class="form-control" name="confirm_password" @keyup.enter="register" v-model="registerConfirmPassword" placeholder="Confirm Password" required>
+						<input id="password" type="password" class="form-control" name="confirm_password" v-model="registerConfirmPassword" placeholder="Confirm Password" required>
 					</div>
 
 					<div class="flex-space">
