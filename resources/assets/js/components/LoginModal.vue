@@ -24,7 +24,7 @@
 					</div>
 
 					<div class="form-group">
-						<input id="password" type="password" class="form-control" name="password" v-model="loginPassword" placeholder="Password" required>
+						<input id="password" @keyup.enter="login" type="password" class="form-control" name="password" v-model="loginPassword" placeholder="Password" required>
 
 						<small class="text-muted go-red" v-for="e in errors.password">{{ e }}</small>
 					</div>
@@ -65,7 +65,7 @@
 					</div>
 
 					<div class="form-group">
-						<input id="password" type="password" class="form-control" name="confirm_password" v-model="registerConfirmPassword" placeholder="Confirm Password" required>
+						<input id="password" type="password" class="form-control" name="confirm_password" @keyup.enter="register" v-model="registerConfirmPassword" placeholder="Confirm Password" required>
 					</div>
 
 					<div class="flex-space">
@@ -127,7 +127,9 @@ export default {
     	 * @return void
     	 */
     	login() {
-    		this.loading = true;
+    	    if(!this.goodToLogin) return;
+
+    	    this.loading = true;
 
     	    axios.post('/login', {
     	    	username: this.loginUsername,
@@ -150,7 +152,9 @@ export default {
     	 * @return void
     	 */
     	register() {
-    		this.loading = true;
+            if(!this.goodToRegister) return;
+
+            this.loading = true;
 
     	    axios.post('/register', {
     	    	username: this.registerUsername,
