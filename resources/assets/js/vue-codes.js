@@ -552,8 +552,13 @@ const app = new Vue({
         		return
         	}
 
+        	if(event.shiftKey && event.keyCode == 191){ // shift + /
+                this.changeModalRoute('keyboard-shortcuts-guide');
+                return;
+            }
+
         	switch(event.keyCode) {
-			    case 83: // "s"
+                case 83: // "s"
 			        this.toggleSidebar()
 			        break
 			    case 78: // "n"
@@ -582,6 +587,14 @@ const app = new Vue({
                     if (this.isGuest) break
 
 			        this.$router.push('/@' + this.auth.username)
+			        break
+    	        case 82: // "r"
+                    if (this.$route.name === 'home'){
+                        this.$eventHub.$emit('refresh-home')
+                    }else if(this.$route.name === 'category-submissions'){
+                        this.$eventHub.$emit('refresh-category-submissions')
+                    }
+
 			        break
 			    default:
 			        return
