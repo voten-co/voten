@@ -103,6 +103,24 @@
                                 Profile
                             </td>
                         </tr>
+
+                        <tr>
+                            <td>
+                                <kbd>R</kbd>
+                            </td>
+                            <td>
+                                Refresh Submissions
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <kbd>Shift</kbd> + <kbd>/</kbd>
+                            </td>
+                            <td>
+                                Show these shortcuts
+                            </td>
+                        </tr>
 				  	</tbody>
 				</table>
 

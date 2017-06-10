@@ -42,6 +42,9 @@ export default {
    	created () {
 		this.clear()
 		this.$eventHub.$on('scrolled-to-bottom', this.loadMore)
+		this.$eventHub.$on('refresh-category-submissions', () => {
+		    this.clear();
+		})
    	},
 
     watch: {
