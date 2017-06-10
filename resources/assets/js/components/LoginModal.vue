@@ -129,7 +129,7 @@ export default {
     	login() {
     	    if(!this.goodToLogin) return;
 
-    		this.loading = true;
+    	    this.loading = true;
 
     	    axios.post('/login', {
     	    	username: this.loginUsername,
@@ -154,7 +154,7 @@ export default {
     	register() {
             if(!this.goodToRegister) return;
 
-    		this.loading = true;
+            this.loading = true;
 
     	    axios.post('/register', {
     	    	username: this.registerUsername,
