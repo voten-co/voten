@@ -30,9 +30,7 @@ class SearchController extends Controller
 
         try {
             if ($request->type == 'Categories') {
-                return Category::search($request->searched)
-                            ->orderBy('subscribers')
-                            ->take(20)->get();
+                return Category::search($request->searched)->take(20)->get();
             }
 
             if ($request->type == 'Submissions') {
