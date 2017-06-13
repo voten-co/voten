@@ -38,7 +38,7 @@ class MessagesController extends Controller
         ]);
 
         if ($request->contact == Auth::user()->id) {
-            return responder()->error('error', 500, "You can't send a message to yourself. Is everything alright buddy?!");
+            return response("You can't send a message to yourself. Is everything alright buddy?!", 500);
         }
 
         $message = Auth::user()->messages()->create([
