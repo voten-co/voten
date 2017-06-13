@@ -96,7 +96,7 @@ return [
 
         'config' => [
             'hosts' => [
-                env('ELASTICSEARCH_HOST', 'localhost'),
+                env('ELASTICSEARCH_HOST', 'http://localhost'),
             ],
         ],
     ],
