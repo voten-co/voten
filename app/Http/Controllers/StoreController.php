@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Traits\CachableUser;
 use App\Traits\CachableCategory;
+use App\Traits\CachableUser;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
@@ -80,16 +80,16 @@ class StoreController extends Controller
     }
 
     // returns subscriptions of Auth user
-    protected function subscribedCategories($filter = "subscribed-channels")
+    protected function subscribedCategories($filter = 'subscribed-channels')
     {
-    	if (!Auth::check()) {
-    		return $this->getDefaultCategoryRecords();
-    	}
+        if (!Auth::check()) {
+            return $this->getDefaultCategoryRecords();
+        }
 
-        if ($filter == "moderating-channels") {
-        	return Auth::user()->categoryRoles;
-        } elseif ($filter == "bookmarked-channels") {
-        	return Auth::user()->bookmarkedCategories;
+        if ($filter == 'moderating-channels') {
+            return Auth::user()->categoryRoles;
+        } elseif ($filter == 'bookmarked-channels') {
+            return Auth::user()->bookmarkedCategories;
         }
 
         // $filter == "subscribed channels"
@@ -97,12 +97,12 @@ class StoreController extends Controller
     }
 
     /**
-     * returns categoeis for sidebar
+     * returns categoeis for sidebar.
      *
      * @return collection
      */
     public function sidebarCategories(Request $request)
     {
-    	return $this->subscribedCategories($request->sidebar_filter);
+        return $this->subscribedCategories($request->sidebar_filter);
     }
 }

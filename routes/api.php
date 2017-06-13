@@ -82,12 +82,10 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/category-patch', 'CategoryController@patch');
     Route::get('/get-categories', 'CategoryController@getCategories');
 
-
     // rule
     Route::post('/create-rule', 'RulesController@store');
     Route::post('/patch-rule', 'RulesController@patch');
     Route::post('/destroy-rule', 'RulesController@destroy');
-
 
     // block domain
     Route::post('/block-domain', 'BlockDomainController@store');
@@ -142,14 +140,12 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/reported-submissions', 'ReportsController@reportedSubmissions');
 });
 
-
 Route::group(['prefix' => 'auth', 'middleware' => 'auth:api'], function () {
     Route::get('/home', 'HomeController@feed');
-	Route::get('/category-submissions', 'CategoryController@submissions');
-	Route::get('/sidebar-categories', 'StoreController@sidebarCategories');
-	Route::get('/suggested-category', 'SuggestionController@category');
+    Route::get('/category-submissions', 'CategoryController@submissions');
+    Route::get('/sidebar-categories', 'StoreController@sidebarCategories');
+    Route::get('/suggested-category', 'SuggestionController@category');
 });
-
 
 // For both logged in users and guests
 Route::get('/home', 'HomeController@feed');

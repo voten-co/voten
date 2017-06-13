@@ -15,7 +15,7 @@ class HomeController extends Controller
     use CachableUser, CachableSubmission, CachableCategory;
 
     /**
-     * Displays the home page
+     * Displays the home page.
      *
      * @param Illuminate\Http\Request $request
      *
@@ -24,7 +24,7 @@ class HomeController extends Controller
     public function homePage(Request $request)
     {
         if (!Auth::check()) {
-        	$submissions = $this->guestHome($request);
+            $submissions = $this->guestHome($request);
 
             return view('home', compact('submissions'));
         }
@@ -53,18 +53,17 @@ class HomeController extends Controller
         $submissions = (new Submission())->newQuery();
 
         // spicify the filter:
-        if ($request->filter == "all-channels") {
-        	// guest what? we don't have to do anything :|
-        } elseif ($request->filter == "moderating-channels") {
-        	$submissions->whereIn('category_id', Auth::user()->moderatingIds());
-        } elseif ($request->filter == "bookmarked-channels") {
-        	$submissions->whereIn('category_id', $this->bookmarkedCategories());
-        } elseif ($request->filter == "by-bookmarked-users") {
-        	$submissions->whereIn('user_id', $this->bookmarkedUsers());
+        if ($request->filter == 'all-channels') {
+            // guest what? we don't have to do anything :|
+        } elseif ($request->filter == 'moderating-channels') {
+            $submissions->whereIn('category_id', Auth::user()->moderatingIds());
+        } elseif ($request->filter == 'bookmarked-channels') {
+            $submissions->whereIn('category_id', $this->bookmarkedCategories());
+        } elseif ($request->filter == 'by-bookmarked-users') {
+            $submissions->whereIn('user_id', $this->bookmarkedUsers());
         } else { // $request->filter == "subscribed channels"
-        	$submissions->whereIn('category_id', $this->subscriptions());
+            $submissions->whereIn('category_id', $this->subscriptions());
         }
-
 
         // exclude user's hidden submissions
         $submissions->whereNotIn('id', $this->hiddenSubmissions());

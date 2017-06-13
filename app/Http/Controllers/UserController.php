@@ -19,17 +19,17 @@ class UserController extends Controller
     }
 
     /**
-     * shows the submissions page of users profile
+     * shows the submissions page of users profile.
      *
      * @return view
      */
     public function showSubmissions($username)
     {
-    	if (Auth::check()) {
-    		return view('welcome');
-    	}
+        if (Auth::check()) {
+            return view('welcome');
+        }
 
-    	$user = User::withTrashed()->where('username', $username)->firstOrFail();
+        $user = User::withTrashed()->where('username', $username)->firstOrFail();
 
         $user->stats = $this->userStats($user->id);
 
@@ -44,17 +44,17 @@ class UserController extends Controller
     }
 
     /**
-     * shows the comments page of users profile
+     * shows the comments page of users profile.
      *
      * @return view
      */
     public function showComments($username)
     {
-    	if (Auth::check()) {
-    		return view('welcome');
-    	}
+        if (Auth::check()) {
+            return view('welcome');
+        }
 
-    	$user = User::withTrashed()->where('username', $username)->firstOrFail();
+        $user = User::withTrashed()->where('username', $username)->firstOrFail();
 
         $user->stats = $this->userStats($user->id);
 
