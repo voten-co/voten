@@ -3848,12 +3848,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/voten-co/laravel-scout-elastic.git",
-                "reference": "929184da8e4aef1fe6ba458cbd8ae433ea1008d9"
+                "reference": "91ae552e99c515a2d0e2e5518f85f03de949d89b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voten-co/laravel-scout-elastic/zipball/929184da8e4aef1fe6ba458cbd8ae433ea1008d9",
-                "reference": "929184da8e4aef1fe6ba458cbd8ae433ea1008d9",
+                "url": "https://api.github.com/repos/voten-co/laravel-scout-elastic/zipball/91ae552e99c515a2d0e2e5518f85f03de949d89b",
+                "reference": "91ae552e99c515a2d0e2e5518f85f03de949d89b",
                 "shasum": ""
             },
             "require": {
@@ -3888,9 +3888,9 @@
                 "scout"
             ],
             "support": {
-                "source": "https://github.com/voten-co/laravel-scout-elastic/tree/3.0.3"
+                "source": "https://github.com/voten-co/laravel-scout-elastic/tree/master"
             },
-            "time": "2017-04-24T18:21:22+00:00"
+            "time": "2017-06-13T09:21:16+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
