@@ -28,7 +28,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * gets submissions
+     * gets submissions.
      *
      * @param string $category
      *
@@ -36,7 +36,7 @@ class CategoryController extends Controller
      */
     protected function getSubmissions($category, $sort)
     {
-    	$submissions = (new Submission())->newQuery();
+        $submissions = (new Submission())->newQuery();
 
         $submissions->where('category_name', $category);
 
@@ -85,23 +85,24 @@ class CategoryController extends Controller
     }
 
     /**
-     * shows the submission page to guests
+     * shows the submission page to guests.
      *
-     * @param string  $category
-     * @param string  $slug
+     * @param string $category
+     * @param string $slug
+     *
      * @return view
      */
     public function show($category, Request $request)
     {
-    	if (Auth::check()) {
-    		return view('welcome');
-    	}
+        if (Auth::check()) {
+            return view('welcome');
+        }
 
-    	$submissions = $this->getSubmissions($category, $request->sort ?? 'hot');
-    	$category = $this->getCategoryByName($category);
+        $submissions = $this->getSubmissions($category, $request->sort ?? 'hot');
+        $category = $this->getCategoryByName($category);
         $category->stats = $this->categoryStats($category->id);
 
-    	return view('category.show', compact('submissions', 'category'));
+        return view('category.show', compact('submissions', 'category'));
     }
 
     /**
@@ -308,6 +309,6 @@ class CategoryController extends Controller
      */
     public function redirect($category)
     {
-    	return redirect('/c/' . $category);
+        return redirect('/c/'.$category);
     }
 }
