@@ -6,10 +6,6 @@
 					Dashboard
 				</router-link>
 
-				<router-link :to="'/big-daddy/feedbacks'" class="nav-item is-tab" active-class="is-active" exact>
-					Feedbacks
-				</router-link>
-
 				<router-link :to="'/big-daddy/help'" class="nav-item is-tab" active-class="is-active">
 					Help
 				</router-link>

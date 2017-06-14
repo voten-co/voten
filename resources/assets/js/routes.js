@@ -1,7 +1,6 @@
 import AdminPanelSuggestedCategories from './components/AdminPanelSuggestedCategories.vue';
 import BookmarkedCategories from './components/BookmarkedCategories.vue';
 import SubmissionRedirector from './components/SubmissionRedirector.vue';
-import AdminPanelFeedbacks from './components/AdminPanelFeedbacks.vue';
 import CategorySubmissions from './components/CategorySubmissions.vue';
 import BookmarkedComments from './components/BookmarkedComments.vue';
 import AdminPanelCategory from './components/AdminPanelCategory.vue';
@@ -64,7 +63,6 @@ const routes = [
         component: AdminPanel,
         children: [
             { path: '', component: AdminPanelStatistics, name: 'admin-panel-statistics' },
-            { path: 'feedbacks', component: AdminPanelFeedbacks, name: 'admin-panel-feedbacks' },
             { path: 'help', component: AdminPanelHelp, name: 'admin-panel-help' },
             {
                 path: '/users',
