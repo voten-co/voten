@@ -117,7 +117,12 @@ trait CachableUser
 
         array_push($hiddenSubmissions, $submission_id);
 
-        Redis::hset('user.'.$id.'.data', 'hiddenSubmissions', json_encode($hiddenSubmissions));
+        // we need to make sure the cached data exists
+    	if (!Redis::hget('user.' . $id . '.data', 'hiddenSubmissions')) {
+            $this->cacheUserData($id);
+        }
+
+        Redis::hset('user.' . $id . '.data', 'hiddenSubmissions', json_encode($hiddenSubmissions));
     }
 
     /**
@@ -239,6 +244,11 @@ trait CachableUser
             $bookmarkedSubmissions = array_values(array_diff($bookmarkedSubmissions, [$bookmarkable_id]));
         }
 
+        // we need to make sure the cached data exists
+    	if (!Redis::hget('user.' . $id . '.data', 'bookmarkedSubmissions')) {
+            $this->cacheUserData($id);
+        }
+
         Redis::hset('user.'.$id.'.data', 'bookmarkedSubmissions', json_encode($bookmarkedSubmissions));
     }
 
@@ -283,6 +293,11 @@ trait CachableUser
             $bookmarkedUsers = array_values(array_diff($bookmarkedUsers, [$bookmarkable_id]));
         }
 
+        // we need to make sure the cached data exists
+    	if (!Redis::hget('user.' . $id . '.data', 'bookmarkedUsers')) {
+            $this->cacheUserData($id);
+        }
+
         Redis::hset('user.'.$id.'.data', 'bookmarkedUsers', json_encode($bookmarkedUsers));
     }
 
@@ -305,6 +320,11 @@ trait CachableUser
             $bookmarkedCategories = array_values(array_diff($bookmarkedCategories, [$bookmarkable_id]));
         }
 
+        // we need to make sure the cached data exists
+    	if (!Redis::hget('user.' . $id . '.data', 'bookmarkedCategories')) {
+            $this->cacheUserData($id);
+        }
+
         Redis::hset('user.'.$id.'.data', 'bookmarkedCategories', json_encode($bookmarkedCategories));
     }
 
@@ -324,6 +344,11 @@ trait CachableUser
             array_push($blockedUsers, $contact_id);
         } else {
             $blockedUsers = array_values(array_diff($blockedUsers, [$contact_id]));
+        }
+
+        // we need to make sure the cached data exists
+    	if (!Redis::hget('user.' . $id . '.data', 'blockedUsers')) {
+            $this->cacheUserData($id);
         }
 
         Redis::hset('user.'.$id.'.data', 'blockedUsers', json_encode($blockedUsers));
@@ -365,6 +390,11 @@ trait CachableUser
             array_push($subscriptions, $category_id);
         } else {
             $subscriptions = array_values(array_diff($subscriptions, [$category_id]));
+        }
+
+        // we need to make sure the cached data exists
+    	if (!Redis::hget('user.' . $id . '.data', 'subscriptions')) {
+            $this->cacheUserData($id);
         }
 
         Redis::hset('user.'.$id.'.data', 'subscriptions', json_encode($subscriptions));
@@ -460,6 +490,11 @@ trait CachableUser
      */
     protected function updateSubmissionUpvotesIds($id, $upvotes)
     {
+    	// we need to make sure the cached data exists
+    	if (!Redis::hget('user.' . $id . '.data', 'submissionUpvotes')) {
+            $this->cacheUserData($id);
+        }
+
         Redis::hset('user.'.$id.'.data', 'submissionUpvotes', json_encode($upvotes));
     }
 
@@ -473,6 +508,11 @@ trait CachableUser
      */
     protected function updateSubmissionDownvotesIds($id, $downvotes)
     {
+    	// we need to make sure the cached data exists
+    	if (!Redis::hget('user.' . $id . '.data', 'submissionDownvotes')) {
+            $this->cacheUserData($id);
+        }
+
         Redis::hset('user.'.$id.'.data', 'submissionDownvotes', json_encode($downvotes));
     }
 
@@ -486,6 +526,11 @@ trait CachableUser
      */
     protected function updateCommentUpvotesIds($id, $upvotes)
     {
+    	// we need to make sure the cached data exists
+    	if (!Redis::hget('user.' . $id . '.data', 'commentUpvotes')) {
+            $this->cacheUserData($id);
+        }
+
         Redis::hset('user.'.$id.'.data', 'commentUpvotes', json_encode($upvotes));
     }
 
@@ -499,6 +544,11 @@ trait CachableUser
      */
     protected function updateCommentDownvotesIds($id, $downvotes)
     {
+    	// we need to make sure the cached data exists
+    	if (!Redis::hget('user.' . $id . '.data', 'commentDownvotes')) {
+            $this->cacheUserData($id);
+        }
+
         Redis::hset('user.'.$id.'.data', 'commentDownvotes', json_encode($downvotes));
     }
 
@@ -512,6 +562,11 @@ trait CachableUser
      */
     protected function updateUserSubmissionsCount($id, $number = 1)
     {
+    	// we need to make sure the cached data exists
+    	if (!Redis::hget('user.' . $id . '.data', 'submissionsCount')) {
+            $this->cacheUserData($id);
+        }
+
         Redis::hincrby('user.'.$id.'.data', 'submissionsCount', $number);
     }
 
@@ -525,6 +580,11 @@ trait CachableUser
      */
     protected function updateUserCommentsCount($id, $number = 1)
     {
+    	// we need to make sure the cached data exists
+    	if (!Redis::hget('user.' . $id . '.data', 'commentsCount')) {
+            $this->cacheUserData($id);
+        }
+
         Redis::hincrby('user.'.$id.'.data', 'commentsCount', $number);
     }
 
@@ -538,7 +598,12 @@ trait CachableUser
      */
     protected function updateSubmissionKarma($id, $number)
     {
-        $newKarma = Redis::hincrby('user.'.$id.'.data', 'submissionKarma', $number);
+    	// we need to make sure the cached data exists
+    	if (!Redis::hget('user.' . $id . '.data', 'submissionKarma')) {
+            $this->cacheUserData($id);
+        }
+
+        $newKarma = Redis::hincrby('user.' . $id . '.data', 'submissionKarma', $number);
 
         // for newbie users we update on each new vote
         if ($newKarma < 100) {
@@ -563,6 +628,11 @@ trait CachableUser
      */
     protected function updateCommentKarma($id, $number)
     {
+    	// we need to make sure the cached data exists
+    	if (!Redis::hget('user.' . $id . '.data', 'commentKarma')) {
+            $this->cacheUserData($id);
+        }
+
         $newKarma = Redis::hincrby('user.'.$id.'.data', 'commentKarma', $number);
 
         // for newbie users we update on each new vote

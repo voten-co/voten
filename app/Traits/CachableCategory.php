@@ -62,6 +62,11 @@ trait CachableCategory
     {
         $category = $this->getCategoryById($id);
 
+        // we need to make sure the cached data exists
+    	if (!Redis::hget('category.' . $id . '.data', 'mods')) {
+            $this->cacheCategoryData($id);
+        }
+
         Redis::hset('category.'.$id.'.data', 'mods', json_encode($category->mods()));
     }
 
@@ -99,6 +104,11 @@ trait CachableCategory
      */
     protected function updateCategorySubmissionsCount($id, $number = 1)
     {
+    	// we need to make sure the cached data exists
+    	if (!Redis::hget('category.' . $id . '.data', 'submissionsCount')) {
+            $this->cacheCategoryData($id);
+        }
+
         Redis::hincrby('category.'.$id.'.data', 'submissionsCount', $number);
     }
 
@@ -112,6 +122,11 @@ trait CachableCategory
      */
     protected function updateCategoryCommentsCount($id, $number = 1)
     {
+    	// we need to make sure the cached data exists
+    	if (!Redis::hget('category.' . $id . '.data', 'commentsCount')) {
+            $this->cacheCategoryData($id);
+        }
+
         Redis::hincrby('category.'.$id.'.data', 'commentsCount', $number);
     }
 
@@ -125,6 +140,11 @@ trait CachableCategory
      */
     protected function updateCategorySubscribersCount($id, $number = 1)
     {
+    	// we need to make sure the cached data exists
+    	if (!Redis::hget('category.' . $id . '.data', 'subscribersCount')) {
+            $this->cacheCategoryData($id);
+        }
+
         $subscribersCount = Redis::hincrby('category.'.$id.'.data', 'subscribersCount', $number);
 
         // for newbie categories we update on each new subscription

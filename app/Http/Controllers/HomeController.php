@@ -28,7 +28,8 @@ class HomeController extends Controller
 
             return view('home', compact('submissions'));
         }
-
+// return \Illuminate\Support\Facades\Redis::hget('user.'. 1 .'.data', 'submissionKarma');
+// return \Illuminate\Support\Facades\Redis::hincrby('user.'. 1 .'.data', 'submissionKarma', 1);
         return view('welcome');
     }
 
