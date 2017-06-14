@@ -84,6 +84,19 @@ class Category extends Model
     }
 
     /**
+     * To save on queries we set a 'subscribers' field on category models.
+     * This updates it (in case we lose the actual number for any reason in the future.)
+     *
+     * @return void
+     */
+    public function updateSubscribers()
+    {
+    	$this->update([
+    		"subscribers" => $this->subscriptions()->count()
+		]);
+    }
+
+    /**
      * Get the indexable data array for the model.
      *
      * @return array
