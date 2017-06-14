@@ -87,10 +87,6 @@ class MessagesController extends Controller
             'page'       => 'required|integer',
         ]);
 
-        if ($request->page != 1) {
-            sleep(3);
-        }
-
         $messages = Auth::user()->conversations()
                 ->where('contact_id', $request->contact_id)
                 ->simplePaginate(40);
