@@ -97,7 +97,6 @@
         },
 
 	    watch: {
-			// call again the method if the route changes
 			'$route' () {
 	            this.getSubmission();
 	            this.getComments();
@@ -261,9 +260,13 @@
             	this.getComments()
                 this.sort = sort
             }
-
         },
 
+        beforeRouteLeave(to, from, next) {
+        	Echo.leave('submission.' + from.params.slug);
+
+			next();
+		}
     }
 
 </script>
