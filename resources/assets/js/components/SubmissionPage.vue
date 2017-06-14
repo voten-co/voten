@@ -149,8 +149,9 @@
 
         methods: {
         	clearContent () {
-        		this.page = 1
-        		this.comments = []
+        		this.moreComments = false;
+        		this.page = 1;
+        		this.comments = [];
         	},
 
         	loadMoreComments () {
