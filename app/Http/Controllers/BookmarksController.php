@@ -23,9 +23,9 @@ class BookmarksController extends Controller
     }
 
     /**
-     * Favorited submissions by Auth user.
+     * Bookmarked submissions for the Auth user.
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Contracts\Pagination\Paginator
      */
     public function getBookmarkedSubmissions()
     {
@@ -33,9 +33,9 @@ class BookmarksController extends Controller
     }
 
     /**
-     * Favorited comments by Auth user.
+     * Bookmarked comments for the Auth user.
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Contracts\Pagination\Paginator
      */
     public function getBookmarkedComments()
     {
@@ -43,9 +43,9 @@ class BookmarksController extends Controller
     }
 
     /**
-     * Favorited categories by Auth user.
+     * Bookmarked categories for the Auth user.
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Contracts\Pagination\Paginator
      */
     public function getBookmarkedCategories()
     {
@@ -53,9 +53,9 @@ class BookmarksController extends Controller
     }
 
     /**
-     * Favorited categories by Auth user.
+     * Bookmarked users for the Auth user.
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Contracts\Pagination\Paginator
      */
     public function getBookmarkedUsers()
     {
@@ -63,9 +63,11 @@ class BookmarksController extends Controller
     }
 
     /**
-     * Favorited submissions by Auth user.
+     * Toggles bookmarking a Submission for the Auth user
      *
-     * @return Illuminate\Support\Collection
+     * @param Request $request
+     *
+     * @return string Whether the Submission was 'bookmarked' or 'unbookmarked'
      */
     public function bookmarkSubmission(Request $request)
     {
@@ -87,9 +89,9 @@ class BookmarksController extends Controller
     }
 
     /**
-     * (un)Bookmarks the comment.
+     * Toggles bookmarking a Comment for the Auth user
      *
-     * @return status
+     * @return string Whether the Comment was 'bookmarked' or 'unbookmarked'
      */
     public function bookmarkComment(Request $request)
     {
@@ -111,9 +113,9 @@ class BookmarksController extends Controller
     }
 
     /**
-     * (un)Bookmarks the category.
+     * Toggles bookmarking a Category(Channel) for the Auth user
      *
-     * @return status
+     * @return string Whether the Category was 'bookmarked' or 'unbookmarked'
      */
     public function bookmarkCategory(Request $request)
     {
@@ -135,9 +137,9 @@ class BookmarksController extends Controller
     }
 
     /**
-     * (un)Bookmarks the user.
+     * Toggles bookmarking a User for the Auth user
      *
-     * @return status
+     * @return string Whether the User was 'bookmarked' or 'unbookmarked'
      */
     public function bookmarkUser(Request $request)
     {

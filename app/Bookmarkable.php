@@ -47,7 +47,7 @@ trait Bookmarkable
      * Have the authenticated user bookmark the model.
      * If the authenticated user has already bookmarked the model, un-bookmarks it.
      *
-     * @return void
+     * @return string Whether the model was 'bookmarked' or 'unbookmarked'
      */
     public function bookmark()
     {
