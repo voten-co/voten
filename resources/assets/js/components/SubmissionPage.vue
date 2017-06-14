@@ -173,7 +173,7 @@
 	    	},
 
             newComment (comment) {
-            	if (comment.parent_id == 0) {
+            	if (comment.parent_id == 0 && comment.submission_id == this.submission.id) {
 					this.comments.unshift(comment)
 					this.submission.comments_number ++
                 }
