@@ -89,12 +89,12 @@ Route::group(['middleware' => 'auth:api'], function () {
     // block domain
     Route::post('/block-domain', 'BlockDomainController@store');
     Route::post('/blocked-domains', 'BlockDomainController@index');
-    Route::post('/block-domain/destroy', 'BlockDomainController@destroy');
+    Route::delete('/block-domain/destroy', 'BlockDomainController@destroy');
 
     // ban user
     Route::post('/ban-user', 'BanController@store');
     Route::post('/banned-users', 'BanController@index');
-    Route::post('/ban-user/destroy', 'BanController@destroy');
+    Route::delete('/ban-user/destroy', 'BanController@destroy');
 
     // moderation
     Route::post('/moderators', 'ModeratorController@index');

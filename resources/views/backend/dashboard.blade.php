@@ -129,7 +129,7 @@
     <div class="columns is-multiline is-mobile">
     	<div class="column is-full">
     		<h1 class="title">
-				Latest Users:
+				Latest Users
 			</h1>
 
 			<table class="table is-striped">

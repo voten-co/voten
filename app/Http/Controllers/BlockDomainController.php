@@ -16,6 +16,9 @@ class BlockDomainController extends Controller
     /**
      * Stores a BlockedDomain record.
      *
+     * Hint: since general bann happens from through backend form (and not via ajax) we check for it.
+     * If it isn't via ajax, it means it's been from backend and done by a VotenAdministrator.
+     *
      * @param Illuminate\Http\Request $request
      *
      * @return Collection $blockedDomain
@@ -27,18 +30,19 @@ class BlockDomainController extends Controller
             'category' => 'alpha_num|max:25',
         ]);
 
-        $category = Category::where('name', $request->category)->firstOrFail();
-
-        abort_unless($this->mustBeModerator($category->id), 403);
+        if (!($blockEverywhere = !$request->ajax() && $this->mustBeVotenAdministrator())) {
+        	$category = Category::where('name', $request->category)->firstOrFail();
+        	abort_unless($this->mustBeModerator($category->id), 403);
+        }
 
         $blockedDomain = new BlockedDomain([
-            'category'    => $request->category,
+            'category'    => $blockEverywhere ? 'all' : $request->category,
             'domain'      => domain($request->domain),
             'description' => $request->description,
         ]);
         $blockedDomain->save();
 
-        return $blockedDomain;
+        return $request->ajax() ? $blockedDomain : back();
     }
 
     /**
@@ -73,14 +77,15 @@ class BlockDomainController extends Controller
             'category' => 'alpha_num|max:25',
         ]);
 
-        $category = Category::where('name', $request->category)->firstOrFail();
-
-        abort_unless($this->mustBeModerator($category->id), 403);
+        if (!($blockEverywhere = !$request->ajax() && $this->mustBeVotenAdministrator())) {
+        	$category = Category::where('name', $request->category)->firstOrFail();
+        	abort_unless($this->mustBeModerator($category->id), 403);
+        }
 
         BlockedDomain::where('domain', $request->domain)
-                    ->where('category', $request->category)
+                    ->where('category', $blockEverywhere ? 'all' : $request->category)
                     ->delete();
 
-        return response('Unblocked in '.$request->category, 200);
+        return $blockEverywhere ? back() : response('Unblocked in '.$request->category, 200);
     }
 }

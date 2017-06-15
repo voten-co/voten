@@ -116,10 +116,10 @@
              *
              * @return void
              */
-            unban (user_id) {
-                 axios.post('/ban-user/destroy', {
-                     user_id,
-                     category: this.$route.params.name
+            unban(user_id) {
+                 axios.delete('/ban-user/destroy', {
+                    user_id,
+                    category: this.$route.params.name
                  }).then((response) => {
                     this.bannedUsers = this.bannedUsers.filter(function (item) {
                       	return item.user_id != user_id

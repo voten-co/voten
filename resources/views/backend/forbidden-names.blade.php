@@ -95,6 +95,80 @@
         </div>
 
     </div>
+
+    <div class="columns is-multiline is-mobile">
+		<div class="column is-half">
+			<h1 class="title">
+				Ban a domain address
+			</h1>
+
+			<form class="control" action="/block-domain" method="post">
+                {{ csrf_field() }}
+
+                <div class="field">
+					<p class="control">
+						<input class="input" type="url" placeholder="URL" name="domain" required>
+					</p>
+				</div>
+
+				<br>
+
+				<div class="field">
+					<p class="control">
+						<input class="input" type="text" placeholder="Description(optional)" name="description">
+					</p>
+				</div>
+
+				<br>
+
+				<div class="field">
+					<div class="control">
+						<button class="button is-primary" type="submit">
+							Ban
+						</button>
+					</div>
+				</div>
+            </form>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>domain address</th>
+                        <th>description</th>
+                        <th>adctions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach ($blockedDomains as $domain)
+                        <tr>
+                            <td>
+                                {{ $domain->domain }}
+                            </td>
+                            <td>
+                                {{ $domain->description }}
+                            </td>
+                            <td>
+                                <form action="/block-domain/destroy" method="post">
+                                    {{ csrf_field() }}
+                                    {{ method_field('delete') }}
+
+                                    <input type="hidden" name="domain" value="{{ $domain->domain }}">
+                                    <input type="hidden" name="category" value="all">
+
+                                    <button class="button is-danger is-small" type="submit">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+
+            {{ $blockedDomains->links() }}
+		</div>
+	</div>
 </section>
 
 @endsection

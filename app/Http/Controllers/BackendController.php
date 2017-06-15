@@ -37,7 +37,9 @@ class BackendController extends Controller
 
         $forbiddenCategoryNames = CategoryForbiddenName::paginate(30);
 
-        return view('backend.forbidden-names', compact('forbiddenUsernames', 'forbiddenCategoryNames'));
+        $blockedDomains = \App\BlockedDomain::where('category', 'all')->paginate(30);
+
+        return view('backend.forbidden-names', compact('forbiddenUsernames', 'forbiddenCategoryNames', 'blockedDomains'));
     }
 
     /**
