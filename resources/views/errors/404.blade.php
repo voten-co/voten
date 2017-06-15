@@ -25,7 +25,7 @@
 		</h1>
 
 		<p>
-			I hate to be the one to tell  you but you've been give a wrong address!
+			I hate to be the one who breaks it to you but you've been given a wrong address!
 		</p>
 	</div>
 @endsection
