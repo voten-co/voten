@@ -181,13 +181,12 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
-
         Laravel\Scout\ScoutServiceProvider::class,
-        // DamianTW\MySQLScout\Providers\MySQLScoutServiceProvider::class,
         ScoutEngines\Elasticsearch\ElasticsearchProvider::class,
 
         // dev only
         VueGenerators\ServiceProvider::class,
+        DamianTW\MySQLScout\Providers\MySQLScoutServiceProvider::class,
     ],
 
     /*

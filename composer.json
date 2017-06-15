@@ -22,7 +22,7 @@
         "guzzlehttp/guzzle": "^6.2",
         "predis/predis": "^1.1",
         "laravel/tinker": "^1.0",
-        "damiantw/laravel-scout-mysql-driver": "^1.0.10",
+        "damiantw/laravel-scout-mysql-driver": "^1.0",
         "pbmedia/laravel-ffmpeg": "^1.1",
         "laravel/socialite": "^3.0",
         "algolia/algoliasearch-client-php": "^1.16",

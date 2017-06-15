@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b7da48a55608296aecd6aaf6ff4a9e70",
+    "content-hash": "c2277a38c3a91bb1e8966aa9880aa3d4",
     "packages": [
         {
             "name": "alchemy/binary-driver",
@@ -116,29 +116,33 @@
         },
         {
             "name": "damiantw/laravel-scout-mysql-driver",
-            "version": "v1.0.8",
+            "version": "v1.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/damiantw/laravel-scout-mysql-driver.git",
-                "reference": "18eb6eccd3f8be3a854b935c642e25d18623c9b3"
+                "reference": "4073770c7626c268b3cf46445952463eccd4bbf5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/damiantw/laravel-scout-mysql-driver/zipball/18eb6eccd3f8be3a854b935c642e25d18623c9b3",
-                "reference": "18eb6eccd3f8be3a854b935c642e25d18623c9b3",
+                "url": "https://api.github.com/repos/damiantw/laravel-scout-mysql-driver/zipball/4073770c7626c268b3cf46445952463eccd4bbf5",
+                "reference": "4073770c7626c268b3cf46445952463eccd4bbf5",
                 "shasum": ""
             },
             "require": {
-                "laravel/framework": "5.4.*",
-                "laravel/scout": "^3.0",
+                "laravel/framework": "5.3.*|5.4.*",
+                "laravel/scout": "^2.0|^3.0",
                 "php": ">=5.6.4"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
                     "DamianTW\\MySQLScout\\": "src/"
-                }
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -149,10 +153,7 @@
                 }
             ],
             "description": "MySQL driver for Laravel Scout.",
-            "support": {
-                "source": "https://github.com/sullyfischer/laravel-scout-mysql-driver/tree/master"
-            },
-            "time": "2017-01-31T16:12:08+00:00"
+            "time": "2017-06-02T14:00:46+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
