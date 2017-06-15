@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Traits\CachableUser;
+use App\Activity;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -14,7 +15,7 @@ use Laravel\Scout\Searchable;
 
 class User extends Authenticatable
 {
-    use Notifiable, Bookmarkable, Searchable, SoftDeletes, CachableUser, HasApiTokens;
+    use Notifiable, Bookmarkable, SoftDeletes, CachableUser, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -277,6 +278,21 @@ class User extends Authenticatable
         }
 
         return $users->contains($this->id);
+    }
+
+    /**
+     * user's country: either determinded by his registered IP or (in case it wasn't saved at the time) by his last activity's IP
+     *
+     * @return string
+     */
+    public function country()
+    {
+    	return Activity::where([
+    		'user_id' => $this->id,
+    		'name' => 'created_user'
+		])->first()->country ?? Activity::where([
+    		'user_id' => $this->id
+		])->orderBy('created_at', 'desc')->first()->country ?? "unknown";
     }
 
     /**

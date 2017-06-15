@@ -75,10 +75,14 @@ class BackendController extends Controller
         $commentVotesTotal = (DB::table('comment_upvotes')->count() + DB::table('comment_downvotes')->count()) - $commentsTotal;
         $commentVotesToday = (DB::table('comment_upvotes')->where('created_at', '>=', Carbon::now()->subDay())->count() + DB::table('comment_downvotes')->where('created_at', '>=', Carbon::now()->subDay())->count()) - $commentsToday;
 
+
+        $users = User::orderBy('id', 'desc')->simplePaginate(30);
+
         return view('backend.dashboard', compact(
         	'usersTotal', 'usersToday', 'categoriesTotal', 'categoriesToday', 'submissionsTotal', 'submissionsToday'
         	, 'commentsTotal', 'commentsToday', 'messagesTotal', 'messagesToday', 'reportsTotal',
-        	'reportsToday', 'submissionVotesTotal', 'submissionVotesToday', 'commentVotesTotal', 'commentVotesToday'
+        	'reportsToday', 'submissionVotesTotal', 'submissionVotesToday', 'commentVotesTotal', 'commentVotesToday',
+        	'users'
         	)
         );
     }

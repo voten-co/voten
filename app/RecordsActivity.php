@@ -30,14 +30,10 @@ trait RecordsActivity
      */
     public function recordActivity($event)
     {
-        if (!isset($_SERVER['HTTP_USER_AGENT'])) {
-            return;
-        }
-
         Activity::create([
             'subject_id'   => $this->id,
             'ip_address'   => $_SERVER['HTTP_CF_CONNECTING_IP'] ?? $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0',
-            'user_agent'   => $_SERVER['HTTP_USER_AGENT'],
+            'user_agent'   => $_SERVER['HTTP_USER_AGENT'] ?? 'unknown',
             'country'   => $_SERVER["HTTP_CF_IPCOUNTRY"] ?? 'unknown',
             'subject_type' => get_class($this),
             'name'         => $this->getActivityName($this, $event),
