@@ -273,11 +273,7 @@ class User extends Authenticatable
             $users = AppointeddUser::where('appointed_as', 'administrator')->pluck('user_id');
         });
 
-        if (!$users) {
-            return false;
-        }
-
-        return $users->contains($this->id);
+        return !$users ? false : $users->contains($this->id);
     }
 
     /**
