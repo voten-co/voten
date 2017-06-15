@@ -91,16 +91,27 @@
                         </td>
                     </tr>
 
-
                 	<tr>
                         <td>
-                            Votes
+                            Submission Votes
                         </td>
                         <td>
-                            {{ $votesToday }}
+                            {{ $submissionVotesToday }}
                         </td>
                         <td>
-                            {{ $votesTotal }}
+                            {{ $submissionVotesTotal }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            Comment Votes
+                        </td>
+                        <td>
+                            {{ $commentVotesToday }}
+                        </td>
+                        <td>
+                            {{ $commentVotesTotal }}
                         </td>
                     </tr>
 

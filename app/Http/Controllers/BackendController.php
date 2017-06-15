@@ -12,6 +12,7 @@ use App\Message;
 use App\Report;
 use App\UserForbiddenName;
 use Auth;
+use DB;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -40,7 +41,7 @@ class BackendController extends Controller
     }
 
     /**
-     * shows the dashboard
+     * shows the dashboard which currently displays site's statistics
      *
      * @return view
      */
@@ -66,13 +67,18 @@ class BackendController extends Controller
         $reportsTotal = Report::withTrashed()->get()->count();
         $reportsToday = Report::withTrashed()->where('created_at', '>=', Carbon::now()->subDay())->count();
 
-        $votesTotal = 0;
-        $votesToday = 0;
+        // total numer of submission votes: (upvotes + downvotes) - numberOfSubmissions
+        $submissionVotesTotal = (DB::table('submission_upvotes')->count() + DB::table('submission_downvotes')->count()) - $submissionsTotal;
+        $submissionVotesToday = (DB::table('submission_upvotes')->where('created_at', '>=', Carbon::now()->subDay())->count() + DB::table('submission_downvotes')->where('created_at', '>=', Carbon::now()->subDay())->count()) - $submissionsToday;
+
+        // total numer of comment votes: (upvotes + downvotes) - numberOfSubmissions
+        $commentVotesTotal = (DB::table('comment_upvotes')->count() + DB::table('comment_downvotes')->count()) - $commentsTotal;
+        $commentVotesToday = (DB::table('comment_upvotes')->where('created_at', '>=', Carbon::now()->subDay())->count() + DB::table('comment_downvotes')->where('created_at', '>=', Carbon::now()->subDay())->count()) - $commentsToday;
 
         return view('backend.dashboard', compact(
         	'usersTotal', 'usersToday', 'categoriesTotal', 'categoriesToday', 'submissionsTotal', 'submissionsToday'
         	, 'commentsTotal', 'commentsToday', 'messagesTotal', 'messagesToday', 'reportsTotal',
-        	'reportsToday', 'votesTotal', 'votesToday'
+        	'reportsToday', 'submissionVotesTotal', 'submissionVotesToday', 'commentVotesTotal', 'commentVotesToday'
         	)
         );
     }
