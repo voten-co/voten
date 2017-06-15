@@ -19,11 +19,7 @@ export default {
         		category_id: Store.category.id
         	}
         }).then((response) => {
-            if(response.data == true){
-                this.subscribed = true;
-            } else {
-                this.subscribed = false;
-            }
+            this.subscribed = response.data;
 
             this.loaded = true;
         });
