@@ -27,7 +27,6 @@ import CategorySettings from './components/CategorySettings.vue';
 import AdminPanelBanUser from './components/AdminPanelBanUser.vue';
 import AdminPanelComments from './components/AdminPanelComments.vue';
 import ModeratorPanelRules from './components/ModeratorPanelRules.vue';
-import AdminPanelStatistics from './components/AdminPanelStatistics.vue';
 import UserSettingsEditFeed from './components/UserSettingsEditFeed.vue';
 import AdminPanelSubmissions from './components/AdminPanelSubmissions.vue';
 import DeletedSubmissionPage from './components/DeletedSubmissionPage.vue';
@@ -58,11 +57,11 @@ const routes = [
 
     { path: '/channel', component: NewCategory, meta: { title: 'New #Channel' } },
     { path: '/submit', component: Submit, meta: { title: 'Submit' } },
+    { path: '/big-daddy', redirect: '/big-daddy/reports/submissions' },
     {
         path: '/big-daddy',
         component: AdminPanel,
         children: [
-            { path: '', component: AdminPanelStatistics, name: 'admin-panel-statistics' },
             { path: 'help', component: AdminPanelHelp, name: 'admin-panel-help' },
             {
                 path: '/users',

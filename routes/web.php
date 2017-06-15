@@ -28,7 +28,8 @@ Route::group(['middleware' => ['maintenance', 'http2']], function () {
 });
 
 // backend-admin
-Route::get('/backend', 'BackendController@index');
+Route::get('/backend', 'BackendController@dashboard');
+Route::get('/backend/forbidden-names', 'BackendController@forbiddenNames');
 Route::post('/appointed/store', 'BackendController@storeAppointed');
 Route::get('/backend/server-control', 'BackendController@serverControls');
 Route::get('/backend/appointed-users', 'BackendController@indexAppointedUsers');

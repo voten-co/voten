@@ -2,6 +2,7 @@
 /public/storage
 /public/css
 /public/js
+/public/hot
 /.idea
 Homestead.json
 Homestead.yaml

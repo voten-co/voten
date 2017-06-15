@@ -5,8 +5,14 @@ namespace App\Http\Controllers;
 use App\AppointeddUser;
 use App\CategoryForbiddenName;
 use App\User;
+use App\Submission;
+use App\Comment;
+use App\Category;
+use App\Message;
+use App\Report;
 use App\UserForbiddenName;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -18,19 +24,57 @@ class BackendController extends Controller
     }
 
     /**
-     * indexes the backend page.
+     * shows the forbidden names and usernames page
      *
      * @return view
      */
-    public function index()
+    public function forbiddenNames()
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
+    	abort_unless($this->mustBeVotenAdministrator(), 403);
 
         $forbiddenUsernames = UserForbiddenName::all();
 
         $forbiddenCategoryNames = CategoryForbiddenName::all();
 
-        return view('backend.index', compact('forbiddenUsernames', 'forbiddenCategoryNames'));
+        return view('backend.forbidden-names', compact('forbiddenUsernames', 'forbiddenCategoryNames'));
+    }
+
+    /**
+     * shows the dashboard
+     *
+     * @return view
+     */
+    public function dashboard()
+    {
+        abort_unless($this->mustBeVotenAdministrator(), 403);
+
+        $usersTotal = User::all()->count();
+        $usersToday = User::where('created_at', '>=', Carbon::now()->subDay())->count();
+
+        $categoriesTotal = Category::all()->count();
+        $categoriesToday = Category::where('created_at', '>=', Carbon::now()->subDay())->count();
+
+        $submissionsTotal = Submission::all()->count();
+        $submissionsToday = Submission::where('created_at', '>=', Carbon::now()->subDay())->count();
+
+        $commentsTotal = Comment::all()->count();
+        $commentsToday = Comment::where('created_at', '>=', Carbon::now()->subDay())->count();
+
+        $messagesTotal = Message::all()->count();
+        $messagesToday = Message::where('created_at', '>=', Carbon::now()->subDay())->count();
+
+        $reportsTotal = Report::withTrashed()->get()->count();
+        $reportsToday = Report::withTrashed()->where('created_at', '>=', Carbon::now()->subDay())->count();
+
+        $votesTotal = 0;
+        $votesToday = 0;
+
+        return view('backend.dashboard', compact(
+        	'usersTotal', 'usersToday', 'categoriesTotal', 'categoriesToday', 'submissionsTotal', 'submissionsToday'
+        	, 'commentsTotal', 'commentsToday', 'messagesTotal', 'messagesToday', 'reportsTotal',
+        	'reportsToday', 'votesTotal', 'votesToday'
+        	)
+        );
     }
 
     /**

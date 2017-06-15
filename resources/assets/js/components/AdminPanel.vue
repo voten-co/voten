@@ -32,10 +32,18 @@
 
         methods: {
             getStatistics () {
-            	axios.post('/big-daddy').then((response) => {
-	                this.statistics = response.data
-	            })
+
             },
-        }
+        },
+
+        beforeRouteEnter(to, from, next){
+        	axios.post('/big-daddy').then((response) => {
+                if (response.data == true) {
+                	next();
+                }
+
+                next(false);
+            })
+        },
     };
 </script>

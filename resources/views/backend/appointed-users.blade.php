@@ -30,7 +30,6 @@
                         <th>username</th>
                         <th>Appointed As</th>
                         <th>Actions</th>
-                        <th>Login</th>
                     </tr>
                 </thead>
 
@@ -54,11 +53,6 @@
                                         Delete
                                     </button>
                                 </form>
-                            </td>
-                            <td>
-                                <a class="button is-info is-small" href="/login-as?username={{ $appointed->user->username }}">
-                                    Log In As
-                                </a>
                             </td>
                         </tr>
                     @endforeach

@@ -22,51 +22,13 @@ class AdminController extends Controller
     }
 
     /**
-     * Loads the dashboard page for administrator page with the latest statistics.
+     * Is the authinticated user a Voten administrator?
      *
-     * @return Illuminate\Support\Collection
+     * @return string
      */
-    public function index()
+    public function isAdministrator()
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
-        $usersTotal = User::all()->count();
-        $usersToday = User::where('created_at', '>=', Carbon::now()->subDay())->count();
-
-        $categoriesTotal = Category::all()->count();
-        $categoriesToday = Category::where('created_at', '>=', Carbon::now()->subDay())->count();
-
-        $submissionsTotal = Submission::all()->count();
-        $submissionsToday = Submission::where('created_at', '>=', Carbon::now()->subDay())->count();
-
-        $commentsTotal = Comment::all()->count();
-        $commentsToday = Comment::where('created_at', '>=', Carbon::now()->subDay())->count();
-
-        $messagesTotal = Message::all()->count();
-        $messagesToday = Message::where('created_at', '>=', Carbon::now()->subDay())->count();
-
-        $reportsTotal = Report::all()->count();
-        $reportsToday = Report::where('created_at', '>=', Carbon::now()->subDay())->count();
-
-        $submissionVotesTotal = 0;
-        $submissionVotesToday = 0;
-
-        return collect([
-            'usersTotal'           => $usersTotal,
-            'usersToday'           => $usersToday,
-            'categoriesTotal'      => $categoriesTotal,
-            'categoriesToday'      => $categoriesToday,
-            'submissionsTotal'     => $submissionsTotal,
-            'submissionsToday'     => $submissionsToday,
-            'commentsTotal'        => $commentsTotal,
-            'commentsToday'        => $commentsToday,
-            'messagesTotal'        => $messagesTotal,
-            'messagesToday'        => $messagesToday,
-            'submissionVotesTotal' => $submissionVotesTotal,
-            'submissionVotesToday' => $submissionVotesToday,
-            'reportsTotal'         => $reportsTotal,
-            'reportsToday'         => $reportsToday,
-        ])->all();
+    	return $this->mustBeVotenAdministrator() ? 'true' : 'false';
     }
 
     /**

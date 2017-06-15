@@ -2,7 +2,7 @@
 
 Route::group(['middleware' => 'auth:api'], function () {
     // Administrator routes
-    Route::post('/big-daddy', 'AdminController@index');
+    Route::post('/big-daddy', 'AdminController@isAdministrator');
     Route::post('/admin/users', 'AdminController@indexUsers');
     Route::post('/admin/comments', 'AdminController@comments');
     Route::post('/admin/channels', 'AdminController@categories');
@@ -17,7 +17,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     // feedback
     Route::post('/feedback', 'FeedbacksController@store');
     Route::post('/feedback/delete', 'FeedbacksController@destroy');
-    Route::post('/big-daddy/feedbacks', 'FeedbacksController@index');
 
     // help
     Route::post('/new-help', 'HelpController@store');

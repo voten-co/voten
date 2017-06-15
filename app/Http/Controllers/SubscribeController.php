@@ -69,10 +69,6 @@ class SubscribeController extends Controller
 
         $subscriptions = $this->subscriptions();
 
-        if (in_array($request->category_id, $subscriptions)) {
-            return 'true';
-        }
-
-        return 'false';
+        return in_array($request->category_id, $subscriptions) ? 'true' : 'false';
     }
 }

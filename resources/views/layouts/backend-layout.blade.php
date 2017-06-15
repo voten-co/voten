@@ -31,11 +31,9 @@
     <nav class="nav has-shadow">
         <div class="container">
             <div class="nav-left">
-                <a class="nav-item" href="/backend">
-                    <img src="/imgs/backend-logo.png" alt="Backend-logo">
-                </a>
+                <a class="nav-item is-tab is-hidden-mobile{{ url('backend') == url()->current() ? ' is-active' : '' }}" href="/backend">Dashboard</a>
 
-                <a class="nav-item is-tab is-hidden-mobile{{ url('backend') == url()->current() ? ' is-active' : '' }}" href="/backend">Forbiddens</a>
+                <a class="nav-item is-tab is-hidden-mobile{{ url('backend/forbidden-names') == url()->current() ? ' is-active' : '' }}" href="/backend/forbidden-names">Forbiddens</a>
 
                 <a class="nav-item is-tab is-hidden-mobile{{ url('backend/appointed-users') == url()->current() ? ' is-active' : '' }}" href="/backend/appointed-users">Appointed Users</a>
 
