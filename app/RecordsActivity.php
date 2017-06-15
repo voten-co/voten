@@ -38,6 +38,7 @@ trait RecordsActivity
             'subject_id'   => $this->id,
             'ip_address'   => $_SERVER['HTTP_CF_CONNECTING_IP'] ?? $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0',
             'user_agent'   => $_SERVER['HTTP_USER_AGENT'],
+            'country'   => $_SERVER["HTTP_CF_IPCOUNTRY"] ?? 'unknown',
             'subject_type' => get_class($this),
             'name'         => $this->getActivityName($this, $event),
             'user_id'      => Auth::user()->id,
