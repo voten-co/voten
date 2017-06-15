@@ -45,6 +45,8 @@
                     @endforeach
                 </tbody>
             </table>
+
+            {{ $forbiddenCategoryNames->links() }}
         </div>
 
         <div class="column is-half">
@@ -88,6 +90,8 @@
                     @endforeach
                 </tbody>
             </table>
+
+            {{ $forbiddenUsernames->links() }}
         </div>
 
     </div>

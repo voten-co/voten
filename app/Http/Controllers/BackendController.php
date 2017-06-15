@@ -33,9 +33,9 @@ class BackendController extends Controller
     {
     	abort_unless($this->mustBeVotenAdministrator(), 403);
 
-        $forbiddenUsernames = UserForbiddenName::all();
+        $forbiddenUsernames = UserForbiddenName::paginate(30);
 
-        $forbiddenCategoryNames = CategoryForbiddenName::all();
+        $forbiddenCategoryNames = CategoryForbiddenName::paginate(30);
 
         return view('backend.forbidden-names', compact('forbiddenUsernames', 'forbiddenCategoryNames'));
     }
@@ -76,7 +76,7 @@ class BackendController extends Controller
         $commentVotesToday = (DB::table('comment_upvotes')->where('created_at', '>=', Carbon::now()->subDay())->count() + DB::table('comment_downvotes')->where('created_at', '>=', Carbon::now()->subDay())->count()) - $commentsToday;
 
 
-        $users = User::orderBy('id', 'desc')->simplePaginate(30);
+        $users = User::orderBy('id', 'desc')->paginate(30);
 
         return view('backend.dashboard', compact(
         	'usersTotal', 'usersToday', 'categoriesTotal', 'categoriesToday', 'submissionsTotal', 'submissionsToday'
