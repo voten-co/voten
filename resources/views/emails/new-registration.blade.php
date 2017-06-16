@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-	<p>We just had another registeration by the username: "{{ $username }}"</p>
+	<p>We just had another registration by the username: "{{ $username }}"</p>
 
 	<p>
 		Hope you're doing great Sully ;)
