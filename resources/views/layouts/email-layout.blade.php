@@ -151,7 +151,7 @@
 	<div class="container">
 		<div class="align-center">
 			<a href="https://voten.co">
-				<img src="https://voten.co/imgs/voten-circle.png" alt="Voten" class="logo">
+				<img src="https://voten.co/imgs/voten-circle.png" alt="Voten" class="logo" width="150">
 			</a>
 		</div>
 

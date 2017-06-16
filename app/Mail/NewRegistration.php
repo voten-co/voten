@@ -31,6 +31,6 @@ class NewRegistration extends Mailable
     {
         $username = $this->username;
 
-        return $this->markdown('emails.new-registeration', compact('username'));
+        return $this->markdown('emails.new-registration', compact('username'));
     }
 }
