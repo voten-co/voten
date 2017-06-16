@@ -1,22 +1,26 @@
 @extends('layouts.landing-layout')
 
 @section('title')
-	<title>Sign in | Voten</title>
+	<title>Sign in | {{ config('app.name') }}</title>
 @stop
 
 @section('content')
 	<div class="container-mid user-select">
 		<div class="col-7">
 			<div class="social-login-buttons">
-				<a href="/login/facebook" class="v-button button-fb">
-		            <i class="v-icon v-facebook"></i>
-		            Connect With Facebook
-		        </a>
+				@if (config('settings.facebook.secret') && config('settings.facebook.client_id'))
+					<a href="/login/facebook" class="v-button button-fb">
+						<i class="v-icon v-facebook"></i>
+						Connect With Facebook
+					</a>
+				@endif
 
-		        <a href="/login/google" class="v-button button-google">
-		            <i class="v-icon v-google"></i>
-		            Connect With Google
-		        </a>
+				@if (config('settings.google.secret') && config('settings.google.client_id'))
+					<a href="/login/google" class="v-button button-google">
+						<i class="v-icon v-google"></i>
+						Connect With Google
+					</a>
+				@endif
 			</div>
 
 	        <div class="or">
@@ -27,7 +31,7 @@
 				<h1 class="title">Sign in with username and password</h1>
 
 				<p>
-					Thank you for being a part of Voten community
+					Thank you for being a part of {{ config('app.name') }} community
 				</p>
 
 				<form action="{{ url('/login') }}" method="POST" class="align-left">
