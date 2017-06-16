@@ -66,10 +66,17 @@ class MessagesController extends Controller
     /**
      * is the auth user in the contact's blockedUsers list.
      *
-     * @return
+     * @param integer $contact_id
+     * @param integer $auth_user_id
+     *
+     * @return bool
      */
     protected function isAuthUserBlockedToContact($contact_id, $auth_user_id)
     {
+    	if (Auth::user()->isShadowBanned()) {
+    		return true;
+    	}
+
         $list = collect($this->blockedUsers($contact_id));
 
         return $list->contains($auth_user_id);

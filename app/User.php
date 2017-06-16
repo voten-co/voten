@@ -39,7 +39,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'deleted_at', 'email', 'settings', 'verified',
+        'password', 'remember_token', 'deleted_at', 'email', 'settings', 'verified', 'active'
     ];
 
     /**
@@ -299,5 +299,15 @@ class User extends Authenticatable
     public function settings()
     {
         return new \App\Settings($this->settings, $this);
+    }
+
+    /**
+     * Is the auth user shadow banned
+     *
+     * @return bool
+     */
+    public function isShadowBanned()
+    {
+    	return ! $this->active;
     }
 }

@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Ban;
 use App\Category;
 use App\User;
+use DB;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class BanController extends Controller
 {
     /**
-     * Stores a record on the database to ban the user.
+     * Stores a App\Ban record.
      *
      * @param Illuminate\Http\Request $request
      *
@@ -29,14 +30,26 @@ class BanController extends Controller
             $category = Category::where('name', $request->category)->firstOrFail();
         }
 
+        $user = User::where('username', $request->username)->firstOrFail();
+
         // make sure only voten-administrators are able to ban users everywhere
         if ($request->category == 'all') {
             abort_unless($this->mustBeVotenAdministrator(), 403);
+
+            // remove all user's data that might have been spam and harmful to others
+	        DB::table('submissions')->where('user_id', $user->id)->delete();
+	        DB::table('comments')->where('user_id', $user->id)->delete();
+	        DB::table('messages')->where('user_id', $user->id)->delete();
+	        DB::table('reports')->where('user_id', $user->id)->delete();
+	        DB::table('feedbacks')->where('user_id', $user->id)->delete();
+	        DB::table('roles')->where('user_id', $user->id)->delete();
+	        DB::table('conversations')->where('user_id', $user->id)->orWhere('contact_id', $user->id)->delete();
+
+	        // set active to 0 (to make future checkings easier)
+	        $user->update(['active' => false]);
         } else {
             abort_unless($this->mustBeModerator($category->id), 403);
         }
-
-        $user = User::where('username', $request->username)->firstOrFail();
 
         // BAN DURATION: if the duration is set as 0 we set a really big number like 17 years!
         if (!$request->duration || $request->duration == 0) {
@@ -59,7 +72,7 @@ class BanController extends Controller
     }
 
     /**
-     * Returns all the users that are banned from submitting to this category.
+     * Returns all the users that are banned from submitting to targeted category.
      *
      * @param Illuminate\Http\Request $request
      *

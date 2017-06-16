@@ -236,6 +236,10 @@ class SubmissionVotesController extends Controller
      */
     public function isCheating($user_id, $submission_id, $type = 'upvote')
     {
+    	if (Auth::user()->isShadowBanned()) {
+        	return true;
+        }
+
         if ($type === 'upvote') {
             $table = 'submission_upvotes';
         } else {

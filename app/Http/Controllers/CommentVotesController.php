@@ -236,6 +236,10 @@ class CommentVotesController extends Controller
      */
     public function isCheating($user_id, $comment_id, $type = 'upvote')
     {
+    	if (Auth::user()->isShadowBanned()) {
+        	return true;
+        }
+
         if ($type === 'upvote') {
             $table = 'comment_upvotes';
         } else {
