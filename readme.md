@@ -20,7 +20,6 @@ Voten is a Laravel application that runs on the following software:
 - PHP 7.1+
 - Redis 3.0+
 - Git 2.8.4+
-- [Elasticsearch](https://www.elastic.co/products/elasticsearch)
 - [Pusher](https://pusher.com/)
 
 To install all the required stack on a server, we recommend an auto-installation service such as [Codepier](https://codepier.io/).
