@@ -15,15 +15,15 @@ return [
     */
 
     'facebook' => [
-         'client_id'     => env('FACEBOOK_CLIENT_ID'),
-         'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
-         'redirect'      => env('FACEBOOK_REDIRECT'),
+        'client_id'     => config('settings.facebook.client_id'),
+        'client_secret' => config('settings.facebook.secret'),
+        'redirect'      => config('settings.facebook.callback'),
      ],
 
     'google' => [
-         'client_id'     => env('GOOGLE_CLIENT_ID'),
-         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-         'redirect'      => env('GOOGLE_REDIRECT'),
+         'client_id'     => config('settings.google.client_id'),
+         'client_secret' => config('settings.google.secret'),
+         'redirect'      => config('settings.google.callback'),
      ],
 
     'mailgun' => [

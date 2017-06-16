@@ -4,7 +4,7 @@
 	</div>
 
     <router-link :to="{ path: '/' }" class="desktop-only">
-        <img src="/imgs/voten-logo.png" alt="Voten" @click="closeModals"
+        <img src="/imgs/voten-logo.png" alt="{{ config('app.name') }}" @click="closeModals"
         	class="logo-voten" data-toggle="tooltip" data-placement="bottom" title="Home">
     </router-link>
 
@@ -46,7 +46,7 @@
 	            <img src="{{Auth::user()->avatar}}" alt="{{Auth::user()->username}}" class="header-avatar">
 
 	            <div class="menu">
-	                <div class="header">My Voten</div>
+	                <div class="header">My {{ config('app.name') }}</div>
 
 					<router-link :to="'/submit'" class="item">
 	                    <i class="v-icon v-submit" aria-hidden="true"></i>
@@ -91,7 +91,7 @@
 					</div>
 
 	                @if( Auth::user()->isVotenAdministrator() )
-		                <div class="header">Voten Administrators</div>
+		                <div class="header">{{ config('app.name') }} Administrators</div>
 
 		                <router-link :to="'/big-daddy'" class="item">
 		                    <i class="v-icon v-linux" aria-hidden="true"></i>
@@ -118,13 +118,13 @@
 
 					<div class="item">
 						<i class="v-icon v-left-hand"></i>
-						<span class="text">Voten</span>
+						<span class="text">{{ config('app.name') }}</span>
 						<div class="left menu green">
 							<a href="/about" class="item">
 			                    About
 			                </a>
 
-			                <a href="mailto:info@voten.co" class="item">
+			                <a href="mailto:{{ config('settings.info_email') }}" class="item">
 			                    Contact Us
 			                </a>
 
@@ -132,24 +132,16 @@
 			                    Feedback
 			                </a>
 
-			                <a class="item" href="https://voten.co/tos">
+			                <a class="item" href="/tos">
 			                    Site Rules
 			                </a>
 
-			                <a class="item" href="https://voten.co/privacy-policy">
+			                <a class="item" href="/privacy-policy">
 			                    Privacy Policy
-			                </a>
-
-							<a href="https://medium.com/voten" class="item">
-			                    Blog
 			                </a>
 
 							<a href="/credits" class="item">
 			                    Credits
-			                </a>
-
-			                <a href="https://github.com/voten-co/voten" class="item" target="_blank">
-			                    Source Code
 			                </a>
 						</div>
 					</div>

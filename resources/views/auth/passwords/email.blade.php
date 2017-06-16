@@ -1,7 +1,7 @@
 @extends('layouts.landing-layout')
 
 @section('title')
-	<title>Forgot my password | Voten</title>
+	<title>Forgot my password | {{ config('app.name') }}</title>
 @stop
 
 @section('content')

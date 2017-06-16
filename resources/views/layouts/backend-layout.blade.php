@@ -7,7 +7,7 @@
 
     <title>
     	@section('title')
-    		Backend | Voten
+    		Backend | {{ config('app.anem') }}
     	@show
     </title>
 

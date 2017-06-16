@@ -2,15 +2,15 @@
 
 
 @section('head')
-	<title>{{ '@' . $user->username }} - Voten</title>
+	<title>{{ '@' . $user->username }} - {{ config('app.name') }}</title>
 	<meta property="og:type" content="article" />
-	<meta property="og:title" content="{{ '@' . $user->username }} - Voten" />
+	<meta property="og:title" content="{{ '@' . $user->username }} - {{ config('app.name') }}" />
 	<meta property="og:url" content="{{ config('app.url') }}/{{ '@' . $user->name }}" />
-	<meta property="og:site_name" content="Voten" />
+	<meta property="og:site_name" content="{{ config('app.name') }}" />
 
 	<meta name="twitter:card" content="summary" />
-	<meta name="twitter:site" content="@voten_co" />
-	<meta name="twitter:title" content="{{ '@' . $user->username }} - Voten" />
+	<meta name="twitter:site" content="{{ config('settings.twitter.name') }}" />
+	<meta name="twitter:title" content="{{ '@' . $user->username }} - {{ config('app.name') }}" />
 
 	@if ($user->bio)
 		<meta name="description" content="{{ $user->bio }}"/>

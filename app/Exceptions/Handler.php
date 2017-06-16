@@ -37,7 +37,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        if ($this->shouldReport($exception)) {
+        if (app()->bound('sentry') && $this->shouldReport($exception)) {
             app('sentry')->captureException($exception);
         }
 
@@ -63,7 +63,9 @@ class Handler extends ExceptionHandler
         }
 
         if ($exception instanceof InvalidUrlException) {
-            return response('Invalid URL', 500);
+            return response()->view('errors.500', [
+                'sentryID' => $this->sentryID,
+            ], 500);
         }
 
         // 404 not found

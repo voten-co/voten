@@ -1,9 +1,9 @@
 @component('mail::message')
 # New user registered: {{ '@' . $username }}
 
-We just had another registeration by the username: "{{ $username }}"
+We just had another registration by the username: "{{ $username }}"
 
-@component('mail::button', ['url' => 'https://voten.co/backend'])
+@component('mail::button', ['url' => config('app.url') . '/backend'])
 Checkout
 @endcomponent
 
@@ -14,5 +14,5 @@ Hope you're doing great ;)
 
 
 Regards,<br>
-The Voten Team
+The {{ config('app.name') }} Team
 @endcomponent

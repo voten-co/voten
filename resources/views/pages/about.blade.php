@@ -4,17 +4,17 @@
 @section('head')
 	<title>About | Voten</title>
 	<meta property="og:type" content="article" />
-	<meta property="og:title" content="About | Voten" />
+	<meta property="og:title" content="About | {{ config('app.name') }}" />
 	<meta property="og:url" content="{{ config('app.url') }}/about" />
-	<meta property="og:site_name" content="Voten" />
+	<meta property="og:site_name" content="{{ config('app.name') }}" />
 
 	<meta name="twitter:card" content="summary" />
-	<meta name="twitter:site" content="@voten_co" />
-	<meta name="twitter:title" content="About | Voten" />
+	<meta name="twitter:site" content="{{ config('settings.twitter.name') }}" />
+	<meta name="twitter:title" content="About | {{ config('app.name') }}" />
 
-	<meta name="description" content="A Modern, real-time, open-source, beautiful, deadly simple and warm community."/>
-	<meta property="og:description" content="A Modern, real-time, open-source, beautiful, deadly simple and warm community." />
-	<meta name="twitter:description" content="A Modern, real-time, open-source, beautiful, deadly simple and warm community." />
+	<meta name="description" content="{{ config('settings.about_description') }}"/>
+	<meta property="og:description" content="{{ config('settings.about_description') }}" />
+	<meta name="twitter:description" content="{{ config('settings.about_description') }}" />
 	<meta property="og:image" content="{{ config('app.url') }}/imgs/voten-circle.png">
 	<meta name="twitter:image" content="{{ config('app.url') }}/imgs/voten-circle.png" />
 
@@ -22,12 +22,12 @@
 	{
 	    "@context": "http://schema.org",
 	    "@type": "WebSite",
-	    "url": "https://voten.co",
-	    "name": "Voten",
-	    "logo": "https://voten.co/imgs/voten-circle.png",
+	    "url": "{{ config('app.url') }}",
+	    "name": "{{ config('app.name') }}",
+	    "logo": "{{ config('app.url') }}/imgs/voten-circle.png",
 	    "sameAs": [
-	        "https://www.facebook.com/voten.co/",
-	        "https://twitter.com/voten_co"
+	        "{{ config('settings.facebook.url') }}",
+	        "{{ config('settings.twitter.url') }}"
 	    ]
 	}
 	</script>
@@ -37,7 +37,7 @@
 @section('content')
 	<div class="about-wrapper mobile-padding">
 		<div class="align-center">
-			<img src="{{ config('app.url') }}/imgs/voten-circle.png" alt="Voten" class="about-logo margin-bottom-1">
+			<img src="{{ config('app.url') }}/imgs/voten-circle.png" alt="{{ config('app.name') }}" class="about-logo margin-bottom-1">
 
 			<h1 class="title">
 				Social Bookmarking For The 21st Century
@@ -47,25 +47,19 @@
 
 		<p>
 			We are a small team of developers risen from the world of open-source. We believe in an open and modern Internet.
-Voten's mission is to give people the power to share their content with not just their friends but the world and interact in real-time.
+{{ config('app.name') }}'s mission is to give people the power to share their content with not just their friends but the world and interact in real-time.
 		</p>
 
 		<br>
 		<h2 class="title">Users are voters</h2>
 		<p>
-			On Voten users are in charge. They get to decide what deserves more attention by voting. After all the word "Voten" means "vote" in German and Spanish.
+			On {{ config('app.name') }} users are in charge. They get to decide what deserves more attention by voting. After all the word "{{ config('app.name') }}" means "vote" in German and Spanish.
 		</p>
 
 		<br>
 		<h2 class="title">Designed for the 21st century</h2>
 		<p>
-			Thanks to the power of open-source community, Voten has become the most modern social bookmarking platform on the Internet. It's been developed from scratch to work with latest web technologies such as WebSockets. Voters have full control over their browsing experience. Voten's UI is highly customizable yet deadly simple.
-		</p>
-
-		<br>
-		<h2 class="title">An open-source project</h2>
-		<p>
-			 It gets even better: Voten is 100% <a href="https://github.com/voten-co/voten" target="_blank">open-source!</a> Yes, we've got nothing to hide. We also like the idea of giving back something to the open-source community. We also have awesome developer users who directly contribute in Voten's development.
+			Thanks to the power of open-source community, {{ config('app.name') }} has become the most modern social bookmarking platform on the Internet. It's been developed from scratch to work with latest web technologies such as WebSockets. Voters have full control over their browsing experience. {{ config('app.name') }}'s UI is highly customizable yet deadly simple.
 		</p>
 	</div>
 

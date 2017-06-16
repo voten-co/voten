@@ -29,5 +29,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('App\Settings', function () {
             return Auth::user()->settings();
         });
+
+        if ($this->app->environment() !== 'production') {
+            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+        }
     }
 }

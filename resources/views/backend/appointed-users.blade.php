@@ -27,7 +27,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>username</th>
+                        <th>Username</th>
                         <th>Appointed As</th>
                         <th>Actions</th>
                     </tr>

@@ -150,8 +150,8 @@
 <body>
 	<div class="container">
 		<div class="align-center">
-			<a href="https://voten.co">
-				<img src="https://voten.co/imgs/voten-circle.png" alt="Voten" class="logo" width="150">
+			<a href="{{ config('app.url') }}">
+				<img src="{{ config('app.url') }}/imgs/voten-circle.png" alt="{{ config('app.name') }}" class="logo" width="150">
 			</a>
 		</div>
 
@@ -164,12 +164,11 @@
 		</div>
 
 		<div class="footer">
-			<a href="https://voten.co/login">Sign In</a>
-			<a href="https://voten.co/help">Help Center</a>
-			<a href="https://voten.co/tos">Terms Of Service</a>
-			<a href="https://medium.com/voten">Blog</a>
-			<a href="https://twitter.com/voten_co">Twitter</a>
-			<a href="https://facebook.com/voten.co">Facebook</a>
+			<a href="{{ url('login') }}">Sign In</a>
+			<a href="{{ url('help') }}">Help Center</a>
+			<a href="{{ url('tos') }}">Terms Of Service</a>
+			<a href="{{ config('settings.twitter.url') }}">Twitter</a>
+			<a href="{{ config('settings.facebook.url') }}">Facebook</a>
 		</div>
 	</div>
 </body>

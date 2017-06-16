@@ -1,7 +1,7 @@
 @extends('layouts.landing-layout')
 
 @section('title')
-	<title>Voten | Credits</title>
+	<title>{{ config('app.name') }} | Credits</title>
 @stop
 
 @section('content')
@@ -12,7 +12,7 @@
 			</h1>
 
 			<h2 class="go-gray">
-				Voten would like to thank the authors of the following open source components that contributed essential functionality to our applications:
+				{{ config('app.name') }} would like to thank the authors of the following open source components that contributed essential functionality to our applications:
 			</h2>
 		</div>
 
@@ -58,7 +58,7 @@
 
 				<div>
 					<p>
-						Vue is a progressive framework for building user interfaces. Vue's bleeding fast performance is the main reason Voten's developer team picked it as our primary JS framework.
+						Vue is a progressive framework for building user interfaces. Vue's bleeding fast performance is the main reason {{ config('app.name') }}'s developer team picked it as our primary JS framework.
 					</p>
 
 					<p>

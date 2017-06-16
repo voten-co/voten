@@ -1,7 +1,7 @@
 @extends('layouts.landing-layout')
 
 @section('title')
-	<title>Sign up | Voten</title>
+	<title>Sign up | {{ config('app.name') }}</title>
 @stop
 
 @section('content')
@@ -9,15 +9,19 @@
 <div class="container-mid">
 	<div class="col-7">
 		<div class="social-login-buttons">
-			<a href="/login/facebook" class="v-button button-fb">
-	            <i class="v-icon v-facebook"></i>
-	            Connect With Facebook
-	        </a>
+			@if (config('settings.facebook.secret') && config('settings.facebook.client_id'))
+				<a href="/login/facebook" class="v-button button-fb">
+					<i class="v-icon v-facebook"></i>
+					Connect With Facebook
+				</a>
+			@endif
 
-	        <a href="/login/google" class="v-button button-google">
-	            <i class="v-icon v-google"></i>
-	            Connect With Google
-	        </a>
+			@if (config('settings.google.secret') && config('settings.google.client_id'))
+				<a href="/login/google" class="v-button button-google">
+					<i class="v-icon v-google"></i>
+					Connect With Google
+				</a>
+			@endif
 		</div>
 
         <div class="or">
@@ -28,7 +32,7 @@
 			<h1 class="title">Sign up with/without email address</h1>
 
 			<p>
-				We're glad you decided to join Voten. Now let's pick you a nice username that is easy to remember:
+				We're glad you decided to join {{ config('app.name') }}. Now let's pick you a nice username that is easy to remember:
 			</p>
 
 			<form action="{{ url('/register') }}" method="POST" class="align-left">
