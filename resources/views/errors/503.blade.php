@@ -70,19 +70,15 @@
             </div>
 
             <div class="footer">
-                <a href="https://twitter.com/voten_co">
+                <a href="{{ config('settings.twitter.url') }}">
                     Twitter
                 </a>
 
-                <a href="https://facebook.com/voten.co">
+                <a href="{{ config('settings.facebook.url') }}">
                     Facebook
                 </a>
 
-                <a href="https://medium.com/voten">
-                    Blog
-                </a>
-
-                <a href="https://reddit.com/r/voten">
+                <a href="https://reddit.com/r/{{ config('app.name') }}">
                     /r/voten
                 </a>
             </div>

@@ -1,7 +1,7 @@
 @extends('layouts.landing-layout')
 
 @section('title')
-	<title>Reset Password | Voten</title>
+	<title>Reset Password | {{ config('app.name') }}</title>
 @stop
 
 @section('content')
@@ -11,7 +11,7 @@
                 <h1 class="title align-center">Reset Password</h1>
 
                 <p>
-                    Only one more step untill getting you a new password. Try not to lose this one, because if you do... Kidding! Nothing would happen :)
+                    Only one more step until getting you a new password. Try not to lose this one, because if you do... Kidding! Nothing would happen :)
                 </p>
 
                 <form class="form-horizontal" role="form" method="POST" action="{{ url('/password/reset') }}">

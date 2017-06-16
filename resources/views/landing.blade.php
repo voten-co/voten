@@ -1,10 +1,10 @@
 @extends('layouts.landing-layout')
 
 @section('title')
-	<title>Voten | Where your vote matters</title>
-	<meta property="og:title" content="Voten | Where your vote matters" />
+	<title>{{ config('app.name') }} | Where your vote matters</title>
+	<meta property="og:title" content="{{ config('app.name') }} | Where your vote matters" />
 	<meta property="og:image" content="/imgs/voten-circle.png">
-	<meta name="description" content="Social Bookmarking For The 21st Century. Best Reddit alternative on the Internet."/>
+	<meta name="description" content="{{ config('settings.description') }}"/>
 @stop
 
 @section('content')
@@ -43,7 +43,7 @@
 				</h1>
 
 				<p>
-					Which font is the best for reading? Which color? Well, in Voten not only you can name it but you can also make it be!
+					Which font is the best for reading? Which color? Well, in {{ config('app.name') }} not only you can name it but you can also make it be!
 				</p>
 
 				<p>
@@ -99,7 +99,7 @@
 
 				<p>
 					See who else is reading the same submission you are, comment and even if you needed to chat in private,
-					you can do that using our secure and real-time messaing system.
+					you can do that using our secure and real-time messaging system.
 				</p>
 			</div>
 		</div>
@@ -117,7 +117,7 @@
 	<div class="landing-layout-gray">
 		<div class="landing-wrapper">
 			<h1 class="align-center">
-				Voten features at a glance
+				{{ config('app.name') }} features at a glance
 			</h1>
 
 			<div class="landing-flex-baseline">
@@ -136,7 +136,7 @@
 						</li>
 
 						<li>
-							<b>Highly Customizable</b> apps that allow you pick your very own favorited font and colors. This means getting a fresh look in matter of seconds.
+							<b>Highly Customizable</b> apps that allow you pick your very own favored font and colors. This means getting a fresh look in matter of seconds.
 						</li>
 
 						<li>
@@ -144,7 +144,7 @@
 						</li>
 
 						<li>
-							<b>Rich Submission types</b> such as photo, photo albums, text(with Markdown support) and link which is able to identify the type of the external url(playable videos and etc)
+							<b>Rich Submission types</b> such as photo, photo albums, text(with Markdown support) and link which is able to identify the type of the external URL (playable videos and etc)
 						</li>
 					</ul>
 				</div>

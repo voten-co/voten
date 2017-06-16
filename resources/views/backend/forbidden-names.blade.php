@@ -20,7 +20,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>username</th>
+                        <th>Username</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -50,7 +50,7 @@
         </div>
 
         <div class="column is-half">
-            <h1 class="title">Forbidden usernames:</h1>
+            <h1 class="title">Forbidden Usernames:</h1>
 
             <form class="control has-addons" action="/forbidden-username/store" method="post">
                 {{ csrf_field() }}
@@ -65,7 +65,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>username</th>
+                        <th>Username</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -133,9 +133,9 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>domain address</th>
-                        <th>description</th>
-                        <th>adctions</th>
+                        <th>Domain Address</th>
+                        <th>Description</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
 

@@ -7,19 +7,19 @@
 
 
 @section('head')
-	<title>Voten - Social Bookmarking For The 21st Century</title>
+	<title>{{ config('app.name') }} - {{ config('settings.title') }}</title>
 	<meta property="og:type" content="article" />
-	<meta property="og:title" content="Voten - Social Bookmarking For The 21st Century" />
+	<meta property="og:title" content="{{ config('app.name') }} - {{ config('settings.title') }}" />
 	<meta property="og:url" content="{{ config('app.url') }}" />
-	<meta property="og:site_name" content="Voten" />
+	<meta property="og:site_name" content="{{ config('app.name') }}" />
 
 	<meta name="twitter:card" content="summary" />
-	<meta name="twitter:site" content="@voten_co" />
-	<meta name="twitter:title" content="Voten - Social Bookmarking For The 21st Century" />
+	<meta name="twitter:site" content="@your_twitter" />
+	<meta name="twitter:title" content="{{ config('app.name') }} - {{ config('settings.title') }}" />
 
-	<meta name="description" content="A Modern, real-time, open-source, beautiful, deadly simple and warm community."/>
-	<meta property="og:description" content="A Modern, real-time, open-source, beautiful, deadly simple and warm community." />
-	<meta name="twitter:description" content="A Modern, real-time, open-source, beautiful, deadly simple and warm community." />
+	<meta name="description" content="{{ config('settings.description') }}"/>
+	<meta property="og:description" content="{{ config('settings.description') }}" />
+	<meta name="twitter:description" content="{{ config('settings.description') }}" />
 	<meta property="og:image" content="{{ config('app.url') }}/imgs/voten-circle.png">
 	<meta name="twitter:image" content="{{ config('app.url') }}/imgs/voten-circle.png" />
 
@@ -27,12 +27,12 @@
 	{
 	    "@context": "http://schema.org",
 	    "@type": "WebSite",
-	    "url": "https://voten.co",
-	    "name": "Voten",
-	    "logo": "https://voten.co/imgs/voten-circle.png",
+	    "url": "{{ config('app.url') }}",
+	    "name": "{{ config('app.name') }}",
+	    "logo": "{{ config('app.url') }}/imgs/voten-circle.png",
 	    "sameAs": [
-	        "https://www.facebook.com/voten.co/",
-	        "https://twitter.com/voten_co"
+	        "{{ config('settings.facebook.url') }}",
+	        "{{ config('settings.twitter.url') }}"
 	    ]
 	}
 	</script>

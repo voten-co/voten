@@ -9,7 +9,7 @@
     @yield('head')
 
     <meta property="og:locale" content="en_US" />
-    <meta property="og:site_name" content="Voten.co" />
+    <meta property="og:site_name" content="{{ config('app.name') }}" />
 
     <link href="https://fonts.googleapis.com/css?family=Dosis:300,400,700" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
@@ -37,22 +37,18 @@
 		<div class="header user-select">
 			<div class="logo">
 				<a href="/">
-					<img src="/imgs/voten-logo.png" alt="Voten.co">
-					Voten
+					<img src="/imgs/voten-logo.png" alt="{{ config('app.name') }}.co">
+					{{ config('app.name') }}
 				</a>
 				<small>BETA</small>
 			</div>
 
 			<div class="right-menu">
-				<a href="https://medium.com/voten" target="_blank" class="item desktop-only">
-					<i class="v-icon v-blog go-yellow"></i>
-					Blog
-				</a>
-				<a href="mailto:info@voten.co" class="item desktop-only">
+				<a href="mailto:{{ config('settings.emails.info') }}" class="item desktop-only">
 					<i class="v-icon v-letter go-green"></i>
 					Contact
 				</a>
-				<a href="mailto:press@voten.co" class="item desktop-only">
+				<a href="mailto:{{ config('settings.emails.press') }}" class="item desktop-only">
 					<i class="v-icon v-press go-red"></i>
 					Press
 				</a>
@@ -81,7 +77,7 @@
 
 		<footer class="user-select">
 			<div class="flex1">
-				<h3 class="go-primary">Voten 	&#10084;</h3>
+				<h3 class="go-primary">{{ config('app.name') }} 	&#10084;</h3>
 				<ul>
 					<li><a href="/about">About</a></li>
 
@@ -96,21 +92,19 @@
 				</ul>
 			</div>
 			<div class="flex1">
-				<h3 class="go-red">Get to know Voten </h3>
+				<h3 class="go-red">Get to know {{ config('app.name') }} </h3>
 				<ul>
-					<li><a href="mailto:info@voten.co">Contact Us</a></li>
-					<li><a href="mailto:press@voten.co">Press</a></li>
+					<li><a href="mailto:{{ config('settings.email.info') }}">Contact Us</a></li>
+					<li><a href="mailto:{{ config('settings.email.press') }}">Press</a></li>
 					<li><a href="/credits">Credits</a></li>
 					<li><a href="/help">Help Center</a></li>
 				</ul>
 			</div>
 			<div class="flex1">
-				<h3 class="go-green">Follow Voten</h3>
+				<h3 class="go-green">Follow {{ config('app.name') }}</h3>
 				<ul>
-					<li><a href="https://medium.com/voten" target="_blank">Blog</a></li>
-					<li><a href="https://github.com/voten-co/voten" target="_blank">Github</a></li>
-					<li><a href="https://twitter.com/voten_co/" target="_blank">Twitter</a></li>
-					<li><a href="https://facebook.com/voten.co/" target="_blank">Facebook</a></li>
+					<li><a href="{{ config('settings.twitter.url') }}" target="_blank">Twitter</a></li>
+					<li><a href="{{ config('settings.twitter.facebook') }}" target="_blank">Facebook</a></li>
 				</ul>
 			</div>
 		</footer>

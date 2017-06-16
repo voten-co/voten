@@ -7,7 +7,7 @@
 	<meta property="og:site_name" content="{{ config('app.name') }}" />
 
 	<meta name="twitter:card" content="summary" />
-	<meta name="twitter:site" content="@voten_co" />
+	<meta name="twitter:site" content="{{ config('settings.twitter.name') }}" />
 	<meta name="twitter:title" content="500 Error - {{ config('app.name') }}" />
 
 	<meta name="description" content="Sorry, something went wrong!"/>

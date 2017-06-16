@@ -12,5 +12,5 @@ Hope you're doing great ;)
 
 
 Regards,<br>
-The Voten Team
+The {{ config('app.name') }} Team
 @endcomponent

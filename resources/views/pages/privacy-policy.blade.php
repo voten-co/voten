@@ -1,12 +1,12 @@
 @extends('layouts.landing-layout')
 
 @section('title')
-	<title>Voten | Privacy Policy</title>
+	<title>{{ config('app.name') }} | Privacy Policy</title>
 @stop
 
 @section('content')
 	<section class="container">
-		<h1 class="title align-center">Voten.co Privacy Policy</h1>
+		<h1 class="title align-center">{{ config('app.name') }} Privacy Policy</h1>
 
 		<p>
 			This page is for all users and non-users wondering what we do with users’ information when they use our website. These policies apply to all our services.
@@ -99,7 +99,7 @@
 		</h2>
 
 		<p>
-			Unlike other social websites sharing your information with third parties for many reasons, Voten is conservative about keeping your information secret. We might connect with third parties in the future but we will never share your information with them.
+			Unlike other social websites sharing your information with third parties for many reasons, {{ config('app.name') }} is conservative about keeping your information secret. We might connect with third parties in the future but we will never share your information with them.
 		</p>
 
 		<br>
