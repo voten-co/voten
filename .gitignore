@@ -11,3 +11,4 @@ Homestead.yaml
 .DS_Store
 Envoy.blade.php
 /vendor
+_ide_helper.php
