@@ -33,6 +33,6 @@ class WelcomeToVoten extends Mailable
     {
         $username = $this->username;
 
-        return $this->view('emails.welcome', compact('username'));
+        return $this->markdown('emails.welcome', compact('username'));
     }
 }

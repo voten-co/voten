@@ -1,23 +1,16 @@
-@extends('layouts.email-layout')
+@component('mail::message')
+# New Feedback from {{ '@' . $user->username }}
 
-@section('head-title')
-	<title>New Feedback from {{ '@' . $user->username }}</title>
-@endsection
+Subject: **{{ $feedback->subject }}** <br>
 
-@section('title')
-	New Feedback from {{ '@' . $user->username }}
-@endsection
+>{{ $feedback->description }}
 
-@section('content')
-	<p>
-	    Subject: <b>{{ $feedback->subject }}</b>
-	</p>
 
-	<p>
-	    {{ $feedback->description }}
-	</p>
+@component('mail::panel')
+Hope you're doing great ;)
+@endcomponent
 
-	<p>
-		<b>Voten</b>: Hope you're doing great sully :)
-	</p>
-@endsection
+
+Regards,<br>
+The Voten Team
+@endcomponent

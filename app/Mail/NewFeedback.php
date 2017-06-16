@@ -36,6 +36,6 @@ class NewFeedback extends Mailable
         $user = $this->user;
         $feedback = $this->feedback;
 
-        return $this->view('emails.feedback', compact('user', 'feedback'));
+        return $this->markdown('emails.feedback', compact('user', 'feedback'));
     }
 }

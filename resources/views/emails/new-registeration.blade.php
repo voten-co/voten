@@ -1,22 +1,18 @@
-@extends('layouts.email-layout')
+@component('mail::message')
+# New user registered: {{ '@' . $username }}
 
-@section('head-title')
-	<title>New User Registered</title>
-@endsection
+We just had another registeration by the username: "{{ $username }}"
 
-@section('title')
-	New user registered: {{ '@' . $username }}
-@endsection
+@component('mail::button', ['url' => 'https://voten.co/backend'])
+Checkout
+@endcomponent
 
-@section('content')
-	<p>We just had another registeration by the username: "{{ $username }}"</p>
 
-	<p>
-		Hope you're doing great Sully ;)
-	</p>
+@component('mail::panel')
+Hope you're doing great ;)
+@endcomponent
 
-	<p>
-		Regards, <br>
-		The Voten Team
-	</p>
-@endsection
+
+Regards,<br>
+The Voten Team
+@endcomponent

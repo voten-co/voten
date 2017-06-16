@@ -1,38 +1,26 @@
-@extends('layouts.email-layout')
+@component('mail::message')
+# Welcome To Voten {{ '@' . $username }}
 
-@section('head-title')
-	<title>Welcome To Voten.co</title>
-@endsection
+We are so excited you joined Voten. Here are a couple of tips to help you get started:
+<br>
 
-@section('title')
-	Welcome To Voten {{ '@' . $username }}
-@endsection
+- **Customize:** You can [customize](https://voten.co/{{ '@' . $username }}/settings) your account's color, font and your very own home feed to make sure you always get what's best for you.
+- **Find Channels:** Voten is nothing but a collection of awesome channels (communities) with awesome users like you. Whenever you felt like finding new ones just [go here](https://voten.co/find-channels)
+- **Need Help?** If you are wondering about a Voten's feature that is confusing to you, just look for it in our [help center](https://voten.co/help)
 
-@section('content')
-	<p>We are so excited you joined Voten. Here are a couple of tips to help you get started:</p>
 
-	<ul>
-		<li>
-			<b>Customize:</b> You can <a href="https://voten.co/{{ '@' . $username }}/settings">customize</a> your account's color, font and your very own home feed to make sure you always get what's best for you.
-		</li>
+@component('mail::button', ['url' => 'https://voten.co/c/sayhello'])
+Say Hello
+@endcomponent
 
-		<li>
-			<b>Find Channels:</b> Voten is nothing but a collection of awesome channels (communities) with awesome users like you. Whenever you felt like finding new ones just <a href="https://voten.co/find-channels">go here</a>.
-		</li>
 
-		<li>
-			<b>Need Help?</b> If you are wondering about a Voten's feature that is confusing to you, just look for it in our <a href="https://voten.co/help">help center</a>.
-		</li>
-	</ul>
+@component('mail::panel')
+Should you ever encounter problems with your account or forget your password we will contact you at this address.
+@endcomponent
 
-	<p>
-		Should you ever encounter problems with your account or forget your password we will contact you at this address.
-	</p>
 
-	<p>Happy voting!</p>
+Regards,<br>
+The Voten Team
+@endcomponent
 
-	<p>
-		Regards, <br>
-		The Voten Team
-	</p>
-@endsection
+
