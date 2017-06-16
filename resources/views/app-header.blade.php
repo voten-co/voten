@@ -120,7 +120,11 @@
 						<i class="v-icon v-left-hand"></i>
 						<span class="text">Voten</span>
 						<div class="left menu green">
-							<a href="mailto:info@voten.co" class="item">
+							<a href="/about" class="item">
+			                    About
+			                </a>
+
+			                <a href="mailto:info@voten.co" class="item">
 			                    Contact Us
 			                </a>
 
