@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Events\CategoryWasUpdated;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +15,7 @@ class Category extends Model
     protected static $recordEvents = ['created'];
 
     // protected $events = [
-    // 	"updated" => CategoryWasUpdated::class
+    //     "updated" => CategoryWasUpdated::class
     // ];
 
     /**
@@ -60,9 +59,9 @@ class Category extends Model
     public function bannedUsers()
     {
         return DB::table('bans')->where('category', $this->name)
-                    ->where('unban_at', '>=', Carbon::now())
-                    ->orderBy('created_at', 'desc')
-                    ->get()->pluck('user_id');
+                                ->where('unban_at', '>=', Carbon::now())
+                                ->orderBy('created_at', 'desc')
+                                ->get()->pluck('user_id');
     }
 
     // IDs only

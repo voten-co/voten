@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Chat;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\ServiceProvider;
 

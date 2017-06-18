@@ -223,9 +223,9 @@ class User extends Authenticatable
     public function bookmarkedSubmissions()
     {
         return $this->belongsToMany(Submission::class, 'bookmarks', 'user_id', 'bookmarkable_id')
-                        ->where('bookmarkable_type', 'App\Submission')
-                        ->withTimestamps()
-                        ->orderBy('bookmarks.created_at', 'desc');
+                    ->where('bookmarkable_type', 'App\Submission')
+                    ->withTimestamps()
+                    ->orderBy('bookmarks.created_at', 'desc');
     }
 
     public function bookmarkedComments()

@@ -95,8 +95,8 @@ class MessagesController extends Controller
         ]);
 
         $messages = Auth::user()->conversations()
-                ->where('contact_id', $request->contact_id)
-                ->simplePaginate(40);
+                                ->where('contact_id', $request->contact_id)
+                                ->simplePaginate(40);
 
         $unreads = $messages->filter(function ($value, $key) {
             return $value->read_at == null;

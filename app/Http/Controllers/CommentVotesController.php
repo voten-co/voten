@@ -122,18 +122,18 @@ class CommentVotesController extends Controller
                 $new_downvotes = ($comment->downvotes - 1);
                 $user->commentDownvotes()->detach($request->comment_id);
                 $user->commentUpvotes()->attach($request->comment_id, [
-                'ip_address' => getRequestIpAddress(),
-            ]);
+                    'ip_address' => getRequestIpAddress(),
+                ]);
             } else {
                 $new_upvotes = ($comment->upvotes + 1);
                 $user->commentUpvotes()->attach($request->comment_id, [
-                'ip_address' => getRequestIpAddress(),
-            ]);
+                    'ip_address' => getRequestIpAddress(),
+                ]);
             }
 
             $this->updateUserUpVotesRecords(
-            $user->id, $comment->owner->id, $request->previous_vote, $request->comment_id
-        );
+                $user->id, $comment->owner->id, $request->previous_vote, $request->comment_id
+            );
         } catch (\Exception $e) {
             return response('invalid request', 500);
         }
@@ -184,13 +184,13 @@ class CommentVotesController extends Controller
                 $new_upvotes = ($comment->upvotes - 1);
                 $user->commentUpvotes()->detach($request->comment_id);
                 $user->commentDownvotes()->attach($request->comment_id, [
-                'ip_address' => getRequestIpAddress(),
-            ]);
+                    'ip_address' => getRequestIpAddress(),
+                ]);
             } else {
                 $new_downvotes = ($comment->downvotes + 1);
                 $user->commentDownvotes()->attach($request->comment_id, [
-                'ip_address' => getRequestIpAddress(),
-            ]);
+                    'ip_address' => getRequestIpAddress(),
+                ]);
             }
 
             $this->updateUserDownVotesRecords($user->id, $comment->owner->id, $request->previous_vote, $request->comment_id);

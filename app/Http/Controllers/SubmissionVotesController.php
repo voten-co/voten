@@ -132,8 +132,8 @@ class SubmissionVotesController extends Controller
             }
 
             $this->updateUserUpVotesRecords(
-            $user->id, $submission->owner->id, $request->previous_vote, $request->submission_id
-        );
+                $user->id, $submission->owner->id, $request->previous_vote, $request->submission_id
+            );
         } catch (\Exception $e) {
             return response('invalid request', 500);
         }

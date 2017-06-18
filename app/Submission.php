@@ -2,8 +2,6 @@
 
 namespace App;
 
-use App\Events\SubmissionWasCreated;
-use App\Events\SubmissionWasDeleted;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;
@@ -32,8 +30,8 @@ class Submission extends Model
     protected static $recordEvents = ['created'];
 
     // protected $events = [
-    // 	"created" => SubmissionWasCreated::class,
-    // 	"deleted" => SubmissionWasDeleted::class
+    //     "created" => SubmissionWasCreated::class,
+    //     "deleted" => SubmissionWasDeleted::class
     // ];
 
     /**

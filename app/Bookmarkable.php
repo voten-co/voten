@@ -39,8 +39,8 @@ trait Bookmarkable
     public function isBookmarkedBy(User $user)
     {
         return $this->bookmarks()
-            ->where('user_id', $user->id)
-            ->exists();
+                    ->where('user_id', $user->id)
+                    ->exists();
     }
 
     /**

@@ -106,16 +106,17 @@ class CommentController extends Controller
 
         if ($request->sort == 'new') {
             return $submission->comments()
-                        ->where('parent_id', 0)
-                        ->orderBy('created_at', 'desc')
-                        ->simplePaginate(20);
+                              ->where('parent_id', 0)
+                              ->orderBy('created_at', 'desc')
+                              ->simplePaginate(20);
         }
 
         // Sort by default which is 'hot'
+
         return $submission->comments()
-                        ->where('parent_id', 0)
-                        ->orderBy('rate', 'desc')
-                        ->simplePaginate(20);
+                          ->where('parent_id', 0)
+                          ->orderBy('rate', 'desc')
+                          ->simplePaginate(20);
     }
 
     /**
