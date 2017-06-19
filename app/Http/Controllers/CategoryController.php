@@ -140,7 +140,7 @@ class CategoryController extends Controller
         $user = Auth::user();
 
         if ($user->isShadowBanned()) {
-        	return response("I hate to break it to you but your account has been banned.", 500);
+            return response('I hate to break it to you but your account has been banned.', 500);
         }
 
         $tooEarly = $this->tooEarlyToCreate();

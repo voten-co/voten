@@ -2,9 +2,9 @@
 
 namespace App;
 
-use DB;
 use Auth;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Support\Facades\Cache;
 
 trait Permissions
@@ -147,11 +147,11 @@ trait Permissions
         return Ban::where([
             ['user_id', $user_id],
             ['category', $category],
-            ['unban_at', '>=', Carbon::now()]
+            ['unban_at', '>=', Carbon::now()],
         ])->orWhere([
             ['user_id', $user_id],
             ['category', 'all'],
-            ['unban_at', '>=', Carbon::now()]
+            ['unban_at', '>=', Carbon::now()],
         ])->exists();
     }
 

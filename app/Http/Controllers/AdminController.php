@@ -5,11 +5,9 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Comment;
 use App\Filters;
-use App\Message;
 use App\Report;
 use App\Submission;
 use App\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -28,7 +26,7 @@ class AdminController extends Controller
      */
     public function isAdministrator()
     {
-    	return $this->mustBeVotenAdministrator() ? 'true' : 'false';
+        return $this->mustBeVotenAdministrator() ? 'true' : 'false';
     }
 
     /**

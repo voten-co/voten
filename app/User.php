@@ -3,7 +3,6 @@
 namespace App;
 
 use App\Traits\CachableUser;
-use App\Activity;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -39,7 +38,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'deleted_at', 'email', 'settings', 'verified', 'active'
+        'password', 'remember_token', 'deleted_at', 'email', 'settings', 'verified', 'active',
     ];
 
     /**
@@ -69,7 +68,7 @@ class User extends Authenticatable
 
     public function seenAnnouncements()
     {
-    	return DB::table('seen_announcements')->where('user_id', $this->id)->get()->pluck('announcement_id');
+        return DB::table('seen_announcements')->where('user_id', $this->id)->get()->pluck('announcement_id');
     }
 
     public function hides()
@@ -282,18 +281,18 @@ class User extends Authenticatable
     }
 
     /**
-     * user's country: either determinded by his registered IP or (in case it wasn't saved at the time) by his last activity's IP
+     * user's country: either determinded by his registered IP or (in case it wasn't saved at the time) by his last activity's IP.
      *
      * @return string
      */
     public function country()
     {
-    	return Activity::where([
-    		'user_id' => $this->id,
-    		'name' => 'created_user'
-		])->first()->country ?? Activity::where([
-    		'user_id' => $this->id
-		])->orderBy('created_at', 'desc')->first()->country ?? "unknown";
+        return Activity::where([
+            'user_id' => $this->id,
+            'name'    => 'created_user',
+        ])->first()->country ?? Activity::where([
+            'user_id' => $this->id,
+        ])->orderBy('created_at', 'desc')->first()->country ?? 'unknown';
     }
 
     /**
@@ -307,12 +306,12 @@ class User extends Authenticatable
     }
 
     /**
-     * Is the auth user shadow banned
+     * Is the auth user shadow banned.
      *
      * @return bool
      */
     public function isShadowBanned()
     {
-    	return ! $this->active;
+        return !$this->active;
     }
 }
