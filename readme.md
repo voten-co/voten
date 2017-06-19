@@ -16,7 +16,7 @@ Voten is a Laravel application that runs on the following software:
 
 - Ubuntu 16.04.2 LTS
 - Nginx 1.10+
-- MySQL (to use mariaDB, you must modify `json` type migration columns to `blob`)
+- MySQL 5.7+ (to use mariaDB, you must modify `json` type migration columns to `blob`)
 - PHP 7.1+
 - Redis 3.0+
 - Git 2.8.4+
