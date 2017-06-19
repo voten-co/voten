@@ -100,6 +100,10 @@
 	    color: #fff;
 	}
 
+	.announcement a {
+		color: #fff;
+	}
+
 	.announcement .v-cancel{
 		flex-basis: 65px;
 	    display: flex;
