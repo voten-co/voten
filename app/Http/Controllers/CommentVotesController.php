@@ -7,6 +7,7 @@ use App\Traits\CachableComment;
 use App\Traits\CachableUser;
 use Auth;
 use DB;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CommentVotesController extends Controller
@@ -237,6 +238,11 @@ class CommentVotesController extends Controller
     public function isCheating($user_id, $comment_id, $type = 'upvote')
     {
     	if (Auth::user()->isShadowBanned()) {
+        	return true;
+        }
+
+        // we don't want new registered users do downvotes and mess with the averate vote numbers, so:
+        if ($type = 'downvote' && Auth::user()->created_at > Carbon::now()->subDays(3)) {
         	return true;
         }
 

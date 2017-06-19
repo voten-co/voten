@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Submission;
-use App\Traits\CachableSubmission;
-use App\Traits\CachableUser;
-use Auth;
 use DB;
+use Auth;
+use Carbon\Carbon;
+use App\Submission;
+use App\Traits\CachableUser;
 use Illuminate\Http\Request;
+use App\Traits\CachableSubmission;
 
 class SubmissionVotesController extends Controller
 {
@@ -237,6 +238,11 @@ class SubmissionVotesController extends Controller
     public function isCheating($user_id, $submission_id, $type = 'upvote')
     {
     	if (Auth::user()->isShadowBanned()) {
+        	return true;
+        }
+
+        // we don't want new registered users do downvotes and mess with the averate vote numbers, so:
+        if ($type = 'downvote' && Auth::user()->created_at > Carbon::now()->subDays(3)) {
         	return true;
         }
 
