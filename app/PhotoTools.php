@@ -11,6 +11,16 @@ trait PhotoTools
     {
         return config('filesystems.disks.ftp.cdn_url');
     }
+    
+    /**
+     * Creates an unqiue filename
+     *
+     * @return (string) an unqiue filename
+     */
+    private function filenameGenerate()
+    {
+       return uniqid('', true);
+    }
 
     /**
      * Creates and saves a thumbnail for the sent photo and stores into the defined direcory( could be ftp, local...).
@@ -24,7 +34,7 @@ trait PhotoTools
      */
     protected function createThumbnail($url, $width, $height, $folder = 'submissions/img/thumbs')
     {
-        $filename = time().str_random(7).'.jpg';
+        $filename = $this->filenameGenerate() .'.jpg';
         $image = Image::make($url);
 
         if ($image->width() > 1200) {
@@ -57,7 +67,7 @@ trait PhotoTools
      */
     protected function cropImg($url, $width, $height, $x, $y, $folder = 'users/avatars')
     {
-        $filename = time().str_random(7).'.png';
+        $filename = $this->filenameGenerate().'.png';
         $image = Image::make($url);
         $image = $image->crop($width, $height, $x, $y);
 
@@ -87,7 +97,7 @@ trait PhotoTools
      */
     protected function uploadImg($image, $folder = 'submissions/img')
     {
-        $filename = time().str_random(7).'.jpg';
+        $filename = $this->filenameGenerate().'.jpg';
         $image = Image::make($image->getRealPath());
 
         if (!$image->filesize()) {
@@ -115,7 +125,7 @@ trait PhotoTools
      */
     protected function uploadImgPNG($image, $folder = 'submissions/img')
     {
-        $filename = time().str_random(7).'.png';
+        $filename = $this->filenameGenerate().'.png';
         $image = Image::make($image->getRealPath());
 
         $image->encode('png');
@@ -135,7 +145,7 @@ trait PhotoTools
      */
     protected function downloadImg($url, $folder = 'submissions/link')
     {
-        $filename = time().str_random(7).'.jpg';
+        $filename = $this->filenameGenerate().'.jpg';
         $image = Image::make($url);
 
         if ($image->filesize() > 300000) { // 300kb
