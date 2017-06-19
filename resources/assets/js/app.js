@@ -1,4 +1,4 @@
-require('./bootstrap')
+require("./bootstrap");
 
 /**
  * This is our global Store, we save so many stuff in it so that we don't have to duplicate data.
@@ -8,37 +8,37 @@ require('./bootstrap')
  * @type {Object}
  */
 window.Store = {
-    category: [],
-    user: [],
+  category: [],
+  user: [],
 
-    submissionUpVotes: [],
-    submissionDownVotes: [],
+  submissionUpVotes: [],
+  submissionDownVotes: [],
 
-    commentUpVotes: [],
-    commentDownVotes: [],
+  commentUpVotes: [],
+  commentDownVotes: [],
 
-    submissionBookmarks: [],
-    commentBookmarks: [],
-    categoryBookmarks: [],
-    userBookmarks: [],
+  submissionBookmarks: [],
+  commentBookmarks: [],
+  categoryBookmarks: [],
+  userBookmarks: [],
 
-    blockedUsers: [],
+  blockedUsers: [],
 
-    moderatingCategories: [],
-    moderatorAt: [],
-    administratorAt: [],
-    moderatingAt: [], // contains both moderator and administrator
+  moderatingCategories: [],
+  moderatorAt: [],
+  administratorAt: [],
+  moderatingAt: [], // contains both moderator and administrator
 
-    notifications: [],
-    contacts: [],
+  notifications: [],
+  contacts: [],
 
-    contentRouter: 'content',
-    feedFilter: '',
-    sidebarFilter: '',
+  contentRouter: "content",
+  feedFilter: "",
+  sidebarFilter: "",
 
-    subscribedCategories: [],
+  subscribedCategories: [],
 
-    loading: true,
-}
+  loading: true
+};
 
-require('./vue-codes')
+require("./vue-codes");
