@@ -337,6 +337,18 @@ hr {
     border-radius: 50%;
 }
 
+.primary-background {
+	background: $primary-color !important;
+}
+
+.red-background {
+	background: $red-color !important;
+}
+
+.green-background {
+	background: $green-color !important;
+}
+
 .go-primary {
     color: $primary-color !important;
 }

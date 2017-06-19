@@ -31,6 +31,10 @@ Route::group(['middleware' => ['maintenance', 'http2']], function () {
 Route::get('/backend', 'BackendController@dashboard');
 Route::post('/block-domain', 'BlockDomainController@store');
 Route::post('/appointed/store', 'BackendController@storeAppointed');
+Route::get('/backend/announcements', 'AnnouncementController@show');
+Route::post('/create-announcement', 'AnnouncementController@store');
+Route::delete('/announcement/destroy/{announcement}', 'AnnouncementController@destroy');
+Route::delete('/block-domain/destroy', 'BlockDomainController@destroy');
 Route::get('/backend/server-control', 'BackendController@serverControls');
 Route::get('/backend/forbidden-names', 'BackendController@forbiddenNames');
 Route::get('/backend/appointed-users', 'BackendController@indexAppointedUsers');
@@ -39,7 +43,6 @@ Route::delete('/appointed/destroy/{appointed}', 'BackendController@destroyAppoin
 Route::post('/forbidden-category-name/store', 'BackendController@storeForbiddenCategoryName');
 Route::delete('/forbidden-username/destroy/{forbidden}', 'BackendController@destroyForbiddenUsername');
 Route::delete('/forbidden-category-name/destroy/{forbidden}', 'BackendController@destroyForbiddenCategoryName');
-Route::delete('/block-domain/destroy', 'BlockDomainController@destroy');
 
 // ssh control
 Route::get('/ssh/flush-all', 'SshController@flushAll');

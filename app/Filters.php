@@ -2,7 +2,7 @@
 
 /**
  * All the general filtering functions that we might need in different
- * types of controllers. For example for excluding the hidden submissions
+ * controllers. For example for excluding the hidden submissions
  * from a collection of submissions.
  */
 

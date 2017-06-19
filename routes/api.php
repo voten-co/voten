@@ -137,6 +137,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/report-submission', 'ReportsController@submission');
     Route::post('/reported-comments', 'ReportsController@reportedComments');
     Route::post('/reported-submissions', 'ReportsController@reportedSubmissions');
+
+    Route::post('/announcement/seen', 'AnnouncementController@seen');
 });
 
 Route::group(['prefix' => 'auth', 'middleware' => 'auth:api'], function () {
@@ -144,6 +146,7 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:api'], function () {
     Route::get('/category-submissions', 'CategoryController@submissions');
     Route::get('/sidebar-categories', 'StoreController@sidebarCategories');
     Route::get('/suggested-category', 'SuggestionController@category');
+    Route::get('/announcement', 'AnnouncementController@get');
 });
 
 // For both logged in users and guests
@@ -164,3 +167,4 @@ Route::get('/get-user-store', 'UserController@fillStore');
 Route::get('/user-submissions', 'UserController@submissions');
 Route::get('/user-comments', 'UserController@comments');
 Route::get('/sidebar-categories', 'StoreController@sidebarCategories');
+Route::get('/announcement', 'AnnouncementController@get');

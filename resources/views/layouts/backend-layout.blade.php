@@ -33,6 +33,8 @@
             <div class="nav-left">
                 <a class="nav-item is-tab is-hidden-mobile{{ url('backend') == url()->current() ? ' is-active' : '' }}" href="/backend">Dashboard</a>
 
+                <a class="nav-item is-tab is-hidden-mobile{{ url('backend/announcements') == url()->current() ? ' is-active' : '' }}" href="/backend/announcements">Announcements</a>
+
                 <a class="nav-item is-tab is-hidden-mobile{{ url('backend/forbidden-names') == url()->current() ? ' is-active' : '' }}" href="/backend/forbidden-names">Forbiddens</a>
 
                 <a class="nav-item is-tab is-hidden-mobile{{ url('backend/appointed-users') == url()->current() ? ' is-active' : '' }}" href="/backend/appointed-users">Appointed Users</a>
@@ -78,13 +80,7 @@
         </section>
     @endif
 
-
-    {{-- Content  --}}
     @yield('content')
 
-
-
-
-    {{-- Footer  --}}
 </body>
 </html>

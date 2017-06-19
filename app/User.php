@@ -67,6 +67,11 @@ class User extends Authenticatable
         return DB::table('hides')->where('user_id', $this->id)->get()->pluck('submission_id');
     }
 
+    public function seenAnnouncements()
+    {
+    	return DB::table('seen_announcements')->where('user_id', $this->id)->get()->pluck('announcement_id');
+    }
+
     public function hides()
     {
         return $this->belongsToMany(Submission::class, 'hides');
