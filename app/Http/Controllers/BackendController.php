@@ -3,17 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\AppointeddUser;
-use App\CategoryForbiddenName;
-use App\User;
-use App\Submission;
-use App\Comment;
 use App\Category;
+use App\CategoryForbiddenName;
+use App\Comment;
 use App\Message;
 use App\Report;
+use App\Submission;
+use App\User;
 use App\UserForbiddenName;
 use Auth;
-use DB;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -25,13 +25,13 @@ class BackendController extends Controller
     }
 
     /**
-     * shows the forbidden names and usernames page
+     * shows the forbidden names and usernames page.
      *
      * @return view
      */
     public function forbiddenNames()
     {
-    	abort_unless($this->mustBeVotenAdministrator(), 403);
+        abort_unless($this->mustBeVotenAdministrator(), 403);
 
         $forbiddenUsernames = UserForbiddenName::paginate(30);
 
@@ -43,7 +43,7 @@ class BackendController extends Controller
     }
 
     /**
-     * shows the dashboard which currently displays site's statistics
+     * shows the dashboard which currently displays site's statistics.
      *
      * @return view
      */
@@ -77,15 +77,13 @@ class BackendController extends Controller
         $commentVotesTotal = (DB::table('comment_upvotes')->count() + DB::table('comment_downvotes')->count()) - $commentsTotal;
         $commentVotesToday = (DB::table('comment_upvotes')->where('created_at', '>=', Carbon::now()->subDay())->count() + DB::table('comment_downvotes')->where('created_at', '>=', Carbon::now()->subDay())->count()) - $commentsToday;
 
-
         $users = User::orderBy('id', 'desc')->paginate(30);
 
         return view('backend.dashboard', compact(
-        	'usersTotal', 'usersToday', 'categoriesTotal', 'categoriesToday', 'submissionsTotal', 'submissionsToday'
-        	, 'commentsTotal', 'commentsToday', 'messagesTotal', 'messagesToday', 'reportsTotal',
-        	'reportsToday', 'submissionVotesTotal', 'submissionVotesToday', 'commentVotesTotal', 'commentVotesToday',
-        	'users'
-        	)
+            'usersTotal', 'usersToday', 'categoriesTotal', 'categoriesToday', 'submissionsTotal', 'submissionsToday', 'commentsTotal', 'commentsToday', 'messagesTotal', 'messagesToday', 'reportsTotal',
+            'reportsToday', 'submissionVotesTotal', 'submissionVotesToday', 'commentVotesTotal', 'commentVotesToday',
+            'users'
+            )
         );
     }
 

@@ -61,7 +61,7 @@ class SubmissionController extends Controller
         $user = Auth::user();
 
         if ($user->isShadowBanned()) {
-        	return response("I hate to break it to you but your account has been banned.", 500);
+            return response('I hate to break it to you but your account has been banned.', 500);
         }
 
         // first make sure user is allowed to submit to this category. (not banned from it)

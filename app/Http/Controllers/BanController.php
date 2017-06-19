@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Ban;
 use App\Category;
 use App\User;
-use DB;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Http\Request;
 
 class BanController extends Controller
@@ -37,16 +37,16 @@ class BanController extends Controller
             abort_unless($this->mustBeVotenAdministrator(), 403);
 
             // remove all user's data that might have been spam and harmful to others
-	        DB::table('submissions')->where('user_id', $user->id)->delete();
-	        DB::table('comments')->where('user_id', $user->id)->delete();
-	        DB::table('messages')->where('user_id', $user->id)->delete();
-	        DB::table('reports')->where('user_id', $user->id)->delete();
-	        DB::table('feedbacks')->where('user_id', $user->id)->delete();
-	        DB::table('roles')->where('user_id', $user->id)->delete();
-	        DB::table('conversations')->where('user_id', $user->id)->orWhere('contact_id', $user->id)->delete();
+            DB::table('submissions')->where('user_id', $user->id)->delete();
+            DB::table('comments')->where('user_id', $user->id)->delete();
+            DB::table('messages')->where('user_id', $user->id)->delete();
+            DB::table('reports')->where('user_id', $user->id)->delete();
+            DB::table('feedbacks')->where('user_id', $user->id)->delete();
+            DB::table('roles')->where('user_id', $user->id)->delete();
+            DB::table('conversations')->where('user_id', $user->id)->orWhere('contact_id', $user->id)->delete();
 
-	        // set active to 0 (to make future checkings easier)
-	        $user->update(['active' => false]);
+            // set active to 0 (to make future checkings easier)
+            $user->update(['active' => false]);
         } else {
             abort_unless($this->mustBeModerator($category->id), 403);
         }

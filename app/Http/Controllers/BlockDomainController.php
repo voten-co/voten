@@ -31,8 +31,8 @@ class BlockDomainController extends Controller
         ]);
 
         if (!($blockEverywhere = !$request->ajax() && $this->mustBeVotenAdministrator())) {
-        	$category = Category::where('name', $request->category)->firstOrFail();
-        	abort_unless($this->mustBeModerator($category->id), 403);
+            $category = Category::where('name', $request->category)->firstOrFail();
+            abort_unless($this->mustBeModerator($category->id), 403);
         }
 
         $blockedDomain = new BlockedDomain([
@@ -78,8 +78,8 @@ class BlockDomainController extends Controller
         ]);
 
         if (!($blockEverywhere = !$request->ajax() && $this->mustBeVotenAdministrator())) {
-        	$category = Category::where('name', $request->category)->firstOrFail();
-        	abort_unless($this->mustBeModerator($category->id), 403);
+            $category = Category::where('name', $request->category)->firstOrFail();
+            abort_unless($this->mustBeModerator($category->id), 403);
         }
 
         BlockedDomain::where('domain', $request->domain)

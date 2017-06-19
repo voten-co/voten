@@ -85,15 +85,15 @@ class Category extends Model
 
     /**
      * To save on queries we set a 'subscribers' field on category models.
-     * This updates it (in case we lose the actual number for any reason in the future.)
+     * This updates it (in case we lose the actual number for any reason in the future.).
      *
      * @return void
      */
     public function updateSubscribers()
     {
-    	$this->update([
-    		"subscribers" => $this->subscriptions()->count()
-		]);
+        $this->update([
+            'subscribers' => $this->subscriptions()->count(),
+        ]);
     }
 
     /**

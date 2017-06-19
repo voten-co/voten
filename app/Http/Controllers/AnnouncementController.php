@@ -2,57 +2,58 @@
 
 namespace App\Http\Controllers;
 
-use DB;
+use App\Announcement;
+use App\Traits\CachableCategory;
 use Auth;
 use Carbon\Carbon;
-use App\Announcement;
+use DB;
 use Illuminate\Http\Request;
-use App\Traits\CachableCategory;
 
 class AnnouncementController extends Controller
 {
-	use CachableCategory;
+    use CachableCategory;
 
-	public function __construct()
+    public function __construct()
     {
         $this->middleware('auth', ['except' => ['get']]);
     }
 
-	/**
-	 * Shows the announcements page in backend(admin panel).
-	 *
-	 * @return view
-	 */
-	public function show()
-	{
-    	abort_unless($this->mustBeVotenAdministrator(), 403);
+    /**
+     * Shows the announcements page in backend(admin panel).
+     *
+     * @return view
+     */
+    public function show()
+    {
+        abort_unless($this->mustBeVotenAdministrator(), 403);
 
-    	$announcements = Announcement::where([
-            ['category_name', 'home']
+        $announcements = Announcement::where([
+            ['category_name', 'home'],
         ])->get();
 
-		return view('backend.announcements', compact('announcements'));
-	}
+        return view('backend.announcements', compact('announcements'));
+    }
 
-	/**
-	 * Stores a Announcement record.
-	 *
-	 * @param Illuminate\Support\Request $request
-	 * @return void
-	 */
-	public function store(Request $request)
-	{
-		$this->validate($request, [
-            'body'   => 'required',
-            'title'   => 'required'
+    /**
+     * Stores a Announcement record.
+     *
+     * @param Illuminate\Support\Request $request
+     *
+     * @return void
+     */
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'body'    => 'required',
+            'title'   => 'required',
         ]);
 
-        if ($request->category_name == "home" && !$request->ajax()) {
-        	// only a voten administrator is able to make an announcement to everyone's home-feed
-        	abort_unless($this->mustBeVotenAdministrator(), 403);
+        if ($request->category_name == 'home' && !$request->ajax()) {
+            // only a voten administrator is able to make an announcement to everyone's home-feed
+            abort_unless($this->mustBeVotenAdministrator(), 403);
         } else {
-        	$category = $this->getCategoryByName($request->category);
-        	abort_unless($this->mustBeAdministrator($category->id), 403);
+            $category = $this->getCategoryByName($request->category);
+            abort_unless($this->mustBeAdministrator($category->id), 403);
         }
 
         // active duration
@@ -62,32 +63,35 @@ class AnnouncementController extends Controller
             $active_until = Carbon::now()->addDays($request->duration);
         }
 
-		$announcement = new Announcement([
-        	"category_name" => $request->category_name,
-        	"user_id" => Auth::user()->id,
-        	"title" => $request->title,
-        	"body" => $request->body,
-        	"active_until" => $active_until
+        $announcement = new Announcement([
+            'category_name' => $request->category_name,
+            'user_id'       => Auth::user()->id,
+            'title'         => $request->title,
+            'body'          => $request->body,
+            'active_until'  => $active_until,
         ]);
         $announcement->save();
 
         return $request->ajax() ? $announcement : back();
-	}
+    }
 
     /**
      * Get the annoucnement record.
      *
      * @param Illuminate\Support\Request $request
+     *
      * @return Illuminate\Support\Collection
      */
     public function get(Request $request)
     {
-    	// let's not show any announcements to guests (at least for now)
-    	if (!Auth::check()) return [];
+        // let's not show any announcements to guests (at least for now)
+        if (!Auth::check()) {
+            return [];
+        }
 
-    	return Announcement::where([
+        return Announcement::where([
             ['category_name', 'home'],
-            ['active_until', '>=', Carbon::now()]
+            ['active_until', '>=', Carbon::now()],
         ])->whereNotIn('id', Auth::user()->seenAnnouncements())->get();
     }
 
@@ -95,20 +99,21 @@ class AnnouncementController extends Controller
      * Marks the announcement as seen.
      *
      * @param Illuminate\Support\Request $request
+     *
      * @return response
      */
     public function seen(Request $request)
     {
         $this->validate($request, [
-        	'announcement_id' => 'required|integer'
-    	]);
+            'announcement_id' => 'required|integer',
+        ]);
 
-    	DB::table('seen_announcements')->insert([
-    		'user_id' => Auth::user()->id,
-    		'announcement_id' => $request->announcement_id
-		]);
+        DB::table('seen_announcements')->insert([
+            'user_id'         => Auth::user()->id,
+            'announcement_id' => $request->announcement_id,
+        ]);
 
-		return response('Announcement has been marked as seen.', 200);
+        return response('Announcement has been marked as seen.', 200);
     }
 
     /**
@@ -118,11 +123,11 @@ class AnnouncementController extends Controller
      */
     public function destroy(Announcement $announcement, Request $request)
     {
-    	if ($announcement->category_name == "home") {
-        	abort_unless($this->mustBeVotenAdministrator(), 403);
+        if ($announcement->category_name == 'home') {
+            abort_unless($this->mustBeVotenAdministrator(), 403);
         } else {
-        	$category = $this->getCategoryByName($announcement->category_name);
-        	abort_unless($this->mustBeAdministrator($category->id), 403);
+            $category = $this->getCategoryByName($announcement->category_name);
+            abort_unless($this->mustBeAdministrator($category->id), 403);
         }
 
         $announcement->delete();

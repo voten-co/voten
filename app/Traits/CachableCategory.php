@@ -63,7 +63,7 @@ trait CachableCategory
         $category = $this->getCategoryById($id);
 
         // we need to make sure the cached data exists
-    	if (!Redis::hget('category.' . $id . '.data', 'mods')) {
+        if (!Redis::hget('category.'.$id.'.data', 'mods')) {
             $this->cacheCategoryData($id);
         }
 
@@ -104,8 +104,8 @@ trait CachableCategory
      */
     protected function updateCategorySubmissionsCount($id, $number = 1)
     {
-    	// we need to make sure the cached data exists
-    	if (!Redis::hget('category.' . $id . '.data', 'submissionsCount')) {
+        // we need to make sure the cached data exists
+        if (!Redis::hget('category.'.$id.'.data', 'submissionsCount')) {
             $this->cacheCategoryData($id);
         }
 
@@ -122,8 +122,8 @@ trait CachableCategory
      */
     protected function updateCategoryCommentsCount($id, $number = 1)
     {
-    	// we need to make sure the cached data exists
-    	if (!Redis::hget('category.' . $id . '.data', 'commentsCount')) {
+        // we need to make sure the cached data exists
+        if (!Redis::hget('category.'.$id.'.data', 'commentsCount')) {
             $this->cacheCategoryData($id);
         }
 
@@ -140,8 +140,8 @@ trait CachableCategory
      */
     protected function updateCategorySubscribersCount($id, $number = 1)
     {
-    	// we need to make sure the cached data exists
-    	if (!Redis::hget('category.' . $id . '.data', 'subscribersCount')) {
+        // we need to make sure the cached data exists
+        if (!Redis::hget('category.'.$id.'.data', 'subscribersCount')) {
             $this->cacheCategoryData($id);
         }
 

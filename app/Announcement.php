@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Announcement extends Model
 {
-	/**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'category_name', 'user_id', 'title', 'body', 'active_until'
+        'category_name', 'user_id', 'title', 'body', 'active_until',
     ];
 
     /**
@@ -23,11 +23,11 @@ class Announcement extends Model
     protected $dates = [
         'created_at',
         'updated_at',
-        'active_until'
+        'active_until',
     ];
 
     /**
-     * who announced the Announcement model
+     * who announced the Announcement model.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
