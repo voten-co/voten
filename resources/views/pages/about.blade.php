@@ -12,9 +12,9 @@
 	<meta name="twitter:site" content="@voten_co" />
 	<meta name="twitter:title" content="About | Voten" />
 
-	<meta name="description" content="A Modern, real-time, open-source, beautiful, deadly simple and warm community."/>
-	<meta property="og:description" content="A Modern, real-time, open-source, beautiful, deadly simple and warm community." />
-	<meta name="twitter:description" content="A Modern, real-time, open-source, beautiful, deadly simple and warm community." />
+	<meta name="description" content="We are a small team of developers risen from the world of open-source. We believe in an open and modern Internet. Voten's mission is to give people the power to share their content with not just their friends but the world and interact in real-time."/>
+	<meta property="og:description" content="We are a small team of developers risen from the world of open-source. We believe in an open and modern Internet. Voten's mission is to give people the power to share their content with not just their friends but the world and interact in real-time." />
+	<meta name="twitter:description" content="We are a small team of developers risen from the world of open-source. We believe in an open and modern Internet. Voten's mission is to give people the power to share their content with not just their friends but the world and interact in real-time." />
 	<meta property="og:image" content="{{ config('app.url') }}/imgs/voten-circle.png">
 	<meta name="twitter:image" content="{{ config('app.url') }}/imgs/voten-circle.png" />
 
