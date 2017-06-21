@@ -66,7 +66,7 @@ trait Submit
      */
     protected function linkSubmission(Request $request)
     {
-        $apiURL = 'https://midd.voten.co/link-submission?url='.$request->url;
+        $apiURL = 'https://midd.voten.co/link-submission?url='.urlencode($request->url);
 
         $info = json_decode(file_get_contents($apiURL));
 
