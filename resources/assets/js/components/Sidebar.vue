@@ -54,6 +54,16 @@
 					<i class="v-icon v-config"></i>
 
 					<div class="menu">
+						<div class="header">
+							Limit to
+						</div>
+						<div class="ui left input">
+							<input type="number" name="search" placeholder="Limit at..." min="2" v-model="categoriesLimit">
+						</div>
+
+						<div class="header">
+							Filter by
+						</div>
 						<button class="item" @click="changeFilter('subscribed-channels')" :class="{ 'active' : filter == 'subscribed-channels' }">
 							Subscribed channels
 						</button>
@@ -103,14 +113,24 @@ export default {
     data: function () {
         return {
             subscribedFilter: '',
-            auth,
-            Store
+            categoriesLimit: 5,
         };
     },
 
 	watch: {
 		'$route': function () {
 			this.subscribedFilter = ''
+		},
+
+		'categoriesLimit' : function () {
+			// console.log(this.categoriesLimit)
+			this.putLS('sidebar-categories-limit', this.categoriesLimit);
+		}
+	},
+
+	created() {
+		if (this.isSetLS('sidebar-categories-limit')) {
+			this.categoriesLimit = this.getLS('sidebar-categories-limit');
 		}
 	},
 
@@ -148,7 +168,7 @@ export default {
 
     		return _.orderBy(Store.subscribedCategories.filter(function (category) {
 				return category.name.indexOf(self.subscribedFilter.toLowerCase()) !== -1
-			}), 'subscribers', 'desc').slice(0, 5)
+			}), 'subscribers', 'desc').slice(0, (this.categoriesLimit > 2 ? this.categoriesLimit : 2))
     	},
     },
 

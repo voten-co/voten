@@ -145,6 +145,7 @@
     font-size: 0.78571429em;
     font-weight: bold;
     text-transform: uppercase;
+    text-align: center;
 }
 
 .ui.dropdown .menu > .divider {
@@ -159,7 +160,7 @@
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    margin: 1.14285714rem 0.78571429rem;
+    // margin: 1.14285714rem 0.78571429rem;
     min-width: 10rem;
 }
 
