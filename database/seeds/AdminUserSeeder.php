@@ -2,14 +2,15 @@
 
 use Illuminate\Database\Seeder;
 
-class AdminUserSeeder extends Seeder {
-
+class AdminUserSeeder extends Seeder
+{
     /**
      * Run the database seeds.
      *
      * @return void
      */
-    public function run() {
+    public function run()
+    {
         //Create a new user
         $admin_id = DB::table('users')->insertGetId([
             'username'  => 'admin',
@@ -33,13 +34,13 @@ class AdminUserSeeder extends Seeder {
                 'website' => null,
                 'twitter' => null,
             ]),
-            'created_at' => \Carbon\Carbon::now()
+            'created_at' => \Carbon\Carbon::now(),
         ]);
 
         //Make the user an admin
         DB::table('appointedd_users')->insert([
             'user_id'      => $admin_id,
-            'appointed_as' => 'administrator'
+            'appointed_as' => 'administrator',
         ]);
     }
 }
