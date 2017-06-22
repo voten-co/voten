@@ -44,6 +44,18 @@ npm install
 npm run production
 ```
 
+### Create admin user
+
+To create an admin user, run the below command from the root of the project
+
+```
+php artisan db:seed --class=AdminUserSeeder
+```
+
+The login details for the admin user is `admin` and `password`.
+
+After running the seeder, be sure to clear your redis cache, you should now be able to navigate to `/backend`
+
 ## Security Vulnerabilities
 
 If you discover any security vulnerability within Voten's source code, please send an e-mail to Sully Fischer at fischersully@gmail.com instead of opening an issue. All security vulnerabilities will be promptly addressed.
