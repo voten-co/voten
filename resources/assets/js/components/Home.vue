@@ -25,6 +25,10 @@
 						<i class="v-icon v-config"></i>
 
 						<div class="menu">
+							<div class="header">
+								Filter by
+							</div>
+
 							<button class="item" @click="changeFilter('subscribed-channels')" :class="{ 'active' : filter == 'subscribed-channels' }">
 								Subscribed channels
 							</button>
