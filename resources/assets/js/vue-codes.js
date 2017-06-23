@@ -177,10 +177,11 @@ const app = new Vue({
          * @return void
          */
         scrolled(event) {
-            let box = event.target
+        	this.$eventHub.$emit('scrolled');
 
+            let box = event.target;
             if ( (box.scrollHeight - box.scrollTop) < (box.clientHeight + 100) ) {
-                this.$eventHub.$emit('scrolled-to-bottom')
+                this.$eventHub.$emit('scrolled-to-bottom');
             }
         },
 

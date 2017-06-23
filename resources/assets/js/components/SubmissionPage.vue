@@ -129,25 +129,31 @@
 				return unique;
 			},
 
-
+			/**
+			 * Is the category store loaded yet
+			 *
+			 * @return bool
+			 */
         	loaded () {
 	            return Store.category.name == this.$route.params.name;
 	        },
 
             /**
              * The order that comments should be printed with
-             * @returns String
+             *
+             * @return string
              */
-            commentsOrder: function () {
-                if (this.sort == 'hot') {
-                    return 'rate'
-                }
-
-                return 'created_at'
+            commentsOrder() {
+            	return this.sort == 'hot' ? 'rate' : 'created_at';
             },
         },
 
         methods: {
+        	/**
+        	 * resets all the basic data to prevent possible conflicts
+        	 *
+        	 * @return void
+        	 */
         	clearContent () {
         		this.moreComments = false;
         		this.page = 1;
@@ -165,25 +171,40 @@
 	    	 *
 	    	 * @return void
 	    	 */
-	    	updateCategoryStore () {
-	    		if ( Store.category.name == undefined || Store.category.name != this.$route.params.name ) {
+	    	updateCategoryStore() {
+	    		if (Store.category.name == undefined || Store.category.name != this.$route.params.name) {
 		    		this.$root.getCategoryStore(this.$route.params.name);
 		    		this.category = this.$route.params.name;
 	    		}
 	    	},
 
-            newComment (comment) {
-            	if (comment.parent_id == 0 && comment.submission_id == this.submission.id) {
-					this.comments.unshift(comment)
-					this.submission.comments_number ++
-                }
+	    	/**
+	    	 * receives the broadcasted comment.
+	    	 *
+	    	 * @return void
+	    	 */
+            newComment(comment) {
+            	if (comment.parent_id != 0 || comment.submission_id != this.submission.id) return;
+
+				// add broadcastedParent (used for styling)
+				if (comment.user_id != auth.id) {
+					comment.broadcastedParent = true;
+				}
+
+				this.comments.unshift(comment);
+				this.submission.comments_number ++;
             },
 
-            listen () {
+            /**
+             * listen for broadcasted comments
+             *
+             * @return void
+             */
+            listen() {
                 Echo.channel('submission.' + this.$route.params.slug)
                     .listen('CommentCreated', event => {
                     	this.$eventHub.$emit('newComment', event.comment)
-                    })
+                    });
 
                 // we can't do presence channel if the user is a guest
                 if (this.isGuest) return;
@@ -191,15 +212,21 @@
                 Echo.join('submission.' + this.$route.params.slug)
 				    .here((users) => {
 				        this.onlineUsers = users.length
-				    }).joining((user) => {
+				    })
+				    .joining((user) => {
 				        this.onlineUsers ++
 				    })
 				    .leaving((user) => {
 				        this.onlineUsers --
-				    })
+				    });
             },
 
-            getSubmission () {
+            /**
+             * Get submissions
+             *
+             * @return void
+             */
+            getSubmission() {
             	// if landed on a submission page
             	if (preload.submission) {
             		this.submission = preload.submission;
@@ -229,6 +256,11 @@
 				});
             },
 
+            /**
+             * get comments
+             *
+             * @return void
+             */
             getComments () {
                 this.loadingComments = true
 
@@ -263,6 +295,11 @@
             }
         },
 
+        /**
+         * necessary actions before leaving this submission page
+         *
+         * @return void
+         */
         beforeRouteLeave(to, from, next) {
         	Echo.leave('submission.' + from.params.slug);
 

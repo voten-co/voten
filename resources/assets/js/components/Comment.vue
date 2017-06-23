@@ -1,6 +1,8 @@
 <template>
     <transition name="fade">
-        <div class="comment v-comment-wrapper" v-show="visible">
+        <div class="comment v-comment-wrapper" v-show="visible" @mouseover="seen"
+	        :class="{ 'child-broadcasted-comment' : list.broadcastedChild, 'broadcasted-comment' : list.broadcastedParent }"
+        >
             <div class="content">
                 <div class="v-comment-info">
                     <router-link :to="'/' + '@' + list.owner.username" class="avatar user-select">
@@ -101,6 +103,18 @@
         display: flex;
         align-items: center;
     }
+
+    .broadcasted-comment {
+	    background: #f9f9f9 !important;
+    }
+
+    .child-broadcasted-comment {
+	    background: #f9f9f9 !important;
+	    border: 2px dashed #e9e9e9 !important;
+	    padding-bottom: .7em !important;
+        padding-right: 1em !important;
+	    border-left: 2px dashed #e9e9e9 !important;
+    }
 </style>
 
 
@@ -110,7 +124,6 @@
     import Helpers from '../mixins/Helpers';
 
     export default {
-
         name: 'comment',
 
         props: ['list', 'comments-order', 'full'],
@@ -130,9 +143,7 @@
                 bookmarked: false,
                 upvoted: false,
                 downvoted: false,
-                reply: false,
-                auth,
-                Store
+                reply: false
             }
         },
 
@@ -146,7 +157,7 @@
 			this.$nextTick(function () {
 	        	this.$root.loadSemanticTooltip();
 	        	this.$root.loadSemanticDropdown();
-			})
+			});
 		},
 
 		watch: {
@@ -213,7 +224,7 @@
              *
              * @return String
              */
-            longDate () {
+            longDate() {
                 return this.parseFullDate(this.list.created_at);
             },
 
@@ -222,7 +233,7 @@
         	 *
         	 * @return boolean
         	 */
-            showApprove(){
+            showApprove() {
 				return !this.list.approved_at && Store.moderatingAt.indexOf(this.list.category_id) != -1 && !this.owns
 			},
 
@@ -231,13 +242,23 @@
         	 *
         	 * @return boolean
         	 */
-			showDisapprove(){
+			showDisapprove() {
 				return !this.list.deleted_at && Store.moderatingAt.indexOf(this.list.category_id) != -1 && !this.owns
 			},
         },
 
 
         methods: {
+        	/**
+        	 * seen the comment
+        	 *
+        	 * @return void
+        	 */
+        	seen() {
+        	    this.list.broadcastedChild = false;
+        	    this.list.broadcastedParent = false;
+        	},
+
             edit() {
                 this.editing = !this.editing
             },
@@ -268,36 +289,44 @@
             },
 
         	/**
-            *  whether or not user has bookmarked the comment
-            *
-            *  @return void
-            */
-            setBookmarked () { if(Store.commentBookmarks.indexOf(this.list.id) != -1) this.bookmarked = true },
+             *  whether or not user has bookmarked the comment
+             *
+             *  @return void
+             */
+            setBookmarked() {
+            	if(Store.commentBookmarks.indexOf(this.list.id) != -1) {
+            		this.bookmarked = true;
+            	}
+            },
 
-        	newComment (comment) {
-                if (this.list.id == comment.parent_id) {
-                    if(comment.owner.id == auth.id){
-                        this.reply = false;
-                        Store.commentUpVotes.push(comment.id);
-                        this.list.children.unshift(comment);
-                        return
-                    }
+        	newComment(comment) {
+                if (this.list.id != comment.parent_id) return;
 
+                // owns the comment
+                if(comment.owner.id == auth.id) {
+                    this.reply = false;
+                    Store.commentUpVotes.push(comment.id);
                     this.list.children.unshift(comment);
+                    return;
                 }
+
+                // add broadcastedParent (used for styling)
+				comment.broadcastedChild = true;
+
+                this.list.children.unshift(comment);
         	},
 
             /**
-            *  Report(and block) comment
-            */
-            report: function () {
+             *  Report(and block) comment
+             */
+            report() {
         		this.$eventHub.$emit('report-comment', this.list.id)
             },
 
             /**
-            *  Toggles the comment into bookmarks
-            */
-        	bookmark () {
+             *  Toggles the comment into bookmarks
+             */
+        	bookmark() {
         		if (this.isGuest) {
             		this.mustBeLogin();
             		return;
@@ -318,8 +347,8 @@
         	},
 
         	/**
-            *  toggles the reply form
-            */
+             *  toggles the reply form
+             */
             commentReply () {
             	if (this.isGuest) {
             		this.mustBeLogin();
@@ -330,10 +359,10 @@
         	},
 
             /**
-            *  upVote comment
-            *
-            *  @return void
-            */
+             *  upVote comment
+             *
+             *  @return void
+             */
             voteUp () {
             	if (this.isGuest) {
             		this.mustBeLogin();
@@ -374,10 +403,10 @@
 
 
             /**
-            *  downVote comment
-            *
-            *  @return void
-            */
+             *  downVote comment
+             *
+             *  @return void
+             */
             voteDown () {
             	if (this.isGuest) {
             		this.mustBeLogin();
