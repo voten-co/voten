@@ -74,7 +74,6 @@ const app = new Vue({
         Rules,
     },
 
-
     data: {
         modalRouter: '',
         reportCategory: '',
@@ -82,9 +81,7 @@ const app = new Vue({
         reportCommentId: '',
         sidebar: true,
         sortFilter: 'hot',
-        pageTitle: document.title,
-        Store,
-        auth
+        pageTitle: document.title
     },
 
     computed: {
@@ -167,9 +164,8 @@ const app = new Vue({
          * @return void
          */
         pushNotification(data) {
-            this.webNotification(data.title, data.body, data.url, data.icon)
+            this.webNotification(data.title, data.body, data.url, data.icon);
         },
-
 
         /**
          * Catches the scroll event and fires the neccessary ones for componenets. (Such as Inifinite Scrolling)
@@ -469,18 +465,20 @@ const app = new Vue({
             }
         },
 
-
-        // Marks all user notifications as read
+        /**
+         * Marks all user notifications as read
+         *
+         * @return void
+         */
         markAsRead() {
-            axios.post('/mark-notifications-read')
+            axios.post('/mark-notifications-read');
 
             Store.notifications.forEach(function(element, index) {
                 if (!element.read_at) {
-                    element.read_at = moment().utc().format('YYYY-MM-DD HH:mm:ss')
+                    element.read_at = moment().utc().format('YYYY-MM-DD HH:mm:ss');
                 }
             });
         },
-
 
         /**
          * Switches the route
@@ -493,13 +491,11 @@ const app = new Vue({
             this.modalRouter = newRoute
         },
 
-
         // Used for keyup.esc
         closeModals() {
             Store.contentRouter = 'content'
             this.modalRouter = ''
         },
-
 
         // Displays a smallModal containing category rules
         categoryRules() {
