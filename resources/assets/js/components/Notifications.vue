@@ -15,7 +15,7 @@
 	    	<div class="v-push-9"></div>
 
             <div class="col-7">
-                <div class="v-nth-box" v-if=" !Store.notifications || ! Store.notifications.length">
+                <div class="user-select v-nth-box" v-if=" !Store.notifications || ! Store.notifications.length">
                     <i class="v-icon v-bell icon-block-big" aria-hidden="true"></i>
                     <h3>
                     	No unread notifications
@@ -27,7 +27,7 @@
                 </ul>
 
                 <div class="align-center">
-                    <button type="button" class="v-button v-button--green margin-top-bottom-3"
+                    <button type="button" class="user-select v-button v-button--green margin-top-bottom-3"
                     @click="loadReadNotifications" v-show="loadMoreButton">
                         Load previous notifications
                     </button>
@@ -38,9 +38,11 @@
 </template>
 
 <script>
-    import Notification from '../components/Notification.vue'
+    import Notification from '../components/Notification.vue';
+    import Helpers from '../mixins/Helpers';
 
     export default {
+    	mixins: [Helpers],
 
     	components: { Notification },
 
@@ -48,15 +50,13 @@
             return {
                 page: 1,
                 loadMoreButton: false,
-                nightMode: false,
-                auth,
-                Store
+                nightMode: false
             }
         },
 
         created: function() {
-            this.getNotifications()
-        	this.listen()
+            this.getNotifications();
+        	this.listen();
         },
 
 
@@ -127,13 +127,17 @@
                 })
             },
 
-
             /**
-            * Real-time
-            */
-            listen: function () {
-                Echo.private('App.User.' + this.auth.id)
+             * listen for broadcasted notifications
+             *
+             * @return void
+             */
+            listen() {
+                Echo.private('App.User.' + auth.id)
                 .notification((n) => {
+                	// lable it
+                	n.broadcasted = true;
+
                     Store.notifications.unshift(n)
 
                     // give user the new recieved access (so a refresh won't be needed)
