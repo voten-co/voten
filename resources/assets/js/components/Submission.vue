@@ -102,9 +102,7 @@
 				photoViewerIndex: null,
 				photoViewer: false,
 				embedViewer: false,
-				gifPlayer: false,
-                auth,
-                Store
+				gifPlayer: false
             }
         },
 
