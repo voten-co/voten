@@ -25,11 +25,11 @@ class Comment extends Model
      * @var array
      */
     protected $fillable = [
-    	'body', 'upvotes', 'rate', 'downvotes', 'submission_id', 'level', 'parent_id', 'category_id', 'user_id'
+        'body', 'upvotes', 'rate', 'downvotes', 'submission_id', 'level', 'parent_id', 'category_id', 'user_id',
     ];
 
     protected $with = [
-    	'owner', 'children'
+        'owner', 'children',
     ];
 
     /**

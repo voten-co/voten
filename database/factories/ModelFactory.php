@@ -49,7 +49,6 @@ $factory->define(App\Message::class, function (Faker\Generator $faker) {
     ];
 });
 
-
 // Comment
 $factory->define(App\Comment::class, function (Faker\Generator $faker) {
     return [
