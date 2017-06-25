@@ -13,7 +13,6 @@ use App\Traits\CachableUser;
 use App\Traits\Submit;
 use Auth;
 use DB;
-use Embed\Embed;
 use Illuminate\Http\Request;
 
 class SubmissionController extends Controller

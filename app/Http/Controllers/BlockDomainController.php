@@ -59,8 +59,8 @@ class BlockDomainController extends Controller
         ]);
 
         return BlockedDomain::where('category', $request->category)
-                    ->orderBy('created_at', 'desc')
-                    ->get();
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 
     /**
@@ -83,8 +83,8 @@ class BlockDomainController extends Controller
         }
 
         BlockedDomain::where('domain', $request->domain)
-                    ->where('category', $blockEverywhere ? 'all' : $request->category)
-                    ->delete();
+            ->where('category', $blockEverywhere ? 'all' : $request->category)
+            ->delete();
 
         return $blockEverywhere ? back() : response('Unblocked in '.$request->category, 200);
     }

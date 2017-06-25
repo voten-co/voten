@@ -28,8 +28,8 @@ class NotificationsController extends Controller
     public function readIndex(Request $request)
     {
         return Auth::user()->notifications()
-            ->where('read_at', '!=', null)
-            ->simplePaginate(20);
+                           ->where('read_at', '!=', null)
+                           ->simplePaginate(20);
     }
 
     /**
