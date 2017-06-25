@@ -282,16 +282,11 @@
             },
 
             newSort(sort) {
-            	if (sort == this.sort) {
-            		return
-            	}
+            	if (sort == this.sort) return;
 
-            	this.page = 1
-
-            	this.comments = []
-
-            	this.getComments()
-                this.sort = sort
+            	this.clearContent();
+            	this.getComments();
+                this.sort = sort;
             }
         },
 
