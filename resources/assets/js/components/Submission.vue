@@ -1,6 +1,6 @@
 <template>
 	<transition name="fade">
-		<div class="submission-item submission-wrapper" v-show="!hidden" :id="'submission' + list.id">
+		<div class="submission-item submission-wrapper" v-show="!hidden" :id="'submission' + list.id" v-once>
 			<!-- side-voting -->
 			<div class="side-voting desktop-only">
 				<a class="fa-stack align-right" @click="voteUp"
