@@ -1,6 +1,6 @@
 <template>
 	<transition name="fade">
-		<div class="submission-item submission-wrapper" v-show="!hidden">
+		<div class="submission-item submission-wrapper" v-show="!hidden" :id="'submission' + list.id">
 			<!-- side-voting -->
 			<div class="side-voting desktop-only">
 				<a class="fa-stack align-right" @click="voteUp"
@@ -134,7 +134,7 @@
 		mounted () {
 			this.$nextTick(function () {
 	        	this.$root.loadSemanticTooltip();
-	        	this.$root.loadSemanticDropdown();
+	        	this.$root.loadSemanticDropdown('submission' + this.list.id);
 			})
 		},
 
