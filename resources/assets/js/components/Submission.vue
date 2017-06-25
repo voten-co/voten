@@ -139,31 +139,11 @@
 
         computed: {
 			points(){
-				let total = this.list.upvotes - this.list.downvotes
+				let total = this.list.upvotes - this.list.downvotes;
 
-				if (total < 0 ) return 0
+				if (total < 0 ) return 0;
 
-				return total
-			},
-
-			typeIcon(){
-				if (this.list.type == 'img') {
-					return this.list.data.album ? 'v-image' : 'v-photo'
-				}
-
-				if (this.list.type == 'text') {
-					return 'v-text'
-				}
-
-				if (this.list.data.type == 'video') {
-					return 'v-video'
-				}
-
-				if (this.list.type == 'gif') {
-					return 'v-gif'
-				}
-
-				return 'v-link'
+				return total;
 			},
 
 			/**
@@ -172,28 +152,8 @@
         	 * @return Boolean
         	 */
         	owns() {
-        		return auth.id == this.list.owner.id
+        		return auth.id == this.list.owner.id;
         	},
-
-			typeTooltip(){
-				if (this.list.type == 'img') {
-					return this.list.data.album ? 'Album' : 'Image'
-				}
-
-				if (this.list.type == 'text') {
-					return 'Text'
-				}
-
-				if (this.list.data.type == 'video') {
-					return 'Video'
-				}
-
-				if (this.list.type == 'gif') {
-					return 'GIF'
-				}
-
-				return 'Link'
-			},
 
             /**
              * Whether or not user wants to see NSFW content's image
@@ -206,7 +166,7 @@
              * @return boolean
              */
             nsfw() {
-				return this.list.nsfw && !auth.nsfwMedia
+				return this.list.nsfw && !auth.nsfwMedia;
             },
 
 			/**
@@ -216,11 +176,11 @@
 			 */
 			currentVote () {
 			    if (this.upvoted) {
-			    	return "upvote"
+			    	return "upvote";
 			    }
 
 				if (this.downvoted) {
-					return "downvote"
+					return "downvote";
 				}
 
 				return null;
@@ -506,10 +466,6 @@
 				}
 	            this.photoViewer = true
 	        },
-
-			showGifPlayer() {
-				console.log('works')
-			},
 
 			showEmbed(){
 				this.embedViewer = true
