@@ -111,6 +111,13 @@ class CommentController extends Controller
                         ->simplePaginate(20);
         }
 
+        // return \Illuminate\Support\Facades\Cache::remember('test', 60, function () use ($submission) {
+        //     return $submission->comments()
+        //                 ->where('parent_id', 0)
+        //                 ->orderBy('rate', 'desc')
+        //                 ->simplePaginate(50);
+        // });
+
         // Sort by default which is 'hot'
         return $submission->comments()
                         ->where('parent_id', 0)

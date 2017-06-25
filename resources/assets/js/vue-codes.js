@@ -306,14 +306,18 @@ const app = new Vue({
         },
 
         /**
-         * Loads Semantic UI's dropdown components
+         * Loads Semantic UI's dropdown components. Sending an ID would make this a lot faster
          *
          * @return void
          */
-        loadSemanticDropdown () {
-            $('.ui.dropdown').dropdown({
-                duration: 50
-            })
+        loadSemanticDropdown (targetID = 'someID') {
+        	if (targetID != 'someID') {
+        		$('#' + targetID +' .ui.dropdown').dropdown({ duration: 50 });
+
+        		return;
+        	}
+
+            $('.ui.dropdown').dropdown({ duration: 50 });
         },
 
         /**
@@ -331,9 +335,7 @@ const app = new Vue({
          * @return void
          */
         loadSemanticPopup() {
-            $('.s-popup').popup({
-                inline: true
-            });
+            $('.s-popup').popup({ inline: true });
         },
 
         /**

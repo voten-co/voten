@@ -15,6 +15,17 @@
     border-bottom: 2px solid #5b9178;
 }
 
+.v-button.v-button--link {
+    background: none;
+    border: none;
+    margin: 1em 0;
+    color: $primary-color;
+}
+
+.v-button.v-button--link:hover {
+	text-decoration: underline;
+}
+
 .v-button.v-button--red {
     background-color: #db6e6e;
     color: #fff;

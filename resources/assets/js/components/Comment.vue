@@ -1,6 +1,6 @@
 <template>
     <transition name="fade">
-        <div class="comment v-comment-wrapper" v-show="visible" @mouseover="seen"
+        <div class="comment v-comment-wrapper" v-show="visible" @mouseover="seen" :id="'comment' + list.id"
 	        :class="{ 'child-broadcasted-comment' : list.broadcastedChild, 'broadcasted-comment' : list.broadcastedParent }"
         >
             <div class="content">
@@ -89,6 +89,10 @@
             <div class="comments" v-if="list.children.length">
                 <comment :list="c" v-for="c in sortedComments" :key="c.id" :full="full"></comment>
             </div>
+
+            <button class="v-button v-button--link" v-if="hasMoreCommentsToLoad" @click="loadMoreComments">
+	        	Load More Comments ({{ list.children.length - childrenLimit }} more replies)
+	    	</button>
         </div>
     </transition>
 </template>
@@ -143,7 +147,8 @@
                 bookmarked: false,
                 upvoted: false,
                 downvoted: false,
-                reply: false
+                reply: false,
+                childrenLimit: 4
             }
         },
 
@@ -155,8 +160,8 @@
 
 		mounted () {
 			this.$nextTick(function () {
-	        	this.$root.loadSemanticTooltip();
-	        	this.$root.loadSemanticDropdown();
+				this.$root.loadSemanticTooltip();
+	        	this.$root.loadSemanticDropdown('comment' + this.list.id);
 			});
 		},
 
@@ -185,8 +190,17 @@
         	 *
         	 * @return Boolean
         	 */
-        	owns () {
+        	owns() {
         		return auth.id == this.list.user_id;
+        	},
+
+        	/**
+        	 * is there more children to load
+        	 *
+        	 * @return bool
+        	 */
+        	hasMoreCommentsToLoad() {
+        	    return this.list.children.length > this.childrenLimit;
         	},
 
         	/**
@@ -194,8 +208,9 @@
         	 *
         	 * @return {Array} comments
         	 */
-        	sortedComments () {
-        		return _.orderBy(this.list.children, this.commentsOrder, 'desc');
+        	sortedComments() {
+        		return _.orderBy(this.list.children, this.commentsOrder, 'desc')
+        			.slice(0, this.childrenLimit);
         	},
 
             /**
@@ -249,6 +264,15 @@
 
 
         methods: {
+        	/**
+        	 * renders more comments
+        	 *
+        	 * @return void
+        	 */
+        	loadMoreComments() {
+        	    this.childrenLimit += 4;
+        	},
+
         	/**
         	 * seen the comment
         	 *
