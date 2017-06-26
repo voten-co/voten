@@ -4,7 +4,7 @@
 	</div>
 
     <router-link :to="{ path: '/' }" class="desktop-only">
-        <img src="/imgs/voten-beta.png" alt="Voten" @click="closeModals"
+        <img src="/imgs/voten-beta.png" alt="Voten" @click="homeRoute"
         	class="logo-voten" data-toggle="tooltip" data-placement="bottom" title="Home">
     </router-link>
 
@@ -37,7 +37,7 @@
 
 			<router-link :to="'/'" class="btn-nth relative" aria-haspopup="true"
 			data-toggle="tooltip" data-placement="bottom" title="Home" aria-expanded="false">
-           		<i class="v-icon v-home" aria-hidden="true" @click="closeModals"></i>
+           		<i class="v-icon v-home" aria-hidden="true" @click="homeRoute"></i>
             </router-link>
         </div>
 

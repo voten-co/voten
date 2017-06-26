@@ -37,7 +37,7 @@
             </router-link>
 
             <router-link :to="{ path: '/' }">
-			    <i class="v-icon v-home" aria-hidden="true"
+			    <i class="v-icon v-home" aria-hidden="true" @click="homeRoute"
 			        data-toggle="tooltip" data-placement="bottom" title="Home"
 			    ></i>
 			</router-link>
@@ -173,6 +173,19 @@ export default {
     },
 
     methods: {
+    	/**
+         * navigates to home route. aaaand bit more in case the current route IS "home"
+         *
+         * @return void
+         */
+        homeRoute() {
+            this.$eventHub.$emit('close');
+
+            if (this.$route.name === 'home') {
+            	this.$eventHub.$emit('refresh-home');
+            }
+        },
+
     	/**
     	 * changes the filter for sidebar
     	 *

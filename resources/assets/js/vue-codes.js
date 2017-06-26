@@ -222,6 +222,19 @@ const app = new Vue({
         },
 
         /**
+         * navigates to home route. aaaand bit more in case the current route IS "home"
+         *
+         * @return void
+         */
+        homeRoute() {
+            this.closeModals();
+
+            if (this.$route.name === 'home') {
+            	this.$eventHub.$emit('refresh-home');
+            }
+        },
+
+        /**
          * Fetches the info about the category which we need later
          *
          * @return void
