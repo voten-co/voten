@@ -425,9 +425,10 @@
             	if (this.upvoted) {
             		this.upvoted = false
             		this.list.upvotes --
-            		Store.commentUpVotes = Store.commentUpVotes.filter(function (item) {
-					  	return item.id != id
-					})
+
+            		var index = Store.commentUpVotes.indexOf(id);
+                	Store.commentUpVotes.splice(index, 1);
+
             		return
             	}
 
@@ -435,9 +436,9 @@
             	if (this.downvoted) {
             		this.downvoted = false
             		this.list.downvotes --
-            		Store.commentDownVotes = Store.commentDownVotes.filter(function (item) {
-					  	return item.id != id
-					})
+
+            		var index = Store.commentDownVotes.indexOf(id);
+                	Store.commentDownVotes.splice(index, 1);
             	}
 
             	// Not voted
@@ -469,19 +470,21 @@
             	if (this.downvoted) {
             		this.downvoted = false
             		this.list.downvotes --
-            		Store.commentDownVotes = Store.commentDownVotes.filter(function (item) {
-					  	return item.id != id
-					})
+
+            		var index = Store.commentDownVotes.indexOf(id);
+                	Store.commentDownVotes.splice(index, 1);
+
             		return
             	}
 
 				// Have up-voted
             	if (this.upvoted) {
+            		console.log('yup')
             		this.upvoted = false
             		this.list.upvotes --
-            		Store.commentUpVotes = Store.commentUpVotes.filter(function (item) {
-					  	return item.id != id
-					})
+
+            		var index = Store.commentUpVotes.indexOf(id);
+                	Store.commentUpVotes.splice(index, 1);
             	}
 
             	// Not voted
