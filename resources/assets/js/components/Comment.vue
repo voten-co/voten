@@ -209,9 +209,30 @@
         	 * @return {Array} comments
         	 */
         	sortedComments() {
-        		return _.orderBy(this.list.children, this.commentsOrder, 'desc')
+        		return _.orderBy(this.uniqueList, this.commentsOrder, 'desc')
         			.slice(0, this.childrenLimit);
         	},
+
+        	/**
+			 * Due to the issue with duplicate notifiactions (cuz the present ones have diffrent
+			 * timestamps) we need a different approch to make sure the list is always unique.
+			 * This ugly coded methods does it! Maybe move this to the Helpers.js mixin?!
+			 *
+			 * @return array
+			 */
+			uniqueList() {
+				let unique = []
+				let temp = []
+
+				this.list.children.forEach(function(element, index, self) {
+					if (temp.indexOf(element.id) === -1) {
+						unique.push(element)
+						temp.push(element.id)
+					}
+				})
+
+				return unique;
+			},
 
             /**
 			 * The current vote type. It's being used to optimize the voing request on the server-side.
