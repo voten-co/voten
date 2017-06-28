@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use App\Events\CommentWasCreated;
 use App\Events\CommentWasDeleted;
-use App\Comment;
 use App\Traits\CachableCategory;
 use App\Traits\CachableComment;
 use App\Traits\CachableSubmission;
@@ -50,7 +50,7 @@ class CommentController extends Controller
             'rate'          => firstRate(),
         ]);
 
-		event(new CommentWasCreated($comment, $submission, $author, $parentComment));
+        event(new CommentWasCreated($comment, $submission, $author, $parentComment));
 
         $this->firstVote($author, $comment->id);
 
@@ -99,11 +99,11 @@ class CommentController extends Controller
      */
     protected function firstVote($user, $comment_id)
     {
-    	try {
+        try {
             $user->commentUpvotes()->attach($comment_id, ['ip_address' => getRequestIpAddress()]);
-	        $upvotes = $this->commentUpvotesIds($user->id);
-	        array_push($upvotes, $comment_id);
-	        $this->updateCommentUpvotesIds($user->id, $upvotes);
+            $upvotes = $this->commentUpvotesIds($user->id);
+            array_push($upvotes, $comment_id);
+            $this->updateCommentUpvotesIds($user->id, $upvotes);
         } catch (Exception $exception) {
             app('sentry')->captureException($exception);
         }

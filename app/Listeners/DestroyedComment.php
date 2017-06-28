@@ -3,7 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\CommentWasDeleted;
-use App\Report;
 use App\Traits\CachableCategory;
 use App\Traits\CachableComment;
 use App\Traits\CachableSubmission;
