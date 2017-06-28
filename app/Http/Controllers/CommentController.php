@@ -152,10 +152,7 @@ class CommentController extends Controller
         $submission = $this->getSubmissionById($comment->submission_id);
         abort_unless($this->mustBeOwner($comment), 403);
 
-        $temp = $comment;
-        event(new CommentWasDeleted($temp, $submission));
-
-        $comment->forceDelete();
+        event(new CommentWasDeleted($comment, $submission));
 
         return response('Successfully deleted', 200);
     }
