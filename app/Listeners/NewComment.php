@@ -3,13 +3,13 @@
 namespace App\Listeners;
 
 use App\Events\CommentCreated;
+use App\Events\CommentWasCreated;
 use App\Notifications\CommentReplied;
 use App\Notifications\SubmissionReplied;
 use App\Permissions;
-use App\Events\CommentWasCreated;
 use App\Traits\CachableCategory;
-use App\Traits\CachableUser;
 use App\Traits\CachableSubmission;
+use App\Traits\CachableUser;
 
 class NewComment
 {
@@ -43,12 +43,12 @@ class NewComment
         ]);
         $this->putSubmissionInTheCache($event->submission);
 
-
         // if the commenter is banned from submitting to this cateogry (or "everywhere") we
         // soft-delete the comment without letting him know. This should keep spammers
         // busy over nothing.
         if ($this->isUserBanned($event->author->id, $event->submission->category_name)) {
             $event->comment->delete();
+
             return;
         }
 
