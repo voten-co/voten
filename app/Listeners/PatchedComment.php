@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Listeners;
+
+use App\Events\CommentWasPatched;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+
+class PatchedComment
+{
+    /**
+     * Create the event listener.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        //
+    }
+
+    /**
+     * Handle the event.
+     *
+     * @param  CommentWasPatched  $event
+     * @return void
+     */
+    public function handle(CommentWasPatched $event)
+    {
+        //
+    }
+}

@@ -156,6 +156,7 @@
         	this.setBookmarked();
         	this.setVoteds();
             this.$eventHub.$on('newComment', this.newComment);
+            this.$eventHub.$on('patchedComment', this.patchedComment);
         },
 
 		mounted () {
@@ -360,6 +361,17 @@
 
                 this.list.children.unshift(comment);
         	},
+
+        	/**
+	    	 * receives the broadcasted comment.
+	    	 *
+	    	 * @return void
+	    	 */
+            patchedComment(comment) {
+            	if (this.list.id != comment.id) return;
+
+            	this.list.body = comment.body;
+            },
 
             /**
              *  Report(and block) comment

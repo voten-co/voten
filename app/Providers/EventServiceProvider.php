@@ -26,6 +26,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\CommentWasDeleted' => [
             'App\Listeners\DestroyedComment',
         ],
+        'App\Events\CommentWasPatched' => [
+            'App\Listeners\PatchedComment',
+        ],
 
         // shouldn't this be UpdatedCategory?!
         // 'App\Events\CategoryWasUpdated' => [

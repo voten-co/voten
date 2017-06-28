@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Comment;
 use App\Events\CommentWasCreated;
 use App\Events\CommentWasDeleted;
+use App\Events\CommentWasPatched;
 use App\Traits\CachableCategory;
 use App\Traits\CachableComment;
 use App\Traits\CachableSubmission;
@@ -124,6 +125,8 @@ class CommentController extends Controller
         $comment = Comment::findOrFail($request->comment_id);
 
         abort_unless($this->mustBeOwner($comment), 403);
+
+        event(new CommentWasPatched($comment));
 
         $comment->update([
             'body' => $request->body,
