@@ -206,6 +206,8 @@
                     	this.$eventHub.$emit('newComment', event.comment)
                     }).listen('CommentWasPatched', event => {
                     	this.$eventHub.$emit('patchedComment', event.comment)
+                    }).listen('CommentWasDeleted', event => {
+                    	this.$eventHub.$emit('deletedComment', event.comment)
                     });
 
                 // we can't do presence channel if the user is a guest

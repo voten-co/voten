@@ -7,8 +7,9 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class CommentWasDeleted
+class CommentWasDeleted implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -24,6 +25,7 @@ class CommentWasDeleted
     {
         $this->comment = $comment;
         $this->submission = $submission;
+        $this->dontBroadcastToCurrentUser();
     }
 
     /**
@@ -33,6 +35,6 @@ class CommentWasDeleted
      */
     public function broadcastOn()
     {
-        // return new PrivateChannel('channel-name');
+        return ['submission.'.$this->submission->slug];
     }
 }

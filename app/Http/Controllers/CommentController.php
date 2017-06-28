@@ -126,11 +126,11 @@ class CommentController extends Controller
 
         abort_unless($this->mustBeOwner($comment), 403);
 
-        event(new CommentWasPatched($comment));
-
         $comment->update([
             'body' => $request->body,
         ]);
+
+        event(new CommentWasPatched($comment));
 
         return response('comment edited successfully', 200);
     }

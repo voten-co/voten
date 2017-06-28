@@ -157,6 +157,7 @@
         	this.setVoteds();
             this.$eventHub.$on('newComment', this.newComment);
             this.$eventHub.$on('patchedComment', this.patchedComment);
+            this.$eventHub.$on('deletedComment', this.deletedComment);
         },
 
 		mounted () {
@@ -511,8 +512,19 @@
              * @return void
              */
             destroy() {
-                axios.post('/destroy-comment', { id: this.list.id })
-                this.visible = false
+                axios.post('/destroy-comment', { id: this.list.id });
+                this.visible = false;
+            },
+
+            /**
+             * deletes the broadcasted comment
+             *
+             * @return void
+             */
+            deletedComment(comment) {
+            	if (comment.id != this.list.id) return;
+
+                this.visible = false;
             },
 
             /**
