@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CommentWasCreated;
+use App\Events\CommentWasDeleted;
 use App\Comment;
-use App\Events\CommentCreated;
-use App\Notifications\CommentReplied;
-use App\Notifications\SubmissionReplied;
 use App\Traits\CachableCategory;
 use App\Traits\CachableComment;
 use App\Traits\CachableSubmission;
@@ -38,12 +37,8 @@ class CommentController extends Controller
         ]);
 
         $submission = $this->getSubmissionById($request->submission_id);
-
         $author = Auth::user();
-
-        if ($request->parent_id > 0) {
-            $parentComment = $this->getCommentById($request->parent_id);
-        }
+        $parentComment = ($request->parent_id > 0) ? $this->getCommentById($request->parent_id) : null;
 
         $comment = Comment::create([
             'body'          => $request->body,
@@ -55,39 +50,15 @@ class CommentController extends Controller
             'rate'          => firstRate(),
         ]);
 
-        // it's better to move this to the CommentWasCreated Event
-        $this->updateUserCommentsCount($comment->user_id);
-        $this->updateCategoryCommentsCount($comment->category_id);
-        // end
+		event(new CommentWasCreated($comment, $submission, $author, $parentComment));
 
-        try {
-            $this->firstVote($author, $comment->id);
-        } catch (Exception $exception) {
-            app('sentry')->captureException($exception);
-        }
+        $this->firstVote($author, $comment->id);
 
-        $submission->update([
-            'comments_number' => ($submission->comments_number + 1),
-        ]);
+        // set proper relation values:
+        $comment->owner = $author;
+        $comment->children = [];
 
-        $this->putSubmissionInTheCache($submission);
-
-        // if the commenter is banned from submitting to this cateogry (or "everywhere") we soft-delete the comment
-        // without letting him know. This should keep spammers busy over nothing.
-        if ($this->isUserBanned($author->id, $submission->category_name)) {
-            $comment->delete();
-        } else {
-            // broadcast the comment to the people online in the conversation
-            event(new CommentCreated($comment));
-
-            if (isset($parentComment) && !$this->mustBeOwner($parentComment)) {
-                $parentComment->notifiable->notify(new CommentReplied($submission, $comment));
-            } elseif (!$this->mustBeOwner($submission)) {
-                $submission->notifiable->notify(new SubmissionReplied($submission, $comment));
-            }
-        }
-
-        return Comment::withTrashed()->find($comment->id);
+        return $comment;
     }
 
     /**
@@ -111,13 +82,6 @@ class CommentController extends Controller
                         ->simplePaginate(20);
         }
 
-        // return \Illuminate\Support\Facades\Cache::remember('test', 60, function () use ($submission) {
-        //     return $submission->comments()
-        //                 ->where('parent_id', 0)
-        //                 ->orderBy('rate', 'desc')
-        //                 ->simplePaginate(50);
-        // });
-
         // Sort by default which is 'hot'
         return $submission->comments()
                         ->where('parent_id', 0)
@@ -135,13 +99,14 @@ class CommentController extends Controller
      */
     protected function firstVote($user, $comment_id)
     {
-        $user->commentUpvotes()->attach($comment_id, ['ip_address' => getRequestIpAddress()]);
-
-        $upvotes = $this->commentUpvotesIds($user->id);
-
-        array_push($upvotes, $comment_id);
-
-        $this->updateCommentUpvotesIds($user->id, $upvotes);
+    	try {
+            $user->commentUpvotes()->attach($comment_id, ['ip_address' => getRequestIpAddress()]);
+	        $upvotes = $this->commentUpvotesIds($user->id);
+	        array_push($upvotes, $comment_id);
+	        $this->updateCommentUpvotesIds($user->id, $upvotes);
+        } catch (Exception $exception) {
+            app('sentry')->captureException($exception);
+        }
     }
 
     /**
@@ -181,28 +146,12 @@ class CommentController extends Controller
         ]);
 
         $comment = $this->getCommentById($request->id);
-
+        $submission = $this->getSubmissionById($comment->submission_id);
         abort_unless($this->mustBeOwner($comment), 403);
 
-        $submission = $this->getSubmissionById($comment->submission_id);
-
-        // it's better to use the CommentWasDeleted event later for this
-        $this->updateUserCommentsCount($comment->user_id, -1);
-        $this->updateCategoryCommentsCount($comment->category_id, -1);
-        $this->removeCommentFromCache($comment);
-        \App\Report::where([
-            'reportable_id'   => $comment->id,
-            'reportable_type' => 'App\Comment',
-        ])->forceDelete();
-        // end
+        event(new CommentWasDeleted($comment, $submission));
 
         $comment->forceDelete();
-
-        $submission->update([
-            'comments_number' => ($submission->comments_number - 1),
-        ]);
-
-        $this->putSubmissionInTheCache($submission);
 
         return response('Successfully deleted', 200);
     }

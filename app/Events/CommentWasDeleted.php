@@ -13,15 +13,17 @@ class CommentWasDeleted
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $comment;
+    public $submission;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($comment)
+    public function __construct($comment, $submission)
     {
         $this->comment = $comment;
+        $this->submission = $submission;
     }
 
     /**

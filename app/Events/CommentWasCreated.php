@@ -13,15 +13,21 @@ class CommentWasCreated
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $comment;
+    public $submission;
+    public $author;
+    public $parentComment;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($comment)
+    public function __construct($comment, $submission, $author, $parentComment)
     {
         $this->comment = $comment;
+        $this->submission = $submission;
+        $this->author = $author;
+        $this->parentComment = $parentComment;
     }
 
     /**

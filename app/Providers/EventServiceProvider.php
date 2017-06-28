@@ -20,12 +20,12 @@ class EventServiceProvider extends ServiceProvider
         //     'App\Listeners\DestroyedSubmission',
         // ],
 
-        // 'App\Events\CommentWasCreated' => [
-        //     'App\Listeners\NewComment',
-        // ],
-        // 'App\Events\CommentWasDeleted' => [
-        //     'App\Listeners\DestroyedComment',
-        // ],
+        'App\Events\CommentWasCreated' => [
+            'App\Listeners\NewComment',
+        ],
+        'App\Events\CommentWasDeleted' => [
+            'App\Listeners\DestroyedComment',
+        ],
 
         // shouldn't this be UpdatedCategory?!
         // 'App\Events\CategoryWasUpdated' => [
