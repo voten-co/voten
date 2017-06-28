@@ -94,7 +94,6 @@
             this.getComments();
             this.listen();
             this.$eventHub.$on('newComment', this.newComment);
-            this.$eventHub.$on('patchedComment', this.patchedComment);
         },
 
 	    watch: {
@@ -105,7 +104,6 @@
 	            this.listen();
 	            this.updateCategoryStore();
 	            this.$eventHub.$on('newComment', this.newComment);
-	            this.$eventHub.$on('patchedComment', this.patchedComment);
 			}
 		},
 
@@ -195,25 +193,6 @@
 
 				this.comments.unshift(comment);
 				this.submission.comments_number ++;
-            },
-
-            /**
-	    	 * receives the broadcasted comment.
-	    	 *
-	    	 * @return void
-	    	 */
-            patchedComment(comment) {
-            	if (comment.parent_id != 0 || comment.submission_id != this.submission.id) return;
-
-            	let comment_id = comment.id;
-            	function findObject(ob) {
-	                return ob.id === comment_id;
-	            }
-	            let i = this.comments.findIndex(findObject);
-
-	            if (i != -1) {
-	            	this.comments[i].body = comment.body;
-	            }
             },
 
             /**

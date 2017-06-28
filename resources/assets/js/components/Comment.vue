@@ -363,7 +363,7 @@
         	},
 
         	/**
-	    	 * receives the broadcasted comment.
+	    	 * patches the broadcasted comment.
 	    	 *
 	    	 * @return void
 	    	 */
