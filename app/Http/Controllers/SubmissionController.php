@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Events\SubmissionWasCreated;
+use App\Events\SubmissionWasDeleted;
 use App\Filters;
 use App\Photo;
 use App\PhotoTools;
@@ -11,8 +13,6 @@ use App\Traits\CachableCategory;
 use App\Traits\CachableSubmission;
 use App\Traits\CachableUser;
 use App\Traits\Submit;
-use App\Events\SubmissionWasDeleted;
-use App\Events\SubmissionWasCreated;
 use Auth;
 use DB;
 use Embed\Embed;
