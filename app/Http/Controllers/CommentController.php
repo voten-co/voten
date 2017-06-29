@@ -49,6 +49,8 @@ class CommentController extends Controller
             'level'         => $request->parent_id == 0 ? 0 : ($parentComment->level + 1),
             'submission_id' => $submission->id,
             'rate'          => firstRate(),
+            'upvotes'       => 1,
+            'downvotes'     => 0
         ]);
 
         event(new CommentWasCreated($comment, $submission, $author, $parentComment));
