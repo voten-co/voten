@@ -2,8 +2,6 @@
 
 namespace App;
 
-use App\Events\SubmissionWasCreated;
-use App\Events\SubmissionWasDeleted;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Scout\Searchable;

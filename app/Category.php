@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Events\CategoryWasUpdated;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\Model;

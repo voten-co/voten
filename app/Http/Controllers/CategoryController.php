@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Activity;
 use App\Category;
 use App\CategoryForbiddenName;
+use App\Events\CategoryWasUpdated;
 use App\Filters;
 use App\Submission;
 use App\Traits\CachableCategory;
@@ -12,7 +13,6 @@ use App\Traits\CachableUser;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Events\CategoryWasUpdated;
 
 class CategoryController extends Controller
 {
