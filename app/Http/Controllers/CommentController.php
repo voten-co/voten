@@ -154,6 +154,8 @@ class CommentController extends Controller
 
         event(new CommentWasDeleted($comment, $submission));
 
+        $event->comment->forceDelete();
+
         return response('Successfully deleted', 200);
     }
 }

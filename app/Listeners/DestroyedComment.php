@@ -44,7 +44,5 @@ class DestroyedComment
         ]);
 
         $this->putSubmissionInTheCache($event->submission);
-
-        // $event->comment->forceDelete();
     }
 }
