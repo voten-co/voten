@@ -50,7 +50,7 @@ class CommentController extends Controller
             'submission_id' => $submission->id,
             'rate'          => firstRate(),
             'upvotes'       => 1,
-            'downvotes'     => 0
+            'downvotes'     => 0,
         ]);
 
         event(new CommentWasCreated($comment, $submission, $author, $parentComment));
