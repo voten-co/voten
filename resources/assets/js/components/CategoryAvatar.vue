@@ -37,7 +37,7 @@
             },
 
             upload: function (e) {
-                axios.post('/categroy-avatar', this.fileUploadFormData).then((response) => {
+                axios.post('/category-avatar', this.fileUploadFormData).then((response) => {
                     this.avatar = response.data;
                     this.uploading = false;
                 });

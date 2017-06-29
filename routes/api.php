@@ -121,7 +121,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     // Photo uploading
     Route::post('/user-avatar-crop', 'PhotoController@cropUserAvatar');
     Route::post('/upload-temp-avatar', 'PhotoController@uploadTempAvatar');
-    Route::post('/categroy-avatar', 'PhotoController@categoryAvatarAPI');
+    Route::post('/category-avatar', 'PhotoController@categoryAvatarAPI');
     Route::post('/category-avatar-crop', 'PhotoController@cropCategoryAvatar');
 
     // notification
