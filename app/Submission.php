@@ -31,11 +31,6 @@ class Submission extends Model
 
     protected static $recordEvents = ['created'];
 
-    // protected $events = [
-    // 	"created" => SubmissionWasCreated::class,
-    // 	"deleted" => SubmissionWasDeleted::class
-    // ];
-
     /**
      * A submission is owned by a user.
      *

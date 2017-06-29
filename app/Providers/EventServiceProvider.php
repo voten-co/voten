@@ -13,12 +13,12 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        // 'App\Events\SubmissionWasCreated' => [
-        //     'App\Listeners\NewSubmission',
-        // ],
-        // 'App\Events\SubmissionWasDeleted' => [
-        //     'App\Listeners\DestroyedSubmission',
-        // ],
+        'App\Events\SubmissionWasCreated' => [
+            'App\Listeners\NewSubmission',
+        ],
+        'App\Events\SubmissionWasDeleted' => [
+            'App\Listeners\DestroyedSubmission',
+        ],
 
         'App\Events\CommentWasCreated' => [
             'App\Listeners\NewComment',
@@ -30,10 +30,9 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\PatchedComment',
         ],
 
-        // shouldn't this be UpdatedCategory?!
-        // 'App\Events\CategoryWasUpdated' => [
-        //     'App\Listeners\UpdatedComment',
-        // ],
+        'App\Events\CategoryWasUpdated' => [
+            'App\Listeners\UpdatedCategory',
+        ],
 
         'App\Events\ReportWasCreated' => [
             'App\Listeners\NewReport',

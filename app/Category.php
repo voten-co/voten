@@ -15,10 +15,6 @@ class Category extends Model
 
     protected static $recordEvents = ['created'];
 
-    // protected $events = [
-    // 	"updated" => CategoryWasUpdated::class
-    // ];
-
     /**
      * The attributes that should be hidden for arrays.
      *

@@ -12,6 +12,7 @@ use App\Traits\CachableUser;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Events\CategoryWasUpdated;
 
 class CategoryController extends Controller
 {
@@ -235,9 +236,7 @@ class CategoryController extends Controller
             'nsfw'        => ($request->nsfw ? true : false),
         ]);
 
-        // it's better to move this to the CategoryWasUpdated event later
-        $this->putCategoryInTheCache($category);
-        // end
+        event(new CategoryWasUpdated($category));
 
         return response('The channel has been successfully updated', 200);
     }

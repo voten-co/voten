@@ -11,6 +11,8 @@ use App\Traits\CachableCategory;
 use App\Traits\CachableSubmission;
 use App\Traits\CachableUser;
 use App\Traits\Submit;
+use App\Events\SubmissionWasDeleted;
+use App\Events\SubmissionWasCreated;
 use Auth;
 use DB;
 use Embed\Embed;
@@ -150,10 +152,7 @@ class SubmissionController extends Controller
                 'data'          => $data,
             ]);
 
-            // it's better to use the SubmissionWasCreated event later for this
-            $this->updateUserSubmissionsCount($submission->user_id);
-            $this->updateCategorySubmissionsCount($submission->category_id);
-            // end
+            event(new SubmissionWasCreated($submission));
         } catch (\Exception $exception) {
             app('sentry')->captureException($exception);
 
@@ -285,18 +284,7 @@ class SubmissionController extends Controller
 
         abort_unless($this->mustBeOwner($submission), 403);
 
-        // it's better to use the SubmissionWasDeleted event later for this
-        $this->updateUserSubmissionsCount($submission->user_id, -1);
-        $this->updateCategorySubmissionsCount($submission->category_id, -1);
-        $this->removeSubmissionFromCache($submission);
-        \App\Report::where([
-            'reportable_id'   => $submission->id,
-            'reportable_type' => 'App\Submission',
-        ])->forceDelete();
-        if ($submission->type == 'img') {
-            Photo::where('submission_id', $submission->id)->forceDelete();
-        }
-        // end
+        event(new SubmissionWasDeleted($submission));
 
         $submission->forceDelete();
 
