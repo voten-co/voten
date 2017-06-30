@@ -212,7 +212,7 @@ class CategoryController extends Controller
 
         if ($lastCreated) {
             $timeDiff = time() - strtotime($lastCreated->created_at);
-            // 43200 = 12 hours
+
             if ($timeDiff < (60 * 60 * 24 * 3)) {
                 return (60 * 60 * 24 * 3) - $timeDiff;
             }
