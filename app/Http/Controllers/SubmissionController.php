@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\Activity;
 use App\Category;
 use App\Events\SubmissionWasCreated;
 use App\Events\SubmissionWasDeleted;
@@ -69,6 +71,10 @@ class SubmissionController extends Controller
         // first make sure user is allowed to submit to this category. (not banned from it)
         if ($this->isUserBanned($user->id, $request->name)) {
             return response('You have been banned from submitting to #'.$request->name.'. If you think there has been some kind of mistake, please contact the moderators of #'.$request->name.'.', 500);
+        }
+
+        if ($this->tooEarlyToCreate()) {
+            return response("Looks like you're over doing it. You can't submit more than 2 posts per minute.", 500);
         }
 
         if ($request->type == 'link') {
@@ -351,5 +357,27 @@ class SubmissionController extends Controller
         $this->removeSubmissionFromCache($submission);
 
         return response('Text Submission has been updated. ', 200);
+    }
+
+    /**
+     * Whether or the user is breaking the time limit for creating another submission.
+     *
+     * @return mixed
+     */
+    protected function tooEarlyToCreate()
+    {
+        // exclude white-listed users form this checking
+        if ($this->mustBeWhitelisted()) {
+            return false;
+        }
+
+        $submissions_count = Activity::where([
+            ['subject_type', 'App\Submission'],
+            ['user_id', Auth::user()->id],
+            ['name', 'created_submission'],
+            ['created_at', '>=', Carbon::now()->subMinute()],
+        ])->get()->count();
+
+        return $submissions_count >= 2 ? true : false;
     }
 }
