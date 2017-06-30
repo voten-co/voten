@@ -155,7 +155,7 @@ class CategoryController extends Controller
         }
 
         $category = Category::create([
-            'name'        => str_slug($request->name, ''),
+            'name'        => $request->name,
             'description' => $request->description,
             'avatar'      => '/imgs/channel-avatar.png',
         ]);
