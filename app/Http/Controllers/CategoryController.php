@@ -168,11 +168,12 @@ class CategoryController extends Controller
      *
      * @param Illuminate\Support\Collection $user
      * @param Illuminate\Support\Collection $category
+     *
      * @return void
      */
     protected function setInitialUserToCategoryRoles($user, $category)
     {
-    	// subscribes user to category that was just created
+        // subscribes user to category that was just created
         $user->subscriptions()->toggle($category->id);
         $this->updateSubscriptions($user->id, $category->id, true);
 
