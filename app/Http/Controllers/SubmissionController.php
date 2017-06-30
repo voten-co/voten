@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Activity;
 use App\Category;
 use App\Events\SubmissionWasCreated;
@@ -16,6 +15,7 @@ use App\Traits\CachableSubmission;
 use App\Traits\CachableUser;
 use App\Traits\Submit;
 use Auth;
+use Carbon\Carbon;
 use DB;
 use Embed\Embed;
 use Illuminate\Http\Request;
