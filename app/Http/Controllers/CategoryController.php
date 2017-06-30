@@ -138,9 +138,7 @@ class CategoryController extends Controller
             'description' => 'required|min:10|max:250',
         ]);
 
-        $user = Auth::user();
-
-        if ($user->isShadowBanned()) {
+        if (Auth::user()->isShadowBanned()) {
             return response('I hate to break it to you but your account has been banned.', 500);
         }
 
@@ -150,7 +148,7 @@ class CategoryController extends Controller
             return response("Looks like you're over doing it. You can create another channel in ".$tooEarly.' seconds. Thank you for being patient.', 500);
         }
 
-        if ($this->isForbiddenName(str_slug($request->name, ''))) {
+        if ($this->isForbiddenName($request->name)) {
             return response('This name is forbidden. Please pick another one.', 500);
         }
 
@@ -160,7 +158,21 @@ class CategoryController extends Controller
             'avatar'      => '/imgs/channel-avatar.png',
         ]);
 
-        // subscribes user to category that was just created
+        $this->setInitialUserToCategoryRoles(Auth::user(), $category);
+
+        return $category;
+    }
+
+    /**
+     * sets intial subscriptions, roles, etc.
+     *
+     * @param Illuminate\Support\Collection $user
+     * @param Illuminate\Support\Collection $category
+     * @return void
+     */
+    protected function setInitialUserToCategoryRoles($user, $category)
+    {
+    	// subscribes user to category that was just created
         $user->subscriptions()->toggle($category->id);
         $this->updateSubscriptions($user->id, $category->id, true);
 
@@ -168,8 +180,6 @@ class CategoryController extends Controller
         $user->categoryRoles()->attach($category, [
             'role' => 'administrator',
         ]);
-
-        return $category;
     }
 
     /**
@@ -262,9 +272,9 @@ class CategoryController extends Controller
     /**
      * looks for the category by its name.
      *
-     * @param Request $request [name]
+     * @param Illuminate\Http\Request $request
      *
-     * @return [Collection] category
+     * @return Illuminate\Support\Collection
      */
     public function getCategory(Request $request)
     {
