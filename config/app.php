@@ -187,6 +187,7 @@ return [
         // dev only
         VueGenerators\ServiceProvider::class,
         DamianTW\MySQLScout\Providers\MySQLScoutServiceProvider::class,
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
     ],
 
     /*

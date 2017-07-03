@@ -26,8 +26,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('App\Settings', function () {
-            return Auth::user()->settings();
-        });
+        if (! \App::runningInConsole()) {
+            $this->app->singleton('App\Settings', function () {
+                return Auth::user()->settings();
+            });
+        }
     }
 }

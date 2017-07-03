@@ -30,7 +30,9 @@
         "sentry/sentry-laravel": "^0.6.1",
         "jacobbennett/laravel-http2serverpush": "^1.3",
         "laravel/passport": "^2.0",
-        "tamayo/laravel-scout-elastic": "dev-master"
+        "tamayo/laravel-scout-elastic": "dev-master",
+        "barryvdh/laravel-ide-helper": "^2.4",
+        "doctrine/dbal": "^2.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -68,6 +70,8 @@
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
+            "php artisan ide-helper:generate",
+            "php artisan ide-helper:meta",
             "php artisan optimize"
         ]
     },
