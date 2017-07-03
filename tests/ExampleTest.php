@@ -10,7 +10,7 @@ class ExampleTest extends TestCase
      */
     public function testBasicExample()
     {
-        $this->visit('/')
-             ->see('Laravel');
+        $this->get('/about')
+             ->assertSee('Social Bookmarking For The 21st Century');
     }
 }
