@@ -20,6 +20,10 @@
                         </router-link>
 
                         <small v-else><span data-toggle="tooltip" data-placement="bottom" :title="'Created: ' + longDate">{{ date }}</span> - {{ points }} Points</small>
+
+                        <span class="edited" v-if="isEdited">
+                            Edited
+                        </span>
                     </div>
                 </div>
 
@@ -119,6 +123,13 @@
         padding-right: 1em !important;
 	    border-left: 2px dashed #e9e9e9 !important;
     }
+
+    .edited {
+        background: #f4f4f4;
+        font-size: 10px;
+        padding: 4px 4px;
+        border-radius: 2px;
+    }
 </style>
 
 
@@ -178,6 +189,10 @@
 		},
 
         computed: {
+            isEdited() {
+                return this.list.edited_at;
+            },
+
             points() {
                 let total = this.list.upvotes - this.list.downvotes;
 
@@ -220,7 +235,7 @@
 			 * timestamps) we need a different approch to make sure the list is always unique.
 			 * This ugly coded methods does it! Maybe move this to the Helpers.js mixin?!
 			 *
-			 * @return array
+			 * @return object
 			 */
 			uniqueList() {
 				let unique = []
@@ -231,16 +246,14 @@
 						unique.push(element)
 						temp.push(element.id)
 					}
-				})
+				});
 
 				return unique;
 			},
 
             /**
-			 * The current vote type. It's being used to optimize the voing request on the server-side.
-			 *
-			 * @return mixed
-			 */
+             * The current vote type. It's being used to optimize the voting request on the server-side
+             */
 			currentVote () {
 			    if (this.upvoted) {
 			    	return "upvote";
@@ -307,13 +320,13 @@
         	},
 
             edit() {
-                this.editing = !this.editing
+                this.editing = !this.editing;
             },
 
             patchComment(body) {
-                this.editing = false
-
-                this.list.body = body
+                this.editing = false;
+                this.list.body = body;
+                this.list.edited_at = moment().utc().format('YYYY-MM-DD HH:mm:ss');
             },
 
         	/**
@@ -323,16 +336,16 @@
             */
             setVoteds () {
             	if (Store.commentUpVotes.indexOf(this.list.id) != -1) {
-            		this.upvoted = true
-            		return
+            		this.upvoted = true;
+            		return;
             	}
 
             	if (Store.commentDownVotes.indexOf(this.list.id) != -1) {
-            		this.downvoted = true
-            		return
+            		this.downvoted = true;
+            		return;
             	}
 
-            	return
+            	return;
             },
 
         	/**
@@ -378,7 +391,7 @@
              *  Report(and block) comment
              */
             report() {
-        		this.$eventHub.$emit('report-comment', this.list.id)
+        		this.$eventHub.$emit('report-comment', this.list.id);
             },
 
             /**
@@ -390,7 +403,7 @@
             		return;
             	}
 
-        		this.bookmarked = !this.bookmarked
+        		this.bookmarked = !this.bookmarked;
 
 				axios.post('/bookmark-comment', {
 					id: this.list.id,
@@ -427,37 +440,37 @@
             		return;
             	}
 
-				let id = this.list.id
+				let id = this.list.id;
 
 				axios.post('/upvote-comment', {
                     comment_id: id,
                     previous_vote: this.currentVote
-                 })
+                });
 
             	// Have up-voted
             	if (this.upvoted) {
-            		this.upvoted = false
-            		this.list.upvotes --
+            		this.upvoted = false;
+            		this.list.upvotes --;
 
             		var index = Store.commentUpVotes.indexOf(id);
                 	Store.commentUpVotes.splice(index, 1);
 
-            		return
+            		return;
             	}
 
 				// Have down-voted
             	if (this.downvoted) {
-            		this.downvoted = false
-            		this.list.downvotes --
+            		this.downvoted = false;
+            		this.list.downvotes --;
 
             		var index = Store.commentDownVotes.indexOf(id);
                 	Store.commentDownVotes.splice(index, 1);
             	}
 
             	// Not voted
-            	this.upvoted = true
-            	this.list.upvotes ++
-            	Store.commentUpVotes.push(id)
+            	this.upvoted = true;
+            	this.list.upvotes ++;
+            	Store.commentUpVotes.push(id);
             },
 
 
@@ -472,38 +485,38 @@
             		return;
             	}
 
-				let id = this.list.id
+				let id = this.list.id;
 
 				axios.post('/downvote-comment', {
                     comment_id: id,
                     previous_vote: this.currentVote
-                 })
+                });
 
             	// Have down-voted
             	if (this.downvoted) {
-            		this.downvoted = false
-            		this.list.downvotes --
+            		this.downvoted = false;
+            		this.list.downvotes --;
 
             		var index = Store.commentDownVotes.indexOf(id);
                 	Store.commentDownVotes.splice(index, 1);
 
-            		return
+            		return;
             	}
 
 				// Have up-voted
             	if (this.upvoted) {
-            		console.log('yup')
-            		this.upvoted = false
-            		this.list.upvotes --
+            		console.log('yup');
+            		this.upvoted = false;
+            		this.list.upvotes --;
 
             		var index = Store.commentUpVotes.indexOf(id);
                 	Store.commentUpVotes.splice(index, 1);
             	}
 
             	// Not voted
-            	this.downvoted = true
-            	this.list.downvotes ++
-            	Store.commentDownVotes.push(id)
+            	this.downvoted = true;
+            	this.list.downvotes ++;
+            	Store.commentDownVotes.push(id);
             },
 
             /**
@@ -536,7 +549,7 @@
 				axios.post('/approve-comment', {
 				    comment_id: this.list.id
 				}).then((response) => {
-				    this.list.approved_at = moment().utc().format('YYYY-MM-DD HH:mm:ss')
+				    this.list.approved_at = moment().utc().format('YYYY-MM-DD HH:mm:ss');
 				})
 			},
 
@@ -549,7 +562,7 @@
 				axios.post('/disapprove-comment', {
 				    comment_id: this.list.id
 				}).then((response) => {
-					this.visible = false
+					this.visible = false;
 				})
 			},
         }

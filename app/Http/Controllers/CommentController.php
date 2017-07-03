@@ -12,6 +12,7 @@ use App\Traits\CachableSubmission;
 use App\Traits\CachableUser;
 use Auth;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class CommentController extends Controller
 {
@@ -51,6 +52,7 @@ class CommentController extends Controller
             'rate'          => firstRate(),
             'upvotes'       => 1,
             'downvotes'     => 0,
+            'edited_at'     => null,
         ]);
 
         event(new CommentWasCreated($comment, $submission, $author, $parentComment));
@@ -129,7 +131,8 @@ class CommentController extends Controller
         abort_unless($this->mustBeOwner($comment), 403);
 
         $comment->update([
-            'body' => $request->body,
+            'body'      => $request->body,
+            'edited_at' => Carbon::now(),
         ]);
 
         event(new CommentWasPatched($comment));

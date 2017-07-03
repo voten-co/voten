@@ -296,9 +296,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the user settings.
-     *
-     * @return json
+     * @return Settings
      */
     public function settings()
     {
