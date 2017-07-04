@@ -11,8 +11,8 @@ use App\Traits\CachableComment;
 use App\Traits\CachableSubmission;
 use App\Traits\CachableUser;
 use Auth;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
