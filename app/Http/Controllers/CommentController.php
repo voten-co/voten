@@ -67,9 +67,10 @@ class CommentController extends Controller
     }
 
     /**
-     * @param Illuminate\Http\Request $request
+     * Paginates the comments of a submission
      *
-     * @return Illuminate\Support\Collection
+     * @param Request $request
+     * @return mixed
      */
     public function index(Request $request)
     {

@@ -385,6 +385,7 @@
             	if (this.list.id != comment.id) return;
 
             	this.list.body = comment.body;
+                this.list.edited_at = moment().utc().format('YYYY-MM-DD HH:mm:ss');
             },
 
             /**
