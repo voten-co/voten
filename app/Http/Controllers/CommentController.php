@@ -67,9 +67,10 @@ class CommentController extends Controller
     }
 
     /**
-     * Paginates the comments of a submission
+     * Paginates the comments of a submission.
      *
      * @param Request $request
+     *
      * @return mixed
      */
     public function index(Request $request)
