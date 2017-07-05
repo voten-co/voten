@@ -141,6 +141,7 @@ class LoginController extends Controller
                 'nsfw_media'                    => false,
                 'notify_submissions_replied'    => true,
                 'notify_comments_replied'       => true,
+                'notify_mentions'               => true,
                 'exclude_upvoted_submissions'   => false,
                 'exclude_downvoted_submissions' => true,
             ],

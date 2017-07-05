@@ -65,6 +65,7 @@ class UserSettingsController extends Controller
             'sidebar_color'              => 'in:Dark Blue,Blue,Red,Dark,Purple,Green,Gray',
             'notify_submissions_replied' => 'boolean',
             'notify_comments_replied'    => 'boolean',
+            'notify_mentions'            => 'boolean',
             'username'                   => 'min:3|max:25|regex:/^[A-Za-z0-9\._]+$/|unique:users,username,'.$user->id,
         ]);
 
@@ -80,6 +81,7 @@ class UserSettingsController extends Controller
             'nsfw_media'                    => settings('nsfw_media'),
             'notify_submissions_replied'    => $request->notify_submissions_replied,
             'notify_comments_replied'       => $request->notify_comments_replied,
+            'notify_mentions'               => $request->notify_mentions,
             'exclude_upvoted_submissions'   => settings('exclude_upvoted_submissions'),
             'exclude_downvoted_submissions' => settings('exclude_downvoted_submissions'),
             'submission_small_thumbnail'    => settings('submission_small_thumbnail'),
@@ -118,6 +120,7 @@ class UserSettingsController extends Controller
             'nsfw_media'                    => $request->nsfw_media,
             'notify_submissions_replied'    => settings('notify_submissions_replied'),
             'notify_comments_replied'       => settings('notify_comments_replied'),
+            'notify_mentions'               => settings('notify_mentions'),
             'exclude_upvoted_submissions'   => $request->exclude_upvoted_submissions,
             'exclude_downvoted_submissions' => $request->exclude_downvoted_submissions,
         ];

@@ -81,6 +81,7 @@
         sidebar_color: '{{ settings('sidebar_color') }}',
         notify_comments_replied: {{ settings('notify_comments_replied') ? 'true' : 'false' }},
         notify_submissions_replied: {{ settings('notify_submissions_replied') ? 'true' : 'false' }},
+        notify_mentions: {{ settings('notify_mentions') ? 'true' : 'false' }},
         exclude_upvoted_submissions: {{ settings('exclude_upvoted_submissions') ? 'true' : 'false' }},
         exclude_downvoted_submissions: {{ settings('exclude_downvoted_submissions') ? 'true' : 'false' }},
         isMobileDevice: {{ isMobileDevice() ? 'true' : 'false' }},

@@ -54,6 +54,15 @@
             </div>
         </div>
 
+        <div class="form-group ui form">
+            <div class="inline field">
+                <div class="ui toggle checkbox">
+                    <input type="checkbox" tabindex="0" class="hidden" v-model="notify_mentions">
+                    <label>My username gets mentioned</label>
+                </div>
+            </div>
+        </div>
+
         <button class="v-button v-button--green" @click="save" :disabled="sending" v-if="changed">Save</button>
 
         <h3 class="dotted-title go-red">
@@ -121,6 +130,7 @@
 				],
                 notify_submissions_replied: auth.notify_submissions_replied,
                 notify_comments_replied: auth.notify_comments_replied,
+                notify_mentions: auth.notify_mentions,
                 username: auth.username
             }
         },
@@ -142,6 +152,7 @@
 	                auth.sidebar_color != this.sidebar_color ||
 	                auth.font != this.font ||
 	                auth.notify_submissions_replied != this.notify_submissions_replied ||
+	                auth.notify_mentions != this.notify_mentions ||
 	                auth.username != this.username ||
 	                auth.notify_comments_replied != this.notify_comments_replied
 	                ) {
@@ -184,6 +195,7 @@
                     font: this.font,
                     notify_submissions_replied: this.notify_submissions_replied,
                     notify_comments_replied: this.notify_comments_replied,
+                    notify_mentions: this.notify_mentions,
                 }).then((response) => {
 	                this.errors = []
 	                this.customError = ''
@@ -193,6 +205,7 @@
 	                auth.username = this.username
 	                auth.notify_submissions_replied = this.notify_submissions_replied
 	                auth.notify_comments_replied = this.notify_comments_replied
+	                auth.notify_mentions = this.notify_mentions
 
 	                if (refresh) {
 	                	location.reload()
