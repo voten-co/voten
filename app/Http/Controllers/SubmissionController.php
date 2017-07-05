@@ -245,7 +245,8 @@ class SubmissionController extends Controller
     /**
      * Returns the submission (even if it's been soft-deleted).
      *
-     * @return \Illuminate\Http\Request       $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Support\Collection
      */
     public function getById(Request $request)
