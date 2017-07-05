@@ -19,7 +19,7 @@ class BlockDomainController extends Controller
      * Hint: since general bann happens from through backend form (and not via ajax) we check for it.
      * If it isn't via ajax, it means it's been from backend and done by a VotenAdministrator.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return Collection $blockedDomain
      */
@@ -48,9 +48,9 @@ class BlockDomainController extends Controller
     /**
      * Returns all the domains that are blocked for submitting(url type submission) to this category.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function index(Request $request)
     {
@@ -66,7 +66,7 @@ class BlockDomainController extends Controller
     /**
      * Unblock.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return response
      */

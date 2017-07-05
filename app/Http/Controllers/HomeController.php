@@ -17,7 +17,7 @@ class HomeController extends Controller
     /**
      * Displays the home page.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return view
      */
@@ -35,9 +35,9 @@ class HomeController extends Controller
     /**
      * Returns the submissions for the homepage of Auth user.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function feed(Request $request)
     {
@@ -100,9 +100,9 @@ class HomeController extends Controller
     /**
      * returns submisisons from default categories. by time we're gonna improve this.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     protected function guestHome(Request $request)
     {

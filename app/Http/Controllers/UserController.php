@@ -71,7 +71,7 @@ class UserController extends Controller
     /**
      * Returns user's submissions.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return Collections
      */
@@ -92,7 +92,7 @@ class UserController extends Controller
     /**
      * Returns every submission that user has upvoted.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return Collections
      */
@@ -104,7 +104,7 @@ class UserController extends Controller
     /**
      * Returns every submission that user has upvoted.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return Collections
      */
@@ -116,7 +116,7 @@ class UserController extends Controller
     /**
      * retunds a colleciton of user's submitted comments.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return Collection
      */
@@ -137,7 +137,7 @@ class UserController extends Controller
     /**
      * Returns all the nesseccary info to fill userStore in forn-end.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return JSON
      */
@@ -167,7 +167,7 @@ class UserController extends Controller
     /**
      * Destroys a user record (and all its related records) from the database.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return response
      */

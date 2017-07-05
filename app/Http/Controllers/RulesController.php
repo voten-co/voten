@@ -16,7 +16,7 @@ class RulesController extends Controller
     /**
      * indexes all the related records.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
@@ -32,7 +32,7 @@ class RulesController extends Controller
     /**
      * stores a new rule record.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
@@ -63,7 +63,7 @@ class RulesController extends Controller
     /**
      * patches the model.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return response
      */
@@ -87,7 +87,7 @@ class RulesController extends Controller
     /**
      * destroys the rule record.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return response
      */

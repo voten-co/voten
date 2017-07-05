@@ -42,9 +42,9 @@ class ModeratorController extends Controller
     /**
      * Returns a collection of users who are probably about to get banned or become a moderator.
      *
-     * @param Illuminate\Support\Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function getUsers(Request $request)
     {
@@ -71,9 +71,9 @@ class ModeratorController extends Controller
     /**
      * returns cateogry's mods with their role.
      *
-     * @param Illuminate\Support\Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function index(Request $request)
     {
@@ -87,7 +87,7 @@ class ModeratorController extends Controller
     /**
      * Approves the submission so it no longer can be reported.
      *
-     * @param Illuminate\Support\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return response
      */
@@ -120,7 +120,7 @@ class ModeratorController extends Controller
     /**
      * softDeletes the submission so that the owner can see it but it won't be visible in the channel.
      *
-     * @param Illuminate\Support\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return response
      */
@@ -153,7 +153,7 @@ class ModeratorController extends Controller
     /**
      * Approves the comment so it no longer can be reported.
      *
-     * @param Illuminate\Support\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return response
      */
@@ -182,7 +182,7 @@ class ModeratorController extends Controller
     /**
      * softDeletes the comment so that the owner can see it but it won't be visible in the channel.
      *
-     * @param Illuminate\Support\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return response
      */
@@ -211,7 +211,7 @@ class ModeratorController extends Controller
     /**
      * adds a new moderator to the category.
      *
-     * @param Illuminate\Support\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return response
      */

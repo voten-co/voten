@@ -18,7 +18,7 @@ class NsfwController extends Controller
     /**
      * marks the submission model as NSFW (not safe for work).
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return response
      */
@@ -46,7 +46,7 @@ class NsfwController extends Controller
     /**
      * marks the submission model as SFW (safe for work).
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return response
      */

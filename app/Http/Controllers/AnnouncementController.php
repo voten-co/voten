@@ -37,7 +37,7 @@ class AnnouncementController extends Controller
     /**
      * Stores a Announcement record.
      *
-     * @param Illuminate\Support\Request $request
+     * @param \Illuminate\Support\Request $request
      *
      * @return void
      */
@@ -78,9 +78,9 @@ class AnnouncementController extends Controller
     /**
      * Get the annoucnement record.
      *
-     * @param Illuminate\Support\Request $request
+     * @param \Illuminate\Support\Request $request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function get(Request $request)
     {
@@ -98,7 +98,7 @@ class AnnouncementController extends Controller
     /**
      * Marks the announcement as seen.
      *
-     * @param Illuminate\Support\Request $request
+     * @param \Illuminate\Support\Request $request
      *
      * @return response
      */

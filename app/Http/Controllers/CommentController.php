@@ -26,9 +26,9 @@ class CommentController extends Controller
     /**
      * Stores the submitted comment.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Support\Collection $comment
+     * @return \Illuminate\Support\Collection $comment
      */
     public function store(Request $request)
     {
@@ -145,7 +145,7 @@ class CommentController extends Controller
     /**
      * Destroys the comment record from the database.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return response
      */

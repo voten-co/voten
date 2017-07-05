@@ -16,7 +16,7 @@ class UserSettingsController extends Controller
     /**
      * updates user profile info.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return response
      */
@@ -52,7 +52,7 @@ class UserSettingsController extends Controller
     /**
      * updates the account settings.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return response
      */
@@ -96,7 +96,7 @@ class UserSettingsController extends Controller
     /**
      * udates the settings for the home feed.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return response
      */
@@ -142,7 +142,7 @@ class UserSettingsController extends Controller
     /**
      * updates email address.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return response
      */

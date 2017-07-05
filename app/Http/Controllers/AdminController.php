@@ -32,7 +32,7 @@ class AdminController extends Controller
     /**
      * Returns the latest submissions.
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function submissions(Request $request)
     {
@@ -44,7 +44,7 @@ class AdminController extends Controller
     /**
      * Returns the latest submitted comments.
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function comments()
     {
@@ -56,7 +56,7 @@ class AdminController extends Controller
     /**
      * Returns the latest created categories.
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function categories()
     {
@@ -68,7 +68,7 @@ class AdminController extends Controller
     /**
      * Returns the latest registered users.
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function indexUsers()
     {
@@ -80,7 +80,7 @@ class AdminController extends Controller
     /**
      * searches through users by username.
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function searchUsers(Request $request)
     {
@@ -93,9 +93,9 @@ class AdminController extends Controller
     /**
      * Indexes the reported submissions.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function reportedSubmissions(Request $request)
     {
@@ -120,9 +120,9 @@ class AdminController extends Controller
     /**
      * Indexes the reported comments.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function reportedComments(Request $request)
     {
@@ -147,9 +147,9 @@ class AdminController extends Controller
     /**
      * searches the categories.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function getCategories(Request $request)
     {

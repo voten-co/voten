@@ -24,7 +24,7 @@ class PhotoController extends Controller
     /**
      * Uploads photo sent by Dropzone.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return photo_id
      */
@@ -57,9 +57,9 @@ class PhotoController extends Controller
     /**
      * Uploads the photo temporary and sends it for croping. The uplaoded photo is about to get deleted.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function uploadTempAvatar(Request $request)
     {
@@ -73,7 +73,7 @@ class PhotoController extends Controller
     /**
      * Crops the uploaded photo with the sent coordinates and sets it as auth user's avatar.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return string
      */
@@ -106,7 +106,7 @@ class PhotoController extends Controller
     /**
      * Crops the uploaded photo with the sent coordinates and sets it as category's avatar.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return string
      */

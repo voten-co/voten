@@ -26,9 +26,9 @@ class MessagesController extends Controller
     /**
      * Stores the message model.
      *
-     * @param Illuminate\Http\Request
+     * @param \Illuminate\Http\Request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function store(Request $request)
     {
@@ -83,9 +83,9 @@ class MessagesController extends Controller
     }
 
     /**
-     * @param Illuminate\Http\Request
+     * @param \Illuminate\Http\Request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function getMessages(Request $request)
     {
@@ -114,7 +114,7 @@ class MessagesController extends Controller
     /**
      * The reciever has opened the conversation, so let's broadcast "ConversationRead".
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return void
      */
@@ -124,7 +124,7 @@ class MessagesController extends Controller
     }
 
     /**
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return string status
      */
@@ -189,7 +189,7 @@ class MessagesController extends Controller
     /**
      * all the conversations auth user has ever had.
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function getContacts()
     {
@@ -197,9 +197,9 @@ class MessagesController extends Controller
     }
 
     /**
-     * @param Illuminate\Http\Request
+     * @param \Illuminate\Http\Request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function searchContact(Request $request)
     {
@@ -229,7 +229,7 @@ class MessagesController extends Controller
     /**
      * marks a single message as read.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return (string) status
      */

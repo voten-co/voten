@@ -21,7 +21,7 @@ class NotificationsController extends Controller
     /**
      * paginates the last notifications of Auth user.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Support\Collection
      */
