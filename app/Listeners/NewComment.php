@@ -50,6 +50,7 @@ class NewComment
         // busy over nothing.
         if ($this->isUserBanned($event->author->id, $event->submission->category_name)) {
             $event->comment->delete();
+
             return;
         }
 
@@ -66,9 +67,9 @@ class NewComment
     }
 
     /**
-     * Hanldes all the mentions in the comment. (sends notifications to mentioned usernames)
+     * Hanldes all the mentions in the comment. (sends notifications to mentioned usernames).
      *
-     * @param \App\Comment $comment
+     * @param \App\Comment    $comment
      * @param \App\Submission $submission
      */
     protected function handleMentions($comment, $submission)
