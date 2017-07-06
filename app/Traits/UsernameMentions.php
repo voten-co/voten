@@ -2,9 +2,9 @@
 
 namespace App\Traits;
 
-use Auth;
-use App\User;
 use App\Notifications\UsernameMentioned;
+use App\User;
+use Auth;
 
 trait UsernameMentions
 {

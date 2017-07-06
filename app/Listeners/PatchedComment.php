@@ -2,7 +2,6 @@
 
 namespace App\Listeners;
 
-
 use App\Events\CommentWasPatched;
 use App\Traits\UsernameMentions;
 
