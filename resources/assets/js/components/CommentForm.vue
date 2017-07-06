@@ -128,6 +128,13 @@
 
                 // edit
                 if (this.editing) {
+        		    if (this.temp == this.before) {
+                        this.message = this.temp;
+        		        this.loading = false;
+                        this.$emit('patched-comment', this.temp)
+        		        return;
+                    }
+
                     axios.post('/edit-comment', {
                         comment_id: this.id,
                         body: this.temp

@@ -133,6 +133,11 @@ class CommentController extends Controller
 
         abort_unless($this->mustBeOwner($comment), 403);
 
+        // make sure the body has changed
+        if ($request->body == $comment->body) {
+            return response('Comment has not been really edited.', 422);
+        }
+
         $comment->update([
             'body'      => $request->body,
             'edited_at' => Carbon::now(),
