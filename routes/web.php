@@ -1,7 +1,7 @@
 <?php
 
 Route::get('update-users', function () {
-//    return Auth::user()->settings['font'];
+    //    return Auth::user()->settings['font'];
     $users = \App\User::all();
 
     foreach ($users as $user) {
@@ -23,7 +23,7 @@ Route::get('update-users', function () {
         ]);
     }
 
-    return $users->count() . " users have been updated.";
+    return $users->count().' users have been updated.';
 });
 
 Route::group(['middleware' => ['maintenance', 'http2']], function () {
