@@ -120,6 +120,7 @@ class CommentController extends Controller
      * Patches the comment record.
      *
      * @param Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function patch(Request $request)
