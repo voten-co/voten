@@ -31,7 +31,7 @@
 
                         <tr>
 					      	<td>
-					      		_italic_
+					      		__italic__
 					      	</td>
 
 					      	<td>

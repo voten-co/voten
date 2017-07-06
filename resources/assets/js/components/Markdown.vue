@@ -33,7 +33,7 @@
                 // Emoji
                 text = emojione.shortnameToImage(text);
 
-                text = text.replace(/_([^_]*)_/gm, "<i>$1</i>");
+                text = text.replace(/__([^__]*)__/gm, "<i>$1</i>");
 
                 return text;
             }
