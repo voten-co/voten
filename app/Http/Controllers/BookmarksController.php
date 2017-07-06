@@ -25,7 +25,7 @@ class BookmarksController extends Controller
     /**
      * Favorited submissions by Auth user.
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function getBookmarkedSubmissions()
     {
@@ -35,7 +35,7 @@ class BookmarksController extends Controller
     /**
      * Favorited comments by Auth user.
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function getBookmarkedComments()
     {
@@ -45,7 +45,7 @@ class BookmarksController extends Controller
     /**
      * Favorited categories by Auth user.
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function getBookmarkedCategories()
     {
@@ -55,7 +55,7 @@ class BookmarksController extends Controller
     /**
      * Favorited categories by Auth user.
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function getBookmarkedUsers()
     {
@@ -65,7 +65,7 @@ class BookmarksController extends Controller
     /**
      * Favorited submissions by Auth user.
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function bookmarkSubmission(Request $request)
     {

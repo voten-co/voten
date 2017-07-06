@@ -19,7 +19,7 @@ class SubscribeController extends Controller
     /**
      * subscribing/unsubscrbing to categories.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return status
      */
@@ -57,7 +57,7 @@ class SubscribeController extends Controller
     /**
      * whether or not the user is subscribed to the category.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return string
      */

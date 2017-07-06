@@ -17,9 +17,9 @@ class SearchController extends Controller
     /**
      * Searches through the database for the model with containing the keyword.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function index(Request $request)
     {

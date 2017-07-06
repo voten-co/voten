@@ -56,9 +56,9 @@ class SubmissionController extends Controller
      * 1.text, 2.link and 3.img. 4.gif Different actions are required for different
      * types. After storing the submission, redirects to the submission page.
      *
-     * @param Illuminate\Support\Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function store(Request $request)
     {
@@ -182,7 +182,7 @@ class SubmissionController extends Controller
     /**
      * Fetches the title from an external URL.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return string title
      */
@@ -198,7 +198,7 @@ class SubmissionController extends Controller
     /**
      * hides the submission so the user won't see it (=== block).
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return response
      */
@@ -221,9 +221,9 @@ class SubmissionController extends Controller
     /**
      * Returns the submission.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function getBySlug(Request $request)
     {
@@ -245,8 +245,9 @@ class SubmissionController extends Controller
     /**
      * Returns the submission (even if it's been soft-deleted).
      *
-     * @return Illuminate\Http\Request       $request
-     * @return Illuminate\Support\Collection
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Support\Collection
      */
     public function getById(Request $request)
     {
@@ -260,9 +261,9 @@ class SubmissionController extends Controller
     /**
      * Returns all the uploaded photos for a specific submission.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function getPhotos(Request $request)
     {
@@ -276,7 +277,7 @@ class SubmissionController extends Controller
     /**
      * Destroys the submisison record from the database.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return response
      */

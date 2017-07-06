@@ -22,7 +22,7 @@ class SuggestionController extends Controller
     /**
      * Returns the suggested category.
      *
-     * @return Illuminate\Support\Collection $category
+     * @return \Illuminate\Support\Collection $category
      */
     public function category()
     {
@@ -40,9 +40,9 @@ class SuggestionController extends Controller
     /**
      * Returnes a collection of suggested categories for the auth user.
      *
-     * @param Illuminate\Support\Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function findCategories(Request $request)
     {
@@ -52,9 +52,9 @@ class SuggestionController extends Controller
     /**
      * stores a new suggested category record.
      *
-     * @param Illuminate\Support\Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function store(Request $request)
     {
@@ -83,7 +83,7 @@ class SuggestionController extends Controller
     /**
      * indexes all the models for admin panel.
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function adminIndex()
     {

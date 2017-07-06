@@ -14,7 +14,7 @@ class BanController extends Controller
     /**
      * Stores a App\Ban record.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return response
      */
@@ -74,9 +74,9 @@ class BanController extends Controller
     /**
      * Returns all the users that are banned from submitting to targeted category.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function index(Request $request)
     {
@@ -105,7 +105,7 @@ class BanController extends Controller
     /**
      * Unban.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return response
      */

@@ -33,7 +33,7 @@ class CategoryController extends Controller
      *
      * @param string $category
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     protected function getSubmissions($category, $sort)
     {
@@ -70,9 +70,9 @@ class CategoryController extends Controller
     /**
      * Get submissions API with ajax calls.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function submissions(Request $request)
     {
@@ -127,7 +127,7 @@ class CategoryController extends Controller
     /**
      * Creates a new category.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return string $name
      */
@@ -225,7 +225,7 @@ class CategoryController extends Controller
     /**
      * Patches the category model with recently send info.
      *
-     * @param Illuminate\Support\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return response
      */
@@ -255,9 +255,9 @@ class CategoryController extends Controller
     /**
      * Searches categories. Mostly used for submiting new submissions.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function getCategories(Request $request)
     {
@@ -273,9 +273,9 @@ class CategoryController extends Controller
     /**
      * looks for the category by its name.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function getCategory(Request $request)
     {
@@ -287,7 +287,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * @param App\Category $category
+     * @param \App\Category $category
      *
      * @return bool
      */
@@ -299,9 +299,9 @@ class CategoryController extends Controller
     /**
      * returns all the user models moderating the category.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function moderators(Request $request)
     {

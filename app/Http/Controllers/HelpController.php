@@ -20,7 +20,7 @@ class HelpController extends Controller
     /**
      * index the help models.
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function index()
     {
@@ -30,9 +30,9 @@ class HelpController extends Controller
     /**
      * Creates the Help model with submitted info.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function store(Request $request)
     {
@@ -56,9 +56,9 @@ class HelpController extends Controller
     /**
      * Patches the Help model.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function patch(Request $request)
     {
@@ -83,7 +83,7 @@ class HelpController extends Controller
     /**
      * Destroys the Help item.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return response
      */

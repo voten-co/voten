@@ -22,7 +22,7 @@ class ReportsController extends Controller
     /**
      * Stores a new report for a submission.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return response
      */
@@ -53,7 +53,7 @@ class ReportsController extends Controller
     /**
      * Stores a new report for a comment.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return response
      */
@@ -84,9 +84,9 @@ class ReportsController extends Controller
     /**
      * Indexes the reported submissions.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function reportedSubmissions(Request $request)
     {
@@ -116,9 +116,9 @@ class ReportsController extends Controller
     /**
      * Indexes the reported comments.
      *
-     * @param Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection
      */
     public function reportedComments(Request $request)
     {
