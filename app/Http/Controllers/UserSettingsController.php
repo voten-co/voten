@@ -127,7 +127,7 @@ class UserSettingsController extends Controller
 
         $user->update([
             'settings' => $settings,
-         ]);
+        ]);
 
         return response('Your settings has been updated', 200);
     }

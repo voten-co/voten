@@ -1,5 +1,31 @@
 <?php
 
+Route::get('update-users', function () {
+//    return Auth::user()->settings['font'];
+    $users = \App\User::all();
+
+    foreach ($users as $user) {
+        $settings = [
+            'font'                          => $user->settings['font'] ?? 'Lato',
+            'sidebar_color'                 => $user->settings['sidebar_color'] ?? 'Gray',
+            'nsfw'                          => $user->settings['nsfw'] ?? false,
+            'nsfw_media'                    => $user->settings['nsfw_media'] ?? false,
+            'notify_submissions_replied'    => $user->settings['notify_submissions_replied'] ?? true,
+            'notify_comments_replied'       => $user->settings['notify_comments_replied'] ?? true,
+            'notify_mentions'               => $user->settings['notify_mentions'] ?? true,
+            'exclude_upvoted_submissions'   => $user->settings['exclude_upvoted_submissions'] ?? false,
+            'exclude_downvoted_submissions' => $user->settings['exclude_downvoted_submissions'] ?? true,
+            'submission_small_thumbnail'    => true,
+        ];
+
+        $user->update([
+            'settings' => $settings,
+        ]);
+    }
+
+    return $users->count() . " users have been updated.";
+});
+
 Route::group(['middleware' => ['maintenance', 'http2']], function () {
     Route::auth();
     Route::get('/logout', 'Auth\LoginController@logout');

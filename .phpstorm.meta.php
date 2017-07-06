@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2017-07-03.
+    * Generated on 2017-07-05.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -142,7 +142,6 @@ namespace PHPSTORM_META {
         'translation.loader' => Illuminate\Translation\FileLoader::class,
         'translator' => Illuminate\Translation\Translator::class,
         'validation.presence' => Illuminate\Validation\DatabasePresenceVerifier::class,
-        'command.tinker' => Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => Laravel\Socialite\SocialiteManager::class,
         'command.ide-helper.generate' => Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
@@ -282,7 +281,6 @@ namespace PHPSTORM_META {
         'translation.loader' => Illuminate\Translation\FileLoader::class,
         'translator' => Illuminate\Translation\Translator::class,
         'validation.presence' => Illuminate\Validation\DatabasePresenceVerifier::class,
-        'command.tinker' => Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => Laravel\Socialite\SocialiteManager::class,
         'command.ide-helper.generate' => Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
@@ -422,7 +420,6 @@ namespace PHPSTORM_META {
         'translation.loader' => Illuminate\Translation\FileLoader::class,
         'translator' => Illuminate\Translation\Translator::class,
         'validation.presence' => Illuminate\Validation\DatabasePresenceVerifier::class,
-        'command.tinker' => Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => Laravel\Socialite\SocialiteManager::class,
         'command.ide-helper.generate' => Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
@@ -562,7 +559,6 @@ namespace PHPSTORM_META {
         'translation.loader' => Illuminate\Translation\FileLoader::class,
         'translator' => Illuminate\Translation\Translator::class,
         'validation.presence' => Illuminate\Validation\DatabasePresenceVerifier::class,
-        'command.tinker' => Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => Laravel\Socialite\SocialiteManager::class,
         'command.ide-helper.generate' => Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
@@ -702,7 +698,6 @@ namespace PHPSTORM_META {
         'translation.loader' => Illuminate\Translation\FileLoader::class,
         'translator' => Illuminate\Translation\Translator::class,
         'validation.presence' => Illuminate\Validation\DatabasePresenceVerifier::class,
-        'command.tinker' => Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => Laravel\Socialite\SocialiteManager::class,
         'command.ide-helper.generate' => Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
@@ -842,7 +837,6 @@ namespace PHPSTORM_META {
         'translation.loader' => Illuminate\Translation\FileLoader::class,
         'translator' => Illuminate\Translation\Translator::class,
         'validation.presence' => Illuminate\Validation\DatabasePresenceVerifier::class,
-        'command.tinker' => Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => Laravel\Socialite\SocialiteManager::class,
         'command.ide-helper.generate' => Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
@@ -982,7 +976,6 @@ namespace PHPSTORM_META {
         'translation.loader' => Illuminate\Translation\FileLoader::class,
         'translator' => Illuminate\Translation\Translator::class,
         'validation.presence' => Illuminate\Validation\DatabasePresenceVerifier::class,
-        'command.tinker' => Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => Laravel\Socialite\SocialiteManager::class,
         'command.ide-helper.generate' => Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,

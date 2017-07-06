@@ -21,7 +21,6 @@
         "zachleigh/laravel-vue-generators": "^0.1.1",
         "guzzlehttp/guzzle": "^6.2",
         "predis/predis": "^1.1",
-        "laravel/tinker": "^1.0",
         "damiantw/laravel-scout-mysql-driver": "^1.0",
         "pbmedia/laravel-ffmpeg": "^1.1",
         "laravel/socialite": "^3.0",
@@ -32,7 +31,8 @@
         "laravel/passport": "^2.0",
         "tamayo/laravel-scout-elastic": "dev-master",
         "barryvdh/laravel-ide-helper": "^2.4",
-        "doctrine/dbal": "^2.5"
+        "doctrine/dbal": "^2.5",
+        "laravel/tinker": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
