@@ -2,10 +2,14 @@
 
 namespace App\Listeners;
 
+
 use App\Events\CommentWasPatched;
+use App\Traits\UsernameMentions;
 
 class PatchedComment
 {
+    use UsernameMentions;
+
     /**
      * Create the event listener.
      *
@@ -25,6 +29,6 @@ class PatchedComment
      */
     public function handle(CommentWasPatched $event)
     {
-        //
+        $this->handleMentions($event->comment, $event->submission);
     }
 }

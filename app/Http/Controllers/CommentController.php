@@ -117,9 +117,10 @@ class CommentController extends Controller
     }
 
     /**
-     * patches the comment model.
+     * Patches the comment record.
      *
-     * @return response
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function patch(Request $request)
     {
@@ -137,7 +138,7 @@ class CommentController extends Controller
             'edited_at' => Carbon::now(),
         ]);
 
-        event(new CommentWasPatched($comment));
+        event(new CommentWasPatched($comment, $comment->submission));
 
         return response('comment edited successfully', 200);
     }
