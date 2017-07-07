@@ -161,14 +161,14 @@
         computed: {
         	goodToGo() {
                 if (this.submissionType == "link") {
-                    return (this.fTitle.trim().length > 7 && this.selectedCat && this.submitURL && !this.loading)
+                    return (this.fTitle.trim().length > 0 && this.selectedCat && this.submitURL && !this.loading)
                 }
 
                 if (this.submissionType == "img") {
-                    return (this.fTitle.trim().length > 7 && this.selectedCat && this.photos.length && !this.loading)
+                    return (this.fTitle.trim().length > 0 && this.selectedCat && this.photos.length && !this.loading)
                 }
 
-                return (this.fTitle.trim().length > 7 && this.selectedCat && !this.loading)
+                return (this.fTitle.trim().length > 0 && this.selectedCat && !this.loading)
         	}
         },
 

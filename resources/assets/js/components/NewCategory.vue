@@ -11,7 +11,10 @@
         <div class="form-group">
             <input type="text" class="form-control v-input-big" placeholder="Name..." id="name" v-model="name">
 
-            <small class="text-muted" v-if="!name">Name must be lowercase, with no spaces. They're also not editable so make up your mind before choosing! Examples: gaming, news, pics, modernwarfare2</small>
+            <small class="text-muted" v-if="!name">
+                Names must be alpha-numeric, with no spaces. They're also not editable so make up your mind before continue!
+                Examples: gaming, news, OldSchoolCool, modernWarfare2
+            </small>
             <small class="text-muted go-red" v-for="e in errors.name">{{ e }}</small>
         </div>
 
