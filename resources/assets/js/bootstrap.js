@@ -26,7 +26,8 @@ axios.interceptors.response.use(function (response) {
  */
 import Echo from "laravel-echo";
 
-if (Laravel.env == 'local') {
+// if (Laravel.env == 'local') {
+if (Laravel.env == 'production') {
 	window.Echo = new Echo({
 	    broadcaster: 'pusher',
 	    key: '690c67d5d78d1c7ace97',
