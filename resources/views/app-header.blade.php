@@ -70,36 +70,38 @@
 
 	                <div class="ui divider"></div>
 
-					<div class="header" v-if="Store.moderatingCategories.length">Moderating Channels</div>
-					<router-link :to="'/c/' + item.name" class="item" v-for="(item, index) in Store.moderatingCategories"
-					:key="item.id" v-if="Store.moderatingCategories.length && index < 6">
-						<img class="square" :src="item.avatar" :alt="item.name">
-						@{{ item.name }}
-					</router-link>
-					<div class="ui divider" v-if="Store.moderatingCategories.length && Store.moderatingCategories.length < 6"></div>
+					@if(!isMobileDevice())
+						<div class="header" v-if="Store.moderatingCategories.length">Moderating Channels</div>
+						<router-link :to="'/c/' + item.name" class="item" v-for="(item, index) in Store.moderatingCategories"
+									 :key="item.id" v-if="Store.moderatingCategories.length && index < 6">
+							<img class="square" :src="item.avatar" :alt="item.name">
+							@{{ item.name }}
+						</router-link>
+						<div class="ui divider" v-if="Store.moderatingCategories.length && Store.moderatingCategories.length < 6"></div>
 
-					<div class="item" v-if="Store.moderatingCategories.length && Store.moderatingCategories.length > 6">
-						<i class="v-icon v-more"></i>
-						<span class="text">More</span>
-						<div class="left menu">
-							<router-link :to="'/c/' + item.name" class="item" v-for="(item, index) in Store.moderatingCategories"
-							:key="item.id" v-if="index > 6">
-								<img class="square" :src="item.avatar" :alt="item.name">
-								@{{ item.name }}
-							</router-link>
+						<div class="item" v-if="Store.moderatingCategories.length && Store.moderatingCategories.length > 6">
+							<i class="v-icon v-more"></i>
+							<span class="text">More</span>
+							<div class="left menu">
+								<router-link :to="'/c/' + item.name" class="item" v-for="(item, index) in Store.moderatingCategories"
+											 :key="item.id" v-if="index > 6">
+									<img class="square" :src="item.avatar" :alt="item.name">
+									@{{ item.name }}
+								</router-link>
+							</div>
 						</div>
-					</div>
 
-	                @if( Auth::user()->isVotenAdministrator() )
-		                <div class="header">Voten Administrators</div>
+						@if( Auth::user()->isVotenAdministrator() )
+							<div class="header">Voten Administrators</div>
 
-		                <router-link :to="'/big-daddy'" class="item">
-		                    <i class="v-icon v-linux" aria-hidden="true"></i>
-		                    Big Daddy
-		                </router-link>
+							<router-link :to="'/big-daddy'" class="item">
+								<i class="v-icon v-linux" aria-hidden="true"></i>
+								Big Daddy
+							</router-link>
 
-		                <div class="ui divider"></div>
-	                @endif
+							<div class="ui divider"></div>
+						@endif
+					@endif
 
 	    			<router-link :to="'/find-channels'" class="item">
 	                    <i class="v-icon v-book go-primary" aria-hidden="true"></i>
