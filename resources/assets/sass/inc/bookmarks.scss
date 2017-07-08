@@ -37,11 +37,18 @@
     margin: 0;
     display: flex;
     align-items: center;
+    color: #595959;
 }
 
 .bookmarked-item .avatar {
     flex-basis: 65px;
     margin-right: 2em;
+}
+@media screen and (max-width: 768px) {
+  .bookmarked-item .avatar {
+    flex-basis: 48px;
+    margin-right: 1em;
+  }
 }
 
 .bookmarked-item img {

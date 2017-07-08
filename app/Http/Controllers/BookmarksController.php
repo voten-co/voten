@@ -29,7 +29,7 @@ class BookmarksController extends Controller
      */
     public function getBookmarkedSubmissions()
     {
-        return Auth::user()->bookmarkedSubmissions()->simplePaginate(10);
+        return Auth::user()->bookmarkedSubmissions()->simplePaginate(20);
     }
 
     /**
@@ -39,7 +39,7 @@ class BookmarksController extends Controller
      */
     public function getBookmarkedComments()
     {
-        return $this->withoutChildren(Auth::user()->bookmarkedComments()->simplePaginate(10));
+        return $this->withoutChildren(Auth::user()->bookmarkedComments()->simplePaginate(20));
     }
 
     /**
@@ -49,7 +49,7 @@ class BookmarksController extends Controller
      */
     public function getBookmarkedCategories()
     {
-        return Auth::user()->bookmarkedCategories()->simplePaginate(10);
+        return Auth::user()->bookmarkedCategories()->simplePaginate(20);
     }
 
     /**
@@ -59,7 +59,7 @@ class BookmarksController extends Controller
      */
     public function getBookmarkedUsers()
     {
-        return Auth::user()->bookmarkedUsers()->simplePaginate(10);
+        return Auth::user()->bookmarkedUsers()->simplePaginate(20);
     }
 
     /**

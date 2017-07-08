@@ -65,11 +65,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/bookmark-user', 'BookmarksController@bookmarkUser');
     Route::post('/bookmark-comment', 'BookmarksController@bookmarkComment');
     Route::post('/bookmark-category', 'BookmarksController@bookmarkCategory');
-    Route::post('/bookmarked-users', 'BookmarksController@getBookmarkedUsers');
+    Route::get('/bookmarked-users', 'BookmarksController@getBookmarkedUsers');
     Route::post('/bookmark-submission', 'BookmarksController@bookmarkSubmission');
-    Route::post('/bookmarked-comments', 'BookmarksController@getBookmarkedComments');
-    Route::post('/bookmarked-categories', 'BookmarksController@getBookmarkedCategories');
-    Route::post('/bookmarked-submissions', 'BookmarksController@getBookmarkedSubmissions');
+    Route::get('/bookmarked-comments', 'BookmarksController@getBookmarkedComments');
+    Route::get('/bookmarked-categories', 'BookmarksController@getBookmarkedCategories');
+    Route::get('/bookmarked-submissions', 'BookmarksController@getBookmarkedSubmissions');
 
     // Comment
     Route::post('/comment', 'CommentController@store');
@@ -80,6 +80,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/channel', 'CategoryController@store');
     Route::post('/category-patch', 'CategoryController@patch');
     Route::get('/get-categories', 'CategoryController@getCategories');
+    Route::get('/subscribed-categories', 'SubscribeController@index');
 
     // rule
     Route::post('/create-rule', 'RulesController@store');

@@ -64,8 +64,10 @@
 				this.page ++
            		this.loading = true
 
-            	axios.post('/bookmarked-submissions', {
-                	page: this.page
+            	axios.get('/bookmarked-submissions', {
+                	params: {
+                        page: this.page
+					}
             	}).then((response) => {
 					this.submissions = [...this.submissions, ...response.data.data]
 

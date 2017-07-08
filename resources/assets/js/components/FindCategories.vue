@@ -26,8 +26,11 @@
 			</transition>
 		</div>
 
-		<find-categories-item v-for="(value, index) in items" :key="value.id"
-		:list="value.category" @subscribed="subscribed(index)"></find-categories-item>
+		<!--<find-categories-item v-for="(value, index) in items" :key="value.id"-->
+		<!--:list="value.category" @subscribed="subscribed(index)"></find-categories-item>-->
+
+		<bookmarked-category v-for="(value, index) in items" :key="value.id"
+			 :list="value.category" @subscribed="subscribed(index)"></bookmarked-category>
 
 		<no-content v-if="noContent" :text="'We are out of new #channels to suggest. Please keep calm and come back later'"></no-content>
 
@@ -37,13 +40,14 @@
 
 
 <script>
-    import FindCategoriesItem from '../components/FindCategoriesItem.vue'
-    import NoContent from '../components/NoContent.vue'
-	import NoMoreItems from '../components/NoMoreItems.vue'
+//    import FindCategoriesItem from '../components/FindCategoriesItem.vue';
+    import BookmarkedCategory from '../components/BookmarkedCategory.vue';
+    import NoContent from '../components/NoContent.vue';
+	import NoMoreItems from '../components/NoMoreItems.vue';
 
     export default {
         components: {
-        	FindCategoriesItem,
+            BookmarkedCategory,
 			NoContent,
 			NoMoreItems
     	},

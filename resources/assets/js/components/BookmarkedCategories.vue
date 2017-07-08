@@ -11,10 +11,10 @@
 </template>
 
 <script>
-    import Loading from '../components/Loading.vue'
-    import BookmarkedCategory from '../components/BookmarkedCategory.vue'
-	import NoMoreItems from '../components/NoMoreItems.vue'
-    import NoContent from '../components/NoContent.vue'
+    import Loading from '../components/Loading.vue';
+    import BookmarkedCategory from '../components/BookmarkedCategory.vue';
+	import NoMoreItems from '../components/NoMoreItems.vue';
+    import NoContent from '../components/NoContent.vue';
 
     export default {
         components: {
@@ -64,8 +64,10 @@
 				this.page ++
            		this.loading = true
 
-            	axios.post('/bookmarked-categories', {
-            		page: this.page
+            	axios.get('/bookmarked-categories', {
+            		params: {
+                        page: this.page
+					}
             	}).then((response) => {
 					this.categories = [...this.categories, ...response.data.data]
 

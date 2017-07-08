@@ -56,12 +56,16 @@
 	                    Bookmarks
 	                </router-link>
 
+					<router-link :to="{ path: '/subscribed-channels' }" class="item">
+	                    Subscribed Channels
+	                </router-link>
+
 	    			<router-link :to="'{{ '/@' . Auth::user()->username }}/settings'" class="item">
 	                    Settings
 	                </router-link>
 
 					<router-link :to="'/channel'" class="item">
-	                    New Channel
+	                    Create a new Channel
 	                </router-link>
 
 	                <div class="ui divider"></div>

@@ -70,8 +70,10 @@
 				this.loading = true
 				this.page ++
 
-            	axios.post('/bookmarked-comments', {
-            		page: this.page
+            	axios.get('/bookmarked-comments', {
+            		params: {
+                        page: this.page
+					}
             	}).then((response) => {
 					this.comments = [...this.comments, ...response.data.data]
 

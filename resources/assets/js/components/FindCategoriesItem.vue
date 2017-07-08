@@ -9,7 +9,7 @@
 		<div class="flex1">
 			<h2>
 				<router-link :to="'/c/' + list.name">
-					<i class="v-icon v-channel" aria-hidden="true"></i>{{ list.name }}
+					{{ list.name }}
 				</router-link>
 			</h2>
 
@@ -19,7 +19,9 @@
 		</div>
 
 		<div class="action">
-			<button class="v-button v-button--green" @click="subscribe">Subscribe</button>
+			<button class="v-button v-button--green" @click="subscribe">
+				Subscribe
+			</button>
 		</div>
 	</section>
 </template>

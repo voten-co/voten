@@ -5,7 +5,7 @@ require('./bootstrap')
  * We might wanna refactor this to use Vuex instead, but untill this moment I don't see why!!!
  * The store gets filled by main vue-instance's ajax call at first load of the application.
  *
- * @type {Object}
+ * @type object
  */
 window.Store = {
     category: [],
@@ -28,6 +28,7 @@ window.Store = {
     moderatorAt: [],
     administratorAt: [],
     moderatingAt: [], // contains both moderator and administrator
+    subscribedAt: [],
 
     notifications: [],
     contacts: [],
@@ -41,4 +42,4 @@ window.Store = {
     loading: true,
 }
 
-require('./vue-codes')
+require('./vue-codes');

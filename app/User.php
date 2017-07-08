@@ -98,7 +98,9 @@ class User extends Authenticatable
 
     public function subscriptions()
     {
-        return $this->belongsToMany(Category::class, 'subscriptions');
+        return $this->belongsToMany(Category::class, 'subscriptions')
+                    ->withTimestamps()
+                    ->orderBy('subscriptions.created_at', 'desc');
     }
 
     /* --------------------------------------------------------------------- */

@@ -43,6 +43,7 @@ import AdminPanelReportedSubmissions from './components/AdminPanelReportedSubmis
 import ModeratorPanelReportedComments from './components/ModeratorPanelReportedComments.vue';
 import UserSettingsEditEmailAndPassword from './components/UserSettingsEditEmailAndPassword.vue';
 import ModeratorPanelReportedSubmissions from './components/ModeratorPanelReportedSubmissions.vue';
+import SubscribedCategories from './components/SubscribedCategories.vue';
 
 
 
@@ -56,6 +57,7 @@ const routes = [
     { path: '/help', component: Help, meta: { title: 'Help Center' } },
 
     { path: '/channel', component: NewCategory, meta: { title: 'New #Channel' } },
+    { path: '/subscribed-channels', component: SubscribedCategories, meta: { title: 'My Subscriptions' } },
     { path: '/submit', component: Submit, meta: { title: 'Submit' } },
     { path: '/big-daddy', redirect: '/big-daddy/reports/submissions' },
     {

@@ -16,6 +16,11 @@ class SubscribeController extends Controller
         $this->middleware('auth');
     }
 
+    public function index()
+    {
+        return Auth::user()->subscriptions()->simplePaginate(20);
+    }
+
     /**
      * subscribing/unsubscrbing to categories.
      *

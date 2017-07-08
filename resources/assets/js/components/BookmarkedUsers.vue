@@ -64,8 +64,10 @@
 				this.loading = true
 				this.page ++
 
-            	axios.post('/bookmarked-users', {
-            		page: this.page
+            	axios.get('/bookmarked-users', {
+            		params: {
+                        page: this.page
+					}
             	}).then((response) => {
 					this.users = [...this.users, ...response.data.data]
 

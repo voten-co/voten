@@ -4,7 +4,6 @@
 
 <script>
 export default {
-
     data: function () {
         return {
             subscribed: false,
@@ -26,45 +25,50 @@ export default {
     },
 
     computed: {
-    	activeClass () {
+    	activeClass() {
     		if (this.subscribed) {
-    			return 'v-button v-button--red'
+    			return 'v-button v-button--red';
     		}
 
     		if (!this.subscribed) {
-    			return 'v-button v-button--green'
+    			return 'v-button v-button--green';
     		}
     	},
 
     	content () {
-    		if ( ! this.subscribed ) {
-    			return 'Subscribe'
+    		if (!this.subscribed) {
+    			return 'Subscribe';
     		}
 
-    		return 'Unsubscribe'
+    		return 'Unsubscribe';
     	}
     },
 
     methods: {
-        subscribe: function () {
-            this.subscribed = ! this.subscribed
+        /**
+         * Subscribes to the category.
+         *
+         * @return void
+         */
+        subscribe() {
+            this.subscribed = !this.subscribed;
 
-            if ( this.subscribed ) {
-            	Store.subscribedCategories.push(Store.category)
+            if (this.subscribed) {
+            	Store.subscribedCategories.push(Store.category);
 
-            	Store.category.stats.subscribersCount ++
+            	Store.category.stats.subscribersCount ++;
             } else {
-            	Store.category.stats.subscribersCount --
+            	Store.category.stats.subscribersCount --;
 
-            	let removeItem = Store.category.id
+            	let removeItem = Store.category.id;
 				Store.subscribedCategories = Store.subscribedCategories.filter(function (category) {
-				  	return category.id != removeItem
-				})
+				  	return category.id != removeItem;
+				});
             }
 
             axios.post('/subscribe', {
             	category_id: Store.category.id
-            })
+            });
         }
     }
 }
