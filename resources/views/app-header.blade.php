@@ -42,29 +42,25 @@
         </div>
 
 		@if(Auth::check())
-	        <div class="ui icon top right pointing dropdown pull-right">
+	        <div class="ui icon top right green pointing dropdown pull-right">
 	            <img src="{{Auth::user()->avatar}}" alt="{{Auth::user()->username}}" class="header-avatar">
 
 	            <div class="menu">
 	                <div class="header">My Voten</div>
 
 					<router-link :to="'/submit'" class="item">
-	                    <i class="v-icon v-submit" aria-hidden="true"></i>
 	                    Submit
 	                </router-link>
 
 	                <router-link :to="{ path: '/bookmarks' }" class="item">
-	                    <i class="v-icon v-unbookmark go-yellow" aria-hidden="true"></i>
 	                    Bookmarks
 	                </router-link>
 
 	    			<router-link :to="'{{ '/@' . Auth::user()->username }}/settings'" class="item">
-	                    <i class="v-icon v-tools go-primary" aria-hidden="true"></i>
 	                    Settings
 	                </router-link>
 
 					<router-link :to="'/channel'" class="item">
-	                    <i class="v-icon v-hash go-green" aria-hidden="true"></i>
 	                    New Channel
 	                </router-link>
 
@@ -90,37 +86,38 @@
 								</router-link>
 							</div>
 						</div>
+						<div class="ui divider" v-if="Store.moderatingCategories.length && Store.moderatingCategories.length > 6"></div>
 
 						@if( Auth::user()->isVotenAdministrator() )
 							<div class="header">Voten Administrators</div>
 
 							<router-link :to="'/big-daddy'" class="item">
-								<i class="v-icon v-linux" aria-hidden="true"></i>
 								Big Daddy
 							</router-link>
+
+							<a href="/backend" class="item">
+								Backend
+							</a>
 
 							<div class="ui divider"></div>
 						@endif
 					@endif
 
 	    			<router-link :to="'/find-channels'" class="item">
-	                    <i class="v-icon v-book go-primary" aria-hidden="true"></i>
-	                    Find #Channels
+	                    Find Channels
 	                </router-link>
 
 	                <a class="item desktop-only" @click="changeModalRoute('keyboard-shortcuts-guide')">
-	                	<i class="v-icon v-keyboard" aria-hidden="true"></i>
 	                    Keyboard Shortcuts
 	                </a>
 
 	                <router-link :to="'/help'" class="item">
-	                    <i class="v-icon v-help go-red" aria-hidden="true"></i>
 	                    Help
 	                </router-link>
 
 					<div class="item">
-						<i class="v-icon v-left-hand"></i>
 						<span class="text">Voten</span>
+
 						<div class="left menu green">
 							<a href="/about" class="item">
 			                    About
@@ -157,7 +154,6 @@
 					</div>
 
 	                <a href="/logout" class="item">
-	                    <i class="v-icon v-logout go-green" aria-hidden="true"></i>
 	                    Logout
 	                </a>
 	            </div>
