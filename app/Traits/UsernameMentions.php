@@ -9,7 +9,7 @@ use Auth;
 trait UsernameMentions
 {
     /**
-     * Hanldes all the mentions in the comment. (sends notifications to mentioned usernames).
+     * Handles all the mentions in the comment. (sends notifications to mentioned usernames).
      *
      * @param \App\Comment    $comment
      * @param \App\Submission $submission
