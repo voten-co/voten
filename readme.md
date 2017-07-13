@@ -22,7 +22,7 @@ Voten is a Laravel application that runs on the following software:
 - Git 2.8.4+
 - [Pusher](https://pusher.com/)
 
-To install all the required stack on a server, we recommend an auto-installation service such as [Codepier](https://codepier.io/).
+To install all the required stack on a server, we recommend an auto-installation service such as [CodePier](https://codepier.io/?ref=voten).
 
 ## Installation Steps
 
