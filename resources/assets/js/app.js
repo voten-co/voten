@@ -31,6 +31,7 @@ window.Store = {
     subscribedAt: [],
 
     notifications: [],
+    messages: [],
     contacts: [],
 
     contentRouter: 'content',

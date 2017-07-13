@@ -176,6 +176,22 @@ export default {
             }
 
             Store.notifications = Vue.ls.get('notifications');
+        },
+
+        updateMessages() {
+            if (Store.messages.length == Vue.ls.get('messages').length) {
+                return;
+            }
+
+            Store.messages = Vue.ls.get('messages');
+        },
+
+        updateContacts() {
+            if (Store.contacts.length == Vue.ls.get('contacts').length) {
+                return;
+            }
+
+            Store.contacts = Vue.ls.get('contacts');
         }
     },
 
@@ -200,6 +216,8 @@ export default {
         Vue.ls.on('administratorAt', this.updateModeratingCategoriesRecords);
         Vue.ls.on('moderatorAt', this.updateModeratingCategoriesRecords);
         Vue.ls.on('notifications', this.updateNotifications);
+        Vue.ls.on('messages', this.updateMessages);
+        Vue.ls.on('contacts', this.updateContacts);
     },
 
     watch: {
@@ -265,6 +283,14 @@ export default {
 
         'Store.notifications' () {
             Vue.ls.set('notifications', Store.notifications, 60 * 60 * 1000);
+        },
+
+        'Store.messages' () {
+            Vue.ls.set('messages', Store.messages, 60 * 60 * 1000);
+        },
+
+        'Store.contacts' () {
+            Vue.ls.set('contacts', Store.contacts, 60 * 60 * 1000);
         },
     },
 };

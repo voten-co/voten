@@ -107,8 +107,8 @@
 		        	</button>
 				</div>
 
-	            <message v-for="(value, index) in messages" :list="value" :key="value.id" :chatting="pageRoute == 'chat'"
-				:previous="messages[index-1]" :selected="selectedMessages.indexOf(value.id) != -1" @select-message="selectMessage"
+	            <message v-for="(value, index) in Store.messages" :list="value" :key="value.id" :chatting="pageRoute == 'chat'"
+				:previous="Store.messages[index-1]" :selected="selectedMessages.indexOf(value.id) != -1" @select-message="selectMessage"
 				@last-was-read="markLastMessageAsRead(currentContactId)"></message>
 
 	            <div class="new-message-notify user-select" v-show="newMessagesNotifier" @click="downToNewMessages">
@@ -165,7 +165,6 @@ export default {
         	filter: '',
 	        searchedUsers: [],
 			emojiPicker: false,
-	        messages: [],
 	        selectedMessages: [],
 	        pageRoute: 'contacts',
 	        currentContact: [],
@@ -192,7 +191,7 @@ export default {
 		'Store.contentRouter': function () {
 			if (Store.contentRouter == 'messages' && this.pageRoute == 'chat') {
 				// cuase otherwise user has clicked on MessageButton (and there is no existing conversation)
-				if (this.messages.length) {
+				if (Store.messages.length) {
 					this.broadcastAsRead()
 					this.markLastMessageAsRead(this.currentContactId)
 				}
@@ -310,10 +309,10 @@ export default {
     	 */
     	deleteMessages () {
     		for (var i = 0; i < this.selectedMessages.length; i++) {
-			    for (var j = 0; j < this.messages.length; j++) {
-			    	if (this.messages[j].id == this.selectedMessages[i]) {
-			    		var index = this.messages.indexOf(this.messages[j])
-    					this.messages.splice(index, 1)
+			    for (var j = 0; j < Store.messages.length; j++) {
+			    	if (Store.messages[j].id == this.selectedMessages[i]) {
+			    		var index = Store.messages.indexOf(Store.messages[j])
+                        Store.messages.splice(index, 1)
 			    	}
 				}
 			}
@@ -389,7 +388,7 @@ export default {
         	this.focused = true
         	this.pageRoute = 'chat'
         	this.page = 1
-    		this.messages = []
+    		Store.messages = []
 			this.loadingMessages = true
     		this.currentContactId = contact_id
 
@@ -401,7 +400,7 @@ export default {
             } ).then((response) => {
 				this.loadingMessages = false
 
-	            this.messages = response.data.data.reverse()
+                Store.messages = response.data.data.reverse()
 				this.chatScroll()
 
 				this.moreToLoad = true
@@ -410,7 +409,7 @@ export default {
 					this.moreToLoad = false
 				}
 
-				if(this.messages.length){
+				if(Store.messages.length){
 					this.markLastMessageAsRead(contact_id)
 				}
             }).catch((error) => {
@@ -435,7 +434,7 @@ export default {
                 	page: this.page,
         		}
             }).then((response) => {
-            	this.messages.unshift(...response.data.data.reverse())
+                Store.messages.unshift(...response.data.data.reverse())
 
 				this.loadingMessages = false
 
@@ -472,7 +471,7 @@ export default {
 
 		/**
     	 * Listens for the new messages. When receives one adds it to the
-    	 * this.messages array, in case it's not for the current chat, stores
+    	 * Store.messages array, in case it's not for the current chat, stores
     	 * it for the contact and then fires necceccary events to notify user.
     	 *
     	 * @return void
@@ -489,7 +488,7 @@ export default {
 						} else {
 							this.newMessagesNotifier ++
 						}
-		        		this.messages.push(e.message)
+                        Store.messages.push(e.message)
 					}
 
 					// Sending web notifications to user's OS(if website is not active)
@@ -587,7 +586,7 @@ export default {
 
 			let data = { text: msgText.trim() };
 
-			this.messages.push({
+            Store.messages.push({
 				data,
 				owner: auth,
 				user_id: auth.id,
@@ -603,7 +602,7 @@ export default {
 			}).then((response) => {
 				this.updateMessage(response.data.id, response.data.data)
 
-				if (this.messages.length == 1) {
+				if (Store.messages.length == 1) {
             		this.turnUserToContact(this.currentContactId, response.data)
 				} else {
 					this.updateLastMessage(this.currentContactId, response.data)
@@ -640,7 +639,7 @@ export default {
                 return ob.data.text === data.text
             }
 
-            this.messages.find(findObject).id = id;
+            Store.messages.find(findObject).id = id;
 		},
 
     	/**
@@ -652,7 +651,7 @@ export default {
     	markConversationAsRead (contactId) {
     		if (this.currentContactId != contactId) return
 
-			this.messages.forEach( function(element, index) {
+            Store.messages.forEach( function(element, index) {
 				if (element.owner.id == auth.id) {
 					element.read_at = moment().utc().format('YYYY-MM-DD HH:mm:ss')
 				}
@@ -677,7 +676,7 @@ export default {
                 return ob.id === messageId
             }
 
-            this.messages.find(findObject).read_at = moment().utc().format('YYYY-MM-DD HH:mm:ss');
+            Store.messages.find(findObject).read_at = moment().utc().format('YYYY-MM-DD HH:mm:ss');
 		}
     },
 }
