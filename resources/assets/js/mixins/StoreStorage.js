@@ -7,7 +7,7 @@ export default {
          * @return void
          */
         preloadStore() {
-            Store.subscribedCategories = Vue.ls.get('subscribedCategories');
+            Store.subscribedCategories = Vue.ls.get('subscribedCategories', []);
         },
 
         /**
