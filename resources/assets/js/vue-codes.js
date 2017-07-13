@@ -45,7 +45,7 @@ Vue.prototype.$eventHub = new Vue();
  */
 import VueLocalStorage from 'vue-ls';
 const localStorageConfig = {
-    namespace: 'voten__'
+    namespace: auth.username + '__voten__'
 };
 Vue.use(VueLocalStorage, localStorageConfig);
 

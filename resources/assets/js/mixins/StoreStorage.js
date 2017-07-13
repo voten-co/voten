@@ -1,6 +1,16 @@
 export default {
     methods: {
         /**
+         * Preloads few Store data using the HTML5 local storage. This'll get more updates in the future.
+         * Let's begin by preloading sidebar categories.
+         *
+         * @return void
+         */
+        preloadStore() {
+            Store.subscribedCategories = Vue.ls.get('subscribedCategories');
+        },
+
+        /**
          * Filles the Store
          *
          * @return void
@@ -14,6 +24,11 @@ export default {
    			} else {
    				Store.sidebarFilter = 'subscribed-channels';
    			}
+
+   			// preLoad few Store values. This is used to avoid need for loading. Sure it might be fast enough now,
+            // but it's not instant! This makes it instant. Also, we need to make sure the preloaded data is
+            // fresh, and that's why we're still doing the ajax request to update it. Performance baby!
+   			this.preloadStore();
 
             axios.get('/fill-basic-store', {
             	params: {
