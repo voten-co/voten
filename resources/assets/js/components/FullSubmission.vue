@@ -177,27 +177,31 @@
         },
 
         created () {
-        	this.setBookmarked()
-        	this.setVoteds()
-			this.$eventHub.$on('photo-viewer', this.showPhotoViewer)
-			this.$eventHub.$on('scape', this.closeViwer)
+        	this.setBookmarked();
+        	this.setVoteds();
+			this.$eventHub.$on('photo-viewer', this.showPhotoViewer);
+			this.$eventHub.$on('scape', this.closeViwer);
         },
 
-	    watch: {
-			// call again the method if the route changes
-			'$route' () {
-	        	this.setBookmarked()
-	        	this.setVoteds()
-			},
+        watch: {
+            // call again the method if the route changes
+            '$route' () {
+                this.setBookmarked();
+                this.setVoteds();
+            },
 
-			'Store.submissionUpVotes' () {
-				this.setVoteds()
-			},
+            'Store.submissionUpVotes' () {
+                this.setVoteds();
+            },
 
-			'Store.submissionDownVotes' () {
-				this.setVoteds()
-			}
-		},
+            'Store.submissionDownVotes' () {
+                this.setVoteds();
+            },
+
+            'Store.submissionBookmarks' () {
+                this.setBookmarked();
+            },
+        },
 
 		mounted () {
 			this.$nextTick(function () {
@@ -267,19 +271,17 @@
 			 * @return mixed
 			 */
 			currentVote () {
-			    if (this.upvoted) {
-			    	return "upvote"
-			    }
+			    if (this.upvoted)
+                    return "upvote";
 
-				if (this.downvoted) {
-					return "downvote"
-				}
+				if (this.downvoted)
+					return "downvote";
 
 				return null;
 			},
 
             date () {
-                return moment(this.list.created_at).utc(moment().format("Z")).fromNow()
+                return moment(this.list.created_at).utc(moment().format("Z")).fromNow();
             },
         },
 
@@ -299,12 +301,12 @@
         	 * @return
         	 */
 			removeThumbnail() {
-				this.list.data.thumbnail = null
-				this.list.data.img = null
+				this.list.data.thumbnail = null;
+				this.list.data.img = null;
 
 				axios.post('/remove-thumbnail', {
 				    id: this.list.id
-				})
+				});
 			},
 
 			/**
@@ -316,7 +318,7 @@
 			     axios.post('/mark-submission-nsfw', {
 			         id: this.list.id
 			     }).then((response) => {
-			         this.list.nsfw = true
+			         this.list.nsfw = true;
 			     })
 			},
 
@@ -329,7 +331,7 @@
 				axios.post('/mark-submission-sfw', {
 					id: this.list.id
 				}).then((response) => {
-					this.list.nsfw = false
+					this.list.nsfw = false;
 				})
 			},
 
@@ -340,27 +342,38 @@
              */
             setVoteds () {
             	if (Store.submissionUpVotes.indexOf(this.list.id) != -1) {
-            		this.upvoted = true
-            		return
+            		this.upvoted = true;
+            		this.downvoted = false;
+            		return;
             	}
 
             	if (Store.submissionDownVotes.indexOf(this.list.id) != -1) {
-            		this.downvoted = true
-            		return
+            		this.downvoted = true;
+            		this.upvoted = false;
+            		return;
             	}
 
-            	return
+                this.downvoted = false;
+                this.upvoted = false;
             },
 
         	/**
-             *  Whether or not user has bookmarked the submission
+             * Whether or not user has bookmarked the submission
              *
-             *  @return Boolean
+             * @return void
              */
-            setBookmarked () { if ( Store.submissionBookmarks.indexOf(this.list.id) != -1 ) this.bookmarked = true },
+            setBookmarked () {
+                if (Store.submissionBookmarks.indexOf(this.list.id) != -1) {
+                    this.bookmarked = true;
+				} else {
+                    this.bookmarked = false;
+                }
+			},
 
         	/**
-             *  Toggles the submission into bookmarks
+             * Toggles the submission into bookmarks
+			 *
+			 * @return void
              */
         	bookmark (submission) {
         		if (this.isGuest) {
@@ -373,13 +386,14 @@
 				axios.post('/bookmark-submission', {
 					id: this.list.id
 				}).then((response) => {
-					if (Store.submissionBookmarks.indexOf(this.list.id) != -1){
-	                	var index = Store.submissionBookmarks.indexOf(this.list.id)
-	                	Store.submissionBookmarks.splice(index, 1)
+					if (Store.submissionBookmarks.indexOf(this.list.id) != -1) {
+	                	var index = Store.submissionBookmarks.indexOf(this.list.id);
+	                	Store.submissionBookmarks.splice(index, 1);
 
-	                	return
+	                	return;
 	                }
-					Store.submissionBookmarks.push(this.list.id)
+
+					Store.submissionBookmarks.push(this.list.id);
 				})
         	},
 

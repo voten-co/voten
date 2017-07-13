@@ -69,19 +69,19 @@
              * @return array
              */
             uniqueList() {
-                let unique = []
-                let temp = []
+                let unique = [];
+                let temp = [];
 
                 if(Store.notifications) {
                     Store.notifications.forEach(function(element, index, self) {
                         if (temp.indexOf(element.id) === -1) {
-                            unique.push(element)
-                            temp.push(element.id)
+                            unique.push(element);
+                            temp.push(element.id);
                         }
                     })
                 }
 
-                return unique
+                return unique;
             }
         },
 
@@ -92,37 +92,37 @@
         	 *
         	 * @return void
         	 */
-        	close () {
+        	close() {
         		this.$eventHub.$emit('close')
         	},
 
             /**
              * Loads all the unread notifications of the Auth user.
              *
-             * @return {json object}
+             * @return void
              */
-            getNotifications: function(){
+            getNotifications() {
                 axios.get('/notifications').then((response) => {
-                    Store.notifications = response.data
-                    this.loadMoreButton = true
+                    Store.notifications = response.data;
+                    this.loadMoreButton = true;
                 })
             },
 
             /**
              * loads read notifications of the Auth user.
              *
-             * @return {json object}
+             * @return void
              */
-            loadReadNotifications: function(){
+            loadReadNotifications() {
                 this.loadMoreButton = false
 
                 axios.post('/all-notifications', { page: this.page }).then((response) => {
-                    Store.notifications.push(...response.data.data)
+                    Store.notifications.push(...response.data.data);
 
-                    this.page ++
+                    this.page ++;
 
-                    if( response.data.next_page_url ){
-                        this.loadMoreButton = true
+                    if(response.data.next_page_url) {
+                        this.loadMoreButton = true;
                     }
                 })
             },

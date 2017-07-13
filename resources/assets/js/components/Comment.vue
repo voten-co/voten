@@ -179,13 +179,22 @@
 		},
 
 		watch: {
-			'Store.commentUpVotes' () {
-				this.setVoteds()
-			},
+            '$route' () {
+                this.setBookmarked();
+                this.setVoteds();
+            },
 
-			'Store.commentDownVotes' () {
-				this.setVoteds()
-			}
+            'Store.commentUpVotes' () {
+                this.setVoteds();
+            },
+
+            'Store.commentDownVotes' () {
+                this.setVoteds();
+            },
+
+            'Store.commentBookmarks' () {
+                this.setBookmarked();
+            },
 		},
 
         computed: {
@@ -330,33 +339,38 @@
             },
 
         	/**
-            *  whether or not the user has voted on comment
-            *
-            *  @return void
-            */
+             * whether or not the user has voted on comment
+             *
+             * @return void
+             */
             setVoteds () {
             	if (Store.commentUpVotes.indexOf(this.list.id) != -1) {
             		this.upvoted = true;
+            		this.downvoted = false;
             		return;
             	}
 
             	if (Store.commentDownVotes.indexOf(this.list.id) != -1) {
             		this.downvoted = true;
+            		this.upvoted = false;
             		return;
             	}
 
-            	return;
+                this.downvoted = false;
+                this.upvoted = false;
             },
 
         	/**
-             *  whether or not user has bookmarked the comment
+             * whether or not user has bookmarked the comment
              *
-             *  @return void
+             * @return void
              */
             setBookmarked() {
             	if(Store.commentBookmarks.indexOf(this.list.id) != -1) {
             		this.bookmarked = true;
-            	}
+            	} else {
+                    this.bookmarked = false;
+                }
             },
 
         	newComment(comment) {
@@ -506,7 +520,6 @@
 
 				// Have up-voted
             	if (this.upvoted) {
-            		console.log('yup');
             		this.upvoted = false;
             		this.list.upvotes --;
 

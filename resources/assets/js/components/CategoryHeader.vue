@@ -142,13 +142,23 @@ export default {
     },
 
     created () {
-    	this.setBookmarked()
+    	this.setBookmarked();
+    },
+
+    watch: {
+        '$route' () {
+            this.setBookmarked();
+        },
+
+        'Store.categoryBookmarks' () {
+            this.setBookmarked();
+        },
     },
 
 	mounted () {
 		this.$nextTick(function () {
-        	this.$root.loadSemanticTooltip()
-        	this.$root.loadSemanticDropdown()
+        	this.$root.loadSemanticTooltip();
+        	this.$root.loadSemanticDropdown();
 		})
 	},
 
@@ -189,14 +199,22 @@ export default {
 		},
 
     	/**
-         *  Whether or not user has bookmarked the submission
+         * Whether or not user has bookmarked the submission
          *
-         *  @return Boolean
+         * @return void
          */
-        setBookmarked () { if ( Store.categoryBookmarks.indexOf(Store.category.id) != -1 ) this.bookmarked = true },
+        setBookmarked() {
+            if (Store.categoryBookmarks.indexOf(Store.category.id) != -1) {
+                this.bookmarked = true;
+			} else {
+                this.bookmarked = false;
+			}
+		},
 
         /**
          *  Toggles the category into bookmarks
+		 *
+		 *  @return void
          */
     	bookmark (category) {
     		if (this.isGuest) {

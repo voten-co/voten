@@ -1,5 +1,5 @@
 <template>
-    <button :class="activeClass" @click="subscribe" v-html="content" v-if="loaded"></button>
+    <button :class="activeClass" @click="subscribe" v-html="content"></button>
 </template>
 
 <script>
@@ -7,21 +7,12 @@ export default {
     data: function () {
         return {
             subscribed: false,
-            loaded: false,
             Store
         }
     },
 
     created: function () {
-        axios.get('/is-subscribed', {
-        	params: {
-        		category_id: Store.category.id
-        	}
-        }).then((response) => {
-            this.subscribed = response.data;
-
-            this.loaded = true;
-        });
+        this.setSubscribed();
     },
 
     computed: {
@@ -44,7 +35,27 @@ export default {
     	}
     },
 
+    watch: {
+        // if the route changes, call again the method
+        'Store.subscribedAt' () {
+            this.setSubscribed();
+        },
+    },
+
     methods: {
+        /**
+         * Whether or not user has subscribed to the category
+         *
+         * @return void
+         */
+        setSubscribed() {
+            if (Store.subscribedAt.indexOf(Store.category.id) != -1) {
+                this.subscribed = true;
+            } else {
+                this.subscribed = false;
+            }
+        },
+
         /**
          * Subscribes to the category.
          *
@@ -55,6 +66,7 @@ export default {
 
             if (this.subscribed) {
             	Store.subscribedCategories.push(Store.category);
+                Store.subscribedAt.push(Store.category.id);
 
             	Store.category.stats.subscribersCount ++;
             } else {
@@ -64,6 +76,9 @@ export default {
 				Store.subscribedCategories = Store.subscribedCategories.filter(function (category) {
 				  	return category.id != removeItem;
 				});
+
+                let index = Store.subscribedAt.indexOf(Store.category.id);
+                Store.subscribedAt.splice(index, 1);
             }
 
             axios.post('/subscribe', {

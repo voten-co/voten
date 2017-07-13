@@ -60,6 +60,10 @@
 	                    Subscribed Channels
 	                </router-link>
 
+					<router-link :to="'/find-channels'" class="item">
+						Find Channels
+					</router-link>
+
 	    			<router-link :to="'{{ '/@' . Auth::user()->username }}/settings'" class="item">
 	                    Settings
 	                </router-link>
@@ -106,10 +110,6 @@
 							<div class="ui divider"></div>
 						@endif
 					@endif
-
-	    			<router-link :to="'/find-channels'" class="item">
-	                    Find Channels
-	                </router-link>
 
 	                <a class="item desktop-only" @click="changeModalRoute('keyboard-shortcuts-guide')">
 	                    Keyboard Shortcuts

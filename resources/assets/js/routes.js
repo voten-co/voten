@@ -111,7 +111,6 @@ const routes = [
     {
         path: '/c/:name',
         component: Category,
-        name: 'category',
         children: [
         	{ path: '', component: CategorySubmissions, name: 'category-submissions' },
             {

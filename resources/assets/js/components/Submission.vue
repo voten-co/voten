@@ -114,19 +114,22 @@
         },
 
 	    watch: {
-			// call again the method if the route changes
 			'$route' () {
 	        	this.setBookmarked();
 	        	this.setVoteds();
 			},
 
 			'Store.submissionUpVotes' () {
-				this.setVoteds()
+				this.setVoteds();
 			},
 
 			'Store.submissionDownVotes' () {
-				this.setVoteds()
-			}
+				this.setVoteds();
+			},
+
+			'Store.submissionBookmarks' () {
+				this.setBookmarked();
+			},
 		},
 
 		mounted () {
@@ -258,33 +261,44 @@
 			},
 
         	/**
-            * whether or not the user has voted on submission
-            *
-            * @return void
-            */
+             * whether or not the user has voted on submission
+             *
+             * @return void
+             */
             setVoteds () {
-            	if (Store.submissionUpVotes.indexOf(this.list.id) != -1) {
-            		this.upvoted = true
-            		return
-            	}
+                if (Store.submissionUpVotes.indexOf(this.list.id) != -1) {
+                    this.upvoted = true;
+                    this.downvoted = false;
+                    return;
+                }
 
-            	if (Store.submissionDownVotes.indexOf(this.list.id) != -1) {
-            		this.downvoted = true
-            		return
-            	}
+                if (Store.submissionDownVotes.indexOf(this.list.id) != -1) {
+                    this.downvoted = true;
+                    this.upvoted = false;
+                    return;
+                }
 
-            	return
+                this.downvoted = false;
+                this.upvoted = false;
             },
 
         	/**
-             *  Whether or not user has bookmarked the submission
+             * Whether or not user has bookmarked the submission
              *
-             *  @return Boolean
+             * @return void
              */
-            setBookmarked () { if ( Store.submissionBookmarks.indexOf(this.list.id) != -1 ) this.bookmarked = true },
+            setBookmarked() {
+                if (Store.submissionBookmarks.indexOf(this.list.id) != -1) {
+                    this.bookmarked = true;
+				} else {
+                    this.bookmarked = false;
+				}
+			},
 
         	/**
-             *  Toggles the submission into bookmarks
+             * Toggles the submission into bookmarks
+			 *
+			 * @return void
              */
         	bookmark (submission) {
         		if (this.isGuest) {
@@ -297,24 +311,25 @@
 				axios.post('/bookmark-submission', {
 					id: this.list.id
 				}).then((response) => {
-					if (Store.submissionBookmarks.indexOf(this.list.id) != -1){
-	                	var index = Store.submissionBookmarks.indexOf(this.list.id)
-	                	Store.submissionBookmarks.splice(index, 1)
+                    if (Store.submissionBookmarks.indexOf(this.list.id) != -1) {
+                        var index = Store.submissionBookmarks.indexOf(this.list.id);
+                        Store.submissionBookmarks.splice(index, 1);
 
-	                	return
-	                }
-					Store.submissionBookmarks.push(this.list.id)
+                        return;
+                    }
+
+                    Store.submissionBookmarks.push(this.list.id);
 				})
         	},
 
             /**
-             *  hide(block) submission
+             * hide(block) submission
              *
-             *  @return void
+             * @return void
              */
             hide () {
-                this.hidden = true
-                axios.post('/hide-submission', { submission_id: this.list.id })
+                this.hidden = true;
+                axios.post('/hide-submission', { submission_id: this.list.id });
             },
 
             /**
@@ -325,9 +340,9 @@
             destroy () {
                 axios.post('/destroy-submission', { id: this.list.id })
                 if (this.full) {
-                    this.$router.push('/')
+                    this.$router.push('/');
                 } else {
-                	this.hidden = true
+                	this.hidden = true;
                 }
             },
 

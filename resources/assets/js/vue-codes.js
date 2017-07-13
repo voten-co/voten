@@ -41,6 +41,17 @@ Vue.prototype.$eventHub = new Vue();
 
 
 /**
+ * A great wrapper for using LocalStorage which we take advantage of a looot!
+ */
+import VueLocalStorage from 'vue-ls';
+const localStorageConfig = {
+    namespace: 'voten__'
+};
+Vue.use(VueLocalStorage, localStorageConfig);
+
+
+
+/**
  * The very serious and important vue instance!!! This is what gives power to voten's
  * front-end. Try to love it, maintain it, appriciate it and maybe even more! This
  * also plays a role in switching states and maintaining the Store.
@@ -85,17 +96,17 @@ const app = new Vue({
     },
 
     computed: {
-        smallModal () {
+        smallModal() {
             return !(this.modalRouter == '')
         },
 
-        unreadNotifications () {
+        unreadNotifications() {
             return Store.notifications.filter(function(item) {
                 return item.read_at == null
             }).length
         },
 
-        unreadMessages () {
+        unreadMessages() {
             return Store.contacts.filter(function(item) {
                 return item.last_message.owner.id != auth.id && item.last_message.read_at == null
             }).length
@@ -108,7 +119,7 @@ const app = new Vue({
         '$route' () {
             this.closeModals()
 
-            if(auth.isMobileDevice) {
+            if (auth.isMobileDevice) {
             	this.sidebar = false
             }
 

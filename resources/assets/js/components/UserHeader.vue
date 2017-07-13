@@ -155,6 +155,16 @@ export default {
     	this.setBookmarked()
     },
 
+    watch: {
+        '$route' () {
+            this.setBookmarked();
+        },
+
+        'Store.userBookmarks' () {
+            this.setBookmarked();
+        },
+    },
+
 	mounted () {
 		this.$nextTick(function () {
         	this.$root.loadSemanticTooltip()
@@ -179,18 +189,22 @@ export default {
 		},
 
     	/**
-         *  Whether or not user has bookmarked the submission
+         * Whether or not user has bookmarked the submission
          *
-         *  @return Boolean
+         * @return void
          */
         setBookmarked () {
-        	if ( Store.userBookmarks.indexOf(Store.user.id) != -1 ) {
-	        	this.bookmarked = true
-	        }
+        	if (Store.userBookmarks.indexOf(Store.user.id) != -1) {
+	        	this.bookmarked = true;
+	        } else {
+                this.bookmarked = false;
+			}
 	    },
 
         /**
-         *  Toggles the category into bookmarks
+         * Toggles the category into bookmarks
+		 *
+		 * @return void
          */
     	bookmark (user)
     	{

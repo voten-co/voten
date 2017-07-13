@@ -72,9 +72,9 @@
             /**
              * Has the user just registered?
              *
-             * @return Boolean
+             * @return boolean
              */
-            isNewbie () {
+            isNewbie() {
                 return this.$route.query.newbie == 1;
             },
         },
@@ -82,8 +82,10 @@
         methods: {
 	    	/**
              * Whether or not user has bookmarked the category
+			 *
+			 * @return void
              */
-            setBookmarked () {
+            setBookmarked() {
                 if (Store.categoryBookmarks.indexOf(this.list.id) != -1) {
                     this.bookmarked = true;
 				}
@@ -91,10 +93,14 @@
 
 			/**
              * Whether or not user has subscribed to the category
+			 *
+			 * @return void
              */
             setSubscribed() {
                 if (Store.subscribedAt.indexOf(this.list.id) != -1) {
                     this.subscribed = true;
+				} else {
+                    this.subscribed = false;
 				}
 			},
 
@@ -109,7 +115,7 @@
 				axios.post('/bookmark-category', {
 					id: this.list.id
 				}).then((response) => {
-					if (Store.categoryBookmarks.indexOf(this.list.id) != -1){
+					if (Store.categoryBookmarks.indexOf(this.list.id) != -1) {
 	                	let index = Store.categoryBookmarks.indexOf(this.list.id);
 	                	Store.categoryBookmarks.splice(index, 1);
 
