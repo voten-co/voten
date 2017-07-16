@@ -29,14 +29,14 @@ import Echo from "laravel-echo";
 if (Laravel.env == 'local') {
 	window.Echo = new Echo({
 	    broadcaster: 'pusher',
-	    key: '690c67d5d78d1c7ace97',
-	    cluster: 'eu'
+	    key: Laravel.pusherKey,
+	    cluster: Laravel.pusherCluster
 	});
 } else if (Laravel.env == 'production') {
     window.Echo = new Echo({
         broadcaster: 'pusher',
-        key: '2cfb27244d192e42010b',
-        cluster: 'eu'
+        key: Laravel.pusherKey,
+        cluster: Laravel.pusherCluster
     });
 } else {
 	window.Echo = new Echo({
