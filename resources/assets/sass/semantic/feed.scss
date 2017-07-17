@@ -8,7 +8,6 @@
  *
  */
 
-
 /*******************************
          Activity Feed
 *******************************/
@@ -23,11 +22,9 @@
   margin-bottom: 0em;
 }
 
-
 /*******************************
             Content
 *******************************/
-
 
 /* Event */
 .ui.feed > .event {
@@ -38,8 +35,8 @@
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
   -webkit-flex-direction: row;
-      -ms-flex-direction: row;
-          flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
   width: 100%;
   padding: 0.21428571rem 0em;
   margin: 0em;
@@ -59,13 +56,13 @@
   display: block;
   -webkit-box-flex: 0;
   -webkit-flex: 0 0 auto;
-      -ms-flex: 0 0 auto;
-          flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
   width: 2.5em;
   height: auto;
   -webkit-align-self: stretch;
-      -ms-flex-item-align: stretch;
-          align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
   text-align: left;
 }
 .ui.feed > .event > .label .icon {
@@ -91,17 +88,16 @@
      Content
 ---------------*/
 
-
 /* Content */
 .ui.feed > .event > .content {
   display: block;
   -webkit-box-flex: 1;
   -webkit-flex: 1 1 auto;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
   -webkit-align-self: stretch;
-      -ms-flex-item-align: stretch;
-          align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
   text-align: left;
   word-wrap: break-word;
 }
@@ -168,7 +164,6 @@
 /*--------------
    Inline Date
 ---------------*/
-
 
 /* Date inside Summary */
 .ui.feed > .event > .content .summary > .date {
@@ -243,10 +238,10 @@
   transition: 0.2s color ease;
 }
 .ui.feed > .event > .content .meta .like:hover .icon {
-  color: #FF2733;
+  color: #ff2733;
 }
 .ui.feed > .event > .content .meta .active.like .icon {
-  color: #EF404A;
+  color: #ef404a;
 }
 
 /* First element */
@@ -272,7 +267,6 @@
   color: rgba(0, 0, 0, 0.95);
 }
 
-
 /*******************************
             Variations
 *******************************/
@@ -287,14 +281,10 @@
   font-size: 1.14285714rem;
 }
 
-
 /*******************************
          Theme Overrides
 *******************************/
 
-
-
 /*******************************
     User Variable Overrides
 *******************************/
-
