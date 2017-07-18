@@ -64,7 +64,7 @@ trait Filters
         $myContacts = Auth::user()->myContactIds();
 
         return $collection->filter(function ($value, $key) use ($myContacts) {
-            return !$myContacts->contains($value->id);
+            return !$myContacts->contains($value->id) && Auth::user()->id != $value->id;
         });
     }
 

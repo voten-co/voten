@@ -208,7 +208,6 @@ class MessagesController extends Controller
         ]);
 
         return $this->UsersFilter($this->noAlreadyContact(User::search($request->filter)
-                    ->where('username', '!=', Auth::user()->username)
                     ->take(30)->get()));
     }
 
