@@ -43,6 +43,44 @@ class BackendController extends Controller
     }
 
     /**
+     * Shows categories
+     *
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
+    public function showCategories(Request $request)
+    {
+        abort_unless($this->mustBeVotenAdministrator(), 403);
+
+        if ($request->has('filter')) {
+            $categories = Category::search($request->filter)->take(20)->get();
+        } else {
+            $categories = Category::orderBy('id', 'desc')->paginate(30);
+        }
+
+        return view('backend.categories', compact('categories'));
+    }
+
+    /**
+     * Shows users
+     *
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
+    public function showUsers(Request $request)
+    {
+        abort_unless($this->mustBeVotenAdministrator(), 403);
+
+        if ($request->has('filter')) {
+            $users = User::search($request->filter)->take(20)->get();
+        } else {
+            $users = User::orderBy('id', 'desc')->paginate(30);
+        }
+
+        return view('backend.users', compact('users'));
+    }
+
+    /**
      * shows the dashboard which currently displays site's statistics.
      *
      * @return view

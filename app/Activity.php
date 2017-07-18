@@ -9,4 +9,14 @@ class Activity extends Model
     protected $fillable = [
         'subject_id', 'subject_type', 'name', 'user_id', 'ip_address', 'user_agent', 'country',
     ];
+
+    /**
+     * An Activity record is owned by a user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

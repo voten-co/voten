@@ -72,6 +72,20 @@ class Category extends Model
         ])->pluck('user_id');
     }
 
+    /**
+     * Who created the category in the first place?
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function creator()
+    {
+        return \App\Activity::where([
+            ['subject_type', 'App\Category'],
+            ['subject_id', $this->id],
+            ['name', 'created_category'],
+        ])->firstOrFail()->owner;
+    }
+
     // records
     public function moderators()
     {

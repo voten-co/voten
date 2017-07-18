@@ -13,7 +13,8 @@
 
     @yield('head')
     <link href="/icons/css/fontello.6.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.3.2/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -40,26 +41,16 @@
                 <a class="nav-item is-tab is-hidden-mobile{{ url('backend/appointed-users') == url()->current() ? ' is-active' : '' }}" href="/backend/appointed-users">Appointed Users</a>
 
                 <a class="nav-item is-tab is-hidden-mobile{{ url('backend/server-control') == url()->current() ? ' is-active' : '' }}" href="/backend/server-control">Server</a>
-            </div>
 
-            <span class="nav-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </span>
+                <a class="nav-item is-tab is-hidden-mobile{{ url('backend/channels') == url()->current() ? ' is-active' : '' }}"
+                   href="/backend/channels">
+                    Channels
+                </a>
 
-            <div class="nav-right nav-menu">
-                {{-- <a class="nav-item is-tab is-hidden-tablet is-active">Home</a>
-                <a class="nav-item is-tab is-hidden-tablet">Features</a>
-                <a class="nav-item is-tab is-hidden-tablet">Pricing</a>
-                <a class="nav-item is-tab is-hidden-tablet">About</a> --}}
-                {{-- <span class="nav-item">
-                  <a class="button is-warning" href="/flush-all">
-                    <span>Clear Redis Cache</span>
-                  </a>
-                </span> --}}
-                <a class="nav-item is-tab" href="/logout">Log out</a>
-                <a class="nav-item is-tab" href="/">Home</a>
+                <a class="nav-item is-tab is-hidden-mobile{{ url('backend/users') == url()->current() ? ' is-active' : '' }}"
+                   href="/backend/users">
+                    Users
+                </a>
             </div>
         </div>
     </nav>

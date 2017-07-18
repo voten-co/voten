@@ -38,6 +38,8 @@ Route::delete('/block-domain/destroy', 'BlockDomainController@destroy');
 Route::get('/backend/server-control', 'BackendController@serverControls');
 Route::get('/backend/forbidden-names', 'BackendController@forbiddenNames');
 Route::get('/backend/appointed-users', 'BackendController@indexAppointedUsers');
+Route::get('/backend/channels', 'BackendController@showCategories');
+Route::get('/backend/users', 'BackendController@showUsers');
 Route::post('/forbidden-username/store', 'BackendController@storeForbiddenUsername');
 Route::delete('/appointed/destroy/{appointed}', 'BackendController@destroyAppointed');
 Route::post('/forbidden-category-name/store', 'BackendController@storeForbiddenCategoryName');
