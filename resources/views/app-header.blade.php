@@ -48,6 +48,10 @@
 	            <div class="menu">
 	                <div class="header">My Voten</div>
 
+					<router-link :to="'/' + '@' + auth.username" class="item">
+	                    Profile
+	                </router-link>
+
 					<router-link :to="'/submit'" class="item">
 	                    Submit
 	                </router-link>
