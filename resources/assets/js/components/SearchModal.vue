@@ -9,6 +9,10 @@
 	            Search
 	        </h1>
 
+			<a href="https://www.algolia.com/referrals/fb684d54/join" target="_blank" rel="nofollow" class="margin-left-half">
+				<img src="/imgs/algolia-powered-by.svg" alt="search by algolia">
+			</a>
+
 	        <h4 class="sub-title">
 	            Let's find you whatever you're looking for
 	        </h4>
