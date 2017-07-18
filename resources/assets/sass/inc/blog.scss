@@ -1,57 +1,57 @@
 .b-article {
-    background: #fff;
-    padding: 3em;
-    font-family: 'Sorts Mill Goudy', serif;
-    border-top: 1px solid #eee;
+  background: #fff;
+  padding: 3em;
+  font-family: 'Sorts Mill Goudy', serif;
+  border-top: 1px solid #eee;
 }
 
 .b-article-index {
-	font-family: 'Sorts Mill Goudy', serif;
-    border-radius: 2px;
-    background: #fff;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-    padding: 1em 1em;
-    margin: 2em 0;
-    // background: #fff;
-    // padding: 3em;
-    // font-family: 'Sorts Mill Goudy', serif;
-    // border-top: 1px solid #eee;
+  font-family: 'Sorts Mill Goudy', serif;
+  border-radius: 2px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  padding: 1em 1em;
+  margin: 2em 0;
+  // background: #fff;
+  // padding: 3em;
+  // font-family: 'Sorts Mill Goudy', serif;
+  // border-top: 1px solid #eee;
 }
 
 .b-article p {
-    color: #2f2f2f;
-    font-size: 21px;
-    line-height: 1.7;
-    margin-bottom: 2em;
+  color: #2f2f2f;
+  font-size: 21px;
+  line-height: 1.7;
+  margin-bottom: 2em;
 }
 
 .b-article .featured {
-    border-radius: 2px;
-    margin: 2em 0;
+  border-radius: 2px;
+  margin: 2em 0;
 }
 
 .v-bold a {
-    color: #333;
+  color: #333;
 }
 
 .b-share-box {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .b-share-box a {
-    flex: 1;
-    margin: 1em;
-    color: #777;
+  flex: 1;
+  margin: 1em;
+  color: #777;
 }
 
 .b-share-box a:hover,
-.b-share-box a:focus{
-	color: #333;
+.b-share-box a:focus {
+  color: #333;
 }
 
 .b-share-box a i:before {
-    font-size: 1.7em;
+  font-size: 1.7em;
 }
 
 .article-content h1,
@@ -60,38 +60,38 @@
 .article-content h4,
 .article-content h5,
 .article-content h6 {
-    font-weight: 700;
+  font-weight: 700;
 }
 
 .col-9 {
-    max-width: 900px;
-    margin: 0 auto;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .col-10 {
-    max-width: 1000px;
-    margin: 0 auto;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .b-comments {
-	padding: 4em 0px;
-    border-top: 2px solid #eaeaea;
+  padding: 4em 0px;
+  border-top: 2px solid #eaeaea;
 }
 
 .b-comments h2 {
-	margin-bottom: 1em;
+  margin-bottom: 1em;
 }
 
 @media (max-width: 768px) {
-    .b-article {
-	    padding: 1em;
-	}
+  .b-article {
+    padding: 1em;
+  }
 
-	.b-comments {
-		padding: 2em 1em;
-	}
+  .b-comments {
+    padding: 2em 1em;
+  }
 
-	.flex-space {
-		flex-direction: column;
-	}
+  .flex-space {
+    flex-direction: column;
+  }
 }

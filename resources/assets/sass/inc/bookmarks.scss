@@ -1,48 +1,48 @@
 .bookmarked-item {
-    border: 2px dashed #dcdcdc;
-    padding: 1em;
-    border-radius: 4px;
-    display: -webkit-box;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    margin-bottom: 1em;
-    background: #f9f9f9;
+  border: 2px dashed #dcdcdc;
+  padding: 1em;
+  border-radius: 4px;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  margin-bottom: 1em;
+  background: #f9f9f9;
 }
 
 @media screen and (max-width: 768px) {
-	.bookmarked-item {
-	    margin: .5em 1em;
-	}
+  .bookmarked-item {
+    margin: .5em 1em;
+  }
 }
 
 @media screen and (min-width: 768px) {
-	.bookmarked-item {
-	    width: 100%;
-	}
+  .bookmarked-item {
+    width: 100%;
+  }
 }
 
 .bookmarked-item .v-bookmark,
 .bookmarked-item .v-unbookmark {
-    font-size: 15px;
-    margin-left: .2em;
+  font-size: 15px;
+  margin-left: .2em;
 }
 
 .bookmarked-item a {
-    color: #333;
+  color: #333;
 }
 
 .bookmarked-item p,
 .bookmarked-item h2 {
-    margin: 0;
-    display: flex;
-    align-items: center;
-    color: #595959;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  color: #595959;
 }
 
 .bookmarked-item .avatar {
-    flex-basis: 65px;
-    margin-right: 2em;
+  flex-basis: 65px;
+  margin-right: 2em;
 }
 @media screen and (max-width: 768px) {
   .bookmarked-item .avatar {
@@ -52,10 +52,10 @@
 }
 
 .bookmarked-item img {
-    border-radius: 2px;
+  border-radius: 2px;
 }
 
 .find-categories .action {
-    flex-basis: 5.4em;
-    text-align: right;
+  flex-basis: 5.4em;
+  text-align: right;
 }
