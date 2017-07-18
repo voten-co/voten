@@ -25,8 +25,8 @@
 }
 .lity * {
   -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 .lity-wrap {
   z-index: 9990;
@@ -78,21 +78,22 @@
   z-index: 9993;
   width: 100%;
   -webkit-transform: scale(1);
-      -ms-transform: scale(1);
-       -o-transform: scale(1);
-          transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transform: scale(1);
   -webkit-transition: -webkit-transform 0.3s ease;
   transition: -webkit-transform 0.3s ease;
   -o-transition: -o-transform 0.3s ease;
   transition: transform 0.3s ease;
-  transition: transform 0.3s ease, -webkit-transform 0.3s ease, -o-transform 0.3s ease;
+  transition: transform 0.3s ease, -webkit-transform 0.3s ease,
+    -o-transform 0.3s ease;
 }
 .lity-loading .lity-content,
 .lity-closed .lity-content {
   -webkit-transform: scale(0.8);
-      -ms-transform: scale(0.8);
-       -o-transform: scale(0.8);
-          transform: scale(0.8);
+  -ms-transform: scale(0.8);
+  -o-transform: scale(0.8);
+  transform: scale(0.8);
 }
 .lity-content:after {
   content: '';
@@ -106,7 +107,7 @@
   height: auto;
   z-index: -1;
   -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
-          box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
 }
 .lity-close {
   z-index: 9994;
@@ -130,7 +131,7 @@
   background: none;
   outline: none;
   -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
 }
 .lity-close::-moz-focus-inner {
   border: 0;
@@ -153,7 +154,7 @@
   background: none;
   outline: none;
   -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
 }
 .lity-close:active {
   top: 1px;
@@ -180,7 +181,7 @@
   overflow: auto;
   pointer-events: auto;
   -webkit-transform: translateZ(0);
-          transform: translateZ(0);
+  transform: translateZ(0);
   -webkit-overflow-scrolling: touch;
 }
 .lity-iframe-container iframe {
@@ -191,7 +192,7 @@
   width: 100%;
   height: 100%;
   -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
-          box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
   background: #000;
 }
 .lity-hide {

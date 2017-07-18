@@ -1,238 +1,238 @@
 .message-input {
-    border: 2px solid rgba(34, 36, 38, 0.15) !important;
-    font-family: inherit !important;
-    -webkit-box-flex: initial !important;
-    flex: inherit !important;
+  border: 2px solid rgba(34, 36, 38, 0.15) !important;
+  font-family: inherit !important;
+  -webkit-box-flex: initial !important;
+  flex: inherit !important;
 }
 
 .message-input:focus {
-    border-right-color: #dedede !important;
+  border-right-color: #dedede !important;
 }
 
 .contacts .v-search {
-    padding: 0.978614em 1em !important;
-    font-size: 16px;
+  padding: 0.978614em 1em !important;
+  font-size: 16px;
 }
 
 .contacts .ui.input {
-    height: inherit;
+  height: inherit;
 }
 
 .v-contact-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .v-contact-list li {
-    border: 1px solid #fff;
-    border-bottom: 1px solid #f6f6f6;
+  border: 1px solid #fff;
+  border-bottom: 1px solid #f6f6f6;
 }
 
 .v-contact-list li,
 .v-contact-list li a {
-    display: flex;
-    cursor: pointer;
-    border-radius: 2px;
-    padding: 0.5em;
-    align-items: center;
+  display: flex;
+  cursor: pointer;
+  border-radius: 2px;
+  padding: 0.5em;
+  align-items: center;
 }
 
 @media (max-width: 768px) {
-	.v-contact-list li,
-	.v-contact-list li a {
-	    padding: 0.5em;
-	}
+  .v-contact-list li,
+  .v-contact-list li a {
+    padding: 0.5em;
+  }
 }
 
 .v-contact-list li:hover {
-    background: #f6f6f6;
-    border-radius: 2px;
-    border: 1px solid #eaeaea;
+  background: #f6f6f6;
+  border-radius: 2px;
+  border: 1px solid #eaeaea;
 }
 
 .has-unread-messages {
-    background: #f6f6f6;
+  background: #f6f6f6;
 }
 
 .v-contact-list li .v-contact-avatar,
 .v-contact-list li a .v-contact-avatar {
-    flex-basis: 65px;
-    margin-right: 2em;
+  flex-basis: 65px;
+  margin-right: 2em;
 }
 @media (max-width: 768px) {
-	.v-contact-list li .v-contact-avatar,
-	.v-contact-list li a .v-contact-avatar {
-	    flex-basis: 45px;
-	    margin-right: .5em;
-	}
+  .v-contact-list li .v-contact-avatar,
+  .v-contact-list li a .v-contact-avatar {
+    flex-basis: 45px;
+    margin-right: .5em;
+  }
 }
 
 .v-contact-list li .v-contact,
 .v-contact-list li a .v-contact {
-    flex: 1;
-    margin: auto;
+  flex: 1;
+  margin: auto;
 }
 
 .v-contact-avatar img {
-    border-radius: 50%;
-    border: 2px solid #989898;
+  border-radius: 50%;
+  border: 2px solid #989898;
 }
 
 .v-contact h3 {
-    font-weight: 400;
-    margin-top: 6px;
-    margin-bottom: 0;
+  font-weight: 400;
+  margin-top: 6px;
+  margin-bottom: 0;
 }
 
 .v-contact p {
-    color: #777;
+  color: #777;
 }
 
 .v-contact-username {
-    color: #777;
-    font-size: 84%;
-    margin-left: 0.4em;
+  color: #777;
+  font-size: 84%;
+  margin-left: 0.4em;
 }
 
 .v-message-input {
-    border-top: 2px solid #d8e2e7;
-    width: 100%;
-    display: flex;
+  border-top: 2px solid #d8e2e7;
+  width: 100%;
+  display: flex;
 }
 
 .v-message-input textarea {
-    background: none;
-    border: none;
-    width: 100%;
-    height: 100%;
-    padding: 1.0em;
-    font-size: 1em;
-    flex: 1;
+  background: none;
+  border: none;
+  width: 100%;
+  height: 100%;
+  padding: 1.0em;
+  font-size: 1em;
+  flex: 1;
 }
 
 .v-message-input button {
-    flex-basis: 5em;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #d8e2e7;
+  flex-basis: 5em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #d8e2e7;
 }
 
 .m-actions time {
-    margin-left: 0.5em;
-    color: #777;
-    font-size: 90%;
-    transition: 0.2ms;
-    user-select: none;
-    opacity: 0;
+  margin-left: 0.5em;
+  color: #777;
+  font-size: 90%;
+  transition: 0.2ms;
+  user-select: none;
+  opacity: 0;
 }
 
 .m-actions .v-seen {
-    opacity: 0;
+  opacity: 0;
 }
 
 .m-box:hover {
-    .v-seen,
-    time {
-        opacity: 1;
-    }
+  .v-seen,
+  time {
+    opacity: 1;
+  }
 }
 
 .v-modal-title .title img {
-    width: 2em;
-    border-radius: 4px;
-    border: 1px solid #c0c0c0;
-    margin-right: 0.4em;
+  width: 2em;
+  border-radius: 4px;
+  border: 1px solid #c0c0c0;
+  margin-right: 0.4em;
 }
 
 .new-message-notify {
-    position: fixed;
-    bottom: 6em;
-    right: 4em;
-    border: 1px solid #dcdcdc;
-    border-radius: 2px;
-    padding: 0.6em;
-    z-index: 1000;
-    background: #fff;
-    box-shadow: 0 2px 3px rgba(17, 17, 17, 0.1);
-    cursor: pointer;
+  position: fixed;
+  bottom: 6em;
+  right: 4em;
+  border: 1px solid #dcdcdc;
+  border-radius: 2px;
+  padding: 0.6em;
+  z-index: 1000;
+  background: #fff;
+  box-shadow: 0 2px 3px rgba(17, 17, 17, 0.1);
+  cursor: pointer;
 }
 
 .m-box {
-    display: flex;
-    align-items: baseline;
-    padding: 0 1em;
-    justify-content: space-between;
+  display: flex;
+  align-items: baseline;
+  padding: 0 1em;
+  justify-content: space-between;
 }
 
 .m-box:hover {
-    background: #f9f9f9;
+  background: #f9f9f9;
 }
 
 .m-content {
-    flex: 1;
-    padding-right: 1em;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  flex: 1;
+  padding-right: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .m-content .markdown {
-    color: #454545;
+  color: #454545;
 }
 
 .m-box-left {
-    display: flex;
-    flex: 1;
+  display: flex;
+  flex: 1;
 }
 
 .m-username {
-    color: #000000 !important;
-    display: block;
-    margin-bottom: 2px;
+  color: #000000 !important;
+  display: block;
+  margin-bottom: 2px;
 }
 
 .m-actions {
-    flex-basis: 120px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+  flex-basis: 120px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .m-info {
-    flex-basis: 40px;
-    margin-right: 1em;
+  flex-basis: 40px;
+  margin-right: 1em;
 }
 
 .m-avatar {
-    width: 100%;
-    height: auto;
-    border-radius: 4px;
-    border: 1px solid #f2f2f2;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  border: 1px solid #f2f2f2;
 }
 
 .hidden {
-    visibility: hidden;
+  visibility: hidden;
 }
 
 .v-message-input .comment-emoji-button {
-    border: 0;
+  border: 0;
 }
 
 .v-message-input .emojiPicker-wrapper .ui.input {
-    font-size: 1em;
+  font-size: 1em;
 }
 
 .v-message-input .flex-search input {
-    font-size: 0.8em;
+  font-size: 0.8em;
 }
 
 .v-message-badge {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .v-message-badge i {
-    font-size: 2em;
+  font-size: 2em;
 }
