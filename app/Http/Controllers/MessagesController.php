@@ -204,12 +204,12 @@ class MessagesController extends Controller
     public function searchContact(Request $request)
     {
         $this->validate($request, [
-            'username' => 'required|String',
+            'filter' => 'required|string',
         ]);
 
-        return $this->UsersFilter($this->noAlreadyContact(User::where('username', 'like', '%'.$request->username.'%')
+        return $this->UsersFilter($this->noAlreadyContact(User::search($request->filter)
                     ->where('username', '!=', Auth::user()->username)
-                    ->select('id', 'username', 'name', 'avatar')->take(30)->get()));
+                    ->take(30)->get()));
     }
 
     /**

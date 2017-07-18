@@ -59,7 +59,7 @@
 	    <div class="v-modal-search-box" :class="{ 'left-1': !sidebar }" v-show="pageRoute == 'contacts'">
 	        <div class="ui contacts search">
 	            <div class="ui huge icon input">
-	                <input class="v-search" v-model="filter" type="text" placeholder="Search or start a new direct conversation ..."
+	                <input class="v-search" v-model="filter" type="text" placeholder="Search by @username or name..."
 					v-on:input="searchUsers(filter)">
 	                <i v-show="!loadingContacts" class="v-icon v-search search icon"></i>
 		        	<moon-loader :loading="loadingContacts" :size="'30px'" :color="'#777'"></moon-loader>
@@ -336,7 +336,7 @@ export default {
 
 			this.loadingContacts = true
 
-            axios.post( '/search-contacts', { username: typed } ).then((response) => {
+            axios.post( '/search-contacts', { filter: typed } ).then((response) => {
                 this.searchedUsers = response.data
 
 				this.loadingContacts = false

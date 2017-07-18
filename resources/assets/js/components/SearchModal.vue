@@ -49,8 +49,11 @@
 
             <div class="ui contacts search">
                 <div class="ui huge icon input">
-                    <input class="v-search" v-model="filter" type="text" placeholder="What are you looking for?" v-on:input="search(filter)" v-focus="focused" @focus="focused = true">
-                    <i v-show="!loading" class="v-icon v-search search icon"></i>
+                    <input class="v-search" v-model="filter" type="text"
+						   :placeholder="placeholder"
+						   v-on:input="search(filter)" v-focus="focused" @focus="focused = true">
+
+					<i v-show="!loading" class="v-icon v-search search icon"></i>
 		        	<moon-loader :loading="loading" :size="'30px'" :color="'#777'"></moon-loader>
                 </div>
             </div>
@@ -157,6 +160,26 @@ export default {
 
 		noUsers() {
 			return this.type == 'Users' && this.users.length == 0;
+		},
+
+		placeholder() {
+		    if (this.type == 'Categories') {
+		        return 'Search by #name or description...';
+			}
+
+			if (this.type == 'Users') {
+		        return 'Search by @username or name...';
+			}
+
+            if (this.type == 'Submissions') {
+                return 'Search by title...';
+            }
+
+            if (this.type == 'Comments') {
+                return 'Search by content...';
+            }
+
+            return 'Search...';
 		}
 	},
 
