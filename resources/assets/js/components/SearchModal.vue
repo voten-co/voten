@@ -192,7 +192,7 @@ export default {
 
 			this.loading = true;
 
-			axios.get('/search-mentionables', {
+			axios.get('/search', {
 				params: {
 	                type: this.type,
 	                searched: this.filter,
