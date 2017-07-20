@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 use App\Category;
 use App\Comment;
 use App\Filters;
 use App\Submission;
 use App\Traits\CachableUser;
 use App\User;
+use Auth;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
