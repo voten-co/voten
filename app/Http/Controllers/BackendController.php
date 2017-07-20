@@ -43,9 +43,10 @@ class BackendController extends Controller
     }
 
     /**
-     * Shows categories
+     * Shows categories.
      *
      * @param Request $request
+     *
      * @return \Illuminate\View\View
      */
     public function showCategories(Request $request)
@@ -62,9 +63,10 @@ class BackendController extends Controller
     }
 
     /**
-     * Shows users
+     * Shows users.
      *
      * @param Request $request
+     *
      * @return \Illuminate\View\View
      */
     public function showUsers(Request $request)
