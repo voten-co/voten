@@ -16,7 +16,7 @@ trait UsernameMentions
      */
     protected function handleMentions($comment, $submission)
     {
-        if (!preg_match_all('/\s@([A-Za-z0-9\._]+)/', $comment->body, $mentionedUsernames)) {
+        if (!preg_match_all('/@([A-Za-z0-9\._]+)/', $comment->body, $mentionedUsernames)) {
             return;
         }
 
