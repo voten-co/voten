@@ -2,7 +2,10 @@
     <section class="no-border" :class="isReply ? '' : 'full-comment-form'">
         <div class="content">
         	<div class="ui reply form flex-display">
-                <textarea type="text" v-model="message" id="comment-form" class="v-comment-form" placeholder="Type your comment..." autocomplete="off" rows="1" v-on:keydown.enter="submit($event)" v-focus="focused" @focus="focused = true"></textarea>
+                <textarea type="text" v-model="message" :id="'comment-form-' + parent" class="v-comment-form"
+                          placeholder="Type your comment..." autocomplete="off" rows="1"
+                          v-on:keydown.enter="submit($event)" v-focus="focused" @focus="focused = true"
+                ></textarea>
 
                 <span class="send-button comment-emoji-button">
                     <i class="v-icon v-smile h-yellow" aria-hidden="true" v-if="!loading" @click="toggleEmojiPicker"></i>
@@ -33,6 +36,8 @@
     import { mixin as clickaway } from 'vue-clickaway';
 	import { focus } from 'vue-focus';
 	import Helpers from '../mixins/Helpers';
+	import 'jquery.caret';
+	import 'at.js';
 
     export default {
 
@@ -52,6 +57,7 @@
             	loading: false,
                 message: '',
                 temp: '',
+                mentioning: false,
             }
         },
 
@@ -71,12 +77,40 @@
         },
 
 		mounted: function () {
+            this.atWho();
+
 			this.$nextTick(function () {
-        		this.$root.autoResize()
+        		this.$root.autoResize();
 			})
 		},
 
         methods: {
+            /**
+             * Loads the at.js stuff
+             *
+             * @return void
+             */
+            atWho() {
+                $('#comment-form-' + this.parent).atwho({
+                    at: "@",
+                    delay: 750,
+                    searchKey: "username",
+                    insertTpl: "@${username}",
+                    displayTpl: "<li><img src='${avatar}' height='20' width='20' />@${username}<small data-name='${name}'>${name}</small></li>",
+                    callbacks: {
+                        remoteFilter: function (query, callback) {
+                            axios.get('/search-mentionables', {
+                                params: {
+                                    searched: query
+                                }
+                            }).then((response) => {
+                                callback(response.data);
+                            });
+                        }
+                    }
+                });
+            },
+
             setEditing() {
                 if(this.editing) {
                     this.message = this.before
@@ -106,13 +140,17 @@
 
 
         	submit(event) {
-        		if(event.shiftKey) return
+                // ignore shift + enter
+        		if(event.shiftKey) return;
 
-        		event.preventDefault()
+        		// ignore if the mention suggestion box is open
+                if ($("#atwho-ground-comment-form-" + this.parent + " .atwho-view").is(':visible')) return;
 
-        		if(!this.message.trim()) return
+        		event.preventDefault();
 
-                this.closeEmojiPicker()
+        		if(!this.message.trim()) return;
+
+                this.closeEmojiPicker();
 
             	if (this.isGuest) {
             		this.mustBeLogin();
@@ -122,7 +160,7 @@
         		this.temp = this.message
         		this.message = ''
 
-        		$('#comment-form').css('height', 49)
+        		$('#comment-form-' + this.parent).css('height', 49)
 
         		this.loading = true
 
@@ -172,3 +210,10 @@
 
     }
 </script>
+
+
+<style>
+    [data-name="null"] {
+        display: none;
+    }
+</style>
