@@ -74,7 +74,7 @@ class BlockDomainController extends Controller
     {
         $this->validate($request, [
             'domain'   => 'required',
-            'category' => 'alpha_num|max:25',
+            'category' => 'required|alpha_num|min:3|max:50',
         ]);
 
         if (!($blockEverywhere = !$request->ajax() && $this->mustBeVotenAdministrator())) {

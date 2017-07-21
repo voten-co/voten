@@ -107,8 +107,10 @@
              */
             unblock(domain) {
                  axios.delete('/block-domain/destroy', {
-                    domain,
-                    category: this.$route.params.name
+                    params: {
+                        domain: domain,
+                        category: this.$route.params.name
+                    }
                  }).then((response) => {
                     this.blockedDomains = this.blockedDomains.filter(function (item) {
                       	return item.domain != domain
