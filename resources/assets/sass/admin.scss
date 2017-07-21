@@ -1,0 +1,7 @@
+@import "variables";
+
+.nav-item a:not(.button).is-tab.is-active, a.nav-item:not(.button).is-tab.is-active {
+  border-bottom: 3px solid $primary-color;
+  color: $primary-color;
+  padding-bottom: calc(.75rem - 3px);
+}

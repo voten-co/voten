@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "aliasify": "^2.1.0",
-    "laravel-mix": "0.*",
+    "laravel-mix": "^1.2.2",
     "lodash": "^4.16.2",
     "video.js": "^5.16.0"
   },
