@@ -298,6 +298,26 @@ class User extends Authenticatable
     }
 
     /**
+     * A user has many activities
+     *
+     * @return Illuminate\Support\Collection
+     */
+    public function activities()
+    {
+        return $this->hasMany(Activity::class);
+    }
+
+    /**
+     * A user has many activities
+     *
+     * @return Illuminate\Support\Collection
+     */
+    public function lastActivity()
+    {
+        return $this->activities()->orderBy('id', 'desc')->first();
+    }
+
+    /**
      * @return Settings
      */
     public function settings()

@@ -27,7 +27,9 @@
                             <th>Avatar</th>
                             <th>Name</th>
                             <th>Subscribers</th>
-                            <th>Created By</th>
+                            <th>Submissions</th>
+                            <th>Comments</th>
+                            <th>Founder</th>
                             <th>Created At</th>
                         </tr>
                     </thead>
@@ -42,12 +44,14 @@
                             </td>
                             <td>{{ $c->name }}</td>
                             <td>{{ $c->subscribers }}</td>
+                            <td>{{ $c->submissions()->count() }}</td>
+                            <td>{{ $c->comments()->count() }}</td>
                             <td>
                                 <a href="/{{ '@' . $c->creator()->username }}">
                                     {{ $c->creator()->username }}
                                 </a>
                             </td>
-                            <td>{{ $c->created_at->diffForHumans() }}</td>
+                            <td><span class="tag">{{ $c->created_at->diffForHumans() }}</span></td>
                         </tr>
                     @endforeach
                     </tbody>

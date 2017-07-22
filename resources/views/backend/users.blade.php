@@ -30,6 +30,8 @@
                         <th>email</th>
                         <th>location</th>
                         <th>country</th>
+                        <th>Activities</th>
+                        <th>last activiy</th>
                         <th>registered at</th>
                     </tr>
                     </thead>
@@ -46,8 +48,29 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->location }}</td>
-                            <td><span class="tag">{{ $user->country() }}</span></td>
-                            <td>{{ $user->created_at->diffForHumans() }}</td>
+                            <td>
+                                <span class="tag">
+                                    {{ $user->country() }}
+                                </span>
+                            </td>
+                            <td>
+                                @if($user->activities()->count() > 1)
+                                    <span class="tag is-warning">
+                                        {{ $user->activities()->count() }}
+                                    </span>
+                                @else
+                                    <span class="tag is-danger">
+                                        never
+                                    </span>
+                                @endif
+
+                            </td>
+                            <td>
+                                <span class="tag">
+                                    {{ $user->lastActivity() ? $user->lastActivity()->created_at->diffForHumans() : 'Never' }}
+                                </span>
+                            </td>
+                            <td><span class="tag is-white">{{ $user->created_at->diffForHumans() }}</span></td>
                         </tr>
                     @endforeach
                     </tbody>

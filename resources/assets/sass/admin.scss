@@ -1,7 +1,14 @@
 @import "variables";
+@import "common";
+@import "admin/rewrites";
 
-.nav-item a:not(.button).is-tab.is-active, a.nav-item:not(.button).is-tab.is-active {
-  border-bottom: 3px solid $primary-color;
-  color: $primary-color;
-  padding-bottom: calc(.75rem - 3px);
+
+.backend-logo {
+  display: flex;
+  align-items: center;
+  margin-right: 1em;
+
+  img {
+    width: 35px;
+  }
 }

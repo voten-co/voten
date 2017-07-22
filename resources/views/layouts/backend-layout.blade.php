@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.3/css/bulma.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{ mix('/css/admin.css') }}">
+    @include('user.user-style')
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -32,8 +33,14 @@
     {{-- Header  --}}
     <nav class="nav has-shadow">
         <div class="container">
-            <div class="nav-left">
-                <a class="nav-item is-tab is-hidden-mobile{{ url('backend') == url()->current() ? ' is-active' : '' }}" href="/backend">Dashboard</a>
+            <a href="/" class="backend-logo">
+                <img src="/imgs/voten-circle.png" alt="Voten">
+            </a>
+
+            <div class="nav-right">
+                <a class="nav-item is-tab is-hidden-mobile{{ url('backend') == url()->current() ? ' is-active' : '' }}" href="/backend">
+                    Statistics
+                </a>
 
                 <a class="nav-item is-tab is-hidden-mobile{{ url('backend/announcements') == url()->current() ? ' is-active' : '' }}" href="/backend/announcements">Announcements</a>
 

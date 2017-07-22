@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Activity;
 use App\AppointeddUser;
 use App\Category;
 use App\CategoryForbiddenName;
@@ -94,6 +95,11 @@ class BackendController extends Controller
         $usersTotal = User::all()->count();
         $usersToday = User::where('created_at', '>=', Carbon::now()->subDay())->count();
 
+        $activeUsersTotal = User::has('activities', '>=', 10)->count();
+        $activeUsersToday = User::has('activities', '>=', 2)->whereHas('activities', function ($query) {
+            $query->where('created_at', '>=', Carbon::now()->subDay());
+        })->count();
+
         $categoriesTotal = Category::all()->count();
         $categoriesToday = Category::where('created_at', '>=', Carbon::now()->subDay())->count();
 
@@ -109,6 +115,8 @@ class BackendController extends Controller
         $reportsTotal = Report::withTrashed()->get()->count();
         $reportsToday = Report::withTrashed()->where('created_at', '>=', Carbon::now()->subDay())->count();
 
+        $activities = Activity::with('owner')->simplePaginate(30);
+
         // total numer of submission votes: (upvotes + downvotes) - numberOfSubmissions
         $submissionVotesTotal = (DB::table('submission_upvotes')->count() + DB::table('submission_downvotes')->count()) - $submissionsTotal;
         $submissionVotesToday = (DB::table('submission_upvotes')->where('created_at', '>=', Carbon::now()->subDay())->count() + DB::table('submission_downvotes')->where('created_at', '>=', Carbon::now()->subDay())->count()) - $submissionsToday;
@@ -122,7 +130,7 @@ class BackendController extends Controller
         return view('backend.dashboard', compact(
             'usersTotal', 'usersToday', 'categoriesTotal', 'categoriesToday', 'submissionsTotal', 'submissionsToday', 'commentsTotal', 'commentsToday', 'messagesTotal', 'messagesToday', 'reportsTotal',
             'reportsToday', 'submissionVotesTotal', 'submissionVotesToday', 'commentVotesTotal', 'commentVotesToday',
-            'users'
+            'users', 'activeUsersToday', 'activeUsersTotal', 'activities'
             )
         );
     }
