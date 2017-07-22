@@ -115,7 +115,7 @@ class BackendController extends Controller
         $reportsTotal = Report::withTrashed()->get()->count();
         $reportsToday = Report::withTrashed()->where('created_at', '>=', Carbon::now()->subDay())->count();
 
-        $activities = Activity::with('owner')->simplePaginate(30);
+        $activities = Activity::with('owner')->orderBy('id', 'desc')->simplePaginate(30);
 
         // total numer of submission votes: (upvotes + downvotes) - numberOfSubmissions
         $submissionVotesTotal = (DB::table('submission_upvotes')->count() + DB::table('submission_downvotes')->count()) - $submissionsTotal;
