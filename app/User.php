@@ -298,7 +298,7 @@ class User extends Authenticatable
     }
 
     /**
-     * A user has many activities
+     * A user has many activities.
      *
      * @return Illuminate\Support\Collection
      */
@@ -308,7 +308,7 @@ class User extends Authenticatable
     }
 
     /**
-     * A user has many activities
+     * A user has many activities.
      *
      * @return Illuminate\Support\Collection
      */
