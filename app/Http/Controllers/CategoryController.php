@@ -340,7 +340,8 @@ class CategoryController extends Controller
         abort_unless($this->mustBeVotenAdministrator(), 403);
 
         if (!confirmPassword(request('password'))) {
-            session()->flash("warning", "Incorrect Password. What kind of an administrator doesn't remember his password? ");
+            session()->flash('warning', "Incorrect Password. What kind of an administrator doesn't remember his password? ");
+
             return back();
         }
 
@@ -357,7 +358,8 @@ class CategoryController extends Controller
         // clear cache
         Cache::flush();
 
-        session()->flash("status", "Channel and all its records has been deleted. ");
+        session()->flash('status', 'Channel and all its records has been deleted. ');
+
         return redirect('/backend/channels');
     }
 }

@@ -64,7 +64,7 @@ class BackendController extends Controller
     }
 
     /**
-     * Shows the category page
+     * Shows the category page.
      *
      * @return \Illuminate\View\View
      */
