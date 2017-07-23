@@ -12,10 +12,10 @@
     </title>
 
     @yield('head')
-    <link href="/icons/css/fontello.6.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.3/css/bulma.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{{ mix('/css/admin.css') }}">
+        <link href="/icons/css/fontello.6.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.3/css/bulma.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="{{ mix('/css/admin.css') }}">
     @include('user.user-style')
 
     <!-- CSRF Token -->
@@ -30,54 +30,10 @@
 </head>
 
 <body>
-    {{-- Header  --}}
-    <nav class="nav has-shadow">
-        <div class="container">
-            <a href="/" class="backend-logo">
-                <img src="/imgs/voten-circle.png" alt="Voten">
-            </a>
 
-            <div class="nav-right">
-                <a class="nav-item is-tab is-hidden-mobile{{ url('backend') == url()->current() ? ' is-active' : '' }}" href="/backend">
-                    Statistics
-                </a>
+    @include('backend.header')
 
-                <a class="nav-item is-tab is-hidden-mobile{{ url('backend/announcements') == url()->current() ? ' is-active' : '' }}" href="/backend/announcements">Announcements</a>
-
-                <a class="nav-item is-tab is-hidden-mobile{{ url('backend/forbidden-names') == url()->current() ? ' is-active' : '' }}" href="/backend/forbidden-names">Forbiddens</a>
-
-                <a class="nav-item is-tab is-hidden-mobile{{ url('backend/appointed-users') == url()->current() ? ' is-active' : '' }}" href="/backend/appointed-users">Appointed Users</a>
-
-                <a class="nav-item is-tab is-hidden-mobile{{ url('backend/server-control') == url()->current() ? ' is-active' : '' }}" href="/backend/server-control">Server</a>
-
-                <a class="nav-item is-tab is-hidden-mobile{{ url('backend/channels') == url()->current() ? ' is-active' : '' }}"
-                   href="/backend/channels">
-                    Channels
-                </a>
-
-                <a class="nav-item is-tab is-hidden-mobile{{ url('backend/users') == url()->current() ? ' is-active' : '' }}"
-                   href="/backend/users">
-                    Users
-                </a>
-            </div>
-        </div>
-    </nav>
-
-    @if (count($errors) > 0)
-        <section class="section container">
-            <article class="message is-danger">
-                <div class="message-body">
-                    <h3><strong>Error:</strong></h3>
-
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            </article>
-        </section>
-    @endif
+    @include('backend.messages')
 
     @yield('content')
 

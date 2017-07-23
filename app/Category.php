@@ -12,7 +12,7 @@ class Category extends Model
 {
     use Bookmarkable, RecordsActivity, SoftDeletes, Searchable;
 
-    protected static $recordEvents = ['created'];
+    protected static $recordEvents = ['created', 'deleted'];
 
     /**
      * The attributes that should be hidden for arrays.

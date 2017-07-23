@@ -10,7 +10,7 @@ class Comment extends Model
 {
     use Bookmarkable, RecordsActivity, SoftDeletes, Searchable;
 
-    protected static $recordEvents = ['created'];
+    protected static $recordEvents = ['created', 'deleted'];
 
     /**
      * Fillable fields for the table.

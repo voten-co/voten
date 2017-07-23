@@ -64,6 +64,20 @@ class BackendController extends Controller
     }
 
     /**
+     * Shows the category page
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showCategory($category)
+    {
+        abort_unless($this->mustBeVotenAdministrator(), 403);
+
+        $category = Category::where('name', $category)->firstOrFail();
+
+        return view('backend.category', compact('category'));
+    }
+
+    /**
      * Shows users.
      *
      * @param Request $request

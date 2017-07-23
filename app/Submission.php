@@ -27,7 +27,7 @@ class Submission extends Model
 
     protected $with = ['owner'];
 
-    protected static $recordEvents = ['created'];
+    protected static $recordEvents = ['created', 'deleted'];
 
     /**
      * A submission is owned by a user.

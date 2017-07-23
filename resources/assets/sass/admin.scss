@@ -1,6 +1,7 @@
 @import "variables";
 @import "common";
 @import "admin/rewrites";
+@import "admin/statistics";
 
 
 .backend-logo {
@@ -11,4 +12,19 @@
   img {
     width: 35px;
   }
+}
+
+.red-back {
+  background-image: linear-gradient(112deg, #ff4f81, #ff6c5f);
+  color: #f8f8f8;
+}
+
+.blue-back {
+  background-image: linear-gradient(284deg, #00aeff, #3369e7);
+  color: #f8f8f8;
+}
+
+.green-back {
+  background-image: linear-gradient(284deg, #1cc7d0, #2dde98);
+  color: #f8f8f8;
 }

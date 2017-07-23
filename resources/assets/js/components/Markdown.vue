@@ -49,4 +49,8 @@
 	.markdown a:hover {
 		text-decoration: underline;
 	}
+
+    .announcement .markdown a {
+        color: #fff;
+    }
 </style>

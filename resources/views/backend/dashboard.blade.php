@@ -1,5 +1,9 @@
 @extends('layouts.backend-layout')
 
+@section('title')
+    Admin Panel
+@endsection
+
 @section('content')
 
 <section class="section container">
@@ -9,7 +13,7 @@
                 Real-Time Server
             </h1>
 
-            <div class="statistic">
+            <div class="statistic red-back">
                 <div>
                     Online Connections:
                 </div>
@@ -18,7 +22,7 @@
                     20
                 </div>
             </div>
-            <div class="statistic">
+            <div class="statistic green-back">
                 <div>
                     Memory Usage:
                 </div>
@@ -28,7 +32,7 @@
                     <span class="des">MB</span>
                 </div>
             </div>
-            <div class="statistic">
+            <div class="statistic blue-back">
                 <div>
                     Uptime:
                 </div>

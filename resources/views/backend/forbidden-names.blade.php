@@ -10,12 +10,20 @@
             <form class="control has-addons" action="/forbidden-category-name/store" method="post">
                 {{ csrf_field() }}
 
-                <input class="input is-expanded" type="text" placeholder="#name" name="name" required>
+                <div class="field has-addons">
+                    <div class="control flex1">
+                        <input class="input" type="text" placeholder="name..." required name="name">
+                    </div>
 
-                <button class="button is-primary" type="submit">
-                    Add
-                </button>
+                    <div class="control">
+                        <button class="button is-primary" type="submit">
+                            Add
+                        </button>
+                    </div>
+                </div>
             </form>
+
+            <br>
 
             <table class="table">
                 <thead>
@@ -55,12 +63,20 @@
             <form class="control has-addons" action="/forbidden-username/store" method="post">
                 {{ csrf_field() }}
 
-                <input class="input is-expanded" type="text" placeholder="username" name="username" required>
+                <div class="field has-addons">
+                    <div class="control flex1">
+                        <input class="input" type="text" placeholder="username..." required name="username">
+                    </div>
 
-                <button class="button is-primary" type="submit">
-                    Add
-                </button>
+                    <div class="control">
+                        <button class="button is-primary" type="submit">
+                            Add
+                        </button>
+                    </div>
+                </div>
             </form>
+
+            <br>
 
             <table class="table">
                 <thead>

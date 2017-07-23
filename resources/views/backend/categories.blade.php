@@ -1,5 +1,9 @@
 @extends('layouts.backend-layout')
 
+@section('title')
+    Channels
+@endsection
+
 @section('content')
 
     <section class="section container">
@@ -42,7 +46,11 @@
                                     <img src="{{ $c->avatar }}" class="image is-32x32" alt="{{ $c->name }}">
                                 </a>
                             </td>
-                            <td>{{ $c->name }}</td>
+                            <td>
+                                <a href="/backend/channels/{{ $c->name }}">
+                                    {{ $c->name }}
+                                </a>
+                            </td>
                             <td>{{ $c->subscribers }}</td>
                             <td>{{ $c->submissions()->count() }}</td>
                             <td>{{ $c->comments()->count() }}</td>

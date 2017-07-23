@@ -5,14 +5,18 @@ namespace App\Http\Controllers;
 use App\Activity;
 use App\Category;
 use App\CategoryForbiddenName;
+use App\Comment;
 use App\Events\CategoryWasUpdated;
 use App\Filters;
+use App\Report;
 use App\Submission;
 use App\Traits\CachableCategory;
 use App\Traits\CachableUser;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -324,5 +328,36 @@ class CategoryController extends Controller
     public function redirect($category)
     {
         return redirect('/c/'.$category);
+    }
+
+    /**
+     * Destroys the category model and all its related models. Currently only Voten administrators have such permission.
+     *
+     * @param Category $category
+     */
+    public function destroy(Category $category)
+    {
+        abort_unless($this->mustBeVotenAdministrator(), 403);
+
+        if (!confirmPassword(request('password'))) {
+            session()->flash("warning", "Incorrect Password. What kind of an administrator doesn't remember his password? ");
+            return back();
+        }
+
+        // remove all category's data stored on the database
+        Submission::where('category_id', $category->id)->forceDelete();
+        Comment::where('category_id', $category->id)->forceDelete();
+        Report::where('category_id', $category->id)->forceDelete();
+        DB::table('subscriptions')->where('category_id', $category->id)->delete();
+        DB::table('roles')->where('category_id', $category->id)->delete();
+
+        // pull the trigger
+        $category->forceDelete();
+
+        // clear cache
+        Cache::flush();
+
+        session()->flash("status", "Channel and all its records has been deleted. ");
+        return redirect('/backend/channels');
     }
 }

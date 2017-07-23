@@ -1,5 +1,9 @@
 @extends('layouts.backend-layout')
 
+@section('title')
+    Server Control
+@endsection
+
 @section('content')
 
 <section class="section container">
