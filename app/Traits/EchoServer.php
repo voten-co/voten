@@ -22,11 +22,11 @@ trait EchoServer
     public function echoStatus()
     {
         if (config('broadcasting.service') != 'echo') {
-            return null;
+            return;
         }
 
         return externalJson(
-            $this->echoAddress() . '/apps/' . $this->echoAppId() . '/status?auth_key=' . $this->echoAuthKey()
+            $this->echoAddress().'/apps/'.$this->echoAppId().'/status?auth_key='.$this->echoAuthKey()
         );
     }
 }

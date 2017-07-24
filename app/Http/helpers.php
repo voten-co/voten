@@ -170,18 +170,20 @@ if (!function_exists('rssForHumans')) {
     /**
      * Used for "Enter your password to confirm cases".
      *
-     * @param integer $bytes
+     * @param int $bytes
      *
      * @return string
      */
     function rssForHumans($bytes)
     {
-        if ($bytes < 1024) return $bytes + " bytes";
-
-        else if ($bytes < 1048576) return round($bytes / 1048576, 3) . " KB";
-
-        else if ($bytes < 1073741824) return round($bytes / 1073741824 * 1024) . " MB";
-
-        else return round($bytes / 1073741824, 3) . " GB";
+        if ($bytes < 1024) {
+            return $bytes + ' bytes';
+        } elseif ($bytes < 1048576) {
+            return round($bytes / 1048576, 3).' KB';
+        } elseif ($bytes < 1073741824) {
+            return round($bytes / 1073741824 * 1024).' MB';
+        } else {
+            return round($bytes / 1073741824, 3).' GB';
+        }
     }
 }
