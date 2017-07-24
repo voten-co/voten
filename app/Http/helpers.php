@@ -147,3 +147,41 @@ if (!function_exists('confirmPassword')) {
         return Illuminate\Support\Facades\Hash::check($password, auth()->user()->password);
     }
 }
+
+if (!function_exists('externalJson')) {
+    /**
+     * Used for "Enter your password to confirm cases".
+     *
+     * @param string $url
+     *
+     * @return obj|bool
+     */
+    function externalJson($url)
+    {
+        try {
+            return json_decode(file_get_contents($url));
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+}
+
+if (!function_exists('rssForHumans')) {
+    /**
+     * Used for "Enter your password to confirm cases".
+     *
+     * @param integer $bytes
+     *
+     * @return string
+     */
+    function rssForHumans($bytes)
+    {
+        if ($bytes < 1024) return $bytes + " bytes";
+
+        else if ($bytes < 1048576) return round($bytes / 1048576, 3) . " KB";
+
+        else if ($bytes < 1073741824) return round($bytes / 1073741824 * 1024) . " MB";
+
+        else return round($bytes / 1073741824, 3) . " GB";
+    }
+}

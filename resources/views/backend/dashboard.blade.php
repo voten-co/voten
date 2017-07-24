@@ -13,35 +13,48 @@
                 Real-Time Server
             </h1>
 
-            <div class="statistic red-back">
-                <div>
-                    Online Connections:
-                </div>
+            @if($echo_server_status === false)
+                <article class="message is-danger">
+                    <div class="message-body">
+                        <p>
+                            <strong>Echo Server</strong> isn't responding!
+                        </p>
+                    </div>
+                </article>
+            @elseif($echo_server_status != null)
+                <div class="statistic red-back">
+                    <div>
+                        Online Connections:
+                    </div>
 
-                <div class="panel-number-big">
-                    20
+                    <div class="panel-number-big">
+                        {{ $echo_server_status->subscription_count }}
+                    </div>
                 </div>
-            </div>
-            <div class="statistic green-back">
-                <div>
-                    Memory Usage:
-                </div>
+                <div class="statistic green-back">
+                    <div>
+                        Memory Usage:
+                    </div>
 
-                <div class="panel-number-big">
-                    <span>90</span>
-                    <span class="des">MB</span>
+                    <div class="panel-number-big">
+                        <span>{{ rssForHumans($echo_server_status->memory_usage->rss) }}</span>
+                    </div>
                 </div>
-            </div>
-            <div class="statistic blue-back">
-                <div>
-                    Uptime:
-                </div>
+                <div class="statistic blue-back">
+                    <div>
+                        Uptime:
+                    </div>
 
-                <div class="panel-number-big">
-                    <span>33</span>
-                    <span class="des">Days</span>
+                    <div class="panel-number-big">
+                        <span>{{ round($echo_server_status->uptime/60/60/24, 2) }}</span>
+                        <span class="des">Days</span>
+                    </div>
                 </div>
-            </div>
+            @else
+                <i>
+                    This section only works for applications using <a href="https://github.com/tlaverdure/laravel-echo-server">echo server</a>.
+                </i>
+            @endif
         </div>
 
         <div class="column is-half">

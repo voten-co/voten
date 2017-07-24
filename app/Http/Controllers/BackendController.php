@@ -10,6 +10,7 @@ use App\Comment;
 use App\Message;
 use App\Report;
 use App\Submission;
+use App\Traits\EchoServer;
 use App\User;
 use App\UserForbiddenName;
 use Auth;
@@ -20,6 +21,8 @@ use Illuminate\Support\Facades\Cache;
 
 class BackendController extends Controller
 {
+    use EchoServer;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -131,6 +134,8 @@ class BackendController extends Controller
 
         $activities = Activity::with('owner')->orderBy('id', 'desc')->simplePaginate(30);
 
+        $echo_server_status = $this->echoStatus();
+
         // total numer of submission votes: (upvotes + downvotes) - numberOfSubmissions
         $submissionVotesTotal = (DB::table('submission_upvotes')->count() + DB::table('submission_downvotes')->count()) - $submissionsTotal;
         $submissionVotesToday = (DB::table('submission_upvotes')->where('created_at', '>=', Carbon::now()->subDay())->count() + DB::table('submission_downvotes')->where('created_at', '>=', Carbon::now()->subDay())->count()) - $submissionsToday;
@@ -144,7 +149,7 @@ class BackendController extends Controller
         return view('backend.dashboard', compact(
             'usersTotal', 'usersToday', 'categoriesTotal', 'categoriesToday', 'submissionsTotal', 'submissionsToday', 'commentsTotal', 'commentsToday', 'messagesTotal', 'messagesToday', 'reportsTotal',
             'reportsToday', 'submissionVotesTotal', 'submissionVotesToday', 'commentVotesTotal', 'commentVotesToday',
-            'users', 'activeUsersToday', 'activeUsersTotal', 'activities'
+            'users', 'activeUsersToday', 'activeUsersTotal', 'activities', 'echo_server_status'
             )
         );
     }
