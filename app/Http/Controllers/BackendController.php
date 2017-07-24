@@ -8,8 +8,10 @@ use App\Category;
 use App\CategoryForbiddenName;
 use App\Comment;
 use App\Message;
+use App\Notifications\BecameModerator;
 use App\Report;
 use App\Submission;
+use App\Traits\CachableCategory;
 use App\Traits\EchoServer;
 use App\User;
 use App\UserForbiddenName;
@@ -21,7 +23,7 @@ use Illuminate\Support\Facades\Cache;
 
 class BackendController extends Controller
 {
-    use EchoServer;
+    use EchoServer, CachableCategory;
 
     public function __construct()
     {
@@ -77,7 +79,9 @@ class BackendController extends Controller
 
         $category = Category::where('name', $category)->firstOrFail();
 
-        return view('backend.category', compact('category'));
+        $isAdministrator = $this->mustBeAdministrator($category->id, true);
+
+        return view('backend.category', compact('category', 'isAdministrator'));
     }
 
     /**
@@ -254,6 +258,28 @@ class BackendController extends Controller
         abort_unless($this->mustBeVotenAdministrator(), 403);
 
         $forbidden->delete();
+
+        return back();
+    }
+
+    /**
+     * Takes over the category. (gives you a role in the category as "administrator").
+     *
+     * @return redirect
+     */
+    public function takeOverCategory(Category $category)
+    {
+        abort_unless($this->mustBeVotenAdministrator(), 403);
+
+        $category->moderators()->attach(Auth::id(), [
+            'role' => "administrator",
+        ]);
+
+        Auth::user()->notify(new BecameModerator($category, "administrator"));
+
+        $this->updateCategoryMods($category->id, Auth::id());
+
+        session()->flash('status', "You're not an administrator of #".$category->name.". Go knock yourself out. ");
 
         return back();
     }

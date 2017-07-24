@@ -125,22 +125,27 @@
                     Take Over
                 </h2>
 
-                <p class="field">
-                    This'll make you an administrator of the channel so you can take necessary actions.
-                </p>
+                @if($isAdministrator)
+                    <i class="field">
+                        You're already an administrator of this channel. 
+                    </i>
+                @else
+                    <p class="field">
+                        This'll make you an administrator of the channel so you can take necessary actions.
+                    </p>
 
-                <form action="/backend/channels/{{ $category->id }}/destroy" method="post">
-                    {{ csrf_field()  }}
-                    {{ method_field('delete') }}
+                    <form action="/backend/channels/{{ $category->id }}/takeover" method="post">
+                        {{ csrf_field() }}
 
-                    <div class="field has-addons">
-                        <div class="control">
-                            <button type="submit" class="button is-primary">
-                                Take Over #{{ $category->name }}
-                            </button>
+                        <div class="field has-addons">
+                            <div class="control">
+                                <button type="submit" class="button is-primary">
+                                    Take Over #{{ $category->name }}
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                @endif
             </div>
         </div>
     </section>

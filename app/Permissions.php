@@ -40,14 +40,18 @@ trait Permissions
     }
 
     /**
-     * Is Auth user the administrator of category.
+     * Is Auth user the administrator of a category.
      *
      * @param int $category
      *
      * @return bool
      */
-    protected function mustBeAdministrator($category)
+    protected function mustBeAdministrator($category, $exclude = false)
     {
+        if ($exclude) {
+            return Auth::user()->roles()->where('category_id', $category)->pluck('role')->contains('administrator');
+        }
+
         return $this->mustBeVotenAdministrator() || Auth::user()->roles()->where('category_id', $category)->pluck('role')->contains('administrator');
     }
 
