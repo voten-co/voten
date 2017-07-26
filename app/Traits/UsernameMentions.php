@@ -20,7 +20,12 @@ trait UsernameMentions
             return;
         }
 
-        foreach ($mentionedUsernames[1] as $username) {
+        foreach ($mentionedUsernames[1] as $key => $username) {
+            // set a limit so they can't just mention the whole website! lol
+            if ($key === 5) {
+                return;
+            }
+
             if ($user = User::whereUsername($username)->first()) {
                 $user->notify(new UsernameMentioned(Auth::user(), $submission));
             }
