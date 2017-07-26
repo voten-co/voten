@@ -124,6 +124,9 @@ class BackendController extends Controller
         $categoriesTotal = Category::all()->count();
         $categoriesToday = Category::where('created_at', '>=', Carbon::now()->subDay())->count();
 
+        $subscriptionsTotal = DB::table('subscriptions')->count();
+        $subscriptionsToday = DB::table('subscriptions')->where('created_at', '>=', Carbon::now()->subDay())->count();
+
         $submissionsTotal = Submission::all()->count();
         $submissionsToday = Submission::where('created_at', '>=', Carbon::now()->subDay())->count();
 
@@ -153,7 +156,7 @@ class BackendController extends Controller
         return view('backend.dashboard', compact(
             'usersTotal', 'usersToday', 'categoriesTotal', 'categoriesToday', 'submissionsTotal', 'submissionsToday', 'commentsTotal', 'commentsToday', 'messagesTotal', 'messagesToday', 'reportsTotal',
             'reportsToday', 'submissionVotesTotal', 'submissionVotesToday', 'commentVotesTotal', 'commentVotesToday',
-            'users', 'activeUsersToday', 'activeUsersTotal', 'activities', 'echo_server_status'
+            'users', 'activeUsersToday', 'activeUsersTotal', 'activities', 'echo_server_status', 'subscriptionsToday', 'subscriptionsTotal'
             )
         );
     }

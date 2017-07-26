@@ -134,6 +134,18 @@
 
                     <tr>
                         <td>
+                            Subscribes
+                        </td>
+                        <td>
+                            {{ $subscriptionsToday }}
+                        </td>
+                        <td>
+                            {{ $subscriptionsTotal }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
                             Messages
                         </td>
                         <td>
@@ -179,7 +191,6 @@
                             {{ $commentVotesTotal }}
                         </td>
                     </tr>
-
                 </tbody>
             </table>
         </div>

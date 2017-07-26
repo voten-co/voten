@@ -127,7 +127,7 @@
 
                 @if($isAdministrator)
                     <i class="field">
-                        You're already an administrator of this channel. 
+                        You're already an administrator of this channel.
                     </i>
                 @else
                     <p class="field">
