@@ -134,7 +134,7 @@
 
                     <tr>
                         <td>
-                            Subscribes
+                            Subscriptions
                         </td>
                         <td>
                             {{ $subscriptionsToday }}
