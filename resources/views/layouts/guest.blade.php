@@ -56,6 +56,8 @@
             </div>
         </div>
     </div>
+
+    <scroll-button></scroll-button>
 </div>
 
 <script>
