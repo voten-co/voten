@@ -24,33 +24,15 @@
 
 <script>
     export default {
-        components: {},
-
-        mixins: [],
-
         data () {
             return {
                 showScrollButton: false
             }
         },
 
-        props: {
-            //
-        },
-
-        computed: {
-//            showScrollButton() {
-//                return document.getElementById('v-content').scrollTop > 1500 ? true : false;
-//            }
-        },
-
         created () {
             this.$eventHub.$on('scrolled-a-lot', this.hide);
             this.$eventHub.$on('scrolled-a-bit', this.show);
-        },
-
-        mounted () {
-            //
         },
 
         methods: {
