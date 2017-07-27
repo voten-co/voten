@@ -275,14 +275,14 @@ class BackendController extends Controller
         abort_unless($this->mustBeVotenAdministrator(), 403);
 
         $category->moderators()->attach(Auth::id(), [
-            'role' => "administrator",
+            'role' => 'administrator',
         ]);
 
-        Auth::user()->notify(new BecameModerator($category, "administrator"));
+        Auth::user()->notify(new BecameModerator($category, 'administrator'));
 
         $this->updateCategoryMods($category->id, Auth::id());
 
-        session()->flash('status', "You're not an administrator of #".$category->name.". Go knock yourself out. ");
+        session()->flash('status', "You're not an administrator of #".$category->name.'. Go knock yourself out. ');
 
         return back();
     }
