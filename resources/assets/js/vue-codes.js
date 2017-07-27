@@ -9,6 +9,7 @@ import Subscribe from './components/Subscribe-button.vue';
 import VuiMenuButton from './components/Menu-button.vue';
 import GuestSidebar from './components/GuestSidebar.vue';
 import SearchModal from './components/SearchModal.vue';
+import ScrollButton from './components/ScrollButton.vue';
 import WebNotification from './mixins/WebNotification';
 import AvatarEdit from './components/AvatarEdit.vue';
 import Moderators from './components/Moderators.vue';
@@ -70,6 +71,7 @@ const app = new Vue({
         ReportComment,
         Notifications,
         VuiMenuButton,
+        ScrollButton,
         GuestSidebar,
         SearchModal,
         LoginModal,
@@ -187,8 +189,17 @@ const app = new Vue({
         	this.$eventHub.$emit('scrolled');
 
             let box = event.target;
-            if ( (box.scrollHeight - box.scrollTop) < (box.clientHeight + 100) ) {
+
+            if ((box.scrollHeight - box.scrollTop) < (box.clientHeight + 100)) {
                 this.$eventHub.$emit('scrolled-to-bottom');
+            }
+
+            if (box.scrollTop < 1500) {
+                this.$eventHub.$emit('scrolled-a-lot');
+            }
+
+            if (box.scrollTop > 1500) {
+                this.$eventHub.$emit('scrolled-a-bit');
             }
         },
 

@@ -1127,6 +1127,12 @@
       ]
     },
     {
+      "uid": "9c7ff134960bb5a82404e4aeaab366d9",
+      "css": "scroll-up",
+      "code": 59453,
+      "src": "entypo"
+    },
+    {
       "uid": "0833b02e56f1e8d34621137b29211107",
       "css": "submit-1",
       "code": 59393,

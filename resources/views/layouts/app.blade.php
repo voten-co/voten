@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     @yield('head')
-    <link href="/icons/css/fontello.7.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
@@ -33,7 +32,7 @@
 <body>
 @include('google-analytics')
 
-<div id="voten-app" :class="{ 'background-white': Store.contentRouter != 'content' }" @scroll="scrolled">
+<div id="voten-app" :class="{ 'background-white': Store.contentRouter != 'content' }">
     @include('app-header')
 
     <div class="v-content-wrapper">
@@ -45,7 +44,7 @@
 		<messages v-show="Store.contentRouter == 'messages'" :sidebar="sidebar"></messages>
 		<search-modal v-if="Store.contentRouter == 'search'" :sidebar="sidebar"></search-modal>
 
-        <div class="v-content" v-show="Store.contentRouter == 'content'">
+        <div class="v-content" id="v-content" v-show="Store.contentRouter == 'content'" @scroll="scrolled">
             <transition name="fade">
                 <report-submission v-if="modalRouter == 'report-submission'" :submission="reportSubmissionId" :category="reportCategory" :sidebar="sidebar"></report-submission>
                 <report-comment v-if="modalRouter == 'report-comment'" :comment="reportCommentId" :category="reportCategory" :sidebar="sidebar"></report-comment>
@@ -64,6 +63,7 @@
         </div>
     </div>
 
+    <scroll-button></scroll-button>
 </div>
 
 <script>
