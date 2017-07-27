@@ -32,7 +32,7 @@
 <body>
 @include('google-analytics')
 
-<div id="voten-app" :class="{ 'background-white': Store.contentRouter != 'content' }" @scroll="scrolled">
+<div id="voten-app" :class="{ 'background-white': Store.contentRouter != 'content' }">
     @include('app-header')
 
     <div class="v-content-wrapper">
@@ -42,7 +42,7 @@
 
 		<search-modal v-if="Store.contentRouter == 'search'" :sidebar="sidebar"></search-modal>
 
-        <div class="v-content" v-show="Store.contentRouter == 'content'">
+        <div class="v-content" id="v-content" v-show="Store.contentRouter == 'content'" @scroll="scrolled">
             <transition name="fade">
                 <rules v-if="modalRouter == 'rules'" :sidebar="sidebar"></rules>
                 <moderators v-if="modalRouter == 'moderators'" :sidebar="sidebar"></moderators>
