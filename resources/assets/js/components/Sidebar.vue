@@ -58,7 +58,8 @@
 							Limit to
 						</div>
 						<div class="ui left input">
-							<input type="number" name="search" placeholder="Limit at..." min="2" v-model="categoriesLimit">
+							<input type="number" name="search" placeholder="Limit at..." min="2" spellcheck="false"
+								   v-model="categoriesLimit">
 						</div>
 
 						<div class="header">

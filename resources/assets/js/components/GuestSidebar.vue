@@ -32,7 +32,8 @@
 
             <div class="ui category search side-box-search">
                 <div class="ui mini icon input">
-                  <input class="prompt" type="text" placeholder="Channels..." v-model="subscribedFilter">
+                  <input class="prompt" type="text" placeholder="Channels..." spellcheck="false"
+						 v-model="subscribedFilter">
                   <i class="v-icon v-search search icon"></i>
                 </div>
             </div>
