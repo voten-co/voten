@@ -31,8 +31,8 @@
         },
 
         created () {
-            this.$eventHub.$on('scrolled-a-lot', this.hide);
-            this.$eventHub.$on('scrolled-a-bit', this.show);
+            this.$eventHub.$on('scrolled-a-bit', this.hide);
+            this.$eventHub.$on('scrolled-a-lot', this.show);
         },
 
         methods: {
