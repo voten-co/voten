@@ -146,7 +146,7 @@ SQL;
      *
      * @return view
      */
-    public function dashboard()
+    public function dashboard(Request $request)
     {
         abort_unless($this->mustBeVotenAdministrator(), 403);
 
@@ -176,7 +176,24 @@ SQL;
         $reportsTotal = Report::withTrashed()->get()->count();
         $reportsToday = Report::withTrashed()->where('created_at', '>=', Carbon::now()->subDay())->count();
 
-        $activities = Activity::with('owner')->orderBy('id', 'desc')->simplePaginate(30);
+        // Activities start
+        $activities = (new Activity())->newQuery();
+
+        if ($request->has('name')) {
+            $activities->where('name', $request->name);
+        }
+        if ($request->has('user_id')) {
+            $activities->where('user_id', $request->user_id);
+        }
+        if ($request->has('ip_address')) {
+            $activities->where('ip_address', $request->ip_address);
+        }
+        if ($request->has('country')) {
+            $activities->where('country', $request->country);
+        }
+
+        $activities = $activities->with('owner')->orderBy('id', 'desc')->simplePaginate(30);
+        // Activities end
 
         $echo_server_status = $this->echoStatus();
 

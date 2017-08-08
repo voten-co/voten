@@ -210,25 +210,40 @@
                     <th>Name</th>
                     <th>By</th>
                     <th>Country</th>
+                    <th>IP</th>
                     <th>At</th>
                 </tr>
                 </thead>
 
                 <tbody>
+                    {{ $activities->links() }}
+
                     @foreach($activities as $activity)
                         <tr>
                             <td>
-                                {{ $activity->name }}
+                                <a href="{{ url()->current() }}?name={{ $activity->name }}">
+                                    {{ $activity->name }}
+                                </a>
                             </td>
                             <td>
                                 <a href="/{{ '@' . $activity->owner->username }}">
                                     <img width="30" class="margin-right-half" src="{{ $activity->owner->avatar }}"
                                          alt="{{ $activity->owner->username }}">
+                                </a>
+
+                                <a href="{{ url()->current() }}?user_id={{ $activity->owner->id }}">
                                     {{ $activity->owner->username }}
                                 </a>
                             </td>
                             <td>
-                                <span class="tag">{{ $activity->country ?? 'unknown' }}</span>
+                                <a href="{{ url()->current() }}?country={{ $activity->country }}">
+                                    <span class="tag">{{ $activity->country ?? 'unknown' }}</span>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ url()->current() }}?ip_address={{ $activity->ip_address }}">
+                                    <span class="tag">{{ $activity->ip_address ?? 'unknown' }}</span>
+                                </a>
                             </td>
                             <td>
                                 <span class="tag">{{ $activity->created_at->diffForHumans() }}</span>
