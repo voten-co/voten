@@ -25,7 +25,7 @@
 
             <br>
 
-            <table class="table">
+            <table class="table is-fullwidth table is-striped">
                 <thead>
                     <tr>
                         <th>username</th>
@@ -78,7 +78,7 @@
 
             <br>
 
-            <table class="table">
+            <table class="table is-fullwidth table is-striped">
                 <thead>
                     <tr>
                         <th>username</th>
@@ -118,35 +118,29 @@
 				Ban a domain address
 			</h1>
 
-			<form class="control" action="/block-domain" method="post">
+			<form class="control margin-bottom-3" action="/block-domain" method="post">
                 {{ csrf_field() }}
 
-                <div class="field">
-					<p class="control">
-						<input class="input" type="url" placeholder="URL" name="domain" required>
-					</p>
+                <div class="control">
+                    <input class="input" type="url" placeholder="URL" name="domain" required>
 				</div>
 
 				<br>
 
-				<div class="field">
-					<p class="control">
-						<input class="input" type="text" placeholder="Description(optional)" name="description">
-					</p>
+				<div class="control">
+                    <input class="input" type="text" placeholder="Description(optional)" name="description">
 				</div>
 
 				<br>
 
-				<div class="field">
-					<div class="control">
-						<button class="button is-primary" type="submit">
-							Ban
-						</button>
-					</div>
+				<div class="control">
+                    <button class="button is-primary" type="submit">
+                        Ban
+                    </button>
 				</div>
             </form>
 
-            <table class="table">
+            <table class="table is-fullwidth table is-striped">
                 <thead>
                     <tr>
                         <th>domain address</th>

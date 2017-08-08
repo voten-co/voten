@@ -26,6 +26,11 @@
                href="/backend/users">
                 Users
             </a>
+
+            <a class="nav-item is-tab is-hidden-mobile{{ url('backend/spam') == url()->current() ? ' is-active' : '' }}"
+               href="/backend/spam">
+                Spam
+            </a>
         </div>
     </div>
 </nav>

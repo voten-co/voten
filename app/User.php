@@ -298,6 +298,21 @@ class User extends Authenticatable
     }
 
     /**
+     * user's country: either determinded by his registered IP or (in case it wasn't saved at the time) by his last activity's IP.
+     *
+     * @return string
+     */
+    public function registeredIpAddress()
+    {
+        return Activity::where([
+            'user_id' => $this->id,
+            'name'    => 'created_user',
+        ])->first()->ip_address ?? Activity::where([
+            'user_id' => $this->id,
+        ])->orderBy('created_at', 'desc')->first()->ip_address ?? 'unknown';
+    }
+
+    /**
      * A user has many activities.
      *
      * @return Illuminate\Support\Collection

@@ -43,6 +43,7 @@ Route::get('/backend/channels/{category}', 'BackendController@showCategory');
 Route::delete('/backend/channels/{category}/destroy', 'CategoryController@destroy');
 Route::post('/backend/channels/{category}/takeover', 'BackendController@takeOverCategory');
 Route::get('/backend/users', 'BackendController@showUsers');
+Route::get('/backend/spam', 'BackendController@spam');
 Route::post('/forbidden-username/store', 'BackendController@storeForbiddenUsername');
 Route::delete('/appointed/destroy/{appointed}', 'BackendController@destroyAppointed');
 Route::post('/forbidden-category-name/store', 'BackendController@storeForbiddenCategoryName');

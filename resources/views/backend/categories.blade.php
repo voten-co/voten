@@ -25,7 +25,7 @@
                 </form>
 
 
-                <table class="table is-striped">
+                <table class="table is-striped is-fullwidth">
                     <thead>
                         <tr>
                             <th>Avatar</th>
