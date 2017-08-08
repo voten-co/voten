@@ -10,8 +10,8 @@
             compiled(){
                 let text = this.text;
 
-                text = text.replace(/(?:^| )(@[A-Za-z0-9\._]+)/gm, "[$1](https://voten.co/$1)");
-                text = text.replace(/(?:^| )(https?:\/\/[^ ]*)/gm, "[$1]($1)");
+                text = text.replace(/(?:^| )(@[A-Za-z0-9\._]+)/gm, " [$1](https://voten.co/$1)");
+                text = text.replace(/(?:^| )(https?:\/\/[^ ]*)/gm, " [$1]($1)");
                 text = text.replace(/\\([*`_>()\[\]-])/gm, function (i) {
                     return '~' + i.charCodeAt(1)
                 });
