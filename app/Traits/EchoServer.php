@@ -26,14 +26,14 @@ trait EchoServer
         }
 
         return externalJson(
-            $this->echoAddress() . '/apps/' . $this->echoAppId() . '/status?auth_key=' . $this->echoAuthKey()
+            $this->echoAddress().'/apps/'.$this->echoAppId().'/status?auth_key='.$this->echoAuthKey()
         );
     }
 
     public function echoHotConversations()
     {
         $list = externalJson(
-            $this->echoAddress() . '/apps/' . $this->echoAppId() . '/channels?auth_key=' . $this->echoAuthKey()
+            $this->echoAddress().'/apps/'.$this->echoAppId().'/channels?auth_key='.$this->echoAuthKey()
         );
 
         $list = collect($list->channels);
