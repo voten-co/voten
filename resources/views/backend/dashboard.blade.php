@@ -62,7 +62,7 @@
         		Statistics
         	</h1>
 
-			<table class="table is-striped">
+			<table class="table is-striped is-fullwidth">
                 <thead>
                     <tr>
                         <th></th>
