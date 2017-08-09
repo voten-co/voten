@@ -7,24 +7,30 @@
         <div class="column is-half">
             <h1 class="title">Appointed Users:</h1>
 
-            <form class="control has-addons" action="/appointed/store" method="post">
+            <form class="field has-addons" action="/appointed/store" method="post">
                 {{ csrf_field() }}
 
-                <span class="select">
-                    <select name="appointed_as">
-                        <option>whitelisted</option>
-                        <option>administrator</option>
-                    </select>
-                </span>
+                <p class="control">
+                    <span class="select">
+                        <select name="appointed_as">
+                            <option>whitelisted</option>
+                            <option>administrator</option>
+                        </select>
+                    </span>
+                </p>
 
-                <input class="input is-expanded" type="text" placeholder="username" name="username" required>
+                <p class="control is-expanded">
+                    <input class="input is-expanded" type="text" placeholder="username" name="username" required>
+                </p>
 
-                <button class="button is-primary" type="submit">
-                    Add
-                </button>
+                <p class="control">
+                    <button class="button is-primary" type="submit">
+                        Add
+                    </button>
+                </p>
             </form>
 
-            <table class="table">
+            <table class="table is-striped is-fullwidth">
                 <thead>
                     <tr>
                         <th>username</th>
