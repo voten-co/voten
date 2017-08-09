@@ -204,8 +204,17 @@ SQL;
         if ($request->has('ip_address')) {
             $activities->where('ip_address', $request->ip_address);
         }
+        if ($request->has('device')) {
+            $activities->where('device', $request->device);
+        }
         if ($request->has('country')) {
             $activities->where('country', $request->country);
+        }
+        if ($request->has('os')) {
+            $activities->where('os', $request->os);
+        }
+        if ($request->has('browser_name')) {
+            $activities->where('browser_name', $request->browser_name);
         }
 
         $activities = $activities->with('owner')->orderBy('id', 'desc')->simplePaginate(30);
