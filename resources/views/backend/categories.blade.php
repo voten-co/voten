@@ -30,9 +30,21 @@
                         <tr>
                             <th>Avatar</th>
                             <th>Name</th>
-                            <th>Subscribers</th>
-                            <th>Submissions</th>
-                            <th>Comments</th>
+                            <th>
+                                <a href="{{ url()->current() }}?sort_by=subscribers">
+                                    Subscribers
+                                </a>
+                            </th>
+                            <th>
+                                <a href="{{ url()->current() }}?sort_by=submissions_count">
+                                    Submissions
+                                </a>
+                            </th>
+                            <th>
+                                <a href="{{ url()->current() }}?sort_by=comments_count">
+                                    Comments
+                                </a>
+                            </th>
                             <th>Founder</th>
                             <th>Created At</th>
                         </tr>

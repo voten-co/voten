@@ -206,13 +206,13 @@
 
             <table class="table is-striped is-fullwidth">
                 <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>By</th>
-                    <th>Country</th>
-                    <th>IP</th>
-                    <th>At</th>
-                </tr>
+                    <tr>
+                        <th>Name</th>
+                        <th>By</th>
+                        <th>Country</th>
+                        <th>IP</th>
+                        <th>At</th>
+                    </tr>
                 </thead>
 
                 <tbody>

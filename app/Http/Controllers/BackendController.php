@@ -62,8 +62,24 @@ class BackendController extends Controller
         if ($request->has('filter')) {
             $categories = Category::search($request->filter)->take(20)->get();
         } else {
-            $categories = Category::orderBy('id', 'desc')->paginate(30);
+            $categories = (new Category())->newQuery();
+
+            if ($request->has('sort_by')) {
+                if ($request->sort_by == 'subscribers') {
+                    $categories->orderBy('subscribers', 'desc');
+                } elseif ($request->sort_by == 'submissions_count') {
+                    $categories->withCount('submissions')->orderBy('submissions_count', 'desc');
+                } elseif ($request->sort_by == 'comments_count') {
+                    $categories->withCount('comments')->orderBy('comments_count', 'desc');
+                } else {
+                    $categories->orderBy('id', 'desc');
+                }
+            }
+
+            $categories = $categories->paginate(30);
         }
+
+
 
         return view('backend.categories', compact('categories'));
     }
