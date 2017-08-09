@@ -8,6 +8,7 @@ class Activity extends Model
 {
     protected $fillable = [
         'subject_id', 'subject_type', 'name', 'user_id', 'ip_address', 'user_agent', 'country',
+        'browser_name', 'browser_version', 'os', 'device'
     ];
 
     /**
