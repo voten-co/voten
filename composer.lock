@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "133837bb6199c9027924c45943b0ca90",
+    "content-hash": "83ae81c8e728535633150837e8de5dd7",
     "packages": [
         {
             "name": "alchemy/binary-driver",
@@ -275,6 +275,7 @@
                 }
             ],
             "description": "MySQL driver for Laravel Scout.",
+            "abandoned": "yab/laravel-scout-mysql-driver",
             "time": "2017-06-02T14:00:46+00:00"
         },
         {
@@ -2901,6 +2902,52 @@
             "time": "2016-06-16T16:22:20+00:00"
         },
         {
+            "name": "psr/cache",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/cache.git",
+                "reference": "d11b50ad223250cf17b86e38383413f5a6764bf8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/cache/zipball/d11b50ad223250cf17b86e38383413f5a6764bf8",
+                "reference": "d11b50ad223250cf17b86e38383413f5a6764bf8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Cache\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for caching libraries",
+            "keywords": [
+                "cache",
+                "psr",
+                "psr-6"
+            ],
+            "time": "2016-08-06T20:24:11+00:00"
+        },
+        {
             "name": "psr/http-message",
             "version": "1.0.1",
             "source": {
@@ -4515,6 +4562,65 @@
                 "environment"
             ],
             "time": "2016-09-01T10:05:43+00:00"
+        },
+        {
+            "name": "whichbrowser/parser",
+            "version": "v2.0.26",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/WhichBrowser/Parser-PHP.git",
+                "reference": "9e3e504336b97eec5803a3fcfeec9d254c0ba6bf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/WhichBrowser/Parser-PHP/zipball/9e3e504336b97eec5803a3fcfeec9d254c0ba6bf",
+                "reference": "9e3e504336b97eec5803a3fcfeec9d254c0ba6bf",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "psr/cache": "^1.0"
+            },
+            "require-dev": {
+                "cache/array-adapter": "^0.4",
+                "icomefromthenet/reverse-regex": "dev-master",
+                "league/csv": "^8.0",
+                "phpdocumentor/reflection-docblock": "^2.0",
+                "phpunit/php-code-coverage": "^2.2|^3.0",
+                "phpunit/phpunit": "^4.0",
+                "satooshi/php-coveralls": "^0.6",
+                "squizlabs/php_codesniffer": "2.5.*",
+                "symfony/yaml": "^2.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WhichBrowser\\": [
+                        "src/",
+                        "tests/src/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Niels Leenheer",
+                    "email": "niels@leenheer.nl",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Useragent sniffing library for PHP",
+            "homepage": "http://whichbrowser.net",
+            "keywords": [
+                "browser",
+                "sniffing",
+                "ua",
+                "useragent"
+            ],
+            "time": "2017-07-11T20:50:10+00:00"
         },
         {
             "name": "zachleigh/laravel-vue-generators",
