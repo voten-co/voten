@@ -79,8 +79,6 @@ class BackendController extends Controller
             $categories = $categories->paginate(30);
         }
 
-
-
         return view('backend.categories', compact('categories'));
     }
 
