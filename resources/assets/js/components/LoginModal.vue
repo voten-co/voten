@@ -11,6 +11,15 @@
 
 				<!-- login form  -->
 				<div v-show="type == 'login'"  @keyup.enter="login">
+					<a href="/login/google" class="v-button v-button--red v-button--block">
+						<i class="v-icon v-google"></i>
+						Connect With Google
+					</a>
+
+					<div class="align-center margin-bottom-1">
+						Or
+					</div>
+
 					<div class="v-status v-status--error" v-if="errors.username">
 			            {{ errors.username }}
 			        </div>
@@ -46,6 +55,15 @@
 
 				<!-- register form -->
 				<div v-show="type == 'register'" @keyup.enter="register" >
+					<a href="/login/google" class="v-button v-button--red v-button--block">
+						<i class="v-icon v-google"></i>
+						Connect With Google
+					</a>
+
+					<div class="align-center margin-bottom-1">
+						Or
+					</div>
+
 					<div class="form-group">
 						<input type="text" class="form-control" id="username" v-model="registerUsername" name="username" placeholder="Username..." required>
 
