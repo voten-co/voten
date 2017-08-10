@@ -9,11 +9,6 @@
 <div class="container-mid">
 	<div class="col-7">
 		<div class="social-login-buttons">
-			<a href="/login/facebook" class="v-button button-fb">
-	            <i class="v-icon v-facebook"></i>
-	            Connect With Facebook
-	        </a>
-
 	        <a href="/login/google" class="v-button button-google">
 	            <i class="v-icon v-google"></i>
 	            Connect With Google

@@ -8,11 +8,6 @@
 	<div class="container-mid user-select">
 		<div class="col-7">
 			<div class="social-login-buttons">
-				<a href="/login/facebook" class="v-button button-fb">
-		            <i class="v-icon v-facebook"></i>
-		            Connect With Facebook
-		        </a>
-
 		        <a href="/login/google" class="v-button button-google">
 		            <i class="v-icon v-google"></i>
 		            Connect With Google
@@ -47,14 +42,11 @@
 		                @endif
 					</div>
 
-	                <div class="form-group ui form">
-		                <div class="inline field">
-		                    <div class="ui toggle checkbox">
-		                        <input type="checkbox" class="hidden" name="remember">
-		                        <label>Remember Me</label>
-		                    </div>
-		                </div>
-		            </div>
+					<div class="form-group">
+						<div class="checkbox">
+							<label><input type="checkbox" name="remember">Remember Me</label>
+						</div>
+					</div>
 
 					<div class="flex-space">
 						<a class="v-button" href="{{ url('/password/reset') }}">Forgot my password</a>

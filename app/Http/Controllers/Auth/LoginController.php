@@ -12,6 +12,7 @@ use Faker\Factory as Faker;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Redis;
 use Socialite;
+use WhichBrowser\Parser;
 
 class LoginController extends Controller
 {
@@ -52,36 +53,6 @@ class LoginController extends Controller
     /* --------------------------------------------------------------------- */
     /* ------------------------- Laravel Socialite ------------------------- */
     /* --------------------------------------------------------------------- */
-
-    /**
-     * Redirect the user to the Facebook authentication page.
-     *
-     * @return Response
-     */
-    public function redirectToFacebook()
-    {
-        return Socialite::driver('facebook')->redirect();
-    }
-
-    /**
-     * Obtain the user information from Facebook.
-     *
-     * @return Response
-     */
-    public function handleFacebookCallback()
-    {
-        try {
-            $user = Socialite::driver('facebook')->user();
-        } catch (\Exception $e) {
-            return redirect('/');
-        }
-
-        $authUser = $this->findOrCreateUser($user);
-
-        Auth::login($authUser, true);
-
-        return redirect($this->redirectTo);
-    }
 
     /**
      * Redirect the user to the Google authentication page.
@@ -183,11 +154,16 @@ class LoginController extends Controller
 
         Redis::hmset('user.'.$user->id.'.data', $userData);
 
+        $user_agent_parser = new Parser($_SERVER['HTTP_USER_AGENT']);
         \App\Activity::create([
             'subject_id'   => $user->id,
             'ip_address'   => $_SERVER['HTTP_CF_CONNECTING_IP'] ?? $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0',
             'user_agent'   => $_SERVER['HTTP_USER_AGENT'] ?? 'unknown',
             'country'      => $_SERVER['HTTP_CF_IPCOUNTRY'] ?? 'unknown',
+            'device'               => $user_agent_parser->device->model ?? 'unknown',
+            'os'                   => $user_agent_parser->os->toString() ?? 'unknown',
+            'browser_name'         => $user_agent_parser->browser->name ?? 'unknown',
+            'browser_version'      => $user_agent_parser->browser->version->toString() ?? 'unknown',
             'subject_type' => 'App\User',
             'name'         => 'created_user',
             'user_id'      => $user->id,
@@ -224,7 +200,7 @@ class LoginController extends Controller
             }
         }
 
-        // now lets try if with the name
+        // now lets try it with the name
         if ($name = $providerUser->getName()) {
             if ($this->isUsernameInValidFormat($name)) {
                 return $this->makeSureUsernameIsUnique($name);
