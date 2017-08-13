@@ -71,9 +71,9 @@ class BackendController extends Controller
                     $categories->withCount('submissions')->orderBy('submissions_count', 'desc');
                 } elseif ($request->sort_by == 'comments_count') {
                     $categories->withCount('comments')->orderBy('comments_count', 'desc');
-                } else {
-                    $categories->orderBy('id', 'desc');
                 }
+            } else {
+                $categories->orderBy('id', 'desc');
             }
 
             $categories = $categories->paginate(30);
