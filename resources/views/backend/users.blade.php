@@ -48,7 +48,11 @@
                                     <img src="{{ $user->avatar }}" class="image is-32x32" alt="{{ $user->username }}">
                                 </a>
                             </td>
-                            <td>{{ $user->username }}</td>
+                            <td>
+                                <a href="/backend/users/{{ $user->username }}">
+                                    {{ $user->username }}
+                                </a>
+                            </td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->location }}</td>

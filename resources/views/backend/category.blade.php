@@ -10,7 +10,7 @@
         <div class="columns">
             <div class="column is-one-quarter align-center">
                 <h1 class="title">
-                    <a href="/c/{{ $category->name }}">
+                    <a href="/c/{{ $category->name }}" target="_blank">
                         #{{ $category->name }}
                     </a>
                 </h1>

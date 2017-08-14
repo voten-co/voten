@@ -173,9 +173,25 @@ class UserController extends Controller
      */
     public function destroy(Request $request)
     {
-        $user = Auth::user();
+        if (!$request->ajax()) {
+            // request sent from backend panel
+            abort_unless($this->mustBeVotenAdministrator(), 403);
+
+            $user = User::findOrFail($request->user_id);
+        } else {
+            // request sent via ajax by user
+            $user = Auth::user();
+        }
 
         if (!confirmPassword($request->password)) {
+            if (!$request->ajax()) {
+                // request sent from backend panel
+                session()->flash('warning', "Incorrect Password. What kind of an administrator doesn't remember his password? ");
+
+                return back();
+            }
+
+            // request sent via ajax by user
             return response('Password is incorrect. Please try again.', 422);
         }
 
@@ -201,9 +217,17 @@ class UserController extends Controller
         DB::table('comment_downvotes')->where('user_id', $user->id)->delete();
         DB::table('appointedd_users')->where('user_id', $user->id)->delete();
 
+        $temp = $user->username;
+
         // pull the trigger
         $user->forceDelete();
 
-        return response('Your account is deleted now. You happy now?!', 200);
+        if ($request->ajax()) {
+            return response('Your account is deleted now. You happy now?!', 200);
+        }
+
+        session()->flash('status', "All @{$temp}'s records have been deleted.");
+
+        return redirect('/backend/users');
     }
 }

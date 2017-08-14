@@ -67,9 +67,13 @@
                             <td>{{ $c->submissions()->count() }}</td>
                             <td>{{ $c->comments()->count() }}</td>
                             <td>
-                                <a href="/{{ '@' . $c->creator()->username }}">
-                                    {{ $c->creator()->username }}
-                                </a>
+                                @if($c->createdByUsername() != 'deleted')
+                                    <a href="/backend/users/{{ $c->createdByUsername() }}">
+                                        {{ $c->createdByUsername() }}
+                                    </a>
+                                @else
+                                    <span class="tag is-danger">deleted</span>
+                                @endif
                             </td>
                             <td><span class="tag">{{ $c->created_at->diffForHumans() }}</span></td>
                         </tr>

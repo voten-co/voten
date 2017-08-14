@@ -83,7 +83,25 @@ class Category extends Model
             ['subject_type', 'App\Category'],
             ['subject_id', $this->id],
             ['name', 'created_category'],
-        ])->firstOrFail()->owner;
+        ])->first()->owner;
+    }
+
+    /**
+     * Who created the category in the first place? (in case the user record
+     * is deleted, returns 'deleted' instead of throwing a pain in the
+     * butt exception.)
+     *
+     * @return string
+     */
+    public function createdByUsername()
+    {
+        $creator = \App\Activity::where([
+            ['subject_type', 'App\Category'],
+            ['subject_id', $this->id],
+            ['name', 'created_category'],
+        ])->first();
+
+        return $creator ? $creator->owner->username : 'deleted';
     }
 
     // records
