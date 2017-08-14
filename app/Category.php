@@ -89,7 +89,7 @@ class Category extends Model
     /**
      * Who created the category in the first place? (in case the user record
      * is deleted, returns 'deleted' instead of throwing a pain in the
-     * butt exception.)
+     * butt exception.).
      *
      * @return string
      */

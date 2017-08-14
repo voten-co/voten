@@ -19,7 +19,7 @@ class CreateVotesTable extends Migration
             $table->ipAddress('ip_address')->nullable();
             $table->integer('submission_id')->unsigned();
             $table->string('type')->default('upvote'); // 1.upvote 2. downvote
-          $table->timestamps();
+            $table->timestamps();
         });
     }
 
