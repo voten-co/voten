@@ -17,7 +17,7 @@ class CreateHidesTable extends Migration
             $table->primary(['user_id', 'submission_id']);
             $table->integer('user_id')->unsigned()->index();
             $table->integer('submission_id')->unsigned()->index();
-              // $table->timestamps();
+            // $table->timestamps();
         });
     }
 

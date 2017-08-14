@@ -120,6 +120,7 @@ class Settings
         if ($this->has($key)) {
             return $this->get($key);
         }
+
         throw new Exception("The {$key} setting does not exist.");
     }
 }

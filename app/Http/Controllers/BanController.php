@@ -68,7 +68,6 @@ class BanController extends Controller
 
         $blockedUser->user = $user;
 
-
         if (!$request->ajax()) {
             // request sent from backend panel
             session()->flash('status', "{$user->username} has been banned.");
@@ -145,7 +144,7 @@ class BanController extends Controller
 
         if (!$request->ajax()) {
             // request sent from backend panel
-            session()->flash('status', "User is no longer banned.");
+            session()->flash('status', 'User is no longer banned.');
 
             return back();
         }
