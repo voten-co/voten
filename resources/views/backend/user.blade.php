@@ -5,6 +5,38 @@
 @endsection
 
 @section('content')
+    @if($user->isShadowBanned())
+        <section class="section container">
+            <article class="message is-warning">
+                <div class="message-body">
+                    <div class="flex-space">
+                        <div>
+                            <h3><strong>{{ '@' . $user->username }} is banned!</strong></h3>
+
+                            <p>
+                                Just a reminder to let you know that {{ '@' . $user->username }} is banned for x days.
+                            </p>
+                        </div>
+
+                        <div>
+                            <form action="/ban-user/destroy" method="post">
+                                {{ csrf_field() }}
+                                {{ method_field('delete') }}
+
+                                <input type="hidden" name="category" value="all">
+
+                                <input type="hidden" name="user_id" value="{{ $user->id }}">
+
+                                <button type="submit" class="button is-warning">
+                                    UnBan
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </section>
+    @endif
 
     <section class="section container">
         <div class="columns">
@@ -161,28 +193,34 @@
                         Ban <a href="/{{ '@' . $user->username }}" target="_blank">{{ '@' . $user->username }}</a> from submitting submissions or/and comments to entire application.
                     </p>
 
-                    <form class="field has-addons" action="/appointed/store" method="post">
-                        {{ csrf_field() }}
+                    @if(!$user->isShadowBanned())
+                        <form class="field has-addons" action="/ban-user" method="post">
+                            {{ csrf_field() }}
 
-                        <p class="control">
-                        <span class="select">
-                            <select name="appointed_as" class="is-expanded">
-                                <option value="3">3 days</option>
-                                <option value="1">1 days</option>
-                                <option value="7">7 days</option>
-                                <option value="30">1 month</option>
-                                <option value="90">3 months</option>
-                                <option value="0">Forever</option>
-                            </select>
-                        </span>
-                        </p>
+                            <p class="control">
+                            <span class="select">
+                                <select name="duration" class="is-expanded">
+                                    <option value="3">3 days</option>
+                                    <option value="1">1 days</option>
+                                    <option value="7">7 days</option>
+                                    <option value="30">1 month</option>
+                                    <option value="90">3 months</option>
+                                    <option value="0">Forever</option>
+                                </select>
+                            </span>
+                            </p>
 
-                        <p class="control">
-                            <button class="button is-primary" type="submit">
-                                Ban {{ '@' . $user->username }}
-                            </button>
-                        </p>
-                    </form>
+                            <input type="hidden" value="{{ $user->username }}" name="username">
+
+                            <input type="hidden" value="all" name="category">
+
+                            <p class="control">
+                                <button class="button is-primary" type="submit">
+                                    Ban {{ '@' . $user->username }}
+                                </button>
+                            </p>
+                        </form>
+                    @endif
                 </div>
 
 

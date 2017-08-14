@@ -22,7 +22,7 @@ class BanController extends Controller
     {
         $this->validate($request, [
             'username' => 'required',
-            'category' => 'alpha_num|max:25',
+            'category' => 'required|alpha_num|max:25',
             'duration' => 'integer|min:0|max:999',
         ]);
 
@@ -67,6 +67,14 @@ class BanController extends Controller
         $blockedUser->save();
 
         $blockedUser->user = $user;
+
+
+        if (!$request->ajax()) {
+            // request sent from backend panel
+            session()->flash('status', "{$user->username} has been banned.");
+
+            return back();
+        }
 
         return $blockedUser;
     }
@@ -113,7 +121,7 @@ class BanController extends Controller
     {
         $this->validate($request, [
             'user_id'  => 'required|integer',
-            'category' => 'alpha_num|max:25',
+            'category' => 'required|alpha_num|max:25',
         ]);
 
         if ($request->category != 'all') {
@@ -130,6 +138,17 @@ class BanController extends Controller
         Ban::where('user_id', $request->user_id)
                     ->where('category', $request->category)
                     ->delete();
+
+        if ($request->category == 'all') {
+            User::where('id', $request->user_id)->update(['active' => true]);
+        }
+
+        if (!$request->ajax()) {
+            // request sent from backend panel
+            session()->flash('status', "User is no longer banned.");
+
+            return back();
+        }
 
         return response('Unbanned from '.$request->category, 200);
     }
