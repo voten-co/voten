@@ -25,7 +25,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/delete-help', 'HelpController@destroy');
 
     // Find Channels
-    Route::post('/find-categories', 'SuggestionController@findCategories');
+    Route::get('/find-categories', 'SuggestionController@findCategories');
     Route::post('/store-suggested-channel', 'SuggestionController@store');
 
     // User

@@ -1,7 +1,7 @@
 <template>
 	<div class="container margin-top-1 col-7 user-select">
-		<div class="margin-bottom-1" v-if="!isNewbie">
-			<h1>Suggested #channels for you:</h1>
+		<div class="margin-bottom-1 align-center" v-if="!isNewbie">
+			<h1>Find Channels</h1>
 		</div>
 
 		<div class="margin-top-bottom-1 align-center" v-if="isNewbie">
@@ -10,7 +10,7 @@
 			</h2>
 
 			<h1 v-if="isNewbie && !reachedMinimum">
-				Please subscribe to <b>{{ 3 - counter }}</b> more channels
+				Please subscribe to <b>{{ 3 - subscribedCategoriesCount }}</b> more channels
 			</h1>
 
 			<transition name="fade">
@@ -26,13 +26,46 @@
 			</transition>
 		</div>
 
-		<!--<find-categories-item v-for="(value, index) in items" :key="value.id"-->
-		<!--:list="value.category" @subscribed="subscribed(index)"></find-categories-item>-->
+		<div class="find-channels-filters-wrapper">
+			<div class="ui massive icon input flex-search margin-top-bottom-1">
+				<input type="text" placeholder="Search by #name or description..." v-model="searchFilter" v-on:input="search(searchFilter)">
+				<i class="v-icon v-search search icon"></i>
+			</div>
+
+			<div class="flex-space">
+				<div>
+					<ul class="flat-nav">
+						<li class="item" :class="{ 'active': orderBy == 'subscribers' }" @click="changeOrder('subscribers')">
+							Subscribers
+						</li>
+
+						<li class="item" :class="{ 'active': orderBy == 'new' }" @click="changeOrder('new')">
+							New
+						</li>
+
+						<li class="item" :class="{ 'active': orderBy == 'activity' }" @click="changeOrder('activity')">
+							Activity
+						</li>
+					</ul>
+				</div>
+
+				<div class="ui form">
+					<div class="inline field">
+						<div class="ui toggle checkbox">
+							<input type="checkbox" class="hidden" name="remember" v-model="excludeSubscribeds">
+							<label>Exclude Subscribed Channels</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<bookmarked-category v-for="(value, index) in items" :key="value.id"
-			 :list="value.category" @subscribed="subscribed(index)"></bookmarked-category>
+			 :list="value" @subscribed="subscribed(index)"></bookmarked-category>
 
-		<no-content v-if="noContent" :text="'We are out of new #channels to suggest. Please keep calm and come back later'"></no-content>
+		<loading v-show="loading"></loading>
+
+		<no-content v-if="noContent" :text="'No results were found with current filters.'"></no-content>
 
 		<no-more-items :text="'No more items to load'" v-if="NoMoreItems && !noContent"></no-more-items>
 	</div>
@@ -44,12 +77,15 @@
     import BookmarkedCategory from '../components/BookmarkedCategory.vue';
     import NoContent from '../components/NoContent.vue';
 	import NoMoreItems from '../components/NoMoreItems.vue';
+	import Loading from '../components/Loading.vue';
 
-    export default {
+
+export default {
         components: {
             BookmarkedCategory,
 			NoContent,
-			NoMoreItems
+			NoMoreItems,
+            Loading
     	},
 
         data: function () {
@@ -61,6 +97,9 @@
                 items: [],
 				page: 0,
 				counter: 0,
+				searchFilter: '',
+                excludeSubscribeds: true,
+                orderBy: ''
             }
         },
 
@@ -71,6 +110,10 @@
 
 			reachedMinimum () {
 				return this.counter > 2
+			},
+
+			subscribedCategoriesCount() {
+			   return Store.subscribedCategories.length;
 			},
 
 			/**
@@ -102,36 +145,94 @@
 			this.$eventHub.$on('scrolled-to-bottom', this.loadMore)
         },
 
+		mounted: function () {
+			this.$nextTick(function () {
+				this.$root.loadCheckBox();
+			})
+		},
+
+        watch: {
+            'excludeSubscribeds' () {
+                this.clear();
+
+                this.searchFilter ? this.search() : this.getCategories();
+            },
+        },
+
         methods: {
+            changeOrder(order) {
+                if (order == this.orderBy) return;
+
+                this.clear();
+
+                this.searchFilter = '';
+
+               	this.orderBy = order;
+
+               	this.getCategories();
+			},
+
 			subscribed(index) {
 				this.counter += 1
-
-				this.items.splice(index, 1)
 			},
 
 			loadMore () {
-				if ( Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems ) {
-					this.getCategories()
+				if ( Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems && !this.searchFilter.trim() ) {
+					this.getCategories();
 				}
 			},
 
 
             getCategories () {
-				this.loading = true
-				this.page ++
+				this.loading = true;
+				this.page ++;
 
-				axios.post('/find-categories', {
-						page: this.page
-					}).then((response) => {
-					   this.items = [...this.items, ...response.data.data]
+				axios.get('/find-categories', {
+					params: {
+						page: this.page,
+						order_by: this.orderBy,
+                        exclude_subscribeds: this.excludeSubscribeds
+					}
+				}).then((response) => {
+				   	this.items = [...this.items, ...response.data.data];
 
-					   if (response.data.next_page_url == null) {
-						   this.NoMoreItems = true
-					   }
+				   	if (response.data.next_page_url == null) {
+					   	this.NoMoreItems = true;
+				   	}
 
-					   this.loading = false
-				   })
+				   	this.loading = false;
+			   })
             },
+
+            clear() {
+                this.items = [];
+                this.page = 0;
+                this.NoMoreItems = false;
+			},
+
+            search: _.debounce(function () {
+                if(!this.searchFilter.trim()) {
+                    this.clear();
+                    this.getCategories();
+
+                    return;
+				}
+
+                this.clear();
+                this.orderBy = '';
+                this.loading = true;
+
+                axios.get('/find-categories', {
+                    params: {
+                        filter: this.searchFilter,
+                        exclude_subscribeds: this.excludeSubscribeds
+                    }
+                }).then((response) => {
+                    this.items = response.data;
+
+                    this.loading = false;
+                });
+            }, 600),
         },
 
 		beforeRouteLeave(to, from, next) {
@@ -143,3 +244,13 @@
 		}
     };
 </script>
+
+<style>
+	.find-channels-filters-wrapper {
+		margin-bottom: 2em;
+		padding: 1em;
+		border: 1px solid #eaeaea;
+		border-radius: 4px;
+		border-bottom: 2px solid #5587d7;
+	}
+</style>

@@ -29,7 +29,7 @@ class SearchController extends Controller
             'searched' => 'required',
         ]);
 
-        try {
+//        try {
             if ($request->type == 'Categories') {
                 return Category::search($request->searched)->take(20)->get();
             }
@@ -45,11 +45,11 @@ class SearchController extends Controller
             if ($request->type == 'Users') {
                 return User::search($request->searched)->take(20)->get();
             }
-        } catch (\Exception $exception) {
-            app('sentry')->captureException($exception);
-
-            return [];
-        }
+//        } catch (\Exception $exception) {
+//            app('sentry')->captureException($exception);
+//
+//            return [];
+//        }
     }
 
     /**

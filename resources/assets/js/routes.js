@@ -143,7 +143,7 @@ const routes = [
 
     { path: '/deleted-submission', component: DeletedSubmissionPage },
     { path: '/submission/:id', component: SubmissionRedirector },
-    { path: '/find-channels', component: FindCategories, name: 'find-categories' },
+    { path: '/find-channels', component: FindCategories, name: 'find-categories', meta: { title: 'Find Channels' } },
     { path: '/404', component: NotFound, name: 'not-found', meta: { title: 'Not Found' } },
     { path: '/c/:name/:slug', component: SubmissionPage, name: 'submission-page' },
 
