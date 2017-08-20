@@ -23,6 +23,13 @@ Route::group(['middleware' => ['maintenance', 'http2']], function () {
     // social logins
     Route::get('/login/google', 'Auth\LoginController@redirectToGoogle');
     Route::get('/login/google/callback', 'Auth\LoginController@handleGoogleCallback');
+
+    // sitemap
+    Route::get('/sitemap.xml', 'SitemapsController@index');
+    Route::get('/pages.xml', 'SitemapsController@pages');
+    Route::get('/submissions.xml', 'SitemapsController@submissions');
+    Route::get('/users.xml', 'SitemapsController@users');
+    Route::get('/channels.xml', 'SitemapsController@categories');
 });
 
 // backend-admin

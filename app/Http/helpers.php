@@ -187,3 +187,17 @@ if (!function_exists('rssForHumans')) {
         }
     }
 }
+
+if (!function_exists('iso8601')) {
+    /**
+     * Converts timestamp to ISO8601 format.
+     *
+     * @param string $time
+     *
+     * @return string
+     */
+    function iso8601($time)
+    {
+        return gmdate('c', strtotime($time));
+    }
+}
