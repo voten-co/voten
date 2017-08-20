@@ -1,2 +1,22 @@
 User-agent: *
-Disallow:
+Disallow: /backend/
+Disallow: /login/
+Disallow: /register/
+
+User-agent: NinjaBot
+Allow: /
+
+User-agent: Mediapartners-Google*
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /images/uploads/
+
+User-agent: Adsbot-Google
+Allow: /
+
+
+User-agent: Googlebot-Mobile
+Allow: /
+
+Sitemap: https://voten.co/sitemap.xml
