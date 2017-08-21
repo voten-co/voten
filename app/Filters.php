@@ -100,4 +100,28 @@ trait Filters
 
         return $collection;
     }
+
+    /**
+     * Removes the subscribed categories from the colleciton.
+     *
+     * @param Illuminate\Support\Collection $collection
+     *
+     * @return Illuminate\Support\Collection $collection
+     */
+    protected function noSubscribedFilter($collection)
+    {
+        $subscribedCategories = collect($this->subscriptions());
+
+        if (get_class($collection) === 'Illuminate\Pagination\Paginator' || get_class($collection) === 'Illuminate\Pagination\LengthAwarePaginator') {
+            return $collection->setCollection(
+                $collection->filter(function ($value, $key) use ($subscribedCategories) {
+                    return !$subscribedCategories->contains($value->id);
+                })->unique()
+            );
+        }
+
+        return $collection->filter(function ($value, $key) use ($subscribedCategories) {
+            return !$subscribedCategories->contains($value->id);
+        })->unique();
+    }
 }

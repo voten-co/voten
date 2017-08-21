@@ -159,6 +159,20 @@ trait Permissions
         ])->exists();
     }
 
+    /**
+     * Does the auth user have the required minimum karma points?
+     *
+     * @param integer $number
+     *
+     * @return bool
+     */
+    protected function mustHaveMinimumKarma($number)
+    {
+        $stats = $this->userStats(Auth::id());
+
+        return ($stats['submission_karma'] + $stats['comment_karma']) >= $number;
+    }
+
     /* --------------------------------------------------------------------- */
     /* ------------------------------- Getters ----------------------------- */
     /* --------------------------------------------------------------------- */
