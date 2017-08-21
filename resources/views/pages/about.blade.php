@@ -17,6 +17,34 @@
 	<meta name="twitter:description" content="We are a small team of developers risen from the world of open-source. We believe in an open and modern Internet. Voten's mission is to give people the power to share their content with not just their friends but the world and interact in real-time." />
 	<meta property="og:image" content="{{ config('app.url') }}/imgs/voten-circle.png">
 	<meta name="twitter:image" content="{{ config('app.url') }}/imgs/voten-circle.png" />
+
+	<script type="application/ld+json">
+	 {
+		 "@context": "http://schema.org",
+		 "@type": "WebSite",
+		 "url": "https://voten.co",
+		 "name": "Voten",
+			"publisher": {
+			 "@type": "Organization",
+		  "logo": {
+			  "@type": "ImageObject",
+				 "url": "https://voten.co/imgs/voten-circle.png",
+				 "name": "Voten",
+				 "height": "457",
+				 "width": "457"
+				}
+			},
+		 "sameAs": [
+			 "https://www.facebook.com/voten.co/",
+			 "https://twitter.com/voten_co"
+		 ],
+		 "potentialAction": {
+			"@type": "SearchAction",
+			"target": "https://voten.co/?search={search_term_string}",
+			"query-input": "required name=search_term_string"
+		 }
+	 }
+	 </script>
 @endsection
 
 
