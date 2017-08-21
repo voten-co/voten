@@ -24,21 +24,81 @@
 	<meta name="twitter:image" content="{{ config('app.url') }}/imgs/voten-circle.png" />
 
 	<script type="application/ld+json">
+	 {
+		 "@context": "http://schema.org",
+		 "@type": "WebSite",
+		 "url": "https://voten.co",
+		 "name": "Voten",
+			"publisher": {
+			 "@type": "Organization",
+		  "logo": {
+			  "@type": "ImageObject",
+				 "url": "https://voten.co/imgs/voten-circle.png",
+				 "name": "Voten",
+				 "height": "457",
+				 "width": "457"
+				}
+			},
+		 "sameAs": [
+			 "https://www.facebook.com/voten.co/",
+			 "https://twitter.com/voten_co"
+		 ],
+		 "potentialAction": {
+			"@type": "SearchAction",
+			"target": "https://voten.co/?search={search_term_string}",
+			"query-input": "required name=search_term_string"
+		 }
+	 }
+	 </script>
+
+	<script type="application/ld+json">
+	{
+	  "@context":"http://schema.org",
+	  "@type":"ItemList",
+	  "itemListElement":[
 		{
-		    "@context": "http://schema.org",
-		    "@type": "Organization",
-		    "url": "https://voten.co",
-		    "name": "Voten",
-		    "logo": {
-	            "@type": "ImageObject",
-	            "url": "https://voten.co/imgs/voten-circle.png",
-	            "width": "512",
-	            "height": "512"
-	        },
-		    "sameAs": [
-		        "https://www.facebook.com/voten.co/",
-		        "https://twitter.com/voten_co"
-		    ]
+		  "@type":"SiteNavigationElement",
+		  "position":1,
+		  "name": "Hot",
+		  "url":"https://voten.co/?sort=hot"
+		},
+		{
+		  "@type":"SiteNavigationElement",
+		  "position":2,
+		  "name": "New",
+		  "url":"https://voten.co/?sort=new"
+		},
+		{
+		  "@type":"SiteNavigationElement",
+		  "position":3,
+		  "name": "Rising",
+		  "url":"https://voten.co/?sort=rising"
+		},
+		{
+		  "@type":"SiteNavigationElement",
+		  "position":4,
+		  "name": "#technology",
+		  "url":"https://voten.co/c/technology"
+		},
+		{
+		  "@type":"SiteNavigationElement",
+		  "position":5,
+		  "name": "#news",
+		  "url":"https://voten.co/c/news"
+		},
+		{
+		  "@type":"SiteNavigationElement",
+		  "position":6,
+		  "name": "#funny",
+		  "url":"https://voten.co/c/funny"
+		},
+		{
+		  "@type":"SiteNavigationElement",
+		  "position":7,
+		  "name": "#politics",
+		  "url":"https://voten.co/c/politics"
 		}
+	  ]
+	}
 	</script>
 @endsection

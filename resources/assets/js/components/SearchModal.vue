@@ -141,6 +141,12 @@ export default {
 	mounted: function () {
 		this.$nextTick(function () {
 			this.$root.loadSemanticTooltip()
+
+            if (this.$route.query.search) {
+                this.filter = this.$route.query.search;
+                this.type = 'Submissions';
+                this.search();
+            }
 		})
 	},
 
