@@ -5,12 +5,11 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Submission;
 use App\User;
-use Illuminate\Http\Request;
 
 class SitemapsController extends Controller
 {
     /**
-     * Loads the main indexing sitemap
+     * Loads the main indexing sitemap.
      *
      * @return \Symfony\Component\HttpFoundation\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
@@ -21,7 +20,7 @@ class SitemapsController extends Controller
     }
 
     /**
-     * Loads the pages sitemap
+     * Loads the pages sitemap.
      *
      * @return \Symfony\Component\HttpFoundation\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
@@ -32,7 +31,7 @@ class SitemapsController extends Controller
     }
 
     /**
-     * Loads the submissions sitemap
+     * Loads the submissions sitemap.
      *
      * @return \Symfony\Component\HttpFoundation\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
@@ -47,7 +46,7 @@ class SitemapsController extends Controller
     }
 
     /**
-     * Loads the users sitemap
+     * Loads the users sitemap.
      *
      * @return \Symfony\Component\HttpFoundation\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
@@ -62,7 +61,7 @@ class SitemapsController extends Controller
     }
 
     /**
-     * Loads the categories sitemap
+     * Loads the categories sitemap.
      *
      * @return \Symfony\Component\HttpFoundation\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
