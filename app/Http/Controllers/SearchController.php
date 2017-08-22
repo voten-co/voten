@@ -29,23 +29,23 @@ class SearchController extends Controller
             'searched' => 'required',
         ]);
 
-//        try {
-            if ($request->type == 'Categories') {
-                return Category::search($request->searched)->take(20)->get();
-            }
+        //        try {
+        if ($request->type == 'Categories') {
+            return Category::search($request->searched)->take(20)->get();
+        }
 
-            if ($request->type == 'Submissions') {
-                return $this->sugarFilter(Submission::search($request->searched)->take(20)->get());
-            }
+        if ($request->type == 'Submissions') {
+            return $this->sugarFilter(Submission::search($request->searched)->take(20)->get());
+        }
 
-            if ($request->type == 'Comments') {
-                return $this->withoutChildren(Comment::search($request->searched)->take(20)->get());
-            }
+        if ($request->type == 'Comments') {
+            return $this->withoutChildren(Comment::search($request->searched)->take(20)->get());
+        }
 
-            if ($request->type == 'Users') {
-                return User::search($request->searched)->take(20)->get();
-            }
-//        } catch (\Exception $exception) {
+        if ($request->type == 'Users') {
+            return User::search($request->searched)->take(20)->get();
+        }
+        //        } catch (\Exception $exception) {
 //            app('sentry')->captureException($exception);
 //
 //            return [];
