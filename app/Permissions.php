@@ -162,7 +162,7 @@ trait Permissions
     /**
      * Does the auth user have the required minimum karma points?
      *
-     * @param integer $number
+     * @param int $number
      *
      * @return bool
      */
