@@ -1,5 +1,5 @@
 <template>
-	<section>
+	<section id="home-submissions">
 		<div v-for="(value, index) in uniqueList" v-bind:key="value.id">
     		<suggested-category v-if="index == 5"></suggested-category>
 
