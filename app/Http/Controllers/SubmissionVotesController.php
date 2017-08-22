@@ -242,7 +242,7 @@ class SubmissionVotesController extends Controller
         }
 
         // we don't want new registered users do downvotes and mess with the averate vote numbers, so:
-        if ($type = 'downvote' && Auth::user()->created_at > Carbon::now()->subDays(3)) {
+        if ($type == 'downvote' && Auth::user()->created_at > Carbon::now()->subDays(3)) {
             return true;
         }
 
