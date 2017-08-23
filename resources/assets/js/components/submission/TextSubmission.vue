@@ -72,6 +72,13 @@
             SubmissionFooter
         },
 
+        watch: {
+            'submission' () {
+                this.body = this.submission.data.text;
+				this.editedBody = this.submission.data.text;
+            }
+        },
+
         created() {
         	this.$eventHub.$on('edit-submission', this.editSubmission);
         },
