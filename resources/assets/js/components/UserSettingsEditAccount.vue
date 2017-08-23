@@ -212,9 +212,8 @@
 	                }
 
                     this.sending = false
-
 	            }).catch((error) => {
-	                if(error.response.status == 422){
+	                if(error.response.status == 500) {
 	                	this.sending = false
 	                    this.customError = error.response.data
 	                    this.errors = []

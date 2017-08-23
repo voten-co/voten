@@ -149,7 +149,7 @@
 
                     this.sending = false
 	            }).catch((error) => {
-	                if(error.response.status == 500){
+	                if(error.response.status == 500) {
 	                	this.sending = false
 	                    this.customError = error.response.data
 	                    this.errors = []
@@ -157,6 +157,7 @@
 	                }
 
                     this.sending = false
+
 	                this.errors = error.response.data
 	            })
             },

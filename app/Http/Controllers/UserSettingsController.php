@@ -71,7 +71,7 @@ class UserSettingsController extends Controller
 
         // make sure the username is not in the blacklist
         if ($this->isForbiddenUsername($request->username)) {
-            return response('This username is forbidden. Please pick another one.', 422);
+            return response('This username is forbidden. Please pick another one.', 500);
         }
 
         $settings = [
