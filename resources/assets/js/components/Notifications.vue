@@ -103,7 +103,10 @@
              */
             getNotifications() {
                 axios.get('/notifications').then((response) => {
-                    Store.notifications = response.data;
+                    if (response.data.length > 0) {
+                        Store.notifications = response.data;
+                    }
+
                     this.loadMoreButton = true;
                 })
             },
