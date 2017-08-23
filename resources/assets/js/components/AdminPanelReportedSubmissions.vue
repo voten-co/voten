@@ -137,10 +137,12 @@ export default {
             this.page++;
             this.loading = true
 
-            axios.post('/admin/reported-submissions', {
-                type: this.type,
-                category: this.$route.params.name,
-                page: this.page
+            axios.get('/admin/reported-submissions', {
+                params: {
+                    type: this.type,
+                    category: this.$route.params.name,
+                    page: this.page
+				}
             }).then((response) => {
                 this.items = [...this.items, ...response.data.data]
 

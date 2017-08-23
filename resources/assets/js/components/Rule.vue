@@ -40,23 +40,3 @@
         },
     };
 </script>
-
-<style>
-    .banned-user {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .banned-user-wrapper {
-        border-bottom: 1px dashed #dcdcdc;
-        padding-bottom: .3em;
-        margin-bottom: .3em;
-    }
-
-    #moderator-panel-rules .banned-user-wrapper .actions {
-        flex-basis: 130px;
-        display: flex;
-        justify-content: flex-end;
-    }
-</style>

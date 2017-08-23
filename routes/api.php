@@ -11,8 +11,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/admin/suggesteds', 'SuggestionController@adminIndex');
     Route::get('/admin/get-categories', 'AdminController@getCategories');
     Route::post('/admin/suggested/destroy', 'SuggestionController@destroy');
-    Route::post('/admin/reported-comments', 'AdminController@reportedComments');
-    Route::post('/admin/reported-submissions', 'AdminController@reportedSubmissions');
+    Route::get('/admin/reported-comments', 'AdminController@reportedComments');
+    Route::get('/admin/reported-submissions', 'AdminController@reportedSubmissions');
 
     // feedback
     Route::post('/feedback', 'FeedbacksController@store');

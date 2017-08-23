@@ -106,13 +106,13 @@ class AdminController extends Controller
         abort_unless($this->mustBeVotenAdministrator(), 403);
 
         if ($request->type == 'solved') {
-            return Report::onlyTrashed()->where([
+            return Report::onlyTrashed()->whereHas('submission')->whereHas('reporter')->where([
                 'reportable_type' => 'App\Submission',
             ])->with('reporter', 'submission')->orderBy('created_at', 'desc')->simplePaginate(50);
         }
 
         // default type which is "unsolved"
-        return Report::where([
+        return Report::whereHas('submission')->whereHas('reporter')->where([
             'reportable_type' => 'App\Submission',
         ])->with('reporter', 'submission')->orderBy('created_at', 'desc')->simplePaginate(50);
     }
@@ -133,13 +133,13 @@ class AdminController extends Controller
         abort_unless($this->mustBeVotenAdministrator(), 403);
 
         if ($request->type == 'solved') {
-            return Report::onlyTrashed()->where([
+            return Report::onlyTrashed()->whereHas('comment')->whereHas('reporter')->where([
                 'reportable_type' => 'App\Comment',
             ])->with('reporter', 'comment')->orderBy('created_at', 'desc')->simplePaginate(50);
         }
 
         // default type which is "unsolved"
-        return Report::where([
+        return Report::whereHas('comment')->whereHas('reporter')->where([
             'reportable_type' => 'App\Comment',
         ])->with('reporter', 'comment')->orderBy('created_at', 'desc')->simplePaginate(50);
     }

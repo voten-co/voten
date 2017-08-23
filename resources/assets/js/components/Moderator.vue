@@ -58,39 +58,3 @@
         }
     };
 </script>
-
-<style>
-    .banned-user {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .banned-user-wrapper {
-        border-bottom: 1px dashed #dcdcdc;
-        padding-bottom: .3em;
-        margin-bottom: .3em;
-    }
-
-    .banned-user a {
-        color: #333;
-    }
-
-    .banned-user img {
-        width: 25px;
-        height: auto;
-        border-radius: 50%;
-        margin-right: .2em;
-    }
-
-    .banned-user-description {
-        background: #fdfdfd;
-        color: #333;
-        border: 1px solid #e7e7e7;
-        padding: .5em;
-        border-radius: 2px;
-        line-height: 2;
-        overflow: auto;
-        margin: .3em;
-    }
-</style>

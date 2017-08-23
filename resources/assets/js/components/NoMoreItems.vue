@@ -17,12 +17,3 @@
         props: ['text']
     };
 </script>
-
-<style>
-    .no-more-to-load {
-        text-align: center;
-        color: #777;
-        padding-bottom: 1em;
-        opacity: .4;
-    }
-</style>
