@@ -92,7 +92,7 @@ export default {
 
     methods: {
 		loadMore () {
-			if (Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems) {
+			if (Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems && this.$route.name == 'category-submissions') {
 				this.getSubmissions();
 			}
 		},
