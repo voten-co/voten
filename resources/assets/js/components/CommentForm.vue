@@ -3,7 +3,7 @@
         <div class="content">
         	<div class="ui reply form flex-display">
                 <textarea type="text" v-model="message" :id="'comment-form-' + parent" class="v-comment-form"
-                          placeholder="Type your comment..." autocomplete="off" rows="1"
+                          placeholder="Type your comment..." autocomplete="off" rows="1" name="comment"
                           v-on:keydown.enter="submit($event)" v-focus="focused" @focus="focused = true"
                 ></textarea>
 
