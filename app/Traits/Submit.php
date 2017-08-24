@@ -139,13 +139,13 @@ trait Submit
                     ->toDisk('local')
                     ->save('submissions/gif/'.$filename.'.jpg');
 
-        // get the uploaded mp4 and move it to the ftp
+        // get the uploaded mp4 and move it to the default disk
         $mp4 = Storage::disk('local')->get('submissions/gif/'.$filename.'.mp4');
-        Storage::disk('ftp')->put('submissions/gif/'.$filename.'.mp4', $mp4);
+        Storage::disk(config('laravel-ffmpeg.default_disk'))->put('submissions/gif/'.$filename.'.mp4', $mp4);
 
-        // get the uploaded jpg and move it to the ftp
+        // get the uploaded jpg and move it to the default disk
         $jpg = Storage::disk('local')->get('submissions/gif/'.$filename.'.jpg');
-        Storage::disk('ftp')->put('submissions/gif/'.$filename.'.jpg', $jpg);
+        Storage::disk(config('laravel-ffmpeg.default_disk'))->put('submissions/gif/'.$filename.'.jpg', $jpg);
 
         // delete temp files from local storage
         Storage::disk('local')->delete([
