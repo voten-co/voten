@@ -432,4 +432,22 @@ SQL;
 
         return back();
     }
+
+    /**
+     * will clean it later! too busy now!
+     */
+    public function updateCommentsCount()
+    {
+        abort_unless($this->mustBeVotenAdministrator(), 403);
+
+        $submissions = Submission::all();
+
+        foreach ($submissions as $submission) {
+            $submission->update([
+                'comments_number' => $submission->comments()->count()
+            ]);
+        }
+
+        return 'all good';
+    }
 }

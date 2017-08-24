@@ -60,7 +60,15 @@
 
 
         <div class="column is-half">
-            {{-- another block of code --}}
+            <div class="column is-half">
+                <div class="block">
+                    <h1 class="title">Update comments count:</h1>
+                </div>
+
+                <div class="block">
+                    <a class="button is-info" href="/backend/update-comments-count">Update Comments count</a>
+                </div>
+            </div>
         </div>
 
     </div>
