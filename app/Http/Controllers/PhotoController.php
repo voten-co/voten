@@ -6,7 +6,6 @@ use App\Category;
 use App\Photo;
 use App\PhotoTools;
 use App\Traits\CachableCategory;
-use App\User;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;

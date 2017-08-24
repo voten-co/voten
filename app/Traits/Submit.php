@@ -5,7 +5,6 @@ namespace App\Traits;
 use App\Photo;
 use App\Submission;
 use DB;
-use Embed\Embed;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;

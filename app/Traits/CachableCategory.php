@@ -3,7 +3,6 @@
 namespace App\Traits;
 
 use App\Category;
-use Auth;
 use DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
