@@ -9,7 +9,7 @@ trait PhotoTools
 {
     protected function webAddress()
     {
-        return config('filesystems.disks.ftp.cdn_url');
+        return config('filesystems.cdn_url');
     }
 
     /**
