@@ -155,8 +155,8 @@ trait Submit
         ]);
 
         return [
-            'mp4_path'       => $this->ftpAddress().'submissions/gif/'.$filename.'.mp4',
-            'thumbnail_path' => $this->ftpAddress().'submissions/gif/'.$filename.'.jpg',
+            'mp4_path'       => $this->webAddress().'submissions/gif/'.$filename.'.mp4',
+            'thumbnail_path' => $this->webAddress().'submissions/gif/'.$filename.'.jpg',
         ];
     }
 

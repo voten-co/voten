@@ -7,7 +7,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 trait PhotoTools
 {
-    protected function ftpAddress()
+    protected function webAddress()
     {
         return config('filesystems.disks.ftp.cdn_url');
     }
@@ -40,7 +40,7 @@ trait PhotoTools
         $image->encode();
         Storage::put($folder.'/'.$filename, $image);
 
-        return $this->ftpAddress().$folder.'/'.$filename;
+        return $this->webAddress().$folder.'/'.$filename;
     }
 
     /**
@@ -72,7 +72,7 @@ trait PhotoTools
 
         Storage::put($folder.'/'.$filename, $image);
 
-        return $this->ftpAddress().$folder.'/'.$filename;
+        return $this->webAddress().$folder.'/'.$filename;
     }
 
     /**
@@ -102,7 +102,7 @@ trait PhotoTools
 
         Storage::put($folder.'/'.$filename, $image);
 
-        return $this->ftpAddress().$folder.'/'.$filename;
+        return $this->webAddress().$folder.'/'.$filename;
     }
 
     /**
@@ -122,7 +122,7 @@ trait PhotoTools
 
         Storage::put($folder.'/'.$filename, $image);
 
-        return $this->ftpAddress().$folder.'/'.$filename;
+        return $this->webAddress().$folder.'/'.$filename;
     }
 
     /**
@@ -146,6 +146,6 @@ trait PhotoTools
 
         Storage::put($folder.'/'.$filename, $image);
 
-        return $this->ftpAddress().$folder.'/'.$filename;
+        return $this->webAddress().$folder.'/'.$filename;
     }
 }
