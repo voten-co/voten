@@ -181,7 +181,7 @@ class CommentController extends Controller
     /**
      * Whether or the user is breaking the time limit for creating another comment.
      *
-     * @param integer $limit_number
+     * @param int $limit_number
      *
      * @return mixed
      */
