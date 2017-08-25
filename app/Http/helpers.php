@@ -210,10 +210,11 @@ if (!function_exists('strToHex')) {
      *
      * @return string
      */
-    function strToHex($string) {
+    function strToHex($string)
+    {
         $hex = bin2hex($string);
-        $hex = chunk_split($hex, 2, "\\x");
-        $hex = "\\x" . substr($hex, 0, -2);
+        $hex = chunk_split($hex, 2, '\\x');
+        $hex = '\\x'.substr($hex, 0, -2);
 
         return $hex;
     }
