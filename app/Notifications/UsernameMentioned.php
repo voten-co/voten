@@ -71,7 +71,7 @@ class UsernameMentioned extends Notification implements ShouldBroadcast
             'url'    => '/c/'.$this->submission->category_name.'/'.$this->submission->slug,
             'name'   => $this->user->username,
             'avatar' => $this->user->avatar,
-            'body'   => '@'.$this->user->username.' mentioned your usrename at "'.$this->submission->title.'"',
+            'body'   => '@'.$this->user->username.' mentioned your username at "'.$this->submission->title.'"',
         ];
     }
 }
