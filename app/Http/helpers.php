@@ -201,3 +201,20 @@ if (!function_exists('iso8601')) {
         return gmdate('c', strtotime($time));
     }
 }
+
+if (!function_exists('strToHex')) {
+    /**
+     * Converts timestamp to ISO8601 format.
+     *
+     * @param string $string
+     *
+     * @return string
+     */
+    function strToHex($string) {
+        $hex = bin2hex($string);
+        $hex = chunk_split($hex, 2, "\\x");
+        $hex = "\\x" . substr($hex, 0, -2);
+
+        return $hex;
+    }
+}

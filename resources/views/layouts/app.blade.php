@@ -69,7 +69,7 @@
 <script>
     var auth = {
         id: '{{ Auth::user()->id }}',
-        bio: `{!! Auth::user()->bio !!}`,
+        bio: '{!! strToHex(Auth::user()->bio) !!}',
         name: '{{ Auth::user()->name }}',
         email: '{{ Auth::user()->email }}',
         color: '{{ Auth::user()->color }}',
