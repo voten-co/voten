@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Activity;
 use App\Comment;
 use App\Events\CommentWasCreated;
 use App\Events\CommentWasDeleted;
@@ -37,6 +38,10 @@ class CommentController extends Controller
             'parent_id'     => 'required|integer',
             'submission_id' => 'required|integer',
         ]);
+
+        if ($this->tooEarlyToCreate(3)) {
+            return response("Looks like you're over doing it. You can't submit more than one comments per minute.", 500);
+        }
 
         $submission = $this->getSubmissionById($request->submission_id);
         $author = Auth::user();
@@ -171,5 +176,29 @@ class CommentController extends Controller
         $comment->forceDelete();
 
         return response('Successfully deleted', 200);
+    }
+
+    /**
+     * Whether or the user is breaking the time limit for creating another comment.
+     *
+     * @param integer $limit_number
+     *
+     * @return mixed
+     */
+    protected function tooEarlyToCreate($limit_number)
+    {
+        // exclude white-listed users form this checking
+        if ($this->mustBeWhitelisted()) {
+            return false;
+        }
+
+        $comments_count = Activity::where([
+            ['subject_type', 'App\Comment'],
+            ['user_id', Auth::user()->id],
+            ['name', 'created_comment'],
+            ['created_at', '>=', Carbon::now()->subMinute()],
+        ])->get()->count();
+
+        return $comments_count >= $limit_number ? true : false;
     }
 }
