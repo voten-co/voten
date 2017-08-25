@@ -444,7 +444,7 @@ SQL;
 
         foreach ($submissions as $submission) {
             $submission->update([
-                'comments_number' => $submission->comments()->count()
+                'comments_number' => $submission->comments()->count(),
             ]);
         }
 
