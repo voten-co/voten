@@ -174,19 +174,20 @@ if (!function_exists('rssForHumans')) {
      *
      * @return string
      */
-    function rssForHumans($bytes) {
-        $Ki = 2**10;
-        $Mi = 2**20;
-        $Gi = 2**30;
+    function rssForHumans($bytes)
+    {
+        $Ki = 2 ** 10;
+        $Mi = 2 ** 20;
+        $Gi = 2 ** 30;
 
         if ($bytes < $Ki) {
-            return $bytes . ' B';
-        } else if ($bytes < $Mi) {
-            return round($bytes / $Ki, 3) . ' KiB';
-        } else if ($bytes < $Gi) {
-            return round($bytes / $Mi, 3) . ' MiB';
+            return $bytes.' B';
+        } elseif ($bytes < $Mi) {
+            return round($bytes / $Ki, 3).' KiB';
+        } elseif ($bytes < $Gi) {
+            return round($bytes / $Mi, 3).' MiB';
         } else {
-            return round($bytes / $Gi, 3) . ' GiB';
+            return round($bytes / $Gi, 3).' GiB';
         }
     }
 }
