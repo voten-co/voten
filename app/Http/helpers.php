@@ -174,16 +174,19 @@ if (!function_exists('rssForHumans')) {
      *
      * @return string
      */
-    function rssForHumans($bytes)
-    {
-        if ($bytes < 1024) {
-            return $bytes + ' bytes';
-        } elseif ($bytes < 1048576) {
-            return round($bytes / 1048576, 3).' KB';
-        } elseif ($bytes < 1073741824) {
-            return round($bytes / 1073741824 * 1024).' MB';
+    function rssForHumans($bytes) {
+        $Ki = 2**10;
+        $Mi = 2**20;
+        $Gi = 2**30;
+
+        if ($bytes < $Ki) {
+            return $bytes . ' B';
+        } else if ($bytes < $Mi) {
+            return round($bytes / $Ki, 3) . ' KiB';
+        } else if ($bytes < $Gi) {
+            return round($bytes / $Mi, 3) . ' MiB';
         } else {
-            return round($bytes / 1073741824, 3).' GB';
+            return round($bytes / $Gi, 3) . ' GiB';
         }
     }
 }
@@ -199,22 +202,5 @@ if (!function_exists('iso8601')) {
     function iso8601($time)
     {
         return gmdate('c', strtotime($time));
-    }
-}
-
-if (!function_exists('strToHex')) {
-    /**
-     * Converts timestamp to ISO8601 format.
-     *
-     * @param string $string
-     *
-     * @return string
-     */
-    function strToHex($string) {
-        $hex = bin2hex($string);
-        $hex = chunk_split($hex, 2, "\\x");
-        $hex = "\\x" . substr($hex, 0, -2);
-
-        return $hex;
     }
 }
