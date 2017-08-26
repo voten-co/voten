@@ -89,6 +89,10 @@ export default {
          */
         isItToday(timestamp)
         {
+            if (typeof timestamp != 'string') {
+                timestamp = timestamp.date;
+            }
+
             return moment(timestamp).format('DD/MM/YYYY') == moment(new Date()).format('DD/MM/YYYY');
         },
 
@@ -101,7 +105,11 @@ export default {
          */
         parseDateForToday(timestamp, timezone)
         {
-         	if(!timezone) {
+            if (typeof timestamp != 'string') {
+                timestamp = timestamp.date;
+            }
+
+            if(!timezone) {
                 timezone = moment.tz.guess();
             }
 
@@ -117,7 +125,11 @@ export default {
          */
         parseDate(timestamp, timezone)
         {
-         	if(!timezone) {
+            if (typeof timestamp != 'string') {
+                timestamp = timestamp.date;
+            }
+
+            if(!timezone) {
                 timezone = moment.tz.guess();
             }
 
@@ -133,7 +145,11 @@ export default {
          */
         parseFullDate(timestamp, timezone)
         {
-         	if(!timezone) {
+            if (typeof timestamp != 'string') {
+                timestamp = timestamp.date;
+            }
+
+            if(!timezone) {
                 timezone = moment.tz.guess();
             }
 
