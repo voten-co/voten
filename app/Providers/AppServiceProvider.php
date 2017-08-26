@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\User;
 use Auth;
 use Illuminate\Support\ServiceProvider;
 

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Invite;
 use App\Mail\NewRegistration;
 use App\Mail\WelcomeToVoten;
 use App\User;
@@ -11,7 +10,6 @@ use App\UserForbiddenName;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
 use Validator;
 

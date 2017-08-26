@@ -17,7 +17,6 @@ use App\Traits\Submit;
 use Auth;
 use Carbon\Carbon;
 use DB;
-use Embed\Embed;
 use Illuminate\Http\Request;
 
 class SubmissionController extends Controller

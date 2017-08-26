@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Submission;
 use App\Traits\CachableSubmission;
 use Illuminate\Http\Request;
 

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Comment;
 use App\Traits\CachableComment;
 use App\Traits\CachableUser;
 use Auth;
