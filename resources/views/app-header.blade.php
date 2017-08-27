@@ -42,8 +42,8 @@
         </div>
 
 		@if(Auth::check())
-	        <div class="ui icon top right green pointing dropdown pull-right">
-	            <img src="{{Auth::user()->avatar}}" alt="{{Auth::user()->username}}" class="header-avatar">
+	        <div class="ui icon top right green pointing dropdown pull-right" id="more-button">
+				<i class="v-icon v-more-vertical"></i>
 
 	            <div class="menu">
 	                <div class="header">My Voten</div>
@@ -89,7 +89,7 @@
 
 						<div class="item" v-if="Store.moderatingCategories.length && Store.moderatingCategories.length > 6">
 							<i class="v-icon v-more"></i>
-							<span class="text">More</span>
+
 							<div class="left menu">
 								<router-link :to="'/c/' + item.name" class="item" v-for="(item, index) in Store.moderatingCategories"
 											 :key="item.id" v-if="index > 6">

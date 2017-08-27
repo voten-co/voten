@@ -12,7 +12,7 @@
 					<i class="v-icon h-yellow pointer" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'"></i>
 				</a>
 
-				<div class="ui icon top left pointing dropdown" v-if="!isGuest">
+				<div class="ui icon top left pointing dropdown" v-if="!isGuest" id="more-button">
 					<i class="v-icon v-more" aria-hidden="true"></i>
 
 					<div class="menu">

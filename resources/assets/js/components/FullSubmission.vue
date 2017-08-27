@@ -46,7 +46,7 @@
 							</div>
 
 							<div>
-								<div class="ui icon top right green pointing dropdown" v-if="!isGuest">
+								<div class="ui icon top right green pointing dropdown" v-if="!isGuest" id="more-button">
 									<i class="v-icon v-more" aria-hidden="true"></i>
 
 									<div class="menu">

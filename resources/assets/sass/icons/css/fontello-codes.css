@@ -98,6 +98,8 @@
 .v-play:before { content: '\e860'; } /* '' */
 .v-down-dir:before { content: '\e861'; } /* '' */
 .v-play-outline:before { content: '\e862'; } /* '' */
+.v-exchange:before { content: '\e863'; } /* '' */
+.v-more-vertical:before { content: '\e864'; } /* '' */
 .v-hash:before { content: '\f029'; } /* '' */
 .v-bell-1:before { content: '\f03f'; } /* '' */
 .v-users:before { content: '\f064'; } /* '' */

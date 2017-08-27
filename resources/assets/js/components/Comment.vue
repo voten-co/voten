@@ -62,7 +62,8 @@
                         <i class="v-icon v-edit h-purple"></i>
                     </a>
 
-                    <div class="ui icon top left pointing dropdown" data-toggle="tooltip" data-placement="top" title="More" v-if="!isGuest">
+                    <div class="ui icon top left pointing dropdown" data-toggle="tooltip" data-placement="top" title="More" v-if="!isGuest"
+                         id="more-button">
                         <i class="v-icon v-more" aria-hidden="true"></i>
 
                         <div class="menu">

@@ -92,7 +92,8 @@
 	        	<i class="v-icon h-yellow pointer" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'" @click="bookmark"
 	        	data-toggle="tooltip" data-placement="bottom" title="Bookmark"></i>
 
-				<div class="ui icon top right green pointing dropdown" data-toggle="tooltip" data-placement="bottom" title="More">
+				<div class="ui icon top right green pointing dropdown" data-toggle="tooltip" data-placement="bottom" title="More"
+					 id="more-button">
 					<i class="v-icon v-more" aria-hidden="true"></i>
 
 					<div class="menu">
