@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.4.30 on 2017-08-09.
+ * Generated for Laravel 5.4.30 on 2017-08-26.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  *
@@ -6274,22 +6274,22 @@ namespace Illuminate\Support\Facades {
          */
         public static function size($queue = null)
         {
-            return \Illuminate\Queue\RedisQueue::size($queue);
+            return \Illuminate\Queue\DatabaseQueue::size($queue);
         }
 
         /**
          * Push a new job onto the queue.
          *
-         * @param object|string $job
-         * @param mixed         $data
-         * @param string        $queue
+         * @param string $job
+         * @param mixed  $data
+         * @param string $queue
          *
          * @return mixed
          * @static
          */
         public static function push($job, $data = '', $queue = null)
         {
-            return \Illuminate\Queue\RedisQueue::push($job, $data, $queue);
+            return \Illuminate\Queue\DatabaseQueue::push($job, $data, $queue);
         }
 
         /**
@@ -6304,23 +6304,53 @@ namespace Illuminate\Support\Facades {
          */
         public static function pushRaw($payload, $queue = null, $options = [])
         {
-            return \Illuminate\Queue\RedisQueue::pushRaw($payload, $queue, $options);
+            return \Illuminate\Queue\DatabaseQueue::pushRaw($payload, $queue, $options);
         }
 
         /**
          * Push a new job onto the queue after a delay.
          *
          * @param \DateTime|int $delay
-         * @param object|string $job
+         * @param string        $job
          * @param mixed         $data
          * @param string        $queue
          *
-         * @return mixed
+         * @return void
          * @static
          */
         public static function later($delay, $job, $data = '', $queue = null)
         {
-            return \Illuminate\Queue\RedisQueue::later($delay, $job, $data, $queue);
+            \Illuminate\Queue\DatabaseQueue::later($delay, $job, $data, $queue);
+        }
+
+        /**
+         * Push an array of jobs onto the queue.
+         *
+         * @param array  $jobs
+         * @param mixed  $data
+         * @param string $queue
+         *
+         * @return mixed
+         * @static
+         */
+        public static function bulk($jobs, $data = '', $queue = null)
+        {
+            return \Illuminate\Queue\DatabaseQueue::bulk($jobs, $data, $queue);
+        }
+
+        /**
+         * Release a reserved job back onto the queue.
+         *
+         * @param string                                   $queue
+         * @param \Illuminate\Queue\Jobs\DatabaseJobRecord $job
+         * @param int                                      $delay
+         *
+         * @return mixed
+         * @static
+         */
+        public static function release($queue, $job, $delay)
+        {
+            return \Illuminate\Queue\DatabaseQueue::release($queue, $job, $delay);
         }
 
         /**
@@ -6333,61 +6363,32 @@ namespace Illuminate\Support\Facades {
          */
         public static function pop($queue = null)
         {
-            return \Illuminate\Queue\RedisQueue::pop($queue);
-        }
-
-        /**
-         * Migrate the delayed jobs that are ready to the regular queue.
-         *
-         * @param string $from
-         * @param string $to
-         *
-         * @return array
-         * @static
-         */
-        public static function migrateExpiredJobs($from, $to)
-        {
-            return \Illuminate\Queue\RedisQueue::migrateExpiredJobs($from, $to);
+            return \Illuminate\Queue\DatabaseQueue::pop($queue);
         }
 
         /**
          * Delete a reserved job from the queue.
          *
-         * @param string                          $queue
-         * @param \Illuminate\Queue\Jobs\RedisJob $job
+         * @param string $queue
+         * @param string $id
          *
          * @return void
          * @static
          */
-        public static function deleteReserved($queue, $job)
+        public static function deleteReserved($queue, $id)
         {
-            \Illuminate\Queue\RedisQueue::deleteReserved($queue, $job);
+            \Illuminate\Queue\DatabaseQueue::deleteReserved($queue, $id);
         }
 
         /**
-         * Delete a reserved job from the reserved queue and release it.
+         * Get the underlying database instance.
          *
-         * @param string                          $queue
-         * @param \Illuminate\Queue\Jobs\RedisJob $job
-         * @param int                             $delay
-         *
-         * @return void
+         * @return \Illuminate\Database\Connection
          * @static
          */
-        public static function deleteAndRelease($queue, $job, $delay)
+        public static function getDatabase()
         {
-            \Illuminate\Queue\RedisQueue::deleteAndRelease($queue, $job, $delay);
-        }
-
-        /**
-         * Get the underlying Redis instance.
-         *
-         * @return \Illuminate\Contracts\Redis\Factory
-         * @static
-         */
-        public static function getRedis()
-        {
-            return \Illuminate\Queue\RedisQueue::getRedis();
+            return \Illuminate\Queue\DatabaseQueue::getDatabase();
         }
 
         /**
@@ -6403,7 +6404,7 @@ namespace Illuminate\Support\Facades {
         public static function pushOn($queue, $job, $data = '')
         {
             //Method inherited from \Illuminate\Queue\Queue
-            return \Illuminate\Queue\RedisQueue::pushOn($queue, $job, $data);
+            return \Illuminate\Queue\DatabaseQueue::pushOn($queue, $job, $data);
         }
 
         /**
@@ -6420,23 +6421,7 @@ namespace Illuminate\Support\Facades {
         public static function laterOn($queue, $delay, $job, $data = '')
         {
             //Method inherited from \Illuminate\Queue\Queue
-            return \Illuminate\Queue\RedisQueue::laterOn($queue, $delay, $job, $data);
-        }
-
-        /**
-         * Push an array of jobs onto the queue.
-         *
-         * @param array  $jobs
-         * @param mixed  $data
-         * @param string $queue
-         *
-         * @return mixed
-         * @static
-         */
-        public static function bulk($jobs, $data = '', $queue = null)
-        {
-            //Method inherited from \Illuminate\Queue\Queue
-            return \Illuminate\Queue\RedisQueue::bulk($jobs, $data, $queue);
+            return \Illuminate\Queue\DatabaseQueue::laterOn($queue, $delay, $job, $data);
         }
 
         /**
@@ -6448,7 +6433,7 @@ namespace Illuminate\Support\Facades {
         public static function getConnectionName()
         {
             //Method inherited from \Illuminate\Queue\Queue
-            return \Illuminate\Queue\RedisQueue::getConnectionName();
+            return \Illuminate\Queue\DatabaseQueue::getConnectionName();
         }
 
         /**
@@ -6462,7 +6447,7 @@ namespace Illuminate\Support\Facades {
         public static function setConnectionName($name)
         {
             //Method inherited from \Illuminate\Queue\Queue
-            return \Illuminate\Queue\RedisQueue::setConnectionName($name);
+            return \Illuminate\Queue\DatabaseQueue::setConnectionName($name);
         }
 
         /**
@@ -6476,7 +6461,7 @@ namespace Illuminate\Support\Facades {
         public static function setContainer($container)
         {
             //Method inherited from \Illuminate\Queue\Queue
-            \Illuminate\Queue\RedisQueue::setContainer($container);
+            \Illuminate\Queue\DatabaseQueue::setContainer($container);
         }
     }
 
@@ -10383,7 +10368,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param string $name
          *
-         * @return \Illuminate\Filesystem\FilesystemAdapter
+         * @return \Illuminate\Contracts\Filesystem\Filesystem
          * @static
          */
         public static function drive($name = null)
@@ -10396,7 +10381,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param string $name
          *
-         * @return \Illuminate\Filesystem\FilesystemAdapter
+         * @return \Illuminate\Contracts\Filesystem\Filesystem
          * @static
          */
         public static function disk($name = null)
@@ -10407,7 +10392,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Get a default cloud filesystem instance.
          *
-         * @return \Illuminate\Filesystem\FilesystemAdapter
+         * @return \Illuminate\Contracts\Filesystem\Filesystem
          * @static
          */
         public static function cloud()
@@ -10420,7 +10405,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param array $config
          *
-         * @return \Illuminate\Filesystem\FilesystemAdapter
+         * @return \Illuminate\Contracts\Filesystem\Filesystem
          * @static
          */
         public static function createLocalDriver($config)
@@ -10433,7 +10418,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param array $config
          *
-         * @return \Illuminate\Filesystem\FilesystemAdapter
+         * @return \Illuminate\Contracts\Filesystem\Filesystem
          * @static
          */
         public static function createFtpDriver($config)
@@ -10515,347 +10500,6 @@ namespace Illuminate\Support\Facades {
         public static function extend($driver, $callback)
         {
             return \Illuminate\Filesystem\FilesystemManager::extend($driver, $callback);
-        }
-
-        /**
-         * Assert that the given file exists.
-         *
-         * @param string $path
-         *
-         * @return void
-         * @static
-         */
-        public static function assertExists($path)
-        {
-            \Illuminate\Filesystem\FilesystemAdapter::assertExists($path);
-        }
-
-        /**
-         * Assert that the given file does not exist.
-         *
-         * @param string $path
-         *
-         * @return void
-         * @static
-         */
-        public static function assertMissing($path)
-        {
-            \Illuminate\Filesystem\FilesystemAdapter::assertMissing($path);
-        }
-
-        /**
-         * Determine if a file exists.
-         *
-         * @param string $path
-         *
-         * @return bool
-         * @static
-         */
-        public static function exists($path)
-        {
-            return \Illuminate\Filesystem\FilesystemAdapter::exists($path);
-        }
-
-        /**
-         * Get the contents of a file.
-         *
-         * @param string $path
-         *
-         * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
-         *
-         * @return string
-         * @static
-         */
-        public static function get($path)
-        {
-            return \Illuminate\Filesystem\FilesystemAdapter::get($path);
-        }
-
-        /**
-         * Write the contents of a file.
-         *
-         * @param string          $path
-         * @param string|resource $contents
-         * @param array           $options
-         *
-         * @return bool
-         * @static
-         */
-        public static function put($path, $contents, $options = [])
-        {
-            return \Illuminate\Filesystem\FilesystemAdapter::put($path, $contents, $options);
-        }
-
-        /**
-         * Store the uploaded file on the disk.
-         *
-         * @param string                                              $path
-         * @param \Illuminate\Http\File|\Illuminate\Http\UploadedFile $file
-         * @param array                                               $options
-         *
-         * @return string|false
-         * @static
-         */
-        public static function putFile($path, $file, $options = [])
-        {
-            return \Illuminate\Filesystem\FilesystemAdapter::putFile($path, $file, $options);
-        }
-
-        /**
-         * Store the uploaded file on the disk with a given name.
-         *
-         * @param string                                              $path
-         * @param \Illuminate\Http\File|\Illuminate\Http\UploadedFile $file
-         * @param string                                              $name
-         * @param array                                               $options
-         *
-         * @return string|false
-         * @static
-         */
-        public static function putFileAs($path, $file, $name, $options = [])
-        {
-            return \Illuminate\Filesystem\FilesystemAdapter::putFileAs($path, $file, $name, $options);
-        }
-
-        /**
-         * Get the visibility for the given path.
-         *
-         * @param string $path
-         *
-         * @return string
-         * @static
-         */
-        public static function getVisibility($path)
-        {
-            return \Illuminate\Filesystem\FilesystemAdapter::getVisibility($path);
-        }
-
-        /**
-         * Set the visibility for the given path.
-         *
-         * @param string $path
-         * @param string $visibility
-         *
-         * @return void
-         * @static
-         */
-        public static function setVisibility($path, $visibility)
-        {
-            \Illuminate\Filesystem\FilesystemAdapter::setVisibility($path, $visibility);
-        }
-
-        /**
-         * Prepend to a file.
-         *
-         * @param string $path
-         * @param string $data
-         * @param string $separator
-         *
-         * @return int
-         * @static
-         */
-        public static function prepend($path, $data, $separator = '')
-        {
-            return \Illuminate\Filesystem\FilesystemAdapter::prepend($path, $data, $separator);
-        }
-
-        /**
-         * Append to a file.
-         *
-         * @param string $path
-         * @param string $data
-         * @param string $separator
-         *
-         * @return int
-         * @static
-         */
-        public static function append($path, $data, $separator = '')
-        {
-            return \Illuminate\Filesystem\FilesystemAdapter::append($path, $data, $separator);
-        }
-
-        /**
-         * Delete the file at a given path.
-         *
-         * @param string|array $paths
-         *
-         * @return bool
-         * @static
-         */
-        public static function delete($paths)
-        {
-            return \Illuminate\Filesystem\FilesystemAdapter::delete($paths);
-        }
-
-        /**
-         * Copy a file to a new location.
-         *
-         * @param string $from
-         * @param string $to
-         *
-         * @return bool
-         * @static
-         */
-        public static function copy($from, $to)
-        {
-            return \Illuminate\Filesystem\FilesystemAdapter::copy($from, $to);
-        }
-
-        /**
-         * Move a file to a new location.
-         *
-         * @param string $from
-         * @param string $to
-         *
-         * @return bool
-         * @static
-         */
-        public static function move($from, $to)
-        {
-            return \Illuminate\Filesystem\FilesystemAdapter::move($from, $to);
-        }
-
-        /**
-         * Get the file size of a given file.
-         *
-         * @param string $path
-         *
-         * @return int
-         * @static
-         */
-        public static function size($path)
-        {
-            return \Illuminate\Filesystem\FilesystemAdapter::size($path);
-        }
-
-        /**
-         * Get the mime-type of a given file.
-         *
-         * @param string $path
-         *
-         * @return string|false
-         * @static
-         */
-        public static function mimeType($path)
-        {
-            return \Illuminate\Filesystem\FilesystemAdapter::mimeType($path);
-        }
-
-        /**
-         * Get the file's last modification time.
-         *
-         * @param string $path
-         *
-         * @return int
-         * @static
-         */
-        public static function lastModified($path)
-        {
-            return \Illuminate\Filesystem\FilesystemAdapter::lastModified($path);
-        }
-
-        /**
-         * Get the URL for the file at the given path.
-         *
-         * @param string $path
-         *
-         * @return string
-         * @static
-         */
-        public static function url($path)
-        {
-            return \Illuminate\Filesystem\FilesystemAdapter::url($path);
-        }
-
-        /**
-         * Get an array of all files in a directory.
-         *
-         * @param string|null $directory
-         * @param bool        $recursive
-         *
-         * @return array
-         * @static
-         */
-        public static function files($directory = null, $recursive = false)
-        {
-            return \Illuminate\Filesystem\FilesystemAdapter::files($directory, $recursive);
-        }
-
-        /**
-         * Get all of the files from the given directory (recursive).
-         *
-         * @param string|null $directory
-         *
-         * @return array
-         * @static
-         */
-        public static function allFiles($directory = null)
-        {
-            return \Illuminate\Filesystem\FilesystemAdapter::allFiles($directory);
-        }
-
-        /**
-         * Get all of the directories within a given directory.
-         *
-         * @param string|null $directory
-         * @param bool        $recursive
-         *
-         * @return array
-         * @static
-         */
-        public static function directories($directory = null, $recursive = false)
-        {
-            return \Illuminate\Filesystem\FilesystemAdapter::directories($directory, $recursive);
-        }
-
-        /**
-         * Get all (recursive) of the directories within a given directory.
-         *
-         * @param string|null $directory
-         *
-         * @return array
-         * @static
-         */
-        public static function allDirectories($directory = null)
-        {
-            return \Illuminate\Filesystem\FilesystemAdapter::allDirectories($directory);
-        }
-
-        /**
-         * Create a directory.
-         *
-         * @param string $path
-         *
-         * @return bool
-         * @static
-         */
-        public static function makeDirectory($path)
-        {
-            return \Illuminate\Filesystem\FilesystemAdapter::makeDirectory($path);
-        }
-
-        /**
-         * Recursively delete a directory.
-         *
-         * @param string $directory
-         *
-         * @return bool
-         * @static
-         */
-        public static function deleteDirectory($directory)
-        {
-            return \Illuminate\Filesystem\FilesystemAdapter::deleteDirectory($directory);
-        }
-
-        /**
-         * Get the Flysystem driver.
-         *
-         * @return \League\Flysystem\FilesystemInterface
-         * @static
-         */
-        public static function getDriver()
-        {
-            return \Illuminate\Filesystem\FilesystemAdapter::getDriver();
         }
     }
 
@@ -12271,37 +11915,6 @@ namespace Flugg\Responder\Facades {
         public static function transform($data = null, $transformer = null)
         {
             return \Flugg\Responder\Responder::transform($data, $transformer);
-        }
-    }
-
-}
-
-namespace Pbmedia\LaravelFFMpeg {
-
-    class FFMpegFacade
-    {
-        /**
-         * @static
-         */
-        public static function getFilesystems()
-        {
-            return \Pbmedia\LaravelFFMpeg\FFMpeg::getFilesystems();
-        }
-
-        /**
-         * @static
-         */
-        public static function fromDisk($diskName)
-        {
-            return \Pbmedia\LaravelFFMpeg\FFMpeg::fromDisk($diskName);
-        }
-
-        /**
-         * @static
-         */
-        public static function open($path)
-        {
-            return \Pbmedia\LaravelFFMpeg\FFMpeg::open($path);
         }
     }
 
@@ -15123,10 +14736,6 @@ namespace  {
     }
 
     class Responder extends \Flugg\Responder\Facades\Responder
-    {
-    }
-
-    class FFMpeg extends \Pbmedia\LaravelFFMpeg\FFMpegFacade
     {
     }
 
