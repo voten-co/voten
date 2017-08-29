@@ -39,4 +39,4 @@ test:
         background: true
 
   override:
-    - php artisan dusk
+    - php artisan --env=testing dusk
