@@ -2,16 +2,16 @@
 
 namespace Tests\Browser;
 
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Dusk\Browser;
+use Tests\DuskTestCase;
 
 class RegisterTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
     /**
-     * Make sure the user can register from the home
+     * Make sure the user can register from the home.
      *
      * @return void
      */
