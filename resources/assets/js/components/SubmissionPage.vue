@@ -188,7 +188,7 @@
 
 				// add broadcastedParent (used for styling)
 				if (comment.user_id != auth.id) {
-					comment.broadcastedParent = true;
+					comment.broadcasted = true;
 				}
 
 				this.comments.unshift(comment);

@@ -72,7 +72,7 @@ class SubmissionReplied extends Notification implements ShouldBroadcast
     public function toArray($notifiable)
     {
         return [
-            'url'    => '/c/'.$this->submission->category_name.'/'.$this->submission->slug,
+            'url'    => '/c/'.$this->submission->category_name.'/'.$this->submission->slug.'?comment='.$this->comment->id,
             'name'   => $this->comment->owner->username,
             'avatar' => $this->comment->owner->avatar,
             'body'   => '@'.$this->comment->owner->username.' left a comment on "'.$this->submission->title.'"',
