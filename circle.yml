@@ -35,7 +35,6 @@ test:
     - sudo apt-get --only-upgrade install google-chrome-stable
     - "./vendor/laravel/dusk/bin/chromedriver-linux":
         background: true
-    - cp .env.circle .env
     - php artisan migrate
     - php artisan passport:install
     - "php artisan serve":
