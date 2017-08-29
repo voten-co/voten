@@ -22,11 +22,11 @@ dependencies:
 
 general:
   artifacts:
-    - "tests/Browser/screenshots"
-    - "tests/Browser/console"
-    - "server.log"
     - "npm-debug.log"
+    - "server.log"
     - "storage/logs"
+    - "tests/Browser/console"
+    - "tests/Browser/screenshots"
 
 test:
   pre:
