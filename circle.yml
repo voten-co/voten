@@ -26,6 +26,7 @@ general:
     - "tests/Browser/console"
     - "server.log"
     - "npm-debug.log"
+    - "storage/logs"
 
 test:
   pre:
