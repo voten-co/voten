@@ -10,6 +10,7 @@ machine:
 
   services:
     - mysql
+    - redis
 
 dependencies:
   cache_directories:
