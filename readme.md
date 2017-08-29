@@ -4,7 +4,7 @@ Voten.co is a real-time social bookmarking for the 21st century. It's real-time,
 
 ## Contributing
 
-Thank you for considering contributing to the Voten. To encourage active collaboration, Voten strongly encourages pull requests, not just bug reports. If you have an idea(and not the code for it) you may contact us either with the info@voten.co email address or submit it to [/c/votendev](https://voten.co/c/votendev) channel.
+Thank you for considering contributing to the Voten. To encourage active collaboration, Voten strongly encourages pull requests, not just bug reports. [Voten's Slack channel](https://join.slack.com/t/voten/shared_invite/MjMzMTQxMzM4MDM2LTE1MDM5OTQ0NjEtMWRiMDhiZTY2Yg) is created for developers to discuss Voten development concerns. If you have an idea(and not the code for it) you may contact us either with the info@voten.co email address or submit it to [/c/votendev](https://voten.co/c/votendev) channel.
 
 ## Coding Style
 
