@@ -186,9 +186,9 @@
             newComment(comment) {
             	if (comment.parent_id != 0 || comment.submission_id != this.submission.id) return;
 
-				// add broadcastedParent (used for styling)
+				// add broadcasted (used for styling)
 				if (comment.user_id != auth.id) {
-					comment.broadcastedParent = true;
+					comment.broadcasted = true;
 				}
 
 				this.comments.unshift(comment);
