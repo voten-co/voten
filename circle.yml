@@ -10,6 +10,7 @@ machine:
 
   services:
     - mysql
+    - redis
 
 dependencies:
   cache_directories:
@@ -22,10 +23,11 @@ dependencies:
 
 general:
   artifacts:
-    - "tests/Browser/screenshots"
-    - "tests/Browser/console"
-    - "server.log"
     - "npm-debug.log"
+    - "server.log"
+    - "storage/logs"
+    - "tests/Browser/console"
+    - "tests/Browser/screenshots"
 
 test:
   pre:
@@ -33,11 +35,9 @@ test:
     - sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb stable main" >> /etc/apt/sources.list.d/google.list'
     - sudo apt-get update
     - sudo apt-get --only-upgrade install google-chrome-stable
+    - cp .env.dusk.testing .env
     - "./vendor/laravel/dusk/bin/chromedriver-linux":
         background: true
-    - cp .env.circle .env
-    - php artisan migrate
-    - php artisan passport:install
     - "php artisan serve":
         background: true
 
