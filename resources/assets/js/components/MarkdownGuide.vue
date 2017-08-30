@@ -13,7 +13,7 @@
                 <table class="table">
 				  	<thead class="user-select">
 					    <tr>
-							<th>Your Type</th>
+							<th>You Type</th>
 							<th class="half-width">You See</th>
 					    </tr>
 				  	</thead>
