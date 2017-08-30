@@ -13,20 +13,26 @@ trait UsernameMentions
      *
      * @param \App\Comment    $comment
      * @param \App\Submission $submission
-     * @param \App\User $notifiableUser
+     * @param \App\User       $notifiableUser
      *
      * @return void
      */
     protected function handleMentions($comment, $submission, $notifiableUser = null)
     {
-        if (!preg_match_all('/@([A-Za-z0-9\._]+)/', $comment->body, $mentionedUsernames)) return;
+        if (!preg_match_all('/@([A-Za-z0-9\._]+)/', $comment->body, $mentionedUsernames)) {
+            return;
+        }
 
         foreach ($mentionedUsernames[1] as $key => $username) {
             // set a limit so they can't just mention the whole website!
-            if ($key === 5) return;
+            if ($key === 5) {
+                return;
+            }
 
             if ($user = User::whereUsername($username)->first()) {
-                if ($notifiableUser->id === $user->id) continue;
+                if ($notifiableUser->id === $user->id) {
+                    continue;
+                }
 
                 $user->notify(new UsernameMentioned(Auth::user(), $submission));
             }
