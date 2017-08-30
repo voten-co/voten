@@ -13,7 +13,7 @@
         	@if(Auth::check())
 				<button type="button" class="btn-nth relative" id="messages-btn" @click="changeRoute('messages')"
 	            data-toggle="tooltip" data-placement="bottom" title="Messages">
-	                <i class="v-icon v-inbox-1" aria-hidden="true"></i>
+	                <i class="v-icon v-inbox" aria-hidden="true"></i>
 	                <span class="queue-number" v-show="unreadMessages" v-text="unreadMessages"></span>
 	            </button>
 
@@ -32,7 +32,7 @@
 
             <button type="button" class="btn-nth relative" aria-haspopup="true"
 			data-toggle="tooltip" data-placement="bottom" title="Search" aria-expanded="false" @click="changeRoute('search')">
-           		<i class="v-icon v-search-2" aria-hidden="true"></i>
+           		<i class="v-icon v-search-3" aria-hidden="true"></i>
             </button>
 
 			<router-link :to="'/'" class="btn-nth relative" aria-haspopup="true"
@@ -124,7 +124,7 @@
 	                </router-link>
 
 					<div class="item">
-						<span class="text">Voten</span>
+						<span>&#8592; Voten</span>
 
 						<div class="left menu green">
 							<a href="/about" class="item">
@@ -157,6 +157,10 @@
 
 			                <a href="https://github.com/voten-co/voten" class="item" target="_blank">
 			                    Source Code
+			                </a>
+
+							<a href="https://join.slack.com/t/voten/shared_invite/MjMzMTQxMzM4MDM2LTE1MDM5OTQ0NjEtMWRiMDhiZTY2Yg" class="item" target="_blank">
+			                    Slack
 			                </a>
 						</div>
 					</div>

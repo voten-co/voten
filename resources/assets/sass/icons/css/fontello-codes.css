@@ -67,7 +67,7 @@
 .v-upvoted:before { content: '\e841'; } /* '' */
 .v-downvote:before { content: '\e842'; } /* '' */
 .v-downvoted:before { content: '\e843'; } /* '' */
-.v-bell-2:before { content: '\e844'; } /* '' */
+.v-home:before { content: '\e844'; } /* '' */
 .v-doc-add:before { content: '\e845'; } /* '' */
 .v-minus:before { content: '\e846'; } /* '' */
 .v-star:before { content: '\e847'; } /* '' */
@@ -79,7 +79,7 @@
 .v-load-more:before { content: '\e84d'; } /* '' */
 .v-reply:before { content: '\e84e'; } /* '' */
 .v-book:before { content: '\e84f'; } /* '' */
-.v-home:before { content: '\e850'; } /* '' */
+.v-search-3:before { content: '\e850'; } /* '' */
 .v-like:before { content: '\e851'; } /* '' */
 .v-clock:before { content: '\e852'; } /* '' */
 .v-block:before { content: '\e853'; } /* '' */
@@ -100,6 +100,8 @@
 .v-play-outline:before { content: '\e862'; } /* '' */
 .v-exchange:before { content: '\e863'; } /* '' */
 .v-more-vertical:before { content: '\e864'; } /* '' */
+.v-bell-2:before { content: '\e865'; } /* '' */
+.v-inbox:before { content: '\e867'; } /* '' */
 .v-hash:before { content: '\f029'; } /* '' */
 .v-bell-1:before { content: '\f03f'; } /* '' */
 .v-users:before { content: '\f064'; } /* '' */
