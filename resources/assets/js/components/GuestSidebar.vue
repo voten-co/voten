@@ -1,9 +1,5 @@
 <template>
     <div class="side-fixed"  id="v-sidebar">
-        <!-- <div class="profile-card">
-            tada
-        </div> -->
-
         <div class="sidebar-offer-wrapper">
         	<h3>
         		New to Voten?
@@ -17,7 +13,6 @@
         		Sign up
         	</button>
         </div>
-
 
         <aside class="menu">
         	<div class="flex-space">
@@ -85,7 +80,7 @@ export default {
 
 	watch: {
 		'$route': function () {
-			this.subscribedFilter = ''
+			this.subscribedFilter = '';
 		}
 	},
 
@@ -118,11 +113,15 @@ export default {
     },
 
     methods: {
-        changeRoute: function(newRoute) {
+        changeRoute(newRoute) {
         	this.$eventHub.$emit('new-route', newRoute)
         },
-        signUp: function(){
-            this.$eventHub.$emit('toggle-sidebar');
+
+        signUp() {
+        	if (this.isMobile) {
+        		this.$eventHub.$emit('toggle-sidebar');
+        	}
+
             this.mustBeLogin();
         }
     },
