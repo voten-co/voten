@@ -34,7 +34,7 @@ class BanController extends Controller
 
         // make sure only voten-administrators are able to ban users everywhere
         if ($request->category == 'all') {
-            abort_unless($this->mustBeVotenAdministrator(), 403);
+            abort_unless($this->mustBeVotenAdministrator() && $request->username != Auth::user()->username, 403);
 
             // remove all user's data that might have been spam and harmful to others
             DB::table('submissions')->where('user_id', $user->id)->delete();
@@ -48,7 +48,7 @@ class BanController extends Controller
             // set active to 0 (to make future checkings easier)
             $user->update(['active' => false]);
         } else {
-            abort_unless($this->mustBeModerator($category->id), 403);
+            abort_unless($this->mustBeModerator($category->id) && $request->username != Auth::user()->username, 403);
         }
 
         // BAN DURATION: if the duration is set as 0 we set a really big number like 17 years!
