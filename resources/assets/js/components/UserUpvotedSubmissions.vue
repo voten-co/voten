@@ -4,7 +4,7 @@
 	        <submission :list="submission"></submission>
 	    </div>
 
-		<no-content v-if="nothingFound" :text="'This user has not submitted anything yet'"></no-content>
+		<no-content v-if="nothingFound" :text="'This user has not upvoted any submissions yet'"></no-content>
 
 		<loading v-if="loading"></loading>
 
