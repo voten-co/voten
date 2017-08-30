@@ -225,7 +225,7 @@ class ModeratorController extends Controller
 
         $category = Category::where('name', $request->category_name)->firstOrFail();
 
-        abort_unless($this->mustBeAdministrator($category->id), 403);
+        abort_unless($this->mustBeAdministrator($category->id) && $request->username != Auth::user()->username, 403);
 
         $user = User::where('username', $request->username)->firstOrFail();
 
