@@ -58,10 +58,12 @@ class NewComment
 
         if (isset($event->parentComment) && !$this->mustBeOwner($event->parentComment)) {
             $event->parentComment->notifiable->notify(new CommentReplied($event->submission, $event->comment));
+            $notifiableUser = $event->parentComment->notifiable;
         } elseif (!$this->mustBeOwner($event->submission)) {
             $event->submission->notifiable->notify(new SubmissionReplied($event->submission, $event->comment));
+            $notifiableUser = $event->submission->notifiable;
         }
 
-        $this->handleMentions($event->comment, $event->submission);
+        $this->handleMentions($event->comment, $event->submission, $notifiableUser);
     }
 }
