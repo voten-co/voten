@@ -18,6 +18,16 @@ export default {
         },
 
         /**
+         * Is visitor browsing via a mobile device
+         *
+         * @return bool
+         */
+        isMobile()
+        {
+            return auth.isMobileDevice;
+        },
+
+        /**
          * is user a moderator?
          *
          * @return bool
