@@ -28,6 +28,18 @@ class HelpController extends Controller
     }
 
     /**
+     * Returns help record.
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getHelp(Request $request)
+    {
+        return Help::findOrFail($request->id);
+    }
+
+    /**
      * Creates the Help model with submitted info.
      *
      * @param \Illuminate\Http\Request $request

@@ -19,6 +19,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/feedback/delete', 'FeedbacksController@destroy');
 
     // help
+    Route::get('/get-help', 'HelpController@getHelp');
     Route::post('/new-help', 'HelpController@store');
     Route::post('/edit-help', 'HelpController@patch');
     Route::post('/help-index', 'HelpController@index');
