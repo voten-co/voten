@@ -46,7 +46,7 @@
                     <small class="text-muted go-red" v-for="e in errors.text">{{ e }}</small>
                 </div>
 
-                <div v-if="preview && fText" class="form-wrapper">
+                <div v-if="preview && fText" class="form-wrapper margin-bottom-1">
                     <markdown :text="fText"></markdown>
               	</div>
 
