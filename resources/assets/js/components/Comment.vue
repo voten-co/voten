@@ -37,29 +37,29 @@
                 </div>
 
                 <div class="actions user-select">
-                    <a class="reply" @click="commentReply" v-if="list.level < 8"
+                    <a class="reply h-green" @click="commentReply" v-if="list.level < 8"
                     data-toggle="tooltip" data-placement="top" title="Reply">
-                        <i class="v-icon v-reply h-green"></i>
+                        <i class="v-icon v-reply"></i>
                     </a>
 
-                    <a class="reply" @click="voteUp"
+                    <a class="reply h-primary" @click="voteUp"
                     data-toggle="tooltip" data-placement="top" title="Upvote">
-                        <i class="v-icon h-primary v-up-fat" :class="upvoted ? 'go-primary' : 'go-gray'"></i>
+                        <i class="v-icon v-up-fat" :class="upvoted ? 'go-primary' : 'go-gray'"></i>
                     </a>
 
-                    <a class="reply" @click="voteDown"
+                    <a class="reply h-red" @click="voteDown"
                     data-toggle="tooltip" data-placement="top" title="Downvote">
-                        <i class="v-icon h-red v-down-fat" :class="downvoted ? 'go-red' : 'go-gray'"></i>
+                        <i class="v-icon v-down-fat" :class="downvoted ? 'go-red' : 'go-gray'"></i>
                     </a>
 
-                    <a class="reply" @click="bookmark"
+                    <a class="reply h-yellow" @click="bookmark"
                     data-toggle="tooltip" data-placement="top" title="Bookmark">
-                        <i class="v-icon h-yellow" v-bind:class="{ 'go-yellow v-unbookmark': bookmarked, 'v-bookmark': !bookmarked }"></i>
+                        <i class="v-icon" v-bind:class="{ 'go-yellow v-unbookmark': bookmarked, 'v-bookmark': !bookmarked }"></i>
                     </a>
 
-                    <a class="reply" @click="edit" v-if="owns"
+                    <a class="reply h-purple" @click="edit" v-if="owns"
                     data-toggle="tooltip" data-placement="top" title="Edit">
-                        <i class="v-icon v-edit h-purple"></i>
+                        <i class="v-icon v-edit"></i>
                     </a>
 
                     <div class="ui icon top left pointing dropdown" data-toggle="tooltip" data-placement="top" title="More" v-if="!isGuest"

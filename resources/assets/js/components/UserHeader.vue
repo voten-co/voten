@@ -116,7 +116,7 @@
 		        </div>
 
 		        <div class="channel-admin-btn">
-		        	<i class="v-icon h-yellow pointer" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'"
+		        	<i class="v-icon go-gray h-yellow pointer" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'"
 		        	@click="bookmark" v-if="$route.params.username != auth.username"
 	        		data-toggle="tooltip" data-placement="bottom" title="Bookmark"></i>
 
