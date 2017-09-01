@@ -99,25 +99,24 @@ const app = new Vue({
 
     computed: {
         smallModal() {
-            return !(this.modalRouter == '')
+            return this.modalRouter != '';
         },
 
         unreadNotifications() {
             return Store.notifications.filter(function(item) {
-                return item.read_at == null
-            }).length
+                return item.read_at == null;
+            }).length;
         },
 
         unreadMessages() {
             return Store.contacts.filter(function(item) {
-                return item.last_message.owner.id != auth.id && item.last_message.read_at == null
-            }).length
+                return item.last_message.owner.id != auth.id && item.last_message.read_at == null;
+            }).length;
         },
     },
 
 
     watch: {
-        // if the route changes, call again the method
         '$route' () {
             this.closeModals();
 
@@ -476,7 +475,7 @@ const app = new Vue({
          * @return void
          */
         updatePageTitle() {
-            var total = Store.unreadMessages + Store.unreadNotifications;
+            let total = this.unreadMessages + this.unreadNotifications;
 
             if (total > 0) {
                 document.title = '(' + total + ') ' + this.pageTitle;
@@ -518,7 +517,6 @@ const app = new Vue({
         },
 
         seenAllNotifications() {
-            // Store.event = 'mark-notifications-read';
             this.markAllNotificationsAsRead();
             Vue.ls.set('event', 'mark-notifications-read', 60 * 60 * 1000);
         },
