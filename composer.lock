@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5ddb31d904d31ac48fdaeb35e89885e0",
+    "content-hash": "092b5a3c55831456ca6ebbddeb22ceae",
     "packages": [
         {
             "name": "alchemy/binary-driver",
@@ -235,48 +235,6 @@
                 }
             ],
             "time": "2016-06-13T19:28:20+00:00"
-        },
-        {
-            "name": "damiantw/laravel-scout-mysql-driver",
-            "version": "v1.0.10",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/damiantw/laravel-scout-mysql-driver.git",
-                "reference": "4073770c7626c268b3cf46445952463eccd4bbf5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/damiantw/laravel-scout-mysql-driver/zipball/4073770c7626c268b3cf46445952463eccd4bbf5",
-                "reference": "4073770c7626c268b3cf46445952463eccd4bbf5",
-                "shasum": ""
-            },
-            "require": {
-                "laravel/framework": "5.3.*|5.4.*",
-                "laravel/scout": "^2.0|^3.0",
-                "php": ">=5.6.4"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "DamianTW\\MySQLScout\\": "src/"
-                },
-                "files": [
-                    "src/helpers.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Damian Crisafulli",
-                    "email": "damian.crisafulli@troyweb.com"
-                }
-            ],
-            "description": "MySQL driver for Laravel Scout.",
-            "abandoned": "yab/laravel-scout-mysql-driver",
-            "time": "2017-06-02T14:00:46+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1018,63 +976,6 @@
             "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
             "homepage": "https://github.com/firebase/php-jwt",
             "time": "2016-07-18T04:51:16+00:00"
-        },
-        {
-            "name": "flugger/laravel-responder",
-            "version": "v1.2.19",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/flugger/laravel-responder.git",
-                "reference": "b94b54a99de7c62c5cc071f0b04973f132e05454"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/flugger/laravel-responder/zipball/b94b54a99de7c62c5cc071f0b04973f132e05454",
-                "reference": "b94b54a99de7c62c5cc071f0b04973f132e05454",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "5.1.* || 5.2.* || 5.3.* || 5.4.*",
-                "league/fractal": "^0.14.0",
-                "php": "^7.0"
-            },
-            "require-dev": {
-                "doctrine/dbal": "^2.5",
-                "fzaninotto/faker": "^1.6",
-                "illuminate/database": "5.1.* || 5.2.* || 5.3.*",
-                "mockery/mockery": "^0.9.5",
-                "orchestra/testbench": "~3.0",
-                "phpunit/phpunit": "^5.4"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Flugg\\Responder\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Alexander Tømmerås",
-                    "email": "flugged@gmail.com"
-                }
-            ],
-            "description": "A Laravel package for APIs, wrapping the Fractal library behind an elegant Laravel API.",
-            "homepage": "https://github.com/flugger/laravel-responder",
-            "keywords": [
-                "api",
-                "fractal",
-                "json",
-                "laravel",
-                "lumen",
-                "responder",
-                "response",
-                "transformer"
-            ],
-            "time": "2017-01-26T00:30:01+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -2109,69 +2010,6 @@
                 "storage"
             ],
             "time": "2017-01-30T17:41:17+00:00"
-        },
-        {
-            "name": "league/fractal",
-            "version": "0.14.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/thephpleague/fractal.git",
-                "reference": "56ad8933fbb40328ca3321c84143b2c16186eebf"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/fractal/zipball/56ad8933fbb40328ca3321c84143b2c16186eebf",
-                "reference": "56ad8933fbb40328ca3321c84143b2c16186eebf",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4"
-            },
-            "require-dev": {
-                "illuminate/contracts": "~5.0",
-                "mockery/mockery": "~0.9",
-                "pagerfanta/pagerfanta": "~1.0.0",
-                "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "~1.5",
-                "zendframework/zend-paginator": "~2.3"
-            },
-            "suggest": {
-                "illuminate/pagination": "The Illuminate Pagination component.",
-                "pagerfanta/pagerfanta": "Pagerfanta Paginator",
-                "zendframework/zend-paginator": "Zend Framework Paginator"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.13-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "League\\Fractal\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Phil Sturgeon",
-                    "email": "me@philsturgeon.uk",
-                    "homepage": "http://philsturgeon.uk/",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Handle the output of complex data structures ready for API output.",
-            "homepage": "http://fractal.thephpleague.com/",
-            "keywords": [
-                "api",
-                "json",
-                "league",
-                "rest"
-            ],
-            "time": "2016-07-21T09:56:14+00:00"
         },
         {
             "name": "league/oauth1-client",
