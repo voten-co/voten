@@ -119,14 +119,14 @@ const app = new Vue({
     watch: {
         // if the route changes, call again the method
         '$route' () {
-            this.closeModals()
+            this.closeModals();
 
             if (auth.isMobileDevice) {
-            	this.sidebar = false
+            	this.sidebar = false;
             }
 
             if (this.$route.query.sidebar == 1) {
-                this.sidebar = true
+                this.sidebar = true;
             }
         },
     },
@@ -155,6 +155,7 @@ const app = new Vue({
         this.$eventHub.$on('crop-user-photo', this.cropUserModal);
         this.$eventHub.$on('push-notification', this.pushNotification)
         this.$eventHub.$on('crop-category-photo', this.cropCategoryModal);
+        this.$eventHub.$on('mark-notifications-read', this.markAllNotificationsAsRead);
 
         if (this.$route.query.search) {
             this.changeRoute('search');
@@ -163,9 +164,9 @@ const app = new Vue({
 
     mounted() {
         this.$nextTick(function() {
-            this.loadCheckBox()
-            this.loadSemanticTooltip()
-            this.loadSemanticDropdown()
+            this.loadCheckBox();
+            this.loadSemanticTooltip();
+            this.loadSemanticDropdown();
         })
     },
 
@@ -475,33 +476,30 @@ const app = new Vue({
          * @return void
          */
         updatePageTitle() {
-            var total = Store.unreadMessages + Store.unreadNotifications
+            var total = Store.unreadMessages + Store.unreadNotifications;
 
             if (total > 0) {
-                document.title = '(' + total + ') ' + this.pageTitle
-                return
+                document.title = '(' + total + ') ' + this.pageTitle;
+                return;
             }
 
-            document.title = this.pageTitle
+            document.title = this.pageTitle;
         },
 
         /**
-         * Switches the route
+         * Switches the contentRouter.
          *
          * @param  string
+         * @return void
          */
         changeRoute(newRoute) {
-            Store.contentRouter = newRoute
+            Store.contentRouter = newRoute;
 
-            if (newRoute == 'notifications') {
-                this.markAsRead()
-                this.updatePageTitle()
+            if (newRoute === 'notifications') {
+                this.seenAllNotifications();
             }
 
-            if (newRoute == 'messages') {
-                // this.MN = 0
-                this.updatePageTitle()
-            }
+            this.updatePageTitle();
         },
 
         /**
@@ -509,7 +507,7 @@ const app = new Vue({
          *
          * @return void
          */
-        markAsRead() {
+        markAllNotificationsAsRead() {
             axios.post('/mark-notifications-read');
 
             Store.notifications.forEach(function(element, index) {
@@ -517,6 +515,12 @@ const app = new Vue({
                     element.read_at = moment().utc().format('YYYY-MM-DD HH:mm:ss');
                 }
             });
+        },
+
+        seenAllNotifications() {
+            // Store.event = 'mark-notifications-read';
+            this.markAllNotificationsAsRead();
+            Vue.ls.set('event', 'mark-notifications-read', 60 * 60 * 1000);
         },
 
         /**

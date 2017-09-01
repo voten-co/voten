@@ -207,6 +207,17 @@ export default {
             }
 
             Store.contacts = Vue.ls.get('contacts');
+        },
+
+        updateEvent() {
+            if (Vue.ls.get('event') == '') {
+                return;
+            }
+
+            if (Vue.ls.get('event') == 'mark-notifications-read') {
+                this.$eventHub.$emit('mark-notifications-read');
+                Vue.ls.set('event', '', 60 * 60 * 1000);
+            }
         }
     },
 
@@ -233,6 +244,7 @@ export default {
         Vue.ls.on('notifications', this.updateNotifications);
         Vue.ls.on('messages', this.updateMessages);
         Vue.ls.on('contacts', this.updateContacts);
+        Vue.ls.on('event', this.updateEvent);
     },
 
     watch: {

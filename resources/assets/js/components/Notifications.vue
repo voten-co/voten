@@ -155,7 +155,7 @@
                         Store.moderatingCategories.push(n.data.category)
                     }
 
-                    // Sending web notifications to user's OS IF(Website is not active)
+                    // Sending web notifications to user's OS (only if browser tab is not active)
                     if(document.hidden == true) {
                         let body = n.data.body
                         let link = n.data.url
