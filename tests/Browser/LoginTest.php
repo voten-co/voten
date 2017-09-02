@@ -20,10 +20,10 @@ class LoginTest extends DuskTestCase
     public function testSuccessfulLogin()
     {
         User::create([
-            'username' => 'dusklogin',
-            'password' => Hash::make('supercool'),
+            'username'  => 'dusklogin',
+            'password'  => Hash::make('supercool'),
             'confirmed' => 1,
-            'settings' => [],
+            'settings'  => [],
         ]);
 
         $this->browse(function (Browser $browser) {
