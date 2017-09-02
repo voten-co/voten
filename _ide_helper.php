@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.5.1 on 2017-09-01.
+ * Generated for Laravel 5.5.1 on 2017-09-02.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -12851,6 +12851,14 @@ namespace Sentry\SentryLaravel {
  
 }
 
+namespace Laravel\Horizon { 
+
+    class Horizon {
+         
+    }
+ 
+}
+
 
 namespace  { 
 
@@ -14971,6 +14979,8 @@ namespace  {
     class Socialite extends \Laravel\Socialite\Facades\Socialite {}
 
     class Sentry extends \Sentry\SentryLaravel\SentryFacade {}
+
+    class Horizon extends \Laravel\Horizon\Horizon {}
  
 }
 

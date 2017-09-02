@@ -2,12 +2,14 @@
 
 namespace App\Providers;
 
+use App\Permissions;
 use Auth;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Dusk\DuskServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
+    use Permissions;
+
     /**
      * Bootstrap any application services.
      *
@@ -15,8 +17,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // uncommenting below code will enable the query logging which is great for testing
-        // \DB::listen(function($query) { \ Log::info($query->sql, $query->bindings); });
+        \Horizon::auth(function ($request) {
+            return $this->mustBeVotenAdministrator();
+        });
     }
 
     /**

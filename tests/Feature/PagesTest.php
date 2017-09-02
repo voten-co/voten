@@ -33,4 +33,11 @@ class PagesTest extends TestCase
         $response = $this->get('/tos');
         $response->assertSee('Terms Of Service');
     }
+
+    /** @test */
+    public function horizon_must_not_be_visible_guests()
+    {
+        $response = $this->get('/horizon');
+        $response->assertStatus(500);
+    }
 }
