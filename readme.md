@@ -4,7 +4,7 @@ Voten.co is a real-time social bookmarking for the 21st century. It's real-time,
 
 ## Contributing
 
-Thank you for considering contributing to the Voten. To encourage active collaboration, Voten strongly encourages pull requests, not just bug reports. [Voten's Slack channel](https://join.slack.com/t/voten/shared_invite/MjMzMTQxMzM4MDM2LTE1MDM5OTQ0NjEtMWRiMDhiZTY2Yg) is created for developers to discuss Voten development concerns. If you have an idea(and not the code for it) you may contact us either with the info@voten.co email address or submit it to [/c/votendev](https://voten.co/c/votendev) channel.
+Thank you for considering contributing to the Voten. To encourage active collaboration, Voten strongly encourages pull requests, not just bug reports. [Voten's Slack channel](https://join.slack.com/t/voten/shared_invite/MjMzMTQxMzM4MDM2LTE1MDM5OTQ0NjEtMWRiMDhiZTY2Yg) is created for developers to discuss Voten development concerns. If you have an idea(and not the code for it) you may contact us either with the info@voten.co email address or submit it to [#votendev](https://voten.co/c/votendev) channel.
 
 ## Coding Style
 
@@ -20,7 +20,8 @@ Voten is a Laravel application that runs on the following software:
 - PHP 7.1+
 - Redis 3.0+
 - Git 2.8.4+
-- [Pusher](https://pusher.com/)
+- [Pusher](https://pusher.com/) (we use [laravel-echo-server](https://github.com/tlaverdure/laravel-echo-server) on production server)
+- [Algolia Search](https://www.algolia.com/referrals/fb684d54/join/)
 
 To install all the required stack on a server, we recommend an auto-installation service such as [CodePier](https://codepier.io/?ref=voten).
 
