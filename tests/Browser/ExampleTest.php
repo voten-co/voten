@@ -8,7 +8,7 @@ use Tests\DuskTestCase;
 
 class ExampleTest extends DuskTestCase
 {
-    use DatabaseMigrations;
+//    use DatabaseMigrations;
 
     /**
      * A basic browser test example.

@@ -3,14 +3,14 @@
 namespace Tests\Browser;
 
 use App\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
 class LoginTest extends DuskTestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     /**
      * Make sure the user can login from the home.
@@ -20,10 +20,10 @@ class LoginTest extends DuskTestCase
     public function testSuccessfulLogin()
     {
         User::create([
-            'username'  => 'dusklogin',
-            'password'  => Hash::make('supercool'),
+            'username' => 'dusklogin',
+            'password' => Hash::make('supercool'),
             'confirmed' => 1,
-            'settings'  => [],
+            'settings' => [],
         ]);
 
         $this->browse(function (Browser $browser) {

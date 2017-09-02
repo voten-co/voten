@@ -60,12 +60,12 @@ class BackendController extends Controller
     {
         abort_unless($this->mustBeVotenAdministrator(), 403);
 
-        if ($request->has('filter')) {
+        if ($request->filled('filter')) {
             $categories = Category::search($request->filter)->take(20)->get();
         } else {
             $categories = (new Category())->newQuery();
 
-            if ($request->has('sort_by')) {
+            if ($request->filled('sort_by')) {
                 if ($request->sort_by == 'subscribers') {
                     $categories->orderBy('subscribers', 'desc');
                 } elseif ($request->sort_by == 'submissions_count') {
@@ -110,7 +110,7 @@ class BackendController extends Controller
     {
         abort_unless($this->mustBeVotenAdministrator(), 403);
 
-        if ($request->has('filter')) {
+        if ($request->filled('filter')) {
             $users = User::search($request->filter)->take(20)->get();
         } else {
             $users = User::orderBy('id', 'desc')->paginate(30);
@@ -210,25 +210,25 @@ SQL;
         // Activities start
         $activities = (new Activity())->newQuery();
 
-        if ($request->has('name')) {
+        if ($request->filled('name')) {
             $activities->where('name', $request->name);
         }
-        if ($request->has('user_id')) {
+        if ($request->filled('user_id')) {
             $activities->where('user_id', $request->user_id);
         }
-        if ($request->has('ip_address')) {
+        if ($request->filled('ip_address')) {
             $activities->where('ip_address', $request->ip_address);
         }
-        if ($request->has('device')) {
+        if ($request->filled('device')) {
             $activities->where('device', $request->device);
         }
-        if ($request->has('country')) {
+        if ($request->filled('country')) {
             $activities->where('country', $request->country);
         }
-        if ($request->has('os')) {
+        if ($request->filled('os')) {
             $activities->where('os', $request->os);
         }
-        if ($request->has('browser_name')) {
+        if ($request->filled('browser_name')) {
             $activities->where('browser_name', $request->browser_name);
         }
 

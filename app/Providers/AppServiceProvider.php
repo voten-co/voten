@@ -31,8 +31,5 @@ class AppServiceProvider extends ServiceProvider
                 return Auth::user()->settings();
             });
         }
-        if ($this->app->environment('local', 'testing')) {
-            $this->app->register(DuskServiceProvider::class);
-        }
     }
 }

@@ -26,7 +26,7 @@ class Report extends Model
         'subject', 'reportable_type', 'reportable_id', 'user_id', 'category_id', 'description',
     ];
 
-    protected $events = [
+    protected $dispatchesEvents = [
         'created' => ReportWasCreated::class,
     ];
 
