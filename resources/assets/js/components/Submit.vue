@@ -277,7 +277,7 @@
                             return
                         }
 
-                        this.errors = error.response.data
+                        this.errors = error.response.data.errors
                         this.loading = false
                     });
 
@@ -311,7 +311,7 @@
                         return
                     }
 
-                    this.errors = error.response.data
+                    this.errors = error.response.data.errors
                     this.loading = false
                 })
             },
@@ -337,7 +337,7 @@
                         return
                     }
 
-                    this.errors = error.response.data
+                    this.errors = error.response.data.errors
                     this.loadingTitle = false
                 });
             },

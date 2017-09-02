@@ -135,7 +135,7 @@
                     this.inviteErrors = [];
                     this.sentInvite = response.data;
                 }).catch((error) => {
-                    this.inviteErrors = error.response.data;
+                    this.inviteErrors = error.response.data.errors;
                 });
             },
 
@@ -156,7 +156,7 @@
 	                    this.blockErrors = [];
 	                    this.blockedDomain = response.data;
 	                }).catch((error) => {
-                        this.blockErrors = error.response.data;
+                        this.blockErrors = error.response.data.errors;
                     });
                 },
 
@@ -177,7 +177,7 @@
 	                    this.banErrors = [];
 	                    this.bannedUser = response.data;
 	                }).catch((error) => {
-                        this.banErrors = error.response.data;
+                        this.banErrors = error.response.data.errors;
                     });
                 },
         },

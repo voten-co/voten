@@ -160,7 +160,7 @@ export default {
     	    	location.reload();
     	    }).catch((error) => {
     	    	this.loading = false;
-    	    	this.errors = error.response.data;
+    	    	this.errors = error.response.data.errors;;
     	    });
     	},
 

@@ -158,7 +158,7 @@
 
                     this.sending = false
 
-	                this.errors = error.response.data
+	                this.errors = error.response.data.errors;
 	            })
             },
         }

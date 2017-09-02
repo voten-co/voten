@@ -121,14 +121,14 @@
                     this.sending = false
 	            }).catch((error) => {
 	                if(error.response.status == 500){
-	                	this.sending = false
-	                    this.customError = error.response.data
-	                    this.errors = []
-	                    return
+	                	this.sending = false;
+	                    this.customError = error.response.data;
+	                    this.errors = [];
+	                    return;
 	                }
 
-                    this.sending = false
-	                this.errors = error.response.data
+                    this.sending = false;
+	                this.errors = error.response.data.errors;
 	            })
             },
         }

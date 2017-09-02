@@ -71,23 +71,23 @@ export default {
                 description: this.description,
                 nsfw: this.nsfw
             } ).then((response) => {
-                this.errors = []
+                this.errors = [];
 
                 // let's add the categoriy_id to the user's moderatingAt and administratorAt
-                Store.moderatingAt.push(response.data.id)
-                Store.administratorAt.push(response.data.id)
-                Store.moderatingCategories.push(response.data)
-                Store.subscribedCategories.push(response.data)
+                Store.moderatingAt.push(response.data.id);
+                Store.administratorAt.push(response.data.id);
+                Store.moderatingCategories.push(response.data);
+                Store.subscribedCategories.push(response.data);
 
-                this.$router.push('/c/' + response.data.name + '/mod/settings?created=1')
+                this.$router.push('/c/' + response.data.name + '/mod/settings?created=1');
             }).catch((error) => {
                 if (error.response.status == 500) {
-                    this.customError = error.response.data
-                    this.errors = []
-                    return
+                    this.customError = error.response.data;
+                    this.errors = [];
+                    return;
                 }
 
-                this.errors = error.response.data
+                this.errors = error.response.data.errors;
             });
         },
     }

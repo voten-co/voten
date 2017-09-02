@@ -138,7 +138,7 @@
                 	}
 
                 	this.passwordError = '';
-                	this.errors = error.response.data;
+                	this.errors = error.response.data.errors;
                 	this.sending = false;
                 });
             },
@@ -173,7 +173,7 @@
                 	}
 
                 	this.passwordError = '';
-                	this.errors = error.response.data;
+                	this.errors = error.response.data.errors;
                 	this.sending = false;
                 });
             },
