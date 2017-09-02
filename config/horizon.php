@@ -45,20 +45,20 @@ return [
         'production' => [
             'supervisor-1' => [
                 'connection' => 'redis',
-                'queue' => ['default', 'notifications'],
-                'balance' => 'simple',
-                'processes' => 20,
-                'tries' => 3,
+                'queue'      => ['default', 'notifications'],
+                'balance'    => 'simple',
+                'processes'  => 20,
+                'tries'      => 3,
             ],
         ],
 
         'local' => [
             'supervisor-1' => [
                 'connection' => 'redis',
-                'queue' => ['default'],
-                'balance' => 'simple',
-                'processes' => 3,
-                'tries' => 3,
+                'queue'      => ['default'],
+                'balance'    => 'simple',
+                'processes'  => 3,
+                'tries'      => 3,
             ],
         ],
     ],
