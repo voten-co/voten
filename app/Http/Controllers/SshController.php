@@ -9,7 +9,7 @@ class SshController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'administrator']);
     }
 
     /**
@@ -19,8 +19,6 @@ class SshController extends Controller
      */
     public function flushAll()
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         Cache::flush();
 
         return back();
@@ -33,8 +31,6 @@ class SshController extends Controller
      */
     public function clearCache()
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         Artisan::call('cache:clear');
 
         return back();
@@ -47,8 +43,6 @@ class SshController extends Controller
      */
     public function startMaintenanceMode()
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         Artisan::call('down');
 
         return back();
@@ -61,8 +55,6 @@ class SshController extends Controller
      */
     public function stopMaintenanceMode()
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         Artisan::call('up');
 
         return back();

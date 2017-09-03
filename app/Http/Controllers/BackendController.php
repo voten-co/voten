@@ -28,7 +28,7 @@ class BackendController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'administrator']);
     }
 
     /**
@@ -38,8 +38,6 @@ class BackendController extends Controller
      */
     public function forbiddenNames()
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         $forbiddenUsernames = UserForbiddenName::paginate(30);
 
         $forbiddenCategoryNames = CategoryForbiddenName::paginate(30);
@@ -58,8 +56,6 @@ class BackendController extends Controller
      */
     public function showCategories(Request $request)
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         if ($request->filled('filter')) {
             $categories = Category::search($request->filter)->take(20)->get();
         } else {
@@ -90,8 +86,6 @@ class BackendController extends Controller
      */
     public function showCategory($category)
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         $category = Category::where('name', $category)->firstOrFail();
 
         $isAdministrator = $this->mustBeAdministrator($category->id, true);
@@ -108,8 +102,6 @@ class BackendController extends Controller
      */
     public function showUsers(Request $request)
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         if ($request->filled('filter')) {
             $users = User::search($request->filter)->take(20)->get();
         } else {
@@ -126,8 +118,6 @@ class BackendController extends Controller
      */
     public function showUser($user)
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         $user = User::where('username', $user)->firstOrFail();
 
         $user->stats = $this->userStats($user->id);
@@ -144,8 +134,6 @@ class BackendController extends Controller
      */
     public function spam()
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         $query = <<<'SQL'
 select a1.user_id  from activities as a1
 inner join 
@@ -179,8 +167,6 @@ SQL;
      */
     public function dashboard(Request $request)
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         $usersTotal = User::all()->count();
         $usersToday = User::where('created_at', '>=', Carbon::now()->subDay())->count();
 
@@ -262,8 +248,6 @@ SQL;
      */
     public function indexAppointedUsers()
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         $appointed_users = AppointeddUser::all();
 
         return view('backend.appointed-users', compact('appointed_users'));
@@ -276,8 +260,6 @@ SQL;
      */
     public function serverControls()
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         return view('backend.server-controls');
     }
 
@@ -291,8 +273,6 @@ SQL;
      */
     public function storeForbiddenUsername(Request $request)
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         $this->validate($request, [
             'username' => 'required|min:3|max:25|unique:users|regex:/^[A-Za-z0-9\._]+$/',
         ]);
@@ -313,8 +293,6 @@ SQL;
      */
     public function destroyForbiddenUsername(UserForbiddenName $forbidden)
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         $forbidden->delete();
 
         return back();
@@ -330,8 +308,6 @@ SQL;
      */
     public function storeForbiddenCategoryName(Request $request)
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         $this->validate($request, [
             'name' => 'required|unique:categories',
         ]);
@@ -352,8 +328,6 @@ SQL;
      */
     public function destroyForbiddenCategoryName(CategoryForbiddenName $forbidden)
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         $forbidden->delete();
 
         return back();
@@ -366,8 +340,6 @@ SQL;
      */
     public function takeOverCategory(Category $category)
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         $category->moderators()->attach(Auth::id(), [
             'role' => 'administrator',
         ]);
@@ -390,8 +362,6 @@ SQL;
      */
     public function storeAppointed(Request $request)
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         $this->validate($request, [
             'username'     => 'required',
             'appointed_as' => 'in:administrator,moderator,whitelisted',
@@ -419,8 +389,6 @@ SQL;
      */
     public function destroyAppointed(AppointeddUser $appointed)
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         if (Auth::user()->id == $appointed->user->id) {
             return "I don't think you really mean it.";
         }
@@ -438,8 +406,6 @@ SQL;
      */
     public function updateCommentsCount()
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         $submissions = Submission::all();
 
         foreach ($submissions as $submission) {
