@@ -23,13 +23,9 @@ class HomeController extends Controller
      */
     public function homePage(Request $request)
     {
-        if (!Auth::check()) {
-            $submissions = $this->guestHome($request);
+        $submissions = $this->guestHome($request);
 
-            return view('home', compact('submissions'));
-        }
-
-        return view('welcome');
+        return view('home', compact('submissions'));
     }
 
     /**

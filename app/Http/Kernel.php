@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\LoadDefaultViewForAuthinticatedUsers;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -56,5 +57,6 @@ class Kernel extends HttpKernel
         'throttle'    => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'maintenance' => \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         'http2'       => \JacobBennett\Http2ServerPush\Middleware\AddHttp2ServerPush::class,
+        'correct-view' => LoadDefaultViewForAuthinticatedUsers::class, 
     ];
 }

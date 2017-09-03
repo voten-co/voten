@@ -25,10 +25,6 @@ class UserController extends Controller
      */
     public function showSubmissions($username)
     {
-        if (Auth::check()) {
-            return view('welcome');
-        }
-
         $user = User::withTrashed()->where('username', $username)->firstOrFail();
 
         $user->stats = $this->userStats($user->id);
@@ -50,10 +46,6 @@ class UserController extends Controller
      */
     public function showComments($username)
     {
-        if (Auth::check()) {
-            return view('welcome');
-        }
-
         $user = User::withTrashed()->where('username', $username)->firstOrFail();
 
         $user->stats = $this->userStats($user->id);

@@ -6,21 +6,21 @@ Route::group(['middleware' => ['maintenance', 'http2']], function () {
 
     // Public Pages
     Route::get('/tos', 'PagesController@tos');
-    Route::get('/', 'HomeController@homePage');
+    Route::get('/', 'HomeController@homePage')->middleware('correct-view');
     Route::get('/credits', 'PagesController@credits');
     Route::get('/features', 'PagesController@features');
     Route::get('/about', 'PagesController@about');
     Route::get('/privacy-policy', 'PagesController@privacyPolicy');
 
     // guest browsing routes
-    Route::get('/c/{category}', 'CategoryController@show');
+    Route::get('/c/{category}', 'CategoryController@show')->middleware('correct-view');
     Route::get('/c/{category}/hot', 'CategoryController@redirect');
-    Route::get('/c/{category}/{slug}', 'SubmissionController@show');
-    Route::get('/help', 'HelpController@showHelpCenter');
-    Route::get('/help/{help}', 'HelpController@show');
+    Route::get('/c/{category}/{slug}', 'SubmissionController@show')->middleware('correct-view');
+    Route::get('/help', 'HelpController@showHelpCenter')->middleware('correct-view');
+    Route::get('/help/{help}', 'HelpController@show')->middleware('correct-view');
 
-    Route::get('/@{username}', 'UserController@showSubmissions');
-    Route::get('/@{username}/comments', 'UserController@showComments');
+    Route::get('/@{username}', 'UserController@showSubmissions')->middleware('correct-view');
+    Route::get('/@{username}/comments', 'UserController@showComments')->middleware('correct-view');
 
     // social logins
     Route::get('/login/google', 'Auth\LoginController@redirectToGoogle');

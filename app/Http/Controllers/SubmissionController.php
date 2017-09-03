@@ -38,10 +38,6 @@ class SubmissionController extends Controller
      */
     public function show($category, $slug)
     {
-        if (Auth::check()) {
-            return view('welcome');
-        }
-
         $submission = $this->getSubmissionBySlug($slug);
         $category = $this->getCategoryByName($submission->category_name);
         $category->stats = $this->categoryStats($category->id);

@@ -60,10 +60,6 @@ class HelpController extends Controller
      */
     public function show(Help $help)
     {
-        if (Auth::check()) {
-            return view('welcome');
-        }
-
         return view('help.show', compact('help'));
     }
 
@@ -74,10 +70,6 @@ class HelpController extends Controller
      */
     public function showHelpCenter()
     {
-        if (Auth::check()) {
-            return view('welcome');
-        }
-
         $recent_questions = Help::orderBy('created_at', 'desc')->take(5)->get();
 
         $common_questions = Help::orderBy('index', 'desc')->take(5)->get();

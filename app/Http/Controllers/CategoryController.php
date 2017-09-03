@@ -99,10 +99,6 @@ class CategoryController extends Controller
      */
     public function show($category, Request $request)
     {
-        if (Auth::check()) {
-            return view('welcome');
-        }
-
         $submissions = $this->getSubmissions($category, $request->sort ?? 'hot');
         $category = $this->getCategoryByName($category);
         $category->stats = $this->categoryStats($category->id);
