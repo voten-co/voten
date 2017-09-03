@@ -3,7 +3,6 @@ import BookmarkedCategories from './components/BookmarkedCategories.vue';
 import SubmissionRedirector from './components/SubmissionRedirector.vue';
 import CategorySubmissions from './components/CategorySubmissions.vue';
 import BookmarkedComments from './components/BookmarkedComments.vue';
-import AdminPanelCategory from './components/AdminPanelCategory.vue';
 import BookmarkedUsers from './components/BookmarkedUsers.vue';
 import UserSubmissions from './components/UserSubmissions.vue';
 import ModeratorPanel from './components/ModeratorPanel.vue';
@@ -76,7 +75,6 @@ const routes = [
                     { path: 'ban', component: AdminPanelBanUser, name: 'admin-panel-ban-users' },
                 ]
             },
-            { path: 'channels', component: AdminPanelCategory, name: 'admin-panel-categories' },
             { path: 'submissions', component: AdminPanelSubmissions, name: 'admin-panel-submissions' },
             { path: 'comments', component: AdminPanelComments, name: 'admin-panel-comments' },
             { path: 'reports/submissions', component: AdminPanelReportedSubmissions, name: 'admin-panel-reported-submissions' },

@@ -19,10 +19,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/feedback/delete', 'FeedbacksController@destroy');
 
     // help
-    Route::get('/get-help', 'HelpController@getHelp');
     Route::post('/new-help', 'HelpController@store');
     Route::post('/edit-help', 'HelpController@patch');
-    Route::post('/help-index', 'HelpController@index');
+    Route::get('/help-index-all', 'HelpController@indexAll');
     Route::post('/delete-help', 'HelpController@destroy');
 
     // Find Channels
@@ -171,3 +170,9 @@ Route::get('/user-submissions', 'UserController@submissions');
 Route::get('/user-comments', 'UserController@comments');
 Route::get('/sidebar-categories', 'StoreController@sidebarCategories');
 Route::get('/announcement', 'AnnouncementController@get');
+Route::get('/help-index', 'HelpController@index');
+Route::get('/help/recent-questions', 'HelpController@recentQuestions');
+Route::get('/help/common-questions', 'HelpController@commonQuestions');
+Route::get('/get-help', 'HelpController@getHelp');
+Route::post('/upvote-help', 'HelpVotesController@upVote');
+Route::post('/downvote-help', 'HelpVotesController@downVote');

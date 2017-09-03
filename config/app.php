@@ -174,7 +174,6 @@ return [
 
         // Added packages
         Intervention\Image\ImageServiceProvider::class,
-        Flugg\Responder\ResponderServiceProvider::class,
 
         Laravel\Tinker\TinkerServiceProvider::class,
         Pbmedia\LaravelFFMpeg\FFMpegServiceProvider::class,
@@ -186,7 +185,6 @@ return [
 
         // dev only
         VueGenerators\ServiceProvider::class,
-        DamianTW\MySQLScout\Providers\MySQLScoutServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
     ],
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Help;
 use App\Submission;
 use App\User;
 
@@ -72,6 +73,19 @@ class SitemapsController extends Controller
             ->get();
 
         return response()->view('sitemaps.categories', compact('categories'))
+            ->header('Content-Type', 'text/xml');
+    }
+
+    /**
+     * Loads the helps sitemap.
+     *
+     * @return \Symfony\Component\HttpFoundation\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
+    public function helps()
+    {
+        $helps = Help::orderBy('id', 'desc')->get();
+
+        return response()->view('sitemaps.helps', compact('helps'))
             ->header('Content-Type', 'text/xml');
     }
 }

@@ -99,29 +99,29 @@
 
         methods: {
             getItems () {
-            	axios.post('/help-index').then((response) => {
-            		this.items = response.data
-            	})
+            	axios.get('/help-index-all').then((response) => {
+            		this.items = response.data;
+            	});
             },
 
             destroy (id) {
-            	axios.post('/delete-help', { id: id })
+            	axios.post('/delete-help', { id: id });
 
         		this.items = this.items.filter(function (item) {
-				  	return item.id != id
+				  	return item.id != id;
 				})
             },
 
             newForm () {
-            	this.clear()
-            	this.form = !this.form
-            	this.type = 'create'
+            	this.clear();
+            	this.form = !this.form;
+            	this.type = 'create';
             },
 
             clear () {
-            	this.title = ''
-            	this.body = ''
-            	this.id = ''
+            	this.title = '';
+            	this.body = '';
+            	this.id = '';
             },
 
             submit () {

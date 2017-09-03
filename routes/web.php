@@ -16,6 +16,8 @@ Route::group(['middleware' => ['maintenance', 'http2']], function () {
     Route::get('/c/{category}', 'CategoryController@show');
     Route::get('/c/{category}/hot', 'CategoryController@redirect');
     Route::get('/c/{category}/{slug}', 'SubmissionController@show');
+    Route::get('/help', 'HelpController@showHelpCenter');
+    Route::get('/help/{help}', 'HelpController@show');
 
     Route::get('/@{username}', 'UserController@showSubmissions');
     Route::get('/@{username}/comments', 'UserController@showComments');
@@ -24,12 +26,13 @@ Route::group(['middleware' => ['maintenance', 'http2']], function () {
     Route::get('/login/google', 'Auth\LoginController@redirectToGoogle');
     Route::get('/login/google/callback', 'Auth\LoginController@handleGoogleCallback');
 
-    // sitemap
+    // sitemaps
     Route::get('/sitemap.xml', 'SitemapsController@index');
     Route::get('/pages.xml', 'SitemapsController@pages');
     Route::get('/submissions.xml', 'SitemapsController@submissions');
     Route::get('/users.xml', 'SitemapsController@users');
     Route::get('/channels.xml', 'SitemapsController@categories');
+    Route::get('/helps.xml', 'SitemapsController@helps');
 });
 
 // backend-admin
