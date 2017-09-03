@@ -49,14 +49,14 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth'        => \Illuminate\Auth\Middleware\Authenticate::class,
-        'auth.basic'  => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'bindings'    => \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        'can'         => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest'       => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'throttle'    => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'maintenance' => \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
-        'http2'       => \JacobBennett\Http2ServerPush\Middleware\AddHttp2ServerPush::class,
-        'correct-view' => LoadDefaultViewForAuthinticatedUsers::class, 
+        'auth'         => \Illuminate\Auth\Middleware\Authenticate::class,
+        'auth.basic'   => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        'bindings'     => \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        'can'          => \Illuminate\Auth\Middleware\Authorize::class,
+        'guest'        => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'throttle'     => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'maintenance'  => \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        'http2'        => \JacobBennett\Http2ServerPush\Middleware\AddHttp2ServerPush::class,
+        'correct-view' => LoadDefaultViewForAuthinticatedUsers::class,
     ];
 }
