@@ -1,16 +1,23 @@
 <template>
-	<li>
-		<h3 @click="toggle" class="pointer go-primary v-bold user-select">{{ title }}</h3>
-		<markdown :text="text" v-if="show"></markdown>
+	<li class="help-item">
+		<router-link :to="'/help/' + list.id">
+			<h3 class="pointer v-bold user-select">{{ list.title }}</h3>
+		</router-link>
 	</li>
 </template>
 
+<style>
+	.help-item a {
+		color: #333;
+	}
+	.help-item a:hover {
+		text-decoration: underline;
+	}
+</style>
+
 <script>
-    import Markdown from '../components/Markdown.vue';
-
     export default {
-
-        props: ['text', 'title'],
+        props: ['list'],
 
         data: function () {
             return {
@@ -18,15 +25,10 @@
             };
         },
 
-        components: {
-            Markdown: Markdown,
-        },
-
         methods: {
         	toggle: function () {
         		this.show = ! this.show;
         	}
         }
-
     }
 </script>

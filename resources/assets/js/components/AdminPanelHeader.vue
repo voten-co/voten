@@ -18,10 +18,6 @@
 					Users
 				</router-link>
 
-				<router-link :to="'/big-daddy/channels'" class="nav-item is-tab" active-class="is-active">
-					Channels
-				</router-link>
-
 				<router-link :to="'/big-daddy/submissions'" class="nav-item is-tab" active-class="is-active">
 					Submissions
 				</router-link>

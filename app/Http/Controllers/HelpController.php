@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Help;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HelpController extends Controller
 {
@@ -14,7 +15,7 @@ class HelpController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => ['index', 'getHelp', 'show', 'showHelpCenter', 'recentQuestions', 'commonQuestions']]);
     }
 
     /**
@@ -22,9 +23,90 @@ class HelpController extends Controller
      *
      * @return \Illuminate\Support\Collection
      */
-    public function index()
+    public function index(Request $request)
     {
+        $request->validate([
+            'filter' => 'string'
+        ]);
+
+        return Help::search($request->filter)->take(20)->get();
+    }
+
+    /**
+     * Return most recent asked questions
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection|static[]
+     */
+    public function recentQuestions()
+    {
+        return Help::orderBy('created_at', 'desc')->take(5)->get();
+    }
+
+    /**
+     * Return most commonly asked questions (that we specify by the 'index' value)
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection|static[]
+     */
+    public function commonQuestions()
+    {
+        return Help::orderBy('index', 'desc')->take(5)->get();
+    }
+
+    /**
+     * Show the help page.
+     *
+     * @param Help $help.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function show(Help $help)
+    {
+        if (Auth::check()) {
+            return view('welcome');
+        }
+
+        return view('help.show', compact('help'));
+    }
+
+    /**
+     * Show the help center.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function showHelpCenter()
+    {
+        if (Auth::check()) {
+            return view('welcome');
+        }
+
+        $recent_questions = Help::orderBy('created_at', 'desc')->take(5)->get();
+
+        $common_questions = Help::orderBy('index', 'desc')->take(5)->get();
+
+        return view('help.index', compact('recent_questions', 'common_questions'));
+    }
+
+    /**
+     * index the help models.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function indexAll(Request $request)
+    {
+        abort_unless($this->mustBeVotenAdministrator(), 403);
+
         return Help::all();
+    }
+
+    /**
+     * Returns help record.
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getHelp(Request $request)
+    {
+        return Help::findOrFail($request->id);
     }
 
     /**

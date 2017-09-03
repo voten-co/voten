@@ -53,6 +53,7 @@
         <ul class="sidebar-copyright">
         	<li>&copy; 2017 Voten</li>
         	<li><a href="/about">About</a></li>
+        	<li><router-link to="/help">Help Center</router-link></li>
         	<li><a href="/tos">Terms</a></li>
         	<li><a href="https://medium.com/voten" target="_blank">Blog</a></li>
         	<li><a href="/privacy-policy">Privacy Policy</a></li>

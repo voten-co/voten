@@ -16,6 +16,15 @@ class Help extends Model
      *   @var array
      */
     protected $fillable = [
-        'body', 'title',
+        'body', 'title', 'index',
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'index', 'deleted_at',
     ];
 }

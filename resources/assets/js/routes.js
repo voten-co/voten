@@ -3,7 +3,6 @@ import BookmarkedCategories from './components/BookmarkedCategories.vue';
 import SubmissionRedirector from './components/SubmissionRedirector.vue';
 import CategorySubmissions from './components/CategorySubmissions.vue';
 import BookmarkedComments from './components/BookmarkedComments.vue';
-import AdminPanelCategory from './components/AdminPanelCategory.vue';
 import BookmarkedUsers from './components/BookmarkedUsers.vue';
 import UserSubmissions from './components/UserSubmissions.vue';
 import ModeratorPanel from './components/ModeratorPanel.vue';
@@ -17,6 +16,7 @@ import AdminPanel from './components/AdminPanel.vue';
 import Bookmarks from './components/Bookmarks.vue';
 import NotFound from './components/NotFound.vue';
 import Settings from './components/Settings.vue';
+import HelpCenter from './components/HelpCenter.vue';
 import Help from './components/Help.vue';
 import Home from './components/Home.vue';
 import Submit from './components/Submit.vue';
@@ -54,7 +54,8 @@ const routes = [
         component: Home
     },
 
-    { path: '/help', component: Help, meta: { title: 'Help Center' } },
+    { path: '/help', component: HelpCenter, meta: { title: 'Help Center' } },
+    { path: '/help/:id', component: Help },
 
     { path: '/channel', component: NewCategory, meta: { title: 'New #Channel' } },
     { path: '/subscribed-channels', component: SubscribedCategories, meta: { title: 'My Subscriptions' } },
@@ -74,7 +75,6 @@ const routes = [
                     { path: 'ban', component: AdminPanelBanUser, name: 'admin-panel-ban-users' },
                 ]
             },
-            { path: 'channels', component: AdminPanelCategory, name: 'admin-panel-categories' },
             { path: 'submissions', component: AdminPanelSubmissions, name: 'admin-panel-submissions' },
             { path: 'comments', component: AdminPanelComments, name: 'admin-panel-comments' },
             { path: 'reports/submissions', component: AdminPanelReportedSubmissions, name: 'admin-panel-reported-submissions' },
