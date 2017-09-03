@@ -18,6 +18,10 @@ trait Permissions
      */
     protected function mustBeVotenAdministrator($user_id = 0)
     {
+        if (!Auth::check()) {
+            return false;
+        }
+
         if ($user_id === 0) {
             $user_id = Auth::user()->id;
         }

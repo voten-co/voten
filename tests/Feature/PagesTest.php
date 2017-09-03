@@ -9,35 +9,30 @@ class PagesTest extends TestCase
     /** @test */
     public function about_page()
     {
-        $response = $this->get('/about');
-        $response->assertSee('Social Bookmarking For The 21st Century');
+        $this->get('/about')->assertSee('Social Bookmarking For The 21st Century');
     }
 
     /** @test */
     public function credits_page()
     {
-        $response = $this->get('/credits');
-        $response->assertSee('Credits');
+        $this->get('/credits')->assertSee('Credits');
     }
 
     /** @test */
     public function privacy_policy_page()
     {
-        $response = $this->get('/privacy-policy');
-        $response->assertSee('Privacy Policy');
+        $this->get('/privacy-policy')->assertSee('Privacy Policy');
     }
 
     /** @test */
     public function terms_of_service_page()
     {
-        $response = $this->get('/tos');
-        $response->assertSee('Terms Of Service');
+        $this->get('/tos')->assertSee('Terms Of Service');
     }
 
     /** @test */
     public function horizon_must_not_be_visible_guests()
     {
-        $response = $this->get('/horizon');
-        $response->assertStatus(500);
+        $this->get('/horizon')->assertStatus(500);
     }
 }
