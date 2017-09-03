@@ -26,14 +26,14 @@ class HelpController extends Controller
     public function index(Request $request)
     {
         $request->validate([
-            'filter' => 'string'
+            'filter' => 'string',
         ]);
 
         return Help::search($request->filter)->take(20)->get();
     }
 
     /**
-     * Return most recent asked questions
+     * Return most recent asked questions.
      *
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection|static[]
      */
@@ -43,7 +43,7 @@ class HelpController extends Controller
     }
 
     /**
-     * Return most commonly asked questions (that we specify by the 'index' value)
+     * Return most commonly asked questions (that we specify by the 'index' value).
      *
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection|static[]
      */
@@ -56,6 +56,7 @@ class HelpController extends Controller
      * Show the help page.
      *
      * @param Help $help.
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show(Help $help)
