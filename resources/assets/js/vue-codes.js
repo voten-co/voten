@@ -475,6 +475,9 @@ const app = new Vue({
          * @return void
          */
         updatePageTitle() {
+            // disable for now
+            return;
+
             let total = this.unreadMessages + this.unreadNotifications;
 
             if (total > 0) {
