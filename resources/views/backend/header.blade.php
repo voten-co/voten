@@ -31,6 +31,11 @@
                href="/backend/spam">
                 Spam
             </a>
+
+            <a class="nav-item is-tab is-hidden-mobile"
+               href="/horizon">
+                Horizon
+            </a>
         </div>
     </div>
 </nav>

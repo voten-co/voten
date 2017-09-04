@@ -39,6 +39,12 @@
 			data-toggle="tooltip" data-placement="bottom" title="Home" aria-expanded="false">
            		<i class="v-icon v-home" aria-hidden="true" @click="homeRoute"></i>
             </router-link>
+
+			@if(optional(Auth::user())->isVotenAdministrator())
+				<a href="/backend" class="btn-nth relative margin-right-half">
+					<i class="v-icon v-dashboard" aria-hidden="true"></i>
+				</a>
+			@endif
         </div>
 
 		@if(Auth::check())
@@ -99,20 +105,6 @@
 							</div>
 						</div>
 						<div class="ui divider" v-if="Store.moderatingCategories.length && Store.moderatingCategories.length > 6"></div>
-
-						@if( Auth::user()->isVotenAdministrator() )
-							<div class="header">Voten Administrators</div>
-
-							<router-link :to="'/big-daddy'" class="item">
-								Big Daddy
-							</router-link>
-
-							<a href="/backend" class="item">
-								Backend
-							</a>
-
-							<div class="ui divider"></div>
-						@endif
 					@endif
 
 	                <a class="item desktop-only" @click="changeModalRoute('keyboard-shortcuts-guide')">
