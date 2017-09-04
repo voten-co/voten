@@ -7,6 +7,12 @@ use Tests\TestCase;
 class PagesTest extends TestCase
 {
     /** @test */
+    public function guest_home_page()
+    {
+        $this->get('/')->assertStatus(200);
+    }
+
+    /** @test */
     public function about_page()
     {
         $this->get('/about')->assertSee('Social Bookmarking For The 21st Century');
