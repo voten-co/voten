@@ -135,7 +135,11 @@
 			 * @return bool
 			 */
         	loaded () {
-	            return Store.category.name == this.$route.params.name;
+                if (Store.category.name != undefined) {
+                    return Store.category.name.toLowerCase() == this.$route.params.name.toLowerCase();
+                }
+
+                return false;
 	        },
 
             /**
