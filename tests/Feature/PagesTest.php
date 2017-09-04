@@ -33,6 +33,6 @@ class PagesTest extends TestCase
     /** @test */
     public function horizon_must_not_be_visible_guests()
     {
-        $this->get('/horizon')->assertStatus(500);
+        $this->get('/horizon')->assertStatus(403);
     }
 }
