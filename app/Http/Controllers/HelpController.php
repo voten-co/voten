@@ -71,9 +71,9 @@ class HelpController extends Controller
      */
     public function showHelpCenter()
     {
-        $recent_questions = Help::orderBy('created_at', 'desc')->take(5)->get();
+        $recent_questions = $this->recentQuestions();
 
-        $common_questions = Help::orderBy('index', 'desc')->take(5)->get();
+        $common_questions = $this->commonQuestions();
 
         return view('help.index', compact('recent_questions', 'common_questions'));
     }
