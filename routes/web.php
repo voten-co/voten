@@ -3,6 +3,7 @@
 Route::group(['middleware' => ['maintenance', 'http2']], function () {
     Route::auth();
     Route::get('/logout', 'Auth\LoginController@logout');
+    Route::post('/register', 'Auth\RegisterController@register')->middleware('throttle:2,60');
 
     // Public Pages
     Route::get('/tos', 'PagesController@tos');
