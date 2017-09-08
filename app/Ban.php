@@ -9,9 +9,9 @@ class Ban extends Model
     use RecordsActivity;
 
     /**
-     *   The attributes that are mass assignable.
+     * The attributes that are mass assignable.
      *
-     *   @var array
+     * @var array
      */
     protected $fillable = [
         'user_id', 'category', 'description', 'unban_at',

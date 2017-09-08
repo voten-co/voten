@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\Firewall;
 use App\Http\Middleware\LoadDefaultViewForAuthinticatedUsers;
 use App\Http\Middleware\MustBeAdministrator;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -18,6 +19,7 @@ class Kernel extends HttpKernel
     protected $middleware = [
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        Firewall::class,
     ];
 
     /**

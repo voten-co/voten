@@ -7,6 +7,7 @@ use App\AppointeddUser;
 use App\Category;
 use App\CategoryForbiddenName;
 use App\Comment;
+use App\FireWallBannedIp;
 use App\Message;
 use App\Notifications\BecameModerator;
 use App\Report;
@@ -36,15 +37,17 @@ class BackendController extends Controller
      *
      * @return view
      */
-    public function forbiddenNames()
+    public function firewall()
     {
-        $forbiddenUsernames = UserForbiddenName::paginate(30);
+        $forbiddenUsernames = UserForbiddenName::orderBy('created_at', 'desc')->paginate(30);
 
-        $forbiddenCategoryNames = CategoryForbiddenName::paginate(30);
+        $forbiddenCategoryNames = CategoryForbiddenName::orderBy('created_at', 'desc')->paginate(30);
 
-        $blockedDomains = \App\BlockedDomain::where('category', 'all')->paginate(30);
+        $blockedDomains = \App\BlockedDomain::where('category', 'all')->orderBy('created_at', 'desc')->paginate(30);
 
-        return view('backend.forbidden-names', compact('forbiddenUsernames', 'forbiddenCategoryNames', 'blockedDomains'));
+        $banned_ip_addresses = FireWallBannedIp::orderBy('created_at', 'desc')->paginate(50);
+
+        return view('backend.firewall', compact('forbiddenUsernames', 'forbiddenCategoryNames', 'blockedDomains', 'banned_ip_addresses'));
     }
 
     /**

@@ -8,6 +8,7 @@ use App\User;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BanController extends Controller
 {

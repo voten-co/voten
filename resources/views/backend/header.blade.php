@@ -9,16 +9,23 @@
                 Dashboard
             </a>
 
-            <a class="nav-item is-tab is-hidden-mobile{{ url('backend/announcements') == url()->current() ? ' is-active' : '' }}" href="/backend/announcements">Announcements</a>
+            <a class="nav-item is-tab is-hidden-mobile{{ url('backend/announcements') == url()->current() ? ' is-active' : '' }}" href="/backend/announcements">
+                Announcements
+            </a>
 
-            <a class="nav-item is-tab is-hidden-mobile{{ url('backend/forbidden-names') == url()->current() ? ' is-active' : '' }}" href="/backend/forbidden-names">Forbiddens</a>
+            <a class="nav-item is-tab is-hidden-mobile{{ url('backend/firewall') == url()->current() ? ' is-active' : '' }}" href="/backend/firewall">
+                Firewall
+            </a>
 
-            <a class="nav-item is-tab is-hidden-mobile{{ url('backend/appointed-users') == url()->current() ? ' is-active' : '' }}" href="/backend/appointed-users">Appointed Users</a>
+            <a class="nav-item is-tab is-hidden-mobile{{ url('backend/appointed-users') == url()->current() ? ' is-active' : '' }}" href="/backend/appointed-users">
+                Appointed Users
+            </a>
 
-            <a class="nav-item is-tab is-hidden-mobile{{ url('backend/server-control') == url()->current() ? ' is-active' : '' }}" href="/backend/server-control">Server</a>
+            <a class="nav-item is-tab is-hidden-mobile{{ url('backend/server-control') == url()->current() ? ' is-active' : '' }}" href="/backend/server-control">
+                Server
+            </a>
 
-            <a class="nav-item is-tab is-hidden-mobile{{ url('backend/channels') == url()->current() ? ' is-active' : '' }}"
-               href="/backend/channels">
+            <a class="nav-item is-tab is-hidden-mobile{{ url('backend/channels') == url()->current() ? ' is-active' : '' }}" href="/backend/channels">
                 Channels
             </a>
 
