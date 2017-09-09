@@ -78,6 +78,7 @@ export default {
                 Store.administratorAt.push(response.data.id);
                 Store.moderatingCategories.push(response.data);
                 Store.subscribedCategories.push(response.data);
+                Store.subscribedAt.push(response.data.id);
 
                 this.$router.push('/c/' + response.data.name + '/mod/settings?created=1');
             }).catch((error) => {
