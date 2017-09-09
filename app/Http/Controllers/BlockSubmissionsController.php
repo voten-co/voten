@@ -14,7 +14,8 @@ class BlockSubmissionsController extends Controller
     /**
      * Store a newly created hidden_submission in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -25,8 +26,8 @@ class BlockSubmissionsController extends Controller
 
         try {
             DB::table('hides')->insert([
-                'user_id' => Auth::id(),
-                'submission_id' => $request->submission_id
+                'user_id'       => Auth::id(),
+                'submission_id' => $request->submission_id,
             ]);
 
             // update the cach record for hiddenSubmissions:
