@@ -26,6 +26,7 @@ trait CachableUser
             'commentKarma'    => $user->comment_karma,
 
             'hiddenSubmissions' => $user->hiddenSubmissions(),
+            'hiddenCategories'  => $user->hiddenCategories(),
             'subscriptions'     => $user->subscriptions->pluck('id'),
 
             'blockedUsers' => $user->blockedUsers(),
@@ -104,6 +105,26 @@ trait CachableUser
     }
 
     /**
+     * Returns the IDs of auth uers's hidden categories.
+     *
+     * @return array
+     */
+    protected function hiddenCategories($id = 0)
+    {
+        if ($id === 0) {
+            $id = Auth::id();
+        }
+
+        if ($value = Redis::hget('user.'.$id.'.data', 'hiddenCategories')) {
+            return json_decode($value);
+        }
+
+        $result = $this->cacheUserData($id);
+
+        return json_decode($result['hiddenCategories']);
+    }
+
+    /**
      * updates the hiddenSubmissions records of the auth user.
      *
      * @param int $id
@@ -123,6 +144,28 @@ trait CachableUser
         }
 
         Redis::hset('user.'.$id.'.data', 'hiddenSubmissions', json_encode($hiddenSubmissions));
+    }
+
+    /**
+     * updates the hiddenCategories records of the auth user.
+     *
+     * @param int $id
+     * @param int $category_id
+     *
+     * @return void
+     */
+    protected function updateHiddenCategories($id, $category_id)
+    {
+        $hiddenCategories = $this->hiddenSubmissions($id);
+
+        array_push($hiddenCategories, $category_id);
+
+        // we need to make sure the cached data exists
+        if (!Redis::hget('user.'.$id.'.data', 'hiddenCategories')) {
+            $this->cacheUserData($id);
+        }
+
+        Redis::hset('user.'.$id.'.data', 'hiddenCategories', json_encode($hiddenCategories));
     }
 
     /**
@@ -375,7 +418,7 @@ trait CachableUser
     }
 
     /**
-     * updates the hiddenSubmissions records of the auth user.
+     * Updates the subscriptions records of the auth user.
      *
      * @param int $id
      * @param int $category_id

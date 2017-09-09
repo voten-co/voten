@@ -14,18 +14,6 @@ class FeedbacksController extends Controller
     }
 
     /**
-     * Display a listing of the feedback.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
-        return Feedback::with('owner')->get();
-    }
-
-    /**
      * Store a newly created feedback in storage.
      *
      * @param \Illuminate\Http\Request $request
@@ -51,14 +39,12 @@ class FeedbacksController extends Controller
     }
 
     /**
-     * Remove the specified feedback from storage.
+     * Destroy the specified feedback from storage.
      *
-     * @param int $id
+     * @param Request $request
      */
     public function destroy(Request $request)
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         Feedback::findOrFail($request->id)->delete();
     }
 }

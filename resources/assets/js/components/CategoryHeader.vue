@@ -104,6 +104,10 @@
 						<button class="item" @click="emitRules">
 							Rules
 						</button>
+
+						<button class="item" @click="block">
+							Block
+						</button>
 					</div>
 				</div>
 
@@ -174,13 +178,21 @@ export default {
     	},
 
 		emitRules(){
-			this.$eventHub.$emit('rules')
+			this.$eventHub.$emit('rules');
 		},
 
 		emitModerators() {
-			this.$eventHub.$emit('moderators')
+			this.$eventHub.$emit('moderators');
 		},
 
+		block() {
+		    axios.post('/category-block', {
+		        category_id: Store.category.id
+			}).then((response) => {
+		        // navigate to home
+                this.$router.push('/');
+			});
+		},
 
     	/**
 		 * Passes the photo to the cropModal to take care of the rest
@@ -189,18 +201,17 @@ export default {
 		 */
 		passToCropModal (e)
 		{
-
             this.fileUploadFormData.append('photo', e.target.files[0]);
 
     		axios.post('/upload-temp-avatar', this.fileUploadFormData).then((response) => {
-				this.$eventHub.$emit('crop-photo-uploaded', response.data)
+				this.$eventHub.$emit('crop-photo-uploaded', response.data);
             });
 
-    		this.$eventHub.$emit('crop-category-photo')
+    		this.$eventHub.$emit('crop-category-photo');
 		},
 
     	/**
-         * Whether or not user has bookmarked the submission
+         * Whether or not user has bookmarked the category
          *
          * @return void
          */

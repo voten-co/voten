@@ -191,29 +191,6 @@ class SubmissionController extends Controller
     }
 
     /**
-     * hides the submission so the user won't see it (=== block).
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return response
-     */
-    public function hide(Request $request)
-    {
-        $this->validate($request, [
-            'submission_id' => 'required|integer',
-        ]);
-
-        $user = Auth::user();
-
-        $user->hides()->attach($request->submission_id);
-
-        // update the cach record for hiddenSubmissions:
-        $this->updateHiddenSubmissions($user->id, $request->submission_id);
-
-        return response('submission added to the hidden list', 200);
-    }
-
-    /**
      * Returns the submission.
      *
      * @param \Illuminate\Http\Request $request

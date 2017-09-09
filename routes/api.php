@@ -16,7 +16,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     // feedback
     Route::post('/feedback', 'FeedbacksController@store');
-    Route::post('/feedback/delete', 'FeedbacksController@destroy');
+    Route::post('/feedback/delete', 'FeedbacksController@destroy')->middleware('administrator');
 
     // help
     Route::post('/new-help', 'HelpController@store');
@@ -45,7 +45,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     // submission
     Route::post('/submit', 'SubmissionController@store');
     Route::post('/patch-text-submission', 'SubmissionController@patchTextSubmission');
-    Route::post('/hide-submission', 'SubmissionController@hide');
+    Route::post('/hide-submission', 'BlockSubmissionsController@store');
     Route::get('/fetch-url-title', 'SubmissionController@getTitleAPI');
     Route::post('/mark-submission-sfw', 'NsfwController@markAsSFW');
 
@@ -80,6 +80,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     // Category
     Route::post('/channel', 'CategoryController@store');
     Route::post('/category-patch', 'CategoryController@patch');
+    Route::post('/category-block', 'BlockCategoriesController@store');
+    Route::delete('/category-unblock', 'BlockCategoriesController@destroy');
     Route::get('/get-categories', 'CategoryController@getCategories');
     Route::get('/subscribed-categories', 'SubscribeController@index');
 

@@ -8,6 +8,7 @@ use DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Scout\Searchable;
@@ -61,9 +62,24 @@ class User extends Authenticatable
         return $this->hasMany(Submission::class);
     }
 
+    /**
+     * Blocked submissions.
+     *
+     * @return Collection
+     */
     public function hiddenSubmissions()
     {
         return DB::table('hides')->where('user_id', $this->id)->get()->pluck('submission_id');
+    }
+
+    /**
+     * Blocked categories (all except these).
+     *
+     * @return Collection
+     */
+    public function hiddenCategories()
+    {
+        return DB::table('hidden_categories')->where('user_id', $this->id)->get()->pluck('category_id');
     }
 
     public function seenAnnouncements()

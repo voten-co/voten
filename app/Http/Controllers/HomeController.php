@@ -61,6 +61,9 @@ class HomeController extends Controller
             $submissions->whereIn('category_id', $this->subscriptions());
         }
 
+        // exclude user's blocked categories
+        $submissions->whereNotIn('category_id', $this->hiddenCategories());
+
         // exclude user's hidden submissions
         $submissions->whereNotIn('id', $this->hiddenSubmissions());
 
