@@ -40,7 +40,7 @@ trait Permissions
     {
         $users = $this->getWhitelistedUsers();
 
-        return ($users->contains(Auth::id()) || $this->mustBeVotenAdministrator());
+        return $users->contains(Auth::id()) || $this->mustBeVotenAdministrator();
     }
 
     /**
