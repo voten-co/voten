@@ -156,7 +156,7 @@ trait CachableUser
      */
     protected function updateHiddenCategories($id, $category_id)
     {
-        $hiddenCategories = $this->hiddenSubmissions($id);
+        $hiddenCategories = $this->hiddenCategories($id);
 
         array_push($hiddenCategories, $category_id);
 
