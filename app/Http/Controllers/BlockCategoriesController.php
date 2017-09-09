@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Traits\CachableUser;
-use Illuminate\Http\Request;
 use Auth;
 use DB;
+use Illuminate\Http\Request;
 
 class BlockCategoriesController extends Controller
 {
@@ -14,7 +14,8 @@ class BlockCategoriesController extends Controller
     /**
      * Store a newly created hidden_category record in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -25,8 +26,8 @@ class BlockCategoriesController extends Controller
 
         try {
             DB::table('hidden_categories')->insert([
-                'user_id' => Auth::id(),
-                'category_id' => $request->category_id
+                'user_id'     => Auth::id(),
+                'category_id' => $request->category_id,
             ]);
 
             // update the cach record for hiddenSubmissions:
@@ -41,7 +42,8 @@ class BlockCategoriesController extends Controller
     /**
      * Remove the hidden_category record from storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)
@@ -52,7 +54,7 @@ class BlockCategoriesController extends Controller
 
         DB::table('hidden_categories')->where([
             ['user_id', Auth::id()],
-            ['category_id', $request->category_id]
+            ['category_id', $request->category_id],
         ])->delete();
 
         return response('Channel unblocked successfully.', 200);
