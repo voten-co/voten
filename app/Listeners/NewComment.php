@@ -62,6 +62,8 @@ class NewComment
         } elseif (!$this->mustBeOwner($event->submission)) {
             $event->submission->notifiable->notify(new SubmissionReplied($event->submission, $event->comment));
             $notifiableUser = $event->submission->notifiable;
+        } else {
+            $notifiableUser = null;
         }
 
         $this->handleMentions($event->comment, $event->submission, $notifiableUser);
