@@ -2,10 +2,13 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class PagesTest extends TestCase
 {
+    use RefreshDatabase;
+
     /** @test */
     public function guest_home_page()
     {
@@ -37,8 +40,14 @@ class PagesTest extends TestCase
     }
 
     /** @test */
-    public function horizon_must_not_be_visible_guests()
+    public function login_page_is_accessible_to_guests()
     {
-        $this->get('/horizon')->assertStatus(403);
+        $this->get('/login')->assertSee('Sign in with username and password');
+    }
+
+    /** @test */
+    public function register_page_is_accessible_to_guests()
+    {
+        $this->get('/register')->assertSee('Sign up with/without email address');
     }
 }

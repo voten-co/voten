@@ -79,9 +79,26 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'username' => $data['username'],
-            'email'    => $data['email'],
-            'password' => bcrypt($data['password']),
+            'username'  => $data['username'],
+            'email'     => $data['email'],
+            'password'  => bcrypt($data['password']),
+
+            'settings'  => [
+                'font'                          => 'Lato',
+                'sidebar_color'                 => 'Gray',
+                'nsfw'                          => false,
+                'nsfw_media'                    => false,
+                'notify_submissions_replied'    => true,
+                'notify_comments_replied'       => true,
+                'notify_mentions'               => true,
+                'exclude_upvoted_submissions'   => false,
+                'exclude_downvoted_submissions' => true,
+                'submission_small_thumbnail'    => true,
+            ],
+            'info'    => [
+                'website' => null,
+                'twitter' => null,
+            ]
         ]);
     }
 
@@ -136,26 +153,6 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
-        $user->update([
-            'confirmed' => 0, // User has received the invitation code so clearly his email address is for real.
-            'settings'  => [
-                'font'                          => 'Lato',
-                'sidebar_color'                 => 'Gray',
-                'nsfw'                          => false,
-                'nsfw_media'                    => false,
-                'notify_submissions_replied'    => true,
-                'notify_comments_replied'       => true,
-                'notify_mentions'               => true,
-                'exclude_upvoted_submissions'   => false,
-                'exclude_downvoted_submissions' => true,
-                'submission_small_thumbnail'    => true,
-            ],
-            'info' => [
-                'website' => null,
-                'twitter' => null,
-            ],
-        ]);
-
         // in case there is an email address
         if ($user->email) {
             \Mail::to($user->email)->queue(new WelcomeToVoten($user->username));
