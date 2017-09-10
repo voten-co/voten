@@ -98,7 +98,7 @@ class RegisterController extends Controller
             'info'    => [
                 'website' => null,
                 'twitter' => null,
-            ]
+            ],
         ]);
     }
 
