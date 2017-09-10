@@ -64,11 +64,11 @@ class Category extends Model
     public function mods()
     {
         return DB::table('roles')->where([
-            'category_id' => $this->id,
-            'role'        => 'administrator',
+            ['category_id', $this->id],
+            ['role', 'administrator'],
         ])->orWhere([
-            'category_id' => $this->id,
-            'role'        => 'moderator',
+            ['category_id', $this->id],
+            ['role', 'moderator'],
         ])->pluck('user_id');
     }
 
