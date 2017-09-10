@@ -8,7 +8,6 @@
 			Voten is a website for groups and individuals to communicate, meet, and contribute in an open atmosphere, resort to some of the most authentic materials online. The nature of this online materials might be funny, serious, offensive, scientific, political or anywhere in between. While participating, it’s crucial to remember this value above all others: be respectful to all users, so we all can enjoy Voten for what it is.
 		</p>
 
-		<br>
 		<h2 class="title">
 			Unwelcome content
 		</h2>
@@ -20,19 +19,13 @@
 
 		<ul>
 			<li>
-				<b>Are illegal</b>: Materials may break the law if they include, but are not limited to Copyright or trademark infringements and
-				Illegal sexual contents.
+				<b>Are illegal</b>: Materials may break the law if they include, but are not limited to Copyright or trademark infringements.
 			</li>
 
 			<li>
-				<b>Are involuntary pornography</b>: Voten bans the posting of photographs, videos,
-				or digital images of users in a state of nudity or engaged in any act of sexual activity,
-				taken or posted without their direct permission. <br>
-				Other banned materials are child sexual abuse imagery,
-				material that encourages or promote pedophilia, as well as materials that glorify or encourage rape or non-consensual sexual violence.
-				<br>
-				To report involuntary pornography or encouragement of sexual violence,
-				please use the report button in the application. Voten bans the posting of such materials without consent.
+				<b>Porn</b>:
+				Pornography content is not allowed on Voten. No matter the kind or category. However, NSFW content is allowed.
+				For example, you may post an artwork containing nudity(and tag it as NSFW), but you shouldn't post a hentai image.
 			</li>
 
 			<li>
@@ -43,7 +36,7 @@
 			<li>
 				<b>Threaten, harass, or bully or encourage others to do so</b>:
 				We do not tolerate the harassment of people on our site,
-				nor do we tolerate communities dedicated to fostering harassing behavior. Being annoying, vote brigading, or participating in an argument is not harassment, but following an individual or group of users, online or off,
+				nor do we tolerate channels dedicated to fostering harassing behavior. Being annoying, vote brigading, or participating in an argument is not harassment, but following an individual or group of users, online or off,
 				to the point where they no longer feel that it's safe to post online or are in fear of their real life safety is.
 			</li>
 
@@ -63,13 +56,12 @@
 
 			<li>
 				<b>Are spam</b>: Sometimes spam is obvious, but often it is hard to figure out. 
-				If you are posting your own content and other voters appreciate and upvote your posts, you shouldn't have anything to worry about BUT: If your activities on Voten consists mainly of sending links only about a certain topic, you should be careful. Additionally, if you do not engage in other conversations and different activities, you may be considered a spammer and banned from Voten. If your contributions are often off-topic or not relevant to the community you are posting in, you may be considered a spammer. If you flood a Voten group with posts or comments, you may be considered a spammer. It is better to send a message to the moderators of the community you'd like to submit to. They'll probably appreciate the advance notice.
+				If you are posting your own content and other voters appreciate and upvote your posts, you shouldn't have anything to worry about BUT: If your activities on Voten consists mainly of sending links only about a certain topic, you should be careful. Additionally, if you do not engage in other conversations and different activities, you may be considered a spammer and banned from Voten. If your contributions are often off-topic or not relevant to the community you are posting in, you may be considered a spammer. If you flood a Voten channel with posts or comments, you may be considered a spammer. It is better to send a message to the moderators of the community you'd like to submit to. They'll probably appreciate the advance notice.
 				Voten channels are allowed to have their additional rules. Thus, they can decide what is spam and what is not.
 			</li>
 		</ul>
 
 
-		<br>
 		<h2 class="title">
 			Prohibited behavior
 		</h2>
@@ -83,17 +75,22 @@
 			Creating multiple accounts to evade punishment or avoid restrictions
 		</p>
 
-		<br>
 		<h2 class="title">
 			NSFW (Not Safe For Work) content
 		</h2>
 
 		<p>
-			Content that contains nudity, pornography, or insulting, which a reasonable viewer may not want to be seen accessing in a public or formal setting such as in a workplace should be tagged as NSFW.
-			This tag can be applied to individual pieces of content or to entire communities.
+			Content that contains nudity, or insulting, which a reasonable viewer may not want
+			to be seen accessing in a public or formal setting such as in a workplace must
+			be tagged as NSFW. This tag can be applied to individual pieces of content
+			or to entire channels.
 		</p>
 
-		<br>
+		<p>
+			<b>Porn</b>, however, is not allowed on Voten! No matter the kind or category. For example, you may
+			post an artwork containing nudity(and tag it as NSFW), but you shouldn't post a hentai image.
+		</p>
+
 		<h2 class="title">
 			Enforcement
 		</h2>
@@ -120,14 +117,29 @@
 			</li>
 		</ul>
 
-		<br>
 		<h2 class="title">
-			Moderation within communities
+			Moderation within channels
 		</h2>
 
 		<p>
-			Individual groups on Voten which are called channels may have their own rules in addition to ours and their own moderators to enforce them.
+			Individual groups on Voten which are called channels may have their own rules in addition to ours (as long as they don't break ours) and their own moderators to enforce them.
 			Voten provides tools to aid moderators but does not prescribe their usage.
+		</p>
+
+		<p>
+			Please, note that channels on Voten are not owned by its moderators. They're just being moderated by them.
+			This means even though we do our best not to interfere, we still have the right to take over
+			a channel to take necessary actions if needed. We usually do this when a channel has lack of
+			available moderator to add new ones.
+		</p>
+
+		<h2 class="title">
+			name/username reservation
+		</h2>
+
+		<p>
+			Creating more than one user account or channels just to reserve their names for future use is
+			prohibited. We delete such accounts/channels; and in case of repeating such behavor, we ban creator's account/IP.
 		</p>
 	</section>
 @endsection

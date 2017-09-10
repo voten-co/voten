@@ -6,13 +6,14 @@
 
 @section('content')
 	<section class="container">
-		<h1 class="title align-center">Voten.co Privacy Policy</h1>
+		<h1 class="title align-center">
+			Voten.co Privacy Policy
+		</h1>
 
 		<p>
 			This page is for all users and non-users wondering what we do with users’ information when they use our website. These policies apply to all our services.
 		</p>
 
-		<br>
 		<h2 class="title">
 			Information you provide us
 		</h2>
@@ -39,7 +40,6 @@
 			</li>
 		</ul>
 
-		<br>
 		<h2 class="title">
 			Information We Collect Automatically
 		</h2>
@@ -58,7 +58,6 @@
 			</li>
 		</ul>
 
-		<br>
 		<h2 class="title">
 			How We Use Information About You
 		</h2>
@@ -89,11 +88,10 @@
 			</li>
 
 			<li>
-				Provide our users with advertisements and services which could math their interests.
+				Provide our users with advertisements and services which could match their interests.
 			</li>
 		</ul>
 
-		<br>
 		<h2 class="title">
 			How We Share Information
 		</h2>
@@ -102,7 +100,6 @@
 			Unlike other social websites sharing your information with third parties for many reasons, Voten is conservative about keeping your information secret. We might connect with third parties in the future but we will never share your information with them.
 		</p>
 
-		<br>
 		<h2 class="title">
 			Children under 13
 		</h2>
@@ -110,6 +107,8 @@
 		<p>
 			We do not think contents on websites like ours, are intended for individuals under 13. Therefore, if you are under 13, you are not allowed to make an account or use our services.
 		</p>
+
+		<hr>
 
 		<p>
 			It is possible that we change some of our policies over time. Please note that, if you continue to use our services after we have changed our policies, it will mean your consent to our new policy.
