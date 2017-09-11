@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class AuthinticationTest extends TestCase
 {
@@ -13,9 +13,9 @@ class AuthinticationTest extends TestCase
     public function a_guest_can_register()
     {
         $this->post('/register', [
-            'username' => 'test_username',
-            'email' => 'test@test.com',
-            'password' => 'password',
+            'username'              => 'test_username',
+            'email'                 => 'test@test.com',
+            'password'              => 'password',
             'password_confirmation' => 'password',
         ])->assertRedirect('/find-channels?newbie=1&sidebar=0');
     }
@@ -24,9 +24,9 @@ class AuthinticationTest extends TestCase
     public function a_guest_can_login()
     {
         $this->post('/register', [
-            'username' => 'test_username',
-            'email' => 'test@test.com',
-            'password' => 'password',
+            'username'              => 'test_username',
+            'email'                 => 'test@test.com',
+            'password'              => 'password',
             'password_confirmation' => 'password',
         ]);
 
@@ -34,7 +34,7 @@ class AuthinticationTest extends TestCase
 
         $this->post('/login', [
             'username' => 'test_username',
-            'password' => 'password'
+            'password' => 'password',
         ])->assertRedirect('/');
     }
 }
