@@ -30,7 +30,7 @@ trait UsernameMentions
             }
 
             if ($user = User::whereUsername($username)->first()) {
-                if ($notifiableUser->id === $user->id) {
+                if (optional($notifiableUser)->id === $user->id) {
                     continue;
                 }
 
