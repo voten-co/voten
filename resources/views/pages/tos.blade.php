@@ -141,6 +141,14 @@
 			Creating more than one user account or channels just to reserve their names for future use is
 			prohibited. We delete such accounts/channels; and in case of repeating such behavor, we ban creator's account/IP.
 		</p>
+
+		<h2 class="title">
+			Children under 13
+		</h2>
+
+		<p>
+			We do not think contents on websites like ours, are intended for individuals under 13. Therefore, if you are under 13, you are not allowed to make an account or use our services.
+		</p>
 	</section>
 @endsection
 
