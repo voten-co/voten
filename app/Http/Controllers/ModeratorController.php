@@ -19,10 +19,13 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Comment;
+use App\Events\CommentWasDeleted;
+use App\Events\SubmissionWasDeleted;
 use App\Notifications\BecameModerator;
 use App\Report;
 use App\Submission;
 use App\Traits\CachableCategory;
+use App\Traits\CachableComment;
 use App\Traits\CachableSubmission;
 use App\User;
 use Auth;
@@ -32,7 +35,7 @@ use Illuminate\Http\Request;
 
 class ModeratorController extends Controller
 {
-    use CachableSubmission, CachableCategory;
+    use CachableSubmission, CachableCategory, CachableComment;
 
     public function __construct()
     {
@@ -139,15 +142,9 @@ class ModeratorController extends Controller
             'deleted_at'  => Carbon::now(),
         ]);
 
-        $this->putSubmissionInTheCache($submission);
+        event(new SubmissionWasDeleted($submission, false));
 
-        // remove all the reports related to this model
-        Report::where([
-            'reportable_id'   => $request->submission_id,
-            'reportable_type' => 'App\Submission',
-        ])->delete();
-
-        return response('Submission was deleted', 200);
+        return response('Submission deleted successfully.', 200);
     }
 
     /**
@@ -192,20 +189,19 @@ class ModeratorController extends Controller
             'comment_id' => 'required|integer',
         ]);
 
-        abort_unless($this->mustBeModerator(Comment::where('id', $request->comment_id)->value('category_id')), 403);
+        $comment = $this->getCommentById($request->comment_id);
+        $submission = $this->getSubmissionById($comment->submission_id);
+
+        abort_unless($this->mustBeModerator($comment->category_id), 403);
+
+        event(new CommentWasDeleted($comment, $submission, false));
 
         DB::table('comments')->where('id', $request->comment_id)->update([
             'approved_at' => null,
             'deleted_at'  => Carbon::now(),
         ]);
 
-        // remove all the reports related to this model
-        Report::where([
-            'reportable_id'   => $request->comment_id,
-            'reportable_type' => 'App\Comment',
-        ])->delete();
-
-        return response('Comment was deleted', 200);
+        return response('Comment deleted successfully.', 200);
     }
 
     /**

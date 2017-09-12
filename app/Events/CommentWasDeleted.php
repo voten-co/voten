@@ -13,16 +13,18 @@ class CommentWasDeleted implements ShouldBroadcast
 
     public $comment;
     public $submission;
+    public $deletedByAuthor;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($comment, $submission)
+    public function __construct($comment, $submission, $deletedByAuthor)
     {
         $this->comment = $comment;
         $this->submission = $submission;
+        $this->deletedByAuthor = $deletedByAuthor;
         $this->dontBroadcastToCurrentUser();
     }
 

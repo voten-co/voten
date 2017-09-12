@@ -14,16 +14,6 @@ class DestroyedSubmission
     use CachableUser, CachableSubmission, CachableCategory;
 
     /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Handle the event.
      *
      * @param SubmissionWasDeleted $event
@@ -32,14 +22,25 @@ class DestroyedSubmission
      */
     public function handle(SubmissionWasDeleted $event)
     {
-        if (!$event->submission->isForceDeleting()) {
+        $this->updateCategorySubmissionsCount($event->submission->category_id, -1);
+
+        if ($event->deletedByAuthor) {
+            $this->deletedByAuthor($event);
+
             return;
         }
 
+        $this->deletedByModerator($event);
+    }
+
+    /**
+     * Handle event, if record was deleted by its author.
+     *
+     * @param $event
+     */
+    protected function deletedByAuthor($event)
+    {
         $this->updateUserSubmissionsCount($event->submission->user_id, -1);
-
-        $this->updateCategorySubmissionsCount($event->submission->category_id, -1);
-
         $this->removeSubmissionFromCache($event->submission);
 
         Report::where([
@@ -50,5 +51,21 @@ class DestroyedSubmission
         if ($event->submission->type == 'img') {
             Photo::where('submission_id', $event->submission->id)->forceDelete();
         }
+    }
+
+    /**
+     * Handle event, if record was deleted by a moderator.
+     *
+     * @param $event
+     */
+    protected function deletedByModerator($event)
+    {
+        $this->putSubmissionInTheCache($event->submission);
+
+        // remove all the reports related to this model
+        Report::where([
+            'reportable_id'   => $event->submission->id,
+            'reportable_type' => 'App\Submission',
+        ])->delete();
     }
 }

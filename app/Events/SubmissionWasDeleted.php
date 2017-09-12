@@ -13,15 +13,17 @@ class SubmissionWasDeleted
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $submission;
+    public $deletedByAuthor;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($submission)
+    public function __construct($submission, $deletedByAuthor)
     {
         $this->submission = $submission;
+        $this->deletedByAuthor = $deletedByAuthor;
     }
 
     /**

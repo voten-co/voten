@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\CommentWasDeleted;
+use App\Report;
 use App\Traits\CachableCategory;
 use App\Traits\CachableComment;
 use App\Traits\CachableSubmission;
@@ -13,16 +14,6 @@ class DestroyedComment
     use CachableUser, CachableCategory, CachableComment, CachableSubmission;
 
     /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Handle the event.
      *
      * @param CommentWasDeleted $event
@@ -31,18 +22,49 @@ class DestroyedComment
      */
     public function handle(CommentWasDeleted $event)
     {
-        $this->updateUserCommentsCount($event->comment->user_id, -1);
         $this->updateCategoryCommentsCount($event->comment->category_id, -1);
-        $this->removeCommentFromCache($event->comment);
-        \App\Report::where([
-            'reportable_id'   => $event->comment->id,
-            'reportable_type' => 'App\Comment',
-        ])->forceDelete();
 
         $event->submission->update([
             'comments_number' => ($event->submission->comments_number - 1),
         ]);
 
         $this->putSubmissionInTheCache($event->submission);
+
+        if ($event->deletedByAuthor) {
+            $this->deletedByAuthor($event);
+
+            return;
+        }
+
+        $this->deletedByModerator($event);
+    }
+
+    /**
+     * Handle event, if record was deleted by its author.
+     *
+     * @param $event
+     */
+    protected function deletedByAuthor($event)
+    {
+        $this->removeCommentFromCache($event->comment);
+        $this->updateUserCommentsCount($event->comment->user_id, -1);
+
+        Report::where([
+            'reportable_id'   => $event->comment->id,
+            'reportable_type' => 'App\Comment',
+        ])->forceDelete();
+    }
+
+    /**
+     * Handle event, if record was deleted by a moderator.
+     *
+     * @param $event
+     */
+    protected function deletedByModerator($event)
+    {
+        Report::where([
+            'reportable_id'   => $event->comment->id,
+            'reportable_type' => 'App\Comment',
+        ])->delete();
     }
 }
