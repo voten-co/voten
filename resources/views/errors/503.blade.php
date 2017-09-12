@@ -62,7 +62,9 @@
     <body>
         <div class="container">
             <div class="content">
-                <img src="/imgs/voten-circle.png" alt="voten" class="logo">
+                <a href="/">
+                    <img src="/imgs/voten-circle.png" alt="voten" class="logo">
+                </a>
 
                 <div class="title">
                     Voten is under maintenance. We'll probably be back in a few minutes.
