@@ -31,7 +31,7 @@ trait RecordsActivity
      */
     public function recordActivity($event)
     {
-        if (! isset($_SERVER['HTTP_USER_AGENT'])) {
+        if (!isset($_SERVER['HTTP_USER_AGENT'])) {
             return;
         }
 
