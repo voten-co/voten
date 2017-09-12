@@ -197,10 +197,6 @@
                 } ).then((response) => {
                 	Store.commentUpVotes.push(response.data.id);
 
-                    /**
-		             * Fire an event to catch by the commenter himself
-		             * (use ajax response instead of pusher for commenter himself)
-		             */
                     this.$eventHub.$emit('newComment', response.data);
 ;
         			this.loading = false;

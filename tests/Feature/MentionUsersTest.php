@@ -19,21 +19,16 @@ class MentionUsersTest extends TestCase
 
         $jane = create('App\User', ['username' => 'JaneDoe']);
 
-        $comment = make('App\Comment', [
-            'body' => 'Hey @JaneDoe look at this.'
-        ]);
-
-        // post the right data (and not this $comment->toArray() shit)
 
         $this->json('post', '/comment', [
-            'body' => $comment->body,
+            'body' => 'Hey @JaneDoe look at this.',
             'submission_id' => 1,
             'parent_id' => 0
+        ])->assertJson([
+            'message' => 'test'
         ]);
 
-//        $this->->assertStatus(200);
-
 //        $this->assertCount(1, $jane->notifications);
-        $this->assertTrue(true);
+//        $this->assertTrue(true);
     }
 }

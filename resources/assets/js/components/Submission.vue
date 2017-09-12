@@ -205,36 +205,6 @@
 			},
 
 			/**
-			 * Submits the (quick)comment
-			 *
-			 * @return void
-			 */
-			submit(event){
-				event.preventDefault()
-
-				if (!this.quickComment.trim()) return
-
-				let temp = this.quickComment
-				this.quickComment = ''
-
-				this.sendingQuickComment = true
-
-				axios.post('/comment', {
-					parent_id: 0,
-					submission_id: this.list.id,
-					body: temp,
-				}).then((response) => {
-				    Store.commentUpVotes.push(response.data.id)
-
-				    this.list.comments_number ++
-
-				    this.sendingQuickComment = false
-				}).catch((error) => {
-					this.sendingQuickComment = false
-				})
-			},
-
-			/**
 			 * marks the submission as NSFW (not safe for work)
 			 *
 			 * @return void
