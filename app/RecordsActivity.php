@@ -31,6 +31,10 @@ trait RecordsActivity
      */
     public function recordActivity($event)
     {
+        if (! isset($_SERVER['HTTP_USER_AGENT'])) {
+            return;
+        }
+
         $user_agent_parser = new Parser($_SERVER['HTTP_USER_AGENT']);
 
         Activity::create([
