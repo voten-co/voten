@@ -69,4 +69,19 @@ class CommentReported extends Notification implements ShouldBroadcast
             'body'   => 'Comment reported at #'.$this->category->name,
         ];
     }
+
+    /**
+     * Get the broadcastable representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return BroadcastMessage
+     */
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'data' => $this->toArray($notifiable),
+            'created_at' => now(),
+            'read_at' => null
+        ]);
+    }
 }

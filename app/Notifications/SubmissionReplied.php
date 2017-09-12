@@ -7,6 +7,7 @@ use App\Submission;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Queue\SerializesModels;
@@ -77,5 +78,20 @@ class SubmissionReplied extends Notification implements ShouldBroadcast
             'avatar' => $this->comment->owner->avatar,
             'body'   => '@'.$this->comment->owner->username.' left a comment on "'.$this->submission->title.'"',
         ];
+    }
+
+    /**
+     * Get the broadcastable representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return BroadcastMessage
+     */
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'data' => $this->toArray($notifiable),
+            'created_at' => now(),
+            'read_at' => null
+        ]);
     }
 }
