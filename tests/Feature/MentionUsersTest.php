@@ -2,9 +2,8 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class MentionUsersTest extends TestCase
 {
@@ -19,13 +18,12 @@ class MentionUsersTest extends TestCase
 
         $jane = create('App\User', ['username' => 'JaneDoe']);
 
-
         $this->json('post', '/comment', [
-            'body' => 'Hey @JaneDoe look at this.',
+            'body'          => 'Hey @JaneDoe look at this.',
             'submission_id' => 1,
-            'parent_id' => 0
+            'parent_id'     => 0,
         ])->assertJson([
-            'message' => 'test'
+            'message' => 'test',
         ]);
 
 //        $this->assertCount(1, $jane->notifications);
