@@ -198,7 +198,7 @@
                 	Store.commentUpVotes.push(response.data.id);
 
                     this.$eventHub.$emit('newComment', response.data);
-;
+
         			this.loading = false;
                 }).catch((error) => {
                     this.message = this.temp;
