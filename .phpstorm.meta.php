@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2017-09-03.
+    * Generated on 2017-09-13.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -70,6 +70,7 @@ namespace PHPSTORM_META {
         'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
         'redis' => \Illuminate\Redis\RedisManager::class,
         'redis.connection' => \Illuminate\Redis\Connections\PredisConnection::class,
+        'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
         'command.cache.clear' => \Illuminate\Cache\Console\ClearCommand::class,
         'command.cache.forget' => \Illuminate\Cache\Console\ForgetCommand::class,
@@ -221,6 +222,7 @@ namespace PHPSTORM_META {
         'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
         'redis' => \Illuminate\Redis\RedisManager::class,
         'redis.connection' => \Illuminate\Redis\Connections\PredisConnection::class,
+        'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
         'command.cache.clear' => \Illuminate\Cache\Console\ClearCommand::class,
         'command.cache.forget' => \Illuminate\Cache\Console\ForgetCommand::class,
@@ -372,6 +374,7 @@ namespace PHPSTORM_META {
         'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
         'redis' => \Illuminate\Redis\RedisManager::class,
         'redis.connection' => \Illuminate\Redis\Connections\PredisConnection::class,
+        'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
         'command.cache.clear' => \Illuminate\Cache\Console\ClearCommand::class,
         'command.cache.forget' => \Illuminate\Cache\Console\ForgetCommand::class,
@@ -523,6 +526,7 @@ namespace PHPSTORM_META {
         'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
         'redis' => \Illuminate\Redis\RedisManager::class,
         'redis.connection' => \Illuminate\Redis\Connections\PredisConnection::class,
+        'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
         'command.cache.clear' => \Illuminate\Cache\Console\ClearCommand::class,
         'command.cache.forget' => \Illuminate\Cache\Console\ForgetCommand::class,
@@ -674,6 +678,7 @@ namespace PHPSTORM_META {
         'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
         'redis' => \Illuminate\Redis\RedisManager::class,
         'redis.connection' => \Illuminate\Redis\Connections\PredisConnection::class,
+        'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
         'command.cache.clear' => \Illuminate\Cache\Console\ClearCommand::class,
         'command.cache.forget' => \Illuminate\Cache\Console\ForgetCommand::class,
@@ -825,6 +830,7 @@ namespace PHPSTORM_META {
         'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
         'redis' => \Illuminate\Redis\RedisManager::class,
         'redis.connection' => \Illuminate\Redis\Connections\PredisConnection::class,
+        'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
         'command.cache.clear' => \Illuminate\Cache\Console\ClearCommand::class,
         'command.cache.forget' => \Illuminate\Cache\Console\ForgetCommand::class,
@@ -976,6 +982,7 @@ namespace PHPSTORM_META {
         'memcached.connector' => \Illuminate\Cache\MemcachedConnector::class,
         'redis' => \Illuminate\Redis\RedisManager::class,
         'redis.connection' => \Illuminate\Redis\Connections\PredisConnection::class,
+        'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
         'command.cache.clear' => \Illuminate\Cache\Console\ClearCommand::class,
         'command.cache.forget' => \Illuminate\Cache\Console\ForgetCommand::class,
