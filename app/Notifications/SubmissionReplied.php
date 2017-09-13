@@ -83,15 +83,16 @@ class SubmissionReplied extends Notification implements ShouldBroadcast
     /**
      * Get the broadcastable representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return BroadcastMessage
      */
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
-            'data' => $this->toArray($notifiable),
+            'data'       => $this->toArray($notifiable),
             'created_at' => now(),
-            'read_at' => null
+            'read_at'    => null,
         ]);
     }
 }
