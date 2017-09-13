@@ -491,17 +491,12 @@ pre {
 blockquote {
     color: #a5a4a4;
     font-style: italic;
-    padding: 1em;
+    padding: 1px 1em;
     background: #fcfcfc;
     width: 100%;
-    margin: 1em 0;
-    border: 1px dashed #e7e7e7;
-}
-
-blockquote:first-letter {
-    float: left;
-    margin: -9px 6px 0 0;
-    font-size: 35px;
+    margin: 0;
+    border: 1px solid #f8f8f8;
+    border-left: 4px solid #e7e7e7;
 }
 
 .user-select {
