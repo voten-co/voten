@@ -2,7 +2,7 @@
     <section class="container margin-top-1 col-7">
 		<section class="box-typical comments" id="comments-section" v-if="comments.length">
 	    	<div class="box-typical-inner ui threaded comments">
-	    		<div v-for="c in comments">
+	    		<div v-for="c in comments" class="v-comment-not-full">
 			        <comment :list="c" :comments-order="'created_at'"></comment>
 			    </div>
 	    	</div>

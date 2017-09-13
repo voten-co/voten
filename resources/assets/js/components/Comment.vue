@@ -37,7 +37,12 @@
                 </div>
 
                 <div class="actions user-select">
-                    <a class="reply h-green" @click="commentReply" v-if="list.level < 8"
+                    <router-link class="reply h-green" :to="'/submission/' + list.submission_id" v-if="!full"
+                    data-toggle="tooltip" data-placement="top" title="Submission">
+                        <i class="v-icon v-link"></i>
+                    </router-link>
+
+                    <a class="reply h-green" @click="commentReply" v-if="list.level < 8 && full"
                     data-toggle="tooltip" data-placement="top" title="Reply">
                         <i class="v-icon v-reply"></i>
                     </a>
