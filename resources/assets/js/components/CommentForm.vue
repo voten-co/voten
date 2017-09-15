@@ -5,6 +5,7 @@
                 <textarea type="text" v-model="message" :id="'comment-form-' + parent" class="v-comment-form"
                           placeholder="Type your comment..." autocomplete="off" rows="1" name="comment"
                           v-on:keydown.enter="submit($event)" v-focus="focused" @focus="focused = true"
+                          @keydown="whisperTyping" @keyup="whisperFinishedTyping"
                 ></textarea>
 
                 <span class="send-button comment-emoji-button">
@@ -19,12 +20,12 @@
                 </button>
             </div>
 
-            <div class="flex-space user-select" v-if="!isReply">
-	            <a class="comment-form-guide" @click="$eventHub.$emit('markdown-guide')">
-	            	Formatting Guide
-	            </a>
+            <div class="flex-space user-select comment-form-guide-wrapper" v-if="!isReply">
+                <typing></typing>
 
-                <a></a>
+                <a class="comment-form-guide" @click="$eventHub.$emit('markdown-guide')">
+                    Formatting Guide
+                </a>
             </div>
         </div>
     </section>
@@ -33,6 +34,7 @@
 <script>
 	import MoonLoader from '../components/MoonLoader.vue';
 	import EmojiPicker from '../components/EmojiPicker.vue';
+	import Typing from '../components/Typing.vue';
     import { mixin as clickaway } from 'vue-clickaway';
 	import { focus } from 'vue-focus';
 	import Helpers from '../mixins/Helpers';
@@ -43,7 +45,11 @@
 
 		directives: { focus },
 
-    	components: { MoonLoader, EmojiPicker },
+    	components: {
+		    MoonLoader,
+            EmojiPicker,
+            Typing
+        },
 
         props: ['parent', 'submission', 'editing', 'before', 'id'],
 
@@ -58,12 +64,16 @@
                 message: '',
                 temp: '',
                 mentioning: false,
+                EchoChannelAddress: 'submission.' + this.$route.params.slug,
+                isTyping: false
             }
         },
 
         created() {
-            this.setFocused()
-            this.setEditing()
+            this.setFocused();
+            this.setEditing();
+            this.subscribeToEcho();
+
         },
 
         computed: {
@@ -81,10 +91,49 @@
 
 			this.$nextTick(function () {
         		this.$root.autoResize();
-			})
+			});
 		},
 
         methods: {
+		    /**
+             * Subscribes to the Echo channel. Prepares comment form for whispering "typing".
+             *
+             * @return void
+             */
+		    subscribeToEcho() {
+                Echo.private(this.EchoChannelAddress);
+            },
+
+		    /**
+             * Broadcast "typing".
+             *
+             * @return void
+             */
+            whisperTyping() {
+                if (this.isTyping) return;
+
+                if (this.editing) return;
+
+                Echo.private(this.EchoChannelAddress).whisper('typing', {
+                    username: auth.username
+                });
+
+                this.isTyping = true;
+            },
+
+            /**
+             * Broadcast "typing".
+             *
+             * @return void
+             */
+            whisperFinishedTyping: _.debounce(function () {
+                Echo.private(this.EchoChannelAddress).whisper('finished-typing', {
+                    username: auth.username
+                });
+
+                this.isTyping = false;
+            }, 600),
+
             /**
              * Loads the at.js stuff
              *
@@ -112,8 +161,8 @@
             },
 
             setEditing() {
-                if(this.editing) {
-                    this.message = this.before
+                if (this.editing) {
+                    this.message = this.before;
                 }
             },
 
@@ -130,12 +179,12 @@
             },
 
             setFocused(){
-                if(this.parent == 0){
-                    this.focused = false
-                    return
+                if(this.parent == 0) {
+                    this.focused = false;
+                    return;
                 }
 
-                this.focused = true
+                this.focused = true;
             },
 
 
@@ -157,12 +206,13 @@
             		return;
             	}
 
-        		this.temp = this.message
-        		this.message = ''
+        		this.temp = this.message;
+                this.focused = false;
+        		this.message = '';
 
-        		$('#comment-form-' + this.parent).css('height', 49)
+        		$('#comment-form-' + this.parent).css('height', 49);
 
-        		this.loading = true
+        		this.loading = true;
 
                 // edit
                 if (this.editing) {

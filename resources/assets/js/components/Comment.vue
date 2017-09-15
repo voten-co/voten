@@ -30,8 +30,8 @@
                 <div class="text">
                     <comment-form :submission="list.submission_id" :parent="list.id"
                         :editing="editing" v-if="editing" :before="list.body" :id="list.id"
-                            @patched-comment="patchComment"
-                        ></comment-form>
+                        @patched-comment="patchComment"
+                    ></comment-form>
 
                     <markdown :text="list.body" v-else></markdown>
                 </div>

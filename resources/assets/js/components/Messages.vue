@@ -493,7 +493,6 @@ export default {
 
 					// Sending web notifications to user's OS(if website is not active)
                     if(document.hidden == true) {
-                    	console.log('started')
                         let body = e.message.data.text
                         let link = 'new-message'
                         let avatar = e.message.owner.avatar
