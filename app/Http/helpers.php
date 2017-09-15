@@ -5,8 +5,9 @@
 | Voten Helpers
 |--------------------------------------------------------------------------
 |
-| This file contains our general helper functions that can be accessed everywhere.
-| Hope you have fun with it and also don't over do it!
+| This file contains our general helper functions that can be accessed from
+| everywhere in the application code. If you find this as "bad practice",
+| don't read this file then!
 |
 */
 
@@ -24,7 +25,7 @@ if (!function_exists('getRequestIpAddress')) {
 
 if (!function_exists('firstRate')) {
     /**
-     * Calculates the rate for votable model (currently submissions and comments).
+     * Calculates the rate for votable model (currently used for submissions and comments).
      *
      * @return float
      */
@@ -92,11 +93,11 @@ if (!function_exists('settings')) {
 
 if (!function_exists('domain')) {
     /**
-     * makes it easy for interacting with user's settings (that is implemented as json).
+     * Squeezes the domain address from a valid URL.
      *
-     * @param string $key
+     * @param string $url
      *
-     * @return mixed
+     * @return string
      */
     function domain($url)
     {
@@ -106,7 +107,7 @@ if (!function_exists('domain')) {
 
 if (!function_exists('isValidUrl')) {
     /**
-     * makes it easy for interacting with user's settings (that is implemented as json).
+     * Validates $url.
      *
      * @param string $key
      *
@@ -120,9 +121,7 @@ if (!function_exists('isValidUrl')) {
 
 if (!function_exists('isMobileDevice')) {
     /**
-     * makes it easy for interacting with user's settings (that is implemented as json).
-     *
-     * @param string $key
+     * Is visitor viewing site on a mobile device?
      *
      * @return bool
      */
@@ -150,11 +149,11 @@ if (!function_exists('confirmPassword')) {
 
 if (!function_exists('externalJson')) {
     /**
-     * Used for "Enter your password to confirm cases".
+     * Convert external JSON into an object.
      *
      * @param string $url
      *
-     * @return obj|bool
+     * @return obj
      */
     function externalJson($url)
     {
@@ -168,7 +167,7 @@ if (!function_exists('externalJson')) {
 
 if (!function_exists('rssForHumans')) {
     /**
-     * Used for "Enter your password to confirm cases".
+     * Converts a RSS formatted number into a humen-friendly string. (used for backend dashboard's statistics)
      *
      * @param int $bytes
      *
