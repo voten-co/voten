@@ -122,7 +122,7 @@
             },
 
             /**
-             * Broadcast "typing".
+             * Broadcast "finished-typing".
              *
              * @return void
              */
