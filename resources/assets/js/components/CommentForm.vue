@@ -73,7 +73,6 @@
             this.setFocused();
             this.setEditing();
             this.subscribeToEcho();
-
         },
 
         computed: {
@@ -101,6 +100,8 @@
              * @return void
              */
 		    subscribeToEcho() {
+                if (this.isGuest) return;
+
                 Echo.private(this.EchoChannelAddress);
             },
 
@@ -110,6 +111,8 @@
              * @return void
              */
             whisperTyping() {
+                if (this.isGuest) return;
+
                 if (this.isTyping) return;
 
                 if (this.editing) return;
@@ -127,6 +130,8 @@
              * @return void
              */
             whisperFinishedTyping: _.debounce(function () {
+                if (this.isGuest) return;
+
                 Echo.private(this.EchoChannelAddress).whisper('finished-typing', {
                     username: auth.username
                 });
