@@ -36,8 +36,6 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        // $this->command('build {project}', function ($project) {
-        //     $this->info('Building project...');
-        // });
+        require base_path('routes/console.php');
     }
 }

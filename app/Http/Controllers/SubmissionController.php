@@ -59,15 +59,17 @@ class SubmissionController extends Controller
     {
         $user = Auth::user();
 
+        // Make sure user is not shadow banned.
         if ($user->isShadowBanned()) {
             return response('I hate to break it to you but your account has been banned.', 500);
         }
 
-        // first make sure user is allowed to submit to this category. (not banned from it)
+        // Make sure user is allowed to submit to this category. (isn't banned from it)
         if ($this->isUserBanned($user->id, $request->name)) {
             return response('You have been banned from submitting to #'.$request->name.'. If you think there has been some kind of mistake, please contact the moderators of #'.$request->name.'.', 500);
         }
 
+        // Make user is not overdoing it.
         if ($this->tooEarlyToCreate()) {
             return response("Looks like you're over doing it. You can't submit more than 2 posts per minute.", 500);
         }
@@ -139,11 +141,14 @@ class SubmissionController extends Controller
         }
 
         $category = Category::where('name', $request->name)->select('id', 'nsfw')->firstOrFail();
+        $slug = $this->slug($request->title);
 
         try {
             $submission = Submission::create([
                 'title'         => $request->title,
-                'slug'          => $this->slug($request->title),
+                'slug'          => $slug,
+                'url'           => $request->type === 'link' ? $request->url : config('app.url') . '/c/' . $category->name . '/' . $slug,
+                'domain'        => $request->type === 'link' ? domain($request->url) : null,
                 'type'          => $request->type,
                 'category_name' => $request->name,
                 'category_id'   => $category->id,
@@ -162,7 +167,9 @@ class SubmissionController extends Controller
 
         // Update the submission_id field in photos (We just found access to the submission_id)
         if ($request->type == 'img') {
-            DB::table('photos')->whereIn('id', $request->input('photos'))->update(['submission_id' => $submission->id]);
+            DB::table('photos')
+                ->whereIn('id', $request->input('photos'))
+                ->update(['submission_id' => $submission->id]);
         }
 
         try {

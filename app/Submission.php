@@ -18,7 +18,7 @@ class Submission extends Model
     protected $fillable = [
         'data', 'title', 'slug', 'type', 'category_id', 'category_name', 'rate',
         'upvotes', 'downvotes', 'user_id', 'data', 'nsfw', 'approved_at',
-        'deleted_at', 'comments_number',
+        'deleted_at', 'comments_number', 'url', 'domain',
     ];
 
     protected $casts = [

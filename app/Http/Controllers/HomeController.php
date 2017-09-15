@@ -93,6 +93,8 @@ class HomeController extends Controller
             $submissions->orderBy('rate', 'desc');
         }
 
+//        $submissions->groupBy('url');
+
         return $submissions->simplePaginate(10);
     }
 
