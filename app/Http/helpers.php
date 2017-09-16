@@ -167,7 +167,7 @@ if (!function_exists('externalJson')) {
 
 if (!function_exists('rssForHumans')) {
     /**
-     * Converts a RSS formatted number into a humen-friendly string. (used for backend dashboard's statistics)
+     * Converts a RSS formatted number into a humen-friendly string. (used for backend dashboard's statistics).
      *
      * @param int $bytes
      *
