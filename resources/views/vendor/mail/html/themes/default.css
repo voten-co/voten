@@ -1,12 +1,12 @@
 /* Base */
 
 body, body *:not(html):not(style):not(br):not(tr):not(code) {
-    font-family: Avenir, Helvetica, sans-serif;
+    font-family: Ubuntu, Avenir, Helvetica, sans-serif;
     box-sizing: border-box;
 }
 
 body {
-    background-color: #F2F4F6;
+    background-color: #f9f9f9;
     color: #74787E;
     height: 100%;
     line-height: 1.4;
@@ -19,12 +19,21 @@ p,
 ul,
 ol,
 blockquote {
-    line-height: 1.4;
+    line-height: 1.6;
     text-align: left;
 }
 
+li {
+    margin-bottom: .7em;
+}
+
 a {
-    color: #3869D4;
+    color: #5788d7;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 a img {
@@ -76,7 +85,7 @@ img {
 /* Layout */
 
 .wrapper {
-    background-color: #f5f8fa;
+    background-color: #f9f9f9;
     margin: 0;
     padding: 0;
     width: 100%;
@@ -208,30 +217,23 @@ img {
     display: inline-block;
     text-decoration: none;
     -webkit-text-size-adjust: none;
+    padding: 0.7em 3em;
+    font-size: 18px;
 }
 
 .button-blue {
-    background-color: #3097D1;
-    border-top: 10px solid #3097D1;
-    border-right: 18px solid #3097D1;
-    border-bottom: 10px solid #3097D1;
-    border-left: 18px solid #3097D1;
+    background-color: #6181c1;
+    border-bottom: 2px solid #476087;
 }
 
 .button-green {
-    background-color: #2ab27b;
-    border-top: 10px solid #2ab27b;
-    border-right: 18px solid #2ab27b;
-    border-bottom: 10px solid #2ab27b;
-    border-left: 18px solid #2ab27b;
+    background-color: #78b38a;
+    border-bottom: 2px solid #5b9178;
 }
 
 .button-red {
-    background-color: #bf5329;
-    border-top: 10px solid #bf5329;
-    border-right: 18px solid #bf5329;
-    border-bottom: 10px solid #bf5329;
-    border-left: 18px solid #bf5329;
+    background-color: #db6e6e;
+    border-bottom: 2px solid #844343;
 }
 
 /* Panels */

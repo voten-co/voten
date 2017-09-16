@@ -1,5 +1,9 @@
 <?php
 
+Route::get('/test-mail', function () {
+    return new App\Mail\NewRegistration('sully');
+});
+
 Route::group(['middleware' => ['maintenance', 'http2']], function () {
     Route::auth();
     Route::get('/logout', 'Auth\LoginController@logout');
