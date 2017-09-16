@@ -9,7 +9,7 @@
 <section class="section container">
     <div class="columns is-multiline is-mobile">
         <div class="column is-full">
-            <h1 class="title">New Announcement:</h1>
+            <h1 class="title">New inside announcement:</h1>
 
 			<form class="control" action="/create-announcement" method="post">
                 {{ csrf_field() }}
@@ -20,15 +20,11 @@
 					</p>
 				</div>
 
-				<br>
-
 				<div class="field">
 					<p class="control">
 						<textarea class="textarea" placeholder="Body(markdown syntax)" name="body" required></textarea>
 					</p>
 				</div>
-
-				<br>
 
 				<div class="field">
 					<p class="control">
@@ -38,8 +34,6 @@
 
 				<input type="hidden" name="category_name" value="home">
 
-				<br>
-
 				<div class="field">
 					<div class="control">
 						<button class="button is-primary" type="submit">
@@ -48,6 +42,13 @@
 					</div>
 				</div>
             </form>
+
+            <br>
+            <hr>
+
+            <h1 class="title">
+                All Announcements:
+            </h1>
 
 
             <table class="table">
@@ -93,8 +94,5 @@
         </div>
     </div>
 </section>
-
-
-
 
 @endsection
