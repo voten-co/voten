@@ -1,8 +1,5 @@
 <?php
 
-//Route::get('/test-mail', function () {
-//    return new App\Mail\NewRegistration('sully');
-//});
 
 Route::group(['middleware' => ['maintenance', 'http2']], function () {
     Route::auth();
@@ -69,6 +66,13 @@ Route::delete('/appointed/destroy/{appointed}', 'BackendController@destroyAppoin
 Route::post('/forbidden-category-name/store', 'BackendController@storeForbiddenCategoryName');
 Route::delete('/forbidden-username/destroy/{forbidden}', 'BackendController@destroyForbiddenUsername');
 Route::delete('/forbidden-category-name/destroy/{forbidden}', 'BackendController@destroyForbiddenCategoryName');
+Route::get('/backend/emails', 'EmailsController@index');
+Route::post('/emails/announcement/store', 'EmailsController@store');
+Route::post('/emails/announcement/send', 'EmailsController@send');
+Route::get('/emails/announcement/preview', 'EmailsController@preview');
+
+//Route::get('/emails/announcement/send', 'EmailsController@send');
+
 
 // ssh control
 Route::get('/ssh/flush-all', 'SshController@flushAll');

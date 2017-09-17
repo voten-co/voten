@@ -1,5 +1,9 @@
 @extends('layouts.backend-layout')
 
+@section('title')
+    Firewall
+@endsection
+
 @section('content')
 
 <section class="section container">

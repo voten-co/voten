@@ -29,8 +29,9 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
-        'settings' => 'json',
-        'info'     => 'json',
+        'settings'  => 'json',
+        'info'      => 'json',
+        'confirmed' => 'boolean',
     ];
 
     /**

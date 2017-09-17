@@ -13,6 +13,10 @@
                 Announcements
             </a>
 
+            <a class="nav-item is-tab is-hidden-mobile{{ url('backend/emails') == url()->current() ? ' is-active' : '' }}" href="/backend/emails">
+                Emails
+            </a>
+
             <a class="nav-item is-tab is-hidden-mobile{{ url('backend/firewall') == url()->current() ? ' is-active' : '' }}" href="/backend/firewall">
                 Firewall
             </a>
