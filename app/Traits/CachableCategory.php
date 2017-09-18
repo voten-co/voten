@@ -208,7 +208,7 @@ trait CachableCategory
     public function getDefaultCategories()
     {
         return Cache::remember('default-categories-ids', 60 * 60 * 24, function () {
-            return \App\Suggested::groupBy('category_id')->select('id', 'category_id')->pluck('category_id');
+            return \App\Suggested::groupBy('category_id')->select('category_id')->pluck('category_id');
         });
     }
 
