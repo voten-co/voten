@@ -17,7 +17,6 @@ import LoginModal from './components/LoginModal.vue';
 import CropModal from './components/CropModal.vue';
 import Dashboard from './components/Dashboard.vue';
 import NotFound from './components/NotFound.vue';
-import Feedback from './components/Feedback.vue';
 import Messages from './components/Messages.vue';
 import LocalStorage from './mixins/LocalStorage';
 import StoreStorage from './mixins/StoreStorage';
@@ -81,7 +80,6 @@ const app = new Vue({
         Subscribe,
         Dashboard,
         NotFound,
-        Feedback,
         Messages,
         Sidebar,
         Rules,
