@@ -17,5 +17,5 @@ Artisan::command('send-verification-email', function () {
         Mail::to($user->email)->queue(new \App\Mail\VerifyEmailAddress($user->username, $token));
     }
 
-    $this->info($users->count() . ' Emails have been queued for sending. ');
+    $this->info($users->count().' Emails have been queued for sending. ');
 })->describe('Send verification emails to those who have filled an email address but have not verified it.');
