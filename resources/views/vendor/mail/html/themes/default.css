@@ -245,10 +245,15 @@ img {
 .panel-content {
     background-color: #EDEFF2;
     padding: 16px;
+    border-bottom: 2px solid #e3e7ea;
 }
 
 .panel-item {
     padding: 0;
+}
+
+.panel-item p {
+    font-size: 14px !important;
 }
 
 .panel-item p:last-of-type {

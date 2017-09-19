@@ -14,6 +14,21 @@
             <small class="text-muted go-red" v-for="e in errors.email">{{ e }}</small>
         </div>
 
+        <div class="flex-space warning warning--info" v-if="showVerificationWarning">
+            <p v-if="verificationEmailResent">
+                Verification email sent. Please check your email inbox.
+            </p>
+
+            <p v-if="!verificationEmailResent">
+                {{ email }} is not verified yet.
+            </p>
+
+            <button class="v-button v-button--primary v-button-small" @click="resendVerificationEmail"
+                    v-if="!verificationEmailResent">
+                Resend Verification Email
+            </button>
+        </div>
+
         <button class="v-button v-button--green" :disabled="sending" v-if="changedEmail && !saveEmail" @click="saveEmail = true">
         	Save
         </button>
@@ -87,11 +102,16 @@
                 email: auth.email,
 				oldpassword: '',
 				newpassword: '',
-				confirmpassword: ''
+				confirmpassword: '',
+                verificationEmailResent: false
             }
         },
 
         computed: {
+            showVerificationWarning() {
+                return !auth.confirmedEmail && auth.email;
+            },
+
             changedEmail() {
             	return auth.email != this.email;
             },
@@ -127,6 +147,7 @@
                 	this.sending = false;
                 	this.saveEmail = false;
                 	auth.email = this.email;
+                    auth.confirmedEmail = false;
 
                 	this.passwordError = '';
                 }).catch((error) => {
@@ -140,6 +161,14 @@
                 	this.passwordError = '';
                 	this.errors = error.response.data.errors;
                 	this.sending = false;
+                });
+            },
+
+            resendVerificationEmail() {
+                this.verificationEmailResent = true;
+
+                axios.post('/email/verify/resend').catch((error) => {
+                    this.verificationEmailResent = false;
                 });
             },
 

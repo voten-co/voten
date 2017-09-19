@@ -21,7 +21,7 @@
 					</div>
 
 					<div class="v-status v-status--error" v-if="errors.username">
-			            {{ errors.username }}
+			            {{ errors.username[0] }}
 			        </div>
 
 			        <div class="v-status v-status--success" v-if="successfulLogin">
@@ -87,7 +87,7 @@
 					</div>
 
 					<div class="flex-space">
-						<span class="form-notice">By clicking Sign Up, you agree to our <a href="/tos" target="_blank" class="go-primary">terms</a>.</span>
+						<span class="form-notice">By clicking "Sign up", you agree to our <a href="/tos" target="_blank" class="go-primary">terms</a>.</span>
 						<button class="v-button v-button--green" @click="register" :disabled="!goodToRegister">Sign up</button>
 					</div>
 				</div>
@@ -160,7 +160,7 @@ export default {
     	    	location.reload();
     	    }).catch((error) => {
     	    	this.loading = false;
-    	    	this.errors = error.response.data.errors;;
+    	    	this.errors = error.response.data.errors;
     	    });
     	},
 
@@ -186,7 +186,7 @@ export default {
     	    	window.location = "/find-channels?newbie=1&sidebar=0";
     	    }).catch((error) => {
     	    	this.loading = false;
-    	    	this.errors = error.response.data;
+    	    	this.errors = error.response.data.errors;
     	    });
     	},
 

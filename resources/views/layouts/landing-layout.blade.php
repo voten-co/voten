@@ -11,7 +11,7 @@
     <meta property="og:locale" content="en_US" />
     <meta property="og:site_name" content="Voten.co" />
 
-    <link href="https://fonts.googleapis.com/css?family=Dosis:300,400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,700" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
 
     <link href="/icons/css/fontello.7.css" rel="stylesheet">

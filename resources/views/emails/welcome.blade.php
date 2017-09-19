@@ -23,5 +23,3 @@ Should you ever encounter problems with your account or forget your password, we
 Regards,<br>
 The Voten Team
 @endcomponent
-
-

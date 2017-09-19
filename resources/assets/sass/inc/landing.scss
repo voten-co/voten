@@ -24,7 +24,7 @@
 }
 
 #landing {
-    font-family: 'Dosis', sans-serif;
+    font-family: 'Ubuntu', sans-serif;
 }
 
 #landing .logo small {
@@ -398,4 +398,20 @@
     display: flex;
 }
 
+#verified-email-page {
+    h1 {
+        font-size: 56px;
+        display: inline-flex;
+        align-items: center;
 
+        i {
+            font-size: 50px;
+            margin-right: 20px;
+        }
+    }
+
+    p {
+        font-size: 21px;
+        color: #605e5e;
+    }
+}

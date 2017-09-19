@@ -17,12 +17,12 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <script>
-        window.Laravel = <?php echo json_encode([
+        window.Laravel = @json([
             'csrfToken' => csrf_token(),
             'env' => config('app.env'),
             'pusherKey' => config('broadcasting.connections.pusher.key'),
             'pusherCluster' => config('broadcasting.connections.pusher.options.cluster'),
-        ]); ?>
+        ])
     </script>
 
     <link rel="shortcut icon" href="/imgs/favicon.png">
@@ -93,7 +93,8 @@
             twitter: '{{ Auth::user()->info['twitter'] }}'
         },
         stats: {!! Auth::user()->stats() !!},
-        isGuest: {{ 'false' }}
+        isGuest: {{ 'false' }},
+        confirmedEmail: {{ Auth::user()->confirmed ? 'true' : 'false' }},
     };
 
     var preload = {};

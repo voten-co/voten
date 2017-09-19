@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Mail\NewRegistration;
+use App\Mail\VerifyEmailAddress;
 use App\Mail\WelcomeToVoten;
 use App\User;
 use App\UserForbiddenName;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use Validator;
 
@@ -42,7 +44,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('guest', ['except' => ['verifyEmailAddress']]);
     }
 
     /**
@@ -102,6 +104,39 @@ class RegisterController extends Controller
         ]);
     }
 
+    /**
+     * Is the username forbidden for users?
+     *
+     * @param string $username
+     *
+     * @return bool
+     */
+    protected function isForbiddenUsername($username)
+    {
+        return UserForbiddenName::where('username', $username)->exists();
+    }
+
+    /**
+     * Create a valid token and email it to user's email address.
+     *
+     * @param  \App\User $user
+     *
+     * @return void
+     */
+    protected function pleaseConfirmEmailAddress($user)
+    {
+        $token = str_random(60);
+
+        DB::table('email_verifications')->insert([
+            'email' => $user->email,
+            'user_id' => $user->id,
+            'token' => $token,
+            'created_at' => now()
+        ]);
+
+        \Mail::to($user->email)->queue(new VerifyEmailAddress($user->username, $token));
+    }
+
     /* --------------------------------------------------------------------- */
     /* ------------------------ Overwritten Methods ------------------------ */
     /* --------------------------------------------------------------------- */
@@ -155,12 +190,7 @@ class RegisterController extends Controller
     {
         // in case there is an email address
         if ($user->email) {
-            \Mail::to($user->email)->queue(new WelcomeToVoten($user->username));
-        }
-
-        // Email sully every 10 new registers :D
-        if (User::count() % 10 == 0) {
-            \Mail::to('fischersully@gmail.com')->queue(new NewRegistration($user->username));
+            $this->pleaseConfirmEmailAddress($user);
         }
 
         // set user's default data into cache to save few queries
@@ -199,15 +229,5 @@ class RegisterController extends Controller
             'name'         => 'created_user',
             'user_id'      => $user->id,
         ]);
-    }
-
-    /**
-     * is the username forbidden for users?
-     *
-     * @return bool
-     */
-    protected function isForbiddenUsername($username)
-    {
-        return UserForbiddenName::where('username', $username)->exists();
     }
 }

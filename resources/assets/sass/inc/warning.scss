@@ -1,0 +1,18 @@
+.warning {
+  border-radius: 4px;
+  padding: .1em 1em;
+  margin-bottom: 1em;
+
+  p {
+    font-size: 86%;
+  }
+}
+
+.warning--info {
+  background: #f0f1f4;
+  border: 1px solid #e2e6f0;
+
+  p {
+    color: #3a5283;
+  }
+}

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\VerifyEmailAddress;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserSettingsController extends Controller
 {
@@ -159,10 +161,33 @@ class UserSettingsController extends Controller
         ]);
 
         Auth::user()->update([
-            'email' => $request->email,
+            'email'     => $request->email,
+            'confirmed' => 0,
         ]);
 
-        return response('Your account is deleted now. You happy now?!', 200);
+        $this->pleaseConfirmEmailAddress(Auth::user());
+
+        return response('Email has been successfully updated', 200);
+    }
+
+    /**
+     * Create a valid token and email it to user's email address.
+     *
+     * @param  \App\User $user
+     * @return void
+     */
+    protected function pleaseConfirmEmailAddress($user)
+    {
+        $token = str_random(60);
+
+        DB::table('email_verifications')->insert([
+            'email' => $user->email,
+            'user_id' => $user->id,
+            'token' => $token,
+            'created_at' => now()
+        ]);
+
+        \Mail::to($user->email)->queue(new VerifyEmailAddress($user->username, $token));
     }
 
     /**
