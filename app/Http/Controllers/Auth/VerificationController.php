@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Mail\VerifyEmailAddress;
 use App\Mail\WelcomeToVoten;
 use App\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -16,11 +16,12 @@ class VerificationController extends Controller
      * Verify user's email address based on the sent token.
      *
      * @param Request $request
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function verifyEmailAddress(Request $request)
     {
-        if (! $email_verification = DB::table('email_verifications')->where('token', $request->token)->first()) {
+        if (!$email_verification = DB::table('email_verifications')->where('token', $request->token)->first()) {
             return redirect('/');
         }
 
@@ -28,7 +29,7 @@ class VerificationController extends Controller
             DB::table('email_verifications')
                 ->where(['token' => $request->token])
                 ->update([
-                    'verified_at' => now()
+                    'verified_at' => now(),
                 ]);
 
             $user = User::where('email', $email_verification->email)->firstOrFail();

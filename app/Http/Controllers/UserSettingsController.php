@@ -173,7 +173,8 @@ class UserSettingsController extends Controller
     /**
      * Create a valid token and email it to user's email address.
      *
-     * @param  \App\User $user
+     * @param \App\User $user
+     *
      * @return void
      */
     protected function pleaseConfirmEmailAddress($user)
@@ -181,10 +182,10 @@ class UserSettingsController extends Controller
         $token = str_random(60);
 
         DB::table('email_verifications')->insert([
-            'email' => $user->email,
-            'user_id' => $user->id,
-            'token' => $token,
-            'created_at' => now()
+            'email'      => $user->email,
+            'user_id'    => $user->id,
+            'token'      => $token,
+            'created_at' => now(),
         ]);
 
         \Mail::to($user->email)->queue(new VerifyEmailAddress($user->username, $token));
