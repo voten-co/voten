@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Mail\NewRegistration;
 use App\Mail\WelcomeToVoten;
 use App\PhotoTools;
 use App\User;

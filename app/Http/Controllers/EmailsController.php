@@ -27,7 +27,8 @@ class EmailsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -61,11 +62,12 @@ class EmailsController extends Controller
      * Sends the announcement email to all users with a confirmed email address.
      *
      * @param Request $request
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function send(Request $request)
     {
-        if (! confirmPassword($request->password)) {
+        if (!confirmPassword($request->password)) {
             session()->flash('warning', "Incorrect Password. What kind of an administrator doesn't remember his password? ");
 
             return back();
@@ -83,7 +85,7 @@ class EmailsController extends Controller
             \Mail::to($user->email)->queue(new AnnouncementEmail($title, $heading, $body, $user->username, $button_text, $button_url));
         }
 
-        session()->flash('status', $users->count() . ' emails have been queued for sending. Sit tight. ');
+        session()->flash('status', $users->count().' emails have been queued for sending. Sit tight. ');
 
         return back();
     }

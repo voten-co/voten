@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Chat;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,7 +24,7 @@ class BroadcastServiceProvider extends ServiceProvider
         // Authenticate the user's submissionPage channel.
         Broadcast::channel('submission.*', function ($user) {
             return [
-                'username' => $user->username
+                'username' => $user->username,
             ];
         });
     }

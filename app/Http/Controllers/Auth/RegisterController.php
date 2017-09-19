@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Mail\NewRegistration;
 use App\Mail\VerifyEmailAddress;
-use App\Mail\WelcomeToVoten;
 use App\User;
 use App\UserForbiddenName;
 use Illuminate\Auth\Events\Registered;
@@ -119,7 +117,7 @@ class RegisterController extends Controller
     /**
      * Create a valid token and email it to user's email address.
      *
-     * @param  \App\User $user
+     * @param \App\User $user
      *
      * @return void
      */
@@ -128,10 +126,10 @@ class RegisterController extends Controller
         $token = str_random(60);
 
         DB::table('email_verifications')->insert([
-            'email' => $user->email,
-            'user_id' => $user->id,
-            'token' => $token,
-            'created_at' => now()
+            'email'      => $user->email,
+            'user_id'    => $user->id,
+            'token'      => $token,
+            'created_at' => now(),
         ]);
 
         \Mail::to($user->email)->queue(new VerifyEmailAddress($user->username, $token));
