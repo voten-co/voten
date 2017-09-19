@@ -20,6 +20,7 @@ import HelpCenter from './components/HelpCenter.vue';
 import Help from './components/Help.vue';
 import Home from './components/Home.vue';
 import Submit from './components/Submit.vue';
+import Feedback from './components/Feedback.vue';
 import Category from './components/Category.vue';
 import UserPage from './components/UserPage.vue';
 import AdminPanelUsers from './components/AdminPanelUsers.vue';
@@ -55,6 +56,7 @@ const routes = [
     },
 
     { path: '/help', component: HelpCenter, meta: { title: 'Help Center' } },
+    { path: '/feedback', component: Feedback, meta: { title: 'Feedback' } },
     { path: '/help/:id', component: Help },
 
     { path: '/channel', component: NewCategory, meta: { title: 'New #Channel' } },

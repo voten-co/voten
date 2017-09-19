@@ -71,9 +71,6 @@ Route::post('/emails/announcement/store', 'EmailsController@store');
 Route::post('/emails/announcement/send', 'EmailsController@send');
 Route::get('/emails/announcement/preview', 'EmailsController@preview');
 
-//Route::get('/emails/announcement/send', 'EmailsController@send');
-
-
 // ssh control
 Route::get('/ssh/flush-all', 'SshController@flushAll');
 Route::get('/ssh/cache-clear', 'SshController@clearCache');

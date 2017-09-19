@@ -127,9 +127,9 @@
 			                    Contact Us
 			                </a>
 
-			                <a class="item" @click="changeModalRoute('feedback')">
+			                <router-link class="item" to="/feedback">
 			                    Feedback
-			                </a>
+			                </router-link>
 
 			                <a class="item" href="https://voten.co/tos">
 			                    Site Rules

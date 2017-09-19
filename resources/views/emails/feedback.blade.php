@@ -3,7 +3,10 @@
 
 Subject: **{{ $feedback->subject }}** <br>
 
->{{ $feedback->description }}
+
+@component('mail::promotion')
+{{ $feedback->description }}
+@endcomponent
 
 
 @component('mail::panel')
