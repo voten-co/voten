@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Category;
 use App\Mail\CategoryRemovalWarning;
 use Carbon\Carbon;
-
 
 class WarningsController extends Controller
 {
