@@ -2,7 +2,7 @@
 
 # Dear {{ '@' . $user->username }}, moderator of [#{{ $category->name }}](https://voten.co/c/{{ $category->name }}?ref=email)
 
-During the beta phase, to keep the community clean and active, we are deleting all the inactive channels that haven't had any activities in the last 60 days. Your **#{{ $category->name }}** channel hasn't had any activities in **{{ $category->submissions()->orderBy('created_at', 'desc')->first()->created_at->diffInDays() }} days**. Thus, In case you intend to keep your channel alive, please start posting to it. Otherwise, just ignore this email.
+During the beta phase, to keep the community clean and active, we are deleting all the inactive channels that haven't had any activities in the last 60 days. Your **#{{ $category->name }}** channel hasn't had any activities in **{{ optional($category->submissions()->orderBy('created_at', 'desc')->first())->created_at->diffInDays() }} days**. Thus, In case you intend to keep your channel alive, please start posting to it. Otherwise, just ignore this email.
 
 We'll begin deleting inactive channels a week after the date of sending this email.
 
