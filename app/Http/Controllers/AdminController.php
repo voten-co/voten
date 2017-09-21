@@ -16,7 +16,7 @@ class AdminController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('administrator');
     }
 
     /**
@@ -36,8 +36,6 @@ class AdminController extends Controller
      */
     public function submissions(Request $request)
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         return Submission::orderBy('id', 'desc')->simplePaginate(10);
     }
 
@@ -48,8 +46,6 @@ class AdminController extends Controller
      */
     public function comments()
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         return $this->withoutChildren(Comment::orderBy('id', 'desc')->simplePaginate(30));
     }
 
@@ -60,8 +56,6 @@ class AdminController extends Controller
      */
     public function categories()
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         return Category::orderBy('id', 'desc')->simplePaginate(30);
     }
 
@@ -72,8 +66,6 @@ class AdminController extends Controller
      */
     public function indexUsers()
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         return User::orderBy('id', 'desc')->simplePaginate(30);
     }
 
@@ -84,8 +76,6 @@ class AdminController extends Controller
      */
     public function searchUsers(Request $request)
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         return User::where('username', 'like', '%'.$request->username.'%')
                     ->select('username')->take(100)->get()->pluck('username');
     }
@@ -102,8 +92,6 @@ class AdminController extends Controller
         $this->validate($request, [
             'type' => 'required',
         ]);
-
-        abort_unless($this->mustBeVotenAdministrator(), 403);
 
         if ($request->type == 'solved') {
             return Report::onlyTrashed()->whereHas('submission')->whereHas('reporter')->where([
@@ -130,8 +118,6 @@ class AdminController extends Controller
             'type' => 'required',
         ]);
 
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         if ($request->type == 'solved') {
             return Report::onlyTrashed()->whereHas('comment')->whereHas('reporter')->where([
                 'reportable_type' => 'App\Comment',
@@ -156,8 +142,6 @@ class AdminController extends Controller
         $this->validate($request, [
             'name' => 'required',
         ]);
-
-        abort_unless($this->mustBeVotenAdministrator(), 403);
 
         return Category::where('name', 'like', '%'.$request->name.'%')
                     ->select('id', 'name')->take(100)->get()->pluck('name');

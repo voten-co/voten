@@ -17,12 +17,12 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <script>
-        window.Laravel = <?php echo json_encode([
+        window.Laravel = @json([
             'csrfToken' => csrf_token(),
             'env' => config('app.env'),
             'pusherKey' => config('broadcasting.connections.pusher.key'),
             'pusherCluster' => config('broadcasting.connections.pusher.options.cluster'),
-        ]); ?>
+        ])
     </script>
 
     <link rel="shortcut icon" href="/imgs/favicon.png">
@@ -60,26 +60,7 @@
     <scroll-button></scroll-button>
 </div>
 
-<script>
-    var auth = {
-        font: 'Lato',
-        nsfw: {{ 'false' }},
-        nsfwMedia: {{ 'false' }},
-        sidebar_color: 'Gray',
-        isMobileDevice: {{ isMobileDevice() ? 'true' : 'false' }},
-        <?php
-            if (isMobileDevice()) {
-                $submission_small_thumbnail = 'false';
-            } else {
-                $submission_small_thumbnail = 'true';
-            }
-        ?>
-        submission_small_thumbnail: {{ $submission_small_thumbnail }},
-        isGuest: {{ 'true' }}
-    };
-
-    var preload = {};
-</script>
+@include('php-to-js-data')
 
 @yield('script')
 	<script src="{{ mix('/js/manifest.js') }}"></script>
