@@ -18,8 +18,23 @@
             </div>
 
             <div class="block">
-                <a class="button is-danger" href="/ssh/start-maintenance">Start maintenance mode</a>
-                <a class="button is-success" href="/ssh/stop-maintenance">Stop maintenance mode</a>
+                <form action="/ssh/start-maintenance" method="post">
+                    {{ csrf_field() }}
+
+                    <button class="button is-danger" type="submit">
+                        Start maintenance mode
+                    </button>
+                </form>
+
+                <br>
+
+                <form action="/ssh/stop-maintenance" method="post">
+                    {{ csrf_field() }}
+
+                    <button class="button is-success" type="submit">
+                        Stop maintenance mode
+                    </button>
+                </form>
             </div>
         </div>
 
@@ -34,7 +49,13 @@
             </div>
 
             <div class="block">
-                <a class="button is-info" href="/ssh/cache-clear">Clear Artisan Cache</a>
+                <form action="/ssh/cache-clear" method="post">
+                    {{ csrf_field() }}
+
+                    <button class="button is-info" type="submit">
+                        Clear Artisan Cache
+                    </button>
+                </form>
             </div>
         </div>
 
@@ -54,7 +75,13 @@
             </div>
 
             <div class="block">
-                <a class="button is-warning" href="/ssh/flush-all">Clear Redis Cache</a>
+                <form action="/ssh/flush-all" method="post">
+                    {{ csrf_field() }}
+
+                    <button class="button is-warning" type="submit">
+                        Clear Redis Cache
+                    </button>
+                </form>
             </div>
         </div>
 
@@ -63,11 +90,65 @@
             <div class="column is-half">
                 <div class="block">
                     <h1 class="title">Update comments count:</h1>
+
+                    <p>
+                        Updates the count of comments per submissions. (useful in case a spammer screws with us)
+                    </p>
                 </div>
 
                 <div class="block">
-                    <a class="button is-info" href="/backend/update-comments-count">Update Comments count</a>
+                    <form action="/backend/update-comments-count" method="post">
+                        {{ csrf_field() }}
+
+                        <button class="button is-info" type="submit">
+                            Update Comments count
+                        </button>
+                    </form>
                 </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section class="section container">
+    <div class="columns is-multiline is-mobile">
+        <div class="column is-half">
+            <div class="block">
+                <h1 class="title">
+                    Channel removal warnings
+                </h1>
+
+                <p>
+                    Sends "CategoryRemovalWarning" email to inactive categories' moderators.
+                </p>
+            </div>
+
+            <div class="block">
+                <form action="/backend/channel-removal-warnings/send" method="post">
+                    {{ csrf_field() }}
+
+                    <button class="button is-danger" type="submit">
+                        Send Emails
+                    </button>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="column is-half">
+            <div class="column is-half">
+                {{--<div class="block">--}}
+                    {{--<h1 class="title"></h1>--}}
+
+                    {{--<p>--}}
+                        {{----}}
+                    {{--</p>--}}
+                {{--</div>--}}
+
+                {{--<div class="block">--}}
+                    {{--<a class="button is-info" href="/"></a>--}}
+                {{--</div>--}}
             </div>
         </div>
 
