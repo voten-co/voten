@@ -32,6 +32,6 @@ class CommentCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['submission.'.$this->comment->submission->slug];
+        return ['submission.'.optional($this->comment->submission)->slug];
     }
 }
