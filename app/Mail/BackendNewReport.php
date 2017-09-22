@@ -37,6 +37,6 @@ class BackendNewReport extends Mailable
         $category = $this->getCategoryById($report->category_id);
 
         return $this->markdown('emails.backend.new-report', compact('report', 'type', 'category'))
-                    ->subject('New ' . $type . ' report.' );
+                    ->subject('New '.$type.' report.');
     }
 }

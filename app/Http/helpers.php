@@ -216,7 +216,7 @@ if (!function_exists('activeClass')) {
      */
     function activeClass($uri, $active_class = 'is-active')
     {
-        if (! starts_with($uri, '/')) {
+        if (!starts_with($uri, '/')) {
             $uri = '/'.$uri;
         }
 
@@ -227,4 +227,3 @@ if (!function_exists('activeClass')) {
         }
     }
 }
-

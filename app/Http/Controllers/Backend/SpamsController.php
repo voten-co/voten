@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Http\Controllers\Controller;
 use App\Report;
 use App\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 
 class SpamsController extends Controller
@@ -19,12 +19,13 @@ class SpamsController extends Controller
      * Loads the "reported submissions" page.
      *
      * @param Request $request
+     *
      * @return \Illuminate\View\View
      */
     public function submissions(Request $request)
     {
         if ($request->filled('type') == 'solved') {
-            $reports =  Report::onlyTrashed()->whereHas('submission')->whereHas('reporter')->where([
+            $reports = Report::onlyTrashed()->whereHas('submission')->whereHas('reporter')->where([
                 'reportable_type' => 'App\Submission',
             ])->with('reporter', 'submission')->orderBy('created_at', 'desc')->paginate(50);
         } else {
@@ -41,12 +42,13 @@ class SpamsController extends Controller
      * Loads the "reported comments" page.
      *
      * @param Request $request
+     *
      * @return \Illuminate\View\View
      */
     public function comments(Request $request)
     {
         if ($request->filled('type') == 'solved') {
-            $reports =  Report::onlyTrashed()->whereHas('comment')->whereHas('reporter')->where([
+            $reports = Report::onlyTrashed()->whereHas('comment')->whereHas('reporter')->where([
                 'reportable_type' => 'App\Comment',
             ])->with('reporter', 'comment')->orderBy('created_at', 'desc')->paginate(50);
         } else {
