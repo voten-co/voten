@@ -3,23 +3,16 @@
 namespace App\Listeners;
 
 use App\Events\ReportWasCreated;
+use App\Mail\BackendNewReport;
 use App\Notifications\CommentReported;
 use App\Notifications\SubmissionReported;
+use App\Permissions;
 use App\Traits\CachableCategory;
+use App\User;
 
 class NewReport
 {
-    use CachableCategory;
-
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
+    use CachableCategory, Permissions;
 
     /**
      * Handle the event.
@@ -40,6 +33,26 @@ class NewReport
             } elseif ($event->report->reportable_type == 'App\Comment') {
                 $user->notify(new CommentReported($category, $event->report->comment));
             }
+        }
+
+        $this->notifyVotenAdmins($event->report);
+    }
+
+    /**
+     * Notify Voten amdins.
+     *
+     * @param \App\Report $report
+     *
+     * @return void
+     */
+    protected function notifyVotenAdmins($report)
+    {
+        $admins_ids = $this->getVotenAdministrators();
+
+        $admins = User::whereIn('id', $admins_ids)->get();
+
+        foreach ($admins as $admin) {
+            \Mail::to($admin->email)->queue(new BackendNewReport($report));
         }
     }
 }
