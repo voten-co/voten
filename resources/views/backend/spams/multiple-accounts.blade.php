@@ -1,12 +1,13 @@
 @extends('layouts.backend-layout')
 
 @section('title')
-    Spam
+    Multiple Accounts | Spams
 @endsection
 
 @section('content')
+    <section class="section container is-fluid">
+        @include('backend.spams.header')
 
-    <section class="section container">
         <div class="columns is-multiline is-mobile">
             <div class="column is-full">
                 <h1 class="title">
@@ -15,17 +16,17 @@
 
                 <table class="table is-striped is-fullwidth">
                     <thead>
-                        <tr>
-                            <th>avatar</th>
-                            <th>username</th>
-                            <th>name</th>
-                            <th>email</th>
-                            <th>IP Address</th>
-                            <th>Country</th>
-                            <th>Activities</th>
-                            <th>last activiy</th>
-                            <th>registered at</th>
-                        </tr>
+                    <tr>
+                        <th>avatar</th>
+                        <th>username</th>
+                        <th>name</th>
+                        <th>email</th>
+                        <th>IP Address</th>
+                        <th>Country</th>
+                        <th>Activities</th>
+                        <th>last activiy</th>
+                        <th>registered at</th>
+                    </tr>
                     </thead>
 
                     <tbody>
@@ -91,5 +92,6 @@
             </div>
         </div>
     </section>
-
 @endsection
+
+

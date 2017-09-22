@@ -6,18 +6,6 @@
 					Help
 				</router-link>
 
-				<router-link :to="'/big-daddy/reports/submissions'" class="nav-item is-tab" active-class="is-active">
-					Reported Submissions
-				</router-link>
-
-				<router-link :to="'/big-daddy/reports/comments'" class="nav-item is-tab" active-class="is-active">
-					Reported Comments
-				</router-link>
-
-				<router-link :to="{name: 'admin-panel-all-users'}" class="nav-item is-tab" active-class="is-active">
-					Users
-				</router-link>
-
 				<router-link :to="'/big-daddy/submissions'" class="nav-item is-tab" active-class="is-active">
 					Submissions
 				</router-link>

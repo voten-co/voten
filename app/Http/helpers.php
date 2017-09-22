@@ -204,3 +204,27 @@ if (!function_exists('iso8601')) {
         return gmdate('c', strtotime($time));
     }
 }
+
+if (!function_exists('activeClass')) {
+    /**
+     * returns active-class if the current URI is the same as sent URI.
+     *
+     * @param $uri
+     * @param string $active_class
+     *
+     * @return string
+     */
+    function activeClass($uri, $active_class = 'is-active')
+    {
+        if (! starts_with($uri, '/')) {
+            $uri = '/'.$uri;
+        }
+
+        $current_uri = str_after(url()->current(), config('app.url'));
+
+        if (starts_with($current_uri, $uri)) {
+            return ' '.$active_class;
+        }
+    }
+}
+

@@ -9,6 +9,13 @@
                 <div class="form-group grouped fields">
                     <div class="field">
                         <div class="ui radio checkbox">
+                            <input type="radio" value="It's spam" tabindex="0" class="hidden" v-model="subject">
+                            <label>It's spam</label>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="ui radio checkbox">
                             <input type="radio" value="It doesn't follow channel's exclusive rules" tabindex="0" class="hidden" v-model="subject">
                             <label>It doesn't follow #{{category}}'s exclusive rules</label>
                         </div>
@@ -80,7 +87,7 @@ export default {
 
     data () {
         return {
-            subject: "It doesn't follow channel's exclusive rules",
+            subject: "It's spam",
             description: "",
             messageSent: false,
         }

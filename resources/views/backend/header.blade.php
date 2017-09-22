@@ -5,42 +5,40 @@
         </a>
 
         <div class="nav-right">
-            <a class="nav-item is-tab is-hidden-mobile{{ url('backend') == url()->current() ? ' is-active' : '' }}" href="/backend">
+            <a class="nav-item is-tab is-hidden-mobile{{ url()->current() == url('backend') ? ' is-active' : '' }}" href="/backend">
                 Dashboard
             </a>
 
-            <a class="nav-item is-tab is-hidden-mobile{{ url('backend/announcements') == url()->current() ? ' is-active' : '' }}" href="/backend/announcements">
+            <a class="nav-item is-tab is-hidden-mobile{{ activeClass('backend/announcements') }}" href="/backend/announcements">
                 Announcements
             </a>
 
-            <a class="nav-item is-tab is-hidden-mobile{{ url('backend/emails') == url()->current() ? ' is-active' : '' }}" href="/backend/emails">
+            <a class="nav-item is-tab is-hidden-mobile{{ activeClass('backend/emails') }}" href="/backend/emails">
                 Emails
             </a>
 
-            <a class="nav-item is-tab is-hidden-mobile{{ url('backend/firewall') == url()->current() ? ' is-active' : '' }}" href="/backend/firewall">
+            <a class="nav-item is-tab is-hidden-mobile{{ activeClass('backend/firewall') }}" href="/backend/firewall">
                 Firewall
             </a>
 
-            <a class="nav-item is-tab is-hidden-mobile{{ url('backend/appointed-users') == url()->current() ? ' is-active' : '' }}" href="/backend/appointed-users">
+            <a class="nav-item is-tab is-hidden-mobile{{ activeClass('backend/appointed-users') }}" href="/backend/appointed-users">
                 Appointed Users
             </a>
 
-            <a class="nav-item is-tab is-hidden-mobile{{ url('backend/server-control') == url()->current() ? ' is-active' : '' }}" href="/backend/server-control">
+            <a class="nav-item is-tab is-hidden-mobile{{ activeClass('backend/server-control') }}" href="/backend/server-control">
                 Server
             </a>
 
-            <a class="nav-item is-tab is-hidden-mobile{{ url('backend/channels') == url()->current() ? ' is-active' : '' }}" href="/backend/channels">
+            <a class="nav-item is-tab is-hidden-mobile{{ activeClass('backend/channels') }}" href="/backend/channels">
                 Channels
             </a>
 
-            <a class="nav-item is-tab is-hidden-mobile{{ url('backend/users') == url()->current() ? ' is-active' : '' }}"
-               href="/backend/users">
+            <a class="nav-item is-tab is-hidden-mobile{{ activeClass('backend/users') }}" href="/backend/users">
                 Users
             </a>
 
-            <a class="nav-item is-tab is-hidden-mobile{{ url('backend/spam') == url()->current() ? ' is-active' : '' }}"
-               href="/backend/spam">
-                Spam
+            <a class="nav-item is-tab is-hidden-mobile{{ activeClass('backend/spams') }}" href="/backend/spams/submissions">
+                Reports
             </a>
 
             <a class="nav-item is-tab is-hidden-mobile"

@@ -117,7 +117,8 @@ class ModeratorController extends Controller
             'reportable_type' => 'App\Submission',
         ])->delete();
 
-        return response('Submission approved', 200);
+        return $request->ajax() ? response('Submission approved', 200)
+            : back();
     }
 
     /**
@@ -144,7 +145,8 @@ class ModeratorController extends Controller
 
         event(new SubmissionWasDeleted($submission, false));
 
-        return response('Submission deleted successfully.', 200);
+        return $request->ajax() ? response('Submission deleted successfully', 200)
+            : back();
     }
 
     /**

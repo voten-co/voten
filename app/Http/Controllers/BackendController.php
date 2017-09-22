@@ -129,41 +129,6 @@ class BackendController extends Controller
     }
 
     /**
-     * Shwos the spam page. A few tools to fight spammers.
-     *
-     * @param Request $request
-     *
-     * @return \Illuminate\View\View
-     */
-    public function spam()
-    {
-        $query = <<<'SQL'
-select a1.user_id  from activities as a1
-inner join 
-(
-  	select ip_address
-		from activities  
-			where name = 'created_user'
-		group by ip_address
-		having count(id) > 1
-) as a2 on a1.ip_address = a2.ip_address 
-group by user_id
-SQL;
-
-        $user_ids = collect(DB::select($query))->pluck('user_id');
-
-        $users = User::whereIn('id', $user_ids)->get();
-
-        foreach ($users as $user) {
-            $user->ip = $user->registeredIpAddress();
-        }
-
-        $groupedByIpUsers = $users->groupBy('ip');
-
-        return view('backend.spam', compact('groupedByIpUsers'));
-    }
-
-    /**
      * shows the dashboard which currently displays site's statistics.
      *
      * @return view

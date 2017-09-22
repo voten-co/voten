@@ -87,6 +87,16 @@ class Submission extends Model
     }
 
     /**
+     * A helper to generate a valid URL to the submission.
+     *
+     * @return string
+     */
+    public function url()
+    {
+        return '/c/' . $this->category_name . '/' . $this->slug;
+    }
+
+    /**
      * Get the indexable data array for the model.
      *
      * @return array

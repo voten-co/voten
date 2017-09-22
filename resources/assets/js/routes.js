@@ -6,7 +6,6 @@ import BookmarkedComments from './components/BookmarkedComments.vue';
 import BookmarkedUsers from './components/BookmarkedUsers.vue';
 import UserSubmissions from './components/UserSubmissions.vue';
 import ModeratorPanel from './components/ModeratorPanel.vue';
-import AdminPanelUser from './components/AdminPanelUser.vue';
 import AdminPanelHelp from './components/AdminPanelHelp.vue';
 import FindCategories from './components/FindCategories.vue';
 import SubmissionPage from './components/SubmissionPage.vue';
@@ -23,9 +22,7 @@ import Submit from './components/Submit.vue';
 import Feedback from './components/Feedback.vue';
 import Category from './components/Category.vue';
 import UserPage from './components/UserPage.vue';
-import AdminPanelUsers from './components/AdminPanelUsers.vue';
 import CategorySettings from './components/CategorySettings.vue';
-import AdminPanelBanUser from './components/AdminPanelBanUser.vue';
 import AdminPanelComments from './components/AdminPanelComments.vue';
 import ModeratorPanelRules from './components/ModeratorPanelRules.vue';
 import UserSettingsEditFeed from './components/UserSettingsEditFeed.vue';
@@ -39,8 +36,6 @@ import UserSettingsEditAccount from './components/UserSettingsEditAccount.vue';
 import UserDownvotedSubmissions from './components/UserDownvotedSubmissions.vue';
 import ModeratorPanelModerators from './components/ModeratorPanelModerators.vue';
 import ModeratorPanelBlockDomains from './components/ModeratorPanelBlockDomains.vue';
-import AdminPanelReportedComments from './components/AdminPanelReportedComments.vue';
-import AdminPanelReportedSubmissions from './components/AdminPanelReportedSubmissions.vue';
 import ModeratorPanelReportedComments from './components/ModeratorPanelReportedComments.vue';
 import UserSettingsEditEmailAndPassword from './components/UserSettingsEditEmailAndPassword.vue';
 import ModeratorPanelReportedSubmissions from './components/ModeratorPanelReportedSubmissions.vue';
@@ -62,25 +57,14 @@ const routes = [
     { path: '/channel', component: NewCategory, meta: { title: 'New #Channel' } },
     { path: '/subscribed-channels', component: SubscribedCategories, meta: { title: 'My Subscriptions' } },
     { path: '/submit', component: Submit, meta: { title: 'Submit' } },
-    { path: '/big-daddy', redirect: '/big-daddy/reports/submissions' },
+    { path: '/big-daddy', redirect: '/big-daddy/comments' },
     {
         path: '/big-daddy',
         component: AdminPanel,
         children: [
             { path: 'help', component: AdminPanelHelp, name: 'admin-panel-help' },
-            {
-                path: '/users',
-                component: AdminPanelUsers,
-                name: 'admin-panel-users',
-                children: [
-                    { path: 'all', component: AdminPanelUser, name: 'admin-panel-all-users' },
-                    { path: 'ban', component: AdminPanelBanUser, name: 'admin-panel-ban-users' },
-                ]
-            },
             { path: 'submissions', component: AdminPanelSubmissions, name: 'admin-panel-submissions' },
             { path: 'comments', component: AdminPanelComments, name: 'admin-panel-comments' },
-            { path: 'reports/submissions', component: AdminPanelReportedSubmissions, name: 'admin-panel-reported-submissions' },
-            { path: 'reports/comments', component: AdminPanelReportedComments, name: 'admin-panel-reported-comments' },
             { path: 'suggested-categories', component: AdminPanelSuggestedCategories, name: 'admin-panel-suggested-categories' },
         ]
     },
