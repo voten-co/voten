@@ -93,7 +93,7 @@ class Submission extends Model
      */
     public function url()
     {
-        return '/c/' . $this->category_name . '/' . $this->slug;
+        return '/c/'.$this->category_name.'/'.$this->slug;
     }
 
     /**
