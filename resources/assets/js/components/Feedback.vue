@@ -1,7 +1,11 @@
 <template>
-    <section class="container margin-top-5 col-7 user-select" id="feedback-page">
+    <section class="container col-7 user-select" id="feedback-page" :class="{ 'margin-top-5': !isMobile }">
         <div class="flex1" v-show="! messageSent">
-            <h1 class="align-center">
+            <div class="align-center" v-if="! isMobile">
+                <feedback-icon width="250" height="250"></feedback-icon>
+            </div>
+
+            <h1>
                 Send a feedback
             </h1>
 
@@ -69,8 +73,17 @@
     </section>
 </template>
 
-	<script>
+<script>
+    import FeedbackIcon from '../components/Icons/FeedbackIcon.vue';
+    import Helpers from '../mixins/Helpers';
+
 	export default {
+        components: {
+	       FeedbackIcon
+        },
+
+	    mixins: [Helpers],
+
 	    data () {
 	        return {
 	            subject: 'Report a bug',

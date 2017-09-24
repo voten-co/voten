@@ -271,10 +271,6 @@ button.v-menu-button--checked > span {
     transition: all 0.2s ease-in-out;
 }
 
-//header .ui.dropdown {
-//    margin-left: 11px;
-//}
-
 header .ui.top.right.pointing.dropdown > .menu {
     top: 2.1em;
     bottom: auto;
@@ -282,7 +278,7 @@ header .ui.top.right.pointing.dropdown > .menu {
     left: auto;
     margin: 1em 0em 0em;
     min-width: 200px;
-    padding: 0px 1em 0.5em 1em;
+    padding: 0px 4px 0.5em 4px;
 }
 
 .queue-number {

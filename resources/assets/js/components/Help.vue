@@ -55,7 +55,7 @@
 
 <script>
     import Markdown from '../components/Markdown.vue';
-    import HelpIcon from '../components/Icons/Help.vue';
+    import HelpIcon from '../components/Icons/HelpIcon.vue';
     import Helpers from '../mixins/Helpers';
 
     export default {

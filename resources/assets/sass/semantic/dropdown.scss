@@ -106,7 +106,7 @@
     font-weight: normal;
     box-shadow: none;
     -webkit-touch-callout: none;
-    border-radius: 5px;
+    border-radius: 2px;
 }
 
 .ui.dropdown .menu > .item:first-child {
@@ -208,7 +208,7 @@
     margin: 0 0 0 -0.5em !important;
     border-radius: 0.28571429rem !important;
     z-index: 21 !important;
-    padding: 0.5em 1em;
+    padding: 0.5em 4px;
 }
 /* Hide Arrow */
 .ui.dropdown .menu .menu:after {
@@ -1178,7 +1178,7 @@ select.ui.dropdown {
     left: 0;
     right: auto;
     margin: 1em 0 0;
-    padding: .5em;
+    padding: .5em 4px;
 }
 
 .ui.top.left.pointing.dropdown > .menu {
@@ -1206,7 +1206,7 @@ select.ui.dropdown {
     left: auto;
     margin: 1em 0 0;
     min-width: 200px;
-    padding: 0.5em 1em;
+    padding: 0.5em 4px;
     z-index: 1000;
 }
 

@@ -54,7 +54,7 @@
 
 <script>
     import HelpItem from './HelpItem.vue';
-    import HelpIcon from './Icons/Help.vue';
+    import HelpIcon from './Icons/HelpIcon.vue';
     import Loading from './Loading.vue';
 
     export default {

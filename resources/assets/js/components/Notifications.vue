@@ -16,9 +16,10 @@
 
             <div class="col-7">
                 <div class="user-select v-nth-box" v-if=" !Store.notifications || ! Store.notifications.length">
-                    <i class="v-icon v-bell icon-block-big" aria-hidden="true"></i>
-                    <h3>
-                    	No unread notifications
+                    <notification-icon width="250" height="250" class="margin-bottom-3 margin-top-5"></notification-icon>
+
+                    <h3 class="no-notifications">
+                    	Nope, not a thing!
                     </h3>
                 </div>
 
@@ -27,9 +28,9 @@
                 </ul>
 
                 <div class="align-center">
-                    <button type="button" class="user-select v-button v-button--green margin-top-bottom-3"
+                    <button type="button" class="user-select v-button v-button--primary v-button-big margin-top-bottom-3"
                     @click="loadReadNotifications" v-show="loadMoreButton">
-                        Load previous notifications
+                        Load More
                     </button>
                 </div>
             </div>
@@ -40,11 +41,13 @@
 <script>
     import Notification from '../components/Notification.vue';
     import Helpers from '../mixins/Helpers';
+    import NotificationIcon from './Icons/NotificationIcon.vue';
+
 
     export default {
     	mixins: [Helpers],
 
-    	components: { Notification },
+    	components: { Notification, NotificationIcon },
 
         data: function () {
             return {
@@ -107,8 +110,10 @@
                         Store.notifications = response.data;
                     }
 
-                    this.loadMoreButton = true;
-                })
+                    if (! Store.notifications.length) {
+                        this.loadReadNotifications();
+                    }
+                });
             },
 
             /**

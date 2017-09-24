@@ -104,6 +104,7 @@
 <script>
 import CategorySearchItem from '../components/CategorySearchItem.vue';
 import UserSearchItem from '../components/UserSearchItem.vue';
+import SearchIcon from '../components/Icons/SearchIcon.vue';
 import Submission from '../components/Submission.vue';
 import Comment from '../components/Comment.vue';
 import MoonLoader from '../components/MoonLoader.vue';
@@ -119,7 +120,8 @@ export default {
 		Comment,
 		Submission,
 		MoonLoader,
-		UserSearchItem
+		UserSearchItem,
+        SearchIcon
 	},
 
 	props: ['sidebar'],
