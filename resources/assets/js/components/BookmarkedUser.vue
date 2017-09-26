@@ -41,12 +41,6 @@
 	    	this.setBookmarked()
 	    },
 
-		mounted () {
-			this.$nextTick(function () {
-	        	this.$root.loadSemanticTooltip()
-			})
-		},
-
 	    methods: {
 	    	/**
             *  Whether or not user has bookmarked the submission

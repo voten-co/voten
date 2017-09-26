@@ -18,7 +18,7 @@
 					<div class="flex-align-center">
 						<i class="v-icon h-yellow pointer" v-if="!isNewbie"
 						   :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'" @click="bookmark"
-						   data-toggle="tooltip" data-placement="left" :title="bookmarked ? 'Unbookmark' : 'Bookmark'"></i>
+						   v-tooltip.left="{content: bookmarked ? 'Unbookmark' : 'Bookmark'}"></i>
 
 						<button class="v-button v-button-small margin-left-1"
 							:class="subscribed ? 'v-button--red' : 'v-button--green'" @click="subscribe"
@@ -61,12 +61,6 @@
                 this.setSubscribed();
             }
         },
-
-		mounted () {
-			this.$nextTick(function () {
-	        	this.$root.loadSemanticTooltip();
-			})
-		},
 
         computed: {
             /**

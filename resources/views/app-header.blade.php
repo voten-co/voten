@@ -4,21 +4,18 @@
 	</div>
 
     <router-link :to="{ path: '/' }" class="desktop-only">
-        <img src="/imgs/voten-beta.svg" alt="Voten" @click="homeRoute"
-        	class="logo-voten" data-toggle="tooltip" data-placement="bottom" title="Home">
+        <img src="/imgs/voten-beta.svg" alt="Voten" @click="homeRoute" class="logo-voten">
     </router-link>
 
     <div class="flex-display">
         <div class="dropdown head-notification-icons">
         	@if(Auth::check())
-				<button type="button" class="btn-nth relative" id="messages-btn" @click="changeRoute('messages')"
-	            data-toggle="tooltip" data-placement="bottom" title="Messages">
+				<button type="button" class="btn-nth relative" id="messages-btn" @click="changeRoute('messages')" v-tooltip="{content:'Messages', offset: 8}">
 	                <i class="v-icon v-inbox" aria-hidden="true"></i>
 	                <span class="queue-number" v-show="unreadMessages" v-text="unreadMessages"></span>
 	            </button>
 
-	            <button type="button" class="btn-nth relative" aria-haspopup="true"
-				data-toggle="tooltip" data-placement="bottom" title="Notifications" aria-expanded="false" @click="changeRoute('notifications')">
+	            <button type="button" class="btn-nth relative" v-tooltip="{content:'Notifications', offset: 8}" @click="changeRoute('notifications')">
 	           		<i class="v-icon v-bell-2" aria-hidden="true"></i>
 	               	<span class="queue-number" v-show="unreadNotifications" v-text="unreadNotifications"></span>
 	            </button>
@@ -30,13 +27,11 @@
 	        	</button>
         	@endif
 
-            <button type="button" class="btn-nth relative" aria-haspopup="true"
-			data-toggle="tooltip" data-placement="bottom" title="Search" aria-expanded="false" @click="changeRoute('search')">
+            <button type="button" class="btn-nth relative"  v-tooltip="{content:'Search', offset: 8}" @click="changeRoute('search')">
            		<i class="v-icon v-search-3" aria-hidden="true"></i>
             </button>
 
-			<router-link :to="'/'" class="btn-nth relative" aria-haspopup="true"
-			data-toggle="tooltip" data-placement="bottom" title="Home" aria-expanded="false">
+			<router-link :to="'/'" class="btn-nth relative" v-tooltip="{content:'Home', offset: 8}">
            		<i class="v-icon v-home" aria-hidden="true" @click="homeRoute"></i>
             </router-link>
 

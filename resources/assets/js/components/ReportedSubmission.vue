@@ -1,15 +1,13 @@
 <template>
 <section class="banned-user-wrapper">
     <div class="banned-user">
-        <div class="left"
-        data-toggle="tooltip" data-placement="top" :title="list.submission.title">
+        <div class="left" v-tooltip.top="{content: list.submission.title}">
             <router-link :to="'/c/' + list.submission.category_name + '/' + list.submission.slug">
                 {{ str_limit(list.submission.title, 20) }}
             </router-link>
         </div>
 
-        <div class="detail"
-        data-toggle="tooltip" data-placement="top" :title="list.subject">
+        <div class="detail" v-tooltip.top="{content: list.subject}">
             {{ str_limit(list.subject, 20) }}
         </div>
 
@@ -22,15 +20,15 @@
         <div class="actions">
             <i class="pointer v-icon go-gray v-attention-alt h-yellow"
                         :class="list.description ? '' : 'display-hidden'" @click="showDescription = !showDescription"
-                        data-toggle="tooltip" data-placement="top" title="Description"></i>
+                        v-tooltip.top="{content: 'Description'}"></i>
 
             <i class="pointer v-icon go-gray v-delete h-red" @click="$emit('disapprove-submission', list.submission.id)"
-                        :class="list.submission.deleted_at ? 'display-hidden' : ''"
-                        data-toggle="tooltip" data-placement="top" title="Delete Submission"></i>
+                        v-tooltip.top="{content: 'Delete Submission'}"
+                        :class="list.submission.deleted_at ? 'display-hidden' : ''"></i>
 
             <i class="pointer v-icon go-gray v-approve h-green" @click="$emit('approve-submission', list.submission.id)"
-                        :class="list.submission.approved_at ? 'display-hidden' : ''"
-                        data-toggle="tooltip" data-placement="top" title="Approve Submission"></i>
+                        v-tooltip.top="{content: 'Approve Submission'}"
+                        :class="list.submission.approved_at ? 'display-hidden' : ''"></i>
         </div>
     </div>
 
@@ -42,13 +40,11 @@
 
 
 <script>
-// import Submission from '../components/Submission.vue'
 import Markdown from '../components/Markdown.vue'
 import Helpers from '../mixins/Helpers'
 
 export default {
     components: {
-        // Submission,
         Markdown
     },
 
@@ -64,14 +60,8 @@ export default {
 
     computed: {
         date () {
-            return moment(this.list.created_at).utc(moment().format("Z")).fromNow()
+            return moment(this.list.created_at).utc(moment().format("Z")).fromNow();
         },
-    },
-
-    mounted: function() {
-        this.$nextTick(function() {
-            this.$root.loadSemanticTooltip()
-        })
     },
 };
 </script>

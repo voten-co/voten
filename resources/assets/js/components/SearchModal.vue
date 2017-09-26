@@ -1,6 +1,6 @@
 <template>
 	<div class="v-modal" id="search">
-	    <div class="v-close" data-toggle="tooltip" data-placement="bottom" title="Close (esc)" @click="close">
+	    <div class="v-close" v-tooltip.bottom="{content: 'Close (esc)'}" @click="close">
 	        <i class="v-icon block-before v-cancel" aria-hidden="true"></i>
 	    </div>
 
@@ -142,8 +142,6 @@ export default {
 
 	mounted: function () {
 		this.$nextTick(function () {
-			this.$root.loadSemanticTooltip()
-
             if (this.$route.query.search) {
                 this.filter = this.$route.query.search;
                 this.type = 'Submissions';

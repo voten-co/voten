@@ -7,10 +7,10 @@
 
             <div class="actions">
                 <i class="pointer v-icon go-gray v-edit h-primary" @click="$emit('edit-rule', list)"
-                    data-toggle="tooltip" data-placement="top" title="Edit"></i>
+                   v-tooltip.top="{content: 'Edit'}"></i>
 
                 <i class="pointer v-icon go-gray v-delete h-red" @click="$emit('delete-rule', list.id, list.category_id)"
-                    data-toggle="tooltip" data-placement="top" title="Delete"></i>
+                   v-tooltip.top="{content: 'Delete'}"></i>
             </div>
         </div>
     </section>
@@ -22,7 +22,6 @@
     export default {
         components: { Markdown },
 
-
         mixins: [],
 
         data: function () {
@@ -32,11 +31,5 @@
         },
 
         props: ['list'],
-
-        mounted: function() {
-            this.$nextTick(function() {
-                this.$root.loadSemanticTooltip()
-            })
-        },
     };
 </script>

@@ -1,6 +1,17 @@
 window.moment = require('moment-timezone');
 window.moment.tz.setDefault("UTC");
 
+
+import Tooltip from 'vue-directive-tooltip';
+Vue.use(Tooltip, {
+    delay: 0,
+    placement: 'auto',
+    class: '',
+    triggers: ['hover'],
+    offset: 5
+});
+
+
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the
@@ -46,11 +57,11 @@ if (Laravel.env == 'local') {
 	});
 }
 
+
 // The rest of (non-NPM) packages
 require('./libs/transition');
 require('./libs/dropdown');
 require('./libs/popup');
-require('./libs/tooltip');
 require('./libs/form');
 require('./libs/checkbox');
 require('./libs/Jcrop');

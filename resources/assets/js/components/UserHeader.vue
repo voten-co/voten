@@ -40,11 +40,11 @@
 		                <p v-text="userStore.bio"></p>
 
 						<span class="inline-block">
-	                        <i class="v-icon v-submissions" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Submissions"></i>{{ userStore.stats.submissionsCount }}
+	                        <i class="v-icon v-submissions" aria-hidden="true" v-tooltip.bottom="{content: 'Submissions'}"></i>{{ userStore.stats.submissionsCount }}
 		                </span>
 
 						<span class="inline-block">
-	                        <i class="v-icon v-chat" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Comments"></i>{{ userStore.stats.commentsCount }}
+	                        <i class="v-icon v-chat" aria-hidden="true" v-tooltip.bottom="{content: 'Comments'}"></i>{{ userStore.stats.commentsCount }}
 		                </span>
 
 						<span class="inline-block">
@@ -52,16 +52,16 @@
 		                </span>
 
 		                <a v-bind:href="userStore.info.website" rel="nofollow" target="_blank" v-if="userStore.info.website" class="inline-block">
-		                	<i class="v-icon v-link" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Website"></i>{{ userStore.info.website }}
+		                	<i class="v-icon v-link" aria-hidden="true" v-tooltip.bottom="{content: 'Website'}"></i>{{ userStore.info.website }}
 		                </a>
 
 		                <span v-if="userStore.location" class="inline-block">
-	                        <i class="v-icon v-location" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Location"></i>{{ userStore.location }}
+	                        <i class="v-icon v-location" aria-hidden="true"></i>{{ userStore.location }}
 		                </span>
 
 						<span v-if="userStore.info.twitter " class="inline-block">
 							<a v-bind:href="'https://twitter.com/' + userStore.info.twitter" rel="nofollow" target="_blank">
-	                        	<i class="v-icon v-twitter" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Twitter"></i>{{ userStore.info.twitter }}
+	                        	<i class="v-icon v-twitter" aria-hidden="true" v-tooltip.bottom="{content: 'Twitter'}"></i>{{ userStore.info.twitter }}
 							</a>
 		                </span>
 		            </div>
@@ -117,8 +117,7 @@
 
 		        <div class="channel-admin-btn">
 		        	<i class="v-icon h-yellow pointer" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark go-gray'"
-		        	@click="bookmark" v-if="$route.params.username != auth.username"
-	        		data-toggle="tooltip" data-placement="bottom" title="Bookmark"></i>
+		        	@click="bookmark" v-if="$route.params.username != auth.username" v-tooltip.bottom="{content: bookmarked ? 'Unbookmark' : 'Bookmark'}"></i>
 
 		            <message-button :id="userStore.id" v-if="$route.params.username != auth.username && !isGuest"></message-button>
 
@@ -165,12 +164,6 @@ export default {
         },
     },
 
-	mounted () {
-		this.$nextTick(function () {
-        	this.$root.loadSemanticTooltip()
-		})
-	},
-
 	methods: {
 		/**
 		 * Passes the photo to the cropModal to take care of the rest
@@ -182,10 +175,10 @@ export default {
 
     		axios.post('/upload-temp-avatar', this.fileUploadFormData)
 				.then((response) => {
-					this.$eventHub.$emit('crop-photo-uploaded', response.data)
+					this.$eventHub.$emit('crop-photo-uploaded', response.data);
 	            });
 
-    		this.$eventHub.$emit('crop-user-photo')
+    		this.$eventHub.$emit('crop-user-photo');
 		},
 
     	/**

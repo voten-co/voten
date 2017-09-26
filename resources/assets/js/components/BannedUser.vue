@@ -9,15 +9,12 @@
             </div>
 
             <div class="actions">
-                <i class="pointer v-icon go-gray v-calendar-1 h-green"
-                    data-toggle="tooltip" data-placement="top" :title="'Unban ' + date"></i>
+                <i class="pointer v-icon go-gray v-calendar-1 h-green" v-tooltip.top="{content: 'Unban ' + date}"></i>
 
-                <i class="pointer v-icon go-gray v-delete h-red" @click="$emit('unban', list.user_id)"
-                    data-toggle="tooltip" data-placement="top" title="Unban"></i>
+                <i class="pointer v-icon go-gray v-delete h-red" @click="$emit('unban', list.user_id)" v-tooltip.top="{content: 'Unban'}"></i>
 
-                <i class="pointer v-icon go-gray v-attention-alt h-yellow" :class="list.description ? '' : 'display-hidden'"
-                    @click="showDescription = !showDescription"
-                    data-toggle="tooltip" data-placement="top" title="Reason for being banned"></i>
+                <i class="pointer v-icon go-gray v-attention-alt h-yellow" :class="list.description ? '' : 'display-hidden'" v-tooltip.top="{content: 'Reason for being banned'}"
+                    @click="showDescription = !showDescription"></i>
             </div>
         </div>
 
@@ -45,12 +42,6 @@
             date () {
                 return moment(this.list.unban_at).utc(moment().format("Z")).fromNow()
             },
-        },
-
-        mounted: function() {
-            this.$nextTick(function() {
-                this.$root.loadSemanticTooltip()
-            })
         },
     };
 </script>

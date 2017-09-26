@@ -16,10 +16,10 @@
                     <div class="metadata user-select">
                         <router-link class="go-gray h-underline" v-if="!full"
                         :to="'/submission/' + list.submission_id">
-                            <small><span data-toggle="tooltip" data-placement="bottom" :title="'Created: ' + longDate">{{ date }}</span> — {{ points }} Points</small>
+                            <small><span v-tooltip.bottom="{content: 'Created: ' + longDate}">{{ date }}</span> — {{ points }} Points</small>
                         </router-link>
 
-                        <small v-else><span data-toggle="tooltip" data-placement="bottom" :title="'Created: ' + longDate">{{ date }}</span> — {{ points }} Points</small>
+                        <small v-else><span v-tooltip.bottom="{content: 'Created: ' + longDate}">{{ date }}</span> — {{ points }} Points</small>
 
                         <span class="edited" v-if="isEdited">
                             Edited
@@ -37,33 +37,27 @@
                 </div>
 
                 <div class="actions user-select">
-                    <router-link class="reply h-green" :to="'/submission/' + list.submission_id" v-if="!full"
-                    data-toggle="tooltip" data-placement="top" title="Submission">
+                    <router-link class="reply h-green" :to="'/submission/' + list.submission_id" v-if="!full" v-tooltip.top="{content: 'Submission'}">
                         <i class="v-icon v-link"></i>
                     </router-link>
 
-                    <a class="reply h-green" @click="commentReply" v-if="list.level < 8 && full"
-                    data-toggle="tooltip" data-placement="top" title="Reply">
+                    <a class="reply h-green" @click="commentReply" v-if="list.level < 8 && full" v-tooltip.top="{content: 'Reply'}">
                         <i class="v-icon v-reply"></i>
                     </a>
 
-                    <a class="reply h-primary" @click="voteUp"
-                    data-toggle="tooltip" data-placement="top" title="Upvote">
+                    <a class="reply h-primary" @click="voteUp" v-tooltip.top="{content: 'Upvote'}">
                         <i class="v-icon v-up-fat" :class="upvoted ? 'go-primary' : 'go-gray'"></i>
                     </a>
 
-                    <a class="reply h-red" @click="voteDown"
-                    data-toggle="tooltip" data-placement="top" title="Downvote">
+                    <a class="reply h-red" @click="voteDown" v-tooltip.top="{content: 'Downvote'}">
                         <i class="v-icon v-down-fat" :class="downvoted ? 'go-red' : 'go-gray'"></i>
                     </a>
 
-                    <a class="reply h-yellow" @click="bookmark"
-                    data-toggle="tooltip" data-placement="top" title="Bookmark">
+                    <a class="reply h-yellow" @click="bookmark" v-tooltip.top="{content: bookmarked ? 'Unbookmark' : 'Bookmark'}">
                         <i class="v-icon" v-bind:class="{ 'go-yellow v-unbookmark': bookmarked, 'v-bookmark': !bookmarked }"></i>
                     </a>
 
-                    <a class="reply h-purple" @click="edit" v-if="owns"
-                    data-toggle="tooltip" data-placement="top" title="Edit">
+                    <a class="reply h-purple" @click="edit" v-if="owns" v-tooltip.top="{content: 'Edit'}">
                         <i class="v-icon v-edit"></i>
                     </a>
 
@@ -180,7 +174,6 @@
 
 		mounted () {
 			this.$nextTick(function () {
-				this.$root.loadSemanticTooltip();
 	        	this.$root.loadSemanticDropdown('comment' + this.list.id);
                 this.setHighlighted();
                 this.scrollToComment();

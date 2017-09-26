@@ -12,7 +12,7 @@
 	    </div>
 
 	    <div class="m-actions user-select pointer" @click="$emit('select-message', list.id)">
-		    <time class="go-gray" data-toggle="tooltip" data-placement="left" :title="'Sent on: ' + longDate">
+		    <time class="go-gray" v-tooltip.left="{content: 'Sent on: ' + longDate}" @click="close">
 	        	{{ date }}
 	        </time>
 
@@ -44,12 +44,6 @@ export default {
 		this.markAsRead()
 	},
 
-	mounted: function () {
-		this.$nextTick(function () {
-			this.$root.loadSemanticTooltip()
-		})
-	},
-
 	computed: {
 		/**
 		 * Whether or not auth user owns the message
@@ -77,14 +71,14 @@ export default {
 		 */
 		ownsPrevious () {
 			if (this.previous == undefined) {
-				return false
+				return false;
 			}
 
 			if (this.previous.owner.id == this.list.owner.id) {
-				return true
+				return true;
 			}
 
-			return false
+			return false;
 		},
 
 		/**

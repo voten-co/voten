@@ -1,6 +1,6 @@
 <template>
 	<div class="v-modal" id="messages">
-	    <div class="v-close" data-toggle="tooltip" data-placement="bottom" title="Close (esc)" @click="close">
+	    <div class="v-close" v-tooltip.bottom="{content: 'Close (esc)'}" @click="close">
 	        <i class="v-icon block-before v-cancel" aria-hidden="true"></i>
 	    </div>
 
@@ -19,13 +19,12 @@
 		</div>
 
 
-	    <div class="v-back" v-show="pageRoute == 'chat'" data-toggle="tooltip" data-placement="bottom" title="Back to contacts" @click="backToContacts">
+	    <div class="v-back" v-show="pageRoute == 'chat'" v-tooltip.bottom="{content: 'Back to contacts'}" @click="backToContacts">
 	        <i class="v-icon block-before v-return" aria-hidden="true"></i>
 	    </div>
 
 	    <div v-show="pageRoute == 'chat'">
-	    	<div class="v-delete-button" v-show="selectedMessages.length" data-toggle="tooltip" data-placement="bottom"
-	    	title="Delete Selected Messages" @click="deleteMessages">
+	    	<div class="v-delete-button" v-show="selectedMessages.length" v-tooltip.bottom="{content: 'Delete Selected Messages'}" @click="deleteMessages">
 		        <i class="v-icon block-before v-trash" aria-hidden="true"></i>
 		    </div>
 	    </div>
@@ -49,9 +48,7 @@
 	        </router-link>
 
 			<div class="v-message-badge desktop-only" v-if="isBlocked">
-				<i class="v-icon v-block go-gray" aria-hidden="true"
-					data-toggle="tooltip" data-placement="bottom"
-			    	title="Blocked"></i>
+				<i class="v-icon v-block go-gray" aria-hidden="true" v-tooltip.bottom="{content: 'Blocked'}"></i>
 			</div>
 	    </div>
 
@@ -182,9 +179,9 @@ export default {
     },
 
     created () {
-        this.getContacts()
-        this.listen()
-        this.$eventHub.$on('conversation', this.getMessagesByUser)
+        this.getContacts();
+        this.listen();
+        this.$eventHub.$on('conversation', this.getMessagesByUser);
     },
 
     watch: {
@@ -201,7 +198,7 @@ export default {
 
 	mounted () {
 		this.$nextTick(function () {
-    		this.$root.autoResize()
+    		this.$root.autoResize();
 		})
 	},
 

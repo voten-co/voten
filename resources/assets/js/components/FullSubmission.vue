@@ -23,15 +23,13 @@
 
 						<div class="flex-center">
 							<div>
-								<a class="reply" v-if="owns && (list.type == 'text')" @click="edit"
-			                    data-toggle="tooltip" data-placement="top" title="Edit">
+								<a class="reply" v-if="owns && (list.type == 'text')" @click="edit" v-tooltip.bottom="'Edit'">
 			                        <i class="v-icon v-edit go-gray h-purple pointer"></i>
 			                    </a>
 							</div>
 
 							<div class="voting-wrapper display-none">
-								<a class="fa-stack align-right" @click="voteUp"
-									data-toggle="tooltip" data-placement="top" title="Upvote">
+								<a class="fa-stack align-right" @click="voteUp">
 									<i class="v-icon v-up-fat" :class="upvoted ? 'go-primary' : 'go-gray'"></i>
 								</a>
 
@@ -39,8 +37,7 @@
 									{{ points }} Points
 								</div>
 
-								<a class="fa-stack align-right" @click="voteDown"
-									data-toggle="tooltip" data-placement="top" title="Downvote">
+								<a class="fa-stack align-right" @click="voteDown">
 									<i class="v-icon v-down-fat" :class="downvoted ? 'go-red' : 'go-gray'"></i>
 								</a>
 							</div>
@@ -84,8 +81,7 @@
 									</div>
 								</div>
 
-								<a class="fa-stack" @click="bookmark"
-									data-toggle="tooltip" data-placement="top" title="Bookmark">
+								<a class="fa-stack" @click="bookmark" v-tooltip.left="{content: bookmarked ? 'Unbookmark' : 'Bookmark'}">
 									<i class="v-icon h-yellow" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'"></i>
 								</a>
 							</div>
@@ -205,8 +201,7 @@
 
 		mounted () {
 			this.$nextTick(function () {
-	        	this.$root.loadSemanticTooltip()
-	        	this.$root.loadSemanticDropdown()
+	        	this.$root.loadSemanticDropdown();
 			})
 		},
 

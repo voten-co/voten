@@ -17,8 +17,8 @@
                     id="title" name="title" placeholder="Title ..." autocomplete="off" v-model="fTitle" :disabled="loading">
 
                     <button type="button" class="v-button v-button--primary btn-input" @click="getTitle(submitURL)"
-                    v-if="submissionType == 'link' && submitURL && !loadingTitle"
-                            data-toggle="tooltip" data-placement="bottom" title="Fetch title from entered URL" :disabled="loading"
+                            v-if="submissionType == 'link' && submitURL && !loadingTitle"
+                            v-tooltip.bottom="{content: 'Fetch title from entered URL'}" :disabled="loading"
                     >Suggest</button>
 
                     <moon-loader :loading="loadingTitle" :size="'30px'" :color="'#777'" class="btn-input"></moon-loader>
@@ -89,25 +89,25 @@
                     <div>
                         <span class="fa-stack fa-lg fa-pull-left" @click="changeSubmissionType('img')">
                             <i class="v-icon v-photo" v-bind:class="{ 'go-primary': submissionType == 'img'}"
-                            data-toggle="tooltip" data-placement="top" title="Image"
+                                    v-tooltip.top="{content: 'Image'}"
                             ></i>
                         </span>
 
                         <span class="fa-stack fa-lg fa-pull-left" @click="changeSubmissionType('link')">
                             <i class="v-icon v-link" v-bind:class="{ 'go-primary': submissionType == 'link'}"
-                            data-toggle="tooltip" data-placement="top" title="Link"
+                                    v-tooltip.top="{content: 'Link'}"
                             ></i>
                         </span>
 
                         <span class="fa-stack fa-lg fa-pull-left" @click="changeSubmissionType('text')">
                             <i class="v-icon v-text" v-bind:class="{ 'go-primary': submissionType == 'text'}"
-                            data-toggle="tooltip" data-placement="top" title="Text"
+                                    v-tooltip.top="{content: 'Text'}"
                             ></i>
                         </span>
 
                         <span class="fa-stack fa-lg fa-pull-left" @click="changeSubmissionType('gif')">
                             <i class="v-icon v-gif" v-bind:class="{ 'go-primary': submissionType == 'gif'}"
-                            data-toggle="tooltip" data-placement="top" title="Animated GIF"
+                                    v-tooltip.top="{content: 'Animated GIF'}"
                             ></i>
                         </span>
                     </div>
@@ -173,22 +173,21 @@
         },
 
         created () {
-            this.dropzone()
-            this.setDefaultCategories()
-            this.submitApi()
+            this.dropzone();
+            this.setDefaultCategories();
+            this.submitApi();
         },
 
 		mounted: function () {
 			this.$nextTick(function () {
-				this.$root.loadSemanticTooltip()
-				this.loadDropzone()
-				this.$root.autoResize()
+				this.loadDropzone();
+				this.$root.autoResize();
 			})
 		},
 
         watch: {
             'Store.subscribedCategories': function () {
-                this.setDefaultCategories()
+                this.setDefaultCategories();
             }
         },
 

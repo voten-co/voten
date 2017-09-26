@@ -28,6 +28,7 @@
     "vue": "2.1.8",
     "vue-clickaway": "^2.1.0",
     "vue-crop": "^1.0.1",
+    "vue-directive-tooltip": "^1.4.0",
     "vue-focus": "^2.1.0",
     "vue-ls": "^2.2.18",
     "vue-multiselect": "^2.0.0-beta.13",

@@ -55,9 +55,7 @@
                     Submit Report
                 </button>
 
-                <button type="button" class="v-button v-button--red"
-                    data-toggle="tooltip" data-placement="bottom" title="Close (esc)"
-                    @click="close">
+                <button type="button" class="v-button v-button--red" @click="close">
                     Cancel
                 </button>
 

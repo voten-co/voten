@@ -20,9 +20,7 @@
                     <h3 class="v-bold" v-text="'No exlusive rules specified yet'"></h3>
                 </div>
 
-                <button type="button" class="v-button v-button--green v-button--block"
-                    data-toggle="tooltip" data-placement="bottom" title="Close (esc)"
-                    @click="close">
+                <button type="button" class="v-button v-button--green v-button--block" @click="close">
                     Close
                 </button>
             </div>

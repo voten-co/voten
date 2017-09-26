@@ -22,9 +22,7 @@
 
 				<h1 class="submission-title" v-if="full">
 					<a v-bind:href="submission.data.url" target="_blank" rel="nofollow">
-						<i class="v-icon v-shocked go-red" aria-hidden="true" v-if="submission.nsfw"
-							data-toggle="tooltip" data-placement="bottom" title="NSFW"
-						></i>
+						<i class="v-icon v-shocked go-red" aria-hidden="true" v-if="submission.nsfw" v-tooltip.bottom="{content: 'NSFW'}"></i>
 
 						{{ submission.title }}
 
@@ -84,19 +82,19 @@
 			},
 
 			showBigThumbnail() {
-				if (this.full) return true
+				if (this.full) return true;
 
-				if (this.nsfw) return false
+				if (this.nsfw) return false;
 
-				return ! auth.submission_small_thumbnail
+				return ! auth.submission_small_thumbnail;
 			},
 
 			showSmallThumbnail() {
-				return ! this.showBigThumbnail && !this.nsfw
+				return ! this.showBigThumbnail && !this.nsfw;
 			},
 
 			showEmbed() {
-				return this.isValidSourceForEmbed && this.submission.data.embed
+				return this.isValidSourceForEmbed && this.submission.data.embed;
 			}
 		},
 
@@ -107,13 +105,13 @@
 			 *
 			 * @return void
 			 */
-			embedOrOpen(event){
+			embedOrOpen(event) {
 				if (this.showEmbed) {
 					// prevent the browser from opening the URL
-					event.preventDefault()
+					event.preventDefault();
 
 					// Emit the embed event
-					this.$emit('embed')
+					this.$emit('embed');
 				}
 			}
 		}

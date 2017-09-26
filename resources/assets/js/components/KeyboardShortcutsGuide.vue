@@ -124,11 +124,7 @@
 				  	</tbody>
 				</table>
 
-
-
-                <button type="button" class="v-button v-button--green v-button--block"
-                    data-toggle="tooltip" data-placement="bottom" title="Close (esc)"
-                    @click="close">
+                <button type="button" class="v-button v-button--green v-button--block">
                     Close
                 </button>
             </div>
@@ -146,7 +142,7 @@
 
 	    methods: {
 	    	close () {
-	    		this.$eventHub.$emit('close')
+	    		this.$eventHub.$emit('close');
 	    	},
 	    },
 	}

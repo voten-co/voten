@@ -21,12 +21,10 @@
 		            	Comments: <span class="go-gray go-small" v-if="!isGuest">({{ onlineUsersCount }} online users)</span>
 		            </div>
 		            <div class="head-sort-icon" v-show="comments.length > 1">
-		                <i class="v-icon v-like pointer" aria-hidden="true"
-		                   data-toggle="tooltip" data-placement="bottom" title="Hottest"
+		                <i class="v-icon v-like pointer" aria-hidden="true" v-tooltip.bottom="{content: 'Hottest'}"
 		                   @click="newSort('hot')"
 		                   :class="{ 'go-primary': sort == 'hot' }"></i>
-		                <i class="v-icon v-clock pointer" aria-hidden="true"
-		                   data-toggle="tooltip" data-placement="bottom" title="Newest"
+		                <i class="v-icon v-clock pointer" aria-hidden="true" v-tooltip.bottom="{content: 'Newest'}"
 		                   @click="newSort('new')"
 		                   :class="{ 'go-primary': sort == 'new' }"></i>
 		            </div>

@@ -44,11 +44,11 @@
 	                </p>
 
 					<span class="inline-block">
-						<i class="v-icon v-submissions" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Submissions"></i>{{ Store.category.stats.submissionsCount }}
+						<i class="v-icon v-submissions" v-tooltip.bottom="{content: 'Submissions', offset: 8}" aria-hidden="true"></i>{{ Store.category.stats.submissionsCount }}
 					</span>
 
 					<span class="inline-block">
-						<i class="v-icon v-chat" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Comments"></i>{{ Store.category.stats.commentsCount }}
+						<i class="v-icon v-chat" v-tooltip.bottom="{content: 'Comments', offset: 8}" aria-hidden="true"></i>{{ Store.category.stats.commentsCount }}
 					</span>
 
 	                <span>
@@ -90,7 +90,7 @@
 
 	        <div class="channel-admin-btn">
 	        	<i class="v-icon h-yellow pointer" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark go-gray'" @click="bookmark"
-	        	data-toggle="tooltip" data-placement="bottom" title="Bookmark"></i>
+				   v-tooltip.bottom="{content: bookmarked ? 'Unbookmark' : 'Bookmark', offset: 8}"></i>
 
 				<div class="ui icon top right green pointing dropdown"
 					 id="more-button">
@@ -162,7 +162,6 @@ export default {
 
 	mounted () {
 		this.$nextTick(function () {
-        	this.$root.loadSemanticTooltip();
         	this.$root.loadSemanticDropdown();
 		})
 	},

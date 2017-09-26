@@ -38,14 +38,12 @@
 
 			      	<td class="font-small">{{ date(item.created_at) }}</td>
 			      	<td class="is-icon">
-			        	<a class="pointer h-red" @click="deleteIt(item)" v-if="!item.submission.deleted_at"
-			        	data-toggle="tooltip" data-placement="left" title="Block">
+			        	<a class="pointer h-red" @click="deleteIt(item)" v-if="!item.submission.deleted_at" v-tooltip.left="{content: 'Block'}">
 			          		<i class="v-icon flaticon-dustbin"></i>
 			        	</a>
 			      	</td>
 			      	<td class="is-icon">
-			        	<a class="pointer h-green" @click="approve(item)" v-if="!item.submission.approved"
-			        	data-toggle="tooltip" data-placement="left" title="Approve">
+			        	<a class="pointer h-green" @click="approve(item)" v-if="!item.submission.approved" v-tooltip.left="{content: 'Approve'}">
 			          		<i class="flaticon-ok-mark"></i>
 			        	</a>
 			      	</td>
@@ -79,24 +77,11 @@
 
 		mounted: function () {
 			this.$nextTick(function () {
-	        	this.loadSemanticPopup()
-	        	this.loadSemanticTooltip()
+	        	this.loadSemanticPopup();
 			})
 		},
 
         methods: {
-        	/**
-        	 * Loads Semantic UI's Tooltip component
-        	 *
-        	 * @return void
-        	 */
-        	loadSemanticTooltip () {
-	            _.delay(function()
-	            {
-					$('[data-toggle="tooltip"]').tooltip()
-	            }, 100 )
-        	},
-
         	/**
         	 * Loads Semantic UI's popup component
         	 *
@@ -108,7 +93,6 @@
 	                $('.s-popup').popup({
 						inline: true
 					});
-					$('[data-toggle="tooltip"]').tooltip({delay: { show: 500, hide: 100 }})
 	            }, 100 )
         	},
         	/**

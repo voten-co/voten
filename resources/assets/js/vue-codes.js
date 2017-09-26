@@ -162,7 +162,6 @@ const app = new Vue({
     mounted() {
         this.$nextTick(function() {
             this.loadCheckBox();
-            this.loadSemanticTooltip();
             this.loadSemanticDropdown();
         })
     },
@@ -356,16 +355,7 @@ const app = new Vue({
         },
 
         /**
-         * Loads Semantic UI's Tooltip component
-         *
-         * @return void
-         */
-        loadSemanticTooltip() {
-            $('[data-toggle="tooltip"]').tooltip({ trigger: "hover", delay: { show: 500, hide: 100 } })
-        },
-
-        /**
-         * Loads Semantic UI's Tooltip component
+         * Loads Semantic UI's Popup component
          *
          * @return void
          */

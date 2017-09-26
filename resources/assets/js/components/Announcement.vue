@@ -3,8 +3,7 @@
 		<div class="announcement" v-for="(value, index) in announcements" :key="value.id" :class="background(index)">
 			<markdown :text="value.body" v-if="value.body"></markdown>
 
-			<i class="v-icon block-before v-cancel pointer" aria-hidden="true" @click="close(value.id)"
-			data-toggle="tooltip" data-placement="bottom" title="Close"></i>
+			<i class="v-icon block-before v-cancel pointer" aria-hidden="true" @click="close(value.id)" v-tooltip.bottom="{content: 'Close'}"></i>
 		</div>
 	</div>
 </template>
@@ -30,12 +29,6 @@
         created () {
             this.fetch();
         },
-
-        mounted () {
-			this.$nextTick(function () {
-	        	this.$root.loadSemanticTooltip();
-			})
-		},
 
         methods: {
         	/**

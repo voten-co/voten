@@ -9,11 +9,9 @@
 
             <div class="actions">
                 <i class="pointer v-icon go-gray v-attention-alt h-yellow" :class="list.description ? '' : 'display-hidden'"
-                    @click="showDescription = !showDescription"
-                    data-toggle="tooltip" data-placement="top" title="Reason for being blocked"></i>
+                    @click="showDescription = !showDescription" v-tooltip.top="{content: 'Reason for being blocked'}"></i>
 
-                <i class="pointer v-icon go-gray v-delete h-red" @click="$emit('unblock', list.domain)"
-                    data-toggle="tooltip" data-placement="top" title="Unblock"></i>
+                <i class="pointer v-icon go-gray v-delete h-red" @click="$emit('unblock', list.domain)" v-tooltip.top="{content: 'Unblock'}"></i>
             </div>
         </div>
 
@@ -39,25 +37,6 @@
         },
 
         props: ['list'],
-
-
-        computed: {
-            //
-        },
-
-        created () {
-            //
-        },
-
-        mounted: function() {
-            this.$nextTick(function() {
-                this.$root.loadSemanticTooltip()
-            })
-        },
-
-        methods: {
-            //
-        }
     };
 </script>
 

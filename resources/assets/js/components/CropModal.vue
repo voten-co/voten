@@ -18,8 +18,7 @@
 	                    Apply
 	                </button>
 
-	                <button type="button" class="v-button v-button--red"
-	                    data-toggle="tooltip" data-placement="bottom" title="Close (esc)" :disabled="loading"
+	                <button type="button" class="v-button v-button--red" :disabled="loading"
 	                    @click="close">
 	                    Cancel
 	                </button>

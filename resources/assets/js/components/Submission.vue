@@ -3,8 +3,7 @@
 		<div class="submission-item submission-wrapper" v-show="!hidden" :id="'submission' + list.id">
 			<!-- side-voting -->
 			<div class="side-voting desktop-only">
-				<a class="fa-stack align-right" @click="voteUp"
-					data-toggle="tooltip" data-placement="top" title="Upvote">
+				<a class="fa-stack align-right" @click="voteUp">
 					<i class="v-icon v-up-fat side-vote-icon" :class="upvoted ? 'go-primary' : 'go-gray'"></i>
 				</a>
 
@@ -12,8 +11,7 @@
 					{{ points }}
 				</div>
 
-				<a class="fa-stack align-right" @click="voteDown"
-					data-toggle="tooltip" data-placement="bottom" title="Downvote">
+				<a class="fa-stack align-right" @click="voteDown">
 					<i class="v-icon v-down-fat side-vote-icon" :class="downvoted ? 'go-red' : 'go-gray'"></i>
 				</a>
 			</div>
@@ -131,14 +129,6 @@
 				this.setBookmarked();
 			},
 		},
-
-		mounted () {
-			this.$nextTick(function () {
-	        	this.$root.loadSemanticTooltip();
-	        	this.$root.loadSemanticDropdown('submission' + this.list.id);
-			})
-		},
-
 
         computed: {
 			points(){

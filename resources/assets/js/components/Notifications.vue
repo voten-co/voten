@@ -1,7 +1,6 @@
 <template>
     <div class="v-modal">
-        <div class="v-close" @click="close"
-        data-toggle="tooltip" data-placement="bottom" title="Close (esc)">
+        <div class="v-close" @click="close" v-tooltip.bottom="{content: 'Close (esc)'}">
             <i class="v-icon block-before v-cancel" aria-hidden="true"></i>
         </div>
 

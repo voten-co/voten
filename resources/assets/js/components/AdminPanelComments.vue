@@ -39,14 +39,14 @@
         },
 
         created () {
-			this.$eventHub.$on('scrolled-to-bottom', this.loadMore)
-            this.getComments()
+			this.$eventHub.$on('scrolled-to-bottom', this.loadMore);
+            this.getComments();
         },
 
 	    watch: {
 			'$route': function () {
-				this.clearContent()
-				this.getComments()
+				this.clearContent();
+				this.getComments();
 			}
 		},
 

@@ -51,8 +51,7 @@
 						</div>
 					</div>
 
-					<button class="feed-panel-button btn-nth--h" @click="refresh"
-					data-toggle="tooltip" data-placement="bottom" title="Refresh">
+					<button class="feed-panel-button btn-nth--h" @click="refresh" v-tooltip.bottom="{content: 'Refresh (R)'}">
 						<i class="v-icon v-refetch"></i>
 					</button>
 				</div>
@@ -84,7 +83,6 @@
 
 		mounted () {
 			this.$nextTick(function () {
-	        	this.$root.loadSemanticTooltip();
 	        	this.$root.loadSemanticDropdown();
 			})
 		},

@@ -3,9 +3,7 @@
 		<!-- submission page -->
 		<div v-if="full">
 			<h1 class="submission-title">
-				<i class="v-icon v-shocked go-red" aria-hidden="true" v-if="submission.nsfw"
-					data-toggle="tooltip" data-placement="bottom" title="NSFW"
-				></i>
+				<i class="v-icon v-shocked go-red" aria-hidden="true" v-if="submission.nsfw" v-tooltip.bottom="{content: 'NSFW'}"></i>
 
 				{{ submission.title }}
 			</h1>
@@ -85,7 +83,6 @@
 
 		mounted () {
 			this.$nextTick(function () {
-	        	this.$root.loadSemanticTooltip();
 	        	this.$root.autoResize();
 			})
 		},

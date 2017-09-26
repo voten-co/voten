@@ -7,7 +7,7 @@
 </template>
 
 <script>
-	import AdminPanelHeader from '../components/AdminPanelHeader.vue'
+	import AdminPanelHeader from '../components/AdminPanelHeader.vue';
 
     export default {
         components: {
@@ -18,22 +18,6 @@
             return {
                 statistics: []
             }
-        },
-
-        created () {
-            this.getStatistics()
-        },
-
-        mounted () {
-			this.$nextTick(function () {
-				this.$root.loadSemanticTooltip()
-			})
-        },
-
-        methods: {
-            getStatistics () {
-
-            },
         },
 
         beforeRouteEnter(to, from, next){

@@ -20,13 +20,11 @@
                 </div>
 
                 <div class="voting-wrapper">
-                    <a class="fa-stack" @click="$emit('bookmark')"
-    					data-toggle="tooltip" data-placement="bottom" title="Bookmark">
+                    <a class="fa-stack" @click="$emit('bookmark')" v-tooltip.bottom="{content: bookmarked ? 'Unbookmark' : 'Bookmark'}">
     					<i class="v-icon h-yellow" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'"></i>
     				</a>
 
-                    <a class="fa-stack align-right" @click="$emit('upvote')"
-                        data-toggle="tooltip" data-placement="bottom" title="Upvote">
+                    <a class="fa-stack align-right" @click="$emit('upvote')" v-tooltip.bottom="{content: 'Upvote'}">
                         <i class="v-icon v-up-fat" :class="upvoted ? 'go-primary' : 'go-gray'"></i>
                     </a>
 
@@ -34,8 +32,7 @@
                         {{ points }} Points
                     </div>
 
-                    <a class="fa-stack align-right" @click="$emit('downvote')"
-                        data-toggle="tooltip" data-placement="bottom" title="Downvote">
+                    <a class="fa-stack align-right" @click="$emit('downvote')" v-tooltip.bottom="{content: 'Downvote'}">
                         <i class="v-icon v-down-fat" :class="downvoted ? 'go-red' : 'go-gray'"></i>
                     </a>
                 </div>
@@ -46,9 +43,7 @@
             </div>
 
             <div>
-                <i class="v-icon pointer v-cancel margin-right-1" aria-hidden="true" @click="$emit('close')"
-                    data-toggle="tooltip" data-placement="bottom" title="Close (esc)"
-                ></i>
+                <i class="v-icon pointer v-cancel margin-right-1" aria-hidden="true" @click="$emit('close')" v-tooltip.bottom="{content: 'Close (esc)'}"></i>
             </div>
         </div>
 
@@ -162,12 +157,6 @@
             if (this.isAlbum) {
                 this.getPhotos()
             }
-        },
-
-        mounted: function() {
-            this.$nextTick(function() {
-                this.$root.loadSemanticTooltip()
-            })
         },
 
         methods: {

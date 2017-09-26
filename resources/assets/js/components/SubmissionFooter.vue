@@ -2,13 +2,11 @@
 	<div class="index-submission-footer user-select">
 		<div :class="auth.isMobileDevice ? 'flex-space' : 'display-inline'">
 			<div :class="auth.isMobileDevice ? '' : 'display-inline'">
-				<router-link :to="url" class="comments-icon h-green"
-				data-toggle="tooltip" data-placement="top" title="Comments">
+				<router-link :to="url" class="comments-icon h-green" v-tooltip.top="{content: 'Comments'}">
 					<i class="v-icon v-chat"></i><span v-if="comments" v-text="comments"></span>
 				</router-link>
 
-				<a @click="$emit('bookmark')"
-					data-toggle="tooltip" data-placement="top" title="Bookmark">
+				<a @click="$emit('bookmark')" v-tooltip.top="{content: bookmarked ? 'Unbookmark' : 'Bookmark'}">
 					<i class="v-icon h-yellow pointer" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'"></i>
 				</a>
 
@@ -52,8 +50,7 @@
 			</div>
 
 			<div class="voting-wrapper display-none mobile-only">
-				<a class="fa-stack align-right" @click="$emit('upvote')"
-					data-toggle="tooltip" data-placement="top" title="Upvote">
+				<a class="fa-stack align-right" @click="$emit('upvote')" v-tooltip.top="{content: 'Upvote'}">
 					<i class="v-icon v-up-fat" :class="upvoted ? 'go-primary' : 'go-gray'"></i>
 				</a>
 
@@ -61,8 +58,7 @@
 					{{ points }} Points
 				</div>
 
-				<a class="fa-stack align-right" @click="$emit('downvote')"
-					data-toggle="tooltip" data-placement="top" title="Downvote">
+				<a class="fa-stack align-right" @click="$emit('downvote')" v-tooltip.top="{content: 'Downvote'}">
 					<i class="v-icon v-down-fat" :class="downvoted ? 'go-red' : 'go-gray'"></i>
 				</a>
 			</div>
@@ -142,8 +138,7 @@
 
         mounted () {
 			this.$nextTick(function () {
-	        	this.$root.loadSemanticTooltip()
-	        	this.$root.loadSemanticDropdown()
+	        	this.$root.loadSemanticDropdown('submission' + this.submission.id);
 			})
         }
     };
