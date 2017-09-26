@@ -46,7 +46,7 @@
                     <small class="text-muted go-red" v-for="e in errors.text">{{ e }}</small>
                 </div>
 
-                <div v-if="preview && fText" class="form-wrapper margin-bottom-1">
+                <div v-if="preview && fText" class="form-wrapper margin-bottom-1 preview">
                     <markdown :text="fText"></markdown>
               	</div>
 
@@ -369,6 +369,12 @@
 
     .opacity-fade {
         opacity: 0.6;
+    }
+
+    .preview {
+        border-radius: 4px;
+        border: 2px dashed #e7e7e7;
+        padding: 1em;
     }
 
     .form-loader {

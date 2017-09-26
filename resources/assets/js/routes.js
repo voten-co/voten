@@ -57,7 +57,7 @@ const routes = [
     { path: '/channel', component: NewCategory, meta: { title: 'New #Channel' } },
     { path: '/subscribed-channels', component: SubscribedCategories, meta: { title: 'My Subscriptions' } },
     { path: '/submit', component: Submit, meta: { title: 'Submit' } },
-    { path: '/big-daddy', redirect: '/big-daddy/comments' },
+    { path: '/big-daddy', redirect: '/big-daddy/reports/submissions' },
     {
         path: '/big-daddy',
         component: AdminPanel,
@@ -87,8 +87,8 @@ const routes = [
                  ]
              },
             { path: 'comments', component: UserComments, name: 'user-comments' },
-            { path: 'upvoted-submissions', component: UserUpvotedSubmissions },
-            { path: 'downvoted-submissions', component: UserDownvotedSubmissions },
+            { path: 'upvoted-submissions', component: UserUpvotedSubmissions, name: 'user-upvotes' },
+            { path: 'downvoted-submissions', component: UserDownvotedSubmissions, name: 'user-downvotes' },
         ]
     },
 

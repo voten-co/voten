@@ -108,7 +108,7 @@ export default {
 			var self = this
 
     		return _.orderBy(Store.subscribedCategories.filter(function (category) {
-				return category.name.indexOf(self.subscribedFilter.toLowerCase()) !== -1
+				return category.name.toLowerCase().indexOf(self.subscribedFilter.toLowerCase()) !== -1
 			}), 'subscribers', 'desc').slice(0, 5)
     	},
     },

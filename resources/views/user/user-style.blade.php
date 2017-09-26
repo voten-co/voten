@@ -97,7 +97,7 @@
 	    		background: -webkit-linear-gradient(#f6f6f6, #ffffff);
 				background: linear-gradient(#f6f6f6, #ffffff);
 				color: #333;
-				border-right: 2px solid #dcdcdc;
+				/*border-right: 2px solid #dcdcdc;*/
 	    	}
 	    	.side-fixed a, .side-fixed a:hover, .side-fixed a:focus {
 	    		color: #333;
@@ -188,7 +188,8 @@
 			    background-color: #5b7368;
 			    color: #fff;
 			}
-			.menu-list a:hover {
+			.menu-list a:hover,
+			.menu-list .active {
 			    background-color: #5b7368;
 			    color: #fff !important;
 			}
@@ -202,7 +203,8 @@
 			    background: #7197c3;
 			    color: #fff;
 			}
-			.menu-list a:hover {
+			.menu-list a:hover,
+			.menu-list .active {
 			    background-color: rgba(204, 204, 204, 0.12);
 			    background: #7197c3;
 			    color: #fff !important;
@@ -214,7 +216,7 @@
 	    		background: -webkit-linear-gradient(#f6f6f6, #ffffff);
 				background: linear-gradient(#f6f6f6, #ffffff);
 				color: #333;
-				border-right: 2px solid #dcdcdc;
+				/*border-right: 2px solid #dcdcdc;*/
 	    	}
 	    	.side-fixed a, .side-fixed a:hover, .side-fixed a:focus {
 	    		color: #333;
