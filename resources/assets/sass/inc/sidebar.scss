@@ -47,7 +47,11 @@
         padding-top: 1em;
 
         .item {
-            margin-bottom: 1em;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 60px;
 
             .avatar {
                 width: 42px;
