@@ -1,4 +1,4 @@
-<header class="header-voten user-select">
+<header class="header-voten user-select" :class="{ 'v-blur v-blur-wrapper': smallModal }">
 	<div class="left-header">
 		<vui-menu-button :checked="sidebar"></vui-menu-button>
 	</div>

@@ -24,7 +24,7 @@
 	    </div>
 
 	    <div v-show="pageRoute == 'chat'">
-	    	<div class="v-delete-button" v-show="selectedMessages.length" v-tooltip.bottom="{content: 'Delete Selected Messages'}" @click="deleteMessages">
+	    	<div class="v-delete-button" v-show="selectedMessages.length" v-tooltip.bottom="{content: 'Delete ' + selectedMessages.length + ' Selected Messages'}" @click="deleteMessages">
 		        <i class="v-icon block-before v-trash" aria-hidden="true"></i>
 		    </div>
 	    </div>

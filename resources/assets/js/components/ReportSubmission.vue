@@ -1,5 +1,5 @@
 <template>
-    <div class="v-modal-small user-select" :class="{ 'width-100': !sidebar }">
+    <div class="v-modal-small user-select">
         <div class="v-modal-small-box" v-on-clickaway="close">
             <div class="flex1" v-if="! messageSent">
                 <p>
@@ -79,7 +79,7 @@ import { mixin as clickaway } from 'vue-clickaway';
 
 export default {
 
-    props: ['submission', 'category', 'sidebar'],
+    props: ['submission', 'category'],
 
     mixins: [ clickaway ],
 

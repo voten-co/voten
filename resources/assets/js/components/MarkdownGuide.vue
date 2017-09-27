@@ -1,5 +1,5 @@
 <template>
-    <div class="v-modal-small" :class="{ 'width-100': !sidebar }">
+    <div class="v-modal-small">
         <div class="v-modal-small-box" v-on-clickaway="close">
             <div class="flex1">
                 <h2 class="align-center user-select">
@@ -120,8 +120,6 @@
     import { mixin as clickaway } from 'vue-clickaway';
 
 	export default {
-		props: ['sidebar'],
-
         mixins: [ clickaway ],
 
 	    methods: {

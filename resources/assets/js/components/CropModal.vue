@@ -1,5 +1,5 @@
 <template>
-	<div class="v-modal-small user-select" :class="{ 'width-100': !sidebar }">
+	<div class="v-modal-small user-select">
         <div class="v-modal-small-box">
             <div class="flex1">
                 <h2 class="align-center">
@@ -53,7 +53,7 @@
             }
         },
 
-		props: ['sidebar', 'type'],
+		props: ['type'],
 
         created () {
         	this.$eventHub.$on('crop-photo-uploaded', this.getReady)

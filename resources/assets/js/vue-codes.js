@@ -197,7 +197,7 @@ const app = new Vue({
 
             if (box.scrollTop < 1500) {
                 this.$eventHub.$emit('scrolled-a-bit');
-            }else{
+            } else {
                 this.$eventHub.$emit('scrolled-a-lot');
             }
         },

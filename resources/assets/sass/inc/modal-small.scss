@@ -1,5 +1,5 @@
 .v-modal-small {
-    width: calc(100% - 300px);
+    width: 100%;
     height: 100%;
     position: fixed;
     top: 0;
@@ -45,8 +45,8 @@
     color: #000;
 }
 
-.v-blur-blackandwhite {
-    filter: blur(1.5px) saturate(0);
+.v-blur {
+    filter: blur(4.5px) saturate(0.5);
 }
 
 .ui.checkbox + label,

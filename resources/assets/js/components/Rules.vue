@@ -1,5 +1,5 @@
 <template>
-    <div class="v-modal-small" :class="{ 'width-100': !sidebar }">
+    <div class="v-modal-small">
         <div class="v-modal-small-box" v-on-clickaway="close">
             <div class="flex1">
                 <p>
@@ -33,8 +33,6 @@ import Markdown from '../components/Markdown.vue'
 import { mixin as clickaway } from 'vue-clickaway';
 
 export default {
-	props: ['sidebar'],
-
     components:{ Markdown },
 
     mixins: [ clickaway ],

@@ -1,5 +1,5 @@
 <template>
-    <div class="v-modal-small" :class="{ 'width-100': !sidebar }">
+    <div class="v-modal-small">
         <div class="v-modal-small-box v-modal-small-box--light" v-on-clickaway="close">
             <div class="flex1">
 	            <div class="tabs is-fullwidth">
@@ -101,8 +101,6 @@ import { mixin as clickaway } from 'vue-clickaway';
 import Helpers from '../mixins/Helpers';
 
 export default {
-	props: ['sidebar'],
-
     mixins: [ clickaway, Helpers ],
 
     data () {

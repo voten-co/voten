@@ -51,7 +51,7 @@
                 <login-modal v-if="modalRouter == 'login'" :sidebar="sidebar"></login-modal>
             </transition>
 
-            <div :class="{ 'v-blur-blackandwhite': smallModal }">
+            <div :class="{ 'v-blur': smallModal }">
                 @yield('content')
             </div>
         </div>
