@@ -1,5 +1,8 @@
 <template>
-    <button class="v-menu-button" :class="{'v-menu-button--checked' : checked}" @click="toggle" v-tooltip.right="'Toggle Sidebar'">
+    <button class="v-menu-button" :class="{'v-menu-button--checked' : checked}"
+            @click="toggle"
+            v-tooltip.right="{content: checked ? 'Hide Sidebar' : 'Show Sidebar'}"
+    >
         <span></span>
     </button>
 </template>
