@@ -1,134 +1,144 @@
 <template>
-    <div class="v-modal-small user-select">
-        <div class="v-modal-small-box" v-on-clickaway="close">
-            <div class="flex1">
-                <h2 class="align-center">
-                    Keyboard Shortcuts
-                </h2>
+    <div class="v-modal-small">
+		<div class="wrapper" v-on-clickaway="close">
+			<header class="user-select">
+				<h3>
+					Keyboard Shortcuts
+				</h3>
 
-                <table class="table">
-				  	<thead>
-					    <tr>
+				<div class="close" @click="close">
+					<i class="v-icon v-cancel-small"></i>
+				</div>
+			</header>
+
+			<div class="middle">
+				<div class="flex1">
+					<table class="table">
+						<thead>
+						<tr>
 							<th>Key</th>
 							<th class="half-width">Action</th>
-					    </tr>
-				  	</thead>
+						</tr>
+						</thead>
 
-				  	<tbody>
-			  			<tr>
-					      	<td>
-					      		<kbd>Alt</kbd> + <kbd>S</kbd>
-					      	</td>
+						<tbody>
+						<tr>
+							<td>
+								<kbd>Alt</kbd> + <kbd>S</kbd>
+							</td>
 
-					      	<td>
-					      		New Submission
-					      	</td>
-					    </tr>
+							<td>
+								New Submission
+							</td>
+						</tr>
 
-                        <tr>
-					      	<td>
-					      		<kbd>Alt</kbd> + <kbd>C</kbd>
-					      	</td>
+						<tr>
+							<td>
+								<kbd>Alt</kbd> + <kbd>C</kbd>
+							</td>
 
-					      	<td>
-					      		New Channel
-					      	</td>
-					    </tr>
+							<td>
+								New Channel
+							</td>
+						</tr>
 
-                        <tr>
-					      	<td>
-					      		<kbd>S</kbd>
-					      	</td>
+						<tr>
+							<td>
+								<kbd>S</kbd>
+							</td>
 
-					      	<td>
-					      		Hide/Show Sidebar
-					      	</td>
-					    </tr>
+							<td>
+								Hide/Show Sidebar
+							</td>
+						</tr>
 
-                        <tr>
-					      	<td>
-					      		<kbd>N</kbd>
-					      	</td>
+						<tr>
+							<td>
+								<kbd>N</kbd>
+							</td>
 
-					      	<td>
-					      		Notifications
-					      	</td>
-					    </tr>
+							<td>
+								Notifications
+							</td>
+						</tr>
 
-                        <tr>
-					      	<td>
-					      		<kbd>M</kbd>
-					      	</td>
+						<tr>
+							<td>
+								<kbd>M</kbd>
+							</td>
 
-					      	<td>
-					      		Messages
-					      	</td>
-					    </tr>
+							<td>
+								Messages
+							</td>
+						</tr>
 
-                        <tr>
-					      	<td>
-					      		<kbd>/</kbd>
-					      	</td>
+						<tr>
+							<td>
+								<kbd>/</kbd>
+							</td>
 
-					      	<td>
-					      		Search
-					      	</td>
-					    </tr>
+							<td>
+								Search
+							</td>
+						</tr>
 
-                        <tr>
-					      	<td>
-					      		<kbd>B</kbd>
-					      	</td>
+						<tr>
+							<td>
+								<kbd>B</kbd>
+							</td>
 
-					      	<td>
-					      		Bookmarks
-					      	</td>
-					    </tr>
+							<td>
+								Bookmarks
+							</td>
+						</tr>
 
-                        <tr>
-					      	<td>
-					      		<kbd>H</kbd>
-					      	</td>
+						<tr>
+							<td>
+								<kbd>H</kbd>
+							</td>
 
-					      	<td>
-					      		Home
-					      	</td>
-					    </tr>
+							<td>
+								Home
+							</td>
+						</tr>
 
-                        <tr>
-                            <td>
-                                <kbd>P</kbd>
-                            </td>
-                            <td>
-                                Profile
-                            </td>
-                        </tr>
+						<tr>
+							<td>
+								<kbd>P</kbd>
+							</td>
+							<td>
+								Profile
+							</td>
+						</tr>
 
-                        <tr>
-                            <td>
-                                <kbd>R</kbd>
-                            </td>
-                            <td>
-                                Refresh Submissions
-                            </td>
-                        </tr>
+						<tr>
+							<td>
+								<kbd>R</kbd>
+							</td>
+							<td>
+								Refresh Submissions
+							</td>
+						</tr>
 
-                        <tr>
-                            <td>
-                                <kbd>Shift</kbd> + <kbd>/</kbd>
-                            </td>
-                            <td>
-                                Show these shortcuts
-                            </td>
-                        </tr>
-				  	</tbody>
-				</table>
+						<tr>
+							<td>
+								<kbd>Shift</kbd> + <kbd>/</kbd>
+							</td>
+							<td>
+								Show these shortcuts
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 
-                <button type="button" class="v-button v-button--green v-button--block">
-                    Close
-                </button>
-            </div>
-        </div>
+			<footer>
+				<button type="button" class="v-button v-button--green v-button--block" @click="close">
+					Close
+				</button>
+			</footer>
+		</div>
     </div>
 </template>
 
@@ -139,7 +149,7 @@
         mixins: [ clickaway ],
 
 	    methods: {
-	    	close () {
+	    	close() {
 	    		this.$eventHub.$emit('close');
 	    	},
 	    },

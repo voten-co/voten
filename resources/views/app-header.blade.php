@@ -10,12 +10,12 @@
     <div class="flex-display">
         <div class="dropdown head-notification-icons">
         	@if(Auth::check())
-				<button type="button" class="btn-nth relative" id="messages-btn" @click="changeRoute('messages')" v-tooltip="{content:'Messages', offset: 8}">
+				<button type="button" class="btn-nth relative" id="messages-btn" @click="changeRoute('messages')" v-tooltip="{content:'Messages (M)', offset: 8}">
 	                <i class="v-icon v-inbox" aria-hidden="true"></i>
 	                <span class="queue-number" v-show="unreadMessages" v-text="unreadMessages"></span>
 	            </button>
 
-	            <button type="button" class="btn-nth relative" v-tooltip="{content:'Notifications', offset: 8}" @click="changeRoute('notifications')">
+	            <button type="button" class="btn-nth relative" v-tooltip="{content:'Notifications (N)', offset: 8}" @click="changeRoute('notifications')">
 	           		<i class="v-icon v-bell-2" aria-hidden="true"></i>
 	               	<span class="queue-number" v-show="unreadNotifications" v-text="unreadNotifications"></span>
 	            </button>
@@ -31,12 +31,12 @@
            		<i class="v-icon v-search-3" aria-hidden="true"></i>
             </button>
 
-			<router-link :to="'/'" class="btn-nth relative" v-tooltip="{content:'Home', offset: 8}">
+			<router-link :to="'/'" class="btn-nth relative" v-tooltip="{content:'Home (H)', offset: 8}">
            		<i class="v-icon v-home" aria-hidden="true" @click="homeRoute"></i>
             </router-link>
 
 			@if(optional(Auth::user())->isVotenAdministrator())
-				<a href="/backend" class="btn-nth relative margin-right-half">
+				<a href="/backend" class="btn-nth relative margin-right-half" v-tooltip="{content:'Dashboard', offset: 8}">
 					<i class="v-icon v-dashboard" aria-hidden="true"></i>
 				</a>
 			@endif

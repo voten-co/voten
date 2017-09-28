@@ -6,6 +6,7 @@
 .v-arrows:before { content: '\e804'; } /* '' */
 .v-bell:before { content: '\e805'; } /* '' */
 .v-cancel:before { content: '\e806'; } /* '' */
+.v-cancel-small:before { content: '\e807'; } /* '' */
 .v-link:before { content: '\e808'; } /* '' */
 .v-tools:before { content: '\e80a'; } /* '' */
 .v-cancel-circled-2:before { content: '\e80b'; } /* '' */

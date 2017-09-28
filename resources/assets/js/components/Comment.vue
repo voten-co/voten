@@ -45,11 +45,11 @@
                         <i class="v-icon v-reply"></i>
                     </a>
 
-                    <a class="reply h-primary" @click="voteUp" v-tooltip.top="{content: 'Upvote'}">
+                    <a class="reply h-primary" @click="voteUp">
                         <i class="v-icon v-up-fat" :class="upvoted ? 'go-primary' : 'go-gray'"></i>
                     </a>
 
-                    <a class="reply h-red" @click="voteDown" v-tooltip.top="{content: 'Downvote'}">
+                    <a class="reply h-red" @click="voteDown">
                         <i class="v-icon v-down-fat" :class="downvoted ? 'go-red' : 'go-gray'"></i>
                     </a>
 

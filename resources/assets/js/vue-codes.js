@@ -388,8 +388,8 @@ const app = new Vue({
          * @return void
          */
         startConversation(contact) {
-            this.changeRoute('messages')
-            this.$eventHub.$emit('conversation', contact)
+            this.changeRoute('messages');
+            this.$eventHub.$emit('conversation', contact);
         },
 
         /**
@@ -483,6 +483,8 @@ const app = new Vue({
          * @return void
          */
         changeRoute(newRoute) {
+            this.$eventHub.$emit('close');
+
             Store.contentRouter = newRoute;
 
             if (newRoute === 'notifications') {

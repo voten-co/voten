@@ -1,7 +1,7 @@
 <template>
     <button class="v-menu-button" :class="{'v-menu-button--checked' : checked}"
             @click="toggle"
-            v-tooltip.right="{content: checked ? 'Hide Sidebar' : 'Show Sidebar'}"
+            v-tooltip.right="{content: checked ? 'Hide Sidebar (S)' : 'Show Sidebar (S)'}"
     >
         <span></span>
     </button>

@@ -38,102 +38,10 @@
 		</div>
 
 		<div class="sidebar-right">
-			<!--<div class="sidebar-avatar align-center">-->
-			<!--<router-link :to="'/' + '@' + auth.username">-->
-			<!--<img v-bind:src="auth.avatar" alt="My Voten"/>-->
-			<!--</router-link>-->
-			<!--</div>-->
-
-			<!--<div class="profile-card">-->
-			<!--<div class="profile-card-name">-->
-			<!--<router-link :to="'/' + '@' + auth.username">-->
-			<!--{{ '@' + auth.username}}-->
-			<!--</router-link>-->
-			<!--</div>-->
-			<!--<div class="profile-card-status">{{ auth.name }}</div>-->
-			<!--</div>-->
-
-			<!--<hr>-->
-
-			<!--<div class="flex-right">-->
-			<!--<button class="v-button v-button-icon">-->
-			<!--Hide-->
-			<!--</button>-->
-			<!--</div>-->
-
-			<!--<div class="side-primary-menu">-->
-				<!--<ul>-->
-					<!--<li>-->
-						<!--<router-link :to="'/'" :class="{ 'active': $route.name == 'home' }">-->
-							<!--<home-icon width="30" height="30"></home-icon>-->
-							<!--Home Feed-->
-						<!--</router-link>-->
-					<!--</li>-->
-
-					<!--<li>-->
-						<!--<router-link :to="'/' + '@' + auth.username" :class="{ 'active': ($route.name == 'user-submissions' || $route.name == 'user-comments' || $route.name == 'user-upvotes' || $route.name == 'user-downvotes') }">-->
-							<!--<profile-icon width="30" height="30"></profile-icon>-->
-							<!--Profile-->
-						<!--</router-link>-->
-					<!--</li>-->
-
-					<!--<li>-->
-						<!--<router-link :to="{ path: '/bookmarks' }" active-class="active">-->
-							<!--<bookmark-icon width="30" height="30"></bookmark-icon>-->
-							<!--Bookmarks-->
-						<!--</router-link>-->
-					<!--</li>-->
-
-					<!--<li>-->
-						<!--<router-link :to="{ path: submitURL }" active-class="active">-->
-							<!--<submit-icon width="30" height="30"></submit-icon>-->
-							<!--Submit-->
-						<!--</router-link>-->
-					<!--</li>-->
-
-					<!--<li>-->
-						<!--<router-link :to="{ path: '/@' + auth.username + '/settings' }" active-class="active">-->
-							<!--<settings-icon width="30" height="30"></settings-icon>-->
-							<!--Settings-->
-						<!--</router-link>-->
-					<!--</li>-->
-
-					<!--<li>-->
-						<!--<router-link :to="{ path: '/find-channels' }" active-class="active">-->
-							<!--<search-icon width="30" height="30"></search-icon>-->
-							<!--Find Channels-->
-						<!--</router-link>-->
-					<!--</li>-->
-
-					<!--<li>-->
-						<!--<router-link :to="{ path: '/channel' }" active-class="active">-->
-							<!--<channel-icon width="30" height="30"></channel-icon>-->
-							<!--Create Channel-->
-						<!--</router-link>-->
-					<!--</li>-->
-
-					<!--<li>-->
-						<!--<router-link :to="{ path: '/live' }" active-class="active">-->
-							<!--<chat-icon width="30" height="30"></chat-icon>-->
-							<!--Live-->
-						<!--</router-link>-->
-					<!--</li>-->
-				<!--</ul>-->
-			<!--</div>-->
-
-			<!--<div class="v-side-quick-actions">-->
-			<!---->
-
-			<!---->
-
-			<!---->
-			<!--</div>-->
-
-
-			<aside class="menu margin-top-1">
+			<div class="fixed-header">
 				<div class="flex-space">
 					<p class="menu-label">
-						Channels: <span v-if="Store.subscribedCategories.length">({{ Store.subscribedCategories.length }})</span>
+						<strong>My Channels:</strong> <span v-if="Store.subscribedCategories.length">({{ Store.subscribedCategories.length }})</span>
 					</p>
 
 					<div class="ui icon top right active-blue pointing dropdown sidebar-panel-button">
@@ -172,8 +80,10 @@
 						<i class="v-icon v-search search icon"></i>
 					</div>
 				</div>
+			</div>
 
-				<div class="no-subsciption" v-if="!Store.subscribedCategories.length && !Store.loading">
+			<aside class="menu">
+				<div class="no-subscription" v-if="!sortedSubscribeds.length && !Store.loading">
 					<i class="v-icon v-sad" aria-hidden="true"></i>
 					No channels to display
 				</div>
@@ -187,10 +97,6 @@
 					</li>
 				</ul>
 			</aside>
-
-			<!--<div class="sidebar-footer">-->
-			<!--Add Content-->
-			<!--</div>-->
 		</div>
     </div>
 </template>
@@ -224,7 +130,7 @@ export default {
     data: function () {
         return {
             subscribedFilter: '',
-            categoriesLimit: 5,
+            categoriesLimit: 50,
         };
     },
 
@@ -248,18 +154,6 @@ export default {
     	filter() {
     		return Store.sidebarFilter;
     	},
-//
-//    	categoriesTitle() {
-//    		if (Store.sidebarFilter == "moderating-channels") {
-//    			return "Moderating Channels";
-//    		}
-//
-//    		if (Store.sidebarFilter == "bookmarked-channels") {
-//    			return "Bookmarked Channels";
-//    		}
-//
-//    		return "Subscribed Channels";
-//    	},
 
         submitURL() {
             if (this.$route.params.name)

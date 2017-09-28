@@ -19,6 +19,15 @@ Font license info
    Homepage:  http://fortawesome.github.com/Font-Awesome/
 
 
+## MFG Labs
+
+   Copyright (C) 2012 by Daniel Bruce
+
+   Author:    MFG Labs
+   License:   SIL (http://scripts.sil.org/OFL)
+   Homepage:  http://www.mfglabs.com/
+
+
 ## Elusive
 
    Copyright (C) 2013 by Aristeides Stathopoulos
@@ -35,15 +44,6 @@ Font license info
    Author:    Designmodo for Smashing Magazine
    License:   CC BY ()
    Homepage:  http://designmodo.com/linecons-free/
-
-
-## MFG Labs
-
-   Copyright (C) 2012 by Daniel Bruce
-
-   Author:    MFG Labs
-   License:   SIL (http://scripts.sil.org/OFL)
-   Homepage:  http://www.mfglabs.com/
 
 
 ## Modern Pictograms

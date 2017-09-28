@@ -1,29 +1,42 @@
 <template>
     <div class="v-modal-small">
-        <div class="v-modal-small-box" v-on-clickaway="close">
-            <div class="flex1">
-                <p>
-                    Just like any other channel on Voten, all submissions must follow Voten's
-                    <a href="/tos">
-                    	<b>general rules</b>
-                    </a>.
-                    Other than that here are a few simple rules exclusively for submitting to #{{ $route.params.name }}:
-                </p>
+        <div class="wrapper" v-on-clickaway="close">
+            <header class="user-select">
+                <h3>
+                    Rules of #{{ $route.params.name }}
+                </h3>
 
-                <ol class="roman-counter-rounded">
-                    <li v-for="rule in rules" :key="rule.id">
-                        <markdown :text="rule.title"></markdown>
-                    </li>
-                </ol>
-
-                <div class="align-center user-select" v-if="nothingFound">
-                    <h3 class="v-bold" v-text="'No exlusive rules specified yet'"></h3>
+                <div class="close" @click="close">
+                    <i class="v-icon v-cancel-small"></i>
                 </div>
+            </header>
+            <div class="middle">
+                <div class="flex1 margin-bottom-1">
+                    <p>
+                        Just like any other channel on Voten, all submissions must follow Voten's
+                        <a href="/tos">
+                            <b>general rules</b>
+                        </a>.
+                        Other than that, here are a few simple rules exclusively for submitting to #{{ $route.params.name }}:
+                    </p>
 
+                    <ol class="roman-counter-rounded">
+                        <li v-for="rule in rules" :key="rule.id">
+                            <markdown :text="rule.title"></markdown>
+                        </li>
+                    </ol>
+
+                    <div class="align-center user-select" v-if="nothingFound">
+                        <h3 class="v-bold" v-text="'No exlusive rules specified yet'"></h3>
+                    </div>
+                </div>
+            </div>
+
+            <footer>
                 <button type="button" class="v-button v-button--green v-button--block" @click="close">
                     Close
                 </button>
-            </div>
+            </footer>
         </div>
     </div>
 </template>
@@ -33,18 +46,18 @@ import Markdown from '../components/Markdown.vue'
 import { mixin as clickaway } from 'vue-clickaway';
 
 export default {
-    components:{ Markdown },
+    components: { Markdown },
 
     mixins: [ clickaway ],
 
-    data () {
+    data() {
         return {
             nothingFound: false,
             rules: [],
         }
     },
 
-    created: function () {
+    created() {
         this.getRules();
     },
 
@@ -57,22 +70,15 @@ export default {
             }).then((response) => {
                 this.rules = response.data;
 
-                if (!this.rules.length) {
-                    this.nothingFound = true
+                if (! this.rules.length) {
+                    this.nothingFound = true;
                 }
             });
         },
 
-    	/**
-    	 * Fires the 'close' event which causes all the modals to be closed.
-    	 *
-    	 * @return void
-    	 */
-    	close () {
-    		this.$eventHub.$emit('close')
+    	close() {
+    		this.$eventHub.$emit('close');
     	},
     },
-
 }
-
 </script>

@@ -62,7 +62,7 @@
 	    <div class="container">
 	    	<div class="v-push-20"></div>
 
-	        <div class="col-7 user-select">
+	        <div class="col-7">
 	            <ul class="v-contact-list" v-if="type == 'Categories'">
 	            	<category-search-item v-for="category in categories" :list="category" :key="category.id"></category-search-item>
 	            </ul>
@@ -88,7 +88,7 @@
 			    </div>
 
 		    	<div class="ui threaded comments" v-if="type == 'Comments'">
-		    		<div v-for="comment in comments" class="comment-search-item" :key="comment.id">
+		    		<div v-for="comment in comments" class="v-comment-not-full" :key="comment.id">
 				        <comment :list="comment" :comments-order="'created_at'"></comment>
 				    </div>
 

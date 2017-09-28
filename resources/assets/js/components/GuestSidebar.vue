@@ -33,7 +33,7 @@
                 </div>
             </div>
 
-            <div class="no-subsciption" v-if="!Store.subscribedCategories.length && !Store.loading">
+            <div class="no-subscription" v-if="!Store.subscribedCategories.length && !Store.loading">
             	<i class="v-icon v-sad" aria-hidden="true"></i>
             	No channels to display
             </div>

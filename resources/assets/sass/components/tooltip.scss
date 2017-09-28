@@ -16,20 +16,6 @@ $popper-background-color: #000 !default;
     text-align: center;
   }
 
-  // .popper-close {
-  //  position: absolute;
-  //  top: 2px;
-  //  right: 4px;
-  //  color: black;
-  //  background: transparent;
-  //  border: none;
-
-  //  &:active,
-  //  &:focus {
-  //      outline: none;
-  //  }
-  // }
-
   .tooltip-arrow {
     content: '';
     width: 0;
@@ -99,3 +85,10 @@ $popper-background-color: #000 !default;
     }
   }
 }
+
+@media (max-width: 768px) {
+  .vue-tooltip {
+    display: none !important;
+  }
+}
+

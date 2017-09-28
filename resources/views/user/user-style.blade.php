@@ -27,7 +27,8 @@
 			    background: #edb431;
 			    color: #333;
 			}
-			.menu-list a:hover {
+			.menu-list a:hover,
+			.menu-list .active {
 			    background-color: rgba(204, 204, 204, 0.12);
 			    background: #edb431;
 			    color: #333 !important;
@@ -42,7 +43,8 @@
 			    background: #edb431;
 			    color: #333;
 			}
-			.menu-list a:hover {
+			.menu-list a:hover,
+			.menu-list .active {
 			    background-color: rgba(204, 204, 204, 0.12);
 			    background: #edb431;
 			    color: #333 !important;
@@ -57,7 +59,8 @@
 			    background-color: #d2d2d2;
 			    color: #333 !important;
 			}
-			.menu-list a:hover {
+			.menu-list a:hover,
+			.menu-list .active {
 			    background-color: #d2d2d2;
 				color: #333 !important;
 			}
@@ -71,7 +74,8 @@
 			    background-color: #5b7368;
 			    color: #fff;
 			}
-			.menu-list a:hover {
+			.menu-list a:hover,
+			.menu-list .active {
 			    background-color: #5b7368;
 			    color: #fff !important;
 			}
@@ -85,7 +89,8 @@
 			    background: #7197c3;
 			    color: #fff;
 			}
-			.menu-list a:hover {
+			.menu-list a:hover,
+			.menu-list .active {
 			    background-color: rgba(204, 204, 204, 0.12);
 			    background: #7197c3;
 			    color: #fff !important;
@@ -105,7 +110,8 @@
 			.sidebar-avatar img{
 	        	border-color: rgba(199, 199, 199, 0.63) rgba(189, 189, 189, 0.68) rgba(211, 211, 211, 0.95);
 	        }
-	        .menu-list a:hover{
+	        .menu-list a:hover,
+			.menu-list .active {
 	        	background-color: #92989f;
 	        }
 	        .side-fixed hr{
@@ -144,7 +150,8 @@
 			    background: #edb431;
 			    color: #333;
 			}
-			.menu-list a:hover {
+			.menu-list a:hover,
+			.menu-list .active{
 			    background-color: rgba(204, 204, 204, 0.12);
 			    background: #edb431;
 			    color: #333 !important;
@@ -159,7 +166,8 @@
 			    background: #edb431;
 			    color: #333;
 			}
-			.menu-list a:hover {
+			.menu-list a:hover,
+			.menu-list .active{
 			    background-color: rgba(204, 204, 204, 0.12);
 			    background: #edb431;
 			    color: #333 !important;
@@ -174,7 +182,8 @@
 			    background-color: #d2d2d2;
 			    color: #333 !important;
 			}
-			.menu-list a:hover {
+			.menu-list a:hover,
+			.menu-list .active{
 			    background-color: #d2d2d2;
 				color: #333 !important;
 			}
@@ -216,7 +225,6 @@
 	    		background: -webkit-linear-gradient(#f6f6f6, #ffffff);
 				background: linear-gradient(#f6f6f6, #ffffff);
 				color: #333;
-				/*border-right: 2px solid #dcdcdc;*/
 	    	}
 	    	.side-fixed a, .side-fixed a:hover, .side-fixed a:focus {
 	    		color: #333;
@@ -224,7 +232,8 @@
 			.sidebar-avatar img{
 	        	border-color: rgba(199, 199, 199, 0.63) rgba(189, 189, 189, 0.68) rgba(211, 211, 211, 0.95);
 	        }
-	        .menu-list a:hover{
+	        .menu-list a:hover,
+			.menu-list .active {
 	        	background-color: #92989f;
 	        }
 	        .side-fixed hr{

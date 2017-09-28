@@ -35,7 +35,7 @@
 <div id="voten-app" :class="{ 'background-white': Store.contentRouter != 'content' }">
     @include('app-header')
 
-    <div class="v-content-wrapper">
+    <div class="v-content-wrapper" :class="{ 'v-blur v-blur-wrapper': smallModal }">
 		<div class="v-side" v-show="sidebar">
 		    <guest-sidebar></guest-sidebar>
 		</div>
@@ -43,21 +43,17 @@
 		<search-modal v-if="Store.contentRouter == 'search'" :sidebar="sidebar"></search-modal>
 
         <div class="v-content" id="v-content" v-show="Store.contentRouter == 'content'" @scroll="scrolled">
-            <transition name="fade">
-                <rules v-if="modalRouter == 'rules'" :sidebar="sidebar"></rules>
-                <moderators v-if="modalRouter == 'moderators'" :sidebar="sidebar"></moderators>
-                <keyboard-shortcuts-guide v-if="modalRouter == 'keyboard-shortcuts-guide'" :sidebar="sidebar"></keyboard-shortcuts-guide>
-                <markdown-guide v-if="modalRouter == 'markdown-guide'" :sidebar="sidebar"></markdown-guide>
-                <login-modal v-if="modalRouter == 'login'" :sidebar="sidebar"></login-modal>
-            </transition>
-
-            <div :class="{ 'v-blur': smallModal }">
-                @yield('content')
-            </div>
+            @yield('content')
         </div>
     </div>
 
     <scroll-button></scroll-button>
+
+    <rules v-if="modalRouter == 'rules'" :sidebar="sidebar"></rules>
+    <moderators v-if="modalRouter == 'moderators'" :sidebar="sidebar"></moderators>
+    <keyboard-shortcuts-guide v-if="modalRouter == 'keyboard-shortcuts-guide'" :sidebar="sidebar"></keyboard-shortcuts-guide>
+    <markdown-guide v-if="modalRouter == 'markdown-guide'" :sidebar="sidebar"></markdown-guide>
+    <login-modal v-if="modalRouter == 'login'" :sidebar="sidebar"></login-modal>
 </div>
 
 @include('php-to-js-data')

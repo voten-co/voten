@@ -156,10 +156,13 @@
 }
 
 .menu-list a {
-    border-radius: 2px;
     color: inherit;
     display: block;
     padding: 5px 10px;
+}
+
+.menu-list .active {
+    font-weight: bold;
 }
 
 .menu-list a:hover {
@@ -290,14 +293,14 @@
     background: rgba(115, 115, 115, 0.32);
 }
 
-.no-subsciption {
+.no-subscription {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
 
-.no-subsciption i {
+.no-subscription i {
     font-size: 43px;
 }
 

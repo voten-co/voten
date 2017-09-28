@@ -109,9 +109,7 @@
                         Store.notifications = response.data;
                     }
 
-                    if (! Store.notifications.length) {
-                        this.loadReadNotifications();
-                    }
+                    this.loadReadNotifications();
                 });
             },
 

@@ -1,30 +1,38 @@
 <template>
 	<div class="v-modal-small user-select">
-        <div class="v-modal-small-box">
-            <div class="flex1">
-                <h2 class="align-center">
-                    Please position and size your photo
-                </h2>
+		<div class="wrapper">
+			<header class="user-select">
+				<h3>
+					Crop Image
+				</h3>
 
-				<loading v-show="loading"></loading>
-
-				<div v-show="!loading">
-					<img v-bind:src="photo" id="crop" v-show="photo">
+				<div class="close" @click="close">
+					<i class="v-icon v-cancel-small"></i>
 				</div>
+			</header>
 
-                <div class="margin-top-1">
-                	<button type="button" class="v-button v-button--green" :disabled="loading"
-	                @click="apply" >
-	                    Apply
-	                </button>
+			<div class="middle">
+				<div class="flex1 margin-bottom-1">
+					<h2 class="align-center" v-text="loading ? 'Please wait' : 'Please position and size your image'"></h2>
 
-	                <button type="button" class="v-button v-button--red" :disabled="loading"
-	                    @click="close">
-	                    Cancel
-	                </button>
-                </div>
-            </div>
-        </div>
+					<loading v-show="loading"></loading>
+
+					<div v-show="!loading">
+						<img v-bind:src="photo" id="crop" v-show="photo">
+					</div>
+				</div>
+			</div>
+
+			<footer>
+				<button type="button" class="v-button v-button--green" :disabled="loading" @click="apply">
+					Apply
+				</button>
+
+				<button type="button" class="v-button v-button--red" @click="close">
+					Cancel
+				</button>
+			</footer>
+		</div>
     </div>
 </template>
 

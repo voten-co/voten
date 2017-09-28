@@ -43,7 +43,7 @@
         	 * @return void
         	 */
         	sendMessage() {
-        		this.$eventHub.$emit('start-conversation', this.contact)
+        		this.$eventHub.$emit('start-conversation', this.contact);
         	}
         }
     }

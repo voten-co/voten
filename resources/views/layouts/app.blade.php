@@ -51,14 +51,12 @@
 
     <scroll-button></scroll-button>
 
-    <transition name="fade">
-        <report-submission v-if="modalRouter == 'report-submission'" :submission="reportSubmissionId" :category="reportCategory" :sidebar="sidebar"></report-submission>
-        <report-comment v-if="modalRouter == 'report-comment'" :comment="reportCommentId" :category="reportCategory" :sidebar="sidebar"></report-comment>
-        <rules v-if="modalRouter == 'rules'" :sidebar="sidebar"></rules>
-        <moderators v-if="modalRouter == 'moderators'" :sidebar="sidebar"></moderators>
-        <keyboard-shortcuts-guide v-if="modalRouter == 'keyboard-shortcuts-guide'" :sidebar="sidebar"></keyboard-shortcuts-guide>
-        <markdown-guide v-if="modalRouter == 'markdown-guide'" :sidebar="sidebar"></markdown-guide>
-    </transition>
+    <report-submission v-if="modalRouter == 'report-submission'" :submission="reportSubmissionId" :category="reportCategory" :sidebar="sidebar"></report-submission>
+    <report-comment v-if="modalRouter == 'report-comment'" :comment="reportCommentId" :category="reportCategory" :sidebar="sidebar"></report-comment>
+    <rules v-if="modalRouter == 'rules'" :sidebar="sidebar"></rules>
+    <moderators v-if="modalRouter == 'moderators'" :sidebar="sidebar"></moderators>
+    <keyboard-shortcuts-guide v-if="modalRouter == 'keyboard-shortcuts-guide'" :sidebar="sidebar"></keyboard-shortcuts-guide>
+    <markdown-guide v-if="modalRouter == 'markdown-guide'" :sidebar="sidebar"></markdown-guide>
     <crop-modal v-if="modalRouter == 'crop-user'" :sidebar="sidebar" :type="'user'"></crop-modal>
     <crop-modal v-if="modalRouter == 'crop-category'" :sidebar="sidebar" :type="'category'"></crop-modal>
 </div>
