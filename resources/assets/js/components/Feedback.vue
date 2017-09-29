@@ -13,41 +13,12 @@
                 Please pick a subject for your feedback and tell us few words about it. We review all feedbacks seriously; however, we may not write back to all of them.
             </p>
 
-            <div class="radio">
-                <label><input type="radio" name="optradio">Option 1</label>
-            </div>
-            <div class="radio">
-                <label><input type="radio" name="optradio">Option 2</label>
+            <!-- Radio Buttons -->
+            <div class="radio" v-for="item in subjects">
+                <label><input type="radio" name="subject" :value="item" v-model="subject">{{ item }}</label>
             </div>
 
-            <div class="form-group grouped fields">
-                <div class="field">
-                    <div class="ui radio checkbox">
-                        <input type="radio" value="Report a bug" tabindex="0" class="hidden" v-model="subject">
-                        <label>Report a bug</label>
-                    </div>
-                </div>
-                <div class="field">
-                    <div class="ui radio checkbox">
-                        <input type="radio" value="Thumbs-up about a feature" tabindex="0" class="hidden" v-model="subject">
-                        <label>Thumbs-up about a feature</label>
-                    </div>
-                </div>
-                <div class="field">
-                    <div class="ui radio checkbox">
-                        <input type="radio" value="Suggestion" tabindex="0" class="hidden" v-model="subject">
-                        <label>Suggestion</label>
-                    </div>
-                </div>
-                <div class="field">
-                    <div class="ui radio checkbox">
-                        <input type="radio" value="Other" tabindex="0" class="hidden" v-model="subject">
-                        <label>Other</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
+            <div class="form-group margin-top-1">
                     <textarea name="name" class="form-control v-input-big" rows="5" id="feedback"
                               placeholder="Desciption..."
                               v-model="description"
@@ -96,12 +67,17 @@
 	            subject: 'Report a bug',
 	            description: '',
 	            messageSent: false,
+                subjects: [
+                    'Report a bug',
+                    'Thumbs-up about a feature',
+                    'Suggestion',
+                    'Other'
+                ]
 	        }
 	    },
 
 		mounted: function () {
 			this.$nextTick(function () {
-		    	this.$root.loadCheckBox();
 				this.$root.autoResize();
 		    	document.getElementById('feedback').focus();
 			})
@@ -113,7 +89,6 @@
                 this.description = '';
                 this.messageSent = false;
 
-                this.$root.loadCheckBox();
                 this.$root.autoResize();
                 document.getElementById('feedback').focus();
             },

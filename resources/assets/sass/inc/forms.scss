@@ -481,3 +481,30 @@ select.form-control-lg:not([size]):not([multiple]) {
 .vue-js-switch .v-switch-core[data-v-25adc6c0]:before {
     margin-left: 0;
 }
+
+.radio {
+    margin-bottom: .5em;
+
+    label {
+        cursor: pointer;
+    }
+
+    input {
+        margin-right: 1em;
+        cursor: pointer;
+    }
+}
+
+
+.checkbox {
+    margin-bottom: .5em;
+
+    label {
+        cursor: pointer;
+    }
+
+    input {
+        margin-right: 1em;
+        cursor: pointer;
+    }
+}

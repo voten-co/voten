@@ -17,40 +17,10 @@
                         Please help us understand the problem. What is wrong with this comment?
                     </p>
 
-                    <div class="form-group grouped fields">
-                        <div class="field">
-                            <div class="ui radio checkbox">
-                                <input type="radio" value="It's spam" tabindex="0" class="hidden" v-model="subject">
-                                <label>It's spam</label>
-                            </div>
-                        </div>
-
-                        <div class="field">
-                            <div class="ui radio checkbox">
-                                <input type="radio" value="It doesn't follow channel's exclusive rules" tabindex="0" class="hidden" v-model="subject">
-                                <label>It doesn't follow #{{category}}'s exclusive rules</label>
-                            </div>
-                        </div>
-
-                        <div class="field">
-                            <div class="ui radio checkbox">
-                                <input type="radio" value="It doesn't follow Voten's general rules" tabindex="0" class="hidden" v-model="subject">
-                                <label>It doesn't follow Voten's general rules</label>
-                            </div>
-                        </div>
-
-                        <div class="field">
-                            <div class="ui radio checkbox">
-                                <input type="radio" value="It's abusive or harmful" tabindex="0" class="hidden" v-model="subject">
-                                <label>It's abusive or harmful</label>
-                            </div>
-                        </div>
-
-                        <div class="field">
-                            <div class="ui radio checkbox">
-                                <input type="radio" value="Other" tabindex="0" class="hidden" v-model="subject">
-                                <label>Other</label>
-                            </div>
+                    <!-- Radio Buttons -->
+                    <div class="margin-bottom-1">
+                        <div class="radio" v-for="item in subjects">
+                            <label><input type="radio" name="subject" :value="item" v-model="subject">{{ item }}</label>
                         </div>
                     </div>
 
@@ -91,12 +61,18 @@ export default {
             subject: "It's spam",
             description: "",
             sending: false,
+            subjects: [
+                "It's spam",
+                "It doesn't follow channel's exclusive rules",
+                "It doesn't follow Voten's general rules",
+                "It's abusive or harmful",
+                "Other"
+            ]
         }
     },
 
 	mounted: function () {
 		this.$nextTick(function () {
-    		$('.ui.checkbox').checkbox();
 	    	document.getElementById('report-comment').focus();
 	    	this.$root.autoResize();
 		})
