@@ -15,43 +15,29 @@
             content that suits you the best.
         </p>
 
-        <div class="form-group ui form">
-            <div class="inline field">
-                <div class="ui toggle checkbox">
-                    <input type="checkbox" tabindex="1" class="hidden" v-model="nsfw">
-                    <label>Display NSFW submissions (You must be 18 or older)</label>
-                </div>
-            </div>
+        <div class="form-toggle">
+            <span>Display NSFW submissions: <small>(You must be 18 or older)</small></span>
+            <toggle-button v-model="nsfw"/>
         </div>
 
-        <div class="form-group ui form">
-            <div class="inline field">
-                <div class="ui toggle checkbox">
-                    <input type="checkbox" tabindex="1" class="hidden" v-model="nsfwMedia">
-                    <label>Display preview for NSFW submissions</label>
-                </div>
-            </div>
+        <div class="form-toggle">
+            <span>Display preview for NSFW submissions:</span>
+            <toggle-button v-model="nsfwMedia"/>
         </div>
 
-        <div class="form-group ui form">
-            <div class="inline field">
-                <div class="ui toggle checkbox">
-                    <input type="checkbox" tabindex="1" class="hidden" v-model="exclude_upvoted_submissions">
-                    <label>Exclude my upvoted submissions</label>
-                </div>
-            </div>
+        <div class="form-toggle">
+            <span>Exclude my upvoted submissions:</span>
+            <toggle-button v-model="exclude_upvoted_submissions"/>
         </div>
 
-        <div class="form-group ui form">
-            <div class="inline field">
-                <div class="ui toggle checkbox">
-                    <input type="checkbox" tabindex="1" class="hidden" v-model="exclude_downvoted_submissions">
-                    <label>Exclude my downvoted submissions</label>
-                </div>
-            </div>
+        <div class="form-toggle no-border">
+            <span>Exclude my downvoted submissions:</span>
+            <toggle-button v-model="exclude_downvoted_submissions"/>
         </div>
 
-        <button class="v-button v-button--green" @click="save" :disabled="sending" v-if="changed">Save</button>
+        <button class="v-button v-button--green" @click="save" :disabled="sending" v-if="changed">
+            Save
+        </button>
     </section>
 </template>
 
@@ -72,12 +58,6 @@
 
         created () {
         	document.title = 'My Feed | Settings'
-        },
-
-        mounted () {
-			this.$nextTick(function () {
-				this.$root.loadCheckBox()
-			})
         },
 
 	    computed: {

@@ -22,13 +22,9 @@
 			></multiselect>
 		</div>
 
-		<div class="form-group ui form">
-			<div class="inline field">
-				<div class="ui toggle checkbox">
-					<input type="checkbox" tabindex="1" class="hidden" v-model="nsfw">
-					<label>This channel contains mostly NSFW content</label>
-				</div>
-			</div>
+		<div class="form-toggle">
+			This channel contains mostly NSFW content:
+			<toggle-button v-model="nsfw"/>
 		</div>
 
 		<button class="v-button v-button--green" @click="save" v-if="changed" :disabled="sending">Save</button>
@@ -84,8 +80,7 @@
 
         mounted () {
 			this.$nextTick(function () {
-				this.$root.loadCheckBox()
-				this.$root.autoResize()
+				this.$root.autoResize();
 			})
         },
 

@@ -1,7 +1,7 @@
 window.moment = require('moment-timezone');
 window.moment.tz.setDefault("UTC");
 
-
+// Tooltip plugin
 import Tooltip from 'vue-directive-tooltip';
 Vue.use(Tooltip, {
     delay: 0,
@@ -10,6 +10,10 @@ Vue.use(Tooltip, {
     triggers: ['hover'],
     offset: 5
 });
+
+// Toggle plugin
+import ToggleButton from 'vue-js-toggle-button';
+Vue.use(ToggleButton);
 
 
 /**
@@ -63,7 +67,6 @@ require('./libs/transition');
 require('./libs/dropdown');
 require('./libs/popup');
 require('./libs/form');
-require('./libs/checkbox');
 require('./libs/Jcrop');
 
 

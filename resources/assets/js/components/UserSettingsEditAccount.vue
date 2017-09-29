@@ -36,35 +36,26 @@
 
         <h3 class="v-ultra-bold">Notify me when:</h3>
 
-        <div class="form-group ui form">
-            <div class="inline field">
-                <div class="ui toggle checkbox">
-                    <input type="checkbox" tabindex="0" class="hidden" v-model="notify_submissions_replied">
-                    <label>My submissions get comments</label>
-                </div>
-            </div>
+        <div class="form-toggle">
+            My submissions get comments:
+            <toggle-button v-model="notify_submissions_replied"/>
         </div>
 
-        <div class="form-group ui form">
-            <div class="inline field">
-                <div class="ui toggle checkbox">
-                    <input type="checkbox" tabindex="0" class="hidden" v-model="notify_comments_replied">
-                    <label>My comments get replies</label>
-                </div>
-            </div>
+        <div class="form-toggle">
+            My comments get replies:
+            <toggle-button v-model="notify_comments_replied"/>
         </div>
 
-        <div class="form-group ui form">
-            <div class="inline field">
-                <div class="ui toggle checkbox">
-                    <input type="checkbox" tabindex="0" class="hidden" v-model="notify_mentions">
-                    <label>My username gets mentioned</label>
-                </div>
-            </div>
+        <div class="form-toggle no-border">
+            My username gets mentioned:
+            <toggle-button v-model="notify_mentions"/>
         </div>
 
-        <button class="v-button v-button--green" @click="save" :disabled="sending" v-if="changed">Save</button>
+        <button class="v-button v-button--green" @click="save" :disabled="sending" v-if="changed">
+            Save
+        </button>
 
+        <!-- Delete Account -->
         <h3 class="dotted-title go-red">
             <span>
                 Delete Account
@@ -141,8 +132,7 @@
 
         mounted () {
 			this.$nextTick(function () {
-				this.$root.loadCheckBox()
-				this.$root.autoResize()
+				this.$root.autoResize();
 			})
         },
 

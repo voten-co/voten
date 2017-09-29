@@ -161,7 +161,6 @@ const app = new Vue({
 
     mounted() {
         this.$nextTick(function() {
-            this.loadCheckBox();
             this.loadSemanticDropdown();
         })
     },
@@ -361,15 +360,6 @@ const app = new Vue({
          */
         loadSemanticPopup() {
             $('.s-popup').popup({ inline: true });
-        },
-
-        /**
-         * Loads the Semantic UI's CheckBox component
-         *
-         * @return void
-         */
-        loadCheckBox() {
-            $('.ui.checkbox').checkbox()
         },
 
         /**

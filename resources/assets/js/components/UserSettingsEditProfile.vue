@@ -93,8 +93,7 @@
 
         mounted () {
 			this.$nextTick(function () {
-				// this.$root.loadCheckBox()
-				this.$root.autoResize()
+				this.$root.autoResize();
 			})
         },
 

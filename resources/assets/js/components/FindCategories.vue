@@ -49,14 +49,12 @@
 					</ul>
 				</div>
 
-				<div class="ui form">
-					<div class="inline field">
-						<div class="ui toggle checkbox">
-							<input type="checkbox" class="hidden" name="remember" v-model="excludeSubscribeds">
-							<label>Exclude Subscribed Channels</label>
-						</div>
-					</div>
-				</div>
+				<toggle-button v-model="excludeSubscribeds"
+							   :width="200"
+							   :height="30"
+							   :color="{checked: '#5f85d1', unchecked: '#78b38a'}"
+							   :labels="{checked: 'Exclude Subscribed Channels', unchecked: 'Include Subscribed Channels'}"
+				/>
 			</div>
 		</div>
 
@@ -73,7 +71,6 @@
 
 
 <script>
-//    import FindCategoriesItem from '../components/FindCategoriesItem.vue';
     import BookmarkedCategory from '../components/BookmarkedCategory.vue';
     import NoContent from '../components/NoContent.vue';
 	import NoMoreItems from '../components/NoMoreItems.vue';
@@ -122,7 +119,7 @@ export default {
 			 * @return Boolean
 			 */
 			isNewbie () {
-			     return this.$route.query.newbie == 1
+			     return this.$route.query.newbie == 1;
 			},
 
 			/**
@@ -132,24 +129,18 @@ export default {
 			 */
 			canLeave () {
 				if (this.isNewbie) {
-					return this.reachedMinimum
+					return this.reachedMinimum;
 				}
 
-				return true
+				return true;
 			},
 
 		},
 
         created () {
-            this.getCategories()
-			this.$eventHub.$on('scrolled-to-bottom', this.loadMore)
+            this.getCategories();
+			this.$eventHub.$on('scrolled-to-bottom', this.loadMore);
         },
-
-		mounted: function () {
-			this.$nextTick(function () {
-				this.$root.loadCheckBox();
-			})
-		},
 
         watch: {
             'excludeSubscribeds' () {

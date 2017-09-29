@@ -13,6 +13,13 @@
                 Please pick a subject for your feedback and tell us few words about it. We review all feedbacks seriously; however, we may not write back to all of them.
             </p>
 
+            <div class="radio">
+                <label><input type="radio" name="optradio">Option 1</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="optradio">Option 2</label>
+            </div>
+
             <div class="form-group grouped fields">
                 <div class="field">
                     <div class="ui radio checkbox">

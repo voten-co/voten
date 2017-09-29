@@ -50,6 +50,11 @@
     .markdown a {
         color: rgb(85, 135, 215);
     }
+
+    .markdown ul,
+    .markdown ol {
+        margin-bottom: 0;
+    }
     .markdown a:hover {
         text-decoration: underline;
     }

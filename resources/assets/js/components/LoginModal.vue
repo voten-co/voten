@@ -49,13 +49,12 @@
 							<small class="text-muted go-red" v-for="e in errors.password">{{ e }}</small>
 						</div>
 
-						<div class="form-group ui form">
-							<div class="inline field">
-								<div class="ui toggle checkbox">
-									<input type="checkbox" class="hidden" name="remember" v-model="remember">
-									<label>Remember Me</label>
-								</div>
-							</div>
+						<div class="flex-right">
+							<toggle-button v-model="remember" :labels="{checked: 'Remember Me', unchecked: 'Remember Me'}"
+										   :width="120"
+										   :height="25"
+										   :color="'#edb431'"
+							/>
 						</div>
 					</div>
 
@@ -101,7 +100,7 @@
 			</footer>
 
 			<footer v-if="type == 'register'">
-				<small>By clicking "Sign up", you agree to our <a href="/tos" target="_blank" class="go-primary">terms</a>.</small>
+				<span>By clicking "Sign up", you agree to our <a href="/tos" target="_blank" class="go-primary">terms</a>.</span>
 				<button class="v-button v-button--green" @click="register" :disabled="!goodToRegister">Sign up</button>
 			</footer>
 		</div>
@@ -131,12 +130,6 @@ export default {
         	registerConfirmPassword: '',
         }
     },
-
-	mounted: function () {
-		this.$nextTick(function () {
-			this.$root.loadCheckBox();
-		})
-	},
 
 	computed: {
 		goodToLogin() {

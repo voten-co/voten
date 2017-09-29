@@ -469,3 +469,15 @@ select.form-control-lg:not([size]):not([multiple]) {
 .btn-input-text {
     padding-right: 83px;
 }
+
+.form-toggle {
+    display: flex;
+    justify-content: space-between;
+    margin: 1em 0;
+    border-bottom: 1px solid #e7e7e7;
+    padding: 1em .5em;
+}
+
+.vue-js-switch .v-switch-core[data-v-25adc6c0]:before {
+    margin-left: 0;
+}
