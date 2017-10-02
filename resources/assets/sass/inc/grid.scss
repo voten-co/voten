@@ -52,6 +52,7 @@
     overflow: auto;
     padding: 1em 0;
 }
+// only desktop
 @media (min-width: 768px) {
     .col-7 {
         width: 700px;
@@ -61,6 +62,15 @@
         width: 500px;
     }
 }
+
+// only mobile
+@media (max-width: 768px) {
+    .col-7 {
+        padding: 1em;
+    }
+}
+
+// only big desktop
 @media (min-width: 1200px) {
     .col-7-flexible {
         width: 700px;
@@ -103,9 +113,11 @@
 .flex-search i {
     right: -10px;
 }
+
 /* --------------------------------------------------------------------- */
 /* ---------------------------- Left Tab Box --------------------------- */
 /* --------------------------------------------------------------------- */
+
 .left-sidebar-box {
     background: #fff;
     border: 1px solid #dcdcdc;

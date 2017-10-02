@@ -5,29 +5,67 @@
 
 .v-content {
     flex: 1;
-    margin-top: 52px;
+    margin-top: 62px;
     max-width: 100%;
     overflow-y: scroll;
 }
 
 .v-modal {
+    display: flex;
+    flex-direction: column;
     flex: 1;
     background: #fff;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-}
+    //align-items: center;
+    //justify-content: center;
+    //height: 100%;
+    margin-top: 62px;
+    overflow: hidden;
 
-.v-modal .title {
-    font-weight: 600;
-    color: #404040;
-    margin-left: 1em;
-    display: inline-flex;
-    align-items: center;
-}
+    header {
+        width: 100%;
+        background: #fff;
+        padding: 0 1em;
+    }
 
-.v-modal .title a {
-    color: #404040;
+    .middle {
+        overflow: auto;
+        width: 100%;
+        -webkit-overflow-scrolling: touch;
+        background: #333;
+        flex-grow: 1;
+        flex-shrink: 1;
+    }
+
+    .v-close {
+        font-size: 33px;
+        color: #777;
+        cursor: pointer;
+        border-radius: 4px;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 101;
+    }
+
+    .v-close:hover {
+        color: #333;
+        background: #d6d6d6;
+    }
+
+    .v-modal-title {
+        z-index: 100;
+    }
+
+    .title {
+        font-weight: 600;
+        color: #404040;
+
+        a {
+            color: #404040;
+        }
+    }
 }
 
 .v-modal .sub-title {
@@ -36,27 +74,6 @@
     font-weight: 400;
     margin-left: 2em;
     margin-top: 0;
-}
-
-.v-modal .v-close {
-    position: fixed;
-    top: 2.3em;
-    right: 1em;
-    font-size: 33px;
-    color: #777;
-    cursor: pointer;
-    border-radius: 4px;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 101;
-}
-
-.v-modal .v-close:hover {
-    color: #333;
-    background: #d6d6d6;
 }
 
 .v-modal .v-back {
@@ -126,18 +143,6 @@
     right: -17px;
     top: 62%;
     padding: 0.3em 4px;
-}
-
-.v-modal .v-modal-title {
-    position: fixed;
-    top: 3em;
-    width: 100%;
-    background: #fff;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    z-index: 100;
 }
 
 .v-modal .form-control {
@@ -317,12 +322,12 @@
     left: 1em;
 }
 
-.v-modal .col-7 {
-    margin-bottom: auto;
-}
+//.v-modal .col-7 {
+//    margin-bottom: auto;
+//}
 
-.v-push-20 {
-    height: 20em;
+.v-push-15 {
+    height: 15em;
     display: inline-table;
 }
 

@@ -1,21 +1,21 @@
 <template>
     <div class="v-modal">
-        <div class="v-close" @click="close" v-tooltip.bottom="{content: 'Close (esc)'}">
-            <i class="v-icon block-before v-cancel" aria-hidden="true"></i>
-        </div>
+        <header class="user-select">
+            <div class="flex-space">
+                <!-- Modal Title -->
+                <div class="v-modal-title"><h1 class="title">Notifications</h1></div>
 
-        <div class="v-modal-title">
-            <h1 class="title">
-                Notifications
-            </h1>
-        </div>
+                <!-- Close Button -->
+                <div class="v-close" @click="close" v-tooltip.bottom.end="{content: 'Close (esc)'}">
+                    <i class="v-icon block-before v-cancel" aria-hidden="true"></i>
+                </div>
+            </div>
+        </header>
 
-        <div class="container background-white">
-	    	<div class="v-push-9"></div>
-
+        <div class="middle background-white" :class="{'flex-center' : !Store.notifications || ! Store.notifications.length}">
             <div class="col-7">
                 <div class="user-select v-nth-box" v-if=" !Store.notifications || ! Store.notifications.length">
-                    <notification-icon width="250" height="250" class="margin-bottom-3 margin-top-5"></notification-icon>
+                    <notification-icon width="250" height="250" class="margin-bottom-3"></notification-icon>
 
                     <h3 class="no-notifications">
                     	Nope, not a thing!
