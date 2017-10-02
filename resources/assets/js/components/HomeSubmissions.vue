@@ -75,25 +75,8 @@
 	    	    return 'hot';
 	    	},
 
-			/**
-			 * Due to the issue with duplicate notifiactions (cuz the present ones have diffrent
-			 * timestamps) we need a different approch to make sure the list is always unique.
-			 * This ugly coded methods does it! Maybe move this to the Helpers.js mixin?!
-			 *
-			 * @return array
-			 */
 			uniqueList() {
-				let unique = []
-				let temp = []
-
-				this.submissions.forEach(function(element, index, self) {
-					if (temp.indexOf(element.id) === -1) {
-						unique.push(element)
-						temp.push(element.id)
-					}
-				})
-
-				return unique
+				return _.uniq(this.submissions);
 			}
 		},
 
@@ -144,17 +127,17 @@
 		                filter: Store.feedFilter
 				    }
 	            }).then((response) => {
-					this.submissions = [...this.submissions, ...response.data.data]
+					this.submissions = [...this.submissions, ...response.data.data]; 
 
 					if (!this.submissions.length) {
-						this.nothingFound = true
+						this.nothingFound = true; 
 					}
 
 					if (response.data.next_page_url == null) {
-						this.NoMoreItems = true
+						this.NoMoreItems = true; 
 					}
 
-					this.loading = false
+					this.loading = false;
 	            })
 	        },
 

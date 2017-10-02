@@ -52,11 +52,6 @@ export default {
 	},
 
 	computed: {
-		/**
-    	 * the sort of the page
-    	 *
-    	 * @return string
-    	 */
     	sort() {
     	    if (this.$route.query.sort == 'new')
     	    	return 'new';
@@ -67,25 +62,8 @@ export default {
     	    return 'hot';
     	},
 
-		/**
-		 * Due to the issue with duplicate notifiactions (cuz the present ones have diffrent
-		 * timestamps) we need a different approch to make sure the list is always unique.
-		 * This ugly coded methods does it! Maybe move this to the Helpers.js mixin?!
-		 *
-		 * @return array
-		 */
 		uniqueList() {
-			let unique = []
-			let temp = []
-
-			this.submissions.forEach(function(element, index, self) {
-				if (temp.indexOf(element.id) === -1) {
-					unique.push(element)
-					temp.push(element.id)
-				}
-			})
-
-			return unique
+			return _.uniq(this.submissions);
 		}
 	},
 
