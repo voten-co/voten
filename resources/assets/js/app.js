@@ -34,7 +34,8 @@ window.Store = {
     messages: [],
     contacts: [],
 
-    contentRouter: 'content',
+    // contentRouter: 'content',
+    contentRouter: 'notifications',
     feedFilter: '',
     sidebarFilter: '',
 
