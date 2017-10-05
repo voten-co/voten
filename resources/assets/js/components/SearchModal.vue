@@ -47,20 +47,20 @@
 				</ul>
 			</div>
 
-            <div class="ui contacts search">
-                <div class="ui huge icon input">
-                    <input class="v-search" v-model="filter" type="text"
-						   :placeholder="placeholder"
-						   v-on:input="search(filter)" v-focus="focused" @focus="focused = true">
+            <!--<div class="ui contacts search">-->
+                <!--<div class="ui huge icon input">-->
+                    <!--<input class="v-search" v-model="filter" type="text"-->
+						   <!--:placeholder="placeholder"-->
+						   <!--v-on:input="search(filter)" v-focus="focused" @focus="focused = true">-->
 
-					<i v-show="!loading" class="v-icon v-search search icon"></i>
-		        	<moon-loader :loading="loading" :size="'30px'" :color="'#777'"></moon-loader>
-                </div>
-            </div>
+					<!--<i v-show="!loading" class="v-icon v-search search icon"></i>-->
+		        	<!--<moon-loader :loading="loading" :size="'30px'" :color="'#777'"></moon-loader>-->
+                <!--</div>-->
+            <!--</div>-->
 	    </div>
 
 	    <div class="container">
-	    	<div class="v-push-20"></div>
+	    	<div class="v-push-15"></div>
 
 	        <div class="col-7">
 	            <ul class="v-contact-list" v-if="type == 'Categories'">
@@ -108,13 +108,8 @@ import SearchIcon from '../components/Icons/SearchIcon.vue';
 import Submission from '../components/Submission.vue';
 import Comment from '../components/Comment.vue';
 import MoonLoader from '../components/MoonLoader.vue';
-import { focus } from 'vue-focus';
 
 export default {
-	directives: {
-		focus: focus
-	},
-
 	components: {
 		CategorySearchItem,
 		Comment,
@@ -128,7 +123,6 @@ export default {
 
 	data: function () {
 		return {
-			focused: true,
 			filter: '',
 			result: [],
 			loading: false,
@@ -140,6 +134,10 @@ export default {
 		}
 	},
 
+	created() {
+        this.$eventHub.$on('search-header', this.search);
+    },
+
 	mounted: function () {
 		this.$nextTick(function () {
             if (this.$route.query.search) {
@@ -149,7 +147,6 @@ export default {
             }
 		})
 	},
-
 
 	computed: {
 		noSubmissions() {
@@ -192,31 +189,35 @@ export default {
 	methods: {
 		/**
     	 * Gets the data with ajax call and put it in the correct array
+		 *
+		 * @return void
     	 */
-		search: _.debounce(function () {
-			if(!this.filter.trim()) return
+		search: _.debounce(function (filter = null) {
+            this.filter = filter;
+
+			if(! this.filter.trim()) return;
 
 			this.loading = true;
 
 			axios.get('/search', {
 				params: {
 	                type: this.type,
-	                searched: this.filter,
+	                searched: filter,
 				}
             }).then((response) => {
-            	if( this.type == 'Categories' ) {
+            	if (this.type == 'Categories') {
             		this.categories = response.data;
             	}
 
-            	if( this.type == 'Users' ) {
+            	if (this.type == 'Users') {
             		this.users = response.data;
             	}
 
-            	if( this.type == 'Comments' ) {
+            	if (this.type == 'Comments') {
             		this.comments = response.data;
             	}
 
-            	if( this.type == 'Submissions' ) {
+            	if (this.type == 'Submissions') {
             		this.submissions = response.data;
             	}
 
@@ -227,14 +228,15 @@ export default {
 		}, 600),
 
 		/**
-    	 * Changes the type of the search
+    	 * Changes the type of the search.
+		 *
     	 * @return void
     	 */
     	changeType: function (type) {
-    		if(this.type == type) return
+    		if(this.type == type) return;
 
-			this.type = type
-			this.search()
+			this.type = type;
+			this.search(this.filter);
 		},
 
     	/**
@@ -242,8 +244,8 @@ export default {
     	 *
     	 * @return void
     	 */
-    	close () {
-    		this.$eventHub.$emit('close')
+    	close() {
+    		this.$eventHub.$emit('close');
     	}
 	}
 }

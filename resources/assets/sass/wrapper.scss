@@ -66,20 +66,19 @@
             color: #404040;
         }
     }
-}
 
-.v-modal .sub-title {
-    color: #777;
-    margin-bottom: 3em;
-    font-weight: 400;
-    margin-left: 2em;
-    margin-top: 0;
+    .sub-title {
+        color: #777;
+        font-weight: 400;
+    }
+
+    .buttons {
+        display: flex;
+        flex-direction: row-reverse;
+    }
 }
 
 .v-modal .v-back {
-    position: fixed;
-    top: 2.3em;
-    right: 5em;
     font-size: 33px;
     color: #777;
     cursor: pointer;
@@ -98,9 +97,6 @@
 }
 
 .v-modal .v-more-actions {
-    position: fixed;
-    top: 2.3em;
-    right: 3em;
     font-size: 33px;
     color: #777;
     cursor: pointer;
@@ -119,9 +115,6 @@
 }
 
 .v-modal .v-delete-button {
-    position: fixed;
-    top: 2.3em;
-    right: 7em;
     font-size: 33px;
     color: $red-color;
     cursor: pointer;
@@ -257,6 +250,7 @@
     justify-content: center;
     background-color: white;
     color: #333;
+    opacity: .2;
 }
 
 .side-fixed hr {
@@ -309,37 +303,10 @@
     font-size: 43px;
 }
 
-.v-modal-search-box {
-    position: fixed;
-    top: 11em;
-    right: 1em;
-    left: 20em;
-    background: #fff;
-    z-index: 100;
-}
-
-.left-1 {
-    left: 1em;
-}
-
 //.v-modal .col-7 {
 //    margin-bottom: auto;
 //}
 
-.v-push-15 {
-    height: 15em;
-    display: inline-table;
-}
-
-.v-push-15 {
-    height: 15em;
-    display: inline-table;
-}
-
-.v-push-9 {
-    height: 9em;
-    display: inline-table;
-}
 
 .background-white {
     background: #fff;

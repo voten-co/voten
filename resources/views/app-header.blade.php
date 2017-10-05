@@ -3,10 +3,6 @@
 		<vui-menu-button :checked="sidebar"></vui-menu-button>
 	</div>
 
-    <router-link :to="{ path: '/' }" class="desktop-only">
-        <img src="/imgs/voten-beta.svg" alt="Voten" @click="homeRoute" class="logo-voten">
-    </router-link>
-
     <div class="flex-display">
         <div class="dropdown head-notification-icons">
         	@if(Auth::check())
@@ -27,10 +23,6 @@
 	        	</button>
         	@endif
 
-            <button type="button" class="btn-nth relative"  v-tooltip="{content:'Search', offset: 8}" @click="changeRoute('search')">
-           		<i class="v-icon v-search-3" aria-hidden="true"></i>
-            </button>
-
 			<router-link :to="'/'" class="btn-nth relative" v-tooltip="{content:'Home (H)', offset: 8}">
            		<i class="v-icon v-home" aria-hidden="true" @click="homeRoute"></i>
             </router-link>
@@ -40,10 +32,26 @@
 					<i class="v-icon v-dashboard" aria-hidden="true"></i>
 				</a>
 			@endif
+
+			{{--<button type="button" class="btn-nth relative"  v-tooltip="{content:'Search', offset: 8}" @click="changeRoute('search')">--}}
+			{{--<i class="v-icon v-search-3" aria-hidden="true"></i>--}}
+			{{--</button>--}}
+
+			{{-- Search --}}
+			<div class="ui search header-box-search" @click="changeRoute('search')">
+				<div class="ui mini icon input">
+					<input class="prompt" type="text"
+						   v-model="searchHeaderFilter"
+						   v-on:input="searchHeader(searchHeaderFilter)"
+						   placeholder="Search..."
+					>
+					<i class="v-icon v-search-3 search icon"></i>
+				</div>
+			</div>
         </div>
 
 		@if(Auth::check())
-	        <div class="ui icon top right green pointing dropdown pull-right" id="more-button">
+	        <div class="ui icon top right green pointing dropdown flex-display" id="more-button">
 				<i class="v-icon v-more-vertical"></i>
 
 	            <div class="menu">
@@ -92,8 +100,10 @@
 							<i class="v-icon v-more"></i>
 
 							<div class="left menu">
-								<router-link :to="'/c/' + item.name" class="item" v-for="(item, index) in Store.moderatingCategories"
-											 :key="item.id" v-if="index > 6">
+								<router-link :to="'/c/' + item.name" class="item"
+											 v-for="(item, index) in Store.moderatingCategories"
+											 :key="item.id" v-if="index > 6"
+								>
 									<img class="square" :src="item.avatar" :alt="item.name">
 									@{{ item.name }}
 								</router-link>

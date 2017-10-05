@@ -7,12 +7,12 @@ export default {
     },
 
     computed: {
-    	/**
+        /**
          * Is the user a guest
          *
          * @return bool
          */
-        isGuest()
+        isGuest() 
         {
             return auth.isGuest;
         },
@@ -38,34 +38,34 @@ export default {
     },
 
     methods: {
-    	/**
-    	 * sets the page title
-    	 *
-    	 * @param string title
-    	 * @param bool explicit
-    	 * @return void
-    	 */
-    	setPageTitle(title, explicit = false)
-    	{
-    		if (explicit == true) {
-    			document.title = title;
-    			return;
-    		}
+        /**
+         * sets the page title
+         *
+         * @param string title
+         * @param bool explicit
+         * @return void
+         */
+        setPageTitle(title, explicit = false)
+        {
+            if (explicit == true) {
+                document.title = title;
+                return;
+            }
 
-    	    document.title = title + ' - Voten';
-    	},
+            document.title = title + ' - Voten';
+        },
 
-    	/**
-    	 * the user must be login other wise rais a warning
-    	 *
-    	 * @return void
-    	 */
-    	mustBeLogin()
-    	{
-    		if (!this.isGuest) return;
+        /**
+         * the user must be login other wise rais a warning
+         *
+         * @return void
+         */
+        mustBeLogin()
+        {
+            if (!this.isGuest) return;
 
-    		this.$eventHub.$emit('login-modal');
-    	},
+            this.$eventHub.$emit('login-modal');
+        },
 
         /**
          * simulates Laravel's str_limit in JS

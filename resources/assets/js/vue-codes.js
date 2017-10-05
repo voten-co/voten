@@ -92,7 +92,8 @@ const app = new Vue({
         reportCommentId: '',
         sidebar: true,
         sortFilter: 'hot',
-        pageTitle: document.title
+        pageTitle: document.title,
+        searchHeaderFilter: ''
     },
 
     computed: {
@@ -166,6 +167,10 @@ const app = new Vue({
     },
 
     methods: {
+        searchHeader(keyword) {
+            this.$eventHub.$emit('search-header', keyword);
+        },
+
         openMarkdownGuide() {
             this.changeModalRoute('markdown-guide')
         },
@@ -511,40 +516,41 @@ const app = new Vue({
          * @return void
          */
         changeModalRoute(newRoute) {
-            this.closeModals()
-            this.modalRouter = newRoute
+            this.closeModals();
+            this.modalRouter = newRoute;
         },
 
         // Used for keyup.esc
         closeModals() {
-            Store.contentRouter = 'content'
-            this.modalRouter = ''
+            this.searchHeaderFilter = '';
+            Store.contentRouter = 'content';
+            this.modalRouter = '';
         },
 
         // Displays a smallModal containing category rules
         categoryRules() {
-            this.modalRouter = 'rules'
+            this.modalRouter = 'rules';
         },
 
         // Displays the login modal
         loginModal() {
-            this.modalRouter = 'login'
+            this.modalRouter = 'login';
         },
 
         // Displays a smallModal containing category moderators
         categoryModerators() {
-            this.modalRouter = 'moderators'
+            this.modalRouter = 'moderators';
         },
 
         // Tells the component (that contains submissions) to change the sort method.
         sortBy(sort, event) {
             if (this.sortFilter == sort) {
-                return
+                return;
             }
 
-            event.preventDefault()
-            this.sortFilter = sort
-            this.$eventHub.$emit('sort-by', sort)
+            event.preventDefault();
+            this.sortFilter = sort;
+            this.$eventHub.$emit('sort-by', sort);
         },
 
         /**
@@ -556,21 +562,21 @@ const app = new Vue({
         keydown(event){
             // esc
             if (event.keyCode == 27) {
-                this.closeModals()
+                this.closeModals();
             }
 
             // all shortcuts after this one need to be prevented if user is typing
-            if (this.isTyping(event)) return
+            if (this.isTyping(event)) return;
 
             // alt + s == event.altKey && event.keyCode == 83
         	if (event.altKey && event.keyCode == 83) { // alt + s
-        		this.$router.push('/submit')
-        		return
+        		this.$router.push('/submit');
+        		return;
         	}
 
         	if (event.altKey && event.keyCode == 67) { // alt + c
-        		this.$router.push('/channel')
-        		return
+        		this.$router.push('/channel');
+        		return;
         	}
 
         	if(event.shiftKey && event.keyCode == 191){ // shift + /
@@ -580,45 +586,45 @@ const app = new Vue({
 
         	switch(event.keyCode) {
                 case 83: // "s"
-			        this.toggleSidebar()
-			        break
+			        this.toggleSidebar();
+			        break;
 			    case 78: // "n"
 			    	if (this.isGuest) break;
 
-			        this.changeRoute('notifications')
-			        break
+			        this.changeRoute('notifications');
+			        break;
 		        case 77: // "m"
 		        	if (this.isGuest) break;
 
-			        this.changeRoute('messages')
-			        break
+			        this.changeRoute('messages');
+			        break;
     	        case 191: // "/"
-    	        	event.preventDefault()
-			        this.changeRoute('search')
-			        break
+    	        	event.preventDefault();
+			        this.changeRoute('search');
+			        break;
     	        case 66: // "b"
     	        	if (this.isGuest) break;
 
-			        this.$router.push('/bookmarks')
-			        break
+			        this.$router.push('/bookmarks');
+			        break;
     	        case 72: // "h"
-			        this.$router.push('/')
-			        break
+			        this.$router.push('/');
+			        break;
     	        case 80: // "p"
-                    if (this.isGuest) break
+                    if (this.isGuest) break;
 
-			        this.$router.push('/@' + this.auth.username)
-			        break
+			        this.$router.push('/@' + this.auth.username);
+			        break;
     	        case 82: // "r"
-                    if (this.$route.name === 'home'){
-                        this.$eventHub.$emit('refresh-home')
-                    }else if(this.$route.name === 'category-submissions'){
-                        this.$eventHub.$emit('refresh-category-submissions')
+                    if (this.$route.name === 'home') {
+                        this.$eventHub.$emit('refresh-home');
+                    } else if(this.$route.name === 'category-submissions') {
+                        this.$eventHub.$emit('refresh-category-submissions');
                     }
 
-			        break
+			        break;
 			    default:
-			        return
+			        return;
 			}
         },
     },

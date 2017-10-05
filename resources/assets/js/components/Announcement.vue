@@ -3,7 +3,7 @@
 		<div class="announcement" v-for="(value, index) in announcements" :key="value.id" :class="background(index)">
 			<markdown :text="value.body" v-if="value.body"></markdown>
 
-			<i class="v-icon block-before v-cancel pointer" aria-hidden="true" @click="close(value.id)" v-tooltip.bottom="{content: 'Close'}"></i>
+			<i class="v-icon block-before v-cancel pointer" aria-hidden="true" @click="close(value.id)"></i>
 		</div>
 	</div>
 </template>
@@ -100,6 +100,6 @@
 	.announcement .v-cancel{
 		flex-basis: 65px;
 	    display: flex;
-	    justify-content: flex-end;
+	    justify-content: center;
 	}
 </style>

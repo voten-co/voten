@@ -111,6 +111,45 @@
     flex: 1;
 }
 
+.chat-input-form {
+    display: flex; 
+    border: 2px solid #a0a4a6;
+    background: #f7f7f7;
+    border-radius: 4px;
+
+    textarea {
+        flex: 1;
+        background: #f7f7f7;
+        border: none;
+        height: 43px;
+        resize: none;
+        font-size: 15px;
+        padding: 0.78571429em 0 0.78571429em 1em;
+        color: #111;
+        line-height: 1.2857;
+    }
+
+    .comment-emoji-button {
+        border: none;
+        color: #d8e2e7;
+        opacity: .5;
+
+        &:hover, 
+        &:focus {
+            opacity: 1;
+        }
+    }
+
+    button {
+        border: none;
+        background: #f7f7f7;
+        cursor: pointer; 
+        color: #bac0c3;
+    }
+}
+
+
+
 .v-message-input button {
     flex-basis: 5em;
     background: none;
@@ -220,11 +259,11 @@
     border: 0;
 }
 
-.v-message-input .emojiPicker-wrapper .ui.input {
+.chat-input-form .emojiPicker-wrapper .ui.input {
     font-size: 1em;
 }
 
-.v-message-input .flex-search input {
+.chat-input-form .flex-search input {
     font-size: 0.8em;
 }
 
@@ -235,4 +274,30 @@
 
 .v-message-badge i {
     font-size: 2em;
+}
+
+#v-contacts {
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+#v-messages {
+    flex: 1;
+
+    .messages-container {
+        flex: 1;
+        width: 100%;
+        overflow: auto;
+        padding: 1em 0;
+        flex: 1;
+    }
+
+    .no-messages {
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+    .chat-input-form {
+        margin-bottom: 1em;
+    }
 }

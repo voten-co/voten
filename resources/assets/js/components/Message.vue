@@ -12,7 +12,7 @@
 	    </div>
 
 	    <div class="m-actions user-select pointer" @click="$emit('select-message', list.id)">
-		    <time class="go-gray" v-tooltip.left="{content: 'Sent on: ' + longDate}">
+		    <time class="go-gray" v-tooltip.top.end="{content: 'Sent on: ' + longDate}">
 	        	{{ date }}
 	        </time>
 

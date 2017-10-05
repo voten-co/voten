@@ -132,6 +132,12 @@ img {
     text-align: center;
 }
 
+.flex-column-end {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
 .flex-space {
 	display: flex;
 	align-items: center;
@@ -196,6 +202,15 @@ img {
 
 .no-margin {
     margin: 0;
+}
+
+.no-padding {
+    padding: 0 !important;
+}
+
+.padding-sides-1 {
+    padding-right: 1em;
+    padding-left: 1em;
 }
 
 .margin-top-3 {
@@ -622,4 +637,8 @@ kbd {
 
 .padding-half-1 {
     padding: .5em 1em;
+}
+
+.overflow-auto {
+    overflow-y: auto;
 }

@@ -54,8 +54,8 @@
 
 	    watch: {
 			'$route': function () {
-				this.clearContent()
-				this.getSubmissions()
+				this.clearContent(); 
+				this.getSubmissions(); 
 			}
 		},
 

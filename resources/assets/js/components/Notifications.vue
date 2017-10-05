@@ -1,5 +1,5 @@
 <template>
-    <div class="v-modal">
+    <div class="v-modal" id="notifications">
         <header class="user-select">
             <div class="flex-space">
                 <!-- Modal Title -->
