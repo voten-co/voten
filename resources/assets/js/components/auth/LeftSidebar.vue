@@ -49,6 +49,12 @@
     export default {
         mixins: [Helpers, LocalStorage],
 
+        computed: {
+            submitURL() {
+                return this.$route.params.name ? "/submit?channel=" + this.$route.params.name : "/submit";
+            }
+        }, 
+
         components: {
             SubmitIcon,
             SettingsIcon,

@@ -38,7 +38,7 @@
             </div>
 
             <div class="ui category search side-box-search">
-                <div class="ui mini icon input margin-bottom-1">
+                <div class="ui mini icon input">
                     <input class="prompt" type="text" placeholder="Channels..." v-model="subscribedFilter">
                     <i class="v-icon v-search search icon"></i>
                 </div>
@@ -96,10 +96,6 @@
         computed: {
             filter() {
                 return Store.sidebarFilter;
-            },
-
-            submitURL() {
-                return this.$route.params.name ? "/submit?channel=" + this.$route.params.name : "/submit";
             },
 
             sortedSubscribeds() {
