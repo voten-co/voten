@@ -1,20 +1,3 @@
-
-.v-side {
-    color: #fff;
-    flex-basis: 20em;
-    z-index: 103;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-@media screen and (max-width: 768px) {
-    .v-side {
-        // display: none;
-        position: fixed;
-    }
-}
-
 .sidebar-avatar {
     padding-top: 3em;
 }
@@ -72,6 +55,7 @@
     flex-basis: 16em;
     display: flex;
     flex-direction: column;
+    border-left: 2px solid #e7e7e7;
 
     .search input {
         background-color: hsla(0, 0%, 87%, 0.6) !important;
@@ -95,12 +79,6 @@
         border-bottom: 2px solid #e7e7e7;
         padding: 1em;
         padding-bottom: 0;
-    }
-}
-
-@media (min-width: 768px) {
-    ::-webkit-scrollbar {
-        width: 5px;
     }
 }
 
