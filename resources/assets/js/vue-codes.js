@@ -20,7 +20,6 @@ import NotFound from './components/NotFound.vue';
 import Messages from './components/Messages.vue';
 import LocalStorage from './mixins/LocalStorage';
 import StoreStorage from './mixins/StoreStorage';
-import Sidebar from './components/Sidebar.vue';
 import LeftSidebar from './components/auth/LeftSidebar.vue';
 import RightSidebar from './components/auth/RightSidebar.vue';
 import Rules from './components/Rules.vue';
@@ -85,7 +84,6 @@ const app = new Vue({
         Dashboard,
         NotFound,
         Messages,
-        Sidebar,
         Rules,
     },
 
