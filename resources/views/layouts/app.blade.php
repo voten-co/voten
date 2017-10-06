@@ -33,23 +33,31 @@
 @include('google-analytics')
 
 <div id="voten-app" :class="{ 'background-white': Store.contentRouter != 'content' }">
-    @include('app-header')
+    {{--  @include('app-header')  --}}
+    
+    
 
     <div class="v-content-wrapper" :class="{ 'v-blur v-blur-wrapper': smallModal }">
-        <div class="v-side {{ settings('sidebar_color') }}" v-show="sidebar">
-            <sidebar></sidebar>
-        </div>
+        <left-sidebar></left-sidebar>
 
-        <notifications v-show="Store.contentRouter == 'notifications'"></notifications>
-        <messages v-show="Store.contentRouter == 'messages'" :sidebar="sidebar"></messages>
-        <search-modal v-if="Store.contentRouter == 'search'" :sidebar="sidebar"></search-modal>
+        <!-- <div class="v-side {{ settings('sidebar_color') }}" v-show="sidebar">
+            <sidebar></sidebar>
+        </div> -->
+
+        <!-- <notifications v-show="Store.contentRouter == 'notifications'"></notifications> -->
+        <!-- <messages v-show="Store.contentRouter == 'messages'" :sidebar="sidebar"></messages> -->
+        <!-- <search-modal v-if="Store.contentRouter == 'search'" :sidebar="sidebar"></search-modal> -->
 
         <div class="v-content" id="v-content" v-show="Store.contentRouter == 'content'" @scroll="scrolled">
             @yield('content')
         </div>
+
+        <right-sidebar></right-sidebar>
     </div>
 
-    <scroll-button></scroll-button>
+    
+
+    <!-- <scroll-button></scroll-button>
 
     <report-submission v-if="modalRouter == 'report-submission'" :submission="reportSubmissionId" :category="reportCategory" :sidebar="sidebar"></report-submission>
     <report-comment v-if="modalRouter == 'report-comment'" :comment="reportCommentId" :category="reportCategory" :sidebar="sidebar"></report-comment>
@@ -58,7 +66,7 @@
     <keyboard-shortcuts-guide v-if="modalRouter == 'keyboard-shortcuts-guide'" :sidebar="sidebar"></keyboard-shortcuts-guide>
     <markdown-guide v-if="modalRouter == 'markdown-guide'" :sidebar="sidebar"></markdown-guide>
     <crop-modal v-if="modalRouter == 'crop-user'" :sidebar="sidebar" :type="'user'"></crop-modal>
-    <crop-modal v-if="modalRouter == 'crop-category'" :sidebar="sidebar" :type="'category'"></crop-modal>
+    <crop-modal v-if="modalRouter == 'crop-category'" :sidebar="sidebar" :type="'category'"></crop-modal> -->
 </div>
 
 @include('php-to-js-data')

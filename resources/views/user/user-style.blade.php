@@ -233,8 +233,10 @@
 	        	border-color: rgba(199, 199, 199, 0.63) rgba(189, 189, 189, 0.68) rgba(211, 211, 211, 0.95);
 	        }
 	        .menu-list a:hover,
+	        .menu-list a:focus,
 			.menu-list .active {
-	        	background-color: #92989f;
+	        	background-color: #e2e2e2;
+				color: #000;
 	        }
 	        .side-fixed hr{
 				border-top: 1px solid rgba(35, 35, 35, 0.14);

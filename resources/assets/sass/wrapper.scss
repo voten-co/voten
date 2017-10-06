@@ -5,7 +5,6 @@
 
 .v-content {
     flex: 1;
-    margin-top: 62px;
     max-width: 100%;
     overflow-y: scroll;
 }
@@ -15,9 +14,6 @@
     flex-direction: column;
     flex: 1;
     background: #fff;
-    //align-items: center;
-    //justify-content: center;
-    //height: 100%;
     margin-top: 62px;
     overflow: hidden;
 
@@ -192,31 +188,6 @@
 }
 // end bulma menu
 
-.v-side aside {
-    //padding-right: 1em;
-    //padding-top: 0;
-}
-
-.v-side aside img {
-    width: 28px;
-    height: 28px;
-}
-
-.v-side aside .ui.icon.input input {
-    background: inherit;
-    color: #fff;
-    font-size: 0.9em;
-    border: 1.5px dashed rgba(255, 255, 255, 0.38);
-}
-
-.v-side .profile-card-name a {
-    color: inherit;
-}
-
-.side-box-search {
-    margin-bottom: 1em;
-    margin-top: .5em;
-}
 
 .menu-list {
     list-style: none;
@@ -257,7 +228,7 @@
     border-top: 1px solid rgba(192, 192, 192, 0.14);
 }
 
-,
+
 .side-fixed a,
 .side-fixed a:focus,
 .side-fixed a:hover {
@@ -266,30 +237,6 @@
 
 .side-fixed a:hover {
     font-weight: 600;
-}
-
-.v-side-quick-actions {
-    padding: 1em 1em 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.v-side-quick-actions i {
-    text-align: center;
-    font-size: 22px;
-    cursor: pointer;
-    padding: 1em;
-    width: 50px;
-    height: 50px;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.v-side-quick-actions i:hover {
-    background: rgba(115, 115, 115, 0.32);
 }
 
 .no-subscription {
@@ -302,11 +249,6 @@
 .no-subscription i {
     font-size: 43px;
 }
-
-//.v-modal .col-7 {
-//    margin-bottom: auto;
-//}
-
 
 .background-white {
     background: #fff;

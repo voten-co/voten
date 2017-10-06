@@ -21,6 +21,8 @@ import Messages from './components/Messages.vue';
 import LocalStorage from './mixins/LocalStorage';
 import StoreStorage from './mixins/StoreStorage';
 import Sidebar from './components/Sidebar.vue';
+import LeftSidebar from './components/auth/LeftSidebar.vue';
+import RightSidebar from './components/auth/RightSidebar.vue';
 import Rules from './components/Rules.vue';
 import Helpers from './mixins/Helpers';
 import autosize from 'autosize';
@@ -70,8 +72,10 @@ const app = new Vue({
         ReportComment,
         Notifications,
         VuiMenuButton,
+        RightSidebar, 
         ScrollButton,
         GuestSidebar,
+        LeftSidebar, 
         SearchModal,
         LoginModal,
         AvatarEdit,

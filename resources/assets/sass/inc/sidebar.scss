@@ -28,6 +28,82 @@
     border-color: rgba(255, 255, 255, 0.38) hsla(0, 0%, 74%, 0.68) rgba(159, 159, 159, 0.95);
 }
 
+.sidebar-left {
+    flex-basis: 4em;
+    background: #333;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1em;
+
+    .active:before {
+        background: #fff;
+        height: 30px;
+        margin-top: -15px;
+        -webkit-transition: height .25s ease-in-out,margin-top .25s ease-in-out;
+        transition: height .25s ease-in-out,margin-top .25s ease-in-out;
+        border-radius: 2px;
+        content: " ";
+        left: -6px;
+        position: absolute;
+        top: 50%;
+        width: 10px;
+    }
+
+    .item {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 60px;
+        position: relative;
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 1px solid #9f9f9f;
+        }
+    }
+}
+
+.sidebar-right {
+    flex-basis: 16em;
+    display: flex;
+    flex-direction: column;
+
+    .search input {
+        background-color: hsla(0, 0%, 87%, 0.6) !important;
+        border: none !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+    }
+
+    aside {
+        padding: 1em;
+        overflow-y: scroll;
+        height: 100%;
+
+        img {
+            width: 28px;
+            height: 28px;
+        }
+    }
+
+    .fixed-header {
+        border-bottom: 2px solid #e7e7e7;
+        padding: 1em;
+        padding-bottom: 0;
+    }
+}
+
+@media (min-width: 768px) {
+    ::-webkit-scrollbar {
+        width: 5px;
+    }
+}
+
 .side-fixed {
     background: linear-gradient(#343d5a, #49516b);
     position: fixed;
@@ -36,77 +112,6 @@
     width: 20em;
     display: flex;
     justify-content: space-between;
-
-    .sidebar-left {
-        flex-basis: 4em;
-        background: #333;
-        color: #fff;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding-top: 1em;
-
-        .active:before {
-            background: #fff;
-            height: 30px;
-            margin-top: -15px;
-            -webkit-transition: height .25s ease-in-out,margin-top .25s ease-in-out;
-            transition: height .25s ease-in-out,margin-top .25s ease-in-out;
-            border-radius: 2px;
-            content: " ";
-            left: -6px;
-            position: absolute;
-            top: 50%;
-            width: 10px;
-        }
-
-        .item {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 60px;
-            position: relative;
-
-            .avatar {
-                width: 42px;
-                height: 42px;
-                border-radius: 50%;
-                border: 1px solid #9f9f9f;
-            }
-        }
-    }
-
-    @media (min-width: 768px) {
-        ::-webkit-scrollbar {
-            width: 5px;
-        }
-    }
-
-    .sidebar-right {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-
-        .search input {
-            background-color: hsla(0, 0%, 87%, 0.6) !important;
-            border: none !important;
-            font-size: 14px !important;
-            font-weight: 600 !important;
-        }
-
-        aside {
-            padding: 1em;
-            overflow-y: scroll;
-            height: 100%;
-        }
-
-        .fixed-header {
-            border-bottom: 2px solid #e7e7e7;
-            padding: 1em;
-            padding-bottom: 0;
-        }
-    }
 }
 
 .sidebar-copyright {
@@ -166,10 +171,12 @@
                 svg {
                     margin-right: .5em;
                 }
-            }
 
-            a:hover {
-                background: #d3d3d3;
+                &:hover, 
+                &:focus {
+                    background: #d3d3d3;
+                    color: #000;
+                }
             }
 
             .active {
@@ -183,4 +190,9 @@
 .flex-right {
     display: flex;
     flex-direction: row-reverse;
+}
+
+.side-box-search {
+    margin-bottom: 1em;
+    margin-top: .5em;
 }
