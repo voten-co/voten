@@ -1,36 +1,41 @@
 <template>
     <div class="sidebar-left">
-        <router-link :to="'/' + '@' + auth.username" :class="{ 'active': ($route.name == 'user-submissions' || $route.name == 'user-comments' || $route.name == 'user-upvotes' || $route.name == 'user-downvotes') }" class="item" v-tooltip.right="{content: 'Profile', offset: 0}">
+        <!-- profile -->
+        <a @click="pushRouter('/' + '@' + auth.username)" :class="{ 'active': activeRoute === 'user-settings'}" class="item" v-tooltip.right="{content: 'Profile', offset: 0}">
             <img :src="auth.avatar" :alt="auth.username" class="avatar">
-        </router-link>
+        </a>
 
-        <router-link :to="'/'" :class="{ 'active': $route.name == 'home' }" class="item" v-tooltip.right="{content: 'Home Feed', offset: 0}">
+        <!-- Home -->
+        <a @click="pushRouter('/')" :class="{ 'active': activeRoute === 'home' }" class="item" v-tooltip.right="{content: 'Home Feed (H)', offset: 0}">
             <i class="v-icon v-home" aria-hidden="true"></i>
-        </router-link>
-
-        <router-link :to="{ path: '/bookmarks' }" active-class="active" class="item" v-tooltip.right="{content: 'Bookmarks', offset: 0}">
-            <i class="v-icon v-bookmark" aria-hidden="true"></i>
-        </router-link>
+        </a>
         
-        <router-link :to="{ path: '/find-channels' }" active-class="active" class="item" v-tooltip.right="{content: 'Find Channels', offset: 0}">
-            <i class="v-icon v-search-3" aria-hidden="true"></i>            
-        </router-link>
-<!-- 
-        <router-link :to="{ path: submitURL }" active-class="active" class="item" v-tooltip.right="{content: 'Submit Content', offset: 0}">
-            <submit-icon width="30" height="30"></submit-icon>
-        </router-link>
+        <!-- Notifications -->
+        <a class="item" :class="{'active' : activeRoute === 'notifications'}"
+            v-tooltip="{content:'Notifications (N)', offset: 8}" @click="changeRoute('notifications')"
+        >
+            <i class="v-icon v-bell-2" aria-hidden="true"></i>
+            <span class="queue-number" v-show="unreadNotifications" v-text="unreadNotifications"></span>
+        </a>
+            
+        <!-- Messages Inbox -->
+        <a class="item" id="messages-btn" :class="{'active' : activeRoute === 'messages'}" 
+            @click="changeRoute('messages')" v-tooltip="{content:'Messages (M)', offset: 8}"
+        >
+            <i class="v-icon v-inbox" aria-hidden="true"></i>
+            <span class="queue-number" v-show="unreadMessages" v-text="unreadMessages"></span>
+        </a>
 
-        <router-link :to="{ path: '/@' + auth.username + '/settings' }" active-class="active" class="item" v-tooltip.right="{content: 'Settings', offset: 0}">
-            <settings-icon width="30" height="30"></settings-icon>
-        </router-link>
-
-        <router-link :to="{ path: '/channel' }" active-class="active" class="item" v-tooltip.right="{content: 'Create New Channel', offset: 0}">
-            <channel-icon width="30" height="30"></channel-icon>
-        </router-link>
-
-        <router-link :to="{ path: '/live' }" active-class="active" class="item" v-tooltip.right="{content: 'Live (coming soon)', offset: 0}">
-            <chat-icon width="30" height="30"></chat-icon>
-        </router-link> -->
+        <!-- Bookmarks -->
+        <a @click="pushRouter('/bookmarks')" class="item" :class="{'active' : activeRoute === 'bookmarks'}" v-tooltip.right="{content: 'Bookmarks (B)', offset: 0}">
+            <i class="v-icon v-bookmark" aria-hidden="true"></i>
+        </a>
+            
+        <!-- Search -->
+        <a class="item" v-tooltip="{content:'Search (/)', offset: 8}" @click="changeRoute('search')"
+            :class="{'active' : contentRoute === 'search'}">
+            <i class="v-icon v-search-3" aria-hidden="true"></i>
+        </a>
     </div>
 </template>
 
@@ -64,6 +69,62 @@
             ChannelIcon,
             ProfileIcon,
             HomeIcon
+        }, 
+
+        computed: {
+            contentRoute() {
+                return Store.contentRouter; 
+            }, 
+
+            activeRoute() {
+                if (this.contentRoute === 'messages') {
+                    return 'messages';
+                }
+
+                if (this.contentRoute === 'notifications') {
+                    return 'notifications';
+                }
+
+                if (this.contentRoute === 'search') {
+                    return 'search';
+                }
+
+                if (this.$route.name === 'home') {
+                    return 'home';
+                }
+
+                if (this.$route.name === 'bookmarked-submissions' || this.$route.name === 'bookmarked-comments' || this.$route.name === 'bookmarked-users' || this.$route.name === 'bookmarked-categories') {
+                    return 'bookmarks';
+                }
+
+                if (this.$route.name === 'user-settings') {
+                    return 'user-settings';
+                }
+            }, 
+
+            unreadNotifications() {
+                return Store.notifications.filter(function(item) {
+                    return item.read_at == null;
+                }).length;
+            },
+
+            unreadMessages() {
+                return Store.contacts.filter(function(item) {
+                    return item.last_message.owner.id != auth.id && item.last_message.read_at == null;
+                }).length;
+            },
+        }, 
+
+        methods: {
+            changeRoute(route) {
+                this.$eventHub.$emit('change-route', route);
+            }, 
+
+            pushRouter(route) {
+                this.$eventHub.$emit('close');
+                
+                this.$router.push(route);
+            }
         }
     }
 </script>

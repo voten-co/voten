@@ -114,6 +114,22 @@ const app = new Vue({
                 return item.last_message.owner.id != auth.id && item.last_message.read_at == null;
             }).length;
         },
+
+        showRightSidebar() {
+            if (Store.contentRouter === 'notifications') {
+                return false;
+            }
+            
+            if (Store.contentRouter === 'messages') {
+                return false;
+            }
+            
+            if (Store.contentRouter === 'search') {
+                return false;
+            }
+
+            return true;
+        }
     },
 
 
@@ -148,11 +164,12 @@ const app = new Vue({
         this.$eventHub.$on('new-modal', this.newModal);
         this.$eventHub.$on('rules', this.categoryRules);
         this.$eventHub.$on('login-modal', this.loginModal);
+        this.$eventHub.$on('change-route', this.changeRoute);
         this.$eventHub.$on('category-sort', this.categorySort);
         this.$eventHub.$on('report-comment', this.reportComment);
         this.$eventHub.$on('moderators', this.categoryModerators);
-        this.$eventHub.$on('markdown-guide', this.openMarkdownGuide);
         this.$eventHub.$on('crop-user-photo', this.cropUserModal);
+        this.$eventHub.$on('markdown-guide', this.openMarkdownGuide);
         this.$eventHub.$on('push-notification', this.pushNotification)
         this.$eventHub.$on('crop-category-photo', this.cropCategoryModal);
         this.$eventHub.$on('mark-notifications-read', this.markAllNotificationsAsRead);

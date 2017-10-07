@@ -18,7 +18,7 @@
                     <notification-icon width="250" height="250" class="margin-bottom-3"></notification-icon>
 
                     <h3 class="no-notifications">
-                    	Nope, not a thing!
+                    	No notifications here yet
                     </h3>
                 </div>
 

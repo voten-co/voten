@@ -33,21 +33,9 @@
 				</a>
 			@endif
 
-			{{--<button type="button" class="btn-nth relative"  v-tooltip="{content:'Search', offset: 8}" @click="changeRoute('search')">--}}
-			{{--<i class="v-icon v-search-3" aria-hidden="true"></i>--}}
-			{{--</button>--}}
-
-			{{-- Search --}}
-			<div class="ui search header-box-search" @click="changeRoute('search')">
-				<div class="ui mini icon input">
-					<input class="prompt" type="text"
-						   v-model="searchHeaderFilter"
-						   v-on:input="searchHeader(searchHeaderFilter)"
-						   placeholder="Search..."
-					>
-					<i class="v-icon v-search-3 search icon"></i>
-				</div>
-			</div>
+			<button type="button" class="btn-nth relative"  v-tooltip="{content:'Search', offset: 8}" @click="changeRoute('search')">
+				<i class="v-icon v-search-3" aria-hidden="true"></i>
+			</button>
         </div>
 
 		@if(Auth::check())
