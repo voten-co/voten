@@ -44,9 +44,9 @@
             <sidebar></sidebar>
         </div> -->
 
-        <!-- <notifications v-show="Store.contentRouter == 'notifications'"></notifications> -->
-        <!-- <messages v-show="Store.contentRouter == 'messages'" :sidebar="sidebar"></messages> -->
-        <!-- <search-modal v-if="Store.contentRouter == 'search'" :sidebar="sidebar"></search-modal> -->
+        <notifications v-show="Store.contentRouter == 'notifications'"></notifications>
+        <messages v-show="Store.contentRouter == 'messages'" :sidebar="sidebar"></messages>
+        <search-modal v-if="Store.contentRouter == 'search'" :sidebar="sidebar"></search-modal>
 
         <div class="v-content" id="v-content" v-show="Store.contentRouter == 'content'" @scroll="scrolled">
             @yield('content')

@@ -20,6 +20,10 @@
     align-items: center;
     padding-top: 1em;
 
+    i {
+        color: #fff;
+    }
+
     .active:before {
         background: #fff;
         height: 30px;
@@ -56,6 +60,7 @@
     display: flex;
     flex-direction: column;
     border-left: 2px solid #e7e7e7;
+    background: #f4f5f7;
 
     .search input {
         background-color: hsla(0, 0%, 87%, 0.6) !important;

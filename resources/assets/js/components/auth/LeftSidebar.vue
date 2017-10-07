@@ -5,13 +5,17 @@
         </router-link>
 
         <router-link :to="'/'" :class="{ 'active': $route.name == 'home' }" class="item" v-tooltip.right="{content: 'Home Feed', offset: 0}">
-            <home-icon width="30" height="30"></home-icon>
+            <i class="v-icon v-home" aria-hidden="true"></i>
         </router-link>
 
         <router-link :to="{ path: '/bookmarks' }" active-class="active" class="item" v-tooltip.right="{content: 'Bookmarks', offset: 0}">
-            <bookmark-icon width="30" height="30"></bookmark-icon>
+            <i class="v-icon v-bookmark" aria-hidden="true"></i>
         </router-link>
-
+        
+        <router-link :to="{ path: '/find-channels' }" active-class="active" class="item" v-tooltip.right="{content: 'Find Channels', offset: 0}">
+            <i class="v-icon v-search-3" aria-hidden="true"></i>            
+        </router-link>
+<!-- 
         <router-link :to="{ path: submitURL }" active-class="active" class="item" v-tooltip.right="{content: 'Submit Content', offset: 0}">
             <submit-icon width="30" height="30"></submit-icon>
         </router-link>
@@ -20,17 +24,13 @@
             <settings-icon width="30" height="30"></settings-icon>
         </router-link>
 
-        <router-link :to="{ path: '/find-channels' }" active-class="active" class="item" v-tooltip.right="{content: 'Find Channels', offset: 0}">
-            <search-icon width="30" height="30"></search-icon>
-        </router-link>
-
         <router-link :to="{ path: '/channel' }" active-class="active" class="item" v-tooltip.right="{content: 'Create New Channel', offset: 0}">
             <channel-icon width="30" height="30"></channel-icon>
         </router-link>
 
         <router-link :to="{ path: '/live' }" active-class="active" class="item" v-tooltip.right="{content: 'Live (coming soon)', offset: 0}">
             <chat-icon width="30" height="30"></chat-icon>
-        </router-link>
+        </router-link> -->
     </div>
 </template>
 
