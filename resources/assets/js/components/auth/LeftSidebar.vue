@@ -119,15 +119,11 @@
             }, 
 
             unreadNotifications() {
-                return Store.notifications.filter(function(item) {
-                    return item.read_at == null;
-                }).length;
+                return Store.notifications.filter(item => item.read_at == null).length;
             },
 
             unreadMessages() {
-                return Store.contacts.filter(function(item) {
-                    return item.last_message.owner.id != auth.id && item.last_message.read_at == null;
-                }).length;
+                return Store.contacts.filter(item => item.last_message.owner.id != auth.id && item.last_message.read_at == null).length;
             },
         }, 
 
