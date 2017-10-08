@@ -585,7 +585,7 @@ const app = new Vue({
             }
 
             // all shortcuts after this one need to be prevented if user is typing
-            if (this.isTyping(event)) return;
+            if (this.whileTyping(event)) return;
 
             // alt + s == event.altKey && event.keyCode == 83
         	if (event.altKey && event.keyCode == 83) { // alt + s

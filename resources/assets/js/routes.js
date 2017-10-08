@@ -56,7 +56,7 @@ const routes = [
 
     { path: '/channel', component: NewCategory, meta: { title: 'New #Channel' } },
     { path: '/subscribed-channels', component: SubscribedCategories, meta: { title: 'My Subscriptions' } },
-    { path: '/submit', component: Submit, meta: { title: 'Submit' } },
+    { path: '/submit', component: Submit, meta: { title: 'Submit' }, name: 'submit' },
     { path: '/big-daddy', redirect: '/big-daddy/reports/submissions' },
     {
         path: '/big-daddy',

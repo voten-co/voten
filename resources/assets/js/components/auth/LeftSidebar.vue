@@ -33,8 +33,20 @@
             
         <!-- Search -->
         <a class="item" v-tooltip="{content:'Search (/)', offset: 8}" @click="changeRoute('search')"
-            :class="{'active' : contentRoute === 'search'}">
+            :class="{'active' : activeRoute === 'search'}">
             <i class="v-icon v-search-3" aria-hidden="true"></i>
+        </a>
+        
+        <!-- Settings -->
+        <a class="item" v-tooltip="{content:'Preferences', offset: 8}" @click="pushRouter('/@' + auth.username + '/settings')"
+            :class="{'active' : activeRoute === 'settings'}">
+            <i class="v-icon v-gears" aria-hidden="true"></i>
+        </a>
+        
+        <!-- Submit -->
+        <a class="item" v-tooltip="{content:'Add Content', offset: 8}" @click="pushRouter('/submit')"
+            :class="{'active' : activeRoute === 'submit'}">
+            <i class="v-icon v-add-content" aria-hidden="true"></i>
         </a>
     </div>
 </template>
@@ -97,8 +109,12 @@
                     return 'bookmarks';
                 }
 
-                if (this.$route.name === 'user-settings') {
-                    return 'user-settings';
+                if (this.$route.name === 'user-settings-account' || this.$route.name === 'user-settings-profile' || this.$route.name === 'user-settings-feed' || this.$route.name === 'user-settings-email-and-password') {
+                    return 'settings';
+                }
+                
+                if (this.$route.name === 'submit') {
+                    return 'submit';
                 }
             }, 
 
