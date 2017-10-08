@@ -86,7 +86,7 @@ export default {
          *
          * @return boolean
          */
-        isTyping (event)
+        whileTyping (event)
         {
             return event.target.tagName.toLowerCase() === 'textarea' || event.target.tagName.toLowerCase() === 'input';
         },
