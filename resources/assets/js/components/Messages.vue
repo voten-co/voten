@@ -123,13 +123,13 @@
 
 				<loading v-if="loadingMessages" class="no-padding"></loading>
 
-				<div class="flex-center" v-if="moreToLoad && !loadingMessages">
-		        	<button type="button" class="v-button" @click="loadMore">
-		        		Load More
-		        	</button>
-				</div>
-
 	            <div class="overflow-auto" v-if="hasMessages" id="scrollable-wrapper">
+					<div class="flex-center" v-if="moreToLoad && !loadingMessages">
+						<button type="button" class="v-button user-select" @click="loadMore">
+							Load More
+						</button>
+					</div>
+
 					<message v-for="(value, index) in Store.messages" :list="value" :key="value.id" :chatting="pageRoute == 'chat'"
 							 :previous="Store.messages[index-1]" :selected="selectedMessages.indexOf(value.id) != -1" @select-message="selectMessage"
 							 @last-was-read="markLastMessageAsRead(currentContactId)">
@@ -145,7 +145,7 @@
 				<form class="chat-input-form">
 					<textarea name="message" rows="1" v-on:keydown.enter="sendMessage" 
 						placeholder="Type your message here..." v-model="messageText" 
-						:disabled="disableTextArea"
+						:disabled="disableTextArea" v-focus="focused"
 					></textarea>
 
 					<span class="send-button comment-emoji-button">
