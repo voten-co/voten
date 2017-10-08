@@ -75,9 +75,16 @@
 }
 
 .v-contact-avatar img {
-    border-radius: 50%;
-    border: 2px solid #989898;
+    border-radius: 2px;
 }
+
+#messages {
+    .v-contact-avatar img {
+        border-radius: 50%;
+        border: 2px solid #989898;
+    }
+}
+
 
 .v-contact h3 {
     font-weight: 400;
