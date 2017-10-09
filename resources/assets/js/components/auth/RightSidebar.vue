@@ -39,7 +39,7 @@
 
             <div class="ui category search side-box-search">
                 <div class="ui mini icon input">
-                    <input class="prompt" type="text" placeholder="Channels..." v-model="subscribedFilter">
+                    <input class="prompt" type="text" :placeholder="filterForHumans + '...'" v-model="subscribedFilter">
                     <i class="v-icon v-search search icon"></i>
                 </div>
             </div>
@@ -52,7 +52,7 @@
             </div>
 
             <ul class="menu-list" v-else>
-                <li v-for="category in sortedSubscribeds" :key="category.id">
+                <li v-for="category in sortedSubscribeds">
                     <router-link :to="'/c/' + category.name" active-class="active">
                         <img class="square" v-bind:src="category.avatar" v-bind:alt="category.name">
                         <span class="v-channels-text">{{ category.name }}</span>
@@ -97,6 +97,14 @@
             filter() {
                 return Store.sidebarFilter;
             },
+
+            filterForHumans() {
+                if (this.filter == 'subscribed-channels') return "Subscribed Channels";
+
+                if (this.filter == 'bookmarked-channels') return "Bookmarked Channels";
+
+                if (this.filter == 'moderating-channels') return "Moderating Channels";
+            },  
 
             sortedSubscribeds() {
                 let self = this; 

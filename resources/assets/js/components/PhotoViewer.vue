@@ -43,7 +43,8 @@
             </div>
 
             <div>
-                <i class="v-icon pointer v-cancel margin-right-1" aria-hidden="true" @click="$emit('close')" v-tooltip.bottom="{content: 'Close (esc)'}"></i>
+                <i class="v-icon pointer v-cancel margin-right-1" aria-hidden="true" @click="$emit('close')" 
+                v-tooltip.left="{content: 'Close (esc)'}"></i>
             </div>
         </div>
 
