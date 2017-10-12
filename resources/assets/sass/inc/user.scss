@@ -1,11 +1,10 @@
 .profile-cover {
-    min-height: 240px;
+    min-height: 100px;
     width: 100%;
 	border-bottom: 2px solid;
     border-color: rgba(117, 148, 127, 0.24);
     color: #f8f8f8;
     position: relative;
-    padding-bottom: 1em;
 }
 
 .profile-cover a {
@@ -65,8 +64,8 @@
 
 .profile-avatar img {
     border-radius: 4px;
-    width: 138px;
-    height: 138px;
+    width: 90px;
+    height: 90px;
     border: 2px solid #fff;
     box-shadow: 1px 1px 2px 2px rgba(21, 21, 21, 0.38);
     border-color: rgba(255, 255, 255, 0.38) hsla(0, 0%, 74%, 0.68) rgba(159, 159, 159, 0.95);

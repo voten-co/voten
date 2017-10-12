@@ -9,7 +9,6 @@ import Subscribe from './components/Subscribe-button.vue';
 import VuiMenuButton from './components/Menu-button.vue';
 import GuestSidebar from './components/GuestSidebar.vue';
 import SearchModal from './components/SearchModal.vue';
-import ScrollButton from './components/ScrollButton.vue';
 import WebNotification from './mixins/WebNotification';
 import AvatarEdit from './components/AvatarEdit.vue';
 import Moderators from './components/Moderators.vue';
@@ -72,7 +71,6 @@ const app = new Vue({
         Notifications,
         VuiMenuButton,
         RightSidebar, 
-        ScrollButton,
         GuestSidebar,
         LeftSidebar, 
         SearchModal,
@@ -202,27 +200,6 @@ const app = new Vue({
          */
         pushNotification(data) {
             this.webNotification(data.title, data.body, data.url, data.icon);
-        },
-
-        /**
-         * Catches the scroll event and fires the neccessary ones for componenets. (Such as Inifinite Scrolling)
-         *
-         * @return void
-         */
-        scrolled(event) {
-        	this.$eventHub.$emit('scrolled');
-
-            let box = event.target;
-
-            if ((box.scrollHeight - box.scrollTop) < (box.clientHeight + 100)) {
-                this.$eventHub.$emit('scrolled-to-bottom');
-            }
-
-            if (box.scrollTop < 1500) {
-                this.$eventHub.$emit('scrolled-a-bit');
-            } else {
-                this.$eventHub.$emit('scrolled-a-lot');
-            }
         },
 
         /**

@@ -1,5 +1,5 @@
 <template>
-    <div class="sidebar-left">
+    <div class="sidebar-left user-select">
         <!-- profile -->
         <a @click="pushRouter('/' + '@' + auth.username)" :class="{ 'active': activeRoute === 'user-settings'}" class="item" v-tooltip.right="{content: 'Profile', offset: 0}">
             <img :src="auth.avatar" :alt="auth.username" class="avatar">

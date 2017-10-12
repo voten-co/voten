@@ -51,9 +51,6 @@
         <right-sidebar v-show="showRightSidebar"></right-sidebar>
     </div>
 
-    
-
-    <scroll-button></scroll-button>
 
     <report-submission v-if="modalRouter == 'report-submission'" :submission="reportSubmissionId" :category="reportCategory" :sidebar="sidebar"></report-submission>
     <report-comment v-if="modalRouter == 'report-comment'" :comment="reportCommentId" :category="reportCategory" :sidebar="sidebar"></report-comment>

@@ -1,26 +1,26 @@
 <template>
-	<div class="home-wrapper">
-		<announcement></announcement>
+	<div class="home-wrapper" id="home">
+		<nav class="nav has-shadow user-select">
+			<div class="container">
+				<h1 class="title">
+					Home
+				</h1>
 
-	    <div class="col-7 padding-bottom-10">
-			<div class="flex-space flex-align-center user-select margin-bottom-2 mobile-padding">
-				<div>
-					<ul class="flat-nav">
-						<router-link tag="li" :to="{ path: '/' }" class="item" :class="{ 'active': sort == 'hot' }">
-							Hot
-						</router-link>
+				<div class="nav-left">
+					<router-link :to="{ path: '/' }" class="nav-item is-tab" :class="{ 'is-active': sort == 'hot' }">
+						Hot
+					</router-link>
 
-						<router-link tag="li" :to="{ path: '/?sort=new' }" class="item" :class="{ 'active': sort == 'new' }">
-							New
-						</router-link>
+					<router-link :to="{ path: '/?sort=new' }" class="nav-item is-tab" :class="{ 'is-active': sort == 'new' }">
+						New
+					</router-link>
 
-						<router-link tag="li" :to="{ path: '/?sort=rising' }" class="item" :class="{ 'active': sort == 'rising' }">
-							Rising
-						</router-link>
-					</ul>
+					<router-link :to="{ path: '/?sort=rising' }" class="nav-item is-tab" :class="{ 'is-active': sort == 'rising' }">
+						Rising
+					</router-link>
 				</div>
 
-				<div>
+				<div class="flex-center">
 					<div class="ui icon top right active-blue pointing dropdown feed-panel-button" @click="mustBeLogin">
 						<i class="v-icon v-config"></i>
 
@@ -37,7 +37,8 @@
 								All channels
 							</button>
 
-							<button class="item" @click="changeFilter('moderating-channels')" :class="{ 'active' : filter == 'moderating-channels' }" v-if="isModerating">
+							<button class="item" @click="changeFilter('moderating-channels')" :class="{ 'active' : filter == 'moderating-channels' }"
+							 v-if="isModerating">
 								Moderating channels
 							</button>
 
@@ -55,10 +56,53 @@
 						<i class="v-icon v-refetch"></i>
 					</button>
 				</div>
-			</div>
 
-			<home-submissions></home-submissions>
-	    </div>
+				<!-- <div class="channel-admin-btn">
+					<i class="v-icon h-yellow pointer" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark go-gray'" @click="bookmark"
+					v-tooltip.bottom="{content: bookmarked ? 'Unbookmark' : 'Bookmark', offset: 8}"></i>
+
+					<div class="ui icon top right green pointing dropdown"
+						id="more-button">
+						<i class="v-icon v-more" aria-hidden="true"></i>
+
+						<div class="menu">
+							<button class="item" @click="emitModerators">
+								Moderators
+							</button>
+
+							<button class="item" @click="emitRules">
+								Rules
+							</button>
+
+							<button class="item" @click="block">
+								Block
+							</button>
+						</div>
+					</div>
+
+					<router-link :to="{ path: '/c/' + $route.params.name + '/mod' }" class="v-button v-button--primary"
+					v-if="isModerator">
+						Moderation
+					</router-link>
+
+					<button class="v-button desktop-only" @click="submitButton">
+						Submit
+					</button>
+
+					<subscribe v-if="!isGuest"></subscribe>
+				</div> -->
+			</div>
+		</nav>
+		
+		<!-- <announcement></announcement> -->
+
+		<home-submissions></home-submissions>
+		
+		<scroll-button scrollable="home-submissions"></scroll-button>
+
+
+	    <!-- <div class="col-7 padding-bottom-10">
+	    </div> -->
 	</div>
 </template>
 
@@ -67,13 +111,15 @@
 	import Announcement from '../components/Announcement.vue';
 	import Helpers from '../mixins/Helpers';
 	import LocalStorage from '../mixins/LocalStorage';
+	import ScrollButton from '../components/ScrollButton.vue';
 
     export default {
     	mixins: [Helpers, LocalStorage],
 
 	    components: {
 	        HomeSubmissions,
-	        Announcement
+	        Announcement, 
+			ScrollButton
 	    },
 
         created() {

@@ -442,23 +442,23 @@
 	            this.photoViewer = true
 	        },
 
-			showEmbed(){
+			showEmbed() {
 				this.embedViewer = true
 			},
 
-			showGifPlayer(){
+			showGifPlayer() {
 				this.gifPlayer = true
 			},
 
-			closeViwer(){
+			closeViwer() {
 				this.photoViewer = false
 			},
 
-			closeEmbed(){
+			closeEmbed() {
 				this.embedViewer = false
 			},
 
-			closeGifPlayer(){
+			closeGifPlayer() {
 				this.gifPlayer = false
 			}
         }

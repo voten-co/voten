@@ -1,5 +1,5 @@
 <template>
-	<section id="home-submissions">
+	<section id="home-submissions" class="home-submissions" @scroll="scrolled">
 		<div v-for="(value, index) in uniqueList" v-bind:key="value.id">
     		<suggested-category v-if="index == 5"></suggested-category>
 

@@ -8,10 +8,10 @@
     .scroll-button {
         position: fixed;
         bottom: 1em;
-        right: 1.5em;
+        left: 5.5em;
         cursor: pointer;
         border: 1px solid #d5d5d5;
-        border-radius: 50%;
+        border-radius: 4px;
         background: #fff;
         z-index: 100;
     }
@@ -30,6 +30,10 @@
             }
         },
 
+        props: [
+            'scrollable'
+        ], 
+
         created () {
             this.$eventHub.$on('scrolled-a-bit', this.hide);
             this.$eventHub.$on('scrolled-a-lot', this.show);
@@ -45,7 +49,7 @@
             },
 
             scrollToTop() {
-                document.getElementById('v-content').scrollTop = 0;
+                document.getElementById(this.scrollable).scrollTop = 0;
             }
         }
     };

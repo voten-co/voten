@@ -187,3 +187,26 @@
 .dotted-title .small {
     font-size: 10px;
 }
+
+.home-wrapper {
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    overflow: hidden;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    height: 100%;
+
+    .home-submissions {
+        flex-grow: 1;
+        -ms-flex-negative: 1;
+        flex-shrink: 1;
+        overflow-y: scroll;
+        padding: 2em 0;
+    }
+}

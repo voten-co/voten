@@ -176,5 +176,26 @@ export default {
         {
             return !this.isGuest ? '/auth/' + route : '/' + route;
         },
+
+        /**
+         * Catches the scroll event and fires the neccessary ones for componenets. (Such as Inifinite Scrolling)
+         *
+         * @return void
+         */
+        scrolled(event) {
+            this.$eventHub.$emit('scrolled');
+
+            let box = event.target;
+
+            if ((box.scrollHeight - box.scrollTop) < (box.clientHeight + 100)) {
+                this.$eventHub.$emit('scrolled-to-bottom');
+            }
+
+            if (box.scrollTop < 1500) {
+                this.$eventHub.$emit('scrolled-a-bit');
+            } else {
+                this.$eventHub.$emit('scrolled-a-lot');
+            }
+        },
     }
 };
