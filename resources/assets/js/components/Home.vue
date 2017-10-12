@@ -56,41 +56,6 @@
 						<i class="v-icon v-refetch"></i>
 					</button>
 				</div>
-
-				<!-- <div class="channel-admin-btn">
-					<i class="v-icon h-yellow pointer" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark go-gray'" @click="bookmark"
-					v-tooltip.bottom="{content: bookmarked ? 'Unbookmark' : 'Bookmark', offset: 8}"></i>
-
-					<div class="ui icon top right green pointing dropdown"
-						id="more-button">
-						<i class="v-icon v-more" aria-hidden="true"></i>
-
-						<div class="menu">
-							<button class="item" @click="emitModerators">
-								Moderators
-							</button>
-
-							<button class="item" @click="emitRules">
-								Rules
-							</button>
-
-							<button class="item" @click="block">
-								Block
-							</button>
-						</div>
-					</div>
-
-					<router-link :to="{ path: '/c/' + $route.params.name + '/mod' }" class="v-button v-button--primary"
-					v-if="isModerator">
-						Moderation
-					</router-link>
-
-					<button class="v-button desktop-only" @click="submitButton">
-						Submit
-					</button>
-
-					<subscribe v-if="!isGuest"></subscribe>
-				</div> -->
 			</div>
 		</nav>
 		
@@ -99,10 +64,6 @@
 		<home-submissions></home-submissions>
 		
 		<scroll-button scrollable="home-submissions"></scroll-button>
-
-
-	    <!-- <div class="col-7 padding-bottom-10">
-	    </div> -->
 	</div>
 </template>
 

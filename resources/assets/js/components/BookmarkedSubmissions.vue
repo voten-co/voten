@@ -1,5 +1,5 @@
 <template>
-	<section>
+	<section class="bookmarked-items" @scroll="scrolled">
         <submission v-for="submission in submissions" :list="submission" :key="submission.id"></submission>
 
 		<no-content v-if="nothingFound" :text="'You have not bookmarked any submissions yet'"></no-content>
@@ -11,12 +11,16 @@
 </template>
 
 <script>
-    import Loading from '../components/Loading.vue'
-    import Submission from '../components/Submission.vue'
-    import NoContent from '../components/NoContent.vue'
-	import NoMoreItems from '../components/NoMoreItems.vue'
+    import Loading from '../components/Loading.vue'; 
+    import Submission from '../components/Submission.vue'; 
+    import NoContent from '../components/NoContent.vue'; 
+	import NoMoreItems from '../components/NoMoreItems.vue'; 
+	import Helpers from '../mixins/Helpers'; 
+
 
     export default {
+		mixins: [Helpers], 
+		
         components: {
             Loading,
             Submission,

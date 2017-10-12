@@ -1,5 +1,5 @@
 <template>
-	<section>
+	<section class="bookmarked-items" @scroll="scrolled">
         <bookmarked-user v-for="user in users" :list="user" :key="user.id"></bookmarked-user>
 
 	    <no-content v-if="nothingFound" :text="'You have not bookmarked any users yet'"></no-content>
@@ -11,12 +11,15 @@
 </template>
 
 <script>
-    import Loading from '../components/Loading.vue'
-    import BookmarkedUser from '../components/BookmarkedUser.vue'
-	import NoMoreItems from '../components/NoMoreItems.vue'
-    import NoContent from '../components/NoContent.vue'
+    import Loading from '../components/Loading.vue'; 
+    import BookmarkedUser from '../components/BookmarkedUser.vue'; 
+	import NoMoreItems from '../components/NoMoreItems.vue'; 
+    import NoContent from '../components/NoContent.vue'; 
+	import Helpers from '../mixins/Helpers'; 
 
     export default {
+		mixins: [Helpers], 
+
         components: {
         	NoContent,
         	BookmarkedUser,

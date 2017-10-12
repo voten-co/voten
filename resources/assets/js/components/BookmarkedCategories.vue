@@ -1,5 +1,5 @@
 <template>
-	<section>
+	<section class="bookmarked-items" @scroll="scrolled">
 		<bookmarked-category v-for="category in categories" :list="category" :key="category.id"></bookmarked-category>
 
 	    <no-content v-if="nothingFound" :text="'You have not bookmarked any channels yet'"></no-content>
@@ -15,8 +15,11 @@
     import BookmarkedCategory from '../components/BookmarkedCategory.vue';
 	import NoMoreItems from '../components/NoMoreItems.vue';
     import NoContent from '../components/NoContent.vue';
+	import Helpers from '../mixins/Helpers'; 
 
     export default {
+		mixins: [Helpers], 
+
         components: {
         	NoContent,
         	BookmarkedCategory,

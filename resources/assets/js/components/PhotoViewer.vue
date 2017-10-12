@@ -7,6 +7,10 @@
                         {{ str_limit(list.title, 40) }}
                     </h3>
 
+                    <h4 :to="'/' + '@' + list.owner.username">
+                        
+                    </h4>
+
                     <small class="go-gray">
                         Submitted by
                         <router-link :to="'/' + '@' + list.owner.username">@{{ list.owner.username }}</router-link>

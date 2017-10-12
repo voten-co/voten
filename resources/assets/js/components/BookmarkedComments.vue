@@ -1,5 +1,5 @@
 <template>
-	<section>
+	<section class="bookmarked-items" @scroll="scrolled">
 		<section class="box-typical comments" id="comments-section" v-if="comments.length">
 	    	<div class="box-typical-inner ui threaded comments">
 	    		<div v-for="c in comments" :key="c.id" class="v-comment-not-full">
@@ -17,12 +17,15 @@
 </template>
 
 <script>
-    import Loading from '../components/Loading.vue'
-    import Comment from '../components/Comment.vue'
-    import NoContent from '../components/NoContent.vue'
-    import NoMoreItems from '../components/NoMoreItems.vue'
+    import Loading from '../components/Loading.vue'; 
+    import Comment from '../components/Comment.vue'; 
+    import NoContent from '../components/NoContent.vue'; 
+    import NoMoreItems from '../components/NoMoreItems.vue'; 
+	import Helpers from '../mixins/Helpers'; 
 
     export default {
+		mixins: [Helpers], 
+		
         components: {
             Loading,
             Comment,

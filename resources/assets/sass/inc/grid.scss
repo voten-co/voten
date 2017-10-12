@@ -202,7 +202,8 @@
     -ms-flex-align: center;
     height: 100%;
 
-    .home-submissions {
+    .home-submissions, 
+    .bookmarked-items {
         flex-grow: 1;
         -ms-flex-negative: 1;
         flex-shrink: 1;
