@@ -27,8 +27,9 @@
 			NoMoreItems
         },
 
-        data: function () {
+        data() {
             return {
+				isActive: null, 
 				NoMoreItems: false,
 				loading: true,
                 nothingFound: false,
@@ -40,18 +41,29 @@
         created () {
 			this.$eventHub.$on('scrolled-to-bottom', this.loadMore)
             this.getCategories()
-        },
+		},
+		
+		activated() {
+			this.isActive = true;
+		},
+		deactivated() {
+			this.isActive = false;
+		}, 
 
 	    watch: {
 			'$route': function () {
-				this.clearContent()
-				this.getCategories()
+				if (this.isActive === false) return;
+
+				this.clearContent(); 
+				this.getCategories(); 
 			}
 		},
 
 
         methods: {
 			loadMore () {
+				if (this.isActive === false) return;
+				
 				if ( Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems ) {
 					this.getCategories()
 				}

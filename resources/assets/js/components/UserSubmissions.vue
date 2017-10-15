@@ -49,6 +49,10 @@
 
        	watch: {
 	    	'$route': function () {
+				if (this.$route.name !== 'user-submissions') {
+					return;
+				}
+				
 	    		this.clearContent()
 	    		this.getSubmissions()
 	    	}

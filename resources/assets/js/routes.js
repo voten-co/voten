@@ -42,7 +42,6 @@ import ModeratorPanelReportedSubmissions from './components/ModeratorPanelReport
 import SubscribedCategories from './components/SubscribedCategories.vue';
 
 
-
 const routes = [
     {
         name: 'home',

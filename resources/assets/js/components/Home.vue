@@ -55,6 +55,10 @@
 					<button class="feed-panel-button btn-nth--h" @click="refresh" v-tooltip.bottom="{content: 'Refresh (R)'}">
 						<i class="v-icon v-refetch"></i>
 					</button>
+
+					<router-link class="feed-panel-button btn-nth--h" tag="button" v-tooltip.bottom.end="{content: 'Add Content'}" to="/submit">
+						<i class="v-icon v-add-content"></i>
+					</router-link>
 				</div>
 			</div>
 		</nav>
@@ -81,7 +85,7 @@
 	        HomeSubmissions,
 	        Announcement, 
 			ScrollButton
-	    },
+		},
 
         created() {
             this.setPageTitle('Voten - Social Bookmarking For The 21st Century', true);

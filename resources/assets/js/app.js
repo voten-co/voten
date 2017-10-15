@@ -9,6 +9,7 @@ require('./bootstrap')
  */
 window.Store = {
     category: [],
+    submission: [], 
     user: [],
 
     submissionUpVotes: [],

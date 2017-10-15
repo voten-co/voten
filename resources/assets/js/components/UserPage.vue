@@ -16,17 +16,27 @@ export default {
 
     data () {
     	return {
+			isActive: null, 
     		Store
     	}
     },
 
     created () {
     	this.updateUserStore()
-    },
+	},
+	
+	activated() {
+		this.isActive = true;
+	}, 
+	deactivated() {
+		this.isActive = false;
+	}, 
 
     watch: {
     	'$route': function () {
-    		this.updateUserStore()
+			if (this.isActive === true) {
+				this.updateUserStore(); 
+			}
     	}
     },
 

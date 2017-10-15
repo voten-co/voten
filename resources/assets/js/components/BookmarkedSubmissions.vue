@@ -28,8 +28,9 @@
 			NoMoreItems
         },
 
-        data: function () {
+        data() {
             return {
+				isActive: null, 
 	            NoMoreItems: false,
 				loading: true,
                 nothingFound: false,
@@ -39,51 +40,62 @@
         },
 
         created () {
-            this.getSubmissions()
-			this.$eventHub.$on('scrolled-to-bottom', this.loadMore)
-        },
+            this.getSubmissions(); 
+			this.$eventHub.$on('scrolled-to-bottom', this.loadMore); 
+		},
+		
+		activated() {
+			this.isActive = true;
+		},
+		deactivated() {
+			this.isActive = false;
+		}, 
 
 	    watch: {
 			'$route': function () {
-				this.clearContent()
-				this.getSubmissions()
+				if (this.isActive === false) return;
+
+				this.clearContent(); 
+				this.getSubmissions(); 
 			}
 		},
 
 
         methods: {
 			loadMore () {
-				if ( Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems ) {
-					this.getSubmissions()
+				if (this.isActive === false) return;
+				
+				if (Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems) {
+					this.getSubmissions(); 
 				}
 			},
 
         	clearContent () {
-				this.nothingFound = false
-				this.submissions = []
-				this.loading = true
+				this.nothingFound = false; 
+				this.submissions = []; 
+				this.loading = true; 
         	},
 
             getSubmissions () {
-				this.page ++
-           		this.loading = true
+				this.page ++; 
+           		this.loading = true; 
 
             	axios.get('/bookmarked-submissions', {
                 	params: {
                         page: this.page
 					}
             	}).then((response) => {
-					this.submissions = [...this.submissions, ...response.data.data]
+					this.submissions = [...this.submissions, ...response.data.data]; 
 
 					if (response.data.next_page_url == null) {
-						this.NoMoreItems = true
+						this.NoMoreItems = true; 
 					}
 
-					if(this.submissions.length == 0){
-						this.nothingFound = true
+					if (this.submissions.length == 0) {
+						this.nothingFound = true; 
 					}
 
-					this.loading = false
+					this.loading = false; 
                 })
             }
         }

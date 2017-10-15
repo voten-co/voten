@@ -8,14 +8,20 @@
 		</div>
 
 		<div class="flex1">
-			<h2>
-				<router-link :to="'/@' + list.username">
-					<i class="v-icon v-atsign" aria-hidden="true"></i>{{ list.username }}
-				</router-link>
+			<div class="flex-space">
+				<h2>
+					<router-link :to="'/@' + list.username">
+						<i class="v-icon v-atsign" aria-hidden="true"></i>{{ list.username }}
+					</router-link>
+				</h2>
 
-				<i class="v-icon h-yellow pointer"
-				:class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'" @click="bookmark"></i>
-			</h2>
+				<div class="flex-align-center">
+					<i class="v-icon h-yellow pointer" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'" @click="bookmark"
+						v-tooltip.left="{content: bookmarked ? 'Unbookmark' : 'Bookmark'}"></i>
+
+					<button class="v-button v-button-small margin-left-1 v-button--green" @click="sendMessage(list)">Message</button>
+				</div>
+			</div>
 
 			<p>
 				{{ list.bio }}
@@ -43,15 +49,15 @@
 
 	    methods: {
 	    	/**
-            *  Whether or not user has bookmarked the submission
-            *
-            *  @return Boolean
-            */
+             *  Whether or not user has bookmarked the submission
+             *
+             *  @return Boolean
+             */
             setBookmarked () { if ( Store.userBookmarks.indexOf(this.list.id) != -1 ) this.bookmarked = true },
 
             /**
-            *  Toggles the user into bookmarks
-            */
+             *  Toggles the user into bookmarks
+             */
         	bookmark (user) {
         		this.bookmarked = !this.bookmarked
 
@@ -67,6 +73,10 @@
 					Store.userBookmarks.push(this.list.id)
 				})
         	},
+
+			sendMessage(user) {
+				this.$eventHub.$emit('start-conversation', user);
+			}
 	    },
     };
 </script>

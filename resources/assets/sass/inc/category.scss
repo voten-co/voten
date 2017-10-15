@@ -192,3 +192,72 @@
 .category-suggestion .avatar img {
     border-radius: 2px;
 }
+
+.category-header-mobile {
+    width: 100%;
+    border-bottom: 2px solid;
+    border-color: rgba(117, 148, 127, 0.24);
+    padding: 1em .5em;
+    color: #f8f8f8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    a {
+		color: #f8f8f8;
+		display: flex;
+		align-items: center;
+	}
+
+	h2 {
+		margin: 0;
+	}
+
+	img {
+	    width: 40px;
+	    height: 40px;
+    	border-radius: 2px;
+    	margin-right: .5em;
+	}
+
+	
+	button {
+		background: none;
+        border: none; 
+        color: #fff;
+        cursor: pointer;
+    }
+    
+    .v-left {
+        font-size: 20px;
+        padding: 0;
+    }
+
+    .subscribe {
+        font-size: 13px;
+        border: 1.5px solid #fff;
+        border-radius: 2px;
+        font-weight: bold;
+        display: flex;
+        height: 29px;
+        width: 91px;
+        align-content: center;
+        justify-content: center;
+    }
+
+    .unsubscribe {
+        font-size: 13px;
+        border: 1.5px solid #fff;
+        border-radius: 2px;
+        font-weight: bold;
+        display: flex;
+        height: 29px;
+        width: 91px;
+        align-content: center;
+        justify-content: center;
+        background: #fff;
+        color: #000;
+    }
+}
+
+	

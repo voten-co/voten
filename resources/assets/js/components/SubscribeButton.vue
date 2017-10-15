@@ -11,6 +11,11 @@ export default {
         }
     },
 
+    props: [
+        'subscribed-class', 
+        'unsubscribed-class'
+    ], 
+
     created: function () {
         this.setSubscribed();
     },
@@ -18,11 +23,11 @@ export default {
     computed: {
     	activeClass() {
     		if (this.subscribed) {
-    			return 'v-button v-button--red';
+    			return this.subscribedClass;
     		}
 
     		if (!this.subscribed) {
-    			return 'v-button v-button--green';
+    			return this.unsubscribedClass;
     		}
     	},
 

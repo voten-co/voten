@@ -5,7 +5,6 @@ import CategoryAvatar from './components/CategoryAvatar.vue';
 import ReportComment from './components/ReportComment.vue';
 import Notifications from './components/Notifications.vue';
 import MarkdownGuide from './components/MarkdownGuide.vue';
-import Subscribe from './components/Subscribe-button.vue';
 import VuiMenuButton from './components/Menu-button.vue';
 import GuestSidebar from './components/GuestSidebar.vue';
 import SearchModal from './components/SearchModal.vue';
@@ -78,7 +77,6 @@ const app = new Vue({
         AvatarEdit,
         Moderators,
         CropModal,
-        Subscribe,
         Dashboard,
         NotFound,
         Messages,

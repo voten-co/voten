@@ -29,6 +29,7 @@ export default {
 
     data: function () {
         return {
+			isActive: null, 
 			NoMoreItems: false,
 			nothingFound: false,
         	Store,
@@ -37,17 +38,19 @@ export default {
             loading: true,
 			page: 0
         }
-    },
+	},
 
    	created () {
-		this.clear()
-		this.$eventHub.$on('scrolled-to-bottom', this.loadMore)
-		this.$eventHub.$on('refresh-category-submissions', this.clear)
+		this.clear(); 
+		this.$eventHub.$on('scrolled-to-bottom', this.loadMore); 
+		this.$eventHub.$on('refresh-category-submissions', this.clear); 
    	},
 
     watch: {
 		'$route': function () {
-			this.clear()
+			if (this.$route.name !== 'category-submissions') return;
+
+			this.clear(); 
 		}
 	},
 
@@ -67,30 +70,22 @@ export default {
 		}
 	},
 
-
     methods: {
 		loadMore () {
 			if (Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems && this.$route.name == 'category-submissions') {
 				this.getSubmissions();
 			}
 		},
-
-        /**
-    	 * Sets the data to the default, also runs the basic methods.
-    	 * ( use case: When we are going to use both created() and watch() )
-    	 *
-    	 * @return void
-    	 */
+        
     	clear () {
-            this.submissions = []
-            this.loading = true
-            this.nothingFound = false
-            this.NoMoreItems = false
-			this.page = 0
+            this.submissions = []; 
+            this.loading = true; 
+            this.nothingFound = false; 
+            this.NoMoreItems = false; 
+			this.page = 0;
 
-
-    		this.updateCategoryStore()
-	        this.getSubmissions()
+			this.updateCategoryStore(); 
+			this.getSubmissions(); 
     	},
 
     	/**
@@ -105,19 +100,19 @@ export default {
     	},
 
     	getSubmissions () {
-			this.page ++
-            this.loading = true
+			this.page ++; 
+            this.loading = true; 
 
             // if landed on a category page
         	if (preload.submissions && this.page == 1) {
         		this.submissions = preload.submissions.data;
 
 				if (!this.submissions.length) {
-					this.nothingFound = true
+					this.nothingFound = true; 
 				}
 
 				if (preload.submissions.next_page_url == null) {
-					this.NoMoreItems = true
+					this.NoMoreItems = true; 
 				}
 
 				this.loading = false;
@@ -135,17 +130,17 @@ export default {
 	                category: this.$route.params.name
 			    }
             }).then((response) => {
-				this.submissions = [...this.submissions, ...response.data.data]
+				this.submissions = [...this.submissions, ...response.data.data]; 
 
 				if (!this.submissions.length) {
-					this.nothingFound = true
+					this.nothingFound = true; 
 				}
 
 				if (response.data.next_page_url == null) {
-					this.NoMoreItems = true
+					this.NoMoreItems = true; 
 				}
 
-				this.loading = false
+				this.loading = false; 
             });
         }
     }

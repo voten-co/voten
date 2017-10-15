@@ -1,54 +1,63 @@
 <template>
 	<div class="category-header-mobile" v-bind:style="{ background: coverBackground }">
-		<router-link :to="'/c/' + Store.category.name">
-			<img :src="Store.category.avatar" :alt="Store.category.name">
+		<router-link class="no-padding" tag="button" :to="'/c/' + name" v-tooltip.right="{content: 'Back'}">
+			<i class="v-left"></i>
+		</router-link>
+
+		<router-link :to="'/c/' + name">
+			<img :src="avatar" :alt="name">
 
 			<h2>
-				{{ '#' + Store.category.name }}
+				{{ '#' + name }}
 			</h2>
 		</router-link>
+
+		<subscribe subscribed-class="unsubscribe" unsubscribed-class="subscribe"></subscribe>
 	</div>
 </template>
 
-<style>
-	.category-header-mobile {
-		margin-bottom: 1em;
-		width: 100%;
-		border-bottom: 2px solid;
-    	border-color: rgba(117, 148, 127, 0.24);
-    	padding: 1em .5em;
-    	color: #f8f8f8;
-    	text-align: center;
-	}
-
-	.category-header-mobile a {
-		color: #f8f8f8;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.category-header-mobile h2 {
-		margin: 0;
-	}
-
-	.category-header-mobile img {
-	    width: 40px;
-	    height: 40px;
-    	border-radius: 2px;
-    	margin-right: .5em;
-	}
-</style>
 
 <script>
+	import Subscribe from '../components/SubscribeButton.vue';
+
     export default {
         data () {
             return {
+				isActive: null, 
                 Store
             }
-        },
+		},
+
+		activated() {
+			this.isActive = true;
+		},
+		deactivated() {
+			this.isActive = false;
+		}, 
+
+		created() {
+			this.updateCategoryStore();
+		}, 
+
+		watch: {
+			'$route'() {
+				if (this.isActive === false) return;
+	
+				this.updateCategoryStore();
+			}
+		},
+		
+		components: {Subscribe}, 
 
         computed: {
+			name() {
+				return Store.category.name; 
+			}, 
+
+			avatar() {
+				return Store.category.avatar; 
+			}, 
+
 			coverBackground () {
 	        	if (Store.category.color == 'Red') {
 	        		return '#9a4e4e'
@@ -70,6 +79,20 @@
 	        		return '#333'
 	        	}
 	        }
-        },
+		},
+		
+		methods: {
+			/**
+	    	 * Checks wheather or not the Store.category needs to be filled or updated, and if yes simply does it
+	    	 *
+	    	 * @return void
+	    	 */
+			updateCategoryStore() {
+				if (Store.category.name == undefined || Store.category.name != this.$route.params.name) {
+					this.$root.getCategoryStore(this.$route.params.name);
+					this.category = this.$route.params.name;
+				}
+			},
+		}
     };
 </script>

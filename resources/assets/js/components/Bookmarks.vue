@@ -26,6 +26,19 @@
 			</div>
 		</nav>
 		
-		<router-view></router-view>
+		<keep-alive>
+			<router-view></router-view>
+		</keep-alive>
 	</div>
 </template>
+
+
+<script>
+	export default {
+		beforeRouteLeave(to, from, next) {
+			this.$destroy();
+
+			next();
+		}
+	}
+</script>

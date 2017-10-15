@@ -120,7 +120,7 @@
             		Submit
             	</button>
 
-            	<subscribe v-if="!isGuest"></subscribe>
+            	<subscribe v-if="!isGuest" subscribed-class="v-button v-button--red" unsubscribed-class="v-button v-button--green"></subscribe>
 	        </div>
 	    </div>
 	</nav>
@@ -128,15 +128,13 @@
 </template>
 
 <script>
-import Subscribe from '../components/Subscribe-button.vue'
+import Subscribe from '../components/SubscribeButton.vue'; 
 import Helpers from '../mixins/Helpers';
 
 export default {
 	mixins: [Helpers],
 
-    components: {
-    	Subscribe
-    },
+    components: {Subscribe},
 
     data: function () {
         return {

@@ -54,6 +54,7 @@
 							   :height="30"
 							   :color="{checked: '#5f85d1', unchecked: '#78b38a'}"
 							   :labels="{checked: 'Exclude Subscribed Channels', unchecked: 'Include Subscribed Channels'}"
+							   v-if="!isNewbie"
 				/>
 			</div>
 		</div>

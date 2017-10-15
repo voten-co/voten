@@ -1,12 +1,14 @@
 <template>
 	<section>
-		<category-header v-if="loaded"></category-header>
+		<category-header></category-header>
 
 		<nsfw-warning v-if="nsfw"
 			:text="'This channel contains NSFW content which can not be displayed according to your personal settings.'">
 		</nsfw-warning>
 
 		<router-view v-else></router-view>
+
+		<scroll-button scrollable="v-content"></scroll-button>
 	</section>
 </template>
 
@@ -16,6 +18,8 @@ import CategoryHeader from '../components/CategoryHeader.vue';
 import NsfwWarning from '../components/NsfwWarning.vue';
 import CategorySubmissions from '../components/CategorySubmissions.vue';
 import Helpers from '../mixins/Helpers';
+import ScrollButton from '../components/ScrollButton.vue';
+
 
 export default {
 	mixins: [Helpers],
@@ -23,15 +27,24 @@ export default {
     components: {
         CategorySubmissions,
         CategoryHeader,
-		NsfwWarning
+		NsfwWarning, 
+		ScrollButton
     },
 
     data () {
         return {
+			isActive: null, 
         	Store,
 			auth
         }
-    },
+	},
+	
+	activated() {
+		this.isActive = true;
+	},
+	deactivated() {
+		this.isActive = false;
+	}, 
 
    	created () {
    		this.updateCategoryStore();
@@ -40,27 +53,17 @@ export default {
 
     watch: {
 		'$route': function () {
+			if (this.isActive === false) return;
+
 			this.updateCategoryStore();
+			this.setPageTitle('#' + this.$route.params.name);
 		}
 	},
 
    	computed: {
-		nsfw(){
+		nsfw() {
 			return Store.category.nsfw && !auth.nsfw;
 		},
-
-   		/**
-		 * Are we good to go (Dsiplay header)
-   		 *
-   		 * @return Boolean
-   		 */
-        loaded () {
-			if (Store.category.name != undefined) {
-                return Store.category.name.toLowerCase() == this.$route.params.name.toLowerCase();
-			}
-
-			return false;
-        }
     },
 
     methods: {

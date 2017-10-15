@@ -1,8 +1,6 @@
 <template>
 <div>
-	<category-header v-if="loaded && !auth.isMobileDevice"></category-header>
-
-	<category-header-mobile v-if="loaded && auth.isMobileDevice"></category-header-mobile>
+	<category-header-mobile></category-header-mobile>
 
 	<div class="col-full">
 		<nsfw-warning v-if="submission.nsfw == 1 && !auth.nsfw"
@@ -96,11 +94,12 @@
 
 	    watch: {
 			'$route' () {
+				if (this.$route.name !== 'submission-page') return;
+				
 	            this.getSubmission();
 	            this.getComments();
 	            this.clearContent();
 	            this.listen();
-	            this.updateCategoryStore();
 	            this.$eventHub.$on('newComment', this.newComment);
 			}
 		},
@@ -131,19 +130,6 @@
 				return unique;
 			},
 
-			/**
-			 * Is the category store loaded yet
-			 *
-			 * @return bool
-			 */
-        	loaded () {
-                if (Store.category.name != undefined) {
-                    return Store.category.name.toLowerCase() == this.$route.params.name.toLowerCase();
-                }
-
-                return false;
-	        },
-
             /**
              * The order that comments should be printed with
              *
@@ -171,18 +157,6 @@
                 this.moreComments = false;
         		this.getComments();
         	},
-
-        	/**
-	    	 * Checks wheather or not the Store.category needs to be filled or updated, and if yes simply does it
-	    	 *
-	    	 * @return void
-	    	 */
-	    	updateCategoryStore() {
-	    		if (Store.category.name == undefined || Store.category.name != this.$route.params.name) {
-		    		this.$root.getCategoryStore(this.$route.params.name);
-		    		this.category = this.$route.params.name;
-	    		}
-	    	},
 
 	    	/**
 	    	 * receives the broadcasted comment.
@@ -252,6 +226,14 @@
             		delete preload.submission;
             		return;
             	}
+				
+				// if clicked on a submission component 
+				if (Store.submission.slug == this.$route.params.slug) {
+					this.submission = Store.submission;
+					this.setPageTitle(this.submission.title);
+					this.loadingSubmission = false;					
+            		return;
+            	}
 
                 axios.get('/get-submission', {
             		params: {
@@ -259,11 +241,10 @@
             		}
             	}).then((response) => {
 					this.submission = response.data;
+
 					this.setPageTitle(this.submission.title);
 
-                    if(!this.loaded) {
-                    	Store.category = response.data.category;
-                    }
+                    Store.category = response.data.category;
 
                     this.loadingSubmission = false;
 				}).catch((error) => {
@@ -313,7 +294,10 @@
          * @return void
          */
         beforeRouteLeave(to, from, next) {
-        	Echo.leave('submission.' + from.params.slug);
+			Echo.leave('submission.' + from.params.slug);
+			
+			Store.submission = [];
+			this.$destroy();
 
 			next();
 		}

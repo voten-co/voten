@@ -20,6 +20,7 @@
 .v-bell-on:before { content: '\e812'; } /* '' */
 .v-image:before { content: '\e813'; } /* '' */
 .v-dot-3:before { content: '\e814'; } /* '' */
+.v-left:before { content: '\e815'; } /* '' */
 .v-attention-alt:before { content: '\e816'; } /* '' */
 .v-gears:before { content: '\e817'; } /* '' */
 .v-hide:before { content: '\e818'; } /* '' */

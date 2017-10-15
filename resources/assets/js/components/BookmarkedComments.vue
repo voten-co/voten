@@ -1,5 +1,5 @@
 <template>
-	<section class="bookmarked-items" @scroll="scrolled">
+	<section class="bookmarked-items padding-1" @scroll="scrolled">
 		<section class="box-typical comments" id="comments-section" v-if="comments.length">
 	    	<div class="box-typical-inner ui threaded comments">
 	    		<div v-for="c in comments" :key="c.id" class="v-comment-not-full">
@@ -33,8 +33,9 @@
 			NoMoreItems
         },
 
-        data: function () {
+        data() {
             return {
+				isActive: null, 
 	            NoMoreItems: false,
 				loading: true,
                 nothingFound: false,
@@ -46,18 +47,29 @@
         created () {
 			this.$eventHub.$on('scrolled-to-bottom', this.loadMore)
             this.getComments()
-        },
+		},
+
+		activated() {
+			this.isActive = true;
+		},
+		deactivated() {
+			this.isActive = false;
+		}, 
 
 	    watch: {
 			'$route': function () {
-				this.clearContent()
-				this.getComments()
+				if (this.isActive === false) return;
+
+				this.clearContent(); 
+				this.getComments(); 
 			}
 		},
 
 
         methods: {
 			loadMore () {
+				if (this.isActive === false) return;
+				
 				if ( Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems ) {
 					this.getComments()
 				}

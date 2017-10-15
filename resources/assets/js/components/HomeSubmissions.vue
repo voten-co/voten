@@ -36,6 +36,7 @@
 
         data: function () {
             return {
+				isActive: null, 
 				NoMoreItems: false,
 				nothingFound: false,
 	            submissions: [],
@@ -43,8 +44,14 @@
 				page: 0,
 				Store
             }
-        },
+		},
 
+		activated() {
+			this.isActive = true;
+		},
+		deactivated() {
+			this.isActive = false;
+		}, 
 
 	    created: function() {
 	        this.getSubmissions();
@@ -54,6 +61,8 @@
 
 	    watch: {
 			'$route': function () {
+				if (this.isActive === false) return;
+
 				this.clearContent(); 
 				this.getSubmissions(); 
 			}

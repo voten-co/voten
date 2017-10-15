@@ -2,9 +2,9 @@
 	<div class="index-submission-footer user-select">
 		<div :class="auth.isMobileDevice ? 'flex-space' : 'display-inline'">
 			<div :class="auth.isMobileDevice ? '' : 'display-inline'">
-				<router-link :to="url" class="comments-icon h-green" v-tooltip.top="{content: 'Comments'}">
+				<a :href="url" class="comments-icon h-green" v-tooltip.top="{content: 'Comments'}" @click="navigateToSubmissionPage">
 					<i class="v-icon v-chat"></i><span v-if="comments" v-text="comments"></span>
-				</router-link>
+				</a>
 
 				<a @click="$emit('bookmark')" v-tooltip.top="{content: bookmarked ? 'Unbookmark' : 'Bookmark'}">
 					<i class="v-icon h-yellow pointer" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'"></i>
@@ -140,6 +140,16 @@
 			this.$nextTick(function () {
 	        	this.$root.loadSemanticDropdown('submission' + this.submission.id);
 			})
-        }
+		}, 
+		
+		methods: {
+			navigateToSubmissionPage(event) {
+				event.preventDefault(); 
+
+				Store.submission = this.submission; 
+				
+				this.$router.push(this.url); 
+			}
+		}
     };
 </script>
