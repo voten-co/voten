@@ -40,9 +40,11 @@
             </div>
 
             <div class="content">
-                <keep-alive>
-                    <router-view></router-view>
-                </keep-alive>
+                <transition name="slide-fade" mode="out-in">
+                    <keep-alive>
+                        <router-view></router-view>
+                    </keep-alive>
+                </transition>
             </div>
         </div>
     </div>

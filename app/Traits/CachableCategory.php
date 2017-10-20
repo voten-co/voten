@@ -147,7 +147,7 @@ trait CachableCategory
         $subscribersCount = Redis::hincrby('category.'.$id.'.data', 'subscribersCount', $number);
 
         // for newbie categories we update on each new subscription
-        if ($subscribersCount < 1000) {
+        if ($subscribersCount < 10000) {
             DB::table('categories')->where('id', $id)->update(['subscribers' => $subscribersCount]);
 
             return;

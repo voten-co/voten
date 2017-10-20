@@ -21,8 +21,8 @@
 				</div>
 
 				<div class="flex-center">
-					<div class="ui icon top right active-blue pointing dropdown feed-panel-button" @click="mustBeLogin">
-						<i class="v-icon v-config"></i>
+					<div class="ui icon top right active-blue pointing dropdown feed-panel-button" @click="mustBeLogin" v-tooltip.bottom="{content: 'Customize'}">
+						<i class="v-icon v-sliders"></i>
 
 						<div class="menu">
 							<div class="header">
@@ -52,12 +52,12 @@
 						</div>
 					</div>
 
-					<button class="feed-panel-button btn-nth--h" @click="refresh" v-tooltip.bottom="{content: 'Refresh (R)'}">
+					<button class="feed-panel-button margin-right-half" @click="refresh" v-tooltip.bottom="{content: 'Refresh (R)'}">
 						<i class="v-icon v-refetch"></i>
 					</button>
 
-					<router-link class="feed-panel-button btn-nth--h" tag="button" v-tooltip.bottom.end="{content: 'Add Content'}" to="/submit">
-						<i class="v-icon v-add-content"></i>
+					<router-link class="v-button v-button-outline--primary" to="/submit">
+						Submit 
 					</router-link>
 				</div>
 			</div>
@@ -67,7 +67,7 @@
 
 		<home-submissions></home-submissions>
 		
-		<scroll-button scrollable="home-submissions"></scroll-button>
+		<scroll-button scrollable="submissions"></scroll-button>
 	</div>
 </template>
 

@@ -1,8 +1,8 @@
 <template>
-	<div class="category-header-mobile" v-bind:style="{ background: coverBackground }">
-		<router-link class="no-padding" tag="button" :to="'/c/' + name" v-tooltip.right="{content: 'Back'}">
+	<div class="category-header-small" v-bind:style="{ background: coverBackground }">
+		<button class="no-padding" type="button" @click="goBack">
 			<i class="v-left"></i>
-		</router-link>
+		</button>
 
 		<router-link :to="'/c/' + name">
 			<img :src="avatar" :alt="name">
@@ -41,7 +41,7 @@
 
 		watch: {
 			'$route'() {
-				if (this.isActive === false) return;
+				if (this.$route.name !== 'submission-page') return;
 	
 				this.updateCategoryStore();
 			}
@@ -76,7 +76,7 @@
 	        	} else if (Store.category.color == 'Pink') {
 	        		return '#ec7daa'
 	        	} else { // userStore.color == 'Black'
-	        		return '#333'
+	        		return '#424242'
 	        	}
 	        }
 		},
@@ -93,6 +93,10 @@
 					this.category = this.$route.params.name;
 				}
 			},
+
+			goBack() {
+				history.go(-1); 
+			}
 		}
     };
 </script>

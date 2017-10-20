@@ -24,14 +24,17 @@
 
 		<!-- submission indexing pages -->
 		<div v-else>
-			<router-link :to="'/c/' + submission.category_name + '/' + submission.slug"
-			class="flex-space v-ultra-bold">
-				{{ submission.title }}
-			</router-link>
+			<h3 class="title">
+				<router-link :to="'/c/' + submission.category_name + '/' + submission.slug"
+					class="flex-space v-ultra-bold"
+				>
+					{{ submission.title }}
+				</router-link>
+			</h3>
 
 			<submission-footer :url="url" :comments="comments" :bookmarked="bookmarked" :submission="submission"
-			@bookmark="$emit('bookmark')" @report="$emit('report')" @hide="$emit('hide')" @nsfw="$emit('nsfw')" @sfw="$emit('sfw')" @destroy="$emit('destroy')" @approve="$emit('approve')" @disapprove="$emit('disapprove')" @removethumbnail="$emit('removethumbnail')" :upvoted="upvoted" :downvoted="downvoted" :points="points"
-			@upvote="$emit('upvote')" @downvote="$emit('downvote')"
+				@bookmark="$emit('bookmark')" @report="$emit('report')" @hide="$emit('hide')" @nsfw="$emit('nsfw')" @sfw="$emit('sfw')" @destroy="$emit('destroy')" @approve="$emit('approve')" @disapprove="$emit('disapprove')" @removethumbnail="$emit('removethumbnail')" :upvoted="upvoted" :downvoted="downvoted" :points="points"
+				@upvote="$emit('upvote')" @downvote="$emit('downvote')"
 			></submission-footer>
 		</div>
 	</div>

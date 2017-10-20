@@ -1,79 +1,61 @@
 <template>
 <div>
-	<div v-bind:style="{ background: coverBackground }" class="profile-cover">
-	    <div class="container padding-top-3 user-select full-width">
-	        <div class="cols-flex">
-	            <div class="category-header-left">
-	            	<!-- avatar -->
-		                <div class="profile-avatar avatar-preview" v-if="$route.name == 'category-settings'">
-		                    <button type="button">
-					            <img v-bind:alt="Store.category.name" v-bind:src="Store.category.avatar" />
+	<transition name="slide-out">
+		<div v-bind:style="{ background: coverBackground }" class="category-header-big profile-cover" v-show="showFirstHeader">
+			<div class="container user-select full-width">
+				<div class="cols-flex">
+					<div class="category-header-left">
+						<!-- avatar -->
+							<div class="profile-avatar avatar-preview" v-if="$route.name == 'category-settings'">
+								<button type="button">
+									<img v-bind:alt="Store.category.name" v-bind:src="Store.category.avatar" />
 
-					            <div class="update">
-					                <i class="v-icon v-photo" aria-hidden="true"></i>
-					                Upload photo
-					            </div>
-					        </button>
+									<div class="update">
+										<i class="v-icon v-photo" aria-hidden="true"></i>
+										Upload photo
+									</div>
+								</button>
 
-			                <input type="file" id="fileUploadFile" @change="passToCropModal">
-	                    </div>
+								<input type="file" id="fileUploadFile" @change="passToCropModal">
+							</div>
 
-	                    <div class="profile-avatar" v-else>
-	        				<router-link :to="'/c/' + Store.category.name">
-			                    <img v-bind:src="Store.category.avatar" v-bind:alt="Store.category.name" />
-		                	</router-link>
-		                </div>
-	                <!-- end avatar -->
-	            </div>
+							<div class="profile-avatar" v-else>
+								<router-link :to="'/c/' + Store.category.name">
+									<img v-bind:src="Store.category.avatar" v-bind:alt="Store.category.name" />
+								</router-link>
+							</div>
+						<!-- end avatar -->
+					</div>
 
-	            <div class="category-header-middle">
-                    <h1 v-if="$route.name == 'category'">
-        				<router-link :to="'/c/' + Store.category.name" class="flex-center-inline">
-	                        <i class="v-icon v-channel" aria-hidden="true"></i>{{ Store.category.name }}
-	                	</router-link>
-                    </h1>
+					<div class="category-header-middle">
+						<p>
+							{{ Store.category.description }}
+						</p>
+					</div>
 
-                    <h2 v-else>
-        				<router-link :to="'/c/' + Store.category.name" class="flex-center-inline">
-	                        <i class="v-icon v-channel" aria-hidden="true"></i>{{ Store.category.name }}
-	                	</router-link>
-                    </h2>
+					<div class="category-header-right">
+						<div class="karma">
+							<div class="karma-number">
+								{{ Store.category.subscribers }}
+							</div>
 
-	                <p>
-	                    {{ Store.category.description }}
-	                </p>
+							<div class="karma-text margin-bottom-1">
+								Subscribers
+							</div>
 
-					<span class="inline-block">
-						<i class="v-icon v-submissions" v-tooltip.bottom="{content: 'Submissions', offset: 8}" aria-hidden="true"></i>{{ Store.category.stats.submissionsCount }}
-					</span>
-
-					<span class="inline-block">
-						<i class="v-icon v-chat" v-tooltip.bottom="{content: 'Comments', offset: 8}" aria-hidden="true"></i>{{ Store.category.stats.commentsCount }}
-					</span>
-
-	                <span>
-                        <i class="v-icon v-calendar" aria-hidden="true"></i>
-	                	Created: {{ date }}
-	                </span>
-	            </div>
-
-				<div class="category-header-right">
-					<div class="karma">
-						<div class="karma-number">
-							{{ Store.category.stats.subscribersCount }}
-						</div>
-
-						<div class="karma-text">
-							Subscribers
+							<subscribe v-if="!isGuest" subscribed-class="unsubscribe" unsubscribed-class="subscribe"></subscribe>
 						</div>
 					</div>
 				</div>
-	        </div>
-	    </div>
-	</div>
-
+			</div>
+		</div>
+	</transition>
 	<nav class="nav has-shadow user-select">
 	    <div class="container">
+			<h1 class="title">
+				<i class="v-icon v-channel" aria-hidden="true"></i>{{ Store.category.name }}
+			</h1>
+
 	        <div class="nav-left">
 	        	<router-link :to="{ path: '/c/' + $route.params.name }" class="nav-item is-tab" :class="{ 'is-active': sort == 'hot' }">
 					Hot
@@ -89,9 +71,6 @@
 	        </div>
 
 	        <div class="channel-admin-btn">
-	        	<i class="v-icon h-yellow pointer" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark go-gray'" @click="bookmark"
-				   v-tooltip.bottom="{content: bookmarked ? 'Unbookmark' : 'Bookmark', offset: 8}"></i>
-
 				<div class="ui icon top right green pointing dropdown"
 					 id="more-button">
 					<i class="v-icon v-more" aria-hidden="true"></i>
@@ -111,16 +90,19 @@
 					</div>
 				</div>
 
-            	<router-link :to="{ path: '/c/' + $route.params.name + '/mod' }" class="v-button v-button--primary"
-				v-if="isModerator">
-					Moderation
+				<i class="v-icon h-yellow pointer" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark go-gray'" @click="bookmark"
+				   v-tooltip.bottom="{content: bookmarked ? 'Unbookmark this channel' : 'Bookmark this channel', offset: 8}"
+				></i>
+            	
+				<router-link class="v-button v-button-outline--primary" :to="'/submit?channel=' + $route.params.name" v-if="!isGuest">
+					Submit 
 				</router-link>
 
-            	<button class="v-button desktop-only" @click="submitButton">
-            		Submit
-            	</button>
-
-            	<subscribe v-if="!isGuest" subscribed-class="v-button v-button--red" unsubscribed-class="v-button v-button--green"></subscribe>
+				<router-link :to="{ path: '/c/' + $route.params.name + '/mod' }" class="v-button v-button-outline--green"
+					v-if="isModerator"
+				>
+					Moderation
+				</router-link>
 	        </div>
 	    </div>
 	</nav>
@@ -140,12 +122,15 @@ export default {
         return {
     		fileUploadFormData: new FormData(),
         	Store,
-        	bookmarked: false
+        	bookmarked: false, 
+			showFirstHeader: true
         }
     },
 
     created () {
     	this.setBookmarked();
+		this.$eventHub.$on('scrolled-to-top', () => {this.showFirstHeader = true}); 
+		this.$eventHub.$on('scrolled-a-bit', () => { this.showFirstHeader = false }); 
     },
 
     watch: {
@@ -165,15 +150,6 @@ export default {
 	},
 
     methods: {
-    	submitButton() {
-    	    if (this.isGuest) {
-    	    	this.mustBeLogin();
-    	    	return;
-    	    }
-
-    	    this.$router.push('/submit?channel=' + this.$route.params.name);
-    	},
-
 		emitRules(){
 			this.$eventHub.$emit('rules');
 		},
@@ -292,7 +268,7 @@ export default {
         	} else if (Store.category.color == 'Pink') {
         		return '#ec7daa'
         	} else { // userStore.color == 'Black'
-        		return '#333'
+        		return '#424242'
         	}
         }
     }

@@ -20,7 +20,9 @@
             </div>
 
             <div class="content">
-                <router-view></router-view>
+                <transition name="slide-fade" mode="out-in">
+                    <router-view></router-view>
+                </transition>
             </div>
         </div>
     </div>

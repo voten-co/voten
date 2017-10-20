@@ -21,7 +21,7 @@
 						   v-tooltip.left="{content: bookmarked ? 'Unbookmark' : 'Bookmark'}"></i>
 
 						<button class="v-button v-button-small margin-left-1"
-							:class="subscribed ? 'v-button--red' : 'v-button--green'" @click="subscribe"
+							:class="subscribed ? 'v-button-outline--red' : 'v-button-outline--green'" @click="subscribe"
 							v-text="subscribed ? 'Unsubscribe' : 'Subscribe'"></button>
 					</div>
 				</div>

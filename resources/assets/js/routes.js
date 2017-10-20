@@ -153,11 +153,13 @@ Vue.use(VueRouter);
 
 var router = new VueRouter({
     mode: 'history',
-    routes,
-    scrollBehavior (to, from, savedPosition) {
-        return {x: 0, y:0}
-    }
+    routes
 })
+
+
+// scroll behavior 
+const scrollableElementId = 'submissions'; 
+const scrollPositions = Object.create(null);
 
 
 /**
@@ -166,6 +168,13 @@ var router = new VueRouter({
  * sets it to that, otherwise sets it to the default (voten).
  */
 router.beforeEach((to, from, next) => {
+    // scroll behavior 
+    let element = document.getElementById(scrollableElementId)
+    if (element !== null) {
+        scrollPositions[from.name] = element.scrollTop
+    }
+
+    // page title 
     if (to.meta.title) {
         document.title = to.meta.title
     } else {
@@ -180,8 +189,18 @@ router.beforeEach((to, from, next) => {
     	}
     }
 
-    next()
-})
+    next(); 
+}); 
+
+// scroll behavior 
+window.addEventListener('popstate', () => {
+    let currentRouteName = router.history.current.name
+
+    let element = document.getElementById(scrollableElementId)
+    if (element !== null && currentRouteName in scrollPositions) {
+        setTimeout(() => element.scrollTop = scrollPositions[currentRouteName], 50)
+    }
+}); 
 
 
 /**

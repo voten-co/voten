@@ -19,7 +19,7 @@
 		</div>
 
 		<div class="action">
-			<button class="v-button v-button--green" @click="subscribe">
+			<button class="v-button v-button-outline--green" @click="subscribe">
 				Subscribe
 			</button>
 		</div>

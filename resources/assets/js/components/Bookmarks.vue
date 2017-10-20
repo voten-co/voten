@@ -36,6 +36,7 @@
 <script>
 	export default {
 		beforeRouteLeave(to, from, next) {
+			// Too keep bookmarked records fresh 
 			this.$destroy();
 
 			next();

@@ -67,6 +67,8 @@
 .category-header-middle {
     flex: 3;
     padding-left: 1em;
+    display: flex;
+    align-items: center;
 }
 
 .category-header-middle h1,
@@ -193,7 +195,7 @@
     border-radius: 2px;
 }
 
-.category-header-mobile {
+.category-header-small {
     width: 100%;
     border-bottom: 2px solid;
     border-color: rgba(117, 148, 127, 0.24);
@@ -219,21 +221,27 @@
     	border-radius: 2px;
     	margin-right: .5em;
 	}
-
-	
-	button {
-		background: none;
-        border: none; 
-        color: #fff;
-        cursor: pointer;
-    }
     
     .v-left {
         font-size: 20px;
         padding: 0;
     }
 
+    button {
+        background: none;
+        border: none; 
+        color: #fff;
+        cursor: pointer;
+    }
+}
+
+.category-header-small, 
+.category-header-big {
     .subscribe {
+        background: none;
+        border: none; 
+        color: #fff;
+        cursor: pointer;
         font-size: 13px;
         border: 1.5px solid #fff;
         border-radius: 2px;
@@ -246,6 +254,10 @@
     }
 
     .unsubscribe {
+        background: none;
+        border: none; 
+        color: #fff;
+        cursor: pointer;
         font-size: 13px;
         border: 1.5px solid #fff;
         border-radius: 2px;
@@ -260,4 +272,9 @@
     }
 }
 
-	
+.category-header-big {
+    .nav, 
+    .nav .container {
+        min-height: 50px !important;
+    }
+}

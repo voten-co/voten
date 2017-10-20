@@ -1,12 +1,12 @@
 <template>
     <div class="sidebar-left user-select">
         <!-- profile -->
-        <a @click="pushRouter('/' + '@' + auth.username)" :class="{ 'active': activeRoute === 'user-settings'}" class="item" v-tooltip.right="{content: 'Profile', offset: 0}">
+        <a @click.prevent="pushRouter('/' + '@' + auth.username)" :href="'/' + '@' + auth.username" :class="{ 'active': activeRoute === 'user-settings'}" class="item" v-tooltip.right="{content: 'Profile', offset: 0}">
             <img :src="auth.avatar" :alt="auth.username" class="avatar">
         </a>
 
         <!-- Home -->
-        <a @click="pushRouter('/')" :class="{ 'active': activeRoute === 'home' }" class="item" v-tooltip.right="{content: 'Home Feed (H)', offset: 0}">
+        <a @click.prevent="pushRouter('/')" href="/" :class="{ 'active': activeRoute === 'home' }" class="item" v-tooltip.right="{content: 'Home Feed (H)', offset: 0}">
             <i class="v-icon v-home" aria-hidden="true"></i>
         </a>
         
@@ -27,7 +27,7 @@
         </a>
 
         <!-- Bookmarks -->
-        <a @click="pushRouter('/bookmarks')" class="item" :class="{'active' : activeRoute === 'bookmarks'}" v-tooltip.right="{content: 'Bookmarks (B)', offset: 0}">
+        <a @click.prevent="pushRouter('/bookmarks')" href="/bookmarks" class="item" :class="{'active' : activeRoute === 'bookmarks'}" v-tooltip.right="{content: 'Bookmarks (B)', offset: 0}">
             <i class="v-icon v-bookmark" aria-hidden="true"></i>
         </a>
             
@@ -38,13 +38,13 @@
         </a>
         
         <!-- Settings -->
-        <a class="item" v-tooltip="{content:'Preferences', offset: 8}" @click="pushRouter('/@' + auth.username + '/settings')"
+        <a class="item" v-tooltip="{content:'Preferences', offset: 8}" @click.prevent="pushRouter('/@' + auth.username + '/settings')" :href="'/@' + auth.username + '/settings'"
             :class="{'active' : activeRoute === 'settings'}">
-            <i class="v-icon v-gears" aria-hidden="true"></i>
+            <i class="v-icon v-config" aria-hidden="true"></i>
         </a>
         
         <!-- Submit -->
-        <a class="item" v-tooltip="{content:'Add Content', offset: 8}" @click="pushRouter('/submit')"
+        <a class="item" v-tooltip="{content:'Add Content', offset: 8}" @click.prevent="pushRouter('/submit')" href="/submit"
             :class="{'active' : activeRoute === 'submit'}">
             <i class="v-icon v-add-content" aria-hidden="true"></i>
         </a>

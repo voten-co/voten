@@ -1,48 +1,50 @@
 <template>
-<div>
-	<category-header-mobile></category-header-mobile>
 
-	<div class="col-full">
-		<nsfw-warning v-if="submission.nsfw == 1 && !auth.nsfw"
-			:text="'This submission contains NSFW content which can not be displayed according to your personal settings.'">
-		</nsfw-warning>
+	<div>
+		<category-header-mobile></category-header-mobile>
 
-		<div v-if="submission.nsfw == 0 || auth.nsfw">
-			<loading v-if="loadingSubmission"></loading>
+		<div class="col-full">
+			<nsfw-warning v-if="submission.nsfw == 1 && !auth.nsfw"
+				:text="'This submission contains NSFW content which can not be displayed according to your personal settings.'">
+			</nsfw-warning>
 
-			<full-submission v-if="!loadingSubmission" :list="submission" :full="true"></full-submission>
+			<div v-if="submission.nsfw == 0 || auth.nsfw">
+				<loading v-if="loadingSubmission"></loading>
 
-		    <section class="box-typical comments" id="comments-section" v-if="!loadingSubmission">
-		        <header class="box-typical-header-sm bordered user-select flex-space">
-		            <div>
-		            	<span v-show="comments.length">{{ submission.comments_number }}</span>
-		            	Comments: <span class="go-gray go-small" v-if="!isGuest">({{ onlineUsersCount }} online users)</span>
-		            </div>
-		            <div class="head-sort-icon" v-show="comments.length > 1">
-		                <i class="v-icon v-like pointer" aria-hidden="true" v-tooltip.bottom="{content: 'Hottest'}"
-		                   @click="newSort('hot')"
-		                   :class="{ 'go-primary': sort == 'hot' }"></i>
-		                <i class="v-icon v-clock pointer" aria-hidden="true" v-tooltip.bottom="{content: 'Newest'}"
-		                   @click="newSort('new')"
-		                   :class="{ 'go-primary': sort == 'new' }"></i>
-		            </div>
-		        </header>
+				<full-submission v-if="!loadingSubmission" :list="submission" :full="true"></full-submission>
 
-		        <div class="box-typical-inner ui threaded comments" v-if="submission.id != 0">
-		            <comment-form :submission="submission.id" :parent="0"></comment-form>
+				<section class="box-typical comments" id="comments-section" v-if="!loadingSubmission">
+					<header class="box-typical-header-sm bordered user-select flex-space">
+						<div>
+							<span v-show="comments.length">{{ submission.comments_number }}</span>
+							Comments: <span class="go-gray go-small" v-if="!isGuest">({{ onlineUsersCount }} online users)</span>
+						</div>
+						<div class="head-sort-icon" v-show="comments.length > 1">
+							<i class="v-icon v-like pointer" aria-hidden="true" v-tooltip.bottom="{content: 'Hottest'}"
+							@click="newSort('hot')"
+							:class="{ 'go-primary': sort == 'hot' }"></i>
+							<i class="v-icon v-clock pointer" aria-hidden="true" v-tooltip.bottom="{content: 'Newest'}"
+							@click="newSort('new')"
+							:class="{ 'go-primary': sort == 'new' }"></i>
+						</div>
+					</header>
 
-		            <loading v-if="loadingComments && page < 2"></loading>
+					<div class="box-typical-inner ui threaded comments" v-if="submission.id != 0">
+						<comment-form :submission="submission.id" :parent="0"></comment-form>
 
-					<comment :list="c" :comments-order="commentsOrder" v-for="c in uniqueList" :key="c.id" :full="true"></comment>
-		        </div>
-		    </section>
+						<loading v-if="loadingComments && page < 2"></loading>
 
-		    <button class="v-button v-button--block" v-if="moreComments" @click="loadMoreComments">
-	        	Load More Comments
-	    	</button>
+						<comment :list="c" :comments-order="commentsOrder" v-for="c in uniqueList" :key="c.id" :full="true"></comment>
+					</div>
+				</section>
+
+				<button class="v-button v-button--block" v-if="moreComments" @click="loadMoreComments">
+					Load More Comments
+				</button>
+			</div>
 		</div>
 	</div>
-</div>
+
 </template>
 
 <script>
@@ -287,17 +289,18 @@
                 this.sort = sort;
             }
         },
-
-        /**
-         * necessary actions before leaving this submission page
-         *
-         * @return void
-         */
+       
         beforeRouteLeave(to, from, next) {
 			Echo.leave('submission.' + from.params.slug);
 			
 			Store.submission = [];
 			this.$destroy();
+
+			next();
+		}, 
+
+        beforeRouteUpdate(to, from, next) {
+			Echo.leave('submission.' + from.params.slug);
 
 			next();
 		}

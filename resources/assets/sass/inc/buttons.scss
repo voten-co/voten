@@ -5,14 +5,26 @@
 
 .v-button.v-button--primary {
     background-color: #6181c1;
-    //border-bottom: 2px solid #476087;
+}
+.v-button.v-button-outline--primary {
+    background-color: inherit;
+    color: $primary-color;
+    border: 2px solid $primary-color;
+    display: flex;
+    align-items: center;
 }
 
 .v-button.v-button--green {
     background-color: $green-color;
     color: #fff;
     border-color: transparent;
-    //border-bottom: 2px solid #5b9178;
+}
+.v-button.v-button-outline--green {
+    background-color: inherit;
+    color: $green-color;
+    border: 2px solid $green-color;
+    display: flex;
+    align-items: center;
 }
 
 .v-button.v-button--link {
@@ -30,8 +42,15 @@
     background-color: #db6e6e;
     color: #fff;
     border-color: transparent;
-    //border-bottom: 2px solid #844343;
 }
+.v-button.v-button-outline--red {
+    background-color: inherit;
+    color: $red-color;
+    border: 2px solid $red-color;
+    display: flex;
+    align-items: center;
+}
+
 
 .v-button--white-inverted {
     background: transparent none !important;
@@ -75,11 +94,13 @@ label.v-toggle--checked.v-toggle {
     align-items: center;
     border-radius: 2px;
     color: #75797b;
+     
+    &:hover, 
+    & i:hover {
+        color: #000000;
+    }
 }
 
-.feed-panel-button:hover {
-    background: rgb(240, 240, 240);
-}
 
 .sidebar-panel-button {
 	background: none;

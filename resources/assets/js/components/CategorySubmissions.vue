@@ -1,5 +1,5 @@
 <template>
-	<div class="col-7 padding-bottom-10">
+	<div class="padding-bottom-10 flex1" id="submissions" @scroll="scrolled">
 		<submission :list="submission" v-for="submission in uniqueList" v-bind:key="submission.id"></submission>
 
 		<no-content v-if="nothingFound" :text="'Oooops, I hate to say it but there are no submissions to show you here'"></no-content>
@@ -44,13 +44,17 @@ export default {
 		this.clear(); 
 		this.$eventHub.$on('scrolled-to-bottom', this.loadMore); 
 		this.$eventHub.$on('refresh-category-submissions', this.clear); 
-   	},
+	},
 
-    watch: {
-		'$route': function () {
-			if (this.$route.name !== 'category-submissions') return;
+	watch: {
+		'$route': function() {
+			if (this.$route.name !== 'category-submissions' || this.isActive === false) {
+				return;
+			}
 
-			this.clear(); 
+			this.clear();
+			this.$eventHub.$on('scrolled-to-bottom', this.loadMore);
+			this.$eventHub.$on('refresh-category-submissions', this.clear); 
 		}
 	},
 

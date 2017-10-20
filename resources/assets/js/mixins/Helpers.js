@@ -190,8 +190,10 @@ export default {
             if ((box.scrollHeight - box.scrollTop) < (box.clientHeight + 100)) {
                 this.$eventHub.$emit('scrolled-to-bottom');
             }
-
-            if (box.scrollTop < 1500) {
+            
+            if (box.scrollTop < 100) {
+                this.$eventHub.$emit('scrolled-to-top');
+            } else if (box.scrollTop < 1500) {
                 this.$eventHub.$emit('scrolled-a-bit');
             } else {
                 this.$eventHub.$emit('scrolled-a-lot');

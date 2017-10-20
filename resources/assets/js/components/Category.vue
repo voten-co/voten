@@ -1,5 +1,5 @@
 <template>
-	<section>
+	<div class="home-wrapper" id="category">
 		<category-header></category-header>
 
 		<nsfw-warning v-if="nsfw"
@@ -8,8 +8,8 @@
 
 		<router-view v-else></router-view>
 
-		<scroll-button scrollable="v-content"></scroll-button>
-	</section>
+		<scroll-button scrollable="submissions"></scroll-button>
+	</div>
 </template>
 
 <script>
@@ -42,6 +42,7 @@ export default {
 	activated() {
 		this.isActive = true;
 	},
+
 	deactivated() {
 		this.isActive = false;
 	}, 
@@ -49,11 +50,15 @@ export default {
    	created () {
    		this.updateCategoryStore();
    		this.setPageTitle('#' + this.$route.params.name);
-   	},
+	},
 
     watch: {
 		'$route': function () {
 			if (this.isActive === false) return;
+
+			// if (this.$route.name !== 'submission-page') {
+			// 	this.$destroy();
+			// }
 
 			this.updateCategoryStore();
 			this.setPageTitle('#' + this.$route.params.name);

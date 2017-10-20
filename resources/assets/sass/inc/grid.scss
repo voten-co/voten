@@ -211,3 +211,16 @@
         padding: 2em 1em;
     }
 }
+
+// only mobile
+@media (max-width: 768px) {
+	.home-wrapper {
+        height: inherit;
+    }
+}
+
+
+#submissions {
+    overflow-y: scroll;
+    padding: 2em 1em;
+}

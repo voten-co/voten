@@ -16,12 +16,12 @@
                     <div class="metadata user-select">
                         <router-link class="go-gray h-underline" v-if="!full"
                         :to="'/submission/' + list.submission_id">
-                            <small><span v-tooltip.bottom="{content: 'Created: ' + longDate}">{{ date }}</span> — {{ points }} Points</small>
+                            <small><span v-tooltip.top="{content: 'Created: ' + longDate}">{{ date }}</span> — {{ points }} Points</small>
                         </router-link>
 
-                        <small v-else><span v-tooltip.bottom="{content: 'Created: ' + longDate}">{{ date }}</span> — {{ points }} Points</small>
+                        <small v-else><span v-tooltip.top="{content: 'Created: ' + longDate}">{{ date }}</span> — {{ points }} Points</small>
 
-                        <span class="edited" v-if="isEdited">
+                        <span class="edited" v-if="isEdited" v-tooltip.top="{content: 'Edited: ' + editedDate}">
                             Edited
                         </span>
                     </div>
@@ -219,6 +219,10 @@
             isEdited() {
                 return this.list.edited_at;
             },
+
+            editedDate() {
+                return this.parseFullDate(this.list.edited_at); 
+            }, 
 
             points() {
                 let total = this.list.upvotes - this.list.downvotes;
@@ -578,8 +582,9 @@
              * @return void
              */
             destroy() {
-                axios.post('/destroy-comment', { id: this.list.id });
                 this.visible = false;
+                
+                axios.post('/destroy-comment', { id: this.list.id });
             },
 
             /**

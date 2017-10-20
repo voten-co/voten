@@ -22,7 +22,6 @@
 .v-dot-3:before { content: '\e814'; } /* '' */
 .v-left:before { content: '\e815'; } /* '' */
 .v-attention-alt:before { content: '\e816'; } /* '' */
-.v-gears:before { content: '\e817'; } /* '' */
 .v-hide:before { content: '\e818'; } /* '' */
 .v-photo:before { content: '\e819'; } /* '' */
 .v-submit:before { content: '\e81a'; } /* '' */
@@ -106,6 +105,7 @@
 .v-credits:before { content: '\f1c9'; } /* '' */
 .v-help:before { content: '\f1cd'; } /* '' */
 .v-unchecked:before { content: '\f1db'; } /* '' */
+.v-sliders:before { content: '\f1de'; } /* '' */
 .v-press:before { content: '\f1ea'; } /* '' */
 .v-bell-off:before { content: '\f1f7'; } /* '' */
 .v-chart-pie:before { content: '\f200'; } /* '' */
