@@ -101,7 +101,6 @@ class CategoryController extends Controller
     {
         $submissions = $this->getSubmissions($category, $request->sort ?? 'hot');
         $category = $this->getCategoryByName($category);
-        $category->stats = $this->categoryStats($category->id);
 
         return view('category.show', compact('submissions', 'category'));
     }
@@ -118,8 +117,6 @@ class CategoryController extends Controller
         ]);
 
         $category = $this->getCategoryByName($request->name);
-
-        $category->stats = $this->categoryStats($category->id);
 
         return $category;
     }

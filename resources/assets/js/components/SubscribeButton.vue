@@ -73,9 +73,9 @@ export default {
             	Store.subscribedCategories.push(Store.category);
                 Store.subscribedAt.push(Store.category.id);
 
-            	Store.category.stats.subscribersCount ++;
+            	Store.category.subscribers ++;
             } else {
-            	Store.category.stats.subscribersCount --;
+            	Store.category.subscribers --;
 
             	let removeItem = Store.category.id;
 				Store.subscribedCategories = Store.subscribedCategories.filter(function (category) {
