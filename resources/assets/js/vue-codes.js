@@ -254,52 +254,53 @@ const app = new Vue({
         },
 
         /**
-         * Fetches the info about the category which we need later
+         * Fetches the info about the category which we need later. 
          *
-         * @return void
          * @param string name
          */
-        getCategoryStore(name) {
-        	// if landed on a submission page
-        	if (preload.category && preload.category.name == this.$route.params.name) {
-        		Store.category = preload.category;
-        		delete preload.category;
-        		return;
-        	}
+        getCategoryStore: _.throttle(function (name) {
+            // if landed on a submission page
+            if (preload.category && preload.category.name == this.$route.params.name) {
+                Store.category = preload.category;
+                delete preload.category;
+                return;
+            }
 
-            axios.get('/get-category-store', {
-            	params: {
-            		name: name
-            	}
-            }).then((response) => {
-                Store.category = response.data
+            if (Store.category.name == undefined || Store.category.name != this.$route.params.name) {
+                axios.get('/get-category-store', {
+                    params: {
+                        name: name
+                    }
+                }).then((response) => {
+                    Store.category = response.data
 
-                // update the category in the user's subscriptions (avatar might have changed)
-                let category_id = Store.category.id
-                function findObject(ob) {
-	                return ob.id === category_id
-	            }
-	            let i = Store.subscribedCategories.findIndex(findObject)
+                    // update the category in the user's subscriptions (avatar might have changed)
+                    let category_id = Store.category.id
+                    function findObject(ob) {
+                        return ob.id === category_id
+                    }
+                    let i = Store.subscribedCategories.findIndex(findObject)
 
-	            if (i != -1 && Store.subscribedCategories[i].avatar != response.data.avatar) {
-	            	Store.subscribedCategories[i].avatar = response.data.avatar
-	            	this.putLS('subscribedCategories', Store.subscribedCategories)
-	            }
+                    if (i != -1 && Store.subscribedCategories[i].avatar != response.data.avatar) {
+                        Store.subscribedCategories[i].avatar = response.data.avatar
+                        this.putLS('subscribedCategories', Store.subscribedCategories)
+                    }
 
-	            // update the category in the user's moderating (avatar might have changed)
-	            i = Store.moderatingCategories.findIndex(findObject)
+                    // update the category in the user's moderating (avatar might have changed)
+                    i = Store.moderatingCategories.findIndex(findObject)
 
-	            if ( i != -1 && Store.moderatingCategories[i].avatar != response.data.avatar) {
-	            	Store.moderatingCategories[i].avatar = response.data.avatar
-	            	this.putLS('moderatingCategories', Store.moderatingCategories)
-	            }
-            }).catch((error) => {
-                if (error.response.status === 404) {
-                    this.$router.push('/404')
-                }
-            });
-        },
-
+                    if (i != -1 && Store.moderatingCategories[i].avatar != response.data.avatar) {
+                        Store.moderatingCategories[i].avatar = response.data.avatar
+                        this.putLS('moderatingCategories', Store.moderatingCategories)
+                    }
+                }).catch((error) => {
+                    if (error.response.status === 404) {
+                        this.$router.push('/404')
+                    }
+                });
+            }
+        }, 600),
+       
         /**
          * Runned at the page load, sets the default valie for this.sidebar
          *

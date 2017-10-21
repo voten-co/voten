@@ -1,8 +1,8 @@
 <template>
-	<section class="bookmarked-items" @scroll="scrolled">
+	<section class="bookmarked-items" @scroll="scrolled" :class="{'flex-center' : nothingFound}">
 		<bookmarked-category v-for="category in categories" :list="category" :key="category.id"></bookmarked-category>
 
-	    <no-content v-if="nothingFound" :text="'You have not bookmarked any channels yet'"></no-content>
+	    <no-content v-if="nothingFound" :text="'No bookmarked channels yet'"></no-content>
 
 		<loading v-show="loading"></loading>
 

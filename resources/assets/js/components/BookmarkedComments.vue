@@ -1,5 +1,5 @@
 <template>
-	<section class="bookmarked-items padding-1" @scroll="scrolled">
+	<section class="bookmarked-items padding-1" @scroll="scrolled" :class="{'flex-center' : nothingFound}">
 		<section class="box-typical comments" id="comments-section" v-if="comments.length">
 	    	<div class="box-typical-inner ui threaded comments">
 	    		<div v-for="c in comments" :key="c.id" class="v-comment-not-full">
@@ -8,7 +8,7 @@
 	    	</div>
 	    </section>
 
-		<no-content v-if="nothingFound" :text="'You have not bookmarked any comments yet'"></no-content>
+		<no-content v-if="nothingFound" :text="'No bookmarked comments yet'"></no-content>
 
 		<loading v-show="loading"></loading>
 

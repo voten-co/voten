@@ -1,8 +1,8 @@
 <template>
-	<div class="padding-bottom-10 flex1" id="submissions" @scroll="scrolled">
+	<div class="padding-bottom-10 flex1" id="submissions" @scroll="scrolled" :class="{'flex-center' : nothingFound}">
 		<submission :list="submission" v-for="submission in uniqueList" v-bind:key="submission.id"></submission>
 
-		<no-content v-if="nothingFound" :text="'Oooops, I hate to say it but there are no submissions to show you here'"></no-content>
+		<no-content v-if="nothingFound" :text="'No submissions here yet'"></no-content>
 
 		<loading v-if="loading"></loading>
 
@@ -91,16 +91,9 @@ export default {
 			this.updateCategoryStore(); 
 			this.getSubmissions(); 
     	},
-
-    	/**
-    	 * Checks wheather or not the categoryStore needs to be filled or updated, and if yes simply does it
-    	 *
-    	 * @return void
-    	 */
+    	
     	updateCategoryStore () {
-    		if (Store.category.name == undefined || Store.category.name != this.$route.params.name) {
-	    		this.$root.getCategoryStore(this.$route.params.name)
-    		}
+			this.$root.getCategoryStore(this.$route.params.name); 
     	},
 
     	getSubmissions () {

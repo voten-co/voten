@@ -1,8 +1,8 @@
 <template>
-	<section class="bookmarked-items" @scroll="scrolled">
+	<section class="bookmarked-items" @scroll="scrolled" :class="{'flex-center' : nothingFound}">
         <submission v-for="submission in submissions" :list="submission" :key="submission.id"></submission>
 
-		<no-content v-if="nothingFound" :text="'You have not bookmarked any submissions yet'"></no-content>
+		<no-content v-if="nothingFound" :text="'No bookmarked submissions yet'"></no-content>
 
 		<loading v-show="loading"></loading>
 

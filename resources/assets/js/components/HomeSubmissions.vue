@@ -163,10 +163,10 @@
 				this.page = 0;
 	    	},
 
-	    	refresh() {
+	    	refresh: _.throttle(function() {
 	    	    this.clearContent();
 	    	    this.getSubmissions();
-	    	},
+	    	}, 1000), 
 	    }
     };
 </script>

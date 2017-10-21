@@ -260,7 +260,7 @@
 			 *
 			 * @return void
              */
-        	bookmark (submission) {
+        	bookmark: _.throttle(function(submission) {
         		if (this.isGuest) {
             		this.mustBeLogin();
             		return;
@@ -280,7 +280,7 @@
 
                     Store.submissionBookmarks.push(this.list.id);
 				})
-        	},
+        	}, 500), 
 
             /**
              * hide(block) submission
@@ -351,52 +351,51 @@
              *
              *  @return void
              */
-            voteUp() {
-            	if (this.isGuest) {
-            		this.mustBeLogin();
-            		return;
-            	}
+            voteUp: _.throttle(function() {
+				if (this.isGuest) {
+					this.mustBeLogin();
+					return;
+				}
 
-				let id = this.list.id
+				let id = this.list.id; 
 
 				axios.post('/upvote-submission', {
 					submission_id: id,
 					previous_vote: this.currentVote
 				})
 
-            	// Have up-voted
-            	if (this.upvoted) {
-            		this.upvoted = false
-            		this.list.upvotes --
+				// Have up-voted
+				if (this.upvoted) {
+					this.upvoted = false; 
+					this.list.upvotes--; 
 
-            		var index = Store.submissionUpVotes.indexOf(id);
-                	Store.submissionUpVotes.splice(index, 1);
+					var index = Store.submissionUpVotes.indexOf(id);
+					Store.submissionUpVotes.splice(index, 1);
 
-            		return
-            	}
+					return; 
+				}
 
 				// Have down-voted
-            	if (this.downvoted) {
-            		this.downvoted = false
-            		this.list.downvotes --
+				if (this.downvoted) {
+					this.downvoted = false; 
+					this.list.downvotes--; 
 
-            		var index = Store.submissionDownVotes.indexOf(id);
-                	Store.submissionDownVotes.splice(index, 1);
-            	}
+					var index = Store.submissionDownVotes.indexOf(id);
+					Store.submissionDownVotes.splice(index, 1);
+				}
 
-            	// Not voted
-            	this.upvoted = true
-            	this.list.upvotes ++
-            	Store.submissionUpVotes.push(id)
-            },
-
+				// Not voted
+				this.upvoted = true; 
+				this.list.upvotes++; 
+				Store.submissionUpVotes.push(id); 
+			}, 500),  
 
             /**
              *  Downvote submission
              *
              *  @return void
              */
-            voteDown () {
+            voteDown: _.throttle(function() {
             	if (this.isGuest) {
             		this.mustBeLogin();
             		return;
@@ -433,13 +432,14 @@
             	this.downvoted = true
             	this.list.downvotes ++
             	Store.submissionDownVotes.push(id)
-            },
+            }, 500),  
 
 			showPhotoViewer(index = null){
 				if (index !== null) {
-					this.photoViewerIndex = index
+					this.photoViewerIndex = index; 
 				}
-	            this.photoViewer = true
+
+	            this.photoViewer = true; 
 	        },
 
 			showEmbed() {

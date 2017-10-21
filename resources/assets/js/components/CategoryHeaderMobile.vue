@@ -88,10 +88,8 @@
 	    	 * @return void
 	    	 */
 			updateCategoryStore() {
-				if (Store.category.name == undefined || Store.category.name != this.$route.params.name) {
-					this.$root.getCategoryStore(this.$route.params.name);
-					this.category = this.$route.params.name;
-				}
+				this.$root.getCategoryStore(this.$route.params.name);
+				this.category = this.$route.params.name;
 			},
 
 			goBack() {

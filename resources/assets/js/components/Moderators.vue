@@ -15,7 +15,7 @@
                 <div class="flex1">
                     <loading v-show="loading"></loading>
 
-                    <div class="small-modal-user" v-for="user in list">
+                    <div class="small-modal-user" v-for="user in list" :key="user.id">
                         <div>
                             <router-link :to="'/@' + user.username">
                                 <img :src="user.avatar" :alt="user.username">
@@ -27,7 +27,7 @@
                         </div>
 
                         <div>
-                            <button type="button" class="v-button v-button--green v-button-small" @click="sendMessage(user)" v-if="user.username !== auth.username">
+                            <button type="button" class="v-button v-button-outline--green v-button-small" @click="sendMessage(user)" v-if="user.username !== auth.username">
                                 Send a message
                             </button>
                         </div>

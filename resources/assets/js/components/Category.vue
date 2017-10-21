@@ -47,8 +47,7 @@ export default {
 		this.isActive = false;
 	}, 
 
-   	created () {
-   		this.updateCategoryStore();
+   	created() {
    		this.setPageTitle('#' + this.$route.params.name);
 	},
 
@@ -60,7 +59,7 @@ export default {
 			// 	this.$destroy();
 			// }
 
-			this.updateCategoryStore();
+			this.$root.getCategoryStore(this.$route.params.name);
 			this.setPageTitle('#' + this.$route.params.name);
 		}
 	},
@@ -69,19 +68,6 @@ export default {
 		nsfw() {
 			return Store.category.nsfw && !auth.nsfw;
 		},
-    },
-
-    methods: {
-    	/**
-    	 * Checks wheather or not the categoryStore needs to be filled or updated, and if yes simply does it
-    	 *
-    	 * @return void
-    	 */
-    	updateCategoryStore () {
-    		if (Store.category.name == undefined || Store.category.name != this.$route.params.name) {
-	    		this.$root.getCategoryStore(this.$route.params.name);
-    		}
-    	},
     }
 }
 </script>

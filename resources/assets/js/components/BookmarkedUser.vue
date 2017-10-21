@@ -1,33 +1,35 @@
 <template>
 	<transition name="fade">
 		<section class="bookmarked-item user-select" v-show="visible">
-		<div class="avatar">
-			<router-link :to="'/@' + list.username">
-				<img :src="list.avatar" :alt="list.username">
-			</router-link>
-		</div>
-
-		<div class="flex1">
-			<div class="flex-space">
-				<h2>
-					<router-link :to="'/@' + list.username">
-						<i class="v-icon v-atsign" aria-hidden="true"></i>{{ list.username }}
-					</router-link>
-				</h2>
-
-				<div class="flex-align-center">
-					<i class="v-icon h-yellow pointer" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'" @click="bookmark"
-						v-tooltip.left="{content: bookmarked ? 'Unbookmark' : 'Bookmark'}"></i>
-
-					<button class="v-button v-button-small margin-left-1 v-button--green" @click="sendMessage(list)">Message</button>
-				</div>
+			<div class="avatar">
+				<router-link :to="'/@' + list.username">
+					<img :src="list.avatar" :alt="list.username">
+				</router-link>
 			</div>
 
-			<p>
-				{{ list.bio }}
-			</p>
-		</div>
-	</section>
+			<div class="flex1">
+				<div class="flex-space">
+					<h2>
+						<router-link :to="'/@' + list.username">
+							<i class="v-icon v-atsign" aria-hidden="true"></i>{{ list.username }}
+						</router-link>
+					</h2>
+
+					<div class="flex-align-center">
+						<i class="v-icon h-yellow pointer" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'" @click="bookmark"
+							v-tooltip.left="{content: bookmarked ? 'Unbookmark' : 'Bookmark'}"></i>
+
+						<button class="v-button v-button-small margin-left-1 v-button-outline--green" @click="sendMessage(list)">
+							Message
+						</button>
+					</div>
+				</div>
+
+				<p>
+					{{ list.bio }}
+				</p>
+			</div>
+		</section>
 	</transition>
 </template>
 

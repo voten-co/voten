@@ -53,7 +53,7 @@
 
             <ul class="menu-list" v-else>
                 <li v-for="category in sortedSubscribeds">
-                    <router-link :to="'/c/' + category.name" active-class="active">
+                    <router-link :to="'/c/' + category.name" active-class="active" @click.prevent="setStoreCategory(category)">
                         <img class="square" v-bind:src="category.avatar" v-bind:alt="category.name">
                         <span class="v-channels-text">{{ category.name }}</span>
                     </router-link>
@@ -70,7 +70,7 @@
     export default {
         mixins: [Helpers, LocalStorage],
 
-        data: function() {
+        data() {
             return {
                 subscribedFilter: '',
                 categoriesLimit: 50,
@@ -136,6 +136,17 @@
                     Store.subscribedCategories = response.data;
                 });
             }
+        }, 
+
+        /**
+         * Set the Store.category. This is not necessary but just an optimization trick. 
+         * 
+         * @return void 
+         */
+        setStoreCategory(category) {
+            Store.category = category; 
+
+            this.$router.push('/c/' + category.name); 
         }
     }
 </script>
