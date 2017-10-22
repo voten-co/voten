@@ -6,7 +6,7 @@
 			<submission :list="value"></submission>
 		</div>
 
-	    <no-content v-if="nothingFound" :text="'Oooops, I hate to say it but there are no submissions to show you here'"></no-content>
+	    <no-content v-if="nothingFound" :text="'No submissions at this time. Try subscribing to more channels or changing your feed filter. '"></no-content>
 
 		<loading v-if="loading"></loading>
 
