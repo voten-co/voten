@@ -121,7 +121,7 @@
 
 		            <message-button :id="userStore.id" v-if="$route.params.username != auth.username && !isGuest"></message-button>
 
-					<router-link class="v-button" :to="{ name: 'user-settings-profile' }" v-show="$route.params.username == auth.username">
+					<router-link class="v-button v-button-outline--green" :to="{ name: 'user-settings-profile' }" v-show="$route.params.username == auth.username">
 						Edit Profile
 					</router-link>
 		        </div>

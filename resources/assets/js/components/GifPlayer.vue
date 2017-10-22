@@ -43,7 +43,7 @@
             </div>
         </div>
 
-        <div class="photo-wrapper" @click="$emit('close')">
+        <div class="photo-wrapper">
             <video loop controls autoplay @click.stop.prevent="" :poster="list.data.thumbnail_path">
                 <source :src="list.data.mp4_path" type="video/mp4">
             </video>

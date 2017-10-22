@@ -1,5 +1,5 @@
 <template>
-    <button class="v-button v-button--green" @click="sendMessage">
+    <button class="v-button v-button-outline--green" @click="sendMessage">
         Message
     </button>
 </template>
@@ -9,15 +9,14 @@
     export default {
         props: ['id'],
 
-        data: function () {
+        data() {
             return {
                 subscribed: false,
                 contact: [],
             }
         },
 
-
-        created: function () {
+        created() {
         	this.getUser()
         },
 

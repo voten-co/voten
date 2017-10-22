@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="home-wrapper" id="user">
 		<user-header v-if="loaded"></user-header>
 
 		<router-view></router-view>

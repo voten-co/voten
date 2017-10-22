@@ -1,8 +1,6 @@
 <template>
-    <div class="container margin-top-1 col-7">
-	    <div v-for="submission in submissions" v-bind:key="submission.id">
-	        <submission :list="submission"></submission>
-	    </div>
+    <div class="padding-bottom-10 flex1" @scroll="scrolled" :class="{'flex-center' : nothingFound}" id="submissions">
+	    <submission :list="submission" v-for="submission in submissions" v-bind:key="submission.id"></submission>
 
 	    <no-content v-if="nothingFound" :text="'This user has not submitted anything yet'"></no-content>
 

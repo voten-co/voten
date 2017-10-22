@@ -1,8 +1,8 @@
 <template>
-    <section class="container margin-top-1 col-7">
+    <div class="padding-bottom-10 flex1" @scroll="scrolled" :class="{'flex-center' : nothingFound}" id="comments-index">
 		<section class="box-typical comments" id="comments-section" v-if="comments.length">
 	    	<div class="box-typical-inner ui threaded comments">
-	    		<div v-for="c in comments" class="v-comment-not-full">
+	    		<div v-for="c in comments" class="v-comment-not-full" :key="c.id">
 			        <comment :list="c" :comments-order="'created_at'"></comment>
 			    </div>
 	    	</div>
@@ -13,7 +13,7 @@
         <loading v-if="loading"></loading>
 
 	    <no-more-items :text="'No more items to load'" v-if="NoMoreItems && !nothingFound"></no-more-items>
-    </section>
+    </div>
 </template>
 
 <script>
