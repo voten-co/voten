@@ -60,26 +60,32 @@
     color: #555;
 }
 
-.category-header-left {
+.category-header-left, 
+.user-header-left {
     flex-basis: 150px;
-}
-
-.category-header-middle {
-    flex: 3;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
-.category-header-middle h1,
-.category-header-middle h2 {
-    display: inline;
-    font-size: 1.7em;
+.category-header-middle, 
+.user-header-middle {
+    flex: 3;
 }
 
-.category-header-middle h1 {
-    font-size: 2em;
+.category-header-middle, 
+.user-header-middle {
+    h1, h2 {
+        display: inline;
+        font-size: 1.7em;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
 }
 
+.user-header-right, 
 .category-header-right {
     text-align: center;
     flex-basis: 120px;

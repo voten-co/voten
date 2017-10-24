@@ -35,6 +35,7 @@ import UserSettingsEditProfile from './components/UserSettingsEditProfile.vue';
 import UserSettingsEditAccount from './components/UserSettingsEditAccount.vue';
 import UserDownvotedSubmissions from './components/UserDownvotedSubmissions.vue';
 import ModeratorPanelModerators from './components/ModeratorPanelModerators.vue';
+import UserSettingsDeleteAccount from './components/UserSettingsDeleteAccount.vue';
 import ModeratorPanelBlockDomains from './components/ModeratorPanelBlockDomains.vue';
 import ModeratorPanelReportedComments from './components/ModeratorPanelReportedComments.vue';
 import UserSettingsEditEmailAndPassword from './components/UserSettingsEditEmailAndPassword.vue';
@@ -82,6 +83,7 @@ const routes = [
                      { path: 'account', component: UserSettingsEditAccount, name: 'user-settings-account' },
                      { path: 'profile', component: UserSettingsEditProfile, name: 'user-settings-profile' },
                      { path: 'feed', component: UserSettingsEditFeed, name: 'user-settings-feed' },
+                     { path: 'delete-account', component: UserSettingsDeleteAccount, name: 'user-settings-delete-account' },
                      { path: 'email-and-password', component: UserSettingsEditEmailAndPassword, name: 'user-settings-email-and-password' },
                  ]
              },

@@ -1,5 +1,5 @@
 <template>
-	<section class="container margin-top-1 col-7">
+	<div class="padding-bottom-10 flex1" @scroll="scrolled" :class="{'flex-center' : nothingFound}" id="submissions">
 	    <div v-for="submission in submissions" v-bind:key="submission.id">
 	        <submission :list="submission"></submission>
 	    </div>
@@ -9,16 +9,19 @@
 		<loading v-if="loading"></loading>
 
 	    <no-more-items :text="'No more items to load'" v-if="NoMoreItems && !nothingFound"></no-more-items>
-	</section>
+	</div>
 </template>
 
 <script>
-    import Submission from '../components/Submission.vue'
-    import Loading from '../components/Loading.vue'
-    import NoContent from '../components/NoContent.vue'
-	import NoMoreItems from '../components/NoMoreItems.vue'
+    import Submission from '../components/Submission.vue'; 
+    import Loading from '../components/Loading.vue'; 
+    import NoContent from '../components/NoContent.vue'; 
+	import NoMoreItems from '../components/NoMoreItems.vue'; 
+	import Helpers from '../mixins/Helpers';
+
 
     export default {
+		mixins: [Helpers],
 
         components: {
             Submission,

@@ -1,9 +1,8 @@
 <template>
-
-	<div>
+	<div id="submission-page" class="home-wrapper">
 		<category-header-mobile></category-header-mobile>
 
-		<div class="col-full">
+		<div class="col-full padding-bottom-10 flex1" id="comments-submission-page">
 			<nsfw-warning v-if="submission.nsfw == 1 && !auth.nsfw"
 				:text="'This submission contains NSFW content which can not be displayed according to your personal settings.'">
 			</nsfw-warning>

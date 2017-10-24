@@ -119,39 +119,54 @@
 /* --------------------------------------------------------------------- */
 
 .left-sidebar-box {
-    background: #fff;
-    border: 1px solid #dcdcdc;
-    border-radius: 2px;
+    max-width: 750px;
     display: flex;
-    margin-top: 10%;
-}
+    margin: auto;
 
-.left-sidebar-box .side-tabs {
-    flex-basis: 100px;
-    border-right: 1px solid #dcdcdc;
-    display: flex;
-    flex-direction: column;
-}
+    .side-tabs {
+        flex-basis: 170px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
 
-.left-sidebar-box .side-tabs a {
-    display: block;
-    font-size: 80%;
-    width: 100%;
-    color: #333;
-    padding: 1em;
-    background: #fff;
-    border-bottom: 1px solid #dcdcdc;
-}
+        .is-active {
+            background: $primary-color !important;
+            color: #fff !important;
+        }
 
-.left-sidebar-box .side-tabs .is-active {
-    border-left: 5px solid $red-color;
-    background: #f9f9f9;
-    font-weight: 600;
-}
+        a {
+            display: block;
+            font-size: 80%;
+            width: 100%;
+            color: #333;
+            padding: .7em 1em;
+            background: #fff;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-bottom: .1em;
 
-.left-sidebar-box .content {
-    padding: 1em;
-    flex: 1;
+            &:hover {
+                background: #f2f2f2;
+                color: #333;
+            }
+        }
+    }
+
+    .content {
+        padding: 1em;
+        padding-top: 0;
+        -webkit-box-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+        background: #fbfbfb;
+        margin: 0 1em;
+        border: 2px solid #e7e7e7;
+        border-radius: 4px;
+    }
 }
 
 .dotted-title {
@@ -212,16 +227,26 @@
     }
 }
 
+#submissions, 
+#comments-index, 
+#settings, 
+#comments-submission-page {
+    overflow-y: scroll;
+}
+
+// only desktop 
+@media (min-width: 768px) {
+	#submissions, 
+    #comments-index, 
+    #settings {
+        padding: 2em 1em;
+    }
+}
+
+
 // only mobile
 @media (max-width: 768px) {
 	.home-wrapper {
         height: inherit;
     }
-}
-
-
-#submissions, 
-#comments-index {
-    overflow-y: scroll;
-    padding: 2em 1em;
 }

@@ -504,3 +504,11 @@ select.form-control-lg:not([size]):not([multiple]) {
         cursor: pointer;
     }
 }
+
+.multiselect__content-wrapper {
+    z-index: 1;
+}
+
+.vue-js-switch .v-switch-core[data-v-25adc6c0]:before {
+    z-index: 0 !important;
+}

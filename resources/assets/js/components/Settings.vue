@@ -1,5 +1,5 @@
 <template>
-    <div class="col-7 padding-bottom-10 user-select">
+    <div class="padding-bottom-10 flex1 user-select" id="settings">
         <div class="left-sidebar-box">
             <div class="side-tabs">
                 <router-link :to="{ name: 'user-settings-account' }" active-class="is-active">
@@ -16,6 +16,12 @@
 
 				<router-link :to="{ name: 'user-settings-email-and-password' }" active-class="is-active">
 					Email & Password
+				</router-link>
+
+                <hr>
+
+                <router-link :to="{ name: 'user-settings-delete-account' }" active-class="is-active" class="go-red">
+					Delete Account 
 				</router-link>
             </div>
 

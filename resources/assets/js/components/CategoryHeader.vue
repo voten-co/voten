@@ -27,7 +27,7 @@
 						<!-- end avatar -->
 					</div>
 
-					<div class="category-header-middle">
+					<div class="category-header-middle flex-align-center">
 						<p>
 							{{ Store.category.description }}
 						</p>

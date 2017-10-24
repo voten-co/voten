@@ -1,9 +1,9 @@
 <template>
 	<div>
 		<div v-bind:style="{ background: coverBackground }" class="profile-cover">
-		    <div class="container padding-top-3 user-select full-width">
+		    <div class="container user-select full-width">
 		        <div class="cols-flex">
-		            <div class="category-header-left">
+		            <div class="user-header-left">
 		               	<!-- avatar -->
 		               		<div class="profile-avatar avatar-preview" v-if="$route.name == 'user-settings-profile'">
 			                    <button type="button">
@@ -26,7 +26,7 @@
 		                <!-- end avatar -->
 		            </div>
 
-		            <div class="category-header-middle">
+		            <div class="user-header-middle">
 						<h1>
 						    {{ userStore.name }}
 						</h1>
@@ -66,7 +66,7 @@
 		                </span>
 		            </div>
 
-					<div class="category-header-right">
+					<div class="user-header-right">
 						<div class="karma">
 							<div class="karma-number">
 								{{ userStore.stats.submission_karma }}
@@ -77,7 +77,7 @@
 							</div>
 						</div>
 
-						<div class="karma">
+						<div class="karma margin-top-1">
 							<div class="karma-number">
 								{{ userStore.stats.comment_karma }}
 							</div>
@@ -260,7 +260,7 @@ export default {
         	} else if (this.userStore.color == 'Pink') {
         		return '#ec7daa'
         	} else { // userStore.color == 'Black'
-        		return '#333'
+        		return '#424242'
         	}
         }
     }

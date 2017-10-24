@@ -54,57 +54,20 @@
         <button class="v-button v-button--green" @click="save" :disabled="sending" v-if="changed">
             Save
         </button>
-
-        <!-- Delete Account -->
-        <h3 class="dotted-title go-red">
-            <span>
-                Delete Account
-            </span>
-        </h3>
-
-        <p>
-        	Deleting an account is a permanent action and <b>cannot be undone</b>. It is also going to make us miss you.
-        </p>
-
-        <button class="v-button v-button--red" @click="deleteMyAccount = true" v-if="!deleteMyAccount">
-        	Delete my account
-        </button>
-
-		<div v-if="deleteMyAccount">
-			<div class="form-group">
-	    		<label for="password" class="form-label">To confirm this action please enter your password:</label>
-
-	            <input type="password" class="form-control" placeholder="Password..." v-model="password" id="password" autocomplete="off">
-
-	            <small class="text-muted go-red" v-if="passwordError">{{ passwordError }}</small>
-	        </div>
-
-	        <button class="v-button v-button--green" @click="destroyAccount" :disabled="!password">
-	        	Confirm
-	        </button>
-	        <button class="v-button v-button--red" @click="deleteMyAccount = false">
-	        	Cancel
-	        </button>
-		</div>
     </section>
 </template>
 
 <script>
-	import Multiselect from 'vue-multiselect'
+	import Multiselect from 'vue-multiselect'; 
 
     export default {
-
 	    components: {
 			Multiselect
 	    },
 
-
         data: function () {
             return {
                 sending: false,
-                deleteMyAccount: false,
-                password: '',
-                passwordError: '',
             	errors: [],
             	customError: '',
                 auth,
@@ -146,22 +109,22 @@
 	                auth.username != this.username ||
 	                auth.notify_comments_replied != this.notify_comments_replied
 	                ) {
-		    			return true
+		    			return true; 
 		    		}
 
-	    		return false
+	    		return false; 
 	    	},
 	    },
 
         methods: {
 			// used for multi select
             changeFont(newSelected) {
-                this.font = newSelected
+                this.font = newSelected; 
             },
 
 			// used for multi select
             changeSidebarColor(newSelected) {
-                this.sidebar_color = newSelected
+                this.sidebar_color = newSelected; 
             },
 
             /**
@@ -214,24 +177,6 @@
 
 	                this.errors = error.response.data.errors;
 	            })
-            },
-
-            /**
-             * Destroys account, logs out
-             *
-             * @return void
-             */
-            destroyAccount() {
-                axios.post('/delete-my-account', {
-                	password: this.password
-                })
-                .then((response) => {
-                	window.location = "/logout";
-                }).catch((error) => {
-                	if (error.response.status == 422) {
-                		this.passwordError = error.response.data;
-                	}
-                });
             },
         }
     };
