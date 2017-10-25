@@ -1,5 +1,5 @@
 <template>
-    <div class="col-7 padding-bottom-10 user-select">
+    <div class="padding-bottom-10 flex1 user-select" id="submissions">
         <div class="v-status v-status--success" v-if="justCreated">
             Congratulations on creating #{{ $route.params.name }}.
             We're gonna have a party later but for now let's set a few settings to make sure your channel looks as awesome as you are.

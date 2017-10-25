@@ -9,12 +9,12 @@
             </div>
 
             <div class="actions">
-                <i class="pointer v-icon go-gray v-calendar-1 h-green" v-tooltip.top="{content: 'Unban ' + date}"></i>
+                <i class="pointer v-icon go-gray v-attention-alt h-yellow" :class="list.description ? '' : 'display-hidden'" v-tooltip.top="{content: 'Reason'}"
+                    @click="showDescription = !showDescription"></i>
 
                 <i class="pointer v-icon go-gray v-delete h-red" @click="$emit('unban', list.user_id)" v-tooltip.top="{content: 'Unban'}"></i>
 
-                <i class="pointer v-icon go-gray v-attention-alt h-yellow" :class="list.description ? '' : 'display-hidden'" v-tooltip.top="{content: 'Reason for being banned'}"
-                    @click="showDescription = !showDescription"></i>
+                <i class="pointer v-icon go-gray v-calendar-1 h-green" v-tooltip.top="{content: 'Unban ' + date}"></i>
             </div>
         </div>
 
@@ -25,12 +25,15 @@
 </template>
 
 <script>
-    import Markdown from '../components/Markdown.vue'
+    import Markdown from '../components/Markdown.vue'; 
+    import Helpers from '../mixins/Helpers'; 
 
     export default {
+        mixins: [Helpers], 
+
         components: { Markdown },
 
-        data: function () {
+        data() {
             return {
                 showDescription: false
             }
@@ -39,8 +42,8 @@
         props: ['list'],
 
         computed: {
-            date () {
-                return moment(this.list.unban_at).utc(moment().format("Z")).fromNow()
+            date() {
+                return this.parsDiffForHumans(this.list.unban_at);
             },
         },
     };

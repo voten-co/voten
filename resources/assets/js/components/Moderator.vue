@@ -8,7 +8,7 @@
                 </router-link>
             </div>
 
-            <div class="detail" v-tooltip.top="{content: list.subject}">
+            <div class="detail">
                 {{ list.pivot.role }}
             </div>
 

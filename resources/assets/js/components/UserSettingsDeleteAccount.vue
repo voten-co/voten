@@ -28,7 +28,7 @@
 	        <button class="v-button v-button--green" @click="destroyAccount" :disabled="!password">
 	        	Confirm
 	        </button>
-	        <button class="v-button v-button--red" @click="deleteMyAccount = false">
+	        <button class="v-button v-button--link" @click="deleteMyAccount = false">
 	        	Cancel
 	        </button>
 		</div>

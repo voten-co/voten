@@ -2,7 +2,7 @@
     <section>
         <h3 class="dotted-title">
             <span>
-                My Home Feed
+                Feed Settings
             </span>
         </h3>
 

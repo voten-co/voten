@@ -31,11 +31,27 @@
     background: none;
     border: none;
     margin: 1em 0;
-    color: $primary-color;
+    color: #000000;
+    text-decoration: underline;
 }
 
 .v-button.v-button--link:hover {
 	text-decoration: underline;
+}
+
+.v-button.v-button--upload {
+    position: relative;
+    margin: 0;
+
+    input {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        opacity: 0;
+        width: 100%;
+    }    
 }
 
 .v-button.v-button--red {

@@ -147,7 +147,7 @@ export default {
         },
 
         /**
-         * parses the date in a in full format.
+         * Parses the date in a in full format.
          *
          * @param string timestamp
          * @param string timezone
@@ -165,6 +165,26 @@ export default {
 
             return moment(timestamp).tz(timezone).format("LLL");
         },
+
+        /**
+         * Parses the date in "n days ago" format. 
+         *
+         * @param string timestamp
+         * @param string timezone
+         * @return string
+         */
+        parsDiffForHumans(timestamp, timezone)
+        {
+            if (typeof timestamp != 'string') {
+                timestamp = timestamp.date;
+            }
+
+            if (!timezone) {
+                timezone = moment.tz.guess();
+            }
+
+            return moment(timestamp).tz(timezone).fromNow(); 
+        }, 
 
         /**
          * prefixes the route with /auth if it's for authenticated users

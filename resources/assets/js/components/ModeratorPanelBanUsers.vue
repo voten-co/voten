@@ -7,7 +7,7 @@
 		</h1>
 
         <p>
-            This is the last solution for dealing with spammers
+            Please use this tool as the last solution for dealing with spammers. 
         </p>
 
         <div class="form-group">

@@ -22,6 +22,7 @@
 .v-dot-3:before { content: '\e814'; } /* '' */
 .v-left:before { content: '\e815'; } /* '' */
 .v-attention-alt:before { content: '\e816'; } /* '' */
+.v-upload:before { content: '\e817'; } /* '' */
 .v-hide:before { content: '\e818'; } /* '' */
 .v-photo:before { content: '\e819'; } /* '' */
 .v-submit:before { content: '\e81a'; } /* '' */

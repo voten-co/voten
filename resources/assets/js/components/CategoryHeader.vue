@@ -6,20 +6,7 @@
 				<div class="cols-flex">
 					<div class="category-header-left">
 						<!-- avatar -->
-							<div class="profile-avatar avatar-preview" v-if="$route.name == 'category-settings'">
-								<button type="button">
-									<img v-bind:alt="Store.category.name" v-bind:src="Store.category.avatar" />
-
-									<div class="update">
-										<i class="v-icon v-photo" aria-hidden="true"></i>
-										Upload photo
-									</div>
-								</button>
-
-								<input type="file" id="fileUploadFile" @change="passToCropModal">
-							</div>
-
-							<div class="profile-avatar" v-else>
+							<div class="profile-avatar">
 								<router-link :to="'/c/' + Store.category.name">
 									<img v-bind:src="Store.category.avatar" v-bind:alt="Store.category.name" />
 								</router-link>
@@ -120,7 +107,6 @@ export default {
 
     data: function () {
         return {
-    		fileUploadFormData: new FormData(),
         	Store,
         	bookmarked: false, 
 			showFirstHeader: true
@@ -165,22 +151,6 @@ export default {
 		        // navigate to home
                 this.$router.push('/');
 			});
-		},
-
-    	/**
-		 * Passes the photo to the cropModal to take care of the rest
-		 *
-		 * @return void
-		 */
-		passToCropModal (e)
-		{
-            this.fileUploadFormData.append('photo', e.target.files[0]);
-
-    		axios.post('/upload-temp-avatar', this.fileUploadFormData).then((response) => {
-				this.$eventHub.$emit('crop-photo-uploaded', response.data);
-            });
-
-    		this.$eventHub.$emit('crop-category-photo');
 		},
 
     	/**

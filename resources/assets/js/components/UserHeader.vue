@@ -1,24 +1,11 @@
 <template>
-	<div>
+	<div id="user-header">
 		<div v-bind:style="{ background: coverBackground }" class="profile-cover">
 		    <div class="container user-select full-width">
 		        <div class="cols-flex">
 		            <div class="user-header-left">
 		               	<!-- avatar -->
-		               		<div class="profile-avatar avatar-preview" v-if="$route.name == 'user-settings-profile'">
-			                    <button type="button">
-						            <img v-bind:alt="userStore.username" v-bind:src="userStore.avatar" class="circle" />
-
-						            <div class="update circle">
-						                <i class="v-icon v-photo" aria-hidden="true"></i>
-						                Upload photo
-						            </div>
-						        </button>
-
-				                <input type="file" id="fileUploadFile" @change="passToCropModal">
-		                    </div>
-
-		                    <div class="profile-avatar" v-else>
+		                    <div class="profile-avatar">
 	    						<router-link :to="'/@' + userStore.username">
 		                        	<img v-bind:src="userStore.avatar" v-bind:alt="userStore.name" class="circle" />
 		                        </router-link>
@@ -146,7 +133,6 @@ export default {
             Store,
             auth,
         	bookmarked: false,
-        	fileUploadFormData: new FormData(),
         }
     },
 
@@ -165,22 +151,6 @@ export default {
     },
 
 	methods: {
-		/**
-		 * Passes the photo to the cropModal to take care of the rest
-		 *
-		 * @return void
-		 */
-		passToCropModal (e) {
-            this.fileUploadFormData.append('photo', e.target.files[0]);
-
-    		axios.post('/upload-temp-avatar', this.fileUploadFormData)
-				.then((response) => {
-					this.$eventHub.$emit('crop-photo-uploaded', response.data);
-	            });
-
-    		this.$eventHub.$emit('crop-user-photo');
-		},
-
     	/**
          * Whether or not user has bookmarked the submission
          *

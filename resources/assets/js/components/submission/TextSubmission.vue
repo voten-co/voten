@@ -17,7 +17,7 @@
             <button type="submit" class="v-button v-button--green margin-top-1" @click="patch" v-show="editing">
                 Edit
             </button>
-            <button type="submit" class="v-button v-button--red margin-top-1" @click="cancelEditing" v-show="editing">
+            <button type="submit" class="v-button v-button--link margin-top-1" @click="cancelEditing" v-show="editing">
                 Cancel
             </button>
 		</div>

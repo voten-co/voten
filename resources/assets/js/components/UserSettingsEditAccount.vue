@@ -2,7 +2,7 @@
     <section>
         <h3 class="dotted-title">
             <span>
-                My Account
+                Account Settings 
             </span>
         </h3>
 

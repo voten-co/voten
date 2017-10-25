@@ -1,10 +1,36 @@
 <template>
 	<section>
-		<h1 class="dotted-title">
+		<h3 class="dotted-title">
+            <span>
+                Avatar
+            </span>
+        </h3>
+
+        <div class="form-group">
+            <div class="flex-space">
+                <div>
+                    <button class="v-button v-button--upload" type="button">
+                        <i class="v-icon v-upload" aria-hidden="true"></i> Click To Browse 
+
+                        <input class="v-button" type="file" @change="passToCropModal" />
+                    </button>
+                    
+                    <p class="go-gray go-small">
+                        You can upload any size image file. After uploading is done, you'll get to position and size your image. 
+                    </p>
+                </div>
+
+                <div class="edit-avatar-preview">
+                    <img v-bind:alt="Store.category.name" v-bind:src="Store.category.avatar" class="circle" />
+                </div>
+            </div>
+        </div>
+
+		<h3 class="dotted-title">
 			<span>
 				Settings
 			</span>
-		</h1>
+		</h3>
 
 		<div class="form-group">
 			<label for="description" class="form-label">Description</label>
@@ -51,7 +77,8 @@
                 color: Store.category.color,
 				colors: [
 					'Blue', 'Dark Blue', 'Red', 'Dark', 'Dark Green', 'Bright Green', 'Purple', 'Orange', 'Pink'
-				],
+				], 
+				fileUploadFormData: new FormData(),
             }
         },
 
@@ -85,6 +112,22 @@
         },
 
         methods: {
+			/**
+			 * Passes the photo to the cropModal to take care of the rest
+			 *
+			 * @return void
+			 */
+			passToCropModal (e)
+			{
+				this.fileUploadFormData.append('photo', e.target.files[0]);
+
+				axios.post('/upload-temp-avatar', this.fileUploadFormData).then((response) => {
+					this.$eventHub.$emit('crop-photo-uploaded', response.data);
+				});
+
+				this.$eventHub.$emit('crop-category-photo');
+			},
+			
         	save () {
 				this.sending = true
 
