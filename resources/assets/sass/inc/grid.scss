@@ -133,6 +133,10 @@
         -ms-flex-direction: column;
         flex-direction: column;
 
+        hr {
+            border-top: 2px solid #e7e7e7;
+        }
+
         .is-active {
             background: $primary-color !important;
             color: #fff !important;

@@ -1,10 +1,10 @@
 <template>
     <section>
-        <h1 class="dotted-title">
+        <h3 class="dotted-title">
 			<span>
 				Add New Moderator
 			</span>
-		</h1>
+		</h3>
 
         <div class="form-group">
             <multiselect :value="username" :options="users" @input="updateSelected"
@@ -23,11 +23,11 @@
         </div>
 
 
-        <h1 class="dotted-title">
+        <h3 class="dotted-title">
 			<span>
 				All Moderators
 			</span>
-		</h1>
+		</h3>
 
         <moderator v-for="(mod, index) in mods" :list="mod" :key="mod.id"
         @delete-moderator="mods.splice(index, 1)"></moderator>

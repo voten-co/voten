@@ -61,11 +61,11 @@
     flex-basis: 16em;
     display: flex;
     flex-direction: column;
-    border-left: 2px solid #e7e7e7;
-    background: #f4f5f7;
+    // border-left: 2px solid #e7e7e7;
+    // background: #f4f5f7;
 
     .search input {
-        background-color: hsla(0, 0%, 87%, 0.6) !important;
+        // background-color: hsla(0, 0%, 87%, 0.6) !important;
         border: none !important;
         font-size: 14px !important;
         font-weight: 600 !important;
@@ -84,15 +84,15 @@
     }
 
     .fixed-header {
-        border-bottom: 2px solid #e7e7e7;
-        box-shadow: 0 2px 0 hsla(200,9%,93%,.25);
+        // border-bottom: 2px solid #e7e7e7;
+        // box-shadow: 0 2px 0 hsla(200,9%,93%,.25);
         padding: 1em;
         padding-bottom: 0;
     }
 }
 
 .side-fixed {
-    background: linear-gradient(#343d5a, #49516b);
+    // background: linear-gradient(#343d5a, #49516b);
     position: fixed;
     top: 3em;
     bottom: 0;

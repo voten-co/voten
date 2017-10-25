@@ -136,7 +136,7 @@
             	// whether or not a page-refresh is needed
             	let refresh = false
 
-            	if ( auth.font != this.font || auth.sidebar_color != this.sidebar_color) {
+            	if ( auth.font != this.font) {
             		refresh = true
             	}
 

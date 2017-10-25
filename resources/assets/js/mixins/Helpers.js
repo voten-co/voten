@@ -82,6 +82,20 @@ export default {
         },
 
         /**
+         * Slugifies the string. 
+         *
+         * @param string str
+         * @return string
+         */
+        str_slug(str) {
+            return str.toString().toLowerCase().trim()
+                .replace(/\s+/g, '-')
+                .replace(/&/g, '-and-')
+                .replace(/[^\w\-]+/g, '')
+                .replace(/\-\-+/g, '-');
+        },
+
+        /**
          * determines if the user is typing in either an input or textarea
          *
          * @return boolean

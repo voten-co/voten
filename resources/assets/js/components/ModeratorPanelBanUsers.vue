@@ -1,10 +1,10 @@
 <template>
     <section>
-        <h1 class="dotted-title">
+        <h3 class="dotted-title">
 			<span>
 				Ban Users
 			</span>
-		</h1>
+		</h3>
 
         <p>
             Please use this tool as the last solution for dealing with spammers. 
@@ -32,11 +32,11 @@
         </div>
 
 
-        <h1 class="dotted-title" v-if="bannedUsers.length">
+        <h3 class="dotted-title" v-if="bannedUsers.length">
 			<span>
 				All Banned Users
 			</span>
-		</h1>
+		</h3>
 
         <banned-user v-for="banned in bannedUsers" :list="banned" :key="banned.id" @unban="unban"></banned-user>
     </section>

@@ -1,5 +1,5 @@
 <template>
-    <div class="sidebar-right">
+    <div class="sidebar-right" :class="theme">
         <div class="fixed-header user-select">
             <div class="flex-space">
                 <p class="menu-label">
@@ -8,7 +8,7 @@
                 </p>
 
                 <div class="ui icon top right active-blue pointing dropdown sidebar-panel-button">
-                    <i class="v-icon v-config"></i>
+                    <i class="v-icon v-config" v-tooltip.left="{content: 'Customize Sidebar Filter'}"></i>
 
                     <div class="menu">
                         <div class="header">
@@ -94,6 +94,10 @@
         },
 
         computed: {
+            theme() {
+                return 'theme-' + this.str_slug(auth.sidebar_color); 
+            }, 
+
             filter() {
                 return Store.sidebarFilter;
             },

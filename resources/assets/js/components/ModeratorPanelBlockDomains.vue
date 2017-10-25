@@ -1,10 +1,10 @@
 <template>
     <section>
-        <h1 class="dotted-title">
+        <h3 class="dotted-title">
 			<span>
 				Block Domains
 			</span>
-		</h1>
+		</h3>
 
         <p>
             In case there are domain addresses that you think are not appropriate for your channel you can block them here.
@@ -26,11 +26,11 @@
         </div>
 
 
-        <h1 class="dotted-title" v-if="blockedDomains.length">
+        <h3 class="dotted-title" v-if="blockedDomains.length">
 			<span>
 				All Blocked Domains
 			</span>
-		</h1>
+		</h3>
 
         <blocked-domain v-for="blocked in blockedDomains" :list="blocked" :key="blocked.id"
         @unblock="unblock"></blocked-domain>

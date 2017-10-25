@@ -19,22 +19,6 @@
     border-top: 1px solid #e9e9e9;
 }
 
-.friends-list {
-    padding: 0 0 6px;
-}
-
-.friends-list .friends-list-item {
-    padding: 0 15px 12px;
-}
-
-.friends-list .friends-list-item .user-card-row {
-    font-size: .9375rem;
-}
-
-.tbl-row {
-    display: table-row;
-}
-
 .user-card-row .tbl-cell.tbl-cell-photo {
     width: 42px;
     padding-right: 10px;
@@ -43,17 +27,6 @@
 .user-card-row a {
     -webkit-transition: none;
     transition: none;
-}
-
-.profile-card {
-    text-align: center;
-    padding: 28px 15px 14px;
-}
-
-.profile-statistic {
-    text-align: center;
-    table-layout: fixed;
-    font-size: 0.9375rem;
 }
 
 .tbl {
@@ -250,3 +223,274 @@
     -o-transition: all 0.2s ease-in-out;
     transition: all 0.2s ease-in-out;
 }
+
+
+
+/////////////////////////////////////////////
+// Gray 
+/////////////////////////////////////////////
+.theme-gray {
+    background: #f4f5f7;
+    border-left: 2px solid #e7e7e7;
+
+    .search input {
+        background-color: hsla(0, 0%, 87%, 0.6) !important;
+    }
+
+    .fixed-header {
+        border-bottom: 2px solid #e7e7e7;
+        box-shadow: 0 2px 0 hsla(200,9%,93%,.25);
+    }
+
+    .menu-list a:focus {
+        color: inherit;
+    }
+
+    .menu-list a:hover,
+    .menu-list .active {
+        background-color: #92989f;
+    }
+
+    .sidebar-panel-button i:hover {
+        color: #000;
+    }
+}
+
+/////////////////////////////////////////////
+// Dark Blue 
+/////////////////////////////////////////////
+.theme-dark-blue {
+    background: linear-gradient(#323e4c, #25313e);
+    border-left: 2px solid #3f4c5c;
+
+    .search {
+        input {
+            background-color: rgb(65, 72, 81) !important;
+        }
+
+        input, i {
+            color: #fff !important;
+        }
+    }
+
+    .fixed-header {
+        border-bottom: 2px solid rgb(44, 49, 55) !important;
+    }
+
+    .menu-label, 
+    .v-config, 
+    .no-subscription, 
+    .menu-list a {
+        color: #fff !important;
+    }
+
+    .menu-list a:hover,
+    .menu-list .active {
+        background-color: #7197c3;
+        color: #fff !important;
+    }
+
+    .sidebar-panel-button i:hover {
+        color: #000;
+    }
+}
+
+/////////////////////////////////////////////
+// Blue 
+/////////////////////////////////////////////
+.theme-blue {
+    background: linear-gradient(#343d5a,#49516b);
+    border-left: 2px solid #3f4c5c;
+
+    .search {
+        input {
+            background-color: #2a3441 !important;
+        }
+
+        input, i {
+            color: #fff !important;
+        }
+    }
+
+    .fixed-header {
+        border-bottom: 2px solid rgb(44, 49, 55) !important;
+    }
+
+    .menu-label, 
+    .v-config, 
+    .no-subscription, 
+    .menu-list a {
+        color: #fff !important;
+    }
+
+    .menu-list a:hover,
+    .menu-list .active {
+        background-color: #3ba093;
+        color: #fff !important;
+    }
+
+    .sidebar-panel-button i:hover {
+        color: #000;
+    }
+}
+
+/////////////////////////////////////////////
+// Red  
+/////////////////////////////////////////////
+.theme-red {
+    background: linear-gradient(#673e3d, #523636);
+    border-left: 2px solid #684a49;
+
+    .search {
+        input {
+            background-color: #382e2e !important;
+        }
+
+        input, i {
+            color: #fff !important;
+        }
+    }
+
+    .fixed-header {
+        border-bottom: 2px solid #4a3534 !important;
+    }
+
+    .menu-label, 
+    .v-config, 
+    .no-subscription, 
+    .menu-list a {
+        color: #fff !important;
+    }
+
+    .menu-list a:hover,
+    .menu-list .active {
+        background-color: #5b7368;
+        color: #fff !important;
+    }
+
+    .sidebar-panel-button i:hover {
+        color: #000;
+    }
+}
+
+/////////////////////////////////////////////
+// Dark 
+/////////////////////////////////////////////
+.theme-dark  {
+    background: linear-gradient(#3e3e3e, #3c3c3c);
+    border-left: 2px solid #646060;
+
+    .search {
+        input {
+            background-color: #5d5d5d !important;
+        }
+
+        input, i {
+            color: #fff !important;
+        }
+    }
+
+    .fixed-header {
+        border-bottom: 2px solid #303030 !important;
+    }
+
+    .menu-label, 
+    .v-config, 
+    .no-subscription, 
+    .menu-list a {
+        color: #fff !important;
+    }
+
+    .menu-list a:hover,
+    .menu-list .active {
+        background-color: #d14848;
+        color: #fff !important;
+    }
+
+    .sidebar-panel-button i:hover {
+        color: #000;
+    }
+}
+
+
+/////////////////////////////////////////////
+// green 
+/////////////////////////////////////////////
+.theme-green  {
+    background: linear-gradient(#455d58, #37524d);
+    border-left: 2px solid #567970;
+
+    .search {
+        input {
+            background-color: #294749 !important;
+        }
+
+        input, i {
+            color: #fff !important;
+        }
+    }
+
+    .fixed-header {
+        border-bottom: 2px solid #354440 !important;
+    }
+
+    .menu-label, 
+    .v-config, 
+    .no-subscription, 
+    .menu-list a {
+        color: #fff !important;
+    }
+
+    .menu-list a:hover,
+    .menu-list .active {
+        background-color: #edb431;
+        color: #333 !important;
+    }
+
+    .sidebar-panel-button i:hover {
+        color: #000;
+    }
+}
+
+/////////////////////////////////////////////
+// Purple 
+/////////////////////////////////////////////
+.theme-purple  {
+    background: linear-gradient(#4d4261, #4d4463);
+    border-left: 2px solid #736887;
+
+    .search {
+        input {
+            background-color: #755aa5 !important;
+        }
+
+        input, i {
+            color: #fff !important;
+        }
+    }
+
+    .fixed-header {
+        border-bottom: 2px solid #43404a !important;
+    }
+
+    .menu-label, 
+    .v-config, 
+    .no-subscription, 
+    .menu-list a {
+        color: #fff !important;
+    }
+
+    .menu-list a:hover,
+    .menu-list .active {
+        background-color: #3c816a;
+        color: #fff !important;
+    }
+
+    .sidebar-panel-button i:hover {
+        color: #000;
+    }
+}
+
+
+
+// end themes 

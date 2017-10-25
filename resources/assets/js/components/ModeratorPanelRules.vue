@@ -1,10 +1,10 @@
 <template>
     <section id="moderator-panel-rules">
-        <h1 class="dotted-title">
+        <h3 class="dotted-title">
 			<span>
 				Rules
 			</span>
-		</h1>
+		</h3>
 
         <p>
             If your channel needs more rules than already written in Voten's general <a href="/tos">TOS</a> page, you may specify yours here.
@@ -28,11 +28,11 @@
         </div>
 
 
-        <h1 class="dotted-title" v-if="items.length">
+        <h3 class="dotted-title" v-if="items.length">
 			<span>
 				All Rules
 			</span>
-		</h1>
+		</h3>
 
         <rule v-for="rule in items" :list="rule" :key="rule.id" @delete-rule="destroy" @edit-rule="editRule"></rule>
     </section>
