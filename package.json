@@ -41,6 +41,7 @@
     "vue-multiselect": "^2.0.0-beta.13",
     "vue-router": "^2.8.1",
     "vue-template-compiler": "^2.5.2",
-    "vue-ua": "^1.1.2"
+    "vue-ua": "^1.1.2",
+    "webfontloader": "^1.6.28"
   }
 }

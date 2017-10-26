@@ -1,3 +1,5 @@
+import WebFont from 'webfontloader';
+
 export default {
     data: function () {
         return {
@@ -38,6 +40,21 @@ export default {
     },
 
     methods: {
+        /**
+         * Loads the web-font. 
+         *
+         * @param string font
+         * @return void
+         */
+        loadWebFont() 
+        {
+            WebFont.load({
+                google: {
+                    families: [auth.font]
+                }
+            });
+        }, 
+
         /**
          * sets the page title
          *

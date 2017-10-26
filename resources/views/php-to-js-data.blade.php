@@ -46,7 +46,7 @@
                 } else {
                     $submission_small_thumbnail = 'true';
                 }
-                ?>
+            ?>
             submission_small_thumbnail: {{ $submission_small_thumbnail }},
             isGuest: {{ 'true' }}
         };

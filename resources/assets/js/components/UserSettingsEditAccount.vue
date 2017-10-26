@@ -58,9 +58,12 @@
 </template>
 
 <script>
-	import Multiselect from 'vue-multiselect'; 
+    import Multiselect from 'vue-multiselect'; 
+    import Helpers from '../mixins/Helpers';
 
     export default {
+        mixins: [Helpers], 
+
 	    components: {
 			Multiselect
 	    },
@@ -133,14 +136,9 @@
              * @return void
              */
             save () {
-            	// whether or not a page-refresh is needed
-            	let refresh = false
+                this.sending = true; 
 
-            	if ( auth.font != this.font) {
-            		refresh = true
-            	}
-
-                this.sending = true
+                let changedFont = (auth.font !== this.font); 
 
             	axios.post( '/update-account', {
                     sidebar_color: this.sidebar_color,
@@ -150,21 +148,21 @@
                     notify_comments_replied: this.notify_comments_replied,
                     notify_mentions: this.notify_mentions,
                 }).then((response) => {
-	                this.errors = []
-	                this.customError = ''
+	                this.errors = []; 
+	                this.customError = ''; 
 
-                    auth.sidebar_color = this.sidebar_color
-	                auth.font = this.font
-	                auth.username = this.username
-	                auth.notify_submissions_replied = this.notify_submissions_replied
-	                auth.notify_comments_replied = this.notify_comments_replied
-	                auth.notify_mentions = this.notify_mentions
+                    auth.sidebar_color = this.sidebar_color; 
+	                auth.font = this.font; 
+	                auth.username = this.username; 
+	                auth.notify_submissions_replied = this.notify_submissions_replied; 
+	                auth.notify_comments_replied = this.notify_comments_replied; 
+                    auth.notify_mentions = this.notify_mentions; 
+                    
+                    if (changedFont) {
+                        this.loadWebFont();
+                    }
 
-	                if (refresh) {
-	                	location.reload()
-	                }
-
-                    this.sending = false
+                    this.sending = false; 
 	            }).catch((error) => {
 	                if(error.response.status == 500) {
 	                	this.sending = false;

@@ -145,6 +145,8 @@ const app = new Vue({
 
 
     created: function() {
+        this.loadWebFont(); 
+
         window.addEventListener('keydown', this.keydown);
 
         this.fillBasicStore();

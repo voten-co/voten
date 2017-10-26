@@ -26,13 +26,12 @@
     </script>
 
     <link rel="shortcut icon" href="/imgs/favicon.png">
-    @include('user.user-style')
 </head>
 
 <body>
 @include('google-analytics')
 
-<div id="voten-app" :class="{ 'background-white': Store.contentRouter != 'content' }">
+<div id="voten-app" :class="{ 'background-white': Store.contentRouter != 'content' }" :style="{ fontFamily: auth.font }">
     @include('app-header')
 
     <div class="v-content-wrapper" :class="{ 'v-blur v-blur-wrapper': smallModal }">
