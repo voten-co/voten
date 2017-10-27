@@ -68,7 +68,7 @@ class CategoryController extends Controller
             $submissions->orderBy('rate', 'desc');
         }
 
-        return $submissions->simplePaginate(10);
+        return $submissions->simplePaginate(15);
     }
 
     /**

@@ -1,82 +1,84 @@
 <template>
 	<div id="user-header">
-		<div v-bind:style="{ background: coverBackground }" class="profile-cover">
-		    <div class="container user-select full-width">
-		        <div class="cols-flex">
-		            <div class="user-header-left">
-		               	<!-- avatar -->
-		                    <div class="profile-avatar">
-	    						<router-link :to="'/@' + userStore.username">
-		                        	<img v-bind:src="userStore.avatar" v-bind:alt="userStore.name" class="circle" />
-		                        </router-link>
-		                    </div>
-		                <!-- end avatar -->
-		            </div>
-
-		            <div class="user-header-middle">
-						<h1>
-						    {{ userStore.name }}
-						</h1>
-
-	    				<router-link :to="'/@' + userStore.username">
-		                    <h2>
-		                        <i class="v-icon v-atsign" aria-hidden="true"></i>{{ userStore.username }}
-		                    </h2>
-		                </router-link>
-
-		                <p v-text="userStore.bio"></p>
-
-						<span class="inline-block">
-	                        <i class="v-icon v-submissions" aria-hidden="true" v-tooltip.bottom="{content: 'Submissions'}"></i>{{ userStore.stats.submissionsCount }}
-		                </span>
-
-						<span class="inline-block">
-	                        <i class="v-icon v-chat" aria-hidden="true" v-tooltip.bottom="{content: 'Comments'}"></i>{{ userStore.stats.commentsCount }}
-		                </span>
-
-						<span class="inline-block">
-	                        <i class="v-icon v-calendar" aria-hidden="true"></i>Joined: {{ date }}
-		                </span>
-
-		                <a v-bind:href="userStore.info.website" rel="nofollow" target="_blank" v-if="userStore.info.website" class="inline-block">
-		                	<i class="v-icon v-link" aria-hidden="true" v-tooltip.bottom="{content: 'Website'}"></i>{{ userStore.info.website }}
-		                </a>
-
-		                <span v-if="userStore.location" class="inline-block">
-	                        <i class="v-icon v-location" aria-hidden="true"></i>{{ userStore.location }}
-		                </span>
-
-						<span v-if="userStore.info.twitter " class="inline-block">
-							<a v-bind:href="'https://twitter.com/' + userStore.info.twitter" rel="nofollow" target="_blank">
-	                        	<i class="v-icon v-twitter" aria-hidden="true" v-tooltip.bottom="{content: 'Twitter'}"></i>{{ userStore.info.twitter }}
-							</a>
-		                </span>
-		            </div>
-
-					<div class="user-header-right">
-						<div class="karma">
-							<div class="karma-number">
-								{{ userStore.stats.submission_karma }}
-							</div>
-
-							<div class="karma-text">
-								Post Karma
-							</div>
+		<transition name="slide-out">
+			<div v-bind:style="{ background: coverBackground }" class="profile-cover" v-show="showFirstHeader">
+				<div class="container user-select full-width">
+					<div class="cols-flex">
+						<div class="user-header-left">
+							<!-- avatar -->
+								<div class="profile-avatar">
+									<router-link :to="'/@' + userStore.username">
+										<img v-bind:src="userStore.avatar" v-bind:alt="userStore.name" class="circle" />
+									</router-link>
+								</div>
+							<!-- end avatar -->
 						</div>
 
-						<div class="karma margin-top-1">
-							<div class="karma-number">
-								{{ userStore.stats.comment_karma }}
+						<div class="user-header-middle">
+							<h1>
+								{{ userStore.name }}
+							</h1>
+
+							<router-link :to="'/@' + userStore.username">
+								<h2>
+									<i class="v-icon v-atsign" aria-hidden="true"></i>{{ userStore.username }}
+								</h2>
+							</router-link>
+
+							<p v-text="userStore.bio"></p>
+
+							<span class="inline-block">
+								<i class="v-icon v-submissions" aria-hidden="true" v-tooltip.bottom="{content: 'Submissions'}"></i>{{ userStore.stats.submissionsCount }}
+							</span>
+
+							<span class="inline-block">
+								<i class="v-icon v-chat" aria-hidden="true" v-tooltip.bottom="{content: 'Comments'}"></i>{{ userStore.stats.commentsCount }}
+							</span>
+
+							<span class="inline-block">
+								<i class="v-icon v-calendar" aria-hidden="true"></i>Joined: {{ date }}
+							</span>
+
+							<a v-bind:href="userStore.info.website" rel="nofollow" target="_blank" v-if="userStore.info.website" class="inline-block">
+								<i class="v-icon v-link" aria-hidden="true" v-tooltip.bottom="{content: 'Website'}"></i>{{ userStore.info.website }}
+							</a>
+
+							<span v-if="userStore.location" class="inline-block">
+								<i class="v-icon v-location" aria-hidden="true"></i>{{ userStore.location }}
+							</span>
+
+							<span v-if="userStore.info.twitter " class="inline-block">
+								<a v-bind:href="'https://twitter.com/' + userStore.info.twitter" rel="nofollow" target="_blank">
+									<i class="v-icon v-twitter" aria-hidden="true" v-tooltip.bottom="{content: 'Twitter'}"></i>{{ userStore.info.twitter }}
+								</a>
+							</span>
+						</div>
+
+						<div class="user-header-right">
+							<div class="karma">
+								<div class="karma-number">
+									{{ userStore.stats.submission_karma }}
+								</div>
+
+								<div class="karma-text">
+									Post Karma
+								</div>
 							</div>
 
-							<div class="karma-text">
-								Comment Karma
+							<div class="karma margin-top-1">
+								<div class="karma-number">
+									{{ userStore.stats.comment_karma }}
+								</div>
+
+								<div class="karma-text">
+									Comment Karma
+								</div>
 							</div>
 						</div>
 					</div>
-		        </div>
-		    </div>
-		</div>
+				</div>
+			</div>
+		</transition>
 
 		<nav class="nav has-shadow user-select">
 		    <div class="container">
@@ -132,12 +134,15 @@ export default {
         return {
             Store,
             auth,
-        	bookmarked: false,
+			bookmarked: false,
+			showFirstHeader: true
         }
     },
 
     created () {
-    	this.setBookmarked()
+		this.setBookmarked(); 
+		this.$eventHub.$on('scrolled-to-top', () => {this.showFirstHeader = true}); 
+		this.$eventHub.$on('scrolled-a-bit', () => { this.showFirstHeader = false }); 
     },
 
     watch: {

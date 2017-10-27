@@ -34,7 +34,7 @@ class UserController extends Controller
                     ->submissions()
                     ->withTrashed()
                     ->orderBy('created_at', 'desc')
-                    ->simplePaginate(10);
+                    ->simplePaginate(15);
 
         return view('user.submissions', compact('user', 'submissions'));
     }
@@ -55,7 +55,7 @@ class UserController extends Controller
                     ->comments()
                     ->withTrashed()
                     ->orderBy('created_at', 'desc')
-                    ->simplePaginate(10));
+                    ->simplePaginate(15));
 
         return view('user.comments', compact('user', 'comments'));
     }
@@ -78,7 +78,7 @@ class UserController extends Controller
                     ->submissions()
                     ->withTrashed()
                     ->orderBy('created_at', 'desc')
-                    ->simplePaginate(10);
+                    ->simplePaginate(15);
     }
 
     /**
@@ -90,7 +90,7 @@ class UserController extends Controller
      */
     public function upVotedSubmissions(Request $request)
     {
-        return Auth::user()->submissionUpvotes()->simplePaginate(10);
+        return Auth::user()->submissionUpvotes()->simplePaginate(15);
     }
 
     /**
@@ -102,7 +102,7 @@ class UserController extends Controller
      */
     public function downVotedSubmissions(Request $request)
     {
-        return Auth::user()->submissionDownvotes()->simplePaginate(10);
+        return Auth::user()->submissionDownvotes()->simplePaginate(15);
     }
 
     /**
@@ -123,7 +123,7 @@ class UserController extends Controller
                     ->comments()
                     ->withTrashed()
                     ->orderBy('created_at', 'desc')
-                    ->simplePaginate(10));
+                    ->simplePaginate(15));
     }
 
     /**
