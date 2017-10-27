@@ -14,12 +14,30 @@
                     v-model="editedBody"
             ></textarea>
 
-            <button type="submit" class="v-button v-button--green margin-top-1" @click="patch" v-show="editing">
-                Edit
-            </button>
-            <button type="submit" class="v-button v-button--link margin-top-1" @click="cancelEditing" v-show="editing">
-                Cancel
-            </button>
+			<div class="flex-space margin-top-1" v-show="editing">
+				<div>
+					<button type="submit" class="v-button v-button--green" @click="patch">
+						Edit
+					</button>
+					<button type="submit" class="v-button v-button--link" @click="cancelEditing">
+						Cancel
+					</button>
+				</div>
+
+				<div>
+					<button type="button" class="v-button v-button--link" @click="$eventHub.$emit('markdown-guide')">
+						Formatting Guide
+					</button>
+
+					<button class="v-button v-button--link" @click="preview = !preview" type="button">
+						Preview
+					</button>
+				</div>
+			</div>
+
+			<div v-if="editing && preview" class="form-wrapper margin-bottom-1 margin-top-1 preview">
+				<markdown v-if="editedBody" :text="editedBody"></markdown>
+			</div>
 		</div>
 
 		<!-- submission indexing pages -->
@@ -49,7 +67,8 @@
             return {
                 editing: false,
                 body: this.submission.data.text,
-                editedBody: this.submission.data.text
+				editedBody: this.submission.data.text, 
+				preview: false, 
             }
         },
 

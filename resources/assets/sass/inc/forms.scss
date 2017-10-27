@@ -512,3 +512,52 @@ select.form-control-lg:not([size]):not([multiple]) {
 .vue-js-switch .v-switch-core[data-v-25adc6c0]:before {
     z-index: 0 !important;
 }
+
+//////////////////////////
+// submit.vue 
+//////////////////////////
+#new-submission {
+    position: relative;
+}
+
+.opacity-fade {
+    opacity: 0.6;
+}
+
+.preview {
+    border-radius: 4px;
+    border: 2px dashed #e7e7e7;
+    padding: 1em;
+}
+
+.form-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 100;
+}
+
+.form-loader .v-moon1 {
+    height: 60px !important;
+    width: 60px !important;
+}
+
+.form-loader .v-moon2 {
+    height: 5.28571px !important;
+    width: 5.28571px !important;
+    border-radius: 100% !important;
+    top: 25.8571px !important;
+    opacity: 1 !important;
+    background-color: #333 !important;
+}
+
+.form-loader .v-moon3 {
+    height: 60px !important;
+    width: 60px !important;
+    opacity: 0.2 !important;
+    border: 5.71429px solid #000 !important;
+}
+
+//////////////////////////
+// end submit.vue 
+//////////////////////////
