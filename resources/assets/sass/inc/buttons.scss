@@ -12,6 +12,7 @@
     border: 2px solid $primary-color;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .v-button.v-button--green {
@@ -25,6 +26,7 @@
     border: 2px solid $green-color;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .v-button.v-button--link {

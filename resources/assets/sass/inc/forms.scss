@@ -561,3 +561,17 @@ select.form-control-lg:not([size]):not([multiple]) {
 //////////////////////////
 // end submit.vue 
 //////////////////////////
+
+
+.fixed-comment-form-wrapper {
+    padding: 1em;
+    padding-bottom: 0;
+}
+
+.comment-form-guide {
+    margin: .5em 0;
+    color: #717577;
+    font-size: 74%;
+    cursor: pointer;
+    font-weight: 600;
+}

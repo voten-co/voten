@@ -181,10 +181,12 @@
     font-size: 74%;
     cursor: pointer;
     font-weight: 600;
+    background: none;
+    border: none;
 }
 
 .comment-form-guide-wrapper {
-    padding: 0em 0.5em 0.4em;
+    // padding: 0em 0.5em 0.4em;
 }
 
 .content .comment-form-guide {

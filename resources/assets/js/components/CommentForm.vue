@@ -1,39 +1,52 @@
 <template>
-    <section class="no-border" :class="isReply ? '' : 'full-comment-form'">
-        <div class="content">
-        	<div class="ui reply form flex-display">
-                <textarea type="text" v-model="message" :id="'comment-form-' + parent" class="v-comment-form"
-                          placeholder="Type your comment..." autocomplete="off" rows="1" name="comment"
-                          v-on:keydown.enter="submit($event)" v-focus="focused" @focus="focused = true"
-                          @keydown="whisperTyping" @keyup="whisperFinishedTyping"
-                ></textarea>
+    <div class="fixed-comment-form-wrapper">
+        <div v-if="preview && message" class="form-wrapper margin-bottom-1 preview">
+            <markdown :text="message"></markdown>
+        </div>
+        
+        <form class="chat-input-form">
+            <textarea 
+                rows="1" v-on:keydown.enter="submit($event)" 
+                placeholder="Type your comment..." v-model="message" name="comment"
+                @keydown="whisperTyping" @keyup="whisperFinishedTyping" :id="'comment-form-' + parent"
+                autocomplete="off"
+            ></textarea>
 
-                <span class="send-button comment-emoji-button">
-                    <i class="v-icon v-smile h-yellow" aria-hidden="true" v-if="!loading" @click="toggleEmojiPicker"></i>
+            <span class="send-button comment-emoji-button">
+                <div @click="toggleEmojiPicker" class="flex-center">
+                    <emoji-icon width="38" height="38"></emoji-icon>
+                </div>
+                
 
-                    <emoji-picker v-if="emojiPicker" @emoji="emoji" v-on-clickaway="closeEmojiPicker"></emoji-picker>
-                </span>
+                <emoji-picker v-if="emojiPicker" @emoji="emoji" v-on-clickaway="closeEmojiPicker"></emoji-picker>
+            </span>
 
-                <button class="send-button" v-bind:class="{ 'go-green': showSubmit }" @click="submit($event)">
-                    <i class="v-icon v-send" aria-hidden="true" v-if="!loading"></i>
-		        	<moon-loader :loading="loading" :size="'25px'" :color="'#555'"></moon-loader>
+            <button type="submit" :class="{ 'go-green': message.trim() }" @click="submit($event)">
+                <i class="v-icon v-send" aria-hidden="true"></i>
+            </button>
+        </form>
+
+        <div class="flex-space user-select comment-form-guide-wrapper">
+            <typing></typing>
+
+            <div>
+                <button class="comment-form-guide" @click="$eventHub.$emit('markdown-guide')" type="button">
+                    Formatting Guide
+                </button>
+
+                <button class="comment-form-guide" @click="preview =! preview" type="button">
+                    Preview
                 </button>
             </div>
-
-            <div class="flex-space user-select comment-form-guide-wrapper" v-if="!isReply">
-                <typing></typing>
-
-                <a class="comment-form-guide" @click="$eventHub.$emit('markdown-guide')">
-                    Formatting Guide
-                </a>
-            </div>
         </div>
-    </section>
+    </div>	
 </template>
 
 <script>
+    import Markdown from '../components/Markdown.vue'; 
 	import MoonLoader from '../components/MoonLoader.vue';
-	import EmojiPicker from '../components/EmojiPicker.vue';
+    import EmojiPicker from '../components/EmojiPicker.vue';
+    import EmojiIcon from '../components/Icons/EmojiIcon.vue';
 	import Typing from '../components/Typing.vue';
     import { mixin as clickaway } from 'vue-clickaway';
 	import { focus } from 'vue-focus';
@@ -48,6 +61,8 @@
     	components: {
 		    MoonLoader,
             EmojiPicker,
+            EmojiIcon, 
+            Markdown, 
             Typing
         },
 
@@ -65,7 +80,8 @@
                 temp: '',
                 mentioning: false,
                 EchoChannelAddress: 'submission.' + this.$route.params.slug,
-                isTyping: false
+                isTyping: false, 
+                preview : false 
             }
         },
 
@@ -215,7 +231,7 @@
                 this.focused = false;
         		this.message = '';
 
-        		$('#comment-form-' + this.parent).css('height', 49);
+        		$('#comment-form-' + this.parent).css('height', 43);
 
         		this.loading = true;
 

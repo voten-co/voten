@@ -1,7 +1,6 @@
 
 .v-send-1:before { content: '\e800'; } /* '' */
 .v-letter:before { content: '\e801'; } /* '' */
-.v-atsign:before { content: '\e802'; } /* '' */
 .v-rise:before { content: '\e803'; } /* '' */
 .v-arrows:before { content: '\e804'; } /* '' */
 .v-bell:before { content: '\e805'; } /* '' */
@@ -27,8 +26,10 @@
 .v-photo:before { content: '\e819'; } /* '' */
 .v-submit:before { content: '\e81a'; } /* '' */
 .v-more:before { content: '\e81b'; } /* '' */
+.v-search-fat:before { content: '\e81c'; } /* '' */
 .v-ok-mark:before { content: '\e81d'; } /* '' */
 .v-video:before { content: '\e81e'; } /* '' */
+.v-atsign:before { content: '\e81f'; } /* '' */
 .v-submissions:before { content: '\e820'; } /* '' */
 .v-send:before { content: '\e822'; } /* '' */
 .v-refresh:before { content: '\e823'; } /* '' */

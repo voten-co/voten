@@ -1,49 +1,54 @@
 <template>
 	<div id="submission-page" class="home-wrapper">
-		<category-header-mobile></category-header-mobile>
+		<div class="flex1" id="comments-submission-page">
+			<submission-category-header></submission-category-header>
 
-		<div class="col-full padding-bottom-10 flex1" id="comments-submission-page">
-			<nsfw-warning v-if="submission.nsfw == 1 && !auth.nsfw"
-				:text="'This submission contains NSFW content which can not be displayed according to your personal settings.'">
-			</nsfw-warning>
+			<div class="col-full padding-bottom-10 flex1">
+				<nsfw-warning v-if="submission.nsfw == 1 && !auth.nsfw"
+					:text="'This submission contains NSFW content which can not be displayed according to your personal settings.'">
+				</nsfw-warning>
 
-			<div v-if="submission.nsfw == 0 || auth.nsfw">
-				<loading v-if="loadingSubmission"></loading>
+				<div v-if="submission.nsfw == 0 || auth.nsfw">
+					<loading v-if="loadingSubmission"></loading>
 
-				<full-submission v-if="!loadingSubmission" :list="submission" :full="true"></full-submission>
+					<full-submission v-if="!loadingSubmission" :list="submission" :full="true"></full-submission>
 
-				<section class="box-typical comments" id="comments-section" v-if="!loadingSubmission">
-					<header class="box-typical-header-sm bordered user-select flex-space">
-						<div>
-							<span v-show="comments.length">{{ submission.comments_number }}</span>
-							Comments: <span class="go-gray go-small" v-if="!isGuest">({{ onlineUsersCount }} online users)</span>
+					<section class="box-typical comments" id="comments-section" v-if="!loadingSubmission">
+						<header class="box-typical-header-sm bordered user-select flex-space">
+							<div>
+								<span v-show="comments.length">{{ submission.comments_number }}</span>
+								Comments: <span class="go-gray go-small" v-if="!isGuest">({{ onlineUsersCount }} online users)</span>
+							</div>
+							<div class="head-sort-icon" v-show="comments.length > 1">
+								<i class="v-icon v-like pointer" aria-hidden="true" v-tooltip.bottom="{content: 'Hottest'}"
+								@click="newSort('hot')"
+								:class="{ 'go-primary': sort == 'hot' }"></i>
+								<i class="v-icon v-clock pointer" aria-hidden="true" v-tooltip.bottom="{content: 'Newest'}"
+								@click="newSort('new')"
+								:class="{ 'go-primary': sort == 'new' }"></i>
+							</div>
+						</header>
+
+						<div class="box-typical-inner ui threaded comments" v-if="submission.id != 0">
+							<!-- <comment-form :submission="submission.id" :parent="0"></comment-form> -->
+
+							<loading v-if="loadingComments && page < 2"></loading>
+
+							<comment :list="c" :comments-order="commentsOrder" v-for="c in uniqueList" :key="c.id" :full="true"></comment>
 						</div>
-						<div class="head-sort-icon" v-show="comments.length > 1">
-							<i class="v-icon v-like pointer" aria-hidden="true" v-tooltip.bottom="{content: 'Hottest'}"
-							@click="newSort('hot')"
-							:class="{ 'go-primary': sort == 'hot' }"></i>
-							<i class="v-icon v-clock pointer" aria-hidden="true" v-tooltip.bottom="{content: 'Newest'}"
-							@click="newSort('new')"
-							:class="{ 'go-primary': sort == 'new' }"></i>
-						</div>
-					</header>
-
-					<div class="box-typical-inner ui threaded comments" v-if="submission.id != 0">
-						<comment-form :submission="submission.id" :parent="0"></comment-form>
-
-						<loading v-if="loadingComments && page < 2"></loading>
-
-						<comment :list="c" :comments-order="commentsOrder" v-for="c in uniqueList" :key="c.id" :full="true"></comment>
+					</section>
+						
+					<div class="align-center">
+						<button class="v-button v-button-outline--green v-button--block half-width" v-if="moreComments" @click="loadMoreComments">
+							Load More Comments
+						</button>
 					</div>
-				</section>
-
-				<button class="v-button v-button--block" v-if="moreComments" @click="loadMoreComments">
-					Load More Comments
-				</button>
+				</div>
 			</div>
 		</div>
-	</div>
 
+		<comment-form :submission="submission.id" :parent="0"></comment-form>
+	</div>
 </template>
 
 <script>
@@ -51,7 +56,7 @@
 	import Comment from '../components/Comment.vue';
 	import CommentForm from '../components/CommentForm.vue';
 	import CategoryHeader from '../components/CategoryHeader.vue';
-	import CategoryHeaderMobile from '../components/CategoryHeaderMobile.vue';
+	import SubmissionCategoryHeader from '../components/SubmissionCategoryHeader.vue';
 	import Loading from '../components/Loading.vue';
 	import NsfwWarning from '../components/NsfwWarning.vue';
 	import Helpers from '../mixins/Helpers';
@@ -65,11 +70,11 @@
             CommentForm,
             Loading,
             CategoryHeader,
-            CategoryHeaderMobile,
+            SubmissionCategoryHeader,
 			NsfwWarning
         },
 
-        data () {
+        data() {
             return {
             	page: 1,
             	moreComments: false,
