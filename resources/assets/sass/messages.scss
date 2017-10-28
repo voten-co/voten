@@ -129,12 +129,13 @@
         background: #f7f7f7;
         border: none;
         height: 43px;
+        max-height: 250px;
         resize: none;
         font-size: 15px;
         padding: 0.78571429em 0 0.78571429em 1em;
         color: #111;
         line-height: 1.2857;
-        overflow: hidden !important;
+        // overflow: hidden !important;
     }
 
     .comment-emoji-button {

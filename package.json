@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "at.js": "^1.5.3",
-    "autosize": "^3.0.17",
+    "autosize": "^4.0.0",
     "axios": "^0.16.1",
     "cross-env": "^5.0.0",
     "eslint": "^4.8.0",

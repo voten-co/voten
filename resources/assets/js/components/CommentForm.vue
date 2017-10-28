@@ -1,9 +1,9 @@
 <template>
-    <div class="fixed-comment-form-wrapper">
+    <div class="fixed-comment-form-wrapper" id="comment-form">
         <div v-if="preview && message" class="form-wrapper margin-bottom-1 preview">
             <markdown :text="message"></markdown>
         </div>
-        
+
         <form class="chat-input-form">
             <textarea 
                 rows="1" v-on:keydown.enter="submit($event)" 
@@ -21,7 +21,9 @@
                 <emoji-picker v-if="emojiPicker" @emoji="emoji" v-on-clickaway="closeEmojiPicker"></emoji-picker>
             </span>
 
-            <button type="submit" :class="{ 'go-green': message.trim() }" @click="submit($event)">
+            <button type="submit" :class="{ 'go-green': message.trim() }" 
+                @click="submit($event)" v-tooltip.left="{ content: 'Submit'}"
+            >
                 <i class="v-icon v-send" aria-hidden="true"></i>
             </button>
         </form>

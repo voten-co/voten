@@ -530,6 +530,11 @@ select.form-control-lg:not([size]):not([multiple]) {
     padding: 1em;
 }
 
+#comment-form .preview {
+    max-height: 250px;
+    overflow: auto;
+}
+
 .form-loader {
     position: absolute;
     top: 50%;
