@@ -22,9 +22,7 @@
                 <emoji-picker v-if="emojiPicker" @emoji="emoji" v-on-clickaway="closeEmojiPicker"></emoji-picker>
             </span>
 
-            <button type="submit" :class="{ 'go-green': message.trim() }" 
-                @click="submit($event)" v-tooltip.left="{ content: 'Submit'}"
-            >
+            <button type="submit" :class="{ 'go-green': message.trim() }" @click="submit($event)">
                 <i class="v-icon v-send" aria-hidden="true" v-show="!loading"></i>
                 <moon-loader :loading="loading" :size="'25px'" :color="'#555'"></moon-loader>
             </button>

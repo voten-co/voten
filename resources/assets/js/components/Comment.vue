@@ -28,12 +28,12 @@
                 </div>
 
                 <div class="text">
-                    <comment-form :submission="list.submission_id" :parent="list.id"
+                    <!-- <comment-form :submission="list.submission_id" :parent="list.id"
                         :editing="editing" v-if="editing" :before="list.body" :id="list.id"
                         @patched-comment="patchComment"
-                    ></comment-form>
+                    ></comment-form> -->
 
-                    <markdown :text="list.body" v-else></markdown>
+                    <markdown :text="list.body"></markdown>
                 </div>
 
                 <div class="actions user-select">
@@ -70,7 +70,7 @@
                                 Report
                             </button>
 
-                            <button class="item" @click="destroy" v-if="owns">
+                            <button class="item go-red" @click="destroy" v-if="owns">
                                 Delete
                             </button>
 
@@ -78,7 +78,7 @@
                                 Approve
                             </button>
 
-                            <button class="item" @click="disapprove" v-if="showDisapprove">
+                            <button class="item go-red" @click="disapprove" v-if="showDisapprove">
                                 Delete
                             </button>
                         </div>

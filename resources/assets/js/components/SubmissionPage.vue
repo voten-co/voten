@@ -3,7 +3,7 @@
 		<div class="flex1" id="comments-submission-page">
 			<submission-category-header></submission-category-header>
 
-			<div class="col-full padding-bottom-10 flex1">
+			<div class="col-full padding-bottom-1 flex1">
 				<nsfw-warning v-if="submission.nsfw == 1 && !auth.nsfw"
 					:text="'This submission contains NSFW content which can not be displayed according to your personal settings.'">
 				</nsfw-warning>

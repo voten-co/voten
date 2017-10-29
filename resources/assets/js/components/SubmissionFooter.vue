@@ -30,7 +30,7 @@
 							Family Safe
 						</button>
 
-						<button class="item" @click="$emit('destroy')" v-if="owns">
+						<button class="item go-red" @click="$emit('destroy')" v-if="owns">
 							Delete
 						</button>
 
@@ -38,7 +38,7 @@
 							Approve
 						</button>
 
-						<button class="item" @click="$emit('disapprove')" v-if="showDisapprove">
+						<button class="item go-red" @click="$emit('disapprove')" v-if="showDisapprove">
 							Delete
 						</button>
 

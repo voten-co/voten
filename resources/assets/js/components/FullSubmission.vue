@@ -63,7 +63,7 @@
 											Family Safe
 										</button>
 
-										<button class="item" @click="destroy" v-if="owns">
+										<button class="item go-red" @click="destroy" v-if="owns">
 											Delete
 										</button>
 
@@ -71,7 +71,7 @@
 											Approve
 										</button>
 
-										<button class="item" @click="disapprove" v-if="showDisapprove">
+										<button class="item go-red" @click="disapprove" v-if="showDisapprove">
 											Delete
 										</button>
 
