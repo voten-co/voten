@@ -6,13 +6,14 @@
 
         <form class="chat-input-form">
             <textarea 
-                rows="1" v-on:keydown.enter="submit($event)" 
-                placeholder="Type your comment..." v-model="message" name="comment"
+                rows="1" v-on:keydown.enter="submit($event)" :disabled="loading"
+                v-model="message" name="comment"
                 @keydown="whisperTyping" @keyup="whisperFinishedTyping" :id="'comment-form-' + parent"
                 autocomplete="off"
+                :placeholder="loading ? 'Submitting...' : 'Type your comment...'"
             ></textarea>
 
-            <span class="send-button comment-emoji-button">
+            <span class="send-button comment-emoji-button" v-show="!loading">
                 <div @click="toggleEmojiPicker" class="flex-center">
                     <emoji-icon width="38" height="38"></emoji-icon>
                 </div>
@@ -24,7 +25,8 @@
             <button type="submit" :class="{ 'go-green': message.trim() }" 
                 @click="submit($event)" v-tooltip.left="{ content: 'Submit'}"
             >
-                <i class="v-icon v-send" aria-hidden="true"></i>
+                <i class="v-icon v-send" aria-hidden="true" v-show="!loading"></i>
+                <moon-loader :loading="loading" :size="'25px'" :color="'#555'"></moon-loader>
             </button>
         </form>
 
@@ -32,12 +34,12 @@
             <typing></typing>
 
             <div>
-                <button class="comment-form-guide" @click="$eventHub.$emit('markdown-guide')" type="button">
-                    Formatting Guide
+                <button class="comment-form-guide" @click="preview =! preview" type="button" v-show="message">
+                    Preview
                 </button>
 
-                <button class="comment-form-guide" @click="preview =! preview" type="button">
-                    Preview
+                <button class="comment-form-guide" @click="$eventHub.$emit('markdown-guide')" type="button">
+                    Formatting Guide
                 </button>
             </div>
         </div>

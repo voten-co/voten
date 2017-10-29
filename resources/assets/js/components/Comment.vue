@@ -16,10 +16,10 @@
                     <div class="metadata user-select">
                         <router-link class="go-gray h-underline" v-if="!full"
                         :to="'/submission/' + list.submission_id">
-                            <small><span v-tooltip.top="{content: 'Created: ' + longDate}">{{ date }}</span> — {{ points }} Points</small>
+                            <small><span v-tooltip.top="{content: 'Created: ' + longDate}">{{ date }}</span> — <span v-tooltip.top="{content: detailedPoints}">{{ points }} Points</span></small>
                         </router-link>
 
-                        <small v-else><span v-tooltip.top="{content: 'Created: ' + longDate}">{{ date }}</span> — {{ points }} Points</small>
+                        <small v-else><span v-tooltip.top="{content: 'Created: ' + longDate}">{{ date }}</span> — <span v-tooltip.top="{content: detailedPoints}">{{ points }} Points</span></small>
 
                         <span class="edited" v-if="isEdited" v-tooltip.top="{content: 'Edited: ' + editedDate}">
                             Edited
@@ -41,16 +41,16 @@
                         <i class="v-icon v-link"></i>
                     </router-link>
 
-                    <a class="reply h-green" @click="commentReply" v-if="list.level < 8 && full" v-tooltip.top="{content: 'Reply'}">
-                        <i class="v-icon v-reply"></i>
-                    </a>
-
                     <a class="reply h-primary" @click="voteUp">
                         <i class="v-icon v-up-fat" :class="upvoted ? 'go-primary' : 'go-gray'"></i>
                     </a>
 
                     <a class="reply h-red" @click="voteDown">
                         <i class="v-icon v-down-fat" :class="downvoted ? 'go-red' : 'go-gray'"></i>
+                    </a>
+
+                    <a class="reply h-green" @click="commentReply" v-if="list.level < 8 && full" v-tooltip.top="{content: 'Reply'}">
+                        <i class="v-icon v-reply"></i>
                     </a>
 
                     <a class="reply h-yellow" @click="bookmark" v-tooltip.top="{content: bookmarked ? 'Unbookmark' : 'Bookmark'}">
@@ -203,6 +203,10 @@
             isParent() {
                 return this.list.parent_id == 0 ? true : false;
             },
+
+            detailedPoints() {
+				return `+${this.list.upvotes} | -${this.list.downvotes}`; 
+			}, 
 
             highlightClass() {
                 if (this.highlighted && !this.isParent) {

@@ -31,6 +31,7 @@
 .v-video:before { content: '\e81e'; } /* '' */
 .v-atsign:before { content: '\e81f'; } /* '' */
 .v-submissions:before { content: '\e820'; } /* '' */
+.v-reply:before { content: '\e821'; } /* '' */
 .v-send:before { content: '\e822'; } /* '' */
 .v-refresh:before { content: '\e823'; } /* '' */
 .v-logout:before { content: '\e824'; } /* '' */
@@ -64,7 +65,6 @@
 .v-people:before { content: '\e84b'; } /* '' */
 .v-edit:before { content: '\e84c'; } /* '' */
 .v-load-more:before { content: '\e84d'; } /* '' */
-.v-reply:before { content: '\e84e'; } /* '' */
 .v-book:before { content: '\e84f'; } /* '' */
 .v-search-3:before { content: '\e850'; } /* '' */
 .v-like:before { content: '\e851'; } /* '' */

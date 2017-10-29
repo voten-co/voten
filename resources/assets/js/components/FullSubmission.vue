@@ -33,7 +33,7 @@
 									<i class="v-icon v-up-fat" :class="upvoted ? 'go-primary' : 'go-gray'"></i>
 								</a>
 
-								<div class="detail">
+								<div class="detail" v-tooltip.bottom="{content: detailedPoints}">
 									{{ points }} Points
 								</div>
 
@@ -207,13 +207,17 @@
 
 
         computed: {
-			points(){
+			points() {
 				let total = this.list.upvotes - this.list.downvotes
 
 				if (total < 0 ) return 0
 
 				return total
 			},
+
+			detailedPoints() {
+				return `+${this.list.upvotes} | -${this.list.downvotes}`; 
+			}, 
 
 			/**
         	 * Does the auth user own the submission
