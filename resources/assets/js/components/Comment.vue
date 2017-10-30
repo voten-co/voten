@@ -28,7 +28,6 @@
                 </div>
 
                 <div class="text">
-
                     <markdown :text="list.body"></markdown>
                 </div>
 
@@ -80,10 +79,6 @@
                         </div>
                     </div>
                 </div>
-
-                <span v-if="reply">
-                    <comment-form :submission="list.submission_id" :parent="list.id"></comment-form>
-                </span>
             </div>
 
             <div class="comments" v-if="list.children.length">
@@ -99,7 +94,6 @@
 
 
 <script>
-    import CommentForm from '../components/CommentForm.vue';
     import Markdown from '../components/Markdown.vue';
     import Helpers from '../mixins/Helpers';
 
@@ -109,7 +103,6 @@
         props: ['list', 'comments-order', 'full'],
 
         components: {
-            CommentForm,
             Markdown
         },
 
@@ -340,6 +333,11 @@
         	    this.highlighted = false;
         	},
 
+            /**
+             * Send record to be fetched by CommentForm. 
+             * 
+             * @return void 
+             */
             edit() {
                 this.editing = !this.editing;
 
@@ -442,15 +440,19 @@
         	},
 
         	/**
-             *  toggles the reply form
+             *  Send comment to CommentForm to be replied to. 
+             * 
+             * @return void 
              */
             commentReply () {
             	if (this.isGuest) {
             		this.mustBeLogin();
             		return;
-            	}
+                }
 
-            	this.reply = !this.reply;
+                this.reply = !this.reply;
+                
+                this.$eventHub.$emit('reply-comment', this.list); 
         	},
 
             /**

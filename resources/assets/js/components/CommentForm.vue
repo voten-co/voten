@@ -4,18 +4,18 @@
             <markdown :text="message"></markdown>
         </div>
 
-        <div class="editing-comment-wrapper user-select" v-if="editing && !loading">
+        <div class="editing-comment-wrapper user-select" v-if="(editing || replying) && !loading">
             <div class="close" @click="clear">
                 <i class="v-icon v-cancel-small"></i>
             </div>
             
             <div class="editing-comment-previous">
                 <h4 class="title">
-                    Edit Comment
+                    {{ editing ? 'Edit Comment' : replyingComment.owner.username }}
                 </h4>
 
-                <div class="text">
-                    {{ str_limit(editingComment.body, 60) }}
+                <div class="text" 
+                    v-text="editing ? str_limit(editingComment.body, 60) : str_limit(replyingComment.body, 60)">
                 </div>
             </div>
         </div>
@@ -99,6 +99,7 @@
                 isTyping: false, 
                 preview : false, 
                 editingComment: [], 
+                replyingComment: [], 
                 parent: 0,
             }
         },
@@ -106,11 +107,12 @@
         created() {
             this.subscribeToEcho();
             this.$eventHub.$on('edit-comment', this.setEditing);
+            this.$eventHub.$on('reply-comment', this.setReplying);
         },
 
         computed: {
-        	isReply() {
-        		return this.parent != 0; 
+        	replying() {
+        		return ! (_.isEmpty(this.replyingComment));
         	},
 
         	showSubmit() {
@@ -210,6 +212,13 @@
                 this.parent = this.editingComment.parent_id; 
             },
 
+            setReplying(comment) {
+                this.clear(); 
+
+                this.replyingComment = comment; 
+                this.parent = this.replyingComment.id; 
+            }, 
+
             /**
              * Like it never happened! 
              * 
@@ -217,6 +226,7 @@
              */
             clear() {
                 this.editingComment = []; 
+                this.replyingComment = []; 
                 this.message = '';
                 this.loading = false; 
                 this.preview = false; 
