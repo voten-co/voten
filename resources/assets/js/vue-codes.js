@@ -560,6 +560,7 @@ const app = new Vue({
             // esc
             if (event.keyCode == 27) {
                 this.closeModals();
+                this.$eventHub.$emit('pressed-esc'); 
             }
 
             // all shortcuts after this one need to be prevented if user is typing

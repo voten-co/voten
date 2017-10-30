@@ -22,8 +22,8 @@
 
         <form class="chat-input-form">
             <textarea 
-                rows="1" v-on:keydown.enter="submit($event)" :disabled="loading"
-                v-model="message" name="comment"
+                rows="1" v-on:keydown.enter="submit($event)" :disabled="loading" @click="focused = true"
+                v-model="message" name="comment" v-focus="focused"
                 @keydown="whisperTyping" @keyup="whisperFinishedTyping" :id="'comment-form-' + parent"
                 autocomplete="off"
                 :placeholder="loading ? 'Submitting...' : 'Type your comment...'"
@@ -108,6 +108,7 @@
             this.subscribeToEcho();
             this.$eventHub.$on('edit-comment', this.setEditing);
             this.$eventHub.$on('reply-comment', this.setReplying);
+            this.$eventHub.$on('pressed-esc', this.clear);
         },
 
         computed: {
@@ -210,6 +211,7 @@
                 this.editingComment = comment; 
                 this.message = this.editingComment.body; 
                 this.parent = this.editingComment.parent_id; 
+                this.focused = true;                
             },
 
             setReplying(comment) {
@@ -217,6 +219,7 @@
 
                 this.replyingComment = comment; 
                 this.parent = this.replyingComment.id; 
+                this.focused = true;
             }, 
 
             /**
@@ -231,6 +234,7 @@
                 this.loading = false; 
                 this.preview = false; 
                 this.parent = 0;
+                this.focused = null;
             }, 
 
         	emoji(shortname) {
