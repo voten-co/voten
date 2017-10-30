@@ -47,7 +47,7 @@
 			</div>
 		</div>
 
-		<comment-form :submission="submission.id" :parent="0"></comment-form>
+		<comment-form :submission="submission.id"></comment-form>
 	</div>
 </template>
 

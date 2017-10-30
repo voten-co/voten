@@ -4,6 +4,22 @@
             <markdown :text="message"></markdown>
         </div>
 
+        <div class="editing-comment-wrapper user-select" v-if="editing && !loading">
+            <div class="close" @click="clear">
+                <i class="v-icon v-cancel-small"></i>
+            </div>
+            
+            <div class="editing-comment-previous">
+                <h4 class="title">
+                    Edit Comment
+                </h4>
+
+                <div class="text">
+                    {{ str_limit(editingComment.body, 60) }}
+                </div>
+            </div>
+        </div>
+
         <form class="chat-input-form">
             <textarea 
                 rows="1" v-on:keydown.enter="submit($event)" :disabled="loading"
@@ -17,7 +33,6 @@
                 <div @click="toggleEmojiPicker" class="flex-center">
                     <emoji-icon width="38" height="38"></emoji-icon>
                 </div>
-                
 
                 <emoji-picker v-if="emojiPicker" @emoji="emoji" v-on-clickaway="closeEmojiPicker"></emoji-picker>
             </span>
@@ -57,7 +72,6 @@
 	import 'at.js';
 
     export default {
-
 		directives: { focus },
 
     	components: {
@@ -68,11 +82,11 @@
             Typing
         },
 
-        props: ['parent', 'submission', 'editing', 'before', 'id'],
+        props: ['submission', 'before'],
 
         mixins: [clickaway, Helpers],
 
-        data: function () {
+        data() {
             return {
             	Store,
                 focused: null,
@@ -83,27 +97,32 @@
                 mentioning: false,
                 EchoChannelAddress: 'submission.' + this.$route.params.slug,
                 isTyping: false, 
-                preview : false 
+                preview : false, 
+                editingComment: [], 
+                parent: 0,
             }
         },
 
         created() {
-            this.setFocused();
-            this.setEditing();
             this.subscribeToEcho();
+            this.$eventHub.$on('edit-comment', this.setEditing);
         },
 
         computed: {
         	isReply() {
-        		return this.parent != 0
+        		return this.parent != 0; 
         	},
 
-        	showSubmit () {
-        		return this.loading == false && this.message.trim()
-        	}
+        	showSubmit() {
+        		return this.loading == false && this.message.trim(); 
+            }, 
+            
+            editing() {
+                return ! (_.isEmpty(this.editingComment));
+            }
         },
 
-		mounted: function () {
+		mounted() {
             this.atWho();
 
 			this.$nextTick(function () {
@@ -183,14 +202,29 @@
                 });
             },
 
-            setEditing() {
-                if (this.editing) {
-                    this.message = this.before;
-                }
+            setEditing(comment) {
+                this.clear(); 
+                
+                this.editingComment = comment; 
+                this.message = this.editingComment.body; 
+                this.parent = this.editingComment.parent_id; 
             },
 
-        	emoji(shortname){
-        		this.message = this.message + shortname + " "
+            /**
+             * Like it never happened! 
+             * 
+             * @return void  
+             */
+            clear() {
+                this.editingComment = []; 
+                this.message = '';
+                this.loading = false; 
+                this.preview = false; 
+                this.parent = 0;
+            }, 
+
+        	emoji(shortname) {
+        		this.message = this.message + shortname + " "; 
         	},
 
             toggleEmojiPicker() {
@@ -198,29 +232,20 @@
             },
 
             closeEmojiPicker() {
-                this.emojiPicker = false
-            },
-
-            setFocused(){
-                if(this.parent == 0) {
-                    this.focused = false;
-                    return;
-                }
-
-                this.focused = true;
+                this.emojiPicker = false; 
             },
 
 
         	submit(event) {
                 // ignore shift + enter
-        		if(event.shiftKey) return;
+        		if (event.shiftKey) return;
 
         		// ignore if the mention suggestion box is open
                 if ($("#atwho-ground-comment-form-" + this.parent + " .atwho-view").is(':visible')) return;
 
         		event.preventDefault();
 
-        		if(!this.message.trim()) return;
+        		if (!this.message.trim()) return;
 
                 this.closeEmojiPicker();
 
@@ -242,21 +267,21 @@
         		    if (this.temp == this.before) {
                         this.message = this.temp;
         		        this.loading = false;
-                        this.$emit('patched-comment', this.temp)
+                        this.$eventHub.$emit('patchedComment', this.editingComment);
+
         		        return;
                     }
 
                     axios.post('/edit-comment', {
-                        comment_id: this.id,
+                        comment_id: this.editingComment.id,
                         body: this.temp
                     }).then((response) => {
-                        this.loading = false;
-
-                        this.$emit('patched-comment', this.temp);
-                    }).catch((error) => {
-        		        this.message = this.temp;
-
-        		        this.loading = false;
+                        this.editingComment.body = this.temp;
+                        this.$eventHub.$emit('patchedComment', this.editingComment);
+                        
+                        this.clear();                        
+                    }).catch(() => {
+        		        this.clear();
                     });
 
                     return;
@@ -267,16 +292,13 @@
                     parent_id: this.parent,
                     submission_id: this.submission,
                     body: this.temp,
-                } ).then((response) => {
+                }).then((response) => {
                 	Store.commentUpVotes.push(response.data.id);
-
                     this.$eventHub.$emit('newComment', response.data);
 
-        			this.loading = false;
-                }).catch((error) => {
-                    this.message = this.temp;
-
-                    this.loading = false;
+        			this.clear();
+                }).catch(() => {
+                    this.clear();
                 });
         	},
         },

@@ -28,10 +28,6 @@
                 </div>
 
                 <div class="text">
-                    <!-- <comment-form :submission="list.submission_id" :parent="list.id"
-                        :editing="editing" v-if="editing" :before="list.body" :id="list.id"
-                        @patched-comment="patchComment"
-                    ></comment-form> -->
 
                     <markdown :text="list.body"></markdown>
                 </div>
@@ -102,37 +98,6 @@
 </template>
 
 
-<style>
-    .v-comment-wrapper {
-        /*padding: 1em !important;*/
-    }
-
-    .v-comment-info {
-        display: flex;
-        align-items: center;
-    }
-
-    .broadcasted-comment {
-	    background: #f9f9f9 !important;
-    }
-
-    .child-broadcasted-comment {
-	    background: #f9f9f9 !important;
-	    border: 2px dashed #e9e9e9 !important;
-	    padding-bottom: .7em !important;
-        padding-right: 1em !important;
-	    border-left: 2px dashed #e9e9e9 !important;
-    }
-
-    .edited {
-        background: #f4f4f4;
-        font-size: 10px;
-        padding: 4px 4px;
-        border-radius: 2px;
-    }
-</style>
-
-
 <script>
     import CommentForm from '../components/CommentForm.vue';
     import Markdown from '../components/Markdown.vue';
@@ -164,7 +129,7 @@
             }
         },
 
-        created () {
+        created() {
         	this.setBookmarked();
         	this.setVoteds();
             this.$eventHub.$on('newComment', this.newComment);
@@ -172,7 +137,7 @@
             this.$eventHub.$on('deletedComment', this.deletedComment);
         },
 
-		mounted () {
+		mounted() {
 			this.$nextTick(function () {
 	        	this.$root.loadSemanticDropdown('comment' + this.list.id);
                 this.setHighlighted();
@@ -377,12 +342,8 @@
 
             edit() {
                 this.editing = !this.editing;
-            },
 
-            patchComment(body) {
-                this.editing = false;
-                this.list.body = body;
-                this.list.edited_at = moment().utc().format('YYYY-MM-DD HH:mm:ss');
+                this.$eventHub.$emit('edit-comment', this.list); 
             },
 
         	/**
@@ -445,6 +406,7 @@
             patchedComment(comment) {
             	if (this.list.id != comment.id) return;
 
+                this.editing = false; 
             	this.list.body = comment.body;
                 this.list.edited_at = moment().utc().format('YYYY-MM-DD HH:mm:ss');
             },

@@ -201,3 +201,31 @@
 .comment-form-guide:hover {
     text-decoration: underline;
 }
+
+.v-comment-wrapper {
+    /*padding: 1em !important;*/
+}
+
+.v-comment-info {
+    display: flex;
+    align-items: center;
+}
+
+.broadcasted-comment {
+    background: #f9f9f9 !important;
+}
+
+.child-broadcasted-comment {
+    background: #f9f9f9 !important;
+    border: 2px dashed #e9e9e9 !important;
+    padding-bottom: .7em !important;
+    padding-right: 1em !important;
+    border-left: 2px dashed #e9e9e9 !important;
+}
+
+.edited {
+    background: #f4f4f4;
+    font-size: 10px;
+    padding: 4px 4px;
+    border-radius: 2px;
+}

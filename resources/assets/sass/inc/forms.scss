@@ -580,3 +580,47 @@ select.form-control-lg:not([size]):not([multiple]) {
     cursor: pointer;
     font-weight: 600;
 }
+
+#comment-form {
+    .editing-comment-wrapper {
+        display: flex; 
+        align-items: center;
+        margin-bottom: 1em;
+
+        .close {
+            border: 2px solid #e7e7e7;
+            background: #fefefe;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+
+            i {
+                color: #e7e7e7;
+                font-size: 14px;
+            }
+        }
+
+        .editing-comment-previous {
+            padding: 0 1em;
+            border-left: 4px solid $primary-color;
+            margin-left: 1em;
+            flex: 1;
+
+            .title {
+                margin: 0;
+                color: $primary-color;
+                font-weight: bold;
+                font-size: 15px;
+            }
+
+            .text {
+                font-size: 13px;
+                color: #565656;
+            }
+        }
+    }
+}
