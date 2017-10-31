@@ -15,6 +15,11 @@ Vue.use(Tooltip, {
 import ToggleButton from 'vue-js-toggle-button';
 Vue.use(ToggleButton);
 
+import ElementUI from 'element-ui'; 
+// import 'element-ui/lib/theme-chalk/index.css'; 
+
+Vue.use(ElementUI); 
+
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -63,9 +68,9 @@ if (Laravel.env == 'local') {
 
 
 // The rest of (non-NPM) packages
-require('./libs/transition');
-require('./libs/dropdown');
-require('./libs/popup');
+// require('./libs/transition');
+// require('./libs/dropdown');
+// require('./libs/popup');
 require('./libs/form');
 require('./libs/Jcrop');
 
