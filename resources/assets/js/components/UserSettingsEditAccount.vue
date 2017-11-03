@@ -2,115 +2,119 @@
     <section>
         <h3 class="dotted-title">
             <span>
-                Account Settings 
+                Account
             </span>
         </h3>
 
-        <div class="v-status v-status--error" v-if="customError">
-            {{ customError }}
-        </div>
+        <el-alert
+                v-if="customError"
+                :title="customError"
+                type="error"
+        ></el-alert>
 
-        <div class="form-group">
-            <label for="username" class="form-label">Username:</label>
+        <el-form label-position="top" label-width="10px" :model="form">
+            <el-form-item label="Username">
+                <el-input placeholder="Username..." v-model="form.username"></el-input>
+                <el-alert v-for="e in errors.username" :title="e" type="error" :key="e"></el-alert>
+            </el-form-item>
 
-            <input type="text" class="form-control" placeholder="Username..." v-model="username" id="username">
+            <el-form-item label="Font">
+                <el-select v-model="form.font" placeholder="Font..." filterable>
+                    <el-option
+                            v-for="item in fonts"
+                            :key="item"
+                            :label="item"
+                            :value="item">
+                    </el-option>
+                </el-select>
+            </el-form-item>
 
-            <small class="text-muted go-red" v-for="e in errors.username">{{ e }}</small>
-        </div>
+            <el-form-item label="Sidebar Color">
+                <el-select v-model="form.sidebar_color" placeholder="Sidebar Color..." filterable>
+                    <el-option
+                            v-for="item in sideColors"
+                            :key="item"
+                            :label="item"
+                            :value="item">
+                    </el-option>
+                </el-select>
+            </el-form-item>
 
-        <div class="form-group">
-            <label for="font" class="form-label">Font:</label>
+            <h3 class="dotted-title">
+                <span>
+                    Notify me when
+                </span>
+            </h3>
 
-            <multiselect :value="font" :options="fonts" @input="changeFont"
-                :placeholder="'Font...'"
-            ></multiselect>
-        </div>
+            <div class="form-toggle">
+                My submissions get comments:
+                <el-switch v-model="form.notify_submissions_replied"></el-switch>
+            </div>
 
-        <div class="form-group">
-            <label for="sidebar_color" class="form-label">Sidebar Color:</label>
+            <div class="form-toggle">
+                My comments get replies:
+                <el-switch v-model="form.notify_comments_replied"></el-switch>
+            </div>
 
-            <multiselect :value="sidebar_color" :options="sideColors" @input="changeSidebarColor"
-                :placeholder="'Sidebar Color...'"
-            ></multiselect>
-        </div>
+            <div class="form-toggle no-border">
+                My username gets mentioned:
+                <el-switch v-model="form.notify_mentions"></el-switch>
+            </div>
 
-        <h3 class="v-ultra-bold">Notify me when:</h3>
-
-        <div class="form-toggle">
-            My submissions get comments:
-            <toggle-button v-model="notify_submissions_replied"/>
-        </div>
-
-        <div class="form-toggle">
-            My comments get replies:
-            <toggle-button v-model="notify_comments_replied"/>
-        </div>
-
-        <div class="form-toggle no-border">
-            My username gets mentioned:
-            <toggle-button v-model="notify_mentions"/>
-        </div>
-
-        <button class="v-button v-button--green" @click="save" :disabled="sending" v-if="changed">
-            Save
-        </button>
+            <!-- submit -->
+            <el-form-item v-if="changed">
+                <el-button type="success" @click="save" :loading="sending" size="medium">Save</el-button>
+            </el-form-item>
+        </el-form>
     </section>
 </template>
 
 <script>
-    import Multiselect from 'vue-multiselect'; 
     import Helpers from '../mixins/Helpers';
 
     export default {
-        mixins: [Helpers], 
+        mixins: [Helpers],
 
-	    components: {
-			Multiselect
-	    },
-
-        data: function () {
+        data() {
             return {
                 sending: false,
             	errors: [],
             	customError: '',
                 auth,
-                font: auth.font,
 				fonts: [
 					'Josefin Sans', 'Lato', 'Source Sans Pro', 'Ubuntu', 'Open Sans', 'Dosis', 'Reem Kufi', 'Athiti' ,
 					'Molengo', 'Catamaran', 'Roboto', 'Eczar', 'Titillium Web', 'Varela Round', 'Bree Serif', 'Alegreya Sans',
 					'Sorts Mill Goudy', 'Patrick Hand', 'Dancing Script', 'Satisfy', 'Montserrat', 'Gloria Hallelujah', 'Courgette',
 					'Indie Flower', 'Handlee', 'Arvo'
 				],
-                sidebar_color: auth.sidebar_color,
 				sideColors: [
 					'Blue', 'Dark Blue', 'Red', 'Dark', 'Gray', 'Green', 'Purple'
 				],
-                notify_submissions_replied: auth.notify_submissions_replied,
-                notify_comments_replied: auth.notify_comments_replied,
-                notify_mentions: auth.notify_mentions,
-                username: auth.username
+
+                form: {
+                    username: auth.username,
+                    font: auth.font,
+                    sidebar_color: auth.sidebar_color,
+                    notify_submissions_replied: auth.notify_submissions_replied,
+                    notify_comments_replied: auth.notify_comments_replied,
+                    notify_mentions: auth.notify_mentions,
+                }
             }
         },
 
-        created () {
+        created() {
         	document.title = 'My Account | Settings'
-        },
-
-        mounted () {
-			this.$nextTick(function () {
-				this.$root.autoResize();
-			})
         },
 
 	    computed: {
 	    	changed () {
 	    		if (
-	                auth.sidebar_color != this.sidebar_color ||
-	                auth.font != this.font ||
-	                auth.notify_submissions_replied != this.notify_submissions_replied ||
-	                auth.notify_mentions != this.notify_mentions ||
-	                auth.username != this.username ||
-	                auth.notify_comments_replied != this.notify_comments_replied
+	                auth.sidebar_color != this.form.sidebar_color ||
+	                auth.font != this.form.font ||
+	                auth.notify_submissions_replied != this.form.notify_submissions_replied ||
+	                auth.notify_mentions != this.form.notify_mentions ||
+	                auth.username != this.form.username ||
+	                auth.notify_comments_replied != this.form.notify_comments_replied
 	                ) {
 		    			return true; 
 		    		}
@@ -120,46 +124,41 @@
 	    },
 
         methods: {
-			// used for multi select
-            changeFont(newSelected) {
-                this.font = newSelected; 
-            },
-
-			// used for multi select
-            changeSidebarColor(newSelected) {
-                this.sidebar_color = newSelected; 
-            },
-
             /**
              * Stores the changes in the database. (using the recently changed values)
              *
              * @return void
              */
             save () {
-                this.sending = true; 
+                this.sending = true;
 
-                let changedFont = (auth.font !== this.font); 
+                let changedFont = (auth.font !== this.form.font);
+                let changedUsername = (auth.username !== this.form.username);
 
             	axios.post( '/update-account', {
-                    sidebar_color: this.sidebar_color,
-                    username: this.username,
-                    font: this.font,
-                    notify_submissions_replied: this.notify_submissions_replied,
-                    notify_comments_replied: this.notify_comments_replied,
-                    notify_mentions: this.notify_mentions,
-                }).then((response) => {
+                    sidebar_color: this.form.sidebar_color,
+                    username: this.form.username,
+                    font: this.form.font,
+                    notify_submissions_replied: this.form.notify_submissions_replied,
+                    notify_comments_replied: this.form.notify_comments_replied,
+                    notify_mentions: this.form.notify_mentions,
+                }).then(() => {
 	                this.errors = []; 
 	                this.customError = ''; 
 
-                    auth.sidebar_color = this.sidebar_color; 
-	                auth.font = this.font; 
-	                auth.username = this.username; 
-	                auth.notify_submissions_replied = this.notify_submissions_replied; 
-	                auth.notify_comments_replied = this.notify_comments_replied; 
-                    auth.notify_mentions = this.notify_mentions; 
+                    auth.sidebar_color = this.form.sidebar_color;
+	                auth.font = this.form.font;
+	                auth.username = this.form.username;
+	                auth.notify_submissions_replied = this.form.notify_submissions_replied;
+	                auth.notify_comments_replied = this.form.notify_comments_replied;
+                    auth.notify_mentions = this.form.notify_mentions;
                     
                     if (changedFont) {
                         this.loadWebFont();
+                    }
+
+                    if (changedUsername) {
+                        window.location = `/@${this.form.username}/settings/account`;
                     }
 
                     this.sending = false; 

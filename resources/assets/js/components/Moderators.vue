@@ -27,18 +27,18 @@
                         </div>
 
                         <div>
-                            <button type="button" class="v-button v-button-outline--green v-button-small" @click="sendMessage(user)" v-if="user.username !== auth.username">
+                            <el-button type="success" plain size="mini" @click="sendMessage(user)" v-if="user.username !== auth.username">
                                 Send a message
-                            </button>
+                            </el-button>
                         </div>
                     </div>
                 </div>
             </div>
 
             <footer>
-                <button type="button" class="v-button v-button--green v-button--block" @click="close">
+                <el-button type="success" size="medium" @click="close">
                     Close
-                </button>
+                </el-button>
             </footer>
         </div>
     </div>

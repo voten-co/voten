@@ -14,32 +14,45 @@
 					<full-submission v-if="!loadingSubmission" :list="submission" :full="true"></full-submission>
 
 					<section class="box-typical comments" id="comments-section" v-if="!loadingSubmission">
-						<header class="box-typical-header-sm bordered user-select flex-space">
-							<div>
+						<header class="user-select flex-space">
+							<div class="v-bold">
 								<span v-show="comments.length">{{ submission.comments_number }}</span>
 								Comments: <span class="go-gray go-small" v-if="!isGuest">({{ onlineUsersCount }} online users)</span>
 							</div>
-							<div class="head-sort-icon" v-show="comments.length > 1">
-								<i class="v-icon v-like pointer" aria-hidden="true" v-tooltip.bottom="{content: 'Hottest'}"
-								@click="newSort('hot')"
-								:class="{ 'go-primary': sort == 'hot' }"></i>
-								<i class="v-icon v-clock pointer" aria-hidden="true" v-tooltip.bottom="{content: 'Newest'}"
-								@click="newSort('new')"
-								:class="{ 'go-primary': sort == 'new' }"></i>
-							</div>
+
+							<el-dropdown size="mini" trigger="click" :show-timeout="0" :hide-timeout="0" type="primary" v-show="comments.length > 1">
+									<span class="el-dropdown-link">
+										{{ sort === 'hot' ? 'Hot' : 'New' }}
+										<i class="el-icon-arrow-down el-icon--right"></i>
+								  	</span>
+
+								<el-dropdown-menu slot="dropdown">
+									<el-dropdown-item @click.native="newSort('hot')">
+										Hot
+									</el-dropdown-item>
+
+									<el-dropdown-item @click.native="newSort('new')">
+										New
+									</el-dropdown-item>
+								</el-dropdown-menu>
+							</el-dropdown>
 						</header>
 
 						<div class="box-typical-inner ui threaded comments" v-if="submission.id != 0">
-							<!-- <comment-form :submission="submission.id" :parent="0"></comment-form> -->
+							<span class="simple-loading" v-if="loadingComments && page < 2">
+								<i class="el-icon-loading"></i>
+							</span>
 
-							<loading v-if="loadingComments && page < 2"></loading>
+							<span v-if="!loadingComments && comments.length < 1" class="no-comments-yet">
+								No comments here yet
+							</span>
 
 							<comment :list="c" :comments-order="commentsOrder" v-for="c in uniqueList" :key="c.id" :full="true"></comment>
 						</div>
 					</section>
 						
-					<div class="align-center">
-						<button class="v-button v-button-outline--green v-button--block half-width" v-if="moreComments" @click="loadMoreComments">
+					<div class="align-center" v-if="moreComments">
+						<button class="v-button v-button-outline--green v-button--block half-width" @click="loadMoreComments">
 							Load More Comments
 						</button>
 					</div>

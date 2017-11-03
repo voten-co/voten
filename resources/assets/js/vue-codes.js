@@ -177,12 +177,6 @@ const app = new Vue({
         }
     },
 
-    mounted() {
-        this.$nextTick(function() {
-            this.loadSemanticDropdown();
-        })
-    },
-
     methods: {
         searchHeader(keyword) {
             this.$eventHub.$emit('search-header', keyword);
@@ -346,6 +340,8 @@ const app = new Vue({
          * @return void
          */
         loadSemanticDropdown (targetID = 'someID') {
+            return; 
+            
         	if (targetID != 'someID') {
         		$('#' + targetID +' .ui.dropdown').dropdown({ duration: 50 });
 
@@ -371,7 +367,7 @@ const app = new Vue({
          * @return void
          */
         autoResize() {
-            autosize(document.querySelectorAll('textarea'));
+            // autosize(document.querySelectorAll('textarea'));
         },
 
         /**

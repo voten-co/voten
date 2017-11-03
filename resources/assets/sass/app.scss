@@ -1,11 +1,8 @@
+@import "variables";
 // font icons
 @import "icons/css/fontello.css";
-
-// The great ElementUI 
+// The great ElementUI
 @import 'node_modules/element-ui/packages/theme-chalk/src/index';
-
-// Components
-@import "variables";
 // @import "semantic/input";
 @import "semantic/form.min";
 // @import "semantic/search";
@@ -13,14 +10,14 @@
 @import "inc/bookmarks";
 @import "semantic/comment";
 // @import "semantic/dropdown";
-@import "semantic/message";
+//@import "semantic/message";
 @import "bulma/nav";
 @import "bulma/table";
 @import "bulma/tabs";
 //@import "semantic/card";
-@import "semantic/popup";
+//@import "semantic/popup";
 @import "components/transition";
-@import "components/vui";
+//@import "components/vui";
 // @import "components/tooltip";
 @import "components/animate";
 // @import "components/dropzone";
@@ -55,3 +52,92 @@
 @import "inc/about";
 @import "inc/jquery.atwho";
 @import "inc/warning";
+
+// Select
+.el-select {
+  width: 100%;
+}
+
+// form
+.el-form--label-top .el-form-item__label {
+  padding: 0 0 0px 0;
+  font-weight: bold;
+}
+
+.el-form-item .el-alert {
+  line-height: initial;
+  margin-top: .5em;
+}
+
+// dropdown 
+.el-icon-more-outline {
+  cursor: pointer;
+}
+
+.el-dropdown {
+  i {
+    cursor: pointer;
+  }
+}
+
+.el-dropdown-link {
+  cursor: pointer;
+}
+
+// tooltip 
+.el-tooltip__popper {
+  font-weight: bold;
+}
+
+// buttons
+.el-button {
+  border-radius: 3px;
+
+  &, i {
+    font-weight: bold;
+  }
+}
+
+.el-button.v-button--upload {
+  position: relative;
+  margin: 0;
+
+  input {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    cursor: pointer;
+  }
+}
+
+.is-plain {
+  border-width: 2px;
+  border-color: #bbcfef;
+}
+
+.el-button--primary.is-plain {
+  border-color: $primary-color;
+  background: rgba(255, 255, 255, 0);
+}
+
+.el-button--success.is-plain {
+  border-color: $green-color;
+  background: rgba(255, 255, 255, 0);
+}
+
+.el-button--danger.is-plain {
+  border-color: $red-color;
+  background: rgba(255, 255, 255, 0);
+}
+
+// other
+.simple-loading {
+  margin-top: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

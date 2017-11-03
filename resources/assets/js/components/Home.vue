@@ -21,53 +21,103 @@
 				</div>
 
 				<div class="flex-center">
-					<div class="ui icon top right active-blue pointing dropdown feed-panel-button" @click="mustBeLogin" v-tooltip.bottom="{content: 'Customize'}">
-						<i class="v-icon v-sliders"></i>
+					<!--<div class="ui icon top right active-blue pointing dropdown feed-panel-button" @click="mustBeLogin" v-tooltip.bottom="{content: 'Customize'}">-->
+						<!--<i class="v-icon v-sliders"></i>-->
 
-						<div class="menu">
-							<div class="header">
-								Filter by
-							</div>
+						<!--<div class="menu">-->
+							<!--<div class="header">-->
+								<!--Filter by-->
+							<!--</div>-->
 
-							<button class="item" @click="changeFilter('subscribed-channels')" :class="{ 'active' : filter == 'subscribed-channels' }">
-								Subscribed channels
-							</button>
+							<!--<button class="item" @click="changeFilter('subscribed-channels')" :class="{ 'active' : filter == 'subscribed-channels' }">-->
+								<!--Subscribed channels-->
+							<!--</button>-->
 
-							<button class="item" @click="changeFilter('all-channels')" :class="{ 'active' : filter == 'all-channels' }">
-								All channels
-							</button>
+							<!--<button class="item" @click="changeFilter('all-channels')" :class="{ 'active' : filter == 'all-channels' }">-->
+								<!--All channels-->
+							<!--</button>-->
 
-							<button class="item" @click="changeFilter('moderating-channels')" :class="{ 'active' : filter == 'moderating-channels' }"
-							 v-if="isModerating">
-								Moderating channels
-							</button>
+							<!--<button class="item" @click="changeFilter('moderating-channels')" :class="{ 'active' : filter == 'moderating-channels' }"-->
+							 <!--v-if="isModerating">-->
+								<!--Moderating channels-->
+							<!--</button>-->
 
-							<button class="item" @click="changeFilter('bookmarked-channels')" :class="{ 'active' : filter == 'bookmarked-channels' }">
-								Bookmarked channels
-							</button>
+							<!--<button class="item" @click="changeFilter('bookmarked-channels')" :class="{ 'active' : filter == 'bookmarked-channels' }">-->
+								<!--Bookmarked channels-->
+							<!--</button>-->
 
-							<button class="item" @click="changeFilter('by-bookmarked-users')" :class="{ 'active' : filter == 'by-bookmarked-users' }">
-								By bookmarked users
-							</button>
-						</div>
-					</div>
+							<!--<button class="item" @click="changeFilter('by-bookmarked-users')" :class="{ 'active' : filter == 'by-bookmarked-users' }">-->
+								<!--By bookmarked users-->
+							<!--</button>-->
+						<!--</div>-->
+					<!--</div>-->
 
-					<button class="feed-panel-button margin-right-half" @click="refresh" v-tooltip.bottom="{content: 'Refresh (R)'}">
-						<i class="v-icon v-refetch"></i>
-					</button>
+					<el-tooltip content="Refresh (R)" placement="bottom" transition="false" :open-delay="100">
+						<button class="feed-panel-button" @click="refresh">
+							<i class="v-icon v-refetch"></i>
+						</button>
+					</el-tooltip>
 
-					<router-link class="v-button v-button-outline--primary" to="/submit">
-						Submit 
-					</router-link>
+					<el-tooltip content="Customize Feed" placement="bottom" transition="false" :open-delay="100">
+						<button class="feed-panel-button margin-right-half" @click="dialogTableVisible = true">
+							<i class="v-icon v-sliders"></i>
+						</button>
+					</el-tooltip>
+
+					<el-button type="primary" icon="el-icon-plus" plain size="medium" @click="$router.push('/submit')">
+						Submit
+					</el-button>
 				</div>
 			</div>
 		</nav>
 		
 		<!-- <announcement></announcement> -->
+		<!-- <el-alert
+			title="success alert"
+			type="success">
+		</el-alert> -->
 
 		<home-submissions></home-submissions>
 		
 		<scroll-button scrollable="submissions"></scroll-button>
+
+		<el-dialog
+				title="Feed Filters"
+				:visible.sync="dialogTableVisible"
+				:width="'35'"
+		>
+			<p>
+				Other than subscribing to channels, there are more filters available to make sure you get the
+				content that suits you the best.
+			</p>
+
+			<el-form label-position="top" label-width="10px" :model="form">
+				<div class="form-toggle">
+					<span>Display NSFW submissions: <small>(You must be 18 or older)</small></span>
+					<el-switch v-model="form.nsfw"></el-switch>
+				</div>
+
+				<div class="form-toggle">
+					<span>Display preview for NSFW submissions:</span>
+					<el-switch v-model="form.nsfwMedia"></el-switch>
+				</div>
+
+				<div class="form-toggle">
+					<span>Exclude my upvoted submissions:</span>
+					<el-switch v-model="form.exclude_upvoted_submissions"></el-switch>
+				</div>
+
+				<div class="form-toggle no-border">
+					<span>Exclude my downvoted submissions:</span>
+					<el-switch v-model="form.exclude_downvoted_submissions"></el-switch>
+				</div>
+
+				<!-- submit -->
+				<el-form-item v-if="changed">
+					<el-button type="success" @click="save" :loading="sending" size="medium">Save</el-button>
+				</el-form-item>
+			</el-form>
+		</el-dialog>
 	</div>
 </template>
 
@@ -87,16 +137,33 @@
 			ScrollButton
 		},
 
+        data() {
+    	    return {
+                gridData: [{
+                    date: '2016-05-02',
+                    name: 'John Smith',
+                    address: 'No.1518,  Jinshajiang Road, Putuo District'
+                }, {
+                    date: '2016-05-04',
+                    name: 'John Smith',
+                    address: 'No.1518,  Jinshajiang Road, Putuo District'
+                }, {
+                    date: '2016-05-01',
+                    name: 'John Smith',
+                    address: 'No.1518,  Jinshajiang Road, Putuo District'
+                }, {
+                    date: '2016-05-03',
+                    name: 'John Smith',
+                    address: 'No.1518,  Jinshajiang Road, Putuo District'
+                }],
+                dialogTableVisible: false,
+			}
+		},
+
         created() {
             this.setPageTitle('Voten - Social Bookmarking For The 21st Century', true);
             this.askNotificationPermission();
         },
-
-		mounted () {
-			this.$nextTick(function () {
-	        	this.$root.loadSemanticDropdown();
-			})
-		},
 
         computed: {
         	filter() {

@@ -21,13 +21,27 @@
         </div>
 
         <form class="chat-input-form">
-            <textarea 
-                rows="1" v-on:keydown.enter="submit($event)" :disabled="loading" @click="focused = true"
-                v-model="message" name="comment" v-focus="focused"
-                @keydown="whisperTyping" @keyup="whisperFinishedTyping" :id="'comment-form-' + parent"
-                autocomplete="off"
-                :placeholder="loading ? 'Submitting...' : 'Type your comment...'"
-            ></textarea>
+            <el-input
+                    type="textarea"
+                    autosize
+                    :placeholder="loading ? 'Submitting...' : 'Type your comment...'"
+                    v-model="message"
+                    @keydown.native="whisperTyping" @keyup.native="whisperFinishedTyping" :id="'comment-form-' + parent"
+                    v-on:keydown.enter.native="submit($event)"
+                    :disabled="loading"
+                    name="comment"
+                    :maxlength="5000"
+                    v-focus="focused"
+                    @click.native="focused = true"
+            ></el-input>
+
+            <!--<textarea -->
+                <!--rows="1" v-on:keydown.enter="submit($event)" :disabled="loading" @click="focused = true"-->
+                <!--v-model="message" name="comment" v-focus="focused"-->
+                <!--@keydown="whisperTyping" @keyup="whisperFinishedTyping" :id="'comment-form-' + parent"-->
+                <!--autocomplete="off"-->
+                <!--:placeholder="loading ? 'Submitting...' : 'Type your comment...'"-->
+            <!--&gt;</textarea>-->
 
             <span class="send-button comment-emoji-button" v-show="!loading">
                 <div @click="toggleEmojiPicker" class="flex-center">

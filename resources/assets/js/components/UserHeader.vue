@@ -105,14 +105,13 @@
 		        </div>
 
 		        <div class="channel-admin-btn">
-		        	<i class="v-icon h-yellow pointer" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark go-gray'"
-		        	@click="bookmark" v-if="$route.params.username != auth.username" v-tooltip.bottom="{content: bookmarked ? 'Unbookmark' : 'Bookmark'}"></i>
+					<el-tooltip :content="bookmarked ? 'Unbookmark' : 'Bookmark'" placement="bottom" transition="false" :open-delay="500">
+						<i class="v-icon h-yellow pointer" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark go-gray'" @click="bookmark" v-if="$route.params.username != auth.username"></i>
+					</el-tooltip>
 
 		            <message-button :id="userStore.id" v-if="$route.params.username != auth.username && !isGuest"></message-button>
 
-					<router-link class="v-button v-button-outline--green" :to="{ name: 'user-settings-profile' }" v-show="$route.params.username == auth.username">
-						Edit Profile
-					</router-link>
+					<el-button type="success" @click="$router.push({ name: 'user-settings-profile' })" v-if="$route.params.username == auth.username" plain size="medium">Edit Profile</el-button>
 		        </div>
 		    </div>
 		</nav>

@@ -78,9 +78,13 @@ $max-width: 500px;
         flex-shrink: 0;
         -webkit-box-pack: start;
         -ms-flex-pack: start;
-        justify-content: space-between;
+        flex-direction: row-reverse;
         padding: 6px 1em;
         position: relative;
+
+        button {
+            margin: .5em 0;
+        }
     }
 
     @media (max-width: 415px) {

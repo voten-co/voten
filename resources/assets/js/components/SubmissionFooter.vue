@@ -2,51 +2,53 @@
 	<div class="index-submission-footer user-select">
 		<div :class="auth.isMobileDevice ? 'flex-space' : 'display-inline'">
 			<div :class="auth.isMobileDevice ? '' : 'display-inline'">
-				<a :href="url" class="comments-icon h-green" v-tooltip.top="{content: 'Comments'}" @click="navigateToSubmissionPage">
-					<i class="v-icon v-chat"></i><span v-if="comments" v-text="comments"></span>
-				</a>
+				<el-tooltip class="item" content="Comments" placement="top" transition="false" :open-delay="500">
+					<a :href="url" class="comments-icon h-green" @click="navigateToSubmissionPage">
+						<i class="v-icon v-chat"></i><span v-if="comments" v-text="comments"></span>
+					</a>
+				</el-tooltip>
+				
+				<el-tooltip class="item" :content="bookmarked ? 'Unbookmark' : 'Bookmark'" placement="top" transition="false" :open-delay="500">
+					<a @click="$emit('bookmark')">
+						<i class="v-icon h-yellow pointer" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'"></i>
+					</a>
+				</el-tooltip>
+				
+				<el-dropdown size="mini" type="primary" trigger="click" :show-timeout="0" :hide-timeout="0">				
+					<el-tooltip class="item" effect="dark" content="More" placement="top" transition="false" :open-delay="500">
+						<i class="el-icon-more-outline"></i>
+					</el-tooltip>
 
-				<a @click="$emit('bookmark')" v-tooltip.top="{content: bookmarked ? 'Unbookmark' : 'Bookmark'}">
-					<i class="v-icon h-yellow pointer" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'"></i>
-				</a>
-
-				<div class="ui icon top left pointing dropdown" v-if="!isGuest" id="more-button">
-					<i class="v-icon v-more" aria-hidden="true"></i>
-
-					<div class="menu">
-						<button class="item" @click="$emit('report')" v-if="!owns">
+					<el-dropdown-menu slot="dropdown">
+						<el-dropdown-item v-if="!owns" @click.native="$emit('report')">
 							Report
-						</button>
-
-						<button class="item" @click="$emit('hide')" v-if="!owns">
+						</el-dropdown-item>
+						
+						<el-dropdown-item @click.native="$emit('hide')" v-if="!owns">
 							Hide
-						</button>
+						</el-dropdown-item>
 
-						<button class="item" @click="$emit('nsfw')" v-if="showNSFW">
+						<el-dropdown-item @click.native="$emit('nsfw')" v-if="showNSFW">
 							NSFW
-						</button>
-
-						<button class="item" @click="$emit('sfw')" v-if="showSFW">
+						</el-dropdown-item>
+						
+						<el-dropdown-item @click.native="$emit('sfw')" v-if="showSFW">
 							Family Safe
-						</button>
+						</el-dropdown-item>
 
-						<button class="item go-red" @click="$emit('destroy')" v-if="owns">
+						<el-dropdown-item class="go-red" @click.native="$emit('destroy')" v-if="owns">
 							Delete
-						</button>
-
-						<button class="item" @click="$emit('approve')" v-if="showApprove">
+						</el-dropdown-item>
+						
+						<el-dropdown-item class="go-green" @click.native="$emit('approve')" v-if="showApprove" divided>
 							Approve
-						</button>
-
-						<button class="item go-red" @click="$emit('disapprove')" v-if="showDisapprove">
+						</el-dropdown-item>
+						
+						<el-dropdown-item class="go-red" @click.native="$emit('disapprove')" v-if="showDisapprove">
 							Delete
-						</button>
-
-						<button class="item" @click="$emit('removethumbnail')" v-if="showRemoveTumbnail">
-							Remove Thumbnail
-						</button>
-					</div>
-				</div>
+						</el-dropdown-item>
+					</el-dropdown-menu>
+				</el-dropdown>
 			</div>
 
 			<div class="voting-wrapper display-none mobile-only">
@@ -135,12 +137,6 @@
                 return moment(this.submission.created_at).utc(moment().format("Z")).fromNow()
             },
         },
-
-        mounted () {
-			this.$nextTick(function () {
-	        	this.$root.loadSemanticDropdown('submission' + this.submission.id);
-			})
-		}, 
 		
 		methods: {
 			navigateToSubmissionPage(event) {

@@ -14,16 +14,33 @@
                     </router-link>
 
                     <div class="metadata user-select">
-                        <router-link class="go-gray h-underline" v-if="!full"
-                        :to="'/submission/' + list.submission_id">
-                            <small><span v-tooltip.top="{content: 'Created: ' + longDate}">{{ date }}</span> — <span v-tooltip.top="{content: detailedPoints}">{{ points }} Points</span></small>
+                        <router-link class="go-gray h-underline" v-if="!full" :to="'/submission/' + list.submission_id">
+                            <small>
+                                <el-tooltip :content="'Created: ' + longDate" placement="top" transition="false" :open-delay="500">
+                                    <span>{{ date }}</span>
+                                </el-tooltip>
+                                —
+                                <el-tooltip :content="detailedPoints" placement="top" transition="false" :open-delay="500">
+                                    <span>{{ points }} Points</span>
+                                </el-tooltip>
+                            </small>
                         </router-link>
 
-                        <small v-else><span v-tooltip.top="{content: 'Created: ' + longDate}">{{ date }}</span> — <span v-tooltip.top="{content: detailedPoints}">{{ points }} Points</span></small>
+                        <small v-else>
+                            <el-tooltip :content="'Created: ' + longDate" placement="top" transition="false" :open-delay="500">
+                                <span>{{ date }}</span>
+                            </el-tooltip>
+                             —
+                            <el-tooltip :content="detailedPoints" placement="top" transition="false" :open-delay="500">
+                                <span>{{ points }} Points</span>
+                            </el-tooltip>
+                        </small>
 
-                        <span class="edited" v-if="isEdited" v-tooltip.top="{content: 'Edited: ' + editedDate}">
-                            Edited
-                        </span>
+                        <el-tooltip :content="'Edited: ' + editedDate" placement="top" transition="false" :open-delay="500" v-if="isEdited">
+                            <span class="edited">
+                                Edited
+                            </span>
+                        </el-tooltip>
                     </div>
                 </div>
 
@@ -32,9 +49,11 @@
                 </div>
 
                 <div class="actions user-select">
-                    <router-link class="reply h-green" :to="'/submission/' + list.submission_id" v-if="!full" v-tooltip.top="{content: 'Submission'}">
-                        <i class="v-icon v-link"></i>
-                    </router-link>
+                    <el-tooltip content="Submission" placement="top" transition="false" :open-delay="500" v-if="!full">
+                        <router-link class="reply h-green" :to="'/submission/' + list.submission_id">
+                            <i class="v-icon v-link"></i>
+                        </router-link>
+                    </el-tooltip>
 
                     <a class="reply h-primary" @click="voteUp">
                         <i class="v-icon v-up-fat" :class="upvoted ? 'go-primary' : 'go-gray'"></i>
@@ -44,40 +63,45 @@
                         <i class="v-icon v-down-fat" :class="downvoted ? 'go-red' : 'go-gray'"></i>
                     </a>
 
-                    <a class="reply h-green" @click="commentReply" v-if="list.level < 8 && full" v-tooltip.top="{content: 'Reply'}">
-                        <i class="v-icon v-reply"></i>
-                    </a>
+                    <el-tooltip content="Reply" placement="top" transition="false" :open-delay="500">
+                        <a class="reply h-green" @click="commentReply" v-if="list.level < 8 && full">
+                            <i class="v-icon v-reply"></i>
+                        </a>
+                    </el-tooltip>
 
-                    <a class="reply h-yellow" @click="bookmark" v-tooltip.top="{content: bookmarked ? 'Unbookmark' : 'Bookmark'}">
-                        <i class="v-icon" v-bind:class="{ 'go-yellow v-unbookmark': bookmarked, 'v-bookmark': !bookmarked }"></i>
-                    </a>
+                    <el-tooltip :content="bookmarked ? 'Unbookmark' : 'Bookmark'" placement="top" transition="false" :open-delay="500">
+                        <a class="reply h-yellow" @click="bookmark">
+                            <i class="v-icon" v-bind:class="{ 'go-yellow v-unbookmark': bookmarked, 'v-bookmark': !bookmarked }"></i>
+                        </a>
+                    </el-tooltip>
 
-                    <a class="reply h-purple" @click="edit" v-if="owns" v-tooltip.top="{content: 'Edit'}">
-                        <i class="v-icon v-edit"></i>
-                    </a>
+                    <el-tooltip class="item" content="Edit" placement="top" transition="false" :open-delay="500" v-if="owns && full">
+                        <a class="reply h-purple" @click="edit">
+                            <i class="v-icon v-edit"></i>
+                        </a>
+                    </el-tooltip>
 
-                    <div class="ui icon top left pointing dropdown" v-if="!isGuest"
-                         id="more-button">
-                        <i class="v-icon v-more" aria-hidden="true"></i>
+                    <el-dropdown size="mini" type="primary" trigger="click" :show-timeout="0" :hide-timeout="0">
+                        <i class="el-icon-more-outline"></i>
 
-                        <div class="menu">
-                            <button class="item" @click="report" v-if="!owns">
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item v-if="!owns" @click.native="report">
                                 Report
-                            </button>
+                            </el-dropdown-item>
 
-                            <button class="item go-red" @click="destroy" v-if="owns">
+                            <el-dropdown-item class="go-red" @click.native="destroy" v-if="owns">
                                 Delete
-                            </button>
-
-                            <button class="item" @click="approve" v-if="showApprove">
+                            </el-dropdown-item>
+                            
+                            <el-dropdown-item class="go-green" @click.native="approve" v-if="showApprove" divided>
                                 Approve
-                            </button>
-
-                            <button class="item go-red" @click="disapprove" v-if="showDisapprove">
+                            </el-dropdown-item>
+                            
+                            <el-dropdown-item class="go-red" @click.native="disapprove" v-if="showDisapprove">
                                 Delete
-                            </button>
-                        </div>
-                    </div>
+                            </el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
                 </div>
             </div>
 
@@ -132,7 +156,6 @@
 
 		mounted() {
 			this.$nextTick(function () {
-	        	this.$root.loadSemanticDropdown('comment' + this.list.id);
                 this.setHighlighted();
                 this.scrollToComment();
             });

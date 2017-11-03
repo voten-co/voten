@@ -10,28 +10,34 @@
 
 			<markdown :text="body" v-if="body && !editing"></markdown>
 
-			<textarea class="form-control v-input-big" rows="3" id="text" placeholder="Text(optional)..." v-show="editing"
-                    v-model="editedBody"
-            ></textarea>
+			<el-input
+					v-show="editing"
+					type="textarea"
+					:autosize="{ minRows: 4, maxRows: 25 }"
+					id="text"
+					placeholder="Text(optional)..."
+					v-model="editedBody"
+					:maxlength="15000"
+			></el-input>
 
 			<div class="flex-space margin-top-1" v-show="editing">
 				<div>
-					<button type="submit" class="v-button v-button--green" @click="patch">
+					<el-button type="success" @click="patch" :loading="loading">
 						Edit
-					</button>
-					<button type="submit" class="v-button v-button--link" @click="cancelEditing">
+					</el-button>
+					<el-button type="text" @click="cancelEditing">
 						Cancel
-					</button>
+					</el-button>
 				</div>
 
 				<div>
-					<button type="button" class="v-button v-button--link" @click="$eventHub.$emit('markdown-guide')">
+					<el-button type="text" @click="$eventHub.$emit('markdown-guide')">
 						Formatting Guide
-					</button>
+					</el-button>
 
-					<button class="v-button v-button--link" @click="preview = !preview" type="button">
+					<el-button @click="preview = !preview" type="text">
 						Preview
-					</button>
+					</el-button>
 				</div>
 			</div>
 
@@ -68,7 +74,8 @@
                 editing: false,
                 body: this.submission.data.text,
 				editedBody: this.submission.data.text, 
-				preview: false, 
+				preview: false,
+                loading: false
             }
         },
 
@@ -103,12 +110,6 @@
         	this.$eventHub.$on('edit-submission', this.editSubmission);
         },
 
-		mounted () {
-			this.$nextTick(function () {
-	        	this.$root.autoResize();
-			})
-		},
-
 		methods: {
 			/**
 			 * opens the edit form
@@ -125,15 +126,19 @@
 			 * @return void
 			 */
 			patch() {
+			    this.loading = true;
+
 				axios.post('/patch-text-submission', {
 					id: this.submission.id,
 					text: this.editedBody
 				})
-				.then((response) => {
+				.then(() => {
 					this.body = this.editedBody;
 					this.editing = false;
-				}).catch((error) => {
+					this.loading = false;
+				}).catch(() => {
 					this.editing = true;
+					this.loading = false;
 				});
 			},
 

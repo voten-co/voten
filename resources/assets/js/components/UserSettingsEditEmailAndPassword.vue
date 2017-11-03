@@ -1,54 +1,48 @@
 <template>
-	<section>
-		<h3 class="dotted-title">
+    <section>
+        <h3 class="dotted-title">
             <span>
-                Change Email Address
+                Email Address
             </span>
         </h3>
 
-        <div class="form-group">
-            <label for="email" class="form-label">Email Address:</label>
+        <el-form label-position="top" label-width="10px">
+            <el-form-item label="Email Address">
+                <el-input placeholder="Email Address..." v-model="email" type="email"></el-input>
+                <el-alert v-for="e in errors.email" :title="e" type="error" :key="e"></el-alert>
+            </el-form-item>
 
-            <input type="email" class="form-control" placeholder="Email Address..." v-model="email" id="email">
+            <div class="flex-space warning warning--info" v-if="showVerificationWarning">
+                <p v-if="verificationEmailResent">
+                    Verification email sent. Please check your email inbox.
+                </p>
 
-            <small class="text-muted go-red" v-for="e in errors.email">{{ e }}</small>
-        </div>
+                <p v-if="!verificationEmailResent">
+                    {{ email }} is not verified yet.
+                </p>
 
-        <div class="flex-space warning warning--info" v-if="showVerificationWarning">
-            <p v-if="verificationEmailResent">
-                Verification email sent. Please check your email inbox.
-            </p>
+                <el-button type="primary" size="small" plain @click="resendVerificationEmail" v-if="!verificationEmailResent">
+                    Resend Verification Email
+                </el-button>
+            </div>
 
-            <p v-if="!verificationEmailResent">
-                {{ email }} is not verified yet.
-            </p>
+            <el-button type="success" @click="saveEmail = true" :loading="sendingEmail" size="medium" v-if="changedEmail && !saveEmail">
+                Save
+            </el-button>
 
-            <button class="v-button v-button--primary v-button-small" @click="resendVerificationEmail"
-                    v-if="!verificationEmailResent">
-                Resend Verification Email
-            </button>
-        </div>
+            <div v-if="saveEmail">
+                <el-form-item label="To confirm this action please enter your password">
+                    <el-input placeholder="Password..." v-model="password" type="password"></el-input>
+                    <el-alert v-if="passwordError" :title="passwordError" type="error"></el-alert>
+                </el-form-item>
 
-        <button class="v-button v-button--green" :disabled="sending" v-if="changedEmail && !saveEmail" @click="saveEmail = true">
-        	Save
-        </button>
+                <el-button type="success" @click="updateEmail" :disabled="!password" :loading="sendingEmail"
+                           size="medium">Confirm
+                </el-button>
+                <el-button type="text" @click="saveEmail = false" size="medium">Cancel</el-button>
+            </div>
+        </el-form>
 
-        <div v-if="saveEmail">
-			<div class="form-group">
-	    		<label for="password" class="form-label">To confirm this action please enter your password:</label>
-
-	            <input type="password" class="form-control" placeholder="Password..." v-model="password" id="password">
-
-	            <small class="text-muted go-red" v-if="passwordError">{{ passwordError }}</small>
-	        </div>
-
-	        <button class="v-button v-button--green" @click="updateEmail" :disabled="!password">
-	        	Confirm
-	        </button>
-	        <button class="v-button v-button--red" @click="saveEmail = false">
-	        	Cancel
-	        </button>
-		</div>
 
         <h3 class="dotted-title">
             <span>
@@ -56,32 +50,37 @@
             </span>
         </h3>
 
-        <div v-if="passwordSaved" class="v-status v-status--success">
-        	Your password has been successfully updated.
-        </div>
+        <el-alert
+                title="Your password has been successfully updated."
+                type="success"
+                v-if="passwordSaved"
+                show-icon>
+        </el-alert>
 
-        <div class="form-group">
-            <label for="newpassword" class="form-label">New Password:</label>
-            <input type="password" class="form-control" placeholder="New Password..." v-model="newpassword" id="newpassword">
-            <small class="text-muted go-red" v-for="e in errors.password">{{ e }}</small>
-        </div>
-        <div class="form-group">
-            <label for="confirmpassword" class="form-label">Confirm Password:</label>
-            <input type="password" class="form-control" placeholder="Confirm Password..." v-model="confirmpassword" id="confirmpassword">
-        </div>
+        <el-form label-position="top" label-width="10px">
+            <el-form-item label="New Password">
+                <el-input placeholder="New Password..." v-model="newpassword" type="password"></el-input>
+                <el-alert v-for="e in errors.password" :title="e" type="error" :key="e"></el-alert>
+            </el-form-item>
 
-        <div class="form-group">
-            <label for="oldpassword" class="form-label">Old Password:</label>
+            <el-form-item label="Confirm Password">
+                <el-input placeholder="Confirm Password..." v-model="confirmpassword" type="password"></el-input>
+                <el-alert v-for="e in errors.password" :title="e" type="error" :key="e"></el-alert>
+            </el-form-item>
 
-            <input type="password" class="form-control" placeholder="Enter current password to confirm..." v-model="oldpassword" id="oldpassword">
+            <el-form-item label="Old Password">
+                <el-input placeholder="Enter current password to confirm..." v-model="oldpassword"
+                          type="password"></el-input>
+                <el-alert v-if="passwordError" :title="passwordError" type="error"></el-alert>
+            </el-form-item>
 
-            <small class="text-muted go-red" v-if="passwordError">{{ passwordError }}</small>
-        </div>
-
-        <button class="v-button v-button--green" :disabled="sending" v-if="changedPassword" @click="updatePassword">
-        	Save
-        </button>
-	</section>
+            <el-form-item>
+                <el-button type="success" @click="updatePassword" :loading="sendingPassword" size="medium"
+                           v-if="changedPassword">Save
+                </el-button>
+            </el-form-item>
+        </el-form>
+    </section>
 </template>
 
 <script>
@@ -97,12 +96,13 @@
                 saveEmail: false,
                 password: '',
                 passwordError: '',
-                sending: false,
+                sendingEmail: false,
+                sendingPassword: false,
                 passwordSaved: false,
                 email: auth.email,
-				oldpassword: '',
-				newpassword: '',
-				confirmpassword: '',
+                oldpassword: '',
+                newpassword: '',
+                confirmpassword: '',
                 verificationEmailResent: false
             }
         },
@@ -113,20 +113,16 @@
             },
 
             changedEmail() {
-            	return auth.email != this.email;
+                return auth.email != this.email;
             },
 
             changedPassword() {
-            	return (this.newpassword == this.confirmpassword) && (this.newpassword) && (this.oldpassword);
+                return (this.newpassword == this.confirmpassword) && (this.newpassword) && (this.oldpassword);
             }
         },
 
         created () {
             document.title = 'Email & Password | Settings';
-        },
-
-        mounted () {
-            //
         },
 
         methods: {
@@ -136,38 +132,37 @@
              * @return void
              */
             updateEmail() {
-            	this.sending = true;
+                this.sendingEmail = true;
 
                 axios.post('/update-email', {
-                	password: this.password,
-                	email: this.email
-                })
-                .then((response) => {
-                	this.errors = [];
-                	this.sending = false;
-                	this.saveEmail = false;
-                	auth.email = this.email;
+                    password: this.password,
+                    email: this.email
+                }).then(() => {
+                    this.errors = [];
+                    this.sendingEmail = false;
+                    this.saveEmail = false;
+                    auth.email = this.email;
                     auth.confirmedEmail = false;
 
-                	this.passwordError = '';
+                    this.passwordError = '';
                 }).catch((error) => {
-                	if (error.response.status == 422) {
-                		this.errors = [];
-                		this.passwordError = error.response.data;
-                		this.sending = false;
-                		return;
-                	}
+                    if (error.response.status == 422) {
+                        this.errors = [];
+                        this.passwordError = error.response.data;
+                        this.sending = false;
+                        return;
+                    }
 
-                	this.passwordError = '';
-                	this.errors = error.response.data.errors;
-                	this.sending = false;
+                    this.passwordError = '';
+                    this.errors = error.response.data.errors;
+                    this.sendingEmail = false;
                 });
             },
 
             resendVerificationEmail() {
                 this.verificationEmailResent = true;
 
-                axios.post('/email/verify/resend').catch((error) => {
+                axios.post('/email/verify/resend').catch(() => {
                     this.verificationEmailResent = false;
                 });
             },
@@ -178,32 +173,34 @@
              * @return void
              */
             updatePassword() {
-            	this.sending = true;
-            	this.passwordSaved = false;
+                this.sendingPassword = true;
+                this.passwordSaved = false;
 
                 axios.post('/update-password', {
-                	oldpassword: this.oldpassword,
-                	password: this.newpassword,
-                	password_confirmation: this.confirmpassword
-                })
-                .then((response) => {
-                	this.oldpassword = '';
-					this.newpassword = '';
-					this.confirmpassword = '';
-					this.sending = false;
+                    oldpassword: this.oldpassword,
+                    password: this.newpassword,
+                    password_confirmation: this.confirmpassword
+                }).then(() => {
+                    this.oldpassword = '';
+                    this.newpassword = '';
+                    this.confirmpassword = '';
+                    this.sendingPassword = false;
 
-					this.passwordSaved = true;
+                    this.passwordSaved = true;
+
+                    this.errors = [];
+                    this.passwordError = '';
                 }).catch((error) => {
-                	if (error.response.status == 422) {
-                		this.errors = [];
-                		this.passwordError = error.response.data;
-                		this.sending = false;
-                		return;
-                	}
+                    if (error.response.status == 422) {
+                        this.errors = [];
+                        this.passwordError = error.response.data;
+                        this.sendingPassword = false;
+                        return;
+                    }
 
-                	this.passwordError = '';
-                	this.errors = error.response.data.errors;
-                	this.sending = false;
+                    this.passwordError = '';
+                    this.errors = error.response.data.errors;
+                    this.sending = false;
                 });
             },
         }

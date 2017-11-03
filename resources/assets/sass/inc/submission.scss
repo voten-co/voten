@@ -230,6 +230,10 @@
     display: flex;
     align-items: center;
     position: relative;
+
+    .el-dropdown i {
+        font-size: 20px;
+    }
 }
 
 
@@ -301,9 +305,15 @@
     font-size: 17px;
 }
 
-.index-submission-footer a {
-	color: #999 !important;
-	font-weight: bold;
+.index-submission-footer {
+    a {
+        color: #999 !important;
+	    font-weight: bold;
+    }
+
+    .el-dropdown i {
+        color: #999999;
+    }
 }
 
 .submisison-small-thumbnail {

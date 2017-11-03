@@ -33,9 +33,9 @@
             </div>
 
             <footer>
-                <button type="button" class="v-button v-button--green v-button--block" @click="close">
+                <el-button type="success" size="medium" @click="close">
                     Close
-                </button>
+                </el-button>
             </footer>
         </div>
     </div>

@@ -58,38 +58,37 @@
 	        </div>
 
 	        <div class="channel-admin-btn">
-				<div class="ui icon top right green pointing dropdown"
-					 id="more-button">
-					<i class="v-icon v-more" aria-hidden="true"></i>
+				<el-dropdown size="mini" type="primary" trigger="click" :show-timeout="0" :hide-timeout="0">
+					<el-tooltip class="item" effect="dark" content="More" placement="top" transition="false" :open-delay="500">
+						<i class="v-icon v-more-vertical"></i>
+					</el-tooltip>
 
-					<div class="menu">
-						<button class="item" @click="emitModerators">
+					<el-dropdown-menu slot="dropdown">
+						<el-dropdown-item @click.native="emitModerators">
 							Moderators
-						</button>
+						</el-dropdown-item>
 
-						<button class="item" @click="emitRules">
+						<el-dropdown-item @click.native="emitRules">
 							Rules
-						</button>
+						</el-dropdown-item>
 
-						<button class="item" @click="block">
+						<el-dropdown-item @click.native="block">
 							Block
-						</button>
-					</div>
-				</div>
+						</el-dropdown-item>
+					</el-dropdown-menu>
+				</el-dropdown>
 
 				<i class="v-icon h-yellow pointer" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark go-gray'" @click="bookmark"
 				   v-tooltip.bottom="{content: bookmarked ? 'Unbookmark this channel' : 'Bookmark this channel', offset: 8}"
 				></i>
             	
-				<router-link class="v-button v-button-outline--primary" :to="'/submit?channel=' + $route.params.name" v-if="!isGuest">
+				<el-button type="primary" @click="$router.push('/submit?channel=' + $route.params.name)" v-if="!isGuest" plain size="medium">
 					Submit 
-				</router-link>
+				</el-button>
 
-				<router-link :to="{ path: '/c/' + $route.params.name + '/mod' }" class="v-button v-button-outline--green"
-					v-if="isModerator"
-				>
+				<el-button type="success" @click="$router.push('/c/' + $route.params.name + '/mod')" v-if="isModerator" plain size="medium">
 					Moderation
-				</router-link>
+				</el-button>
 	        </div>
 	    </div>
 	</nav>
@@ -99,11 +98,14 @@
 <script>
 import Subscribe from '../components/SubscribeButton.vue'; 
 import Helpers from '../mixins/Helpers';
+import ElButton from "../../../../node_modules/element-ui/packages/button/src/button";
 
 export default {
 	mixins: [Helpers],
 
-    components: {Subscribe},
+    components: {
+        ElButton,
+        Subscribe},
 
     data: function () {
         return {

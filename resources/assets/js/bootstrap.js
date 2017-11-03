@@ -12,12 +12,10 @@ Vue.use(Tooltip, {
 });
 
 // Toggle plugin
-import ToggleButton from 'vue-js-toggle-button';
-Vue.use(ToggleButton);
+// import ToggleButton from 'vue-js-toggle-button';
+// Vue.use(ToggleButton);
 
-import ElementUI from 'element-ui'; 
-// import 'element-ui/lib/theme-chalk/index.css'; 
-
+import ElementUI from 'element-ui';
 Vue.use(ElementUI); 
 
 
@@ -71,7 +69,7 @@ if (Laravel.env == 'local') {
 // require('./libs/transition');
 // require('./libs/dropdown');
 // require('./libs/popup');
-require('./libs/form');
+// require('./libs/form');
 require('./libs/Jcrop');
 
 

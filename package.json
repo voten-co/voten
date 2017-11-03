@@ -26,7 +26,7 @@
     "axios": "^0.16.1",
     "cross-env": "^5.0.0",
     "element-theme-chalk": "^2.0.1",
-    "element-ui": "^2.0.1",
+    "element-ui": "^2.0.2",
     "eslint": "^4.8.0",
     "jquery": "^3.2.1",
     "jquery.caret": "^0.3.1",

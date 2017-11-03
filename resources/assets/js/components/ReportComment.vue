@@ -34,15 +34,16 @@
             </div>
 
             <footer>
-                <button type="button" class="v-button v-button--green"
-                        @click="send"
-                        :disabled="sending"
-                        v-text="sending ? 'Submitting...' : 'Submit'"
-                ></button>
+                <el-button type="success" size="medium"
+                           @click="send"
+                           :loading="sending"
+                >
+                    Submit
+                </el-button>
 
-                <button type="button" class="v-button v-button--red" @click="close">
+                <el-button type="text" @click="close" size="medium" class="margin-right-1">
                     Cancel
-                </button>
+                </el-button>
             </footer>
         </div>
     </div>

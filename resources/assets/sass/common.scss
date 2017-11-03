@@ -484,6 +484,12 @@ blockquote {
     -ms-user-select: none;
     user-select: none;
 }
+@mixin user-select() {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 
 .go-small {
     font-size: 82%;
@@ -498,7 +504,7 @@ blockquote {
 }
 
 .v-bold {
-    font-weight: 400;
+    font-weight: bold;
 }
 
 .v-ultra-bold {

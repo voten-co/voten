@@ -1,53 +1,65 @@
 <template>
     <div class="sidebar-left user-select">
         <!-- profile -->
-        <a @click.prevent="pushRouter('/' + '@' + auth.username)" :href="'/' + '@' + auth.username" :class="{ 'active': activeRoute === 'user-settings'}" class="item" v-tooltip.right="{content: 'Profile', offset: 0}">
-            <img :src="auth.avatar" :alt="auth.username" class="avatar">
-        </a>
+        <el-tooltip content="Profile" placement="right" transition="false" :open-delay="500">
+            <a @click.prevent="pushRouter('/' + '@' + auth.username)" :href="'/' + '@' + auth.username" :class="{ 'active': activeRoute === 'user-settings'}" class="item">
+                <img :src="auth.avatar" :alt="auth.username" class="avatar">
+            </a>
+        </el-tooltip>
 
         <!-- Home -->
-        <a @click.prevent="pushRouter('/')" href="/" :class="{ 'active': activeRoute === 'home' }" class="item" v-tooltip.right="{content: 'Home Feed (H)', offset: 0}">
-            <i class="v-icon v-home" aria-hidden="true"></i>
-        </a>
+        <el-tooltip content="Home Feed (H)" placement="right" transition="false" :open-delay="500">
+            <a @click.prevent="pushRouter('/')" href="/" :class="{ 'active': activeRoute === 'home' }" class="item">
+                <i class="v-icon v-home" aria-hidden="true"></i>
+            </a>
+        </el-tooltip>
         
         <!-- Notifications -->
-        <a class="item" :class="{'active' : activeRoute === 'notifications'}"
-            v-tooltip="{content:'Notifications (N)', offset: 8}" @click="changeRoute('notifications')"
-        >
-            <i class="v-icon v-bell-2" aria-hidden="true"></i>
-            <span class="queue-number" v-show="unreadNotifications" v-text="unreadNotifications"></span>
-        </a>
+        <el-tooltip content="Notifications (N)" placement="right" transition="false" :open-delay="500">
+            <a class="item" :class="{'active' : activeRoute === 'notifications'}" @click="changeRoute('notifications')">
+                <el-badge :value="unreadNotifications" :max="99">
+                    <i class="v-icon v-bell-2" aria-hidden="true"></i>
+                </el-badge>
+            </a>
+        </el-tooltip>
             
         <!-- Messages Inbox -->
-        <a class="item" id="messages-btn" :class="{'active' : activeRoute === 'messages'}" 
-            @click="changeRoute('messages')" v-tooltip="{content:'Messages (M)', offset: 8}"
-        >
-            <i class="v-icon v-inbox" aria-hidden="true"></i>
-            <span class="queue-number" v-show="unreadMessages" v-text="unreadMessages"></span>
-        </a>
+        <el-tooltip content="Messages (M)" placement="right" transition="false" :open-delay="500">
+            <a class="item" id="messages-btn" :class="{'active' : activeRoute === 'messages'}" @click="changeRoute('messages')">
+                <el-badge :value="unreadMessages" :max="99">
+                    <i class="v-icon v-inbox" aria-hidden="true"></i>
+                </el-badge>
+            </a>
+        </el-tooltip>
 
         <!-- Bookmarks -->
-        <a @click.prevent="pushRouter('/bookmarks')" href="/bookmarks" class="item" :class="{'active' : activeRoute === 'bookmarks'}" v-tooltip.right="{content: 'Bookmarks (B)', offset: 0}">
-            <i class="v-icon v-bookmark" aria-hidden="true"></i>
-        </a>
-            
+        <el-tooltip content="Bookmarks (B)" placement="right" transition="false" :open-delay="500">
+            <a @click.prevent="pushRouter('/bookmarks')" href="/bookmarks" class="item" :class="{'active' : activeRoute === 'bookmarks'}">
+                <i class="v-icon v-bookmark" aria-hidden="true"></i>
+            </a>
+        </el-tooltip>
+
         <!-- Search -->
-        <a class="item" v-tooltip="{content:'Search (/)', offset: 8}" @click="changeRoute('search')"
-            :class="{'active' : activeRoute === 'search'}">
-            <i class="v-icon v-search-3" aria-hidden="true"></i>
-        </a>
-        
+        <el-tooltip content="Search (/)" placement="right" transition="false" :open-delay="500">
+            <a class="item" @click="changeRoute('search')" :class="{'active' : activeRoute === 'search'}">
+                <i class="v-icon v-search-3" aria-hidden="true"></i>
+            </a>
+        </el-tooltip>
+
         <!-- Settings -->
-        <a class="item" v-tooltip="{content:'Preferences', offset: 8}" @click.prevent="pushRouter('/@' + auth.username + '/settings')" :href="'/@' + auth.username + '/settings'"
-            :class="{'active' : activeRoute === 'settings'}">
-            <i class="v-icon v-config" aria-hidden="true"></i>
-        </a>
-        
+        <el-tooltip content="Preferences" placement="right" transition="false" :open-delay="500">
+            <a class="item" @click.prevent="pushRouter('/@' + auth.username + '/settings')" :href="'/@' + auth.username + '/settings'"
+               :class="{'active' : activeRoute === 'settings'}">
+                <i class="v-icon v-config" aria-hidden="true"></i>
+            </a>
+        </el-tooltip>
+
         <!-- Submit -->
-        <a class="item" v-tooltip="{content:'Add Content', offset: 8}" @click.prevent="pushRouter('/submit')" href="/submit"
-            :class="{'active' : activeRoute === 'submit'}">
-            <i class="v-icon v-add-content" aria-hidden="true"></i>
-        </a>
+        <el-tooltip content="Add Content" placement="right" transition="false" :open-delay="500">
+            <a class="item" @click.prevent="pushRouter('/submit')" href="/submit" :class="{'active' : activeRoute === 'submit'}">
+                <i class="v-icon v-add-content" aria-hidden="true"></i>
+            </a>
+        </el-tooltip>
     </div>
 </template>
 

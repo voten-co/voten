@@ -14,24 +14,29 @@
             Click below button to begin. You'll be asked for your password to confirm the action. 
         </p>
 
-        <button class="v-button v-button--red" @click="deleteMyAccount = true" v-if="!deleteMyAccount">
-        	Delete my account
-        </button>
+        <el-form label-position="top" label-width="10px">
+            <el-form-item>
+                <el-button type="danger" plain size="medium" @click="deleteMyAccount = true" v-if="!deleteMyAccount">
+                    Delete my account
+                </el-button>
+            </el-form-item>
 
-		<div v-if="deleteMyAccount">
-			<div class="form-group">
-	            <input type="password" class="form-control" placeholder="Password..." v-model="password" id="password" autocomplete="off">
+            <div v-if="deleteMyAccount" class="margin-bottom-1">
+                <el-form-item label="To confirm this action please enter your password">
+                    <el-input placeholder="Password..." v-model="password" type="password"></el-input>
+                    <el-alert v-if="passwordError" :title="passwordError" type="error"></el-alert>
+                </el-form-item>
 
-	            <small class="text-muted go-red" v-if="passwordError">{{ passwordError }}</small>
-	        </div>
-
-	        <button class="v-button v-button--green" @click="destroyAccount" :disabled="!password">
-	        	Confirm
-	        </button>
-	        <button class="v-button v-button--link" @click="deleteMyAccount = false">
-	        	Cancel
-	        </button>
-		</div>
+                <el-form-item>
+                    <el-button type="success" @click="destroyAccount" :disabled="!password" :loading="sending">
+                        Confirm
+                    </el-button>
+                    <el-button type="text" @click="deleteMyAccount = false">
+                        Cancel
+                    </el-button>
+                </el-form-item>
+            </div>
+        </el-form>
     </section>
 </template>
 
@@ -61,13 +66,16 @@
              * @return void
              */
             destroyAccount() {
+                this.sending = true;
+
                 axios.post('/delete-my-account', {
                 	password: this.password
-                })
-                .then((response) => {
-                	window.location = "/logout";
+                }).then(() => {
+                    this.sending = false;
+                    window.location = "/logout";
                 }).catch((error) => {
-                	if (error.response.status == 422) {
+                    this.sending = false;
+                    if (error.response.status == 422) {
                 		this.passwordError = error.response.data;
                 	}
                 });

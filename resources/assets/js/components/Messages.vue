@@ -152,7 +152,6 @@
 						<div @click="toggleEmojiPicker" class="flex-center">
 							<emoji-icon width="38" height="38"></emoji-icon>
 						</div>
-						
 
 						<emoji-picker v-if="emojiPicker" @emoji="emoji" v-on-clickaway="closeEmojiPicker"></emoji-picker>
 					</span>

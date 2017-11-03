@@ -37,12 +37,14 @@
                 </div>
             </div>
 
-            <div class="ui category search side-box-search">
-                <div class="ui mini icon input">
-                    <input class="prompt" type="text" :placeholder="filterForHumans + '...'" v-model="subscribedFilter">
-                    <i class="v-icon v-search search icon"></i>
-                </div>
-            </div>
+            <el-input
+                    :placeholder="filterForHumans + '...'"
+                    prefix-icon="el-icon-search"
+                    size="small"
+                    v-model="subscribedFilter"
+                    class="search margin-bottom-1"
+            >
+            </el-input>
         </div>
 
         <aside class="menu">
