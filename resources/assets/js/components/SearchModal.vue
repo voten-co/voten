@@ -1,9 +1,9 @@
 <template>
-	<div class="v-modal" id="search">
+	<div class="vo-modal" id="search">
 		<header class="user-select">
             <div class="flex-space">
                 <!-- Modal Title -->
-                <div class="v-modal-title">
+                <div class="vo-modal-title">
 					<div class="flex-center">
 						<h1 class="title">
 							Search

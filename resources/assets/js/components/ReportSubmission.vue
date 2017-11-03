@@ -1,5 +1,5 @@
 <template>
-    <div class="v-modal-small">
+    <div class="vo-modal-small">
         <div class="wrapper" v-on-clickaway="close">
             <header class="user-select">
                 <h3>

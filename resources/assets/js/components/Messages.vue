@@ -1,13 +1,13 @@
 <template>
-	<div class="v-modal" id="messages">
+	<div class="vo-modal" id="messages">
 		<header class="user-select">
 			<div class="flex-space">
 				<!-- Modal Titles -->
-				<div class="v-modal-title" v-if="pageRoute == 'contacts'">
+				<div class="vo-modal-title" v-if="pageRoute == 'contacts'">
 					<h1 class="title">Contacts</h1>
 				</div>
 
-				<div class="v-modal-title flex-align-center" v-if="pageRoute == 'chat'">
+				<div class="vo-modal-title flex-align-center" v-if="pageRoute == 'chat'">
 					<router-link :to="'/@' + currentContact.username">
 						<h1 class="title desktop-only">
 							<img v-bind:src="currentContact.avatar">

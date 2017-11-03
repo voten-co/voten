@@ -9,7 +9,7 @@
     // overflow-y: scroll;
 }
 
-.v-modal {
+.vo-modal {
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -53,7 +53,7 @@
         background: #d6d6d6;
     }
 
-    .v-modal-title {
+    .vo-modal-title {
         z-index: 100;
     }
 
@@ -77,7 +77,7 @@
     }
 }
 
-.v-modal .v-back {
+.vo-modal .v-back {
     font-size: 33px;
     color: #777;
     cursor: pointer;
@@ -90,12 +90,12 @@
     z-index: 101;
 }
 
-.v-modal .v-back:hover {
+.vo-modal .v-back:hover {
     color: #333;
     background: #d6d6d6;
 }
 
-.v-modal .v-more-actions {
+.vo-modal .v-more-actions {
     font-size: 33px;
     color: #777;
     cursor: pointer;
@@ -108,12 +108,12 @@
     z-index: 101;
 }
 
-.v-modal .v-more-actions:hover {
+.vo-modal .v-more-actions:hover {
     color: #333;
     background: #d6d6d6;
 }
 
-.v-modal .v-delete-button {
+.vo-modal .v-delete-button {
     font-size: 33px;
     color: $red-color;
     cursor: pointer;
@@ -126,22 +126,22 @@
     z-index: 101;
 }
 
-.v-modal .v-delete-button:hover {
+.vo-modal .v-delete-button:hover {
     color: #333;
     background: #d6d6d6;
 }
 
-.v-modal .ui.top.right.pointing.dropdown > .menu {
+.vo-modal .ui.top.right.pointing.dropdown > .menu {
     right: -17px;
     top: 62%;
     padding: 0.3em 4px;
 }
 
-.v-modal .form-control {
+.vo-modal .form-control {
     border: 2px solid #ddd;
 }
 
-.v-modal .container {
+.vo-modal .container {
     min-height: 100%;
 }
 

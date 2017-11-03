@@ -1,5 +1,5 @@
 <template>
-	<div class="v-modal-small user-select">
+	<div class="vo-modal-small user-select">
 		<div class="wrapper">
 			<header class="user-select">
 				<h3>

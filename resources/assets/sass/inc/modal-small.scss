@@ -1,7 +1,7 @@
 $background-color: #282828;
 $max-width: 500px;
 
-.v-modal-small {
+.vo-modal-small {
     width: 100%;
     height: 100%;
     position: fixed;
@@ -185,43 +185,43 @@ $max-width: 500px;
 
 // only desktop
 @media (min-width: 768px) {
-    .v-modal-small .middle {
+    .vo-modal-small .middle {
         min-width: 500px;
     }
 }
 // only mobile
 @media (max-width: 415px) {
-    .v-modal-small .middle {
+    .vo-modal-small .middle {
         width: 380px;
     }
 }
 // only mobile
 @media (max-width: 376px) {
-    .v-modal-small .middle {
+    .vo-modal-small .middle {
         width: 350px;
     }
 }
 // only mobile
 @media (max-width: 321px) {
-    .v-modal-small .middle {
+    .vo-modal-small .middle {
         width: 310px;
     }
 }
 
 
 
-.v-modal-small .fond {
+.vo-modal-small .fond {
     padding: 5em 0;
 }
 
-.v-modal-small .jcrop-active,
-.v-modal-small img {
+.vo-modal-small .jcrop-active,
+.vo-modal-small img {
     max-width: 100%;
     height: auto !important;
     margin: 2em 0;
 }
 
-.v-modal-small-box--light {
+.vo-modal-small-box--light {
     background: linear-gradient(#ffffff, #fefefe, #fff);
     border: 2px solid #e2e2e2;
     box-shadow: 0 2px 4px 0 hsla(0, 0%, 80%, 0.62);
@@ -234,31 +234,31 @@ $max-width: 500px;
 
 
 
-.v-modal-small table {
+.vo-modal-small table {
 	color: #fff;
 }
 
-.v-modal-small .table td,
-.v-modal-small .table th {
+.vo-modal-small .table td,
+.vo-modal-small .table th {
     border: 1px solid #444444;
     border-width: 0 0 0px;
 }
 
-.v-modal-small table thead {
+.vo-modal-small table thead {
 	border-bottom: 2px solid #404040;
 }
 
-.v-modal-small .table tr:hover {
+.vo-modal-small .table tr:hover {
     background-color: #313131;
     color: #ffffff;
 }
 
-.v-modal-small-box--light .ui.checkbox + label,
-.v-modal-small-box--light .ui.checkbox label {
+.vo-modal-small-box--light .ui.checkbox + label,
+.vo-modal-small-box--light .ui.checkbox label {
     color: #333;
 }
 
-.v-modal-small-box--light .ui.checkbox + label:hover,
-.v-modal-small-box--light .ui.checkbox label:hover {
+.vo-modal-small-box--light .ui.checkbox + label:hover,
+.vo-modal-small-box--light .ui.checkbox label:hover {
     color: #000;
 }

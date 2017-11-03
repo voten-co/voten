@@ -1,9 +1,9 @@
 <template>
-    <div class="v-modal" id="notifications">
+    <div class="vo-modal" id="notifications">
         <header class="user-select">
             <div class="flex-space">
                 <!-- Modal Title -->
-                <div class="v-modal-title"><h1 class="title">Notifications</h1></div>
+                <div class="vo-modal-title"><h1 class="title">Notifications</h1></div>
 
                 <!-- Close Button -->
                 <el-tooltip content="Close (esc)" placement="bottom-end" transition="false" :open-delay="500">
