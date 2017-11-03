@@ -51,8 +51,8 @@
 				</el-dropdown>
 			</div>
 
-			<div class="voting-wrapper display-none mobile-only">
-				<a class="fa-stack align-right" @click="$emit('upvote')" v-tooltip.top="{content: 'Upvote'}">
+			<div class="voting-wrapper display-none mobile-only" v-if="isMobile">
+				<a class="fa-stack align-right" @click="$emit('upvote')">
 					<i class="v-icon v-up-fat" :class="upvoted ? 'go-primary' : 'go-gray'"></i>
 				</a>
 
@@ -60,13 +60,13 @@
 					{{ points }} Points
 				</div>
 
-				<a class="fa-stack align-right" @click="$emit('downvote')" v-tooltip.top="{content: 'Downvote'}">
+				<a class="fa-stack align-right" @click="$emit('downvote')">
 					<i class="v-icon v-down-fat" :class="downvoted ? 'go-red' : 'go-gray'"></i>
 				</a>
 			</div>
 		</div>
 
-		<span class="desktop-only">
+		<span class="desktop-only" v-if="! isMobile">
 			Submitted {{ date }} by
 			<router-link :to="'/' + '@' + submission.owner.username" class="h-underline desktop-only">
 				{{ '@' + submission.owner.username }}
@@ -74,7 +74,7 @@
 			to <router-link :to="'/c/' + submission.category_name" class="category-label h-underline">#{{ submission.category_name }}</router-link>
 		</span>
 
-		<div class="mobile-only mobile-submission-item-action">
+		<div class="mobile-only mobile-submission-item-action" v-if="isMobile">
 			{{ date }} by
 			<router-link :to="'/' + '@' + submission.owner.username" class="h-underline">
 				{{ '@' + submission.owner.username }}

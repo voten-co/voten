@@ -7,34 +7,34 @@
                     <span v-if="Store.subscribedCategories.length">({{ Store.subscribedCategories.length }})</span>
                 </p>
 
-                <div class="ui icon top right active-blue pointing dropdown sidebar-panel-button">
-                    <i class="v-icon v-config" v-tooltip.left="{content: 'Customize Sidebar Filter'}"></i>
+                <!--<div class="ui icon top right active-blue pointing dropdown sidebar-panel-button">-->
+                    <!--<i class="v-icon v-config" v-tooltip.left="{content: 'Customize Sidebar Filter'}"></i>-->
 
-                    <div class="menu">
-                        <div class="header">
-                            Limit to
-                        </div>
+                    <!--<div class="menu">-->
+                        <!--<div class="header">-->
+                            <!--Limit to-->
+                        <!--</div>-->
 
-                        <div class="ui left input">
-                            <input type="number" name="search" placeholder="Limit at..." min="2" spellcheck="false" v-model="categoriesLimit">
-                        </div>
+                        <!--<div class="ui left input">-->
+                            <!--<input type="number" name="search" placeholder="Limit at..." min="2" spellcheck="false" v-model="categoriesLimit">-->
+                        <!--</div>-->
 
-                        <div class="header">
-                            Filter by
-                        </div>
-                        <button class="item" @click="changeFilter('subscribed-channels')" :class="{ 'active' : filter == 'subscribed-channels' }">
-                            Subscribed channels
-                        </button>
+                        <!--<div class="header">-->
+                            <!--Filter by-->
+                        <!--</div>-->
+                        <!--<button class="item" @click="changeFilter('subscribed-channels')" :class="{ 'active' : filter == 'subscribed-channels' }">-->
+                            <!--Subscribed channels-->
+                        <!--</button>-->
 
-                        <button class="item" @click="changeFilter('moderating-channels')" :class="{ 'active' : filter == 'moderating-channels' }" v-if="isModerating">
-                            Moderating channels
-                        </button>
+                        <!--<button class="item" @click="changeFilter('moderating-channels')" :class="{ 'active' : filter == 'moderating-channels' }" v-if="isModerating">-->
+                            <!--Moderating channels-->
+                        <!--</button>-->
 
-                        <button class="item" @click="changeFilter('bookmarked-channels')" :class="{ 'active' : filter == 'bookmarked-channels' }">
-                            Bookmarked channels
-                        </button>
-                    </div>
-                </div>
+                        <!--<button class="item" @click="changeFilter('bookmarked-channels')" :class="{ 'active' : filter == 'bookmarked-channels' }">-->
+                            <!--Bookmarked channels-->
+                        <!--</button>-->
+                    <!--</div>-->
+                <!--</div>-->
             </div>
 
             <el-input

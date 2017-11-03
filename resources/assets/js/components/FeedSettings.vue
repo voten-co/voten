@@ -1,15 +1,5 @@
 <template>
     <section>
-        <h3 class="dotted-title">
-            <span>
-                Home Feed
-            </span>
-        </h3>
-
-        <div class="v-status v-status--error" v-if="customError">
-            {{ customError }}
-        </div>
-
         <p>
             Other than subscribing to channels, there are more filters available to make sure you get the
             content that suits you the best.
@@ -59,10 +49,6 @@
             }
         },
 
-        created () {
-            document.title = 'My Feed | Settings';
-        },
-
         computed: {
             changed() {
                 if (
@@ -84,7 +70,7 @@
              *
              * @return void
              */
-            save () {
+            save() {
                 this.sending = true;
 
                 axios.post('/update-home-feed', {

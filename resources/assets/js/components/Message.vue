@@ -12,9 +12,11 @@
 	    </div>
 
 	    <div class="m-actions user-select pointer" @click="$emit('select-message', list.id)">
-		    <time class="go-gray" v-tooltip.top.end="{content: 'Sent on: ' + longDate}">
-	        	{{ date }}
-	        </time>
+			<el-tooltip :content="'Sent on: ' + longDate" placement="top-end" transition="false" :open-delay="500">
+				<time class="go-gray">
+					{{ date }}
+				</time>
+			</el-tooltip>
 
 			<i class="v-icon v-seen go-gray" aria-hidden="true" v-if="displaySeen"></i>
 

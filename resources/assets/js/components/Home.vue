@@ -59,7 +59,7 @@
 					</el-tooltip>
 
 					<el-tooltip content="Customize Feed" placement="bottom" transition="false" :open-delay="100">
-						<button class="feed-panel-button margin-right-half" @click="dialogTableVisible = true">
+						<button class="feed-panel-button margin-right-half" @click="showFeedSettings = true">
 							<i class="v-icon v-sliders"></i>
 						</button>
 					</el-tooltip>
@@ -82,41 +82,11 @@
 		<scroll-button scrollable="submissions"></scroll-button>
 
 		<el-dialog
-				title="Feed Filters"
-				:visible.sync="dialogTableVisible"
-				:width="'35'"
+				title="Customize Your Feed"
+				:visible.sync="showFeedSettings"
+				:width="isMobile ? '99%' : '35%'"
 		>
-			<p>
-				Other than subscribing to channels, there are more filters available to make sure you get the
-				content that suits you the best.
-			</p>
-
-			<el-form label-position="top" label-width="10px" :model="form">
-				<div class="form-toggle">
-					<span>Display NSFW submissions: <small>(You must be 18 or older)</small></span>
-					<el-switch v-model="form.nsfw"></el-switch>
-				</div>
-
-				<div class="form-toggle">
-					<span>Display preview for NSFW submissions:</span>
-					<el-switch v-model="form.nsfwMedia"></el-switch>
-				</div>
-
-				<div class="form-toggle">
-					<span>Exclude my upvoted submissions:</span>
-					<el-switch v-model="form.exclude_upvoted_submissions"></el-switch>
-				</div>
-
-				<div class="form-toggle no-border">
-					<span>Exclude my downvoted submissions:</span>
-					<el-switch v-model="form.exclude_downvoted_submissions"></el-switch>
-				</div>
-
-				<!-- submit -->
-				<el-form-item v-if="changed">
-					<el-button type="success" @click="save" :loading="sending" size="medium">Save</el-button>
-				</el-form-item>
-			</el-form>
+			<feed-settings></feed-settings>
 		</el-dialog>
 	</div>
 </template>
@@ -127,6 +97,7 @@
 	import Helpers from '../mixins/Helpers';
 	import LocalStorage from '../mixins/LocalStorage';
 	import ScrollButton from '../components/ScrollButton.vue';
+	import FeedSettings from '../components/FeedSettings.vue';
 
     export default {
     	mixins: [Helpers, LocalStorage],
@@ -134,29 +105,13 @@
 	    components: {
 	        HomeSubmissions,
 	        Announcement, 
-			ScrollButton
+			ScrollButton,
+            FeedSettings
 		},
 
         data() {
     	    return {
-                gridData: [{
-                    date: '2016-05-02',
-                    name: 'John Smith',
-                    address: 'No.1518,  Jinshajiang Road, Putuo District'
-                }, {
-                    date: '2016-05-04',
-                    name: 'John Smith',
-                    address: 'No.1518,  Jinshajiang Road, Putuo District'
-                }, {
-                    date: '2016-05-01',
-                    name: 'John Smith',
-                    address: 'No.1518,  Jinshajiang Road, Putuo District'
-                }, {
-                    date: '2016-05-03',
-                    name: 'John Smith',
-                    address: 'No.1518,  Jinshajiang Road, Putuo District'
-                }],
-                dialogTableVisible: false,
+                showFeedSettings: false,
 			}
 		},
 

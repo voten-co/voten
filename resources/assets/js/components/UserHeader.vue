@@ -28,11 +28,16 @@
 							<p v-text="userStore.bio"></p>
 
 							<span class="inline-block">
-								<i class="v-icon v-submissions" aria-hidden="true" v-tooltip.bottom="{content: 'Submissions'}"></i>{{ userStore.stats.submissionsCount }}
+								<el-tooltip content="Submissions" placement="bottom" transition="false"
+											:open-delay="500">
+									<i class="v-icon v-submissions" aria-hidden="true"></i>{{ userStore.stats.submissionsCount }}
+								</el-tooltip>
 							</span>
 
 							<span class="inline-block">
-								<i class="v-icon v-chat" aria-hidden="true" v-tooltip.bottom="{content: 'Comments'}"></i>{{ userStore.stats.commentsCount }}
+								<el-tooltip content="Comments" placement="bottom" transition="false" :open-delay="500">
+									<i class="v-icon v-chat" aria-hidden="true"></i>{{ userStore.stats.commentsCount }}
+								</el-tooltip>
 							</span>
 
 							<span class="inline-block">
@@ -40,7 +45,9 @@
 							</span>
 
 							<a v-bind:href="userStore.info.website" rel="nofollow" target="_blank" v-if="userStore.info.website" class="inline-block">
-								<i class="v-icon v-link" aria-hidden="true" v-tooltip.bottom="{content: 'Website'}"></i>{{ userStore.info.website }}
+								<el-tooltip content="Website" placement="bottom" transition="false" :open-delay="500">
+									<i class="v-icon v-link" aria-hidden="true"></i>{{ userStore.info.website }}
+								</el-tooltip>
 							</a>
 
 							<span v-if="userStore.location" class="inline-block">
@@ -49,7 +56,9 @@
 
 							<span v-if="userStore.info.twitter " class="inline-block">
 								<a v-bind:href="'https://twitter.com/' + userStore.info.twitter" rel="nofollow" target="_blank">
-									<i class="v-icon v-twitter" aria-hidden="true" v-tooltip.bottom="{content: 'Twitter'}"></i>{{ userStore.info.twitter }}
+									<el-tooltip content="Twitter" placement="bottom" transition="false" :open-delay="500">
+										<i class="v-icon v-twitter" aria-hidden="true"></i>{{ userStore.info.twitter }}
+									</el-tooltip>
 								</a>
 							</span>
 						</div>

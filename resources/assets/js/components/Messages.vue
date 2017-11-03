@@ -16,16 +16,20 @@
 					</router-link>
 
 					<div class="v-message-badge desktop-only" v-if="isBlocked">
-						<i class="v-icon v-block go-gray" aria-hidden="true" v-tooltip.bottom="{content: 'Blocked'}"></i>
+						<el-tooltip content="Blocked" placement="bottom" transition="false" :open-delay="500">
+							<i class="v-icon v-block go-gray" aria-hidden="true"></i>
+						</el-tooltip>
 					</div>
 				</div>
 
 				<!-- Modal Buttons -->
 				<div class="buttons">
 					<!-- Close Button -->
-					<div class="v-close" @click="close" v-tooltip.bottom.end="{content: 'Close (esc)'}">
-						<i class="v-icon block-before v-cancel" aria-hidden="true"></i>
-					</div>
+					<el-tooltip content="Close (esc)" placement="bottom-end" transition="false" :open-delay="500">
+						<div class="v-close" @click="close">
+							<i class="v-icon block-before v-cancel" aria-hidden="true"></i>
+						</div>
+					</el-tooltip>
 
 					<!-- Menu Button -->
 					<div class="ui icon top right green pointing dropdown v-more-actions" v-show="pageRoute == 'chat'">
@@ -43,15 +47,19 @@
 					</div>
 
 					<!-- Back Button -->
-					<div class="v-back" v-show="pageRoute == 'chat'" v-tooltip.bottom="{content: 'Back to contacts'}" @click="backToContacts">
-						<i class="v-icon block-before v-return" aria-hidden="true"></i>
-					</div>
+					<el-tooltip content="Back to contacts" placement="bottom" transition="false" :open-delay="500">
+						<div class="v-back" v-show="pageRoute == 'chat'" @click="backToContacts">
+							<i class="v-icon block-before v-return" aria-hidden="true"></i>
+						</div>
+					</el-tooltip>
 
 					<!-- Delete Button -->
 					<div v-show="pageRoute == 'chat'">
-						<div class="v-delete-button" v-show="selectedMessages.length" v-tooltip.bottom="{content: 'Delete ' + selectedMessages.length + ' Selected Messages'}" @click="deleteMessages">
-							<i class="v-icon block-before v-trash" aria-hidden="true"></i>
-						</div>
+						<el-tooltip :content="'Delete ' + selectedMessages.length + ' Selected Messages'" placement="bottom" transition="false" :open-delay="500">
+							<div class="v-delete-button" v-show="selectedMessages.length" @click="deleteMessages">
+								<i class="v-icon block-before v-trash" aria-hidden="true"></i>
+							</div>
+						</el-tooltip>
 					</div>
 				</div>
 			</div>

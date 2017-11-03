@@ -18,7 +18,7 @@
         <el-tooltip content="Notifications (N)" placement="right" transition="false" :open-delay="500">
             <a class="item" :class="{'active' : activeRoute === 'notifications'}" @click="changeRoute('notifications')">
                 <el-badge :value="unreadNotifications" :max="99">
-                    <i class="v-icon v-bell-2" aria-hidden="true"></i>
+                    <i class="el-icon-bell" aria-hidden="true"></i>
                 </el-badge>
             </a>
         </el-tooltip>
@@ -42,7 +42,7 @@
         <!-- Search -->
         <el-tooltip content="Search (/)" placement="right" transition="false" :open-delay="500">
             <a class="item" @click="changeRoute('search')" :class="{'active' : activeRoute === 'search'}">
-                <i class="v-icon v-search-3" aria-hidden="true"></i>
+                <i class="el-icon-search" aria-hidden="true"></i>
             </a>
         </el-tooltip>
 
@@ -50,14 +50,14 @@
         <el-tooltip content="Preferences" placement="right" transition="false" :open-delay="500">
             <a class="item" @click.prevent="pushRouter('/@' + auth.username + '/settings')" :href="'/@' + auth.username + '/settings'"
                :class="{'active' : activeRoute === 'settings'}">
-                <i class="v-icon v-config" aria-hidden="true"></i>
+                <i class="el-icon-setting" aria-hidden="true"></i>
             </a>
         </el-tooltip>
 
         <!-- Submit -->
         <el-tooltip content="Add Content" placement="right" transition="false" :open-delay="500">
             <a class="item" @click.prevent="pushRouter('/submit')" href="/submit" :class="{'active' : activeRoute === 'submit'}">
-                <i class="v-icon v-add-content" aria-hidden="true"></i>
+                <i class="el-icon-plus" aria-hidden="true"></i>
             </a>
         </el-tooltip>
     </div>
@@ -121,7 +121,7 @@
                     return 'bookmarks';
                 }
 
-                if (this.$route.name === 'user-settings-account' || this.$route.name === 'user-settings-profile' || this.$route.name === 'user-settings-feed' || this.$route.name === 'user-settings-email-and-password') {
+                if (this.$route.name === 'user-settings-account' || this.$route.name === 'user-settings-profile' || this.$route.name === 'user-settings-email-and-password') {
                     return 'settings';
                 }
                 

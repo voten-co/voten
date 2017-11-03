@@ -25,7 +25,6 @@ import UserPage from './components/UserPage.vue';
 import CategorySettings from './components/CategorySettings.vue';
 import AdminPanelComments from './components/AdminPanelComments.vue';
 import ModeratorPanelRules from './components/ModeratorPanelRules.vue';
-import UserSettingsEditFeed from './components/UserSettingsEditFeed.vue';
 import AdminPanelSubmissions from './components/AdminPanelSubmissions.vue';
 import DeletedSubmissionPage from './components/DeletedSubmissionPage.vue';
 import BookmarkedSubmissions from './components/BookmarkedSubmissions.vue';
@@ -82,7 +81,6 @@ const routes = [
                  children: [
                      { path: 'account', component: UserSettingsEditAccount, name: 'user-settings-account' },
                      { path: 'profile', component: UserSettingsEditProfile, name: 'user-settings-profile' },
-                     { path: 'feed', component: UserSettingsEditFeed, name: 'user-settings-feed' },
                      { path: 'delete-account', component: UserSettingsDeleteAccount, name: 'user-settings-delete-account' },
                      { path: 'email-and-password', component: UserSettingsEditEmailAndPassword, name: 'user-settings-email-and-password' },
                  ]

@@ -6,9 +6,11 @@
                 <div class="v-modal-title"><h1 class="title">Notifications</h1></div>
 
                 <!-- Close Button -->
-                <div class="v-close" @click="close" v-tooltip.bottom.end="{content: 'Close (esc)'}">
-                    <i class="v-icon block-before v-cancel" aria-hidden="true"></i>
-                </div>
+                <el-tooltip content="Close (esc)" placement="bottom-end" transition="false" :open-delay="500">
+                    <div class="v-close" @click="close">
+                        <i class="v-icon block-before v-cancel" aria-hidden="true"></i>
+                    </div>
+                </el-tooltip>
             </div>
         </header>
 

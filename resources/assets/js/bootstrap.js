@@ -2,14 +2,14 @@ window.moment = require('moment-timezone');
 window.moment.tz.setDefault("UTC");
 
 // Tooltip plugin
-import Tooltip from 'vue-directive-tooltip';
-Vue.use(Tooltip, {
-    delay: 0,
-    placement: 'auto',
-    class: '',
-    triggers: ['hover'],
-    offset: 5
-});
+// import Tooltip from 'vue-directive-tooltip';
+// Vue.use(Tooltip, {
+//     delay: 0,
+//     placement: 'auto',
+//     class: '',
+//     triggers: ['hover'],
+//     offset: 5
+// });
 
 // Toggle plugin
 // import ToggleButton from 'vue-js-toggle-button';
