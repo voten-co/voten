@@ -79,11 +79,11 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'username'  => $data['username'],
-            'email'     => $data['email'],
-            'password'  => bcrypt($data['password']),
+            'username' => $data['username'],
+            'email'    => $data['email'],
+            'password' => bcrypt($data['password']),
 
-            'settings'  => [
+            'settings' => [
                 'font'                          => 'Lato',
                 'sidebar_color'                 => 'Gray',
                 'nsfw'                          => false,
@@ -95,7 +95,7 @@ class RegisterController extends Controller
                 'exclude_downvoted_submissions' => true,
                 'submission_small_thumbnail'    => true,
             ],
-            'info'    => [
+            'info' => [
                 'website' => null,
                 'twitter' => null,
             ],
