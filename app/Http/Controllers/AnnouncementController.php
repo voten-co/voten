@@ -44,8 +44,8 @@ class AnnouncementController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'body'    => 'required',
-            'title'   => 'required',
+            'body'  => 'required',
+            'title' => 'required',
         ]);
 
         if ($request->category_name == 'home' && !$request->ajax()) {

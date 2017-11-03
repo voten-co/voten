@@ -7,7 +7,7 @@ $factory->define(\App\Submission::class, function (Faker $faker) {
     $category = factory('App\User')->create();
 
     return [
-        'user_id'       => function () {
+        'user_id' => function () {
             return factory('App\User')->create()->id;
         },
         'title'         => $title,

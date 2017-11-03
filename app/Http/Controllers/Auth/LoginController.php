@@ -152,17 +152,17 @@ class LoginController extends Controller
 
         $user_agent_parser = new Parser($_SERVER['HTTP_USER_AGENT']);
         \App\Activity::create([
-            'subject_id'           => $user->id,
-            'ip_address'           => $_SERVER['HTTP_CF_CONNECTING_IP'] ?? $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0',
-            'user_agent'           => $_SERVER['HTTP_USER_AGENT'] ?? 'unknown',
-            'country'              => $_SERVER['HTTP_CF_IPCOUNTRY'] ?? 'unknown',
-            'device'               => $user_agent_parser->device->model ?? 'unknown',
-            'os'                   => $user_agent_parser->os->toString() ?? 'unknown',
-            'browser_name'         => $user_agent_parser->browser->name ?? 'unknown',
-            'browser_version'      => $user_agent_parser->browser->version->toString() ?? 'unknown',
-            'subject_type'         => 'App\User',
-            'name'                 => 'created_user',
-            'user_id'              => $user->id,
+            'subject_id'      => $user->id,
+            'ip_address'      => $_SERVER['HTTP_CF_CONNECTING_IP'] ?? $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0',
+            'user_agent'      => $_SERVER['HTTP_USER_AGENT'] ?? 'unknown',
+            'country'         => $_SERVER['HTTP_CF_IPCOUNTRY'] ?? 'unknown',
+            'device'          => $user_agent_parser->device->model ?? 'unknown',
+            'os'              => $user_agent_parser->os->toString() ?? 'unknown',
+            'browser_name'    => $user_agent_parser->browser->name ?? 'unknown',
+            'browser_version' => $user_agent_parser->browser->version->toString() ?? 'unknown',
+            'subject_type'    => 'App\User',
+            'name'            => 'created_user',
+            'user_id'         => $user->id,
         ]);
 
         $this->redirectTo = '/find-channels?newbie=1&sidebar=0';
