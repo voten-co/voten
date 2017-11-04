@@ -9,6 +9,7 @@
                         :prefix-icon="loadingContacts ? 'el-icon-loading' : 'el-icon-search'"
                         v-model="filter"
                         @input="searchUsers(filter)"
+                        ref="searchContacts"
                 ></el-input>
 
 
@@ -28,7 +29,9 @@
                 </div>
 
                 <!-- Close Button -->
-                <el-button type="text" @click="close" class="margin-left-1" v-show="pageRoute == 'contacts'">Cancel</el-button>
+                <el-button type="text" @click="close" class="margin-left-1" v-show="pageRoute == 'contacts'">
+                    Cancel
+                </el-button>
 
                 <!-- Modal Buttons -->
                 <div class="buttons" v-show="pageRoute == 'chat'">
@@ -148,10 +151,17 @@
 
             <div class="padding-sides-1">
                 <form class="chat-input-form">
-					<textarea name="message" rows="1" v-on:keydown.enter="sendMessage"
-                              placeholder="Type your message here..." v-model="messageText"
-                              :disabled="disableTextArea" v-focus="focused"
-                    ></textarea>
+                    <el-input
+                            type="textarea"
+                            autosize
+                            placeholder="Type your message here..."
+                            v-model="messageText"
+                            @keydown.enter.native="sendMessage"
+                            :disabled="disableTextArea"
+                            name="message"
+                            :maxlength="5000"
+                            ref="messageForm"
+                    ></el-input>
 
                     <span class="send-button comment-emoji-button">
 						<div @click="toggleEmojiPicker" class="flex-center">
@@ -172,11 +182,10 @@
 </template>
 
 <script>
-    import InputHelpers from '../InputHelpers'
-    import Helpers from '../mixins/Helpers'
-    import Message from './Message.vue'
-    import { focus } from 'vue-focus'
-    import EmojiPicker from '../components/EmojiPicker.vue'
+    import InputHelpers from '../InputHelpers';
+    import Helpers from '../mixins/Helpers';
+    import Message from './Message.vue';
+    import EmojiPicker from '../components/EmojiPicker.vue';
     import { mixin as clickaway } from 'vue-clickaway';
     import ContactsIcon from './Icons/ContactsIcon.vue';
     import ChatIcon from '../components/Icons/ChatIcon.vue';
@@ -187,8 +196,6 @@
     export default {
         mixins: [InputHelpers, clickaway, Helpers],
 
-        directives: { focus },
-
         components: {
             Message,
             EmojiPicker,
@@ -198,11 +205,8 @@
             EmojiIcon
         },
 
-        props: ['sidebar'],
-
         data () {
             return {
-                focused: false,
                 filter: '',
                 searchedUsers: [],
                 emojiPicker: false,
@@ -237,13 +241,15 @@
                         this.markLastMessageAsRead(this.currentContactId);
                     }
                 }
-            }
-        },
 
-        mounted () {
-            this.$nextTick(function () {
-                this.$root.autoResize();
-            })
+                if (Store.contentRouter === 'messages' && this.pageRoute == 'contacts') {
+                    this.$refs.searchContacts.$refs.input.focus();
+                }
+
+                if (Store.contentRouter === 'messages' && this.pageRoute == 'chat') {
+                    this.$refs.messageForm.$refs.textarea.focus();
+                }
+            }
         },
 
         computed: {
@@ -293,7 +299,7 @@
             leaveConversation() {
                 axios.post('/leave-conversation', {
                     contact_id: this.currentContactId
-                }).then((response) => {
+                }).then(() => {
                     let contactID = this.currentContactId
 
                     this.backToContacts()
@@ -316,7 +322,7 @@
 
                 axios.post('/block-contact', {
                     contact_id: this.currentContactId
-                }).then((response) => {
+                }).then(() => {
                     if (wasBlocked) {
                         let index = Store.blockedUsers.indexOf(this.currentContactId);
                         Store.blockedUsers.splice(index, 1);
@@ -372,8 +378,8 @@
 
                 axios.post('/delete-messages', {
                     messages: this.selectedMessages,
-                }).then((response) => {
-                    this.selectedMessages = []
+                }).then(() => {
+                    this.selectedMessages = [];
                 })
             },
 
@@ -393,18 +399,17 @@
                     this.searchedUsers = response.data;
 
                     this.loadingContacts = false;
-                }).catch((error) => {
+                }).catch(() => {
                     this.loadingContacts = false;
                 });
             }, 600),
 
-            close () {
+            close() {
                 this.$eventHub.$emit('close');
             },
 
             backToContacts () {
                 this.pageRoute = 'contacts';
-                this.focused = false;
                 this.currentContactId = 0;
             },
 
@@ -415,7 +420,7 @@
                     Store.contacts = response.data;
 
                     this.loadingContacts = false;
-                }).catch((error) => {
+                }).catch(() => {
                     this.loadingContacts = false;
                 });
             },
@@ -434,11 +439,10 @@
              * by the contact_id. It also decides which event is needed to be
              * fired and fires it. Also focuses on the message input.
              *
-             * @param {Integer} contact_id
+             * @param integer contact_id
              * @return void
              */
             getMessagesByContactId (contact_id) {
-                this.focused = true;
                 this.pageRoute = 'chat';
                 this.page = 1;
                 Store.messages = [];
@@ -465,7 +469,11 @@
                     if (Store.messages.length) {
                         this.markLastMessageAsRead(contact_id);
                     }
-                }).catch((error) => {
+
+                    this.$nextTick(function () {
+                        this.$refs.messageForm.$refs.textarea.focus();
+                    });
+                }).catch(() => {
                     this.loadingMessages = false;
                 });
             },
@@ -494,7 +502,7 @@
                     if (response.data.next_page_url == null) {
                         this.moreToLoad = false;
                     }
-                }).catch((error) => {
+                }).catch(() => {
                     this.loadingMessages = false;
                 });
             },

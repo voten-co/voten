@@ -36,8 +36,8 @@
         <left-sidebar></left-sidebar>
 
         <notifications v-show="Store.contentRouter == 'notifications'"></notifications>
-        <messages v-show="Store.contentRouter == 'messages'" :sidebar="sidebar"></messages>
-        <search-modal v-if="Store.contentRouter == 'search'" :sidebar="sidebar"></search-modal>
+        <messages v-show="Store.contentRouter == 'messages'"></messages>
+        <search-modal v-if="Store.contentRouter == 'search'"></search-modal>
 
         <div class="v-content" id="v-content" v-show="Store.contentRouter == 'content'" @scroll="scrolled">
             @yield('content')
@@ -47,14 +47,14 @@
     </div>
 
 
-    <report-submission v-if="modalRouter == 'report-submission'" :submission="reportSubmissionId" :category="reportCategory" :sidebar="sidebar"></report-submission>
-    <report-comment v-if="modalRouter == 'report-comment'" :comment="reportCommentId" :category="reportCategory" :sidebar="sidebar"></report-comment>
-    <rules v-if="modalRouter == 'rules'" :sidebar="sidebar"></rules>
-    <moderators v-if="modalRouter == 'moderators'" :sidebar="sidebar"></moderators>
-    <keyboard-shortcuts-guide v-if="modalRouter == 'keyboard-shortcuts-guide'" :sidebar="sidebar"></keyboard-shortcuts-guide>
-    <markdown-guide v-if="modalRouter == 'markdown-guide'" :sidebar="sidebar"></markdown-guide>
-    <crop-modal v-if="modalRouter == 'crop-user'" :sidebar="sidebar" :type="'user'"></crop-modal>
-    <crop-modal v-if="modalRouter == 'crop-category'" :sidebar="sidebar" :type="'category'"></crop-modal>
+    <report-submission v-if="modalRouter == 'report-submission'" :submission="reportSubmissionId" :category="reportCategory"></report-submission>
+    <report-comment v-if="modalRouter == 'report-comment'" :comment="reportCommentId" :category="reportCategory"></report-comment>
+    <rules v-if="modalRouter == 'rules'"></rules>
+    <moderators v-if="modalRouter == 'moderators'"></moderators>
+    <keyboard-shortcuts-guide v-if="modalRouter == 'keyboard-shortcuts-guide'"></keyboard-shortcuts-guide>
+    <markdown-guide v-if="modalRouter == 'markdown-guide'"></markdown-guide>
+    <crop-modal v-if="modalRouter == 'crop-user'" :type="'user'"></crop-modal>
+    <crop-modal v-if="modalRouter == 'crop-category'" :type="'category'"></crop-modal>
 </div>
 
 @include('php-to-js-data')

@@ -44,16 +44,6 @@
 
 						<tr>
 							<td>
-								<kbd>S</kbd>
-							</td>
-
-							<td>
-								Hide/Show Sidebar
-							</td>
-						</tr>
-
-						<tr>
-							<td>
 								<kbd>N</kbd>
 							</td>
 

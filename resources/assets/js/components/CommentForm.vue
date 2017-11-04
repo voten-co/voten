@@ -27,21 +27,12 @@
                     :placeholder="loading ? 'Submitting...' : 'Type your comment...'"
                     v-model="message"
                     @keydown.native="whisperTyping" @keyup.native="whisperFinishedTyping" :id="'comment-form-' + parent"
-                    v-on:keydown.enter.native="submit($event)"
+                    @keydown.enter.native="submit($event)"
                     :disabled="loading"
                     name="comment"
                     :maxlength="5000"
-                    v-focus="focused"
-                    @click.native="focused = true"
+                    ref="commentForm"
             ></el-input>
-
-            <!--<textarea -->
-                <!--rows="1" v-on:keydown.enter="submit($event)" :disabled="loading" @click="focused = true"-->
-                <!--v-model="message" name="comment" v-focus="focused"-->
-                <!--@keydown="whisperTyping" @keyup="whisperFinishedTyping" :id="'comment-form-' + parent"-->
-                <!--autocomplete="off"-->
-                <!--:placeholder="loading ? 'Submitting...' : 'Type your comment...'"-->
-            <!--&gt;</textarea>-->
 
             <span class="send-button comment-emoji-button" v-show="!loading">
                 <div @click="toggleEmojiPicker" class="flex-center">
@@ -80,14 +71,11 @@
     import EmojiIcon from '../components/Icons/EmojiIcon.vue';
 	import Typing from '../components/Typing.vue';
     import { mixin as clickaway } from 'vue-clickaway';
-	import { focus } from 'vue-focus';
 	import Helpers from '../mixins/Helpers';
 	import 'jquery.caret';
 	import 'at.js';
 
     export default {
-		directives: { focus },
-
     	components: {
 		    MoonLoader,
             EmojiPicker,
@@ -103,7 +91,6 @@
         data() {
             return {
             	Store,
-                focused: null,
                 emojiPicker: false,
             	loading: false,
                 message: '',
@@ -141,10 +128,6 @@
 
 		mounted() {
             this.atWho();
-
-			this.$nextTick(function () {
-        		this.$root.autoResize();
-			});
 		},
 
         methods: {
@@ -225,7 +208,7 @@
                 this.editingComment = comment; 
                 this.message = this.editingComment.body; 
                 this.parent = this.editingComment.parent_id; 
-                this.focused = true;                
+                this.$refs.commentForm.$refs.textarea.focus();
             },
 
             setReplying(comment) {
@@ -233,7 +216,7 @@
 
                 this.replyingComment = comment; 
                 this.parent = this.replyingComment.id; 
-                this.focused = true;
+                this.$refs.commentForm.$refs.textarea.focus();
             }, 
 
             /**
@@ -248,8 +231,7 @@
                 this.loading = false; 
                 this.preview = false; 
                 this.parent = 0;
-                this.focused = null;
-            }, 
+            },
 
         	emoji(shortname) {
         		this.message = this.message + shortname + " "; 
@@ -283,7 +265,6 @@
             	}
 
         		this.temp = this.message;
-                this.focused = false;
         		this.message = '';
 
         		$('#comment-form-' + this.parent).css('height', 43);
@@ -303,7 +284,7 @@
                     axios.post('/edit-comment', {
                         comment_id: this.editingComment.id,
                         body: this.temp
-                    }).then((response) => {
+                    }).then(() => {
                         this.editingComment.body = this.temp;
                         this.$eventHub.$emit('patchedComment', this.editingComment);
                         

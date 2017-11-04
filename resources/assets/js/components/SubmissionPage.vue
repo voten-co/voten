@@ -20,7 +20,7 @@
 								Comments: <span class="go-gray go-small" v-if="!isGuest">({{ onlineUsersCount }} online users)</span>
 							</div>
 
-							<el-dropdown size="mini" trigger="click" :show-timeout="0" :hide-timeout="0" type="primary" v-show="comments.length > 1">
+							<el-dropdown size="medium" trigger="click" :show-timeout="0" :hide-timeout="0" type="primary" v-show="comments.length > 1">
 									<span class="el-dropdown-link">
 										{{ sort === 'hot' ? 'Hot' : 'New' }}
 										<i class="el-icon-arrow-down el-icon--right"></i>
