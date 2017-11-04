@@ -1,6 +1,6 @@
 <template>
-    <div class="sidebar-right" :class="theme">
-        <div class="fixed-header user-select">
+    <div class="sidebar-right user-select" :class="theme">
+        <div class="fixed-header">
             <div class="flex-space">
                 <p class="menu-label">
                     <strong>My Channels:</strong>
