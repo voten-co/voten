@@ -78,10 +78,10 @@
 					</el-dropdown-menu>
 				</el-dropdown>
 
-				<i class="v-icon h-yellow pointer" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark go-gray'" @click="bookmark"
-				   v-tooltip.bottom="{content: bookmarked ? 'Unbookmark this channel' : 'Bookmark this channel', offset: 8}"
-				></i>
-            	
+				<el-tooltip :content="bookmarked ? 'Unbookmark this channel' : 'Bookmark this channel'" placement="bottom" transition="false" :open-delay="500">
+					<i class="v-icon h-yellow pointer" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark go-gray'" @click="bookmark"></i>
+				</el-tooltip>
+
 				<el-button type="primary" @click="$router.push('/submit?channel=' + $route.params.name)" v-if="!isGuest" plain size="medium">
 					Submit 
 				</el-button>

@@ -14,25 +14,27 @@
             </div>
         </header>
 
-        <div class="middle background-white" :class="{'flex-center' : !Store.notifications || ! Store.notifications.length}">
+        <div class="middle background-white"
+             :class="{'flex-center' : !Store.notifications || ! Store.notifications.length}">
             <div class="col-7">
                 <div class="user-select v-nth-box" v-if=" !Store.notifications || ! Store.notifications.length">
                     <notification-icon width="250" height="250" class="margin-bottom-3"></notification-icon>
 
                     <h3 class="no-notifications">
-                    	No notifications here yet
+                        No notifications here yet
                     </h3>
                 </div>
 
                 <ul class="v-contact-list user-select">
-                	<notification v-for="n in uniqueList" :notification="n" :key="n.id"></notification>
+                    <notification v-for="n in uniqueList" :notification="n" :key="n.id"></notification>
                 </ul>
 
                 <div class="align-center">
-                    <button type="button" class="user-select v-button v-button--primary v-button-big margin-top-bottom-3"
-                    @click="loadReadNotifications" v-show="loadMoreButton">
+                    <el-button type="primary"
+                            class="v-button-big margin-top-bottom-3"
+                            @click="loadReadNotifications" v-show="loadMoreButton">
                         Load More
-                    </button>
+                    </el-button>
                 </div>
             </div>
         </div>
@@ -46,9 +48,9 @@
 
 
     export default {
-    	mixins: [Helpers],
+        mixins: [Helpers],
 
-    	components: { Notification, NotificationIcon },
+        components: { Notification, NotificationIcon },
 
         data: function () {
             return {
@@ -58,9 +60,9 @@
             }
         },
 
-        created: function() {
+        created: function () {
             this.getNotifications();
-        	this.listen();
+            this.listen();
         },
 
 
@@ -76,8 +78,8 @@
                 let unique = [];
                 let temp = [];
 
-                if(Store.notifications) {
-                    Store.notifications.forEach(function(element, index, self) {
+                if (Store.notifications) {
+                    Store.notifications.forEach(function (element, index, self) {
                         if (temp.indexOf(element.id) === -1) {
                             unique.push(element);
                             temp.push(element.id);
@@ -91,14 +93,14 @@
 
 
         methods: {
-        	/**
-        	 * Fires the 'close' event which causes all the modals to be closed.
-        	 *
-        	 * @return void
-        	 */
-        	close() {
-        		this.$eventHub.$emit('close')
-        	},
+            /**
+             * Fires the 'close' event which causes all the modals to be closed.
+             *
+             * @return void
+             */
+            close() {
+                this.$eventHub.$emit('close')
+            },
 
             /**
              * Loads all the unread notifications of the Auth user.
@@ -126,9 +128,9 @@
                 axios.post('/all-notifications', { page: this.page }).then((response) => {
                     Store.notifications.push(...response.data.data);
 
-                    this.page ++;
+                    this.page++;
 
-                    if(response.data.next_page_url) {
+                    if (response.data.next_page_url) {
                         this.loadMoreButton = true;
                     }
                 })
@@ -141,54 +143,54 @@
              */
             listen() {
                 Echo.private('App.User.' + auth.id)
-                .notification((n) => {
-                	// lable it
-                	n.broadcasted = true;
+                    .notification((n) => {
+                        // lable it
+                        n.broadcasted = true;
 
-                    Store.notifications.unshift(n)
+                        Store.notifications.unshift(n)
 
-                    // give user the new recieved access (so a refresh won't be needed)
-                    if (n.type == 'App\\Notifications\\BecameModerator') {
-                        if (n.data.role == "moderator") {
-                            Store.moderatorAt.push(n.data.category.id)
-                        } else if (n.data.role == "administrator") {
-                            Store.administratorAt.push(n.data.category.id)
+                        // give user the new recieved access (so a refresh won't be needed)
+                        if (n.type == 'App\\Notifications\\BecameModerator') {
+                            if (n.data.role == "moderator") {
+                                Store.moderatorAt.push(n.data.category.id)
+                            } else if (n.data.role == "administrator") {
+                                Store.administratorAt.push(n.data.category.id)
+                            }
+
+                            Store.moderatingAt.push(n.data.category.id)
+                            Store.moderatingCategories.push(n.data.category)
                         }
 
-                        Store.moderatingAt.push(n.data.category.id)
-                        Store.moderatingCategories.push(n.data.category)
-                    }
+                        // Sending web notifications to user's OS (only if browser tab is not active)
+                        if (document.hidden == true) {
+                            let body = n.data.body
+                            let link = n.data.url
+                            let avatar = n.data.avatar
 
-                    // Sending web notifications to user's OS (only if browser tab is not active)
-                    if(document.hidden == true) {
-                        let body = n.data.body
-                        let link = n.data.url
-                        let avatar = n.data.avatar
+                            let title = 'Now Notification'
 
-                        let title = 'Now Notification'
+                            if (n.type == 'App\\Notifications\\CommentReplied') {
+                                title = 'New Reply'
+                            } else if (n.type == 'App\\Notifications\\SubmissionReplied') {
+                                title = 'New Comment'
+                            } else if (n.type == 'App\\Notifications\\BecameModerator') {
+                                title = 'Now Moderating'
+                            } else if (n.type == 'App\\Notifications\\CommentReported') {
+                                title = 'New Report'
+                            } else if (n.type == 'App\\Notifications\\SubmissionReported') {
+                                title = 'New Report'
+                            }
 
-                        if(n.type == 'App\\Notifications\\CommentReplied'){
-                            title = 'New Reply'
-                        } else if (n.type == 'App\\Notifications\\SubmissionReplied') {
-                            title = 'New Comment'
-                        } else if (n.type == 'App\\Notifications\\BecameModerator') {
-                            title = 'Now Moderating'
-                        } else if (n.type == 'App\\Notifications\\CommentReported') {
-                            title = 'New Report'
-                        } else if (n.type == 'App\\Notifications\\SubmissionReported') {
-                            title = 'New Report'
+                            const data = {
+                                title: title,
+                                body: body,
+                                url: link,
+                                icon: avatar
+                            }
+
+                            this.$eventHub.$emit('push-notification', data)
                         }
-
-                        const data = {
-                            title: title,
-                            body: body,
-                            url: link,
-                            icon: avatar
-                        }
-
-        				this.$eventHub.$emit('push-notification', data)
-                    }
-                })
+                    })
             },
         },
     }

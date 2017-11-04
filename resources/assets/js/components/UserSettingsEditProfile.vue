@@ -71,7 +71,10 @@
             </el-form-item>
 
             <el-form-item label="Twitter Username">
-                <el-input placeholder="Twitter Username..." v-model="form.twitter"></el-input>
+                <el-input placeholder="Twitter Username..." v-model="form.twitter">
+                    <template slot="prepend">Https://twitter.com/</template>
+                </el-input>
+
                 <el-alert v-for="e in errors.twitter" :title="e" type="error" :key="e"></el-alert>
             </el-form-item>
 

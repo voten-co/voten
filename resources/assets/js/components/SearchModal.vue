@@ -17,9 +17,11 @@
 				</div>
 
                 <!-- Close Button -->
-                <div class="v-close" @click="close" v-tooltip.left="{content: 'Close (esc)'}">
-                    <i class="v-icon block-before v-cancel" aria-hidden="true"></i>
-                </div>
+				<el-tooltip content="Close (esc)" placement="left" transition="false" :open-delay="500">
+					<div class="v-close" @click="close">
+						<i class="v-icon block-before v-cancel" aria-hidden="true"></i>
+					</div>
+				</el-tooltip>
             </div>
 
 			<div>

@@ -22,7 +22,9 @@
 
 				<h1 class="submission-title" v-if="full">
 					<a v-bind:href="submission.data.url" target="_blank" rel="nofollow">
-						<i class="v-icon v-shocked go-red" aria-hidden="true" v-if="submission.nsfw" v-tooltip.bottom="{content: 'NSFW'}"></i>
+						<el-tooltip content="NSFW" placement="bottom" transition="false" :open-delay="500">
+							<i class="v-icon v-shocked go-red" aria-hidden="true" v-if="submission.nsfw"></i>
+						</el-tooltip>
 
 						{{ submission.title }}
 
