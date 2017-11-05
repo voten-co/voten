@@ -14,10 +14,8 @@
 					</a>
 				</el-tooltip>
 				
-				<el-dropdown size="mini" type="primary" trigger="click" :show-timeout="0" :hide-timeout="0">				
-					<el-tooltip class="item" effect="dark" content="More" placement="top" transition="false" :open-delay="500">
-						<i class="el-icon-more-outline"></i>
-					</el-tooltip>
+				<el-dropdown size="mini" type="primary" trigger="click" :show-timeout="0" :hide-timeout="0">
+					<i class="el-icon-more-outline"></i>
 
 					<el-dropdown-menu slot="dropdown">
 						<el-dropdown-item v-if="!owns" @click.native="$emit('report')">
@@ -53,7 +51,7 @@
 
 			<div class="voting-wrapper display-none mobile-only" v-if="isMobile">
 				<a class="fa-stack align-right" @click="$emit('upvote')">
-					<i class="v-icon v-up-fat" :class="upvoted ? 'go-primary' : 'go-gray'"></i>
+					<i class="v-icon v-up-fat" :class="upvoted ? 'go-primary animated bounceIn' : 'go-gray'"></i>
 				</a>
 
 				<div class="detail">
@@ -61,7 +59,7 @@
 				</div>
 
 				<a class="fa-stack align-right" @click="$emit('downvote')">
-					<i class="v-icon v-down-fat" :class="downvoted ? 'go-red' : 'go-gray'"></i>
+					<i class="v-icon v-down-fat" :class="downvoted ? 'go-red animated bounceIn' : 'go-gray'"></i>
 				</a>
 			</div>
 		</div>

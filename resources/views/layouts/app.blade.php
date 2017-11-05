@@ -47,8 +47,8 @@
     </div>
 
 
-    <report-submission v-if="modalRouter == 'report-submission'" :submission="reportSubmissionId" :category="reportCategory"></report-submission>
-    <report-comment v-if="modalRouter == 'report-comment'" :comment="reportCommentId" :category="reportCategory"></report-comment>
+    {{--<report-submission v-if="modalRouter == 'report-submission'" :submission="reportSubmissionId" :category="reportCategory"></report-submission>--}}
+    {{--<report-comment v-if="modalRouter == 'report-comment'" :comment="reportCommentId" :category="reportCategory"></report-comment>--}}
     <rules v-if="modalRouter == 'rules'"></rules>
     <moderators v-if="modalRouter == 'moderators'"></moderators>
     <keyboard-shortcuts-guide v-if="modalRouter == 'keyboard-shortcuts-guide'"></keyboard-shortcuts-guide>

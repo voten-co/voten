@@ -8,7 +8,7 @@
 // @import "semantic/search";
 @import "inc/search";
 @import "inc/bookmarks";
-@import "semantic/comment";
+//@import "semantic/comment";
 // @import "semantic/dropdown";
 //@import "semantic/message";
 @import "bulma/nav";
@@ -16,7 +16,7 @@
 @import "bulma/tabs";
 //@import "semantic/card";
 //@import "semantic/popup";
-@import "components/transition";
+//@import "components/transition";
 //@import "components/vui";
 // @import "components/tooltip";
 @import "components/animate";
@@ -137,6 +137,14 @@
 // dialog
 .el-dialog__title {
   font-size: 25px;
+}
+
+.el-dialog__body {
+  padding: 1em 20px;
+}
+
+.el-dialog__footer {
+  padding-top: 0;
 }
 
 // other

@@ -44,7 +44,7 @@
 							</span>
 
 							<span v-if="!loadingComments && comments.length < 1" class="no-comments-yet">
-								No comments here yet
+								No comments here yet. Care to be the first one?
 							</span>
 
 							<comment :list="c" :comments-order="commentsOrder" v-for="c in uniqueList" :key="c.id" :full="true"></comment>

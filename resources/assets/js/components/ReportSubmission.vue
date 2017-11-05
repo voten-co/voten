@@ -1,100 +1,103 @@
 <template>
-    <div class="vo-modal-small">
-        <div class="wrapper" v-on-clickaway="close">
-            <header class="user-select">
-                <h3>
-                    Report Submission
-                </h3>
+    <el-dialog
+            title="Report Submission"
+            :visible="visible"
+            :width="isMobile ? '99%' : '45%'"
+            @close="close"
+            append-to-body
+    >
+        <el-form label-position="top" label-width="10px">
+            <p>
+                Please help us understand the problem. What is wrong with this submission?
+            </p>
 
-                <div class="close" @click="close">
-                    <i class="v-icon v-cancel-small"></i>
-                </div>
-            </header>
+            <el-form-item label="Subject">
+                <el-select v-model="subject" placeholder="Subject">
+                    <el-option
+                            v-for="item in subjects"
+                            :key="item"
+                            :label="item"
+                            :value="item">
+                    </el-option>
+                </el-select>
+            </el-form-item>
 
-            <div class="middle">
-                <div class="flex1">
-                    <p>
-                        Please help us understand the problem. What is wrong with this submission?
-                    </p>
+            <el-form-item label="Additional Description">
+                <el-input
+                        type="textarea"
+                        v-model="description"
+                        placeholder="(optional) Additional desciption..."
+                        name="description"
+                        :maxlength="1000"
+                        :rows="4"
+                        ref="description"
+                ></el-input>
+            </el-form-item>
+        </el-form>
 
-                    <!-- Radio Buttons -->
-                    <div class="margin-bottom-1">
-                        <div class="radio" v-for="item in subjects">
-                            <label><input type="radio" name="subject" :value="item" v-model="subject">{{ item }}</label>
-                        </div>
-                    </div>
+        <!-- submit -->
+        <span slot="footer" class="dialog-footer">
+            <el-button type="text" @click="close" size="medium" class="margin-right-1">
+                Cancel
+            </el-button>
 
-                    <div class="form-group">
-                        <textarea name="name" class="form-control" rows="2" id="report-textarea"
-                                  placeholder="(optional) Additional desciption..."
-                                  v-model="description"
-                        ></textarea>
-                    </div>
-                </div>
-            </div>
-
-            <footer>
-                <el-button type="success" size="medium"
-                        @click="send"
-                        :loading="sending"
-                >
-                    Submit
-                </el-button>
-
-                <el-button type="text" @click="close" size="medium" class="margin-right-1">
-                    Cancel
-                </el-button>
-            </footer>
-        </div>
-    </div>
+            <el-button type="success" @click="send" :loading="sending" size="medium">
+                Submit
+            </el-button>
+        </span>
+    </el-dialog>
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
+    import Helpers from '../mixins/Helpers';
 
-export default {
-    props: ['submission', 'category'],
+    export default {
+        mixins: [Helpers],
 
-    mixins: [clickaway],
+        props: ['submission', 'visible'],
 
-    data () {
-        return {
-            subject: "It's spam",
-            description: "",
-            sending: false,
-            subjects: [
-                "It's spam",
-                "It doesn't follow channel's exclusive rules",
-                "It doesn't follow Voten's general rules",
-                "It's abusive or harmful",
-                "Other"
-            ]
-        }
-    },
+        data () {
+            return {
+                subject: "It's spam",
+                description: "",
+                sending: false,
+                subjects: [
+                    "It's spam",
+                    "It doesn't follow channel's exclusive rules",
+                    "It doesn't follow Voten's general rules",
+                    "It's abusive or harmful",
+                    "Other"
+                ]
+            }
+        },
 
-	mounted: function () {
-		this.$nextTick(function () {
-	    	document.getElementById('report-textarea').focus();
-			this.$root.autoResize();
-		})
-	},
-
-    methods: {
-        send() {
-            this.sending = true;
-
-            axios.post( '/report-submission', {
-                submission_id: this.submission,
-                subject: this.subject,
-                description: this.description
-            }).then((response) => {
-                this.close();
+        mounted() {
+            this.$nextTick(function () {
+                this.$refs.description.$refs.textarea.focus();
             });
         },
 
-        close() {
-    		this.$eventHub.$emit('close');
+        methods: {
+            send() {
+                this.sending = true;
+
+                axios.post('/report-submission', {
+                    submission_id: this.submission.id,
+                    subject: this.subject,
+                    description: this.description
+                }).then(() => {
+                    this.$message({
+                        message: 'Report submitted. Thanks for caring!',
+                        type: 'success'
+                    });
+
+                    this.close();
+                });
+            },
+
+            close() {
+                this.$emit('update:visible', false);
+            },
         },
-    },
-}
+    }
 </script>

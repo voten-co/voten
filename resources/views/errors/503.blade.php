@@ -76,16 +76,12 @@
                     Twitter
                 </a>
 
-                <a href="https://facebook.com/voten.co">
-                    Facebook
+                <a href="https://github.com/voten-co/voten">
+                    Github
                 </a>
 
                 <a href="https://medium.com/voten">
                     Blog
-                </a>
-
-                <a href="https://reddit.com/r/voten">
-                    /r/voten
                 </a>
             </div>
         </div>

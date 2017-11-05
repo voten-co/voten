@@ -505,7 +505,7 @@ const app = new Vue({
         /**
          * Switches the route
          *
-         * @param {String} newRoute
+         * @param string newRoute
          * @return void
          */
         changeModalRoute(newRoute) {

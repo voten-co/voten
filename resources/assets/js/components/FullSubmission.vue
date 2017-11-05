@@ -16,9 +16,11 @@
                                     @{{ list.owner.username }}
                                 </router-link>
 
-                                <span class="date">
-									{{ date }}
-								</span>
+                                <el-tooltip :content="'Created: ' + longDate" placement="bottom-start" transition="false" :open-delay="500">
+                                    <span class="date">
+                                        {{ date }}
+                                    </span>
+                                </el-tooltip>
                             </div>
                         </div>
 
@@ -33,7 +35,7 @@
 
                             <div class="voting-wrapper display-none">
                                 <a class="fa-stack align-right" @click="voteUp">
-                                    <i class="v-icon v-up-fat" :class="upvoted ? 'go-primary' : 'go-gray'"></i>
+                                    <i class="v-icon v-up-fat" :class="upvoted ? 'go-primary animated bounceIn' : 'go-gray'"></i>
                                 </a>
 
                                 <el-tooltip :content="detailedPoints" placement="bottom" transition="false" :open-delay="500">
@@ -43,7 +45,7 @@
                                 </el-tooltip>
 
                                 <a class="fa-stack align-right" @click="voteDown">
-                                    <i class="v-icon v-down-fat" :class="downvoted ? 'go-red' : 'go-gray'"></i>
+                                    <i class="v-icon v-down-fat" :class="downvoted ? 'go-red animated bounceIn' : 'go-gray'"></i>
                                 </a>
                             </div>
 
@@ -134,6 +136,8 @@
                             :upvoted="upvoted" :downvoted="downvoted" @bookmark="bookmark" @upvote="voteUp"
                             @downvote="voteDown"
                 ></gif-player>
+
+                <report-submission :submission="list" :visible.sync="showReportModal" v-if="showReportModal"></report-submission>
             </article>
         </div>
     </transition>
@@ -141,6 +145,7 @@
 
 <script>
     import TextSubmission from '../components/submission/TextSubmission.vue';
+    import ReportSubmission from '../components/ReportSubmission.vue';
     import LinkSubmission from '../components/submission/LinkSubmission.vue';
     import ImgSubmission from '../components/submission/ImgSubmission.vue';
     import GifSubmission from '../components/submission/GifSubmission.vue';
@@ -155,6 +160,7 @@
         mixins: [Helpers],
 
         components: {
+            ReportSubmission,
             TextSubmission,
             LinkSubmission,
             ImgSubmission,
@@ -170,7 +176,7 @@
                 upvoted: false,
                 downvoted: false,
                 hidden: false,
-                reported: false,
+                showReportModal: false,
                 photoViewerIndex: null,
                 photoViewer: false,
                 embedViewer: false,
@@ -279,6 +285,15 @@
 
             date () {
                 return moment(this.list.created_at).utc(moment().format("Z")).fromNow();
+            },
+
+            /**
+             * Calculates the long date to display for hover over date.
+             *
+             * @return String
+             */
+            longDate() {
+                return this.parseFullDate(this.list.created_at);
             },
         },
 
@@ -471,8 +486,7 @@
              * @return void
              */
             report () {
-                this.reported = true;
-                this.$eventHub.$emit('report-submission', this.list.id, this.list.category_name);
+                this.showReportModal = true;
             },
 
             /**

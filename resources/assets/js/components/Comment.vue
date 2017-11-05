@@ -1,5 +1,5 @@
 <template>
-    <transition name="fade">
+    <transition name="el-fade-in-linear">
         <div class="comment v-comment-wrapper" v-show="visible" @mouseover="seen" :id="'comment' + list.id"
 	        :class="highlightClass"
         >
@@ -55,30 +55,29 @@
                         </router-link>
                     </el-tooltip>
 
-                    <a class="reply h-primary" @click="voteUp">
-                        <i class="v-icon v-up-fat" :class="upvoted ? 'go-primary' : 'go-gray'"></i>
-                    </a>
+                    <i class="v-icon v-up-fat"
+                       :class="upvoted ? 'go-primary animated bounceIn' : 'go-gray'"
+                       @click="voteUp"></i>
 
-                    <a class="reply h-red" @click="voteDown">
-                        <i class="v-icon v-down-fat" :class="downvoted ? 'go-red' : 'go-gray'"></i>
-                    </a>
+
+                    <i class="v-icon v-down-fat"
+                       :class="downvoted ? 'go-red animated bounceIn' : 'go-gray'"
+                       @click="voteDown"></i>
 
                     <el-tooltip content="Reply" placement="top" transition="false" :open-delay="500">
-                        <a class="reply h-green" @click="commentReply" v-if="list.level < 8 && full">
-                            <i class="v-icon v-reply"></i>
-                        </a>
+                        <i class="v-icon v-reply"
+                           @click="commentReply" v-if="list.level < 8 && full"></i>
                     </el-tooltip>
 
                     <el-tooltip :content="bookmarked ? 'Unbookmark' : 'Bookmark'" placement="top" transition="false" :open-delay="500">
-                        <a class="reply h-yellow" @click="bookmark">
-                            <i class="v-icon" v-bind:class="{ 'go-yellow v-unbookmark': bookmarked, 'v-bookmark': !bookmarked }"></i>
-                        </a>
+                        <i class="v-icon"
+                           :class="{ 'go-yellow v-unbookmark': bookmarked, 'v-bookmark': !bookmarked }"
+                           @click="bookmark"></i>
                     </el-tooltip>
 
                     <el-tooltip class="item" content="Edit" placement="top" transition="false" :open-delay="500" v-if="owns && full">
-                        <a class="reply h-purple" @click="edit">
-                            <i class="v-icon v-edit"></i>
-                        </a>
+                        <i class="v-icon v-edit"
+                           @click="edit"></i>
                     </el-tooltip>
 
                     <el-dropdown size="mini" type="primary" trigger="click" :show-timeout="0" :hide-timeout="0">
@@ -109,9 +108,11 @@
                 <comment :list="c" v-for="c in sortedComments" :key="c.id" :full="full"></comment>
             </div>
 
-            <button class="v-button v-button--link" v-if="hasMoreCommentsToLoad" @click="loadMoreComments">
+            <el-button type="text" v-if="hasMoreCommentsToLoad" @click="loadMoreComments">
 	        	Load More Comments ({{ list.children.length - childrenLimit }} more replies)
-	    	</button>
+	    	</el-button>
+
+            <report-comment :comment="list" :visible.sync="showReportModal" v-if="showReportModal"></report-comment>
         </div>
     </transition>
 </template>
@@ -119,6 +120,7 @@
 
 <script>
     import Markdown from '../components/Markdown.vue';
+    import ReportComment from '../components/ReportComment.vue';
     import Helpers from '../mixins/Helpers';
 
     export default {
@@ -127,7 +129,8 @@
         props: ['list', 'comments-order', 'full'],
 
         components: {
-            Markdown
+            Markdown,
+            ReportComment
         },
 
         mixins: [Helpers],
@@ -143,6 +146,7 @@
                 reply: false,
                 childrenLimit: 4,
                 highlighted: false,
+                showReportModal: false
             }
         },
 
@@ -436,7 +440,7 @@
              *  Report(and block) comment
              */
             report() {
-        		this.$eventHub.$emit('report-comment', this.list.id);
+        		this.showReportModal = true;
             },
 
             /**

@@ -143,14 +143,6 @@
   align-items: center;
 }
 
-.comments-sort .v-icon {
-  cursor: pointer;
-}
-
-.comment .v-icon {
-  font-size: 16px;
-}
-
 // only desktop
 @media (max-width: 768px) {
   .ui.comments .comment .comments .comment {
@@ -186,10 +178,6 @@
   border: none;
 }
 
-.comment-form-guide-wrapper {
-  // padding: 0em 0.5em 0.4em;
-}
-
 .content .comment-form-guide {
   padding-left: 0.8em;
 }
@@ -201,10 +189,6 @@
 
 .comment-form-guide:hover {
   text-decoration: underline;
-}
-
-.v-comment-wrapper {
-  /*padding: 1em !important;*/
 }
 
 .v-comment-info {
@@ -222,13 +206,6 @@
   padding-bottom: .7em !important;
   padding-right: 1em !important;
   border-left: 2px dashed #e9e9e9 !important;
-}
-
-.edited {
-  background: #f4f4f4;
-  font-size: 10px;
-  padding: 4px 4px;
-  border-radius: 2px;
 }
 
 .comment .el-dropdown i {
@@ -249,3 +226,79 @@
   color: $gray-color;
   @include user-select();
 }
+
+////////////////////////////////////////////////
+// beta 2.0
+////////////////////////////////////////////////
+
+.comment {
+  .v-icon,
+  [class^="el-icon-"],
+  [class*=" el-icon-"] {
+    font-size: 16px;
+    color: $gray-color;
+    cursor: pointer;
+    margin-right: .5em;
+  }
+
+  .edited {
+    background: #f4f4f4;
+    font-size: 10px;
+    padding: 4px 4px;
+    border-radius: 2px;
+    margin-left: .3em;
+  }
+
+  .avatar {
+    display: block;
+    width: 2em;
+    height: auto;
+    margin-right: 0.3em;
+  }
+
+  .avatar img,
+  img.avatar {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    border-radius: 0.25rem;
+  }
+
+  .metadata {
+    display: inline-block;
+    margin-left: 0.5em;
+    color: rgba(0, 0, 0, 0.4);
+    font-size: 0.875em;
+  }
+
+  .author {
+    font-size: 1em;
+    color: rgba(0, 0, 0, 0.87);
+    font-weight: bold;
+  }
+
+  .text {
+    font-size: 0.9em;
+    word-wrap: break-word;
+    color: rgb(51, 51, 51);
+    line-height: 1.5;
+    margin: 1em 0px;
+  }
+
+  .comments .comment {
+    border-right-width: initial;
+    border-bottom-width: initial;
+    border-right-color: initial;
+    border-bottom-color: initial;
+    border-style: none none none dashed;
+    border-image: initial;
+    border-top: none;
+    background: none;
+    padding: 1em 0px 0px 0.5em;
+    margin: 1em 0px 0px 0.8em;
+    border-left: 2px dashed rgb(233, 233, 233);
+  }
+}
+
+
