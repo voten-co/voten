@@ -1,34 +1,61 @@
 <template>
     <section class="banned-user-wrapper">
         <div class="banned-user">
-            <div class="left" v-tooltip.top="{content: list.submission.title}">
-                <router-link :to="'/c/' + list.submission.category_name + '/' + list.submission.slug">
-                    {{ str_limit(list.submission.title, 20) }}
-                </router-link>
-            </div>
+            <el-popover
+                    placement="top-start"
+                    trigger="hover"
+                    transition="false"
+                    :open-delay="100"
+            >
+                <div class="left" slot="reference">
+                    <router-link :to="'/c/' + list.submission.category_name + '/' + list.submission.slug">
+                        {{ str_limit(list.submission.title, 20) }}
+                    </router-link>
+                </div>
 
-            <div class="detail" v-tooltip.top="{content: list.subject}">
-                {{ str_limit(list.subject, 20) }}
-            </div>
+                <p>
+                    {{ list.submission.title }}
+                </p>
 
-            <small>
-                <router-link :to="'/@' + list.reporter.username">
-                    {{ date }}
-                </router-link>
-            </small>
+                <div class="flex-right">
+                    <el-button @click="$router.push('/c/' + list.submission.category_name + '/' + list.submission.slug)" size="mini">
+                        Open
+                    </el-button>
+                </div>
+            </el-popover>
+
+            <el-tooltip :content="list.subject" placement="top" transition="false" :open-delay="500">
+                <div class="detail">
+                    {{ str_limit(list.subject, 20) }}
+                </div>
+            </el-tooltip>
+
+            <el-tooltip :content="longDate" placement="top" transition="false" :open-delay="500">
+                <small>
+                    <router-link :to="'/@' + list.reporter.username">
+                        {{ date }}
+                    </router-link>
+                </small>
+            </el-tooltip>
 
             <div class="actions">
-                <i class="pointer v-icon go-gray v-attention-alt h-yellow"
-                            :class="list.description ? '' : 'display-hidden'" @click="showDescription = !showDescription"
-                            v-tooltip.top="{content: 'Description'}"></i>
+                <el-tooltip content="Description" placement="top" transition="false" :open-delay="500">
+                    <i class="pointer v-icon go-gray v-attention-alt h-yellow"
+                       :class="list.description ? '' : 'display-hidden'" @click="showDescription = !showDescription"
+                    ></i>
+                </el-tooltip>
 
-                <i class="pointer v-icon go-gray v-delete h-red" @click="$emit('disapprove-submission', list.submission.id)"
-                            v-tooltip.top="{content: 'Delete Submission'}"
-                            :class="list.submission.deleted_at ? 'display-hidden' : ''"></i>
+                <el-tooltip content="Delete Submission" placement="top" transition="false" :open-delay="500">
+                    <i class="pointer v-icon go-gray v-delete h-red"
+                       @click="$emit('disapprove-submission', list.submission.id)"
+                       :class="list.submission.deleted_at ? 'display-hidden' : ''"></i>
+                </el-tooltip>
 
-                <i class="pointer v-icon go-gray v-approve h-green" @click="$emit('approve-submission', list.submission.id)"
-                            v-tooltip.top="{content: 'Approve Submission'}"
-                            :class="list.submission.approved_at ? 'display-hidden' : ''"></i>
+                <el-tooltip content="Approve Submission" placement="top" transition="false" :open-delay="500">
+                    <i class="pointer v-icon go-gray v-approve h-green"
+                       @click="$emit('approve-submission', list.submission.id)"
+                       :class="list.submission.approved_at ? 'display-hidden' : ''"></i>
+                </el-tooltip>
             </div>
         </div>
 
@@ -40,28 +67,35 @@
 
 
 <script>
-import Markdown from '../components/Markdown.vue'
-import Helpers from '../mixins/Helpers'
+    import Markdown from '../components/Markdown.vue';
+    import Helpers from '../mixins/Helpers';
 
-export default {
-    components: {
-        Markdown
-    },
+    export default {
+        components: { Markdown },
 
-    mixins: [Helpers],
+        mixins: [Helpers],
 
-    data: function() {
-        return {
-            showDescription: false
-        }
-    },
-
-    props: ['list'],
-
-    computed: {
-        date () {
-            return moment(this.list.created_at).utc(moment().format("Z")).fromNow();
+        data() {
+            return {
+                showDescription: false
+            }
         },
-    },
-};
+
+        props: ['list'],
+
+        computed: {
+            date() {
+                return moment(this.list.created_at).utc(moment().format("Z")).fromNow();
+            },
+
+            /**
+             * Calculates the long date to display for hover over date.
+             *
+             * @return String
+             */
+            longDate() {
+                return this.parseFullDate(this.list.created_at);
+            },
+        },
+    };
 </script>

@@ -43,6 +43,7 @@
                     size="small"
                     v-model="subscribedFilter"
                     class="search margin-bottom-1"
+                    name="subscribedFilter"
             >
             </el-input>
         </div>

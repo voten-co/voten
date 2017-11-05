@@ -1,5 +1,5 @@
 <template>
-	<transition name="fade">
+	<transition name="el-fade-in-linear">
 		<section class="user-select category-suggestion-wrapper" v-if="visible">
 			<div class="flex-space">
 				<h3 class="category-suggestion-wrapper-title">Recommended:</h3>

@@ -131,9 +131,7 @@
 
                 <div class="overflow-auto" v-if="hasMessages" id="scrollable-wrapper">
                     <div class="flex-center" v-if="moreToLoad && !loadingMessages">
-                        <button type="button" class="v-button user-select" @click="loadMore">
-                            Load More
-                        </button>
+                        <el-button @click="loadMore">Load More</el-button>
                     </div>
 
                     <message v-for="(value, index) in Store.messages" :list="value" :key="value.id"

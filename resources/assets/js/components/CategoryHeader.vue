@@ -1,42 +1,41 @@
 <template>
 <div>
-	<transition name="slide-out">
-		<div v-bind:style="{ background: coverBackground }" class="category-header-big profile-cover" v-show="showFirstHeader">
-			<div class="container user-select full-width">
-				<div class="cols-flex">
-					<div class="category-header-left">
-						<!-- avatar -->
-							<div class="profile-avatar">
-								<router-link :to="'/c/' + Store.category.name">
-									<img v-bind:src="Store.category.avatar" v-bind:alt="Store.category.name" />
-								</router-link>
-							</div>
-						<!-- end avatar -->
-					</div>
-
-					<div class="category-header-middle flex-align-center">
-						<p>
-							{{ Store.category.description }}
-						</p>
-					</div>
-
-					<div class="category-header-right">
-						<div class="karma">
-							<div class="karma-number">
-								{{ Store.category.subscribers }}
-							</div>
-
-							<div class="karma-text margin-bottom-1">
-								Subscribers
-							</div>
-
-							<subscribe v-if="!isGuest" subscribed-class="unsubscribe" unsubscribed-class="subscribe"></subscribe>
+	<div v-bind:style="{ background: coverBackground }" class="category-header-big profile-cover" v-show="showFirstHeader">
+		<div class="container user-select full-width">
+			<div class="cols-flex">
+				<div class="category-header-left">
+					<!-- avatar -->
+						<div class="profile-avatar">
+							<router-link :to="'/c/' + Store.category.name">
+								<img v-bind:src="Store.category.avatar" v-bind:alt="Store.category.name" />
+							</router-link>
 						</div>
+					<!-- end avatar -->
+				</div>
+
+				<div class="category-header-middle flex-align-center">
+					<p>
+						{{ Store.category.description }}
+					</p>
+				</div>
+
+				<div class="category-header-right">
+					<div class="karma">
+						<div class="karma-number">
+							{{ Store.category.subscribers }}
+						</div>
+
+						<div class="karma-text margin-bottom-1">
+							Subscribers
+						</div>
+
+						<subscribe v-if="!isGuest" subscribed-class="unsubscribe" unsubscribed-class="subscribe"></subscribe>
 					</div>
 				</div>
 			</div>
 		</div>
-	</transition>
+	</div>
+
 	<nav class="nav has-shadow user-select">
 	    <div class="container">
 			<h1 class="title">
@@ -58,10 +57,8 @@
 	        </div>
 
 	        <div class="channel-admin-btn">
-				<el-dropdown size="mini" type="primary" trigger="click" :show-timeout="0" :hide-timeout="0">
-					<el-tooltip class="item" effect="dark" content="More" placement="top" transition="false" :open-delay="500">
-						<i class="v-icon v-more-vertical"></i>
-					</el-tooltip>
+				<el-dropdown size="medium" type="primary" trigger="click" :show-timeout="0" :hide-timeout="0">
+					<i class="v-icon v-more-vertical"></i>
 
 					<el-dropdown-menu slot="dropdown">
 						<el-dropdown-item @click.native="emitModerators">

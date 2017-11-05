@@ -1,5 +1,5 @@
 <template>
-	<transition name="fade">
+	<transition name="el-fade-in-linear">
 		<div class="submission-item submission-wrapper" v-show="!hidden" :id="'submission' + list.id">
 			<!-- side-voting -->
 			<div class="side-voting desktop-only">
