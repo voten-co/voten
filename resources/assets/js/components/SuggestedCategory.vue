@@ -4,9 +4,9 @@
 			<div class="flex-space">
 				<h3 class="category-suggestion-wrapper-title">Recommended:</h3>
 
-				<button class="v-button v-button-outline--green v-button-small" @click="subscribe">
+				<el-button type="success" plain size="mini" @click="subscribe">
 					Subscribe
-				</button>
+				</el-button>
 			</div>
 
 			<div class="category-suggestion">
