@@ -1,5 +1,5 @@
 <template>
-    <button :class="activeClass" @click="subscribe" v-html="content"></button>
+    <button :class="activeClass" @click="subscribe" v-text="content"></button>
 </template>
 
 <script>
@@ -45,6 +45,10 @@ export default {
         'Store.subscribedAt' () {
             this.setSubscribed();
         },
+
+        'Store.category' () {
+            this.setSubscribed();
+        }
     },
 
     methods: {
