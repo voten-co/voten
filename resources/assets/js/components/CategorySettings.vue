@@ -1,170 +1,176 @@
 <template>
-	<section>
-		<h3 class="dotted-title">
+    <section>
+        <h3 class="dotted-title">
             <span>
                 Avatar
             </span>
         </h3>
 
+        <el-alert
+                v-if="customError"
+                :title="customError"
+                type="error"
+        ></el-alert>
+
         <div class="form-group">
             <div class="flex-space">
                 <div>
-                    <button class="v-button v-button--upload" type="button">
+                    <el-button class="el-button v-button--upload" type="button">
                         <i class="v-icon v-upload" aria-hidden="true"></i> Click To Browse 
 
-                        <input class="v-button" type="file" @change="passToCropModal" />
-                    </button>
-                    
+                        <input class="v-button" type="file" @change="passToCropModal"/>
+                    </el-button>
+
                     <p class="go-gray go-small">
                         You can upload any size image file. After uploading is done, you'll get to position and size your image. 
                     </p>
                 </div>
 
                 <div class="edit-avatar-preview">
-                    <img v-bind:alt="Store.category.name" v-bind:src="Store.category.avatar" class="circle" />
+                    <img v-bind:alt="Store.category.name" v-bind:src="Store.category.avatar" class="circle"/>
                 </div>
             </div>
         </div>
 
-		<h3 class="dotted-title">
+
+        <h3 class="dotted-title">
 			<span>
 				Settings
 			</span>
-		</h3>
+        </h3>
 
-		<div class="form-group">
-			<label for="description" class="form-label">Description</label>
+        <el-form label-position="top" label-width="10px">
+            <el-form-item label="Description">
+                <el-input
+                        type="textarea"
+                        :placeholder="'How would you describe #' + Store.category.name + '?'"
+                        name="description"
+                        :rows="4"
+                        :maxlength="230"
+                        v-model="description">
+                </el-input>
 
-			<textarea class="form-control" rows="3" name="description" v-model="description" id="description" :placeholder="'How would you describe #' + Store.category.name + '?'"></textarea>
+                <el-alert v-for="e in errors.description" :title="e" type="error" :key="e"></el-alert>
+            </el-form-item>
 
-			<small class="text-muted go-red" v-for="e in errors.description">{{ e }}</small>
-		</div>
+            <el-form-item label="Cover Color">
+                <el-select v-model="color" placeholder="Cover Color..." filterable>
+                    <el-option
+                            v-for="item in colors"
+                            :key="item"
+                            :label="item"
+                            :value="item">
+                    </el-option>
+                </el-select>
+            </el-form-item>
 
-		<div class="form-group">
-			<label for="color" class="form-label">Cover Color:</label>
+            <div class="form-toggle">
+                This channel contains mostly NSFW content:
+                <el-switch v-model="nsfw"></el-switch>
+            </div>
 
-			<multiselect :value="color" :options="colors" @input="changeColor"
-				:placeholder="'Cover Color...'"
-			></multiselect>
-		</div>
-
-		<div class="form-toggle">
-			This channel contains mostly NSFW content:
-			<toggle-button v-model="nsfw"/>
-		</div>
-
-		<button class="v-button v-button--green" @click="save" v-if="changed" :disabled="sending">Save</button>
-	</section>
+            <el-form-item v-if="changed">
+                <el-button type="success" size="medium" @click="save" :loading="sending">Save</el-button>
+            </el-form-item>
+        </el-form>
+    </section>
 </template>
 
 <script>
-	import Multiselect from 'vue-multiselect'
-
     export default {
-		components: {
-			Multiselect
-	    },
-
         data() {
             return {
-            	errors: [],
-            	customError: '',
-				sending: false,
+                errors: [],
+                customError: '',
+                sending: false,
                 Store,
                 auth,
-            	description: Store.category.description,
+                description: Store.category.description,
                 nsfw: Store.category.nsfw,
                 color: Store.category.color,
-				colors: [
-					'Blue', 'Dark Blue', 'Red', 'Dark', 'Dark Green', 'Bright Green', 'Purple', 'Orange', 'Pink'
-				], 
-				fileUploadFormData: new FormData(),
+                colors: [
+                    'Blue', 'Dark Blue', 'Red', 'Dark', 'Dark Green', 'Bright Green', 'Purple', 'Orange', 'Pink'
+                ],
+                fileUploadFormData: new FormData(),
             }
         },
 
-		watch: {
-			'Store.category': function () {
-				this.description = Store.category.description
-				this.nsfw = Store.category.nsfw
-				this.color = Store.category.color
-			}
-		},
+        watch: {
+            'Store.category': function () {
+                this.description = Store.category.description
+                this.nsfw = Store.category.nsfw
+                this.color = Store.category.color
+            }
+        },
 
-	    computed: {
-	    	changed () {
-	    		if (
-	                Store.category.color != this.color ||
-	                Store.category.nsfw != this.nsfw ||
-	                Store.category.description != this.description
-	                )
-    			{
-	    			return true
-	    		}
+        computed: {
+            changed () {
+                if (
+                    Store.category.color != this.color ||
+                    Store.category.nsfw != this.nsfw ||
+                    Store.category.description != this.description
+                ) {
+                    return true
+                }
 
-	    		return false
-	    	},
-	    },
-
-        mounted () {
-			this.$nextTick(function () {
-				this.$root.autoResize();
-			})
+                return false
+            },
         },
 
         methods: {
-			/**
-			 * Passes the photo to the cropModal to take care of the rest
-			 *
-			 * @return void
-			 */
-			passToCropModal (e)
-			{
-				this.fileUploadFormData.append('photo', e.target.files[0]);
+            /**
+             * Passes the photo to the cropModal to take care of the rest
+             *
+             * @return void
+             */
+            passToCropModal (e)
+            {
+                this.fileUploadFormData.append('photo', e.target.files[0]);
 
-				axios.post('/upload-temp-avatar', this.fileUploadFormData).then((response) => {
-					this.$eventHub.$emit('crop-photo-uploaded', response.data);
-				});
+                axios.post('/upload-temp-avatar', this.fileUploadFormData).then((response) => {
+                    this.$eventHub.$emit('crop-photo-uploaded', response.data);
+                });
 
-				this.$eventHub.$emit('crop-category-photo');
-			},
-			
-        	save () {
-				this.sending = true
+                this.$eventHub.$emit('crop-category-photo');
+            },
 
-        		axios.post('/category-patch', {
-        			name: Store.category.name,
-        			description: this.description,
-        			nsfw: this.nsfw,
-        			color: this.color
-        		}).then((response) => {
-	                this.errors = []
-	                this.customError = ''
+            save () {
+                this.sending = true
 
-        			Store.category.nsfw = this.nsfw
-        			Store.category.color = this.color
-        			Store.category.description = this.description
-					this.sending = false
-        		}).catch((error) => {
-	                if(error.response.status == 500) {
-	                	this.sending = false
-	                    this.customError = error.response.data
-	                    this.errors = []
-	                    return
-	                }
+                axios.post('/category-patch', {
+                    name: Store.category.name,
+                    description: this.description,
+                    nsfw: this.nsfw,
+                    color: this.color
+                }).then((response) => {
+                    this.errors = []
+                    this.customError = ''
 
-	                this.errors = error.response.data.errors;
-					this.sending = false
-	            });
-        	},
+                    Store.category.nsfw = this.nsfw
+                    Store.category.color = this.color
+                    Store.category.description = this.description
+                    this.sending = false
+                }).catch((error) => {
+                    if (error.response.status == 500) {
+                        this.sending = false
+                        this.customError = error.response.data
+                        this.errors = []
+                        return
+                    }
+
+                    this.errors = error.response.data.errors;
+                    this.sending = false
+                });
+            },
 
             // used for multi select
-			 changeColor(newSelected) {
-                 this.color = newSelected
-             },
+            changeColor(newSelected) {
+                this.color = newSelected
+            },
         },
 
 
-		beforeRouteEnter(to, from, next){
+        beforeRouteEnter(to, from, next){
             if (Store.category.name == to.params.name) {
                 // loaded
                 if (Store.administratorAt.indexOf(Store.category.id) != -1) {

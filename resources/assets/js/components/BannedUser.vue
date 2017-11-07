@@ -9,12 +9,18 @@
             </div>
 
             <div class="actions">
-                <i class="pointer v-icon go-gray v-attention-alt h-yellow" :class="list.description ? '' : 'display-hidden'" v-tooltip.top="{content: 'Reason'}"
-                    @click="showDescription = !showDescription"></i>
+                <el-tooltip content="Reason" placement="top" transition="false" :open-delay="500">
+                    <i class="pointer v-icon go-gray v-attention-alt h-yellow" :class="list.description ? '' : 'display-hidden'"
+                       @click="showDescription = !showDescription"></i>
+                </el-tooltip>
 
-                <i class="pointer v-icon go-gray v-delete h-red" @click="$emit('unban', list.user_id)" v-tooltip.top="{content: 'Unban'}"></i>
+                <el-tooltip content="Unban" placement="top" transition="false" :open-delay="500">
+                    <i class="pointer v-icon go-gray v-delete h-red" @click="$emit('unban', list.user_id)"></i>
+                </el-tooltip>
 
-                <i class="pointer v-icon go-gray v-calendar-1 h-green" v-tooltip.top="{content: 'Unban ' + date}"></i>
+                <el-tooltip :content="'Unban ' + date" placement="top" transition="false" :open-delay="500">
+                    <i class="pointer v-icon go-gray v-calendar-1 h-green"></i>
+                </el-tooltip>
             </div>
         </div>
 

@@ -135,13 +135,13 @@ class ReportsController extends Controller
             return Report::onlyTrashed()->whereHas('comment')->whereHas('reporter')->where([
                 'category_id'     => $category_id,
                 'reportable_type' => 'App\Comment',
-            ])->with('reporter', 'comment')->orderBy('created_at', 'desc')->simplePaginate(50);
+            ])->with('reporter', 'comment.submission')->orderBy('created_at', 'desc')->simplePaginate(50);
         }
 
         // default type which is "unsolved"
         return Report::whereHas('comment')->whereHas('reporter')->where([
             'category_id'     => $category_id,
             'reportable_type' => 'App\Comment',
-        ])->with('reporter', 'comment')->orderBy('created_at', 'desc')->simplePaginate(50);
+        ])->with('reporter', 'comment.submission')->orderBy('created_at', 'desc')->simplePaginate(50);
     }
 }

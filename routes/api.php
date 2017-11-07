@@ -93,7 +93,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     // block domain
     Route::post('/block-domain', 'BlockDomainController@store');
-    Route::post('/blocked-domains', 'BlockDomainController@index');
+    Route::get('/blocked-domains', 'BlockDomainController@index');
     Route::delete('/block-domain/destroy', 'BlockDomainController@destroy');
 
     // ban user

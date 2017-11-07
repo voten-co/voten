@@ -1,0 +1,9 @@
+{
+    "/public/js/vendor.js": "/public/js/vendor.js",
+    "/public/js/app.js": "/public/js/app.js",
+    "/public/css/app.css": "/public/css/app.css",
+    "/public/css/admin.css": "/public/css/admin.css",
+    "/public/js/landing.js": "/public/js/landing.js",
+    "/public/js/backend.js": "/public/js/backend.js",
+    "/public/js/manifest.js": "/public/js/manifest.js"
+}

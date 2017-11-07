@@ -35,14 +35,14 @@
 
 .ui.comments > div {
   border-top: 1px solid #e9e9e9 !important;
-  padding: 1em !important;
+  padding: 1em;
 }
 
 .v-comment-not-full {
   border: 1px solid #e9e9e9 !important;
   border-bottom: 2px solid #e9e9e9 !important;
   border-radius: 2px;
-  padding: 1em !important;
+  padding: 0 !important;
   margin-bottom: .5em;
 }
 
@@ -226,6 +226,7 @@
   color: $gray-color;
   @include user-select();
 }
+
 
 ////////////////////////////////////////////////
 // beta 2.0

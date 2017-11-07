@@ -4,48 +4,59 @@
 			<span>
 				Rules
 			</span>
-		</h3>
+        </h3>
 
         <p>
-            If your channel needs more rules than already written in Voten's general <a href="/tos">TOS</a> page, you may specify yours here.
-            Due to keeping Voten simple to use, a maximum of five rules is allowed for each channel.
+            If your channel needs more rules than already written in Voten's general <a href="/tos">TOS</a>
+            page, you may specify yours here.
+            To keep Voten simple, we allow a maximum number of fine rules per channel. Markdown syntax is allowed.
         </p>
 
-        <div class="form-group" v-if="type == 'edit' || (type == 'create' && items.length < 5)">
-            <label for="title" class="form-label">Rule:</label>
+        <el-form label-position="top" label-width="10px">
+            <el-form-item label="Rule" v-if="type == 'edit' || (type == 'create' && items.length < 5)">
+                <el-input
+                        type="textarea"
+                        placeholder="Rule(markdown syntax is supported)..."
+                        name="title"
+                        :rows="4"
+                        v-model="title">
+                </el-input>
 
-            <textarea class="form-control" rows="3" v-model="title" id="title" placeholder="Rule(markdown syntax is supported)..."></textarea>
+                <el-alert v-for="e in errors.title" :title="e" type="error" :key="e"></el-alert>
+            </el-form-item>
 
-            <small class="text-muted go-red" v-for="e in errors.title">{{ e }}</small>
-        </div>
+            <el-form-item v-if="type == 'create' && items.length < 5">
+                <el-button size="medium" type="success" v-if="title" @click="createRule" :loading="sending">
+                    Submit
+                </el-button>
+            </el-form-item>
 
-        <div class="form-group" v-if="type == 'create' && items.length < 5">
-            <button type="button" class="v-button v-button--green" :disabled="!title" @click="createRule">Create</button>
-        </div>
-
-        <div class="form-group" v-if="type == 'edit'">
-            <button type="button" class="v-button v-button--primary" :disabled="!title" @click="patch">Edit</button>
-        </div>
+            <el-form-item v-if="type == 'edit'">
+                <el-button size="medium" type="success" :v-if="title" @click="patch" :loading="editing">Edit</el-button>
+            </el-form-item>
+        </el-form>
 
 
         <h3 class="dotted-title" v-if="items.length">
 			<span>
 				All Rules
 			</span>
-		</h3>
+        </h3>
 
         <rule v-for="rule in items" :list="rule" :key="rule.id" @delete-rule="destroy" @edit-rule="editRule"></rule>
     </section>
 </template>
 
 <script>
-    import Rule from '../components/Rule.vue'
+    import Rule from '../components/Rule.vue';
 
     export default {
         components: { Rule },
 
-        data: function () {
+        data() {
             return {
+                sending: false,
+                editing: false,
                 errors: [],
                 title: null,
                 id: null,
@@ -55,84 +66,91 @@
             }
         },
 
-
         created () {
             this.getItems()
         },
 
-
         methods: {
-            createRule(){
+            createRule() {
+                this.sending = true;
+
                 axios.post('/create-rule', {
                     title: this.title,
                     category_name: this.$route.params.name
                 }).then((response) => {
                     this.items.unshift(response.data)
                     this.clear()
+                    this.sending = false;
                 }).catch((error) => {
                     this.errors = error.response.data.errors;
+                    this.sending = false;
                 })
             },
 
-            getItems(){
+            getItems() {
+                this.loading = true;
+
                 axios.get('/rules', {
                     params: {
-                    	name: this.$route.params.name
+                        name: this.$route.params.name
                     }
                 }).then((response) => {
-                    this.items = response.data
-                })
+                    this.items = response.data;
+                    this.loading = false;
+                }).catch(() => {
+                    this.loading = false;
+                });
             },
 
             destroy(rule_id, category_id){
                 axios.post('/destroy-rule', {
                     rule_id,
                     category_id
-                }).then((response) => {
+                }).then(() => {
                     this.items = this.items.filter(function (item) {
-                      	return item.id != rule_id
-                    })
-                })
+                        return item.id != rule_id
+                    });
+                });
             },
 
-            editRule(rule){
-                this.title = rule.title
-                this.id = rule.id
-                this.category_id = rule.category_id
+            editRule(rule) {
+                this.title = rule.title;
+                this.id = rule.id;
+                this.category_id = rule.category_id;
 
-                this.type = 'edit'
-
-                this.$nextTick(function() {
-                    this.$root.autoResize()
-                })
+                this.type = 'edit';
             },
 
-            patch(){
+            patch() {
+                this.editing = true;
+
                 axios.post('/patch-rule', {
                     title: this.title,
                     category_id: this.category_id,
                     rule_id: this.id,
-                }).then((response) => {
+                }).then(() => {
                     let id = this.id
 
-		            function findObject(ob) {
-		                return ob.id === id
-		            }
+                    function findObject(ob) {
+                        return ob.id === id
+                    }
 
-		            this.items.find(findObject).title = this.title
+                    this.items.find(findObject).title = this.title
 
-                    this.clear()
+                    this.clear();
+                    this.editing = false;
                 }).catch((error) => {
                     this.errors = error.response.data.errors;
+                    this.editing = false;
                 });
             },
 
-            clear(){
-                this.title = null,
-                this.id = null
-                this.category_id = null
-                this.type = 'create'
-                this.errors = []
+            clear() {
+                this.title = null;
+                this.id = null;
+                this.category_id = null;
+                this.type = 'create';
+                this.errors = [];
             }
         },
 

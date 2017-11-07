@@ -1,8 +1,6 @@
 import KeyboardShortcutsGuide from './components/KeyboardShortcutsGuide.vue';
-import ReportSubmission from './components/ReportSubmission.vue';
 import ReportTableItem from './components/ReportTableItem.vue';
 import CategoryAvatar from './components/CategoryAvatar.vue';
-import ReportComment from './components/ReportComment.vue';
 import Notifications from './components/Notifications.vue';
 import MarkdownGuide from './components/MarkdownGuide.vue';
 import VuiMenuButton from './components/Menu-button.vue';
@@ -22,7 +20,6 @@ import LeftSidebar from './components/auth/LeftSidebar.vue';
 import RightSidebar from './components/auth/RightSidebar.vue';
 import Rules from './components/Rules.vue';
 import Helpers from './mixins/Helpers';
-import autosize from 'autosize';
 import router from './routes';
 
 
@@ -49,7 +46,6 @@ const localStorageConfig = {
 Vue.use(VueLocalStorage, localStorageConfig);
 
 
-
 /**
  * The very serious and important vue instance!!! This is what gives power to voten's
  * front-end. Try to love it, maintain it, appriciate it and maybe even more! This
@@ -61,17 +57,15 @@ const app = new Vue({
     mixins: [Helpers, LocalStorage, StoreStorage, WebNotification],
 
     components: {
-    	KeyboardShortcutsGuide,
-        ReportSubmission,
+        KeyboardShortcutsGuide,
         ReportTableItem,
         CategoryAvatar,
-    	MarkdownGuide,
-        ReportComment,
+        MarkdownGuide,
         Notifications,
         VuiMenuButton,
-        RightSidebar, 
+        RightSidebar,
         GuestSidebar,
-        LeftSidebar, 
+        LeftSidebar,
         SearchModal,
         LoginModal,
         AvatarEdit,
@@ -84,11 +78,12 @@ const app = new Vue({
     },
 
     data: {
+        showKeyboardShortcutsGuide: false,
+        showMarkdownGuide: false,
         modalRouter: '',
         reportCategory: '',
         reportSubmissionId: '',
         reportCommentId: '',
-        sidebar: true,
         sortFilter: 'hot',
         pageTitle: document.title,
         searchHeaderFilter: ''
@@ -100,13 +95,13 @@ const app = new Vue({
         },
 
         unreadNotifications() {
-            return Store.notifications.filter(function(item) {
+            return Store.notifications.filter(function (item) {
                 return item.read_at == null;
             }).length;
         },
 
         unreadMessages() {
-            return Store.contacts.filter(function(item) {
+            return Store.contacts.filter(function (item) {
                 return item.last_message.owner.id != auth.id && item.last_message.read_at == null;
             }).length;
         },
@@ -115,11 +110,11 @@ const app = new Vue({
             if (Store.contentRouter === 'notifications') {
                 return false;
             }
-            
+
             if (Store.contentRouter === 'messages') {
                 return false;
             }
-            
+
             if (Store.contentRouter === 'search') {
                 return false;
             }
@@ -132,31 +127,20 @@ const app = new Vue({
     watch: {
         '$route' () {
             this.closeModals();
-
-            if (auth.isMobileDevice) {
-            	this.sidebar = false;
-            }
-
-            if (this.$route.query.sidebar == 1) {
-                this.sidebar = true;
-            }
         },
     },
 
 
-    created: function() {
-        this.loadWebFont(); 
+    created: function () {
+        this.loadWebFont();
 
         window.addEventListener('keydown', this.keydown);
 
         this.fillBasicStore();
 
-        this.setSidebar();
-
         // Let's hear it for the events, shall we?
         this.$eventHub.$on('start-conversation', this.startConversation);
         this.$eventHub.$on('report-submission', this.reportSubmission);
-        this.$eventHub.$on('toggle-sidebar', this.toggleSidebar);
         this.$eventHub.$on('new-route', this.newRoute);
         this.$eventHub.$on('close', this.closeModals);
         this.$eventHub.$on('new-modal', this.newModal);
@@ -183,7 +167,7 @@ const app = new Vue({
         },
 
         openMarkdownGuide() {
-            this.changeModalRoute('markdown-guide')
+            this.showMarkdownGuide = true;
         },
 
         /**
@@ -203,31 +187,31 @@ const app = new Vue({
          * @param {String} username
          */
         getUserStore() {
-        	// if landed on the user page as guest
-        	if (preload.user) {
-        		this.submissions = preload.user;
+            // if landed on the user page as guest
+            if (preload.user) {
+                this.submissions = preload.user;
 
-				Store.user = preload.user
+                Store.user = preload.user
 
                 if (Store.user.id == auth.id) {
-                	auth.stats = Store.user.stats
+                    auth.stats = Store.user.stats
                 }
 
-				// clear the preload
-				delete preload.user;
+                // clear the preload
+                delete preload.user;
 
-				return;
-        	}
+                return;
+            }
 
             axios.get('/get-user-store', {
-            	params: {
-            		username: this.$route.params.username
-            	}
+                params: {
+                    username: this.$route.params.username
+                }
             }).then((response) => {
                 Store.user = response.data
 
                 if (Store.user.id == auth.id) {
-                	auth.stats = Store.user.stats
+                    auth.stats = Store.user.stats
                 }
             }).catch((error) => {
                 if (error.response.status === 404) {
@@ -245,12 +229,12 @@ const app = new Vue({
             this.closeModals();
 
             if (this.$route.name === 'home') {
-            	this.$eventHub.$emit('refresh-home');
+                this.$eventHub.$emit('refresh-home');
             }
         },
 
         /**
-         * Fetches the info about the category which we need later. 
+         * Fetches the info about the category which we need later.
          *
          * @param string name
          */
@@ -272,9 +256,11 @@ const app = new Vue({
 
                     // update the category in the user's subscriptions (avatar might have changed)
                     let category_id = Store.category.id
+
                     function findObject(ob) {
                         return ob.id === category_id
                     }
+
                     let i = Store.subscribedCategories.findIndex(findObject)
 
                     if (i != -1 && Store.subscribedCategories[i].avatar != response.data.avatar) {
@@ -296,43 +282,6 @@ const app = new Vue({
                 });
             }
         }, 600),
-       
-        /**
-         * Runned at the page load, sets the default valie for this.sidebar
-         *
-         * @return Boolean
-         */
-        setSidebar() {
-    		if (this.$route.query.sidebar == 0) {
-   				this.sidebar = false;
-   				return;
-   			}
-
-            if (this.$route.query.sidebar == 1) {
-   				this.sidebar = true;
-   				return;
-   			}
-
-   			if (auth.isMobileDevice) {
-   				this.sidebar = false;
-   				return;
-   			}
-
-   			if (this.isSetLS('sidebar')) {
-   				this.sidebar = this.getLS('sidebar');
-   				return;
-   			}
-    	},
-
-    	/**
-         * Hide/Show the sidebar
-         *
-         * @return void
-         */
-        toggleSidebar () {
-        	this.sidebar = !this.sidebar
-        	this.putLS('sidebar', this.sidebar)
-        },
 
         /**
          * Loads Semantic UI's dropdown components. Sending an ID would make this a lot faster
@@ -340,13 +289,13 @@ const app = new Vue({
          * @return void
          */
         loadSemanticDropdown (targetID = 'someID') {
-            return; 
-            
-        	if (targetID != 'someID') {
-        		$('#' + targetID +' .ui.dropdown').dropdown({ duration: 50 });
+            return;
 
-        		return;
-        	}
+            if (targetID != 'someID') {
+                $('#' + targetID + ' .ui.dropdown').dropdown({ duration: 50 });
+
+                return;
+            }
 
             $('.ui.dropdown').dropdown({ duration: 50 });
         },
@@ -429,21 +378,27 @@ const app = new Vue({
          *
          * @return void
          */
-        newModal(route) { this.modalRouter = route },
+        newModal(route) {
+            this.modalRouter = route
+        },
 
         /**
          * Switches the to the dispatched route (without any checking)
          *
          * @return void
          */
-        newRoute(route) { Store.contentRouter = route },
+        newRoute(route) {
+            Store.contentRouter = route
+        },
 
         /**
          * Sets the default sort type in a category
          *
          * @return void
          */
-        categorySort(sort) { this.sortFilter = sort },
+        categorySort(sort) {
+            this.sortFilter = sort
+        },
 
         /**
          * Updates the <title> by adding the number of notifications and messages
@@ -490,7 +445,7 @@ const app = new Vue({
         markAllNotificationsAsRead() {
             axios.post('/mark-notifications-read');
 
-            Store.notifications.forEach(function(element, index) {
+            Store.notifications.forEach(function (element, index) {
                 if (!element.read_at) {
                     element.read_at = moment().utc().format('YYYY-MM-DD HH:mm:ss');
                 }
@@ -556,70 +511,67 @@ const app = new Vue({
             // esc
             if (event.keyCode == 27) {
                 this.closeModals();
-                this.$eventHub.$emit('pressed-esc'); 
+                this.$eventHub.$emit('pressed-esc');
             }
 
             // all shortcuts after this one need to be prevented if user is typing
             if (this.whileTyping(event)) return;
 
             // alt + s == event.altKey && event.keyCode == 83
-        	if (event.altKey && event.keyCode == 83) { // alt + s
-        		this.$router.push('/submit');
-        		return;
-        	}
-
-        	if (event.altKey && event.keyCode == 67) { // alt + c
-        		this.$router.push('/channel');
-        		return;
-        	}
-
-        	if(event.shiftKey && event.keyCode == 191){ // shift + /
-                this.changeModalRoute('keyboard-shortcuts-guide');
+            if (event.altKey && event.keyCode == 83) { // alt + s
+                this.$router.push('/submit');
                 return;
             }
 
-        	switch(event.keyCode) {
-                case 83: // "s"
-			        this.toggleSidebar();
-			        break;
-			    case 78: // "n"
-			    	if (this.isGuest) break;
+            if (event.altKey && event.keyCode == 67) { // alt + c
+                this.$router.push('/channel');
+                return;
+            }
 
-			        this.changeRoute('notifications');
-			        break;
-		        case 77: // "m"
-		        	if (this.isGuest) break;
+            if (event.shiftKey && event.keyCode == 191) { // shift + /
+                this.openMarkdownGuide();
+                return;
+            }
 
-			        this.changeRoute('messages');
-			        break;
-    	        case 191: // "/"
-    	        	event.preventDefault();
-			        this.changeRoute('search');
-			        break;
-    	        case 66: // "b"
-    	        	if (this.isGuest) break;
-
-			        this.$router.push('/bookmarks');
-			        break;
-    	        case 72: // "h"
-			        this.$router.push('/');
-			        break;
-    	        case 80: // "p"
+            switch (event.keyCode) {
+                case 78: // "n"
                     if (this.isGuest) break;
 
-			        this.$router.push('/@' + this.auth.username);
-			        break;
-    	        case 82: // "r"
+                    this.changeRoute('notifications');
+                    break;
+                case 77: // "m"
+                    if (this.isGuest) break;
+
+                    this.changeRoute('messages');
+                    break;
+                case 191: // "/"
+                    event.preventDefault();
+                    this.changeRoute('search');
+                    break;
+                case 66: // "b"
+                    if (this.isGuest) break;
+
+                    this.$router.push('/bookmarks');
+                    break;
+                case 72: // "h"
+                    this.$router.push('/');
+                    break;
+                case 80: // "p"
+                    if (this.isGuest) break;
+
+                    this.$router.push('/@' + this.auth.username);
+                    break;
+                case 82: // "r"
                     if (this.$route.name === 'home') {
                         this.$eventHub.$emit('refresh-home');
-                    } else if(this.$route.name === 'category-submissions') {
+                    } else if (this.$route.name === 'category-submissions') {
                         this.$eventHub.$emit('refresh-category-submissions');
                     }
 
-			        break;
-			    default:
-			        return;
-			}
+                    break;
+                default:
+                    return;
+            }
         },
     },
 }).$mount('#voten-app');

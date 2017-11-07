@@ -5,6 +5,7 @@
             :width="isMobile ? '99%' : '45%'"
             @close="close"
             append-to-body
+            class="user-select"
     >
         <el-form label-position="top" label-width="10px">
             <p>

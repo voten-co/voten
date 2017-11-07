@@ -10,20 +10,29 @@
             In case there are domain addresses that you think are not appropriate for your channel you can block them here.
         </p>
 
-        <div class="form-group">
-            <label for="domain" class="form-label">Domain address:</label>
-            <input type="url" class="form-control" placeholder="http://example.com" name="domain" v-model="domain" id="domain">
-        </div>
+        <el-form label-position="top" label-width="10px">
+            <el-form-item label="Domain address">
+                <el-input
+                        placeholder="http://example.com"
+                        name="domain"
+                        v-model="domain">
+                </el-input>
+            </el-form-item>
 
-        <div class="form-group">
-            <label for="description" class="form-label">Reason(optional):</label>
+            <el-form-item label="Reason(optional)">
+                <el-input
+                        type="textarea"
+                        placeholder="What is wrong with this website? (markdown syntax is supported)"
+                        name="description"
+                        :rows="4"
+                        v-model="description">
+                </el-input>
+            </el-form-item>
 
-            <textarea class="form-control" rows="3" v-model="description" id="description" placeholder="What is wrong with this website? (markdown syntax is supported)"></textarea>
-        </div>
-
-        <div class="form-group">
-            <button type="button" class="v-button v-button--red" :disabled="!domain" @click="blockDomain">Block</button>
-        </div>
+            <el-form-item>
+                <el-button size="medium" type="danger" v-if="domain" @click="blockDomain" :loading="sending">Block</el-button>
+            </el-form-item>
+        </el-form>
 
 
         <h3 class="dotted-title" v-if="blockedDomains.length">
@@ -46,6 +55,7 @@
         data: function () {
             return {
                 loading: false,
+                sending: false,
                 errors: [],
                 domain: null,
                 description: '',
@@ -67,7 +77,7 @@
             blockDomain() {
                 if(!this.domain) return
 
-                this.loading = true
+                this.sending = true
                 this.blockErrors = [];
 
                 axios.post( '/block-domain', {
@@ -75,14 +85,14 @@
                     description: this.description,
                     category: this.$route.params.name
                 } ).then((response) => {
-                    this.domain = ''
-                    this.description = ''
-                    this.errors = []
-                    this.blockedDomains.unshift(response.data)
-                    this.loading = false
+                    this.domain = '';
+                    this.description = '';
+                    this.errors = [];
+                    this.blockedDomains.unshift(response.data);
+                    this.sending = false;
                 }).catch((error) => {
                     this.errors = error.response.data.errors;
-                    this.loading = false
+                    this.sending = false;
                 });
             },
 
@@ -93,11 +103,18 @@
              * @return void
              */
              getBlockedDomains () {
-                 axios.post('/blocked-domains', {
-                     category: this.$route.params.name
+                 this.loading = true;
+
+                 axios.get('/blocked-domains', {
+                     params: {
+                         category: this.$route.params.name
+                     }
                  }).then((response) => {
-                     this.blockedDomains = response.data
-                 })
+                     this.blockedDomains = response.data;
+                     this.loading = false;
+                 }).catch(() => {
+                     this.loading = false;
+                 });
             },
 
             /**
@@ -111,9 +128,9 @@
                         domain: domain,
                         category: this.$route.params.name
                     }
-                 }).then((response) => {
+                 }).then(() => {
                     this.blockedDomains = this.blockedDomains.filter(function (item) {
-                      	return item.domain != domain
+                      	return item.domain != domain;
                     })
                  })
             },

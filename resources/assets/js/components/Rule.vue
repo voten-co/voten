@@ -6,25 +6,26 @@
             </div>
 
             <div class="actions">
-                <i class="pointer v-icon go-gray v-edit h-primary" @click="$emit('edit-rule', list)"
-                   v-tooltip.top="{content: 'Edit'}"></i>
+                <el-tooltip content="Edit" placement="top" transition="false" :open-delay="500">
+                    <i class="pointer v-icon go-gray v-edit h-primary" @click="$emit('edit-rule', list)"></i>
+                </el-tooltip>
 
-                <i class="pointer v-icon go-gray v-delete h-red" @click="$emit('delete-rule', list.id, list.category_id)"
-                   v-tooltip.top="{content: 'Delete'}"></i>
+                <el-tooltip content="Delete" placement="top" transition="false" :open-delay="500">
+                    <i class="pointer v-icon go-gray v-delete h-red"
+                       @click="$emit('delete-rule', list.id, list.category_id)"></i>
+                </el-tooltip>
             </div>
         </div>
     </section>
 </template>
 
 <script>
-    import Markdown from '../components/Markdown.vue'
+    import Markdown from '../components/Markdown.vue';
 
     export default {
         components: { Markdown },
 
-        mixins: [],
-
-        data: function () {
+        data () {
             return {
                 showDescription: false
             }

@@ -33,148 +33,142 @@
         </div>
 
         <reported-comment v-for="item in items" :list="item" :key="item.id" v-if="item.comment"
-        @disapprove-comment="disapproveComment" @approve-comment="approveComment"></reported-comment>
+                          @disapprove-comment="disapproveComment" @approve-comment="approveComment"></reported-comment>
     </section>
 </template>
 
 <script>
-import Loading from '../components/Loading.vue'; 
-import ReportedComment from '../components/ReportedComment.vue'; 
-import NoContent from '../components/NoContent.vue'; 
+    import Loading from '../components/Loading.vue';
+    import ReportedComment from '../components/ReportedComment.vue';
+    import NoContent from '../components/NoContent.vue';
 
-export default {
-    components: {
-        Loading,
-        NoContent,
-        ReportedComment
-    },
+    export default {
+        components: {
+            Loading,
+            NoContent,
+            ReportedComment
+        },
 
-    mixins: [],
-
-    data: function() {
-        return {
-            NoMoreItems: false,
-            loading: true,
-            nothingFound: false,
-            items: [],
-            page: 0,
-            Store
-        }
-    },
-
-
-    computed: {
-        type() {
-            if (this.$route.query.type == 'solved') {
-                return 'solved'
+        data() {
+            return {
+                NoMoreItems: false,
+                loading: true,
+                nothingFound: false,
+                items: [],
+                page: 0,
+                Store
             }
+        },
 
-            if (this.$route.query.type == 'deleted') {
-                return 'deleted'
+
+        computed: {
+            type() {
+                if (this.$route.query.type == 'solved') {
+                    return 'solved'
+                }
+
+                if (this.$route.query.type == 'deleted') {
+                    return 'deleted'
+                }
+
+                return 'unsolved'
             }
-
-            return 'unsolved'
-        }
-    },
+        },
 
 
-    created: function() {
-        this.getItems()
-        this.$eventHub.$on('scrolled-to-bottom', this.loadMore)
-    },
-
-    watch: {
-        'type': function () {
-            this.clearContent()
+        created: function () {
             this.getItems()
-        }
-    },
-
-    mounted() {
-        //
-    },
-
-    methods: {
-        disapproveComment(comment_id){
-            axios.post('/disapprove-comment', { comment_id }).then((response) => {
-                this.items = this.items.filter(function (item) {
-				  	return item.comment.id != comment_id
-				})
-
-                if (!this.items.length) {
-                    this.nothingFound = true
-                }
-            })
+            this.$eventHub.$on('scrolled-to-bottom', this.loadMore)
         },
 
-        approveComment(comment_id){
-            axios.post('/approve-comment', { comment_id }).then((response) => {
-                this.items = this.items.filter(function (item) {
-				  	return item.comment.id != comment_id
-				})
-
-                if (!this.items.length) {
-                    this.nothingFound = true
-                }
-            })
-        },
-
-        loadMore() {
-            if (Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems) {
+        watch: {
+            'type': function () {
+                this.clearContent()
                 this.getItems()
             }
         },
 
-        /**
-         * Resets all the basic data
-         *
-         * @return void
-         */
-        clearContent() {
-            this.nothingFound = false
-            this.items = []
-            this.loading = true
-            this.page = 0
+        methods: {
+            disapproveComment(comment_id){
+                axios.post('/disapprove-comment', { comment_id }).then(() => {
+                    this.items = this.items.filter(function (item) {
+                        return item.comment.id != comment_id;
+                    });
+
+                    if (!this.items.length) {
+                        this.nothingFound = true;
+                    }
+                });
+            },
+
+            approveComment(comment_id){
+                axios.post('/approve-comment', { comment_id }).then(() => {
+                    this.items = this.items.filter(function (item) {
+                        return item.comment.id != comment_id;
+                    });
+
+                    if (!this.items.length) {
+                        this.nothingFound = true;
+                    }
+                });
+            },
+
+            loadMore() {
+                if (Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems) {
+                    this.getItems()
+                }
+            },
+
+            /**
+             * Resets all the basic data
+             *
+             * @return void
+             */
+            clearContent() {
+                this.nothingFound = false
+                this.items = []
+                this.loading = true
+                this.page = 0
+            },
+
+            getItems() {
+                this.page++;
+                this.loading = true
+
+                axios.post('/reported-comments', {
+                    type: this.type,
+                    category: this.$route.params.name,
+                    page: this.page
+                }).then((response) => {
+                    this.items = [...this.items, ...response.data.data]
+
+                    if (!this.items.length) {
+                        this.nothingFound = true
+                    }
+
+                    if (response.data.next_page_url == null) {
+                        this.NoMoreItems = true
+                    }
+
+                    this.loading = false
+                })
+
+            }
         },
 
-        getItems() {
-            this.page++;
-            this.loading = true
 
-            axios.post('/reported-comments', {
-                type: this.type,
-                category: this.$route.params.name,
-                page: this.page
-            }).then((response) => {
-                this.items = [...this.items, ...response.data.data]
-
-                if (!this.items.length) {
-                    this.nothingFound = true
+        beforeRouteEnter(to, from, next){
+            if (Store.category.name == to.params.name) {
+                // loaded
+                if (Store.moderatingAt.indexOf(Store.category.id) != -1) {
+                    next()
                 }
-
-                if (response.data.next_page_url == null) {
-                    this.NoMoreItems = true
-                }
-
-                this.loading = false
-            })
-
-        }
-    },
-
-
-    beforeRouteEnter(to, from, next){
-        if (Store.category.name == to.params.name) {
-            // loaded
-            if (Store.moderatingAt.indexOf(Store.category.id) != -1) {
+            } else {
+                // not loaded but let's continue (the server-side is still protecting us!)
                 next()
             }
-        } else {
-            // not loaded but let's continue (the server-side is still protecting us!)
-            next()
-        }
-    },
-};
+        },
+    };
 </script>
 
 <style>

@@ -8,10 +8,15 @@
             </div>
 
             <div class="actions">
-                <i class="pointer v-icon go-gray v-attention-alt h-yellow" :class="list.description ? '' : 'display-hidden'"
-                    @click="showDescription = !showDescription" v-tooltip.top="{content: 'Reason for being blocked'}"></i>
+                <el-tooltip content="Reason for being blocked" placement="top" transition="false" :open-delay="500">
+                    <i class="pointer v-icon go-gray v-attention-alt h-yellow"
+                       :class="list.description ? '' : 'display-hidden'"
+                       @click="showDescription = !showDescription"></i>
+                </el-tooltip>
 
-                <i class="pointer v-icon go-gray v-delete h-red" @click="$emit('unblock', list.domain)" v-tooltip.top="{content: 'Unblock'}"></i>
+                <el-tooltip content="Unblock" placement="top" transition="false" :open-delay="500">
+                    <i class="pointer v-icon go-gray v-delete h-red" @click="$emit('unblock', list.domain)"></i>
+                </el-tooltip>
             </div>
         </div>
 
@@ -22,15 +27,12 @@
 </template>
 
 <script>
-    import Markdown from '../components/Markdown.vue'
+    import Markdown from '../components/Markdown.vue';
 
     export default {
         components: { Markdown },
 
-
-        mixins: [],
-
-        data: function () {
+        data() {
             return {
                 showDescription: false
             }

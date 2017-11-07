@@ -478,6 +478,10 @@ blockquote {
     border-left: 4px solid #e7e7e7;
 }
 
+.enable-user-select {
+    user-select: text;
+}
+
 .user-select {
     -webkit-user-select: none;
     -moz-user-select: none;

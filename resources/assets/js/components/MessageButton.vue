@@ -1,7 +1,7 @@
 <template>
-    <button class="v-button v-button-outline--green" @click="sendMessage">
+    <el-button type="success" plain size="medium" @click="sendMessage">
         Message
-    </button>
+    </el-button>
 </template>
 
 

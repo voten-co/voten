@@ -46,15 +46,13 @@
         <right-sidebar v-show="showRightSidebar"></right-sidebar>
     </div>
 
+    <markdown-guide :visible.sync="showMarkdownGuide" v-if="showMarkdownGuide"></markdown-guide>
 
-    {{--<report-submission v-if="modalRouter == 'report-submission'" :submission="reportSubmissionId" :category="reportCategory"></report-submission>--}}
-    {{--<report-comment v-if="modalRouter == 'report-comment'" :comment="reportCommentId" :category="reportCategory"></report-comment>--}}
     <rules v-if="modalRouter == 'rules'"></rules>
     <moderators v-if="modalRouter == 'moderators'"></moderators>
-    <keyboard-shortcuts-guide v-if="modalRouter == 'keyboard-shortcuts-guide'"></keyboard-shortcuts-guide>
-    <markdown-guide v-if="modalRouter == 'markdown-guide'"></markdown-guide>
     <crop-modal v-if="modalRouter == 'crop-user'" :type="'user'"></crop-modal>
     <crop-modal v-if="modalRouter == 'crop-category'" :type="'category'"></crop-modal>
+    <keyboard-shortcuts-guide v-if="showKeyboardShortcutsGuide"></keyboard-shortcuts-guide>
 </div>
 
 @include('php-to-js-data')

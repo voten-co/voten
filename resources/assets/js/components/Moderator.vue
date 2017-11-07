@@ -13,7 +13,9 @@
             </div>
 
             <div class="actions">
-                <i class="pointer v-icon go-gray v-delete h-red" @click="destroy" v-tooltip.top="{content: 'Remove'}" :class="!owns ? '' : 'display-hidden'"></i>
+                <el-tooltip content="Remove" placement="top" transition="false" :open-delay="500">
+                    <i class="pointer v-icon go-gray v-delete h-red" @click="destroy" :class="!owns ? '' : 'display-hidden'"></i>
+                </el-tooltip>
             </div>
         </div>
     </section>
@@ -21,9 +23,7 @@
 
 <script>
     export default {
-        components: {},
-
-        data: function () {
+        data() {
             return {
                 auth
             }
@@ -42,7 +42,7 @@
                 axios.post('/destroy-moderator', {
                     username: this.list.username,
                     category_name: this.$route.params.name
-                }).then((response) => {
+                }).then(() => {
                     this.$emit('delete-moderator');
                 })
             }

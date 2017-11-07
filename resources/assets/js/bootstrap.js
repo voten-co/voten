@@ -16,7 +16,8 @@ window.moment.tz.setDefault("UTC");
 // Vue.use(ToggleButton);
 
 import ElementUI from 'element-ui';
-Vue.use(ElementUI); 
+import locale from 'element-ui/lib/locale/lang/en';
+Vue.use(ElementUI, { locale });
 
 
 /**
