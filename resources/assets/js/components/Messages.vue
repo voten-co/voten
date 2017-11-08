@@ -1,8 +1,10 @@
 <template>
     <div class="vo-modal" id="messages">
         <header class="user-select">
-            <div class="flex-space" :class="{'padding-1': pageRoute == 'contacts'}">
-                <!-- Search -->
+            <div class="flex-space" :class="{'padding-desktop-1-mobile-half': pageRoute == 'contacts'}">
+                <!--------------------------------------------------------->
+                <!--------------------- contacts page --------------------->
+                <!--------------------------------------------------------->
                 <el-input
                         v-show="pageRoute == 'contacts'"
                         placeholder="Search by @username or name..."
@@ -12,7 +14,15 @@
                         ref="searchContacts"
                 ></el-input>
 
+                <!-- Cancel Button -->
+                <el-button type="text" @click="close" class="margin-left-1" v-show="pageRoute == 'contacts'">
+                    Cancel
+                </el-button>
 
+
+                <!--------------------------------------------------------->
+                <!----------------------- Chat page ----------------------->
+                <!--------------------------------------------------------->
                 <div class="vo-modal-title flex-align-center" v-if="pageRoute == 'chat'">
                     <router-link :to="'/@' + currentContact.username">
                         <h1 class="title desktop-only">
@@ -27,11 +37,6 @@
                         </el-tooltip>
                     </div>
                 </div>
-
-                <!-- Close Button -->
-                <el-button type="text" @click="close" class="margin-left-1" v-show="pageRoute == 'contacts'">
-                    Cancel
-                </el-button>
 
                 <!-- Modal Buttons -->
                 <div class="buttons" v-show="pageRoute == 'chat'">
@@ -71,6 +76,9 @@
         </header>
 
 
+        <!--------------------------------------------------------->
+        <!--------------------- contacts page --------------------->
+        <!--------------------------------------------------------->
         <div class="middle background-white" id="v-contacts" v-show="pageRoute == 'contacts'"
              :class="{'flex-center' : (!hasContacts && !hasSearchedContacts)}">
             <div class="col-7">
@@ -115,6 +123,10 @@
             </div>
         </div>
 
+
+        <!--------------------------------------------------------->
+        <!----------------------- Chat page ----------------------->
+        <!--------------------------------------------------------->
         <div class="container-fluid" id="v-messages" v-show="pageRoute == 'chat'">
             <div class="messages-container" id="chat-box"
                  :class="(!Store.messages || ! Store.messages.length) && !Store.messages.length ? 'flex-center' : 'flex-column-end'"
@@ -231,7 +243,7 @@
         },
 
         watch: {
-            'Store.contentRouter': function () {
+            'Store.contentRouter'() {
                 if (Store.contentRouter === 'messages' && this.pageRoute === 'chat') {
                     // Because otherwise user has clicked on MessageButton (and there is no existing conversation)
                     if (this.hasMessages) {
@@ -240,11 +252,11 @@
                     }
                 }
 
-                if (Store.contentRouter === 'messages' && this.pageRoute == 'contacts') {
+                if (Store.contentRouter === 'messages' && this.pageRoute === 'contacts') {
                     this.$refs.searchContacts.$refs.input.focus();
                 }
 
-                if (Store.contentRouter === 'messages' && this.pageRoute == 'chat') {
+                if (Store.contentRouter === 'messages' && this.pageRoute === 'chat') {
                     this.$refs.messageForm.$refs.textarea.focus();
                 }
             }

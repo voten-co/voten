@@ -26,6 +26,15 @@
         padding: 0 1em;
     }
 
+    // only mobile
+    @media (max-width: 768px) {
+        header {
+            width: 100%;
+            background: #fff;
+            padding: 0 .2em;
+        }
+    }
+
     .middle {
         overflow: auto;
         width: 100%;

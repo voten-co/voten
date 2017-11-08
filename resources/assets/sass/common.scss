@@ -609,6 +609,18 @@ kbd {
 	padding: 1em;
 }
 
+.padding-desktop-1-mobile-half {
+    padding: 1em;
+}
+
+// only mobile
+@media (max-width: 768px) {
+    .padding-desktop-1-mobile-half {
+        padding: .5em;
+    }
+}
+
+
 .padding-half-1 {
     padding: .5em 1em;
 }
