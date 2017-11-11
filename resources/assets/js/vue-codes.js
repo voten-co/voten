@@ -1,5 +1,4 @@
 import KeyboardShortcutsGuide from './components/KeyboardShortcutsGuide.vue';
-import ReportTableItem from './components/ReportTableItem.vue';
 import CategoryAvatar from './components/CategoryAvatar.vue';
 import Notifications from './components/Notifications.vue';
 import MarkdownGuide from './components/MarkdownGuide.vue';
@@ -58,7 +57,6 @@ const app = new Vue({
 
     components: {
         KeyboardShortcutsGuide,
-        ReportTableItem,
         CategoryAvatar,
         MarkdownGuide,
         Notifications,

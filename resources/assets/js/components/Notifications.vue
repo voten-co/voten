@@ -31,8 +31,8 @@
 
                 <div class="align-center">
                     <el-button type="primary"
-                            class="v-button-big margin-top-bottom-3"
-                            @click="loadReadNotifications" v-show="loadMoreButton">
+                               class="v-button-big margin-top-bottom-3"
+                               @click="loadReadNotifications" v-show="loadMoreButton">
                         Load More
                     </el-button>
                 </div>
@@ -52,19 +52,17 @@
 
         components: { Notification, NotificationIcon },
 
-        data: function () {
+        data() {
             return {
                 page: 1,
                 loadMoreButton: false,
-                nightMode: false
             }
         },
 
-        created: function () {
+        created() {
             this.getNotifications();
             this.listen();
         },
-
 
         computed: {
             /**
@@ -93,11 +91,6 @@
 
 
         methods: {
-            /**
-             * Fires the 'close' event which causes all the modals to be closed.
-             *
-             * @return void
-             */
             close() {
                 this.$eventHub.$emit('close')
             },

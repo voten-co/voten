@@ -22,7 +22,6 @@
   },
   "dependencies": {
     "at.js": "^1.5.3",
-    "autosize": "^4.0.0",
     "axios": "^0.16.1",
     "cross-env": "^5.0.0",
     "element-theme-chalk": "^2.0.1",
@@ -36,9 +35,6 @@
     "vue": "^2.5.2",
     "vue-clickaway": "^2.1.0",
     "vue-crop": "^1.0.1",
-    "vue-directive-tooltip": "^1.4.0",
-    "vue-focus": "^2.1.0",
-    "vue-js-toggle-button": "^1.1.5",
     "vue-ls": "^2.2.18",
     "vue-multiselect": "^2.0.0-beta.13",
     "vue-router": "^2.8.1",

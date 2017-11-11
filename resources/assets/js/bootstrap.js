@@ -1,19 +1,6 @@
 window.moment = require('moment-timezone');
 window.moment.tz.setDefault("UTC");
 
-// Tooltip plugin
-// import Tooltip from 'vue-directive-tooltip';
-// Vue.use(Tooltip, {
-//     delay: 0,
-//     placement: 'auto',
-//     class: '',
-//     triggers: ['hover'],
-//     offset: 5
-// });
-
-// Toggle plugin
-// import ToggleButton from 'vue-js-toggle-button';
-// Vue.use(ToggleButton);
 
 import ElementUI from 'element-ui';
 import locale from 'element-ui/lib/locale/lang/en';
@@ -66,12 +53,5 @@ if (Laravel.env == 'local') {
 }
 
 
-// The rest of (non-NPM) packages
-// require('./libs/transition');
-// require('./libs/dropdown');
-// require('./libs/popup');
-// require('./libs/form');
 require('./libs/Jcrop');
-
-
 window.emojione = require('./libs/emojione.min');

@@ -12,7 +12,6 @@ mix.js('resources/assets/js/app.js', 'public/js')
        'lodash',
        'jquery',
        'vue-ua',
-       'autosize',
        'video.js',
        'pusher-js',
        'vue-router',
