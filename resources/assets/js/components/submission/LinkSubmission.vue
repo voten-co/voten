@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<div v-if="showBigThumbnail && submission.data.thumbnail" :class="showEmbed ? 'relative pointer' : ''" @click="embedOrOpen">
-			<a v-bind:href="submission.data.url" target="_blank" rel="nofollow" v-if="submission.data.thumbnail">
-	            <img v-bind:src="submission.data.thumbnail" v-bind:alt="submission.title" class="big-thumbnail" />
+			<a :href="submission.data.url" target="_blank" rel="nofollow" v-if="submission.data.thumbnail">
+	            <img :src="submission.data.thumbnail" :alt="submission.title" class="big-thumbnail" />
 	        </a>
 
 			<span class="play-gif" v-if="showEmbed">

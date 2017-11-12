@@ -73,13 +73,23 @@
                 <el-button type="success" size="medium" @click="save" :loading="sending">Save</el-button>
             </el-form-item>
         </el-form>
+
+        <crop-modal :visible.sync="showImageCropModal" v-if="showImageCropModal" :type="'category'"></crop-modal>
     </section>
 </template>
 
 <script>
+    import CropModal from '../components/CropModal.vue';
+    import Helpers from '../mixins/Helpers';
+
     export default {
+        mixins: [Helpers],
+
+        components: { CropModal },
+
         data() {
             return {
+                showImageCropModal: false,
                 errors: [],
                 customError: '',
                 sending: false,
@@ -131,7 +141,7 @@
                     this.$eventHub.$emit('crop-photo-uploaded', response.data);
                 });
 
-                this.$eventHub.$emit('crop-category-photo');
+                this.showImageCropModal = true;
             },
 
             save () {

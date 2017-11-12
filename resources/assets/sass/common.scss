@@ -301,40 +301,6 @@ hr {
     padding-top: 3em;
     padding-bottom: 3em;
 }
-// Roman numbered list
-
-.roman-counter-rounded {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-}
-
-.roman-counter-rounded li {
-    counter-increment: step-counter;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-}
-
-.roman-counter-rounded li .markdown {
-    flex: 1;
-}
-
-.roman-counter-rounded li::before {
-    content: counter(step-counter, upper-roman);
-    margin-right: 8px;
-    font-size: 80%;
-    background-color: transparent;
-    color: white;
-    border: 1px solid #f1f1f1;
-    font-weight: bold;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-}
 
 .primary-background {
 	background: $primary-color !important;

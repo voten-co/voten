@@ -1,159 +1,147 @@
 <template>
-	<div class="vo-modal-small user-select">
-		<div class="wrapper">
-			<header class="user-select">
-				<h3>
-					Crop Image
-				</h3>
+    <el-dialog
+            title="Crop Image"
+            :visible="visible"
+            :width="isMobile ? '99%' : '45%'"
+            @close="close"
+            append-to-body
+            class="user-select"
+    >
+        <h2 class="align-center" v-text="loading ? 'Please wait' : 'Please position and size your image'"></h2>
 
-				<div class="close" @click="close">
-					<i class="v-icon v-cancel-small"></i>
-				</div>
-			</header>
+        <div v-show="!loading">
+            <img v-bind:src="photo" id="crop" v-show="photo">
+        </div>
 
-			<div class="middle">
-				<div class="flex1 margin-bottom-1">
-					<h2 class="align-center" v-text="loading ? 'Please wait' : 'Please position and size your image'"></h2>
+        <!-- submit -->
+        <span slot="footer" class="dialog-footer">
+            <el-button type="text" @click="close" size="medium" class="margin-right-1">
+                Cancel
+            </el-button>
 
-					<loading v-show="loading"></loading>
-
-					<div v-show="!loading">
-						<img v-bind:src="photo" id="crop" v-show="photo">
-					</div>
-				</div>
-			</div>
-
-			<footer>
-				<button type="button" class="v-button v-button--green" :disabled="loading" @click="apply">
-					Apply
-				</button>
-
-				<button type="button" class="v-button v-button--red" @click="close">
-					Cancel
-				</button>
-			</footer>
-		</div>
-    </div>
+            <el-button type="success" @click="apply" :loading="loading" size="medium">
+                Apply
+            </el-button>
+        </span>
+    </el-dialog>
 </template>
 
 <script>
-	import Loading from '../components/Loading.vue'
+    import Helpers from '../mixins/Helpers';
 
     export default {
-        components: {
-        	Loading
-        },
+        mixins: [Helpers],
 
-        data: function () {
+        data() {
             return {
-            	width: 0,
-            	height: 0,
-            	x: 0,
-            	y: 0,
-            	photo: '',
+                width: 0,
+                height: 0,
+                x: 0,
+                y: 0,
+                photo: '',
                 loading: true,
                 auth,
                 Store,
                 clientWidth: 0,
-				clientHeight: 0,
-				naturalWidth: 0,
-				naturalHeight: 0
+                clientHeight: 0,
+                naturalWidth: 0,
+                naturalHeight: 0
             }
         },
 
-		props: ['type'],
+        props: ['type', 'visible'],
 
         created () {
-        	this.$eventHub.$on('crop-photo-uploaded', this.getReady)
+            this.$eventHub.$on('crop-photo-uploaded', this.getReady)
         },
 
         methods: {
-        	getReady (uploaded) {
-        		this.photo = uploaded
+            getReady(uploaded) {
+                this.photo = uploaded
 
-        		this.loading = false
+                this.loading = false
 
-        		let that = this
-        		$(document).ready(function() {
-				    $("#crop").on('load', function() {
-				    	that.clientWidth = $(this).width()
-				    	that.clientHeight = $(this).height()
+                let that = this
+                $(document).ready(function () {
+                    $("#crop").on('load', function () {
+                        that.clientWidth = $(this).width()
+                        that.clientHeight = $(this).height()
 
-				    	that.naturalWidth = $(this).prop('naturalWidth')
-				    	that.naturalHeight = $(this).prop('naturalHeight')
-				    });
-				});
+                        that.naturalWidth = $(this).prop('naturalWidth')
+                        that.naturalHeight = $(this).prop('naturalHeight')
+                    });
+                });
 
-				this.loadCrop()
-        	},
-
-			loadCrop () {
-	    		this.$nextTick(function () {
-	    			$('#crop').Jcrop({
-				        setSelect: [200, 200, 0, 0],
-				        aspectRatio: 1 / 1,
-				        onSelect: showCords,
-				        onChange: showCords
-				    });
-
-				    let self = this
-
-				    function showCords (c) {
-				        self.width = c.w
-				        self.height = c.h
-				        self.x = c.x
-				        self.y = c.y
-				    }
-				})
+                this.loadCrop()
             },
 
-        	apply () {
-				this.loading = true
-        		// Just two aspects to calculate the real pixel numbers
-				let horizontal = this.naturalWidth / this.clientWidth
-				let vertical = this.naturalHeight / this.clientHeight
+            loadCrop () {
+                this.$nextTick(function () {
+                    $('#crop').Jcrop({
+                        setSelect: [200, 200, 0, 0],
+                        aspectRatio: 1 / 1,
+                        onSelect: showCords,
+                        onChange: showCords
+                    });
 
-				if (this.type == 'user') {
+                    let self = this
 
-    				axios.post('/user-avatar-crop', {
-	        			photo: this.photo,
+                    function showCords(c) {
+                        self.width = c.w
+                        self.height = c.h
+                        self.x = c.x
+                        self.y = c.y
+                    }
+                })
+            },
 
-	        			width: parseInt(this.width * horizontal),
-	        			x: parseInt(this.x * horizontal),
+            apply () {
+                this.loading = true
+                // Just two aspects to calculate the real pixel numbers
+                let horizontal = this.naturalWidth / this.clientWidth
+                let vertical = this.naturalHeight / this.clientHeight
 
-	        			height: parseInt(this.height * vertical),
-	        			y: parseInt(this.y * vertical),
-	        		}).then((response) => {
-	        			auth.avatar = response.data
-						this.loading = false
-	        			this.close()
-		            });
+                if (this.type == 'user') {
 
-    			} else if (this.type == 'category') {
-    				axios.post('/category-avatar-crop', {
-	        			photo: this.photo,
+                    axios.post('/user-avatar-crop', {
+                        photo: this.photo,
 
-	        			name: Store.category.name,
+                        width: parseInt(this.width * horizontal),
+                        x: parseInt(this.x * horizontal),
 
-	        			width: parseInt(this.width * horizontal),
-	        			x: parseInt(this.x * horizontal),
+                        height: parseInt(this.height * vertical),
+                        y: parseInt(this.y * vertical),
+                    }).then((response) => {
+                        auth.avatar = response.data
+                        this.loading = false
+                        this.close()
+                    });
 
-	        			height: parseInt(this.height * vertical),
-	        			y: parseInt(this.y * vertical),
-	        		}).then((response) => {
-	        			Store.category.avatar = response.data
-						this.loading = false
-	            		this.close()
-		            });
+                } else if (this.type == 'category') {
+                    axios.post('/category-avatar-crop', {
+                        photo: this.photo,
 
-    			}
+                        name: Store.category.name,
 
-        	},
+                        width: parseInt(this.width * horizontal),
+                        x: parseInt(this.x * horizontal),
+
+                        height: parseInt(this.height * vertical),
+                        y: parseInt(this.y * vertical),
+                    }).then((response) => {
+                        Store.category.avatar = response.data
+                        this.loading = false
+                        this.close()
+                    });
+
+                }
+
+            },
 
             close () {
-            	location.reload()
-	    		this.$eventHub.$emit('close')
-	    	},
+                location.reload()
+                this.$eventHub.$emit('close')
+            },
         }
     };
 

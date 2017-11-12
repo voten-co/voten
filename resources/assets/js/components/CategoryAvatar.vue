@@ -1,7 +1,7 @@
 <template>
     <div class="profile-avatar user-profile">
         <button type="button" class="avatar-preview">
-            <img v-bind:alt="name" v-bind:src="avatar" v-show="avatar" />
+            <img :alt="name" :src="avatar" v-show="avatar" />
 
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw" v-if="uploading"></i>
 

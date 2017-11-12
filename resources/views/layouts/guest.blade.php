@@ -34,7 +34,7 @@
 <div id="voten-app" :class="{ 'background-white': Store.contentRouter != 'content' }" :style="{ fontFamily: auth.font }">
     @include('app-header')
 
-    <div class="v-content-wrapper" :class="{ 'v-blur v-blur-wrapper': smallModal }">
+    <div class="v-content-wrapper">
 		<div class="v-side" v-show="sidebar">
 		    <guest-sidebar></guest-sidebar>
 		</div>

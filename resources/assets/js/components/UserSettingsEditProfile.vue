@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="edit-avatar-preview">
-                    <img v-bind:alt="auth.username" v-bind:src="auth.avatar" class="circle"/>
+                    <img :alt="auth.username" :src="auth.avatar" class="circle"/>
                 </div>
             </div>
         </div>
@@ -84,22 +84,23 @@
                 <el-button type="success" @click="save" :loading="sending" size="medium">Save</el-button>
             </el-form-item>
         </el-form>
+
+        <crop-modal :visible.sync="showImageCropModal" v-if="showImageCropModal" :type="'user'"></crop-modal>
     </section>
 </template>
 
 <script>
-    import Multiselect from 'vue-multiselect'
-    import ElButton from "../../../../node_modules/element-ui/packages/button/src/button";
+    import CropModal from '../components/CropModal.vue';
+    import Helpers from '../mixins/Helpers';
 
     export default {
+        mixins: [Helpers],
 
-        components: {
-            ElButton,
-            Multiselect
-        },
+        components: { CropModal },
 
-        data: function () {
+        data() {
             return {
+                showImageCropModal: false,
                 sending: false,
                 errors: [],
                 customError: '',
@@ -156,7 +157,7 @@
                          this.$eventHub.$emit('crop-photo-uploaded', response.data);
                      });
 
-                this.$eventHub.$emit('crop-user-photo');
+                this.showImageCropModal = true;
             },
 
             /**

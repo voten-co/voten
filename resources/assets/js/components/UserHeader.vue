@@ -1,13 +1,13 @@
 <template>
 	<div id="user-header">
-		<div v-bind:style="{ background: coverBackground }" class="profile-cover" v-show="showFirstHeader">
+		<div :style="{ background: coverBackground }" class="profile-cover" v-show="showFirstHeader">
 			<div class="container user-select full-width">
 				<div class="cols-flex">
 					<div class="user-header-left">
 						<!-- avatar -->
 							<div class="profile-avatar">
 								<router-link :to="'/@' + userStore.username">
-									<img v-bind:src="userStore.avatar" v-bind:alt="userStore.name" class="circle" />
+									<img :src="userStore.avatar" :alt="userStore.name" class="circle" />
 								</router-link>
 							</div>
 						<!-- end avatar -->

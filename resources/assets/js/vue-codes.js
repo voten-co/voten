@@ -1,14 +1,10 @@
 import KeyboardShortcutsGuide from './components/KeyboardShortcutsGuide.vue';
-import CategoryAvatar from './components/CategoryAvatar.vue';
 import Notifications from './components/Notifications.vue';
 import MarkdownGuide from './components/MarkdownGuide.vue';
-import VuiMenuButton from './components/Menu-button.vue';
 import GuestSidebar from './components/GuestSidebar.vue';
 import SearchModal from './components/SearchModal.vue';
 import WebNotification from './mixins/WebNotification';
-import AvatarEdit from './components/AvatarEdit.vue';
 import LoginModal from './components/LoginModal.vue';
-import CropModal from './components/CropModal.vue';
 import Dashboard from './components/Dashboard.vue';
 import NotFound from './components/NotFound.vue';
 import Messages from './components/Messages.vue';
@@ -55,17 +51,13 @@ const app = new Vue({
 
     components: {
         KeyboardShortcutsGuide,
-        CategoryAvatar,
         MarkdownGuide,
         Notifications,
-        VuiMenuButton,
         RightSidebar,
         GuestSidebar,
         LeftSidebar,
         SearchModal,
         LoginModal,
-        AvatarEdit,
-        CropModal,
         Dashboard,
         NotFound,
         Messages,
@@ -74,27 +66,17 @@ const app = new Vue({
     data: {
         showKeyboardShortcutsGuide: false,
         showMarkdownGuide: false,
-        modalRouter: '',
         sortFilter: 'hot',
         pageTitle: document.title,
-        searchHeaderFilter: ''
     },
 
     computed: {
-        smallModal() {
-            return this.modalRouter != '';
-        },
-
         unreadNotifications() {
-            return Store.notifications.filter(function (item) {
-                return item.read_at == null;
-            }).length;
+            return Store.notifications.filter(item => item.read_at == null).length;
         },
 
         unreadMessages() {
-            return Store.contacts.filter(function (item) {
-                return item.last_message.owner.id != auth.id && item.last_message.read_at == null;
-            }).length;
+            return Store.contacts.filter(item => item.last_message.owner.id != auth.id && item.last_message.read_at == null).length;
         },
 
         showRightSidebar() {
@@ -136,10 +118,8 @@ const app = new Vue({
         this.$eventHub.$on('new-modal', this.newModal);
         this.$eventHub.$on('login-modal', this.loginModal);
         this.$eventHub.$on('change-route', this.changeRoute);
-        this.$eventHub.$on('crop-user-photo', this.cropUserModal);
         this.$eventHub.$on('markdown-guide', this.openMarkdownGuide);
         this.$eventHub.$on('push-notification', this.pushNotification)
-        this.$eventHub.$on('crop-category-photo', this.cropCategoryModal);
         this.$eventHub.$on('mark-notifications-read', this.markAllNotificationsAsRead);
 
         if (this.$route.query.search) {
@@ -170,7 +150,6 @@ const app = new Vue({
          * Fetches the info about the user which we need later
          *
          * @return void
-         * @param {String} username
          */
         getUserStore() {
             // if landed on the user page as guest
@@ -280,35 +259,6 @@ const app = new Vue({
         },
 
         /**
-         * Opens that user avatar crop modal
-         *
-         * @return void
-         */
-        cropUserModal() {
-            this.closeModals()
-            this.modalRouter = 'crop-user'
-        },
-
-        /**
-         * Opens that category avatar crop modal
-         *
-         * @return void
-         */
-        cropCategoryModal() {
-            this.closeModals()
-            this.modalRouter = 'crop-category'
-        },
-
-        /**
-         * Switches the modalRouter
-         *
-         * @return void
-         */
-        newModal(route) {
-            this.modalRouter = route
-        },
-
-        /**
          * Switches the to the dispatched route (without any checking)
          *
          * @return void
@@ -374,27 +324,9 @@ const app = new Vue({
             Vue.ls.set('event', 'mark-notifications-read', 60 * 60 * 1000);
         },
 
-        /**
-         * Switches the route
-         *
-         * @param string newRoute
-         * @return void
-         */
-        changeModalRoute(newRoute) {
-            this.closeModals();
-            this.modalRouter = newRoute;
-        },
-
         // Used for keyup.esc
         closeModals() {
-            this.searchHeaderFilter = '';
             Store.contentRouter = 'content';
-            this.modalRouter = '';
-        },
-
-        // Displays the login modal
-        loginModal() {
-            this.modalRouter = 'login';
         },
 
         // Tells the component (that contains submissions) to change the sort method.

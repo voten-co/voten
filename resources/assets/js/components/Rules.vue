@@ -5,7 +5,6 @@
             :width="isMobile ? '99%' : '35%'"
             @close="close"
             append-to-body
-            class="user-select"
     >
         <p>
             Just like any other channel on Voten, all submissions must follow Voten's
@@ -15,7 +14,7 @@
             Other than that, here are a few simple rules exclusively for submitting to #{{ $route.params.name }}:
         </p>
 
-        <ol class="roman-counter-rounded">
+        <ol>
             <li v-for="rule in rules" :key="rule.id">
                 <markdown :text="rule.title"></markdown>
             </li>
