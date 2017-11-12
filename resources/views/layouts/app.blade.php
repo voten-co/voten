@@ -47,7 +47,8 @@
         <right-sidebar v-show="showRightSidebar"></right-sidebar>
     </div>
 
-    <keyboard-shortcuts-guide v-if="showKeyboardShortcutsGuide"></keyboard-shortcuts-guide>
+    <markdown-guide v-if="showMarkdownGuide" :visible.sync="showMarkdownGuide"></markdown-guide>
+    <keyboard-shortcuts-guide v-if="showKeyboardShortcutsGuide" :visible.sync="showKeyboardShortcutsGuide"></keyboard-shortcuts-guide>
 </div>
 
 @include('php-to-js-data')

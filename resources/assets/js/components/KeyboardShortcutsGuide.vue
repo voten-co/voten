@@ -1,147 +1,140 @@
 <template>
-    <div class="vo-modal-small">
-		<div class="wrapper" v-on-clickaway="close">
-			<header class="user-select">
-				<h3>
-					Keyboard Shortcuts
-				</h3>
+    <el-dialog
+            title="Keyboard Shortcuts"
+            :visible="visible"
+            :width="isMobile ? '99%' : '45%'"
+            @close="close"
+            append-to-body
+            class="user-select"
+    >
+        <table class="table enable-user-select">
+            <thead>
+            <tr>
+                <th>Key</th>
+                <th class="half-width">Action</th>
+            </tr>
+            </thead>
 
-				<div class="close" @click="close">
-					<i class="v-icon v-cancel-small"></i>
-				</div>
-			</header>
+            <tbody>
+            <tr>
+                <td>
+                    <kbd>Alt</kbd> + <kbd>S</kbd>
+                </td>
 
-			<div class="middle">
-				<div class="flex1">
-					<table class="table">
-						<thead>
-						<tr>
-							<th>Key</th>
-							<th class="half-width">Action</th>
-						</tr>
-						</thead>
+                <td>
+                    New Submission
+                </td>
+            </tr>
 
-						<tbody>
-						<tr>
-							<td>
-								<kbd>Alt</kbd> + <kbd>S</kbd>
-							</td>
+            <tr>
+                <td>
+                    <kbd>Alt</kbd> + <kbd>C</kbd>
+                </td>
 
-							<td>
-								New Submission
-							</td>
-						</tr>
+                <td>
+                    New Channel
+                </td>
+            </tr>
 
-						<tr>
-							<td>
-								<kbd>Alt</kbd> + <kbd>C</kbd>
-							</td>
+            <tr>
+                <td>
+                    <kbd>N</kbd>
+                </td>
 
-							<td>
-								New Channel
-							</td>
-						</tr>
+                <td>
+                    Notifications
+                </td>
+            </tr>
 
-						<tr>
-							<td>
-								<kbd>N</kbd>
-							</td>
+            <tr>
+                <td>
+                    <kbd>M</kbd>
+                </td>
 
-							<td>
-								Notifications
-							</td>
-						</tr>
+                <td>
+                    Messages
+                </td>
+            </tr>
 
-						<tr>
-							<td>
-								<kbd>M</kbd>
-							</td>
+            <tr>
+                <td>
+                    <kbd>/</kbd>
+                </td>
 
-							<td>
-								Messages
-							</td>
-						</tr>
+                <td>
+                    Search
+                </td>
+            </tr>
 
-						<tr>
-							<td>
-								<kbd>/</kbd>
-							</td>
+            <tr>
+                <td>
+                    <kbd>B</kbd>
+                </td>
 
-							<td>
-								Search
-							</td>
-						</tr>
+                <td>
+                    Bookmarks
+                </td>
+            </tr>
 
-						<tr>
-							<td>
-								<kbd>B</kbd>
-							</td>
+            <tr>
+                <td>
+                    <kbd>H</kbd>
+                </td>
 
-							<td>
-								Bookmarks
-							</td>
-						</tr>
+                <td>
+                    Home
+                </td>
+            </tr>
 
-						<tr>
-							<td>
-								<kbd>H</kbd>
-							</td>
+            <tr>
+                <td>
+                    <kbd>P</kbd>
+                </td>
+                <td>
+                    Profile
+                </td>
+            </tr>
 
-							<td>
-								Home
-							</td>
-						</tr>
+            <tr>
+                <td>
+                    <kbd>R</kbd>
+                </td>
+                <td>
+                    Refresh Submissions
+                </td>
+            </tr>
 
-						<tr>
-							<td>
-								<kbd>P</kbd>
-							</td>
-							<td>
-								Profile
-							</td>
-						</tr>
+            <tr>
+                <td>
+                    <kbd>Shift</kbd> + <kbd>/</kbd>
+                </td>
+                <td>
+                    Show these shortcuts
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
-						<tr>
-							<td>
-								<kbd>R</kbd>
-							</td>
-							<td>
-								Refresh Submissions
-							</td>
-						</tr>
-
-						<tr>
-							<td>
-								<kbd>Shift</kbd> + <kbd>/</kbd>
-							</td>
-							<td>
-								Show these shortcuts
-							</td>
-						</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-
-			<footer>
-				<button type="button" class="v-button v-button--green v-button--block" @click="close">
-					Close
-				</button>
-			</footer>
-		</div>
-    </div>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="close" size="medium">
+                Close
+            </el-button>
+        </span>
+    </el-dialog>
 </template>
 
 <script>
-    import { mixin as clickaway } from 'vue-clickaway';
+    import Helpers from '../mixins/Helpers';
 
-	export default {
-        mixins: [ clickaway ],
+    export default {
+        mixins: [Helpers],
 
-	    methods: {
-	    	close() {
-	    		this.$eventHub.$emit('close');
-	    	},
-	    },
-	}
+        props: ['visible'],
+
+        methods: {
+            close() {
+                this.$emit('update:visible', false);
+            },
+        },
+    }
 </script>

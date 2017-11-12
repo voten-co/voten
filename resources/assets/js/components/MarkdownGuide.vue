@@ -111,12 +111,10 @@ return "welcome"
 </template>
 
 <script>
-    import { mixin as clickaway } from 'vue-clickaway';
     import Helpers from '../mixins/Helpers';
 
-
     export default {
-        mixins: [clickaway, Helpers],
+        mixins: [Helpers],
 
         props: ['visible'],
 
