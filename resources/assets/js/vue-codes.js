@@ -79,9 +79,6 @@ const app = new Vue({
         showKeyboardShortcutsGuide: false,
         showMarkdownGuide: false,
         modalRouter: '',
-        reportCategory: '',
-        reportSubmissionId: '',
-        reportCommentId: '',
         sortFilter: 'hot',
         pageTitle: document.title,
         searchHeaderFilter: ''
@@ -138,15 +135,12 @@ const app = new Vue({
 
         // Let's hear it for the events, shall we?
         this.$eventHub.$on('start-conversation', this.startConversation);
-        this.$eventHub.$on('report-submission', this.reportSubmission);
         this.$eventHub.$on('new-route', this.newRoute);
         this.$eventHub.$on('close', this.closeModals);
         this.$eventHub.$on('new-modal', this.newModal);
         this.$eventHub.$on('rules', this.categoryRules);
         this.$eventHub.$on('login-modal', this.loginModal);
         this.$eventHub.$on('change-route', this.changeRoute);
-        this.$eventHub.$on('category-sort', this.categorySort);
-        this.$eventHub.$on('report-comment', this.reportComment);
         this.$eventHub.$on('moderators', this.categoryModerators);
         this.$eventHub.$on('crop-user-photo', this.cropUserModal);
         this.$eventHub.$on('markdown-guide', this.openMarkdownGuide);
@@ -282,42 +276,6 @@ const app = new Vue({
         }, 600),
 
         /**
-         * Loads Semantic UI's dropdown components. Sending an ID would make this a lot faster
-         *
-         * @return void
-         */
-        loadSemanticDropdown (targetID = 'someID') {
-            return;
-
-            if (targetID != 'someID') {
-                $('#' + targetID + ' .ui.dropdown').dropdown({ duration: 50 });
-
-                return;
-            }
-
-            $('.ui.dropdown').dropdown({ duration: 50 });
-        },
-
-        /**
-         * Loads Semantic UI's Popup component
-         *
-         * @return void
-         */
-        loadSemanticPopup() {
-            $('.s-popup').popup({ inline: true });
-        },
-
-        /**
-         * Auto resizes the text area. To make it work we need to call it by :
-         * "this.$root.autoResize()"in the ready(){} method of the component
-         *
-         * @return void
-         */
-        autoResize() {
-            // autosize(document.querySelectorAll('textarea'));
-        },
-
-        /**
          * Opens the messages component and starts the conversation with the sent user.
          *
          * @return void
@@ -325,30 +283,6 @@ const app = new Vue({
         startConversation(contact) {
             this.changeRoute('messages');
             this.$eventHub.$emit('conversation', contact);
-        },
-
-        /**
-         * Opens the comment-reporting modal
-         *
-         * @return void
-         */
-        reportComment(id, category) {
-            this.closeModals()
-            this.reportCommentId = id
-            this.reportCategory = category
-            this.modalRouter = 'report-comment'
-        },
-
-        /**
-         * Opens that submission-reporting modal
-         *
-         * @return void
-         */
-        reportSubmission(id, category) {
-            this.closeModals()
-            this.reportSubmissionId = id
-            this.reportCategory = category
-            this.modalRouter = 'report-submission'
         },
 
         /**
@@ -387,15 +321,6 @@ const app = new Vue({
          */
         newRoute(route) {
             Store.contentRouter = route
-        },
-
-        /**
-         * Sets the default sort type in a category
-         *
-         * @return void
-         */
-        categorySort(sort) {
-            this.sortFilter = sort
         },
 
         /**
@@ -505,7 +430,7 @@ const app = new Vue({
          * @param {keydown} event
          * @return void
          */
-        keydown(event){
+        keydown(event) {
             // esc
             if (event.keyCode == 27) {
                 this.closeModals();
