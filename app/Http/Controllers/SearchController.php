@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Category;
-use App\Comment;
 use App\Filters;
 use App\Submission;
 use App\Traits\CachableUser;
@@ -36,10 +35,6 @@ class SearchController extends Controller
 
             if ($request->type == 'Submissions') {
                 return $this->sugarFilter(Submission::search($request->searched)->take(20)->get());
-            }
-
-            if ($request->type == 'Comments') {
-                return $this->withoutChildren(Comment::search($request->searched)->take(20)->get());
             }
 
             if ($request->type == 'Users') {
