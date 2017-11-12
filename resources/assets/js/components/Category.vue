@@ -28,12 +28,12 @@ export default {
         CategorySubmissions,
         CategoryHeader,
 		NsfwWarning, 
-		ScrollButton
+		ScrollButton,
     },
 
-    data () {
+    data() {
         return {
-			isActive: null, 
+			isActive: null,
         	Store,
 			auth
         }

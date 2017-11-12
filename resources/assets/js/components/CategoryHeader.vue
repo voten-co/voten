@@ -66,11 +66,11 @@
                         <i class="v-icon v-more-vertical"></i>
 
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item @click.native="emitModerators">
+                            <el-dropdown-item @click.native="showModeratorsModal = true">
                                 Moderators
                             </el-dropdown-item>
 
-                            <el-dropdown-item @click.native="emitRules">
+                            <el-dropdown-item @click.native="showRulesModal = true">
                                 Rules
                             </el-dropdown-item>
 
@@ -98,11 +98,16 @@
                 </div>
             </div>
         </nav>
+
+        <moderators :visible.sync="showModeratorsModal" v-if="showModeratorsModal"></moderators>
+        <rules :visible.sync="showRulesModal" v-if="showRulesModal"></rules>
     </div>
 </template>
 
 <script>
     import Subscribe from '../components/SubscribeButton.vue';
+    import Moderators from '../components/Moderators.vue';
+    import Rules from '../components/Rules.vue';
     import Helpers from '../mixins/Helpers';
     import ElButton from "../../../../node_modules/element-ui/packages/button/src/button";
 
@@ -111,11 +116,15 @@
 
         components: {
             ElButton,
-            Subscribe
+            Subscribe,
+            Moderators,
+            Rules
         },
 
-        data: function () {
+        data() {
             return {
+                showModeratorsModal: false,
+                showRulesModal: false,
                 Store,
                 bookmarked: false,
                 showFirstHeader: true
@@ -143,14 +152,6 @@
         },
 
         methods: {
-            emitRules(){
-                this.$eventHub.$emit('rules');
-            },
-
-            emitModerators() {
-                this.$eventHub.$emit('moderators');
-            },
-
             block() {
                 this.$confirm(`Blocking a channel will exclude it form your feed. Are you sure about this?`, 'Warning', {
                     confirmButtonText: 'Yes',
@@ -167,7 +168,8 @@
                             message: `You no longer will see submissions from #${Store.category.name} in your feed. `
                         });
                     });
-                }).catch(() => {});
+                }).catch(() => {
+                });
             },
 
             /**

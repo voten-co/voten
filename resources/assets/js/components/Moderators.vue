@@ -1,47 +1,39 @@
 <template>
-    <div class="vo-modal-small">
-        <div class="wrapper" v-on-clickaway="close">
-            <header class="user-select">
-                <h3>
-                    Moderators
-                </h3>
+    <el-dialog
+            title="Moderators"
+            :visible="visible"
+            :width="isMobile ? '99%' : '35%'"
+            @close="close"
+            append-to-body
+            class="user-select"
+    >
+        <loading v-show="loading"></loading>
 
-                <div class="close" @click="close">
-                    <i class="v-icon v-cancel-small"></i>
-                </div>
-            </header>
+        <div class="small-modal-user" v-for="user in list" :key="user.id">
+            <div>
+                <router-link :to="'/@' + user.username">
+                    <img :src="user.avatar" :alt="user.username">
+                </router-link>
 
-            <div class="middle">
-                <div class="flex1">
-                    <loading v-show="loading"></loading>
-
-                    <div class="small-modal-user" v-for="user in list" :key="user.id">
-                        <div>
-                            <router-link :to="'/@' + user.username">
-                                <img :src="user.avatar" :alt="user.username">
-                            </router-link>
-
-                            <router-link :to="'/@' + user.username">
-                                {{ '@' + user.username }}
-                            </router-link>
-                        </div>
-
-                        <div>
-                            <el-button type="success" plain size="mini" @click="sendMessage(user)" v-if="user.username !== auth.username">
-                                Send a message
-                            </el-button>
-                        </div>
-                    </div>
-                </div>
+                <router-link :to="'/@' + user.username">
+                    {{ '@' + user.username }}
+                </router-link>
             </div>
 
-            <footer>
-                <el-button type="success" size="medium" @click="close">
-                    Close
+            <div>
+                <el-button type="success" plain size="mini" @click="sendMessage(user)"
+                           v-if="user.username !== auth.username">
+                    Send a message
                 </el-button>
-            </footer>
+            </div>
         </div>
-    </div>
+
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="close" size="medium">
+                Close
+            </el-button>
+        </span>
+    </el-dialog>
 </template>
 
 <style>
@@ -62,47 +54,49 @@
 </style>
 
 <script>
-import Loading from '../components/Loading.vue'
-import { mixin as clickaway } from 'vue-clickaway';
+    import Loading from '../components/Loading.vue';
+    import Helpers from '../mixins/Helpers';
 
-export default {
-    mixins: [ clickaway ],
+    export default {
+        mixins: [Helpers],
 
-    components: {
-        Loading
-    },
-
-    data () {
-        return {
-            auth,
-            list: [],
-            loading: true,
-        }
-    },
-
-    created: function () {
-        this.getModerators();
-    },
-
-    methods: {
-        getModerators() {
-            axios.get( '/category-moderators', {
-                params: {
-                	name: this.$route.params.name
-                }
-            }).then((response) => {
-                this.list = response.data;
-                this.loading = false;
-            });
+        components: {
+            Loading
         },
 
-    	close() {
-    		this.$eventHub.$emit('close');
-    	},
+        props: ['visible'],
 
-        sendMessage(user) {
-            this.$eventHub.$emit('start-conversation', user);
-        }
-    },
-}
+        data () {
+            return {
+                list: [],
+                loading: true,
+            }
+        },
+
+        created() {
+            this.getModerators();
+        },
+
+        methods: {
+            getModerators() {
+                axios.get('/category-moderators', {
+                    params: {
+                        name: this.$route.params.name
+                    }
+                }).then((response) => {
+                    this.list = response.data;
+                    this.loading = false;
+                });
+            },
+
+            close() {
+                this.$emit('update:visible', false);
+            },
+
+            sendMessage(user) {
+                this.$eventHub.$emit('start-conversation', user);
+                this.close();
+            }
+        },
+    }
 </script>
