@@ -18,8 +18,6 @@ Route::group(['middleware' => ['maintenance', 'http2']], function () {
     Route::get('/c/{category}', 'CategoryController@show')->middleware('correct-view');
     Route::get('/c/{category}/hot', 'CategoryController@redirect');
     Route::get('/c/{category}/{slug}', 'SubmissionController@show')->middleware('correct-view');
-    Route::get('/help', 'HelpController@showHelpCenter')->middleware('correct-view');
-    Route::get('/help/{help}', 'HelpController@show')->middleware('correct-view');
 
     Route::get('/@{username}', 'UserController@showSubmissions')->middleware('correct-view');
     Route::get('/@{username}/comments', 'UserController@showComments')->middleware('correct-view');
@@ -34,7 +32,6 @@ Route::group(['middleware' => ['maintenance', 'http2']], function () {
     Route::get('/submissions.xml', 'SitemapsController@submissions');
     Route::get('/users.xml', 'SitemapsController@users');
     Route::get('/channels.xml', 'SitemapsController@categories');
-    Route::get('/helps.xml', 'SitemapsController@helps');
 });
 
 // backend-admin

@@ -104,10 +104,6 @@
 	                    Keyboard Shortcuts
 	                </a>
 
-	                <router-link :to="'/help'" class="item">
-	                    Help
-	                </router-link>
-
 					<div class="item">
 						<span>&#8592; Voten</span>
 

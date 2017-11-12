@@ -6,7 +6,6 @@ import BookmarkedComments from './components/BookmarkedComments.vue';
 import BookmarkedUsers from './components/BookmarkedUsers.vue';
 import UserSubmissions from './components/UserSubmissions.vue';
 import ModeratorPanel from './components/ModeratorPanel.vue';
-import AdminPanelHelp from './components/AdminPanelHelp.vue';
 import FindCategories from './components/FindCategories.vue';
 import SubmissionPage from './components/SubmissionPage.vue';
 import UserComments from './components/UserComments.vue';
@@ -15,8 +14,6 @@ import AdminPanel from './components/AdminPanel.vue';
 import Bookmarks from './components/Bookmarks.vue';
 import NotFound from './components/NotFound.vue';
 import Settings from './components/Settings.vue';
-import HelpCenter from './components/HelpCenter.vue';
-import Help from './components/Help.vue';
 import Home from './components/Home.vue';
 import Submit from './components/Submit.vue';
 import Feedback from './components/Feedback.vue';
@@ -49,9 +46,7 @@ const routes = [
         component: Home
     },
 
-    { path: '/help', component: HelpCenter, meta: { title: 'Help Center' } },
     { path: '/feedback', component: Feedback, meta: { title: 'Feedback' } },
-    { path: '/help/:id', component: Help },
 
     { path: '/channel', component: NewCategory, meta: { title: 'New #Channel' } },
     { path: '/subscribed-channels', component: SubscribedCategories, meta: { title: 'My Subscriptions' } },
@@ -61,7 +56,6 @@ const routes = [
         path: '/big-daddy',
         component: AdminPanel,
         children: [
-            { path: 'help', component: AdminPanelHelp, name: 'admin-panel-help' },
             { path: 'submissions', component: AdminPanelSubmissions, name: 'admin-panel-submissions' },
             { path: 'comments', component: AdminPanelComments, name: 'admin-panel-comments' },
             { path: 'suggested-categories', component: AdminPanelSuggestedCategories, name: 'admin-panel-suggested-categories' },

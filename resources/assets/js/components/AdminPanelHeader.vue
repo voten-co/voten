@@ -2,10 +2,6 @@
 	<nav class="nav has-shadow user-select admin-panel-header">
 		<div class="container">
 			<div class="nav-left">
-				<router-link :to="'/big-daddy/help'" class="nav-item is-tab" active-class="is-active">
-					Help
-				</router-link>
-
 				<router-link :to="'/big-daddy/submissions'" class="nav-item is-tab" active-class="is-active">
 					Submissions
 				</router-link>
