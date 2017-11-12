@@ -109,13 +109,11 @@
     import Moderators from '../components/Moderators.vue';
     import Rules from '../components/Rules.vue';
     import Helpers from '../mixins/Helpers';
-    import ElButton from "../../../../node_modules/element-ui/packages/button/src/button";
 
     export default {
         mixins: [Helpers],
 
         components: {
-            ElButton,
             Subscribe,
             Moderators,
             Rules

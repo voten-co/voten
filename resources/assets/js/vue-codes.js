@@ -7,7 +7,6 @@ import GuestSidebar from './components/GuestSidebar.vue';
 import SearchModal from './components/SearchModal.vue';
 import WebNotification from './mixins/WebNotification';
 import AvatarEdit from './components/AvatarEdit.vue';
-import Moderators from './components/Moderators.vue';
 import LoginModal from './components/LoginModal.vue';
 import CropModal from './components/CropModal.vue';
 import Dashboard from './components/Dashboard.vue';
@@ -17,7 +16,6 @@ import LocalStorage from './mixins/LocalStorage';
 import StoreStorage from './mixins/StoreStorage';
 import LeftSidebar from './components/auth/LeftSidebar.vue';
 import RightSidebar from './components/auth/RightSidebar.vue';
-import Rules from './components/Rules.vue';
 import Helpers from './mixins/Helpers';
 import router from './routes';
 
@@ -67,12 +65,10 @@ const app = new Vue({
         SearchModal,
         LoginModal,
         AvatarEdit,
-        Moderators,
         CropModal,
         Dashboard,
         NotFound,
         Messages,
-        Rules,
     },
 
     data: {
@@ -138,10 +134,8 @@ const app = new Vue({
         this.$eventHub.$on('new-route', this.newRoute);
         this.$eventHub.$on('close', this.closeModals);
         this.$eventHub.$on('new-modal', this.newModal);
-        this.$eventHub.$on('rules', this.categoryRules);
         this.$eventHub.$on('login-modal', this.loginModal);
         this.$eventHub.$on('change-route', this.changeRoute);
-        this.$eventHub.$on('moderators', this.categoryModerators);
         this.$eventHub.$on('crop-user-photo', this.cropUserModal);
         this.$eventHub.$on('markdown-guide', this.openMarkdownGuide);
         this.$eventHub.$on('push-notification', this.pushNotification)
@@ -398,19 +392,9 @@ const app = new Vue({
             this.modalRouter = '';
         },
 
-        // Displays a smallModal containing category rules
-        categoryRules() {
-            this.modalRouter = 'rules';
-        },
-
         // Displays the login modal
         loginModal() {
             this.modalRouter = 'login';
-        },
-
-        // Displays a smallModal containing category moderators
-        categoryModerators() {
-            this.modalRouter = 'moderators';
         },
 
         // Tells the component (that contains submissions) to change the sort method.

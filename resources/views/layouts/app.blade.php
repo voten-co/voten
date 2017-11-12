@@ -46,10 +46,7 @@
         <right-sidebar v-show="showRightSidebar"></right-sidebar>
     </div>
 
-    <markdown-guide :visible.sync="showMarkdownGuide" v-if="showMarkdownGuide"></markdown-guide>
 
-    <rules v-if="modalRouter == 'rules'"></rules>
-    <moderators v-if="modalRouter == 'moderators'"></moderators>
     <crop-modal v-if="modalRouter == 'crop-user'" :type="'user'"></crop-modal>
     <crop-modal v-if="modalRouter == 'crop-category'" :type="'category'"></crop-modal>
     <keyboard-shortcuts-guide v-if="showKeyboardShortcutsGuide"></keyboard-shortcuts-guide>
