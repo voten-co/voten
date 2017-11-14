@@ -1,56 +1,62 @@
 <template>
-	<transition name="fade">
-		<section class="bookmarked-item user-select" v-show="visible">
-			<div class="avatar">
-				<router-link :to="'/c/' + list.name">
-					<img :src="list.avatar" :alt="list.name">
-				</router-link>
-			</div>
+    <transition name="fade">
+        <section class="bookmarked-item user-select" v-show="visible">
+            <div class="avatar">
+                <router-link :to="'/c/' + list.name">
+                    <img :src="list.avatar" :alt="list.name">
+                </router-link>
+            </div>
 
-			<div class="flex1">
-				<div class="flex-space">
-					<h2>
-						<router-link :to="'/c/' + list.name">
-							{{ list.name }}
-						</router-link>
-					</h2>
+            <div class="flex1">
+                <div class="flex-space">
+                    <h2>
+                        <router-link :to="'/c/' + list.name">
+                            {{ list.name }}
+                        </router-link>
+                    </h2>
 
-					<div class="flex-align-center">
-						<i class="v-icon h-yellow pointer" v-if="!isNewbie"
-						   :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'" @click="bookmark"
-						   v-tooltip.left="{content: bookmarked ? 'Unbookmark' : 'Bookmark'}"></i>
+                    <div class="flex-align-center">
+                        <el-tooltip :content="bookmarked ? 'Unbookmark' : 'Bookmark'" placement="top" transition="false"
+                                    :open-delay="500">
+                            <i class="v-icon h-yellow pointer" v-if="!isNewbie"
+                               :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'" @click="bookmark"></i>
+                        </el-tooltip>
 
-						<button class="v-button v-button-small margin-left-1"
-							:class="subscribed ? 'v-button-outline--red' : 'v-button-outline--green'" @click="subscribe"
-							v-text="subscribed ? 'Unsubscribe' : 'Subscribe'"></button>
-					</div>
-				</div>
+                        <el-button
+                                class="margin-left-1"
+                                size="mini"
+                                :type="subscribed ? 'danger' : 'success'"
+                                @click="subscribe"
+                                v-text="subscribed ? 'Unsubscribe' : 'Subscribe'"
+                        ></el-button>
+                    </div>
+                </div>
 
-				<p>
-					{{ list.description }}
-				</p>
-			</div>
-		</section>
-	</transition>
+                <p>
+                    {{ list.description }}
+                </p>
+            </div>
+        </section>
+    </transition>
 </template>
 
 <script>
     export default {
         data: function () {
             return {
-	        	Store,
-	        	bookmarked: false,
-	        	subscribed: false,
-				visible: true
+                Store,
+                bookmarked: false,
+                subscribed: false,
+                visible: true
             }
         },
 
         props: ['list'],
 
-	    created () {
-	    	this.setBookmarked();
-	    	this.setSubscribed();
-	    },
+        created () {
+            this.setBookmarked();
+            this.setSubscribed();
+        },
 
         watch: {
             'Store.categoryBookmarks' () {
@@ -74,51 +80,51 @@
         },
 
         methods: {
-	    	/**
+            /**
              * Whether or not user has bookmarked the category
-			 *
-			 * @return void
+             *
+             * @return void
              */
             setBookmarked() {
                 if (Store.categoryBookmarks.indexOf(this.list.id) != -1) {
                     this.bookmarked = true;
-				}
-			},
+                }
+            },
 
-			/**
+            /**
              * Whether or not user has subscribed to the category
-			 *
-			 * @return void
+             *
+             * @return void
              */
             setSubscribed() {
                 if (Store.subscribedAt.indexOf(this.list.id) != -1) {
                     this.subscribed = true;
-				} else {
+                } else {
                     this.subscribed = false;
-				}
-			},
+                }
+            },
 
             /**
              * Toggles the category into bookmarks
-			 *
-			 * @return void
+             *
+             * @return void
              */
-        	bookmark(category) {
-        		this.bookmarked = !this.bookmarked;
+            bookmark(category) {
+                this.bookmarked = !this.bookmarked;
 
-				axios.post('/bookmark-category', {
-					id: this.list.id
-				}).then((response) => {
-					if (Store.categoryBookmarks.indexOf(this.list.id) != -1) {
-	                	let index = Store.categoryBookmarks.indexOf(this.list.id);
-	                	Store.categoryBookmarks.splice(index, 1);
+                axios.post('/bookmark-category', {
+                    id: this.list.id
+                }).then((response) => {
+                    if (Store.categoryBookmarks.indexOf(this.list.id) != -1) {
+                        let index = Store.categoryBookmarks.indexOf(this.list.id);
+                        Store.categoryBookmarks.splice(index, 1);
 
-	                	return;
-	                }
+                        return;
+                    }
 
-					Store.categoryBookmarks.push(this.list.id);
-				})
-        	},
+                    Store.categoryBookmarks.push(this.list.id);
+                })
+            },
 
             /**
              * Subscribes to the category.
@@ -135,7 +141,7 @@
                     Store.subscribedAt.push(this.list.id);
                 } else
                 // is un-subscribing
-				{
+                {
                     let removeItem = this.list.id;
                     Store.subscribedCategories = Store.subscribedCategories.filter(function (category) {
                         return category.id != removeItem;
@@ -151,6 +157,6 @@
 
                 this.$emit('subscribed');
             },
-	    },
+        },
     };
 </script>

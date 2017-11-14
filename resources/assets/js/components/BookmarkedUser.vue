@@ -23,11 +23,13 @@
                         </el-tooltip>
 
 
-                        <elbutton class="v-button v-button-small margin-left-1 v-button-outline--green"
-                                  size="mini"
-                                  @click="sendMessage(list)">
+                        <el-button
+                                class="margin-left-1"
+                                size="mini"
+                                type="success"
+                                @click="sendMessage(list)">
                             Message
-                        </elbutton>
+                        </el-button>
                     </div>
                 </div>
 
