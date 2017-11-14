@@ -64,7 +64,7 @@
 						</button>
 					</el-tooltip>
 
-					<el-button type="primary" icon="el-icon-plus" plain size="medium" @click="$router.push('/submit')">
+					<el-button type="primary" icon="el-icon-plus" plain size="medium" @click="submit">
 						Submit
 					</el-button>
 				</div>
@@ -165,6 +165,15 @@
         	refresh() {
         	    this.$eventHub.$emit('refresh-home');
         	},
+
+            /**
+             * fires the submit event
+             *
+             * @return void
+             */
+        	submit() {
+                this.$eventHub.$emit('submit');
+            },
 
         	/**
         	 * In case the user has just joined to the Voten community let's ask them for the awesome Desktop notifications permission.

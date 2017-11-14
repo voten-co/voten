@@ -24,20 +24,20 @@
 
 			<div class="flex-space margin-top-1" v-show="editing">
 				<div>
-					<el-button type="success" @click="patch" :loading="loading">
+					<el-button type="success" @click="patch" :loading="loading" size=mini>
 						Edit
 					</el-button>
-					<el-button type="text" @click="cancelEditing">
+					<el-button type="text" @click="cancelEditing" size="mini">
 						Cancel
 					</el-button>
 				</div>
 
 				<div>
-					<el-button type="text" @click="$eventHub.$emit('markdown-guide')">
+					<el-button type="text" @click="$eventHub.$emit('markdown-guide')" size="mini">
 						Formatting Guide
 					</el-button>
 
-					<el-button @click="preview = !preview" type="text">
+					<el-button @click="preview = !preview" type="text" size="mini" :icon="preview ? 'el-icon-close' : 'el-icon-view'">
 						Preview
 					</el-button>
 				</div>

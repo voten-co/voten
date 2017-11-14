@@ -528,6 +528,7 @@ select.form-control-lg:not([size]):not([multiple]) {
     border-radius: 4px;
     border: 2px dashed #e7e7e7;
     padding: 1em;
+    line-height: initial;
 }
 
 #comment-form .preview {

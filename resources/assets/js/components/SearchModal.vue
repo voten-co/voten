@@ -11,7 +11,10 @@
                             @input="search(filter)"
                             :suffix-icon="loading ? 'el-icon-loading' : 'el-icon-search'"
                     >
-                        <el-select v-model="type" slot="prepend" placeholder="Select search type">
+                        <el-select
+                                v-model="type"
+                                slot="prepend"
+                                placeholder="Select search type">
                             <el-option v-for="item in types" :label="item" :value="item" :key="item"></el-option>
                         </el-select>
                     </el-input>
@@ -184,7 +187,7 @@
         right: 2em;
     }
 
-    .el-select .el-input {
+    .input-with-select .el-input {
         width: 130px;
     }
 

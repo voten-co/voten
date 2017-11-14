@@ -12,6 +12,7 @@ import LocalStorage from './mixins/LocalStorage';
 import StoreStorage from './mixins/StoreStorage';
 import LeftSidebar from './components/auth/LeftSidebar.vue';
 import RightSidebar from './components/auth/RightSidebar.vue';
+import Submit from './components/Submit.vue';
 import Helpers from './mixins/Helpers';
 import router from './routes';
 
@@ -61,9 +62,11 @@ const app = new Vue({
         Dashboard,
         NotFound,
         Messages,
+        Submit,
     },
 
     data: {
+        showSubmitModal: false,
         showKeyboardShortcutsGuide: false,
         showMarkdownGuide: false,
         sortFilter: 'hot',
@@ -115,7 +118,7 @@ const app = new Vue({
         this.$eventHub.$on('start-conversation', this.startConversation);
         this.$eventHub.$on('new-route', this.newRoute);
         this.$eventHub.$on('close', this.closeModals);
-        this.$eventHub.$on('new-modal', this.newModal);
+        this.$eventHub.$on('submit', this.showSubmit);
         this.$eventHub.$on('login-modal', this.loginModal);
         this.$eventHub.$on('change-route', this.changeRoute);
         this.$eventHub.$on('markdown-guide', this.openMarkdownGuide);
@@ -268,6 +271,15 @@ const app = new Vue({
         },
 
         /**
+         * show the submit modal.
+         *
+         * @return void
+         */
+        showSubmit() {
+            this.showSubmitModal = true;
+        },
+
+        /**
          * Updates the <title> by adding the number of notifications and messages
          *
          * @return void
@@ -358,7 +370,7 @@ const app = new Vue({
 
             // alt + s == event.altKey && event.keyCode == 83
             if (event.altKey && event.keyCode == 83) { // alt + s
-                this.$router.push('/submit');
+                this.showSubmit();
                 return;
             }
 
