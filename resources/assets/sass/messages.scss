@@ -296,8 +296,8 @@
     .messages-container {
         flex: 1;
         width: 100%;
-        overflow: auto;
-        padding: 1em 0;
+        overflow-y: scroll;
+        //padding: 1em 0;
         flex: 1;
     }
 

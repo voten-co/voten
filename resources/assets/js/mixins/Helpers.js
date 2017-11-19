@@ -1,10 +1,11 @@
 import WebFont from 'webfontloader';
 
 export default {
-    data: function () {
+    data() {
         return {
             Store,
-            auth
+            auth,
+            csrf: window.Laravel.csrfToken,
         }
     },
 
@@ -14,7 +15,7 @@ export default {
          *
          * @return bool
          */
-        isGuest() 
+        isGuest()
         {
             return auth.isGuest;
         },
@@ -41,19 +42,19 @@ export default {
 
     methods: {
         /**
-         * Loads the web-font. 
+         * Loads the web-font.
          *
          * @param string font
          * @return void
          */
-        loadWebFont() 
+        loadWebFont()
         {
             WebFont.load({
                 google: {
                     families: [auth.font]
                 }
             });
-        }, 
+        },
 
         /**
          * sets the page title
@@ -99,17 +100,17 @@ export default {
         },
 
         /**
-         * Slugifies the string. 
+         * Slugifies the string.
          *
          * @param string str
          * @return string
          */
         str_slug(str) {
             return str.toString().toLowerCase().trim()
-                .replace(/\s+/g, '-')
-                .replace(/&/g, '-and-')
-                .replace(/[^\w\-]+/g, '')
-                .replace(/\-\-+/g, '-');
+                      .replace(/\s+/g, '-')
+                      .replace(/&/g, '-and-')
+                      .replace(/[^\w\-]+/g, '')
+                      .replace(/\-\-+/g, '-');
         },
 
         /**
@@ -150,7 +151,7 @@ export default {
                 timestamp = timestamp.date;
             }
 
-            if(!timezone) {
+            if (!timezone) {
                 timezone = moment.tz.guess();
             }
 
@@ -170,7 +171,7 @@ export default {
                 timestamp = timestamp.date;
             }
 
-            if(!timezone) {
+            if (!timezone) {
                 timezone = moment.tz.guess();
             }
 
@@ -190,7 +191,7 @@ export default {
                 timestamp = timestamp.date;
             }
 
-            if(!timezone) {
+            if (!timezone) {
                 timezone = moment.tz.guess();
             }
 
@@ -198,7 +199,7 @@ export default {
         },
 
         /**
-         * Parses the date in "n days ago" format. 
+         * Parses the date in "n days ago" format.
          *
          * @param string timestamp
          * @param string timezone
@@ -214,8 +215,8 @@ export default {
                 timezone = moment.tz.guess();
             }
 
-            return moment(timestamp).tz(timezone).fromNow(); 
-        }, 
+            return moment(timestamp).tz(timezone).fromNow();
+        },
 
         /**
          * prefixes the route with /auth if it's for authenticated users
@@ -241,7 +242,7 @@ export default {
             if ((box.scrollHeight - box.scrollTop) < (box.clientHeight + 100)) {
                 this.$eventHub.$emit('scrolled-to-bottom');
             }
-            
+
             if (box.scrollTop < 100) {
                 this.$eventHub.$emit('scrolled-to-top');
             } else if (box.scrollTop < 1500) {

@@ -38,7 +38,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/email/verify/resend', 'Auth\VerificationController@resendVerifyEmailAddress');
 
     // submission
-    Route::post('/submit', 'SubmissionController@store');
+    Route::post('/submission', 'SubmissionController@store');
     Route::post('/patch-text-submission', 'SubmissionController@patchTextSubmission');
     Route::post('/hide-submission', 'BlockSubmissionsController@store');
     Route::get('/fetch-url-title', 'SubmissionController@getTitleAPI');
@@ -122,6 +122,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/upload-temp-avatar', 'PhotoController@uploadTempAvatar');
     Route::post('/category-avatar', 'PhotoController@categoryAvatarAPI');
     Route::post('/category-avatar-crop', 'PhotoController@cropCategoryAvatar');
+    Route::post('/photo', 'PhotoController@store');
 
     // notification
     Route::post('/all-notifications', 'NotificationsController@readIndex');

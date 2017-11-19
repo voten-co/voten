@@ -26,6 +26,7 @@
                                 class="margin-left-1"
                                 size="mini"
                                 :type="subscribed ? 'danger' : 'success'"
+                                plain
                                 @click="subscribe"
                                 v-text="subscribed ? 'Unsubscribe' : 'Subscribe'"
                         ></el-button>
@@ -42,7 +43,7 @@
 
 <script>
     export default {
-        data: function () {
+        data() {
             return {
                 Store,
                 bookmarked: false,
@@ -53,7 +54,7 @@
 
         props: ['list'],
 
-        created () {
+        created() {
             this.setBookmarked();
             this.setSubscribed();
         },
@@ -114,7 +115,7 @@
 
                 axios.post('/bookmark-category', {
                     id: this.list.id
-                }).then((response) => {
+                }).then(() => {
                     if (Store.categoryBookmarks.indexOf(this.list.id) != -1) {
                         let index = Store.categoryBookmarks.indexOf(this.list.id);
                         Store.categoryBookmarks.splice(index, 1);

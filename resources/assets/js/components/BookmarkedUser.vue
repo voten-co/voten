@@ -27,6 +27,7 @@
                                 class="margin-left-1"
                                 size="mini"
                                 type="success"
+                                plain
                                 @click="sendMessage(list)">
                             Message
                         </el-button>

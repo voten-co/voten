@@ -21,20 +21,20 @@ class PhotoController extends Controller
     }
 
     /**
-     * Uploads photo sent by Dropzone.
+     * Stores photo's record and file.
      *
      * @param \Illuminate\Http\Request $request
      *
      * @return photo_id
      */
-    public function upload(Request $request)
+    public function store(Request $request)
     {
         $this->validate($request, [
-            'photo' => 'required|image|max:10240',
+            'file' => 'required|image|max:10240',
         ]);
 
         // image validation
-        if (!$request->hasFile('photo') || !$request->file('photo')->isValid()) {
+        if (!$request->hasFile('file') || !$request->file('file')->isValid()) {
             return response('The uploaded photo is not acceptable. Please try another one', 500);
         }
 
@@ -42,7 +42,7 @@ class PhotoController extends Controller
         $photo->user_id = Auth::user()->id;
 
         try {
-            $photo->path = $this->uploadImg($request->file('photo'), 'submissions/img');
+            $photo->path = $this->uploadImg($request->file('file'), 'submissions/img');
             $photo->thumbnail_path = $this->createThumbnail($photo->path, 1200, null, 'submissions/img/thumbs');
         } catch (\Exception $exception) {
             return response('Ooops, something went wrong', 500);

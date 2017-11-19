@@ -159,7 +159,7 @@
                 </div>
             </div>
 
-            <div class="padding-sides-1">
+            <div class="padding-sides-1" id="chat-textarea">
                 <form class="chat-input-form">
                     <el-input
                             type="textarea"

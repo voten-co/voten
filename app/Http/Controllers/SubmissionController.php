@@ -47,9 +47,7 @@ class SubmissionController extends Controller
     }
 
     /**
-     * Stores the submitted submission into database. There are 3 types of submissions:
-     * 1.text, 2.link and 3.img. 4.gif Different actions are required for different
-     * types. After storing the submission, redirects to the submission page.
+     * Stores submitted submission.
      *
      * @param \Illuminate\Http\Request $request
      *
@@ -165,7 +163,7 @@ class SubmissionController extends Controller
             return response('Ooops, something went wrong', 500);
         }
 
-        // Update the submission_id field in photos (We just found access to the submission_id)
+        // (We just found access to the submission_id so lets) update the submission_id field in uploaded photos
         if ($request->type == 'img') {
             DB::table('photos')
                 ->whereIn('id', $request->input('photos'))
