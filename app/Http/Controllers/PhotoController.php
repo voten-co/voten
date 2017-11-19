@@ -149,6 +149,6 @@ class PhotoController extends Controller
 
         Storage::put($folder.'/'.$filename, $image);
 
-        return $this->ftpAddress().$folder.'/'.$filename; // must return the exact url(maybe with the cdn url in it)
+        return $this->webAddress().$folder.'/'.$filename; // must return the exact url(maybe with the cdn url in it)
     }
 }
