@@ -127,7 +127,7 @@
         <!--------------------------------------------------------->
         <!----------------------- Chat page ----------------------->
         <!--------------------------------------------------------->
-        <div class="container-fluid" id="v-messages" v-show="pageRoute == 'chat'">
+        <div class="container-fluid overflow-hidden" id="v-messages" v-show="pageRoute == 'chat'">
             <div class="messages-container" id="chat-box"
                  :class="(!Store.messages || ! Store.messages.length) && !Store.messages.length ? 'flex-center' : 'flex-column-end'"
             >
@@ -200,7 +200,7 @@
     import ContactsIcon from './Icons/ContactsIcon.vue';
     import ChatIcon from '../components/Icons/ChatIcon.vue';
     import EmojiIcon from '../components/Icons/EmojiIcon.vue';
-    import Loading from '../components/Loading.vue';
+    import Loading from '../components/SimpleLoading.vue';
 
 
     export default {
