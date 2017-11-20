@@ -1,5 +1,5 @@
 <template>
-    <div class="vo-modal" id="messages">
+    <div class="vo-modal" id="messages" v-loading="loadingMessages & page === 1">
         <header class="user-select">
             <div class="flex-space" :class="{'padding-desktop-1-mobile-half': pageRoute == 'contacts'}">
                 <!--------------------------------------------------------->
@@ -139,11 +139,9 @@
                     </h3>
                 </div>
 
-                <loading v-if="loadingMessages" class="no-padding"></loading>
-
                 <div class="overflow-auto" v-if="hasMessages" id="scrollable-wrapper">
-                    <div class="flex-center" v-if="moreToLoad && !loadingMessages">
-                        <el-button @click="loadMore">Load More</el-button>
+                    <div class="flex-center" v-if="moreToLoad">
+                        <el-button @click="loadMore" :loading="loadingMessages">Load More</el-button>
                     </div>
 
                     <message v-for="(value, index) in Store.messages" :list="value" :key="value.id"
@@ -159,6 +157,7 @@
                 </div>
             </div>
 
+            <!-- Chat Textarea -->
             <div class="padding-sides-1" id="chat-textarea">
                 <form class="chat-input-form">
                     <el-input
@@ -200,7 +199,6 @@
     import ContactsIcon from './Icons/ContactsIcon.vue';
     import ChatIcon from '../components/Icons/ChatIcon.vue';
     import EmojiIcon from '../components/Icons/EmojiIcon.vue';
-    import Loading from '../components/SimpleLoading.vue';
 
 
     export default {
@@ -211,11 +209,10 @@
             EmojiPicker,
             ContactsIcon,
             ChatIcon,
-            Loading,
             EmojiIcon
         },
 
-        data () {
+        data() {
             return {
                 filter: '',
                 searchedUsers: [],
@@ -231,8 +228,6 @@
                 loadingMessages: true,
                 moreToLoad: false,
                 newMessagesNotifier: 0,
-                auth,
-                Store,
             }
         },
 
@@ -283,11 +278,6 @@
                 return this.isBlocked || this.loadingMessages;
             },
 
-            /**
-             * The filtered version of contacts
-             *
-             * @return {Array} contacts
-             */
             filteredContacts () {
                 let self = this;
 
