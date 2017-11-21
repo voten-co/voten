@@ -105,19 +105,27 @@
                         :limit="20"
                         action="/photo"
                         :file-list="photos"
-                        :on-preview="handlePictureCardPreview"
-                        :on-remove="handleRemove"
-                        :on-success="handleUploadedPhoto"
+                        :on-preview="photoPreview"
+                        :on-remove="removePhoto"
+                        :on-success="successfulPhotoUpload"
+                        :on-exceed="exceededFileCount"
+                        :on-error="failedPhotoUpload"
+                        :before-upload="beforePhotoUploadCheckings"
                         with-credentials
                         accept=" .jpg, .jpeg, .png"
                         :headers="{ 'X-CSRF-TOKEN': csrf}"
                 >
                     <i class="el-icon-upload"></i>
                     <div class="el-upload__text">Drop photo here or <em>click to upload</em></div>
-                    <div class="el-upload__tip" slot="tip">Up to 20 jpg/png files with a size less than 10mb</div>
+                    <div class="el-upload__tip" slot="tip">Up to {{ photosNumberLimit }} jpg/png files with a size less than {{ photosSizeLimit }}mb</div>
                 </el-upload>
 
-                <el-dialog :visible.sync="previewPhotoModal">
+                <!-- Preview Photo -->
+                <el-dialog
+                        :visible.sync="previewPhotoModal"
+                        :title="previewPhotoFileName"
+                        append-to-body
+                >
                     <img width="100%" :src="previewPhotoImage" alt="preview">
                 </el-dialog>
             </el-form-item>
@@ -211,10 +219,15 @@
                 selectedCat: null,
                 suggestedCats: [],
                 submissionType: 'img',
+
                 photos: [],
+                photosNumberLimit: 20,
+                photosSizeLimit: 10,
+
                 gifUploadFormData: new FormData(),
 
                 previewPhotoImage: '',
+                previewPhotoFileName: '',
                 previewPhotoModal: false
             }
         },
@@ -245,16 +258,41 @@
         },
 
         methods: {
-            handleRemove(file, fileList) {
-                console.log(file, fileList);
+            beforePhotoUploadCheckings(file) {
+                const isInCorrectFormat = (file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png');
+                const doesNotExceedFileSize = file.size / 1024 / 1024 < this.photosSizeLimit;
+
+                if (!isInCorrectFormat) {
+                    this.$message.error('Only files with jpg/png formats are allowed! ');
+                }
+
+                if (!doesNotExceedFileSize) {
+                    this.$message.error(`Uplaoded photo size can not exceed ${this.photosSizeLimit}mb!`);
+                }
+
+                return isInCorrectFormat && doesNotExceedFileSize;
             },
 
-            handlePictureCardPreview(file) {
+            exceededFileCount(files, fileList) {
+                this.$message.error(`The limit is ${this.photosNumberLimit}, you selected ${files.length} files this time. You may add up to ${this.photosNumberLimit - fileList.length} more files for this post. `);
+            },
+
+            failedPhotoUpload(err, file, fileList) {
+                this.$message.error(err.message);
+                this.photos = fileList;
+            },
+
+            removePhoto(file, fileList) {
+                this.photos = fileList;
+            },
+
+            photoPreview(file) {
                 this.previewPhotoImage = file.url;
+                this.previewPhotoFileName = file.name;
                 this.previewPhotoModal = true;
             },
 
-            handleUploadedPhoto(response, file, fileList) {
+            successfulPhotoUpload(response, file, fileList) {
                 file.id = response;
                 this.photos.push(file);
             },

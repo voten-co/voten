@@ -777,6 +777,12 @@
       ]
     },
     {
+      "uid": "627abcdb627cb1789e009c08e2678ef9",
+      "css": "twitter",
+      "code": 61593,
+      "src": "fontawesome"
+    },
+    {
       "uid": "0833b02e56f1e8d34621137b29211107",
       "css": "submit-1",
       "code": 59393,

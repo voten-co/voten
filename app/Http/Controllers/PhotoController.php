@@ -29,6 +29,7 @@ class PhotoController extends Controller
      */
     public function store(Request $request)
     {
+        return rand(10, 10000);
         $this->validate($request, [
             'file' => 'required|image|max:10240',
         ]);

@@ -78,6 +78,7 @@
 .v-users:before { content: '\f064'; } /* '' */
 .v-checked:before { content: '\f06d'; } /* '' */
 .v-bookmark:before { content: '\f097'; } /* '' */
+.v-twitter:before { content: '\f099'; } /* '' */
 .v-menu:before { content: '\f0c9'; } /* '' */
 .v-keyboard:before { content: '\f11c'; } /* '' */
 .v-flag-empty:before { content: '\f11d'; } /* '' */

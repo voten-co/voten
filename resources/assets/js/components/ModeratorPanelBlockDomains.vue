@@ -4,7 +4,7 @@
 			<span>
 				Block Domains
 			</span>
-		</h3>
+        </h3>
 
         <p>
             In case there are domain addresses that you think are not appropriate for your channel you can block them here.
@@ -17,6 +17,8 @@
                         name="domain"
                         v-model="domain">
                 </el-input>
+
+                <el-alert v-for="e in errors.domain" :title="e" type="error" :key="e"></el-alert>
             </el-form-item>
 
             <el-form-item label="Reason(optional)">
@@ -30,7 +32,8 @@
             </el-form-item>
 
             <el-form-item>
-                <el-button size="medium" type="danger" v-if="domain" @click="blockDomain" :loading="sending">Block</el-button>
+                <el-button size="medium" type="danger" v-if="domain" @click="blockDomain" :loading="sending">Block
+                </el-button>
             </el-form-item>
         </el-form>
 
@@ -39,10 +42,10 @@
 			<span>
 				All Blocked Domains
 			</span>
-		</h3>
+        </h3>
 
         <blocked-domain v-for="blocked in blockedDomains" :list="blocked" :key="blocked.id"
-        @unblock="unblock"></blocked-domain>
+                        @unblock="unblock"></blocked-domain>
     </section>
 </template>
 
@@ -67,24 +70,24 @@
             this.getBlockedDomains()
         },
 
-        mounted: function() {
-            this.$nextTick(function() {
+        mounted: function () {
+            this.$nextTick(function () {
                 this.$root.autoResize()
             })
         },
 
         methods: {
             blockDomain() {
-                if(!this.domain) return
+                if (!this.domain) return
 
                 this.sending = true
                 this.blockErrors = [];
 
-                axios.post( '/block-domain', {
+                axios.post('/block-domain', {
                     domain: this.domain,
                     description: this.description,
                     category: this.$route.params.name
-                } ).then((response) => {
+                }).then((response) => {
                     this.domain = '';
                     this.description = '';
                     this.errors = [];
@@ -102,19 +105,19 @@
              *
              * @return void
              */
-             getBlockedDomains () {
-                 this.loading = true;
+            getBlockedDomains () {
+                this.loading = true;
 
-                 axios.get('/blocked-domains', {
-                     params: {
-                         category: this.$route.params.name
-                     }
-                 }).then((response) => {
-                     this.blockedDomains = response.data;
-                     this.loading = false;
-                 }).catch(() => {
-                     this.loading = false;
-                 });
+                axios.get('/blocked-domains', {
+                    params: {
+                        category: this.$route.params.name
+                    }
+                }).then((response) => {
+                    this.blockedDomains = response.data;
+                    this.loading = false;
+                }).catch(() => {
+                    this.loading = false;
+                });
             },
 
             /**
@@ -123,16 +126,16 @@
              * @return void
              */
             unblock(domain) {
-                 axios.delete('/block-domain/destroy', {
+                axios.delete('/block-domain/destroy', {
                     params: {
                         domain: domain,
                         category: this.$route.params.name
                     }
-                 }).then(() => {
+                }).then(() => {
                     this.blockedDomains = this.blockedDomains.filter(function (item) {
-                      	return item.domain != domain;
+                        return item.domain != domain;
                     })
-                 })
+                })
             },
         },
 

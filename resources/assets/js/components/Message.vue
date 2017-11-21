@@ -13,17 +13,19 @@
         </div>
 
         <div class="m-actions user-select pointer" @click="$emit('select-message', list.id)">
-            <el-tooltip :content="'Sent on: ' + longDate" placement="top-end" transition="false" :open-delay="500">
+            <el-tooltip :content="'Sent on: ' + longDate" placement="top-end" transition="false" :open-delay="500"
+                        v-if="!selected">
                 <time class="go-gray">
                     {{ date }}
                 </time>
             </el-tooltip>
 
-            <el-tooltip :content="'Seen on: ' + seenDate" placement="top-end" transition="false" :open-delay="500" v-if="displaySeen">
+            <el-tooltip :content="'Seen on: ' + seenDate" placement="top-end" transition="false" :open-delay="500"
+                        v-if="displaySeen">
                 <i class="v-icon v-seen go-gray" aria-hidden="true"></i>
             </el-tooltip>
 
-            <i class="v-icon v-checked go-primary" aria-hidden="true" v-show="selected"></i>
+            <i class="v-icon v-checked go-primary" aria-hidden="true" v-if="selected"></i>
         </div>
     </div>
 </template>
@@ -59,7 +61,7 @@
              * @return Boolean
              */
             displaySeen () {
-                return this.owns && this.list.read_at
+                return this.owns && this.list.read_at && !this.selected;
             },
 
             /**
