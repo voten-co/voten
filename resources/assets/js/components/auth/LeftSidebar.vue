@@ -56,7 +56,7 @@
 
         <!-- Submit -->
         <el-tooltip content="Add Content" placement="right" transition="false" :open-delay="500">
-            <a class="item" @click.prevent="pushRouter('/submit')" href="/submit" :class="{'active' : activeRoute === 'submit'}">
+            <a class="item" @click="$eventHub.$emit('submit')" :class="{'active' : activeRoute === 'submit'}">
                 <i class="el-icon-plus" aria-hidden="true"></i>
             </a>
         </el-tooltip>

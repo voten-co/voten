@@ -86,7 +86,7 @@
                            :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark go-gray'" @click="bookmark"></i>
                     </el-tooltip>
 
-                    <el-button type="primary" @click="$router.push('/submit?channel=' + $route.params.name)"
+                    <el-button type="primary" @click="$eventHub.$emit('submit')"
                                v-if="!isGuest" plain size="medium">
                         Submit
                     </el-button>

@@ -275,7 +275,10 @@
 
         watch: {
             'visible'() {
-                if (this.visible) this.setDefaultCategories();
+                if (this.visible) {
+                    this.setDefaultCategories();
+                    this.submitApi();
+                }
             }
         },
 
@@ -297,8 +300,10 @@
              * @return
              */
             submitApi() {
-                if (this.$route.query.channel) {
-                    this.selectedCat = this.$route.query.channel
+                if (this.$route.params.name) {
+                    this.selectedCat = this.$route.params.name;
+                } else {
+                    this.selectedCat = null;
                 }
             },
 
