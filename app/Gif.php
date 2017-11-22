@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Photo extends Model
+class Gif extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,7 +12,7 @@ class Photo extends Model
      * @var array
      */
     protected $fillable = [
-        'submission_id', 'user_id'
+        'submission_id', 'user_id', 'mp4_path', 'thumbnail_path'
     ];
 
     public function owner()

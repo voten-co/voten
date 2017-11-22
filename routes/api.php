@@ -123,6 +123,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/category-avatar', 'PhotoController@categoryAvatarAPI');
     Route::post('/category-avatar-crop', 'PhotoController@cropCategoryAvatar');
     Route::post('/photo', 'PhotoController@store');
+    Route::post('/gif', 'GifController@store');
 
     // notification
     Route::post('/all-notifications', 'NotificationsController@readIndex');

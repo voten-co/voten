@@ -29,7 +29,6 @@ class PhotoController extends Controller
      */
     public function store(Request $request)
     {
-        return rand(10, 10000);
         $this->validate($request, [
             'file' => 'required|image|max:10240',
         ]);
@@ -40,7 +39,7 @@ class PhotoController extends Controller
         }
 
         $photo = new Photo();
-        $photo->user_id = Auth::user()->id;
+        $photo->user_id = Auth::id();
 
         try {
             $photo->path = $this->uploadImg($request->file('file'), 'submissions/img');

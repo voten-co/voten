@@ -47,7 +47,7 @@ class SubmissionController extends Controller
     }
 
     /**
-     * Stores submitted submission.
+     * Stores the submitted submission.
      *
      * @param \Illuminate\Http\Request $request
      *
@@ -67,12 +67,12 @@ class SubmissionController extends Controller
             return response('You have been banned from submitting to #'.$request->name.'. If you think there has been some kind of mistake, please contact the moderators of #'.$request->name.'.', 500);
         }
 
-        // Make user is not overdoing it.
+        // Make sure user is not overdoing it.
         if ($this->tooEarlyToCreate()) {
             return response("Looks like you're over doing it. You can't submit more than 2 posts per minute.", 500);
         }
 
-        if ($request->type == 'link') {
+        if ($request->type === 'link') {
             $this->validate($request, [
                 'url'   => 'required|url',
                 'title' => 'required|between:7,150',
@@ -102,7 +102,7 @@ class SubmissionController extends Controller
             }
         }
 
-        if ($request->type == 'img') {
+        if ($request->type === 'img') {
             $this->validate($request, [
                 'title'  => 'required|between:7,150',
                 'photos' => 'required',
@@ -112,23 +112,17 @@ class SubmissionController extends Controller
             $data = $this->imgSubmission($request);
         }
 
-        if ($request->type == 'gif') {
+        if ($request->type === 'gif') {
             $this->validate($request, [
                 'title' => 'required|between:7,150',
-                'gif'   => 'required|mimes:gif|max:40960',
+                'gif_id'   => 'required|integer',
                 'name'  => 'required|exists:categories',
             ]);
 
-            try {
-                $data = $this->gifSubmission($request);
-            } catch (\Exception $exception) {
-                app('sentry')->captureException($exception);
-
-                return response("We couldn't process this GIF, please try another one. ", 500);
-            }
+            $data = $this->gifSubmission($request);
         }
 
-        if ($request->type == 'text') {
+        if ($request->type === 'text') {
             $this->validate($request, [
                 'title' => 'required|between:7,150',
                 'type'  => 'required|in:link,img,text',
@@ -138,13 +132,12 @@ class SubmissionController extends Controller
             $data = $this->textSubmission($request);
         }
 
-        $category = Category::where('name', $request->name)->select('id', 'nsfw')->firstOrFail();
-        $slug = $this->slug($request->title);
+        $category = $this->getCategoryByName($request->name);
 
         try {
             $submission = Submission::create([
                 'title'         => $request->title,
-                'slug'          => $slug,
+                'slug'          => $slug = $this->slug($request->title),
                 'url'           => $request->type === 'link' ? $request->url : config('app.url').'/c/'.$category->name.'/'.$slug,
                 'domain'        => $request->type === 'link' ? domain($request->url) : null,
                 'type'          => $request->type,
@@ -163,20 +156,32 @@ class SubmissionController extends Controller
             return response('Ooops, something went wrong', 500);
         }
 
-        // (We just found access to the submission_id so lets) update the submission_id field in uploaded photos
-        if ($request->type == 'img') {
-            DB::table('photos')
-                ->whereIn('id', $request->input('photos'))
-                ->update(['submission_id' => $submission->id]);
-        }
+        $this->updateSubmissionIdForUploadedFile($request, $submission->id);
 
-        try {
-            $this->firstVote($user, $submission->id);
-        } catch (\Exception $exception) {
-            app('sentry')->captureException($exception);
-        }
+        $this->firstVote($user, $submission->id);
 
         return $submission;
+    }
+
+    /**
+     * Updates the 'submission_id' field in the uploaded file (photo/gif).
+     *
+     * @param Request $request
+     * @param integer $submission_id
+     */
+    protected function updateSubmissionIdForUploadedFile($request, $submission_id)
+    {
+        if ($request->type === 'img') {
+            DB::table('photos')
+                ->whereIn('id', $request->input('photos'))
+                ->update(['submission_id' => $submission_id]);
+        }
+
+        if ($request->type === 'gif') {
+            DB::table('gifs')
+                ->where('id', $request->gif_id)
+                ->update(['submission_id' => $submission_id]);
+        }
     }
 
     /**

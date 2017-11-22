@@ -2,13 +2,12 @@
 
 namespace App\Traits;
 
+use App\Gif;
 use App\Photo;
 use App\Submission;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Storage;
-use Pbmedia\LaravelFFMpeg\FFMpegFacade as FFMpeg;
 
 trait Submit
 {
@@ -49,13 +48,17 @@ trait Submit
      */
     protected function firstVote($user, $submission_id)
     {
-        $user->submissionUpvotes()->attach($submission_id, ['ip_address' => getRequestIpAddress()]);
+        try {
+            $user->submissionUpvotes()->attach($submission_id, ['ip_address' => getRequestIpAddress()]);
 
-        $upvotes = $this->submissionUpvotesIds($user->id);
+            $upvotes = $this->submissionUpvotesIds($user->id);
 
-        array_push($upvotes, $submission_id);
+            array_push($upvotes, $submission_id);
 
-        $this->updateSubmissionUpvotesIds($user->id, $upvotes);
+            $this->updateSubmissionUpvotesIds($user->id, $upvotes);
+        } catch (\Exception $exception) {
+            app('sentry')->captureException($exception);
+        }
     }
 
     /**
@@ -84,7 +87,7 @@ trait Submit
     }
 
     /**
-     * @param Illuminate\Http\Request $request
+     * @param Request $request
      *
      * @return array
      */
@@ -100,67 +103,22 @@ trait Submit
     }
 
     /**
-     * Animated gif submissions: The uploaded .gif file should get converted
-     * to .mp4 format to save bandwitch for both server and user. This way
-     * we get to use a pretty HTML5 player for playing .gif files.
-     *
-     * @param Illuminate\Http\Request $request
+     * @param  Request $request
      *
      * @return array
      */
     protected function gifSubmission(Request $request)
     {
-        $this->validate($request, [
-            'gif' => 'required|mimes:gif|max:51200',
-        ]);
-
-        $file = $request->file('gif');
-
-        $filename = time().str_random(7);
-
-        $file->storeAs('submissions/gif', $filename.'.gif', 'local');
-
-        FFMpeg::fromDisk('local')
-                    ->open('submissions/gif/'.$filename.'.gif')
-                    // mp4
-                    ->export()
-                    ->toDisk('local')
-                    ->inFormat((new \FFMpeg\Format\Video\X264())->setAdditionalParameters([
-                        '-movflags', 'faststart',
-                        '-pix_fmt', 'yuv420p',
-                        '-preset', 'veryslow',
-                        '-b:v', '500k',
-                    ]))
-                    ->save('submissions/gif/'.$filename.'.mp4')
-                    // thumbnail
-                    ->getFrameFromSeconds(1)
-                    ->export()
-                    ->toDisk('local')
-                    ->save('submissions/gif/'.$filename.'.jpg');
-
-        // get the uploaded mp4 and move it to the ftp
-        $mp4 = Storage::disk('local')->get('submissions/gif/'.$filename.'.mp4');
-        Storage::disk('ftp')->put('submissions/gif/'.$filename.'.mp4', $mp4);
-
-        // get the uploaded jpg and move it to the ftp
-        $jpg = Storage::disk('local')->get('submissions/gif/'.$filename.'.jpg');
-        Storage::disk('ftp')->put('submissions/gif/'.$filename.'.jpg', $jpg);
-
-        // delete temp files from local storage
-        Storage::disk('local')->delete([
-            'submissions/gif/'.$filename.'.jpg',
-            'submissions/gif/'.$filename.'.gif',
-            'submissions/gif/'.$filename.'.mp4',
-        ]);
+        $gif = Gif::findOrFail($request->gif_id);
 
         return [
-            'mp4_path'       => $this->ftpAddress().'submissions/gif/'.$filename.'.mp4',
-            'thumbnail_path' => $this->ftpAddress().'submissions/gif/'.$filename.'.jpg',
+            'mp4_path'       => $gif->mp4_path,
+            'thumbnail_path' => $gif->thumbnail_path
         ];
     }
 
     /**
-     * @param Illuminate\Http\Request $request
+     * @param  Request $request $request
      *
      * @return array
      */

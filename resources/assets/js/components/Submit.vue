@@ -70,32 +70,40 @@
             </el-form-item>
 
             <!-- GIF -->
-            <!--<el-form-item v-if="submissionType === 'gif'">-->
-            <!--<div class="align-center">-->
-            <!--<el-upload-->
-            <!--class="upload-demo"-->
-            <!--action="https://jsonplaceholder.typicode.com/posts/"-->
-            <!--:on-preview="handlePreview"-->
-            <!--:on-remove="handleRemove"-->
-            <!--:file-list="fileList"-->
-            <!--drag-->
-            <!--:limit="1"-->
-            <!--:accept="'image/gif'"-->
-            <!--&gt;-->
-            <!--<i class="el-icon-upload"></i>-->
-            <!--<div class="el-upload__text">Drop animated GIF here or <em>click to upload</em></div>-->
-            <!--&lt;!&ndash;<div class="el-upload__tip" slot="tip">jpg/png files with a size less than 500kb</div>&ndash;&gt;-->
-            <!--</el-upload>-->
-            <!--</div>-->
-            <!--</el-form-item>-->
+            <el-form-item v-if="submissionType === 'gif'">
+                <el-upload
+                        class="upload-demo"
+                        drag
+                        :limit="1"
+                        action="/gif"
+                        :file-list="gifTempArray"
+                        :on-preview="gifPreview"
+                        :on-remove="removeGif"
+                        :on-success="successfulGifUpload"
+                        :on-exceed="exceededGifFileCount"
+                        :on-error="failedGifUpload"
+                        :before-upload="beforeGifUploadCheckings"
+                        with-credentials
+                        accept=".gif"
+                        :headers="{ 'X-CSRF-TOKEN': csrf}"
+                >
+                    <i class="el-icon-upload"></i>
+                    <div class="el-upload__text">Drop your GIF here or <em>click to upload</em></div>
+                    <div class="el-upload__tip" slot="tip">
+                        Only animated GIFs with a valid .gif format with a size less than {{ gifSizeLimit
+                        }}mb are supported.
+                    </div>
+                </el-upload>
 
-            <div class="form-group" v-if="submissionType === 'asdf'">
-                <input type="file" class="form-control v-input-big" id="gif" name="gif"
-                       @change="gifSelected" accept="image/gif" :disabled="loading">
-
-                <small class="text-muted go-red" v-for="e in errors.gif">{{ e }}</small>
-            </div>
-
+                <!-- Preview Photo -->
+                <el-dialog
+                        :visible.sync="previewGifModal"
+                        :title="previewGifFileName"
+                        append-to-body
+                >
+                    <img width="100%" :src="previewGifImage" alt="preview">
+                </el-dialog>
+            </el-form-item>
 
             <!-- Photo(s) -->
             <el-form-item v-if="submissionType === 'img'">
@@ -108,7 +116,7 @@
                         :on-preview="photoPreview"
                         :on-remove="removePhoto"
                         :on-success="successfulPhotoUpload"
-                        :on-exceed="exceededFileCount"
+                        :on-exceed="exceededPhotoFileCount"
                         :on-error="failedPhotoUpload"
                         :before-upload="beforePhotoUploadCheckings"
                         with-credentials
@@ -117,7 +125,9 @@
                 >
                     <i class="el-icon-upload"></i>
                     <div class="el-upload__text">Drop photo here or <em>click to upload</em></div>
-                    <div class="el-upload__tip" slot="tip">Up to {{ photosNumberLimit }} jpg/png files with a size less than {{ photosSizeLimit }}mb</div>
+                    <div class="el-upload__tip" slot="tip">Up to {{ photosNumberLimit
+                        }} jpg/png files with a size less than {{ photosSizeLimit }}mb
+                    </div>
                 </el-upload>
 
                 <!-- Preview Photo -->
@@ -149,7 +159,7 @@
                         filterable
                         remote
                         placeholder="#channel..."
-                        :remote-method="getSuggestedCats"
+                        :remote-method="getSuggestedCategories"
                         loading-text="Loading..."
                         :loading="loadingCategories">
                     <el-option
@@ -198,37 +208,49 @@
 <script>
     import Markdown from '../components/Markdown.vue';
     import Helpers from '../mixins/Helpers';
+    import SubmitFormUpload from '../mixins/SubmitFormUpload';
 
     export default {
         props: ['visible'],
-        mixins: [Helpers],
+        mixins: [Helpers, SubmitFormUpload],
         components: { Markdown },
 
         data() {
             return {
-                loadingTitle: false,
-                title: '',
-                preview: false,
-                text: '',
-                submitURL: '',
-                photo: '',
                 errors: [],
                 customError: '',
+
                 loading: false,
                 loadingCategories: false,
                 selectedCat: null,
                 suggestedCats: [],
-                submissionType: 'img',
+                submissionType: 'text',
+                title: '',
 
+                // Link
+                submitURL: '',
+                loadingTitle: false,
+
+                // Text
+                preview: false,
+                text: '',
+
+                // Photo
                 photos: [],
                 photosNumberLimit: 20,
                 photosSizeLimit: 10,
-
-                gifUploadFormData: new FormData(),
-
                 previewPhotoImage: '',
                 previewPhotoFileName: '',
-                previewPhotoModal: false
+                previewPhotoModal: false,
+
+                // GIF
+                gifTempArray: [],
+                gif_id: null,
+                gifNumberLimit: 1,
+                gifSizeLimit: 50,
+                previewGifImage: '',
+                previewGifFileName: '',
+                previewGifModal: false
             }
         },
 
@@ -258,45 +280,6 @@
         },
 
         methods: {
-            beforePhotoUploadCheckings(file) {
-                const isInCorrectFormat = (file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png');
-                const doesNotExceedFileSize = file.size / 1024 / 1024 < this.photosSizeLimit;
-
-                if (!isInCorrectFormat) {
-                    this.$message.error('Only files with jpg/png formats are allowed! ');
-                }
-
-                if (!doesNotExceedFileSize) {
-                    this.$message.error(`Uplaoded photo size can not exceed ${this.photosSizeLimit}mb!`);
-                }
-
-                return isInCorrectFormat && doesNotExceedFileSize;
-            },
-
-            exceededFileCount(files, fileList) {
-                this.$message.error(`The limit is ${this.photosNumberLimit}, you selected ${files.length} files this time. You may add up to ${this.photosNumberLimit - fileList.length} more files for this post. `);
-            },
-
-            failedPhotoUpload(err, file, fileList) {
-                this.$message.error(err.message);
-                this.photos = fileList;
-            },
-
-            removePhoto(file, fileList) {
-                this.photos = fileList;
-            },
-
-            photoPreview(file) {
-                this.previewPhotoImage = file.url;
-                this.previewPhotoFileName = file.name;
-                this.previewPhotoModal = true;
-            },
-
-            successfulPhotoUpload(response, file, fileList) {
-                file.id = response;
-                this.photos.push(file);
-            },
-
             /**
              * Closes the submit modal.
              *
@@ -334,60 +317,14 @@
                 this.suggestedCats = array;
             },
 
-//            dropzone() {
-//                var that = this
-//                Dropzone.options.addPhotosForm = {
-//                    paramName: 'photo',
-//                    maxFileSize: 10,
-//                    // addRemoveLinks: true,
-//                    acceptedFiles: '.jpg, .jpeg, .png, .gif',
-//                    success: function (file, data) {
-//                        that.photos.push(data)
-//                    }
-//                }
-//            },
-
-            gifSelected(e) {
-                this.gifUploadFormData = new FormData();
-
-                this.gifUploadFormData.append('gif', e.target.files[0]);
-            },
-
+            /**
+             * Submits the form.
+             *
+             * @return void
+             */
             submit() {
                 this.loading = true;
 
-                if (this.submissionType === 'gif') {
-                    this.gifUploadFormData.append('title', this.title);
-                    this.gifUploadFormData.append('name', this.selectedCat);
-                    this.gifUploadFormData.append('type', this.submissionType);
-
-                    axios.post('/submission', this.gifUploadFormData).then((response) => {
-                        // success
-                        this.errors = []
-
-                        Store.submissionUpVotes.push(response.data.id)
-
-                        this.$router.push('/c/' + this.selectedCat + '/' + response.data.slug)
-
-                        this.loading = false
-                    }).catch((error) => {
-                        // error
-                        if (error.response.status == 500) {
-                            this.customError = error.response.data
-                            this.errors = []
-                            this.loading = false
-                            return
-                        }
-
-                        this.errors = error.response.data.errors
-                        this.loading = false
-                    });
-
-                    return;
-                }
-
-
-                // rest of the types
                 axios.post('/submission', {
                     title: this.title,
                     url: this.submitURL,
@@ -395,31 +332,41 @@
                     name: this.selectedCat,
                     type: this.submissionType,
                     photos: _.map(this.photos, 'id'),
+                    gif_id: this.gif_id,
                 }).then((response) => {
                     // success
-                    this.errors = []
+                    this.errors = [];
 
-                    Store.submissionUpVotes.push(response.data.id)
+                    Store.submissionUpVotes.push(response.data.id);
 
-                    this.$router.push('/c/' + this.selectedCat + '/' + response.data.slug)
+                    this.$router.push('/c/' + this.selectedCat + '/' + response.data.slug);
 
-                    this.loading = false
+                    this.loading = false;
+
+                    this.close();
+                    this.reset();
                 }).catch((error) => {
                     // error
                     if (error.response.status == 500) {
-                        this.customError = error.response.data
-                        this.errors = []
-                        this.loading = false
-                        return
+                        this.customError = error.response.data;
+                        this.errors = [];
+                        this.loading = false;
+                        return;
                     }
 
-                    this.errors = error.response.data.errors
-                    this.loading = false
+                    this.errors = error.response.data.errors;
+                    this.loading = false;
                 });
             },
 
+            /**
+             * Fetches the title from the external URL (through Voten's proxy server which we contact via API)
+             *
+             * @param string typed
+             * @return void
+             */
             getTitle(typed) {
-                if (!typed) return
+                if (!typed.trim()) return;
 
                 this.loadingTitle = true
 
@@ -444,7 +391,13 @@
                 });
             },
 
-            getSuggestedCats: _.debounce(function (typed) {
+            /**
+             * Searches through channels.
+             *
+             * @param string typed
+             * @return void
+             */
+            getSuggestedCategories: _.debounce(function (typed) {
                 if (!typed) return;
 
                 this.loadingCategories = true;
@@ -465,10 +418,44 @@
              * Switch the type.
              *
              * @param string newType
+             * @return void
              */
             changeSubmissionType(newType) {
-                this.submissionType = newType
-            }
+                this.submissionType = newType;
+            },
+
+            reset() {
+                this.errors = [];
+                this.customError = '';
+
+                this.loading = false;
+                this.loadingCategories = false;
+                this.selectedCat = null;
+                this.suggestedCats = [];
+                this.submissionType = 'text';
+                this.title = '';
+
+                // Link
+                this.submitURL = '';
+                this.loadingTitle = false;
+
+                // Text
+                this.preview = false;
+                this.text = '';
+
+                // Photo
+                this.photos = [];
+                this.previewPhotoImage = '';
+                this.previewPhotoFileName = '';
+                this.previewPhotoModal = false;
+
+                // GIF
+                this.gifTempArray = [];
+                this.gif_id = null;
+                this.previewGifImage = '';
+                this.previewGifFileName = '';
+                this.previewGifModal = fals;
+            },
         },
     }
 </script>
