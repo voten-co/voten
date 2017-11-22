@@ -14,6 +14,10 @@
             Other than that, here are a few simple rules exclusively for submitting to #{{ $route.params.name }}:
         </p>
 
+        <div class="flex-center" v-show="loading">
+            <loading></loading>
+        </div>
+
         <ol>
             <li v-for="rule in rules" :key="rule.id">
                 <markdown :text="rule.title"></markdown>
@@ -35,10 +39,10 @@
 <script>
     import Markdown from '../components/Markdown.vue'
     import Helpers from '../mixins/Helpers';
-
+    import Loading from '../components/SimpleLoading.vue';
 
     export default {
-        components: { Markdown },
+        components: { Markdown, Loading },
 
         mixins: [Helpers],
 
@@ -47,6 +51,7 @@
         data() {
             return {
                 nothingFound: false,
+                loading: true,
                 rules: [],
             }
         },
@@ -57,6 +62,8 @@
 
         methods: {
             getRules() {
+                this.loading = true;
+
                 axios.get('/rules', {
                     params: {
                         name: this.$route.params.name
@@ -67,6 +74,10 @@
                     if (!this.rules.length) {
                         this.nothingFound = true;
                     }
+
+                    this.loading = false;
+                }).catch(() => {
+                    this.loading = false;
                 });
             },
 

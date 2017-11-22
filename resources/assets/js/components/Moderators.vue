@@ -7,7 +7,9 @@
             append-to-body
             class="user-select"
     >
-        <loading v-show="loading"></loading>
+        <div class="flex-center" v-show="loading">
+            <loading></loading>
+        </div>
 
         <div class="small-modal-user" v-for="user in list" :key="user.id">
             <div>
@@ -54,7 +56,7 @@
 </style>
 
 <script>
-    import Loading from '../components/Loading.vue';
+    import Loading from '../components/SimpleLoading.vue';
     import Helpers from '../mixins/Helpers';
 
     export default {
