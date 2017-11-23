@@ -12,7 +12,8 @@ import LocalStorage from './mixins/LocalStorage';
 import StoreStorage from './mixins/StoreStorage';
 import LeftSidebar from './components/auth/LeftSidebar.vue';
 import RightSidebar from './components/auth/RightSidebar.vue';
-import Submit from './components/Submit.vue';
+import NewSubmission from './components/NewSubmission.vue';
+import NewCategory from './components/NewCategory.vue';
 import Helpers from './mixins/Helpers';
 import router from './routes';
 
@@ -62,11 +63,13 @@ const app = new Vue({
         Dashboard,
         NotFound,
         Messages,
-        Submit,
+        NewSubmission,
+        NewCategory,
     },
 
     data: {
-        showSubmitModal: false,
+        showNewSubmissionModal: false,
+        showNewCategoryModal: false,
         showKeyboardShortcutsGuide: false,
         showMarkdownGuide: false,
         sortFilter: 'hot',
@@ -276,7 +279,7 @@ const app = new Vue({
          * @return void
          */
         showSubmit() {
-            this.showSubmitModal = true;
+            this.showNewSubmissionModal = true;
         },
 
         /**

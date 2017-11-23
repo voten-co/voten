@@ -15,7 +15,6 @@ import Bookmarks from './components/Bookmarks.vue';
 import NotFound from './components/NotFound.vue';
 import Settings from './components/Settings.vue';
 import Home from './components/Home.vue';
-import Submit from './components/Submit.vue';
 import Feedback from './components/Feedback.vue';
 import Category from './components/Category.vue';
 import UserPage from './components/UserPage.vue';
@@ -50,7 +49,6 @@ const routes = [
 
     { path: '/channel', component: NewCategory, meta: { title: 'New #Channel' } },
     { path: '/subscribed-channels', component: SubscribedCategories, meta: { title: 'My Subscriptions' } },
-    { path: '/submit', component: Submit, meta: { title: 'Submit' }, name: 'submit' },
     { path: '/big-daddy', redirect: '/big-daddy/reports/submissions' },
     {
         path: '/big-daddy',

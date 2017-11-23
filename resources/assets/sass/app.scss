@@ -4,7 +4,7 @@
 // The great ElementUI
 @import 'node_modules/element-ui/packages/theme-chalk/src/index';
 // @import "semantic/input";
-@import "semantic/form.min";
+//@import "semantic/form.min";
 // @import "semantic/search";
 @import "inc/search";
 @import "inc/bookmarks";
@@ -51,37 +51,6 @@
 @import "inc/about";
 @import "inc/jquery.atwho";
 @import "inc/warning";
-
-// Select
-.el-select, .el-select .el-input {
-  width: 100%;
-}
-
-// form
-.el-form--label-top .el-form-item__label {
-  padding: 0 0 0px 0;
-  font-weight: bold;
-}
-
-.el-form-item .el-alert {
-  line-height: initial;
-  margin-top: .5em;
-}
-
-// dropdown 
-.el-icon-more-outline {
-  cursor: pointer;
-}
-
-.el-dropdown {
-  i {
-    cursor: pointer;
-  }
-}
-
-.el-dropdown-link {
-  cursor: pointer;
-}
 
 // tooltip 
 .el-tooltip__popper {
@@ -181,3 +150,5 @@
     background-color: #fff;
   }
 }
+
+

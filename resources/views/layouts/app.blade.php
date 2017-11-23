@@ -47,7 +47,7 @@
         <right-sidebar v-show="showRightSidebar"></right-sidebar>
     </div>
 
-    <submit v-show="showSubmitModal" :visible.sync="showSubmitModal"></submit>
+    <new-submission v-show="showNewSubmissionModal" :visible.sync="showNewSubmissionModal"></new-submission>
     <markdown-guide v-if="showMarkdownGuide" :visible.sync="showMarkdownGuide"></markdown-guide>
     <keyboard-shortcuts-guide v-if="showKeyboardShortcutsGuide" :visible.sync="showKeyboardShortcutsGuide"></keyboard-shortcuts-guide>
 </div>
