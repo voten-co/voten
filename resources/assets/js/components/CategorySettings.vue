@@ -45,7 +45,7 @@
                         type="textarea"
                         :placeholder="'How would you describe #' + Store.category.name + '?'"
                         name="description"
-                        :rows="4"
+                        :autosize="{ minRows: 4, maxRows: 10}"
                         :maxlength="230"
                         v-model="description">
                 </el-input>

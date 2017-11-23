@@ -56,8 +56,10 @@
             </el-form-item>
 
             <el-form-item label="Bio">
-                <el-input placeholder="How would you describe you?" v-model="form.bio" type="textarea"
-                          autosize></el-input>
+                <el-input
+                        placeholder="How would you describe you?" v-model="form.bio" type="textarea"
+                        :autosize="{ minRows: 4, maxRows: 10}"
+                ></el-input>
                 <el-alert v-for="e in errors.bio" :title="e" type="error" :key="e"></el-alert>
             </el-form-item>
 
