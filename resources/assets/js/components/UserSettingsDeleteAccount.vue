@@ -28,10 +28,10 @@
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button type="success" @click="destroyAccount" :disabled="!password" :loading="sending">
+                    <el-button type="success" size="medium" @click="destroyAccount" :disabled="!password" :loading="sending">
                         Confirm
                     </el-button>
-                    <el-button type="text" @click="deleteMyAccount = false">
+                    <el-button type="text" size="medium" @click="deleteMyAccount = false">
                         Cancel
                     </el-button>
                 </el-form-item>
