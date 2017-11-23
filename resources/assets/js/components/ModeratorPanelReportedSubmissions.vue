@@ -26,152 +26,152 @@
             </ul>
         </div>
 
-        <loading v-if="loading"></loading>
+        <div class="flex-center" v-show="loading">
+            <loading></loading>
+        </div>
 
         <div class="no-more-to-load user-select" v-if="nothingFound">
             <h3 v-text="'No records were found'"></h3>
         </div>
 
         <reported-submission v-for="item in items" :list="item" :key="item.id" v-if="item.submission"
-        @disapprove-submission="disapproveSubmission" @approve-submission="approveSubmission"></reported-submission>
+                             @disapprove-submission="disapproveSubmission"
+                             @approve-submission="approveSubmission"></reported-submission>
     </section>
 </template>
 
 <script>
-import Loading from '../components/Loading.vue'
-import ReportedSubmission from '../components/ReportedSubmission.vue'
+    import Loading from '../components/SimpleLoading.vue';
+    import ReportedSubmission from '../components/ReportedSubmission.vue';
 
-export default {
-    components: {
-        Loading,
-        ReportedSubmission
-    },
+    export default {
+        components: {
+            Loading,
+            ReportedSubmission
+        },
 
-    mixins: [],
-
-    data: function() {
-        return {
-            NoMoreItems: false,
-            loading: true,
-            nothingFound: false,
-            items: [],
-            page: 0,
-            Store
-        }
-    },
-
-
-    computed: {
-        type() {
-            if (this.$route.query.type == 'solved') {
-                return 'solved'
+        data() {
+            return {
+                NoMoreItems: false,
+                loading: true,
+                nothingFound: false,
+                items: [],
+                page: 0,
+                Store
             }
+        },
 
-            if (this.$route.query.type == 'deleted') {
-                return 'deleted'
+        computed: {
+            type() {
+                if (this.$route.query.type == 'solved') {
+                    return 'solved'
+                }
+
+                if (this.$route.query.type == 'deleted') {
+                    return 'deleted'
+                }
+
+                return 'unsolved'
             }
-
-            return 'unsolved'
-        }
-    },
+        },
 
 
-    created: function() {
-        this.getItems()
-        this.$eventHub.$on('scrolled-to-bottom', this.loadMore)
-    },
-
-    watch: {
-        'type': function () {
-            this.clearContent()
+        created: function () {
             this.getItems()
-        }
-    },
-
-    mounted() {
-        //
-    },
-
-    methods: {
-        disapproveSubmission(submission_id){
-            axios.post('/disapprove-submission', { submission_id }).then((response) => {
-                this.items = this.items.filter(function (item) {
-				  	return item.submission.id != submission_id
-				})
-
-                if (!this.items.length) {
-                    this.nothingFound = true
-                }
-            })
+            this.$eventHub.$on('scrolled-to-bottom', this.loadMore)
         },
 
-        approveSubmission(submission_id){
-            axios.post('/approve-submission', { submission_id }).then((response) => {
-                this.items = this.items.filter(function (item) {
-				  	return item.submission.id != submission_id
-				})
-
-                if (!this.items.length) {
-                    this.nothingFound = true
-                }
-            })
-        },
-
-        loadMore() {
-            if (Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems) {
+        watch: {
+            'type': function () {
+                this.clearContent()
                 this.getItems()
             }
         },
 
-        /**
-         * Resets all the basic data
-         *
-         * @return void
-         */
-        clearContent() {
-            this.nothingFound = false
-            this.items = []
-            this.loading = true
-            this.page = 0
+        mounted() {
+            //
         },
 
-        getItems() {
-            this.page++;
-            this.loading = true
+        methods: {
+            disapproveSubmission(submission_id){
+                axios.post('/disapprove-submission', { submission_id }).then((response) => {
+                    this.items = this.items.filter(function (item) {
+                        return item.submission.id != submission_id
+                    })
 
-            axios.post('/reported-submissions', {
-                type: this.type,
-                category: this.$route.params.name,
-                page: this.page
-            }).then((response) => {
-                this.items = [...this.items, ...response.data.data]
+                    if (!this.items.length) {
+                        this.nothingFound = true
+                    }
+                })
+            },
 
-                if (!this.items.length) {
-                    this.nothingFound = true
+            approveSubmission(submission_id){
+                axios.post('/approve-submission', { submission_id }).then((response) => {
+                    this.items = this.items.filter(function (item) {
+                        return item.submission.id != submission_id
+                    })
+
+                    if (!this.items.length) {
+                        this.nothingFound = true
+                    }
+                })
+            },
+
+            loadMore() {
+                if (Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems) {
+                    this.getItems()
                 }
+            },
 
-                if (response.data.next_page_url == null) {
-                    this.NoMoreItems = true
+            /**
+             * Resets all the basic data
+             *
+             * @return void
+             */
+            clearContent() {
+                this.nothingFound = false
+                this.items = []
+                this.loading = true
+                this.page = 0
+            },
+
+            getItems() {
+                this.page++;
+                this.loading = true
+
+                axios.post('/reported-submissions', {
+                    type: this.type,
+                    category: this.$route.params.name,
+                    page: this.page
+                }).then((response) => {
+                    this.items = [...this.items, ...response.data.data]
+
+                    if (!this.items.length) {
+                        this.nothingFound = true
+                    }
+
+                    if (response.data.next_page_url == null) {
+                        this.NoMoreItems = true
+                    }
+
+                    this.loading = false
+                })
+
+            }
+        },
+
+        beforeRouteEnter(to, from, next){
+            if (Store.category.name == to.params.name) {
+                // loaded
+                if (Store.moderatingAt.indexOf(Store.category.id) != -1) {
+                    next()
                 }
-
-                this.loading = false
-            })
-
-        }
-    },
-
-    beforeRouteEnter(to, from, next){
-        if (Store.category.name == to.params.name) {
-            // loaded
-            if (Store.moderatingAt.indexOf(Store.category.id) != -1) {
+            } else {
+                // not loaded but let's continue (the server-side is still protecting us!)
                 next()
             }
-        } else {
-            // not loaded but let's continue (the server-side is still protecting us!)
-            next()
-        }
-    },
-};
+        },
+    };
 </script>
 
 <style>

@@ -70,12 +70,6 @@
             this.getBlockedDomains()
         },
 
-        mounted: function () {
-            this.$nextTick(function () {
-                this.$root.autoResize()
-            })
-        },
-
         methods: {
             blockDomain() {
                 if (!this.domain) return

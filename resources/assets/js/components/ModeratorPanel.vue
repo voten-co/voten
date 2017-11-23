@@ -8,35 +8,35 @@
         <div class="left-sidebar-box">
             <div class="side-tabs">
                 <router-link :to="{ name: 'moderator-panel-reported-submissions' }" active-class="is-active">
-					Reported Submissions
-				</router-link>
+                    Reported Submissions
+                </router-link>
 
                 <router-link :to="{ name: 'moderator-panel-reported-comments' }" active-class="is-active">
-					Reported Comments
-				</router-link>
+                    Reported Comments
+                </router-link>
 
                 <router-link :to="{ name: 'moderator-panel-ban-users' }" active-class="is-active">
-					Ban Users
-				</router-link>
+                    Ban Users
+                </router-link>
 
                 <router-link :to="{ name: 'moderator-panel-block-domains' }" active-class="is-active">
-					Block Domains
-				</router-link>
+                    Block Domains
+                </router-link>
 
                 <router-link :to="{ name: 'moderator-panel-rules' }" active-class="is-active"
-                v-if="isAdministrator">
-					Rules
-				</router-link>
+                             v-if="isAdministrator">
+                    Rules
+                </router-link>
 
                 <router-link :to="{ name: 'moderator-panel-manage-moderators' }" active-class="is-active"
-                v-if="isAdministrator">
-					Manage Moderators
-				</router-link>
+                             v-if="isAdministrator">
+                    Manage Moderators
+                </router-link>
 
                 <router-link :to="{ name: 'category-settings' }" active-class="is-active"
-                v-if="isAdministrator">
-					Settings
-				</router-link>
+                             v-if="isAdministrator">
+                    Settings
+                </router-link>
             </div>
 
             <div class="content">
@@ -51,44 +51,26 @@
 </template>
 
 <script>
-
     export default {
-
-        data: function () {
+        data() {
             return {
                 Store
             }
         },
 
-        props: {
-            //
-        },
-
         computed: {
             /**
-			 * Has the user just created this category?
-			 *
-			 * @return Boolean
-			 */
-			justCreated() {
-			     return this.$route.query.created == 1
-			},
+             * Has the user just created this category?
+             *
+             * @return boolean
+             */
+            justCreated() {
+                return this.$route.query.created == 1
+            },
 
             isAdministrator () {
-        		return Store.administratorAt.indexOf(Store.category.id) != -1
-        	},
-        },
-
-        created () {
-            //
-        },
-
-        mounted () {
-            //
-        },
-
-        methods: {
-            //
+                return Store.administratorAt.indexOf(Store.category.id) != -1
+            },
         },
 
         beforeRouteEnter(to, from, next){

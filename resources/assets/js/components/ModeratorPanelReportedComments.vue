@@ -26,7 +26,9 @@
             </ul>
         </div>
 
-        <loading v-if="loading"></loading>
+        <div class="flex-center" v-show="loading">
+            <loading></loading>
+        </div>
 
         <div class="no-more-to-load user-select" v-if="nothingFound">
             <h3 v-text="'No records were found'"></h3>
@@ -38,7 +40,7 @@
 </template>
 
 <script>
-    import Loading from '../components/Loading.vue';
+    import Loading from '../components/SimpleLoading.vue';
     import ReportedComment from '../components/ReportedComment.vue';
     import NoContent from '../components/NoContent.vue';
 
@@ -60,7 +62,6 @@
             }
         },
 
-
         computed: {
             type() {
                 if (this.$route.query.type == 'solved') {
@@ -74,7 +75,6 @@
                 return 'unsolved'
             }
         },
-
 
         created: function () {
             this.getItems()
