@@ -172,6 +172,12 @@
                 <el-alert v-for="e in errors.name" :title="e" type="error" :key="e"></el-alert>
             </el-form-item>
 
+            <!-- NSFW Toggle -->
+            <div class="form-toggle no-border">
+                This post is safe for work:
+                <el-switch v-model="sfw"></el-switch>
+            </div>
+
             <hr class="dashed-hr">
 
             <div class="flex-space">
@@ -226,6 +232,7 @@
                 suggestedCats: [],
                 submissionType: 'text',
                 title: '',
+                sfw: true,
 
                 // Link
                 submitURL: '',
@@ -284,7 +291,7 @@
 
         methods: {
             /**
-             * Closes the submit modal.
+             * Closes the modal.
              *
              * @return void
              */
@@ -305,6 +312,8 @@
                 } else {
                     this.selectedCat = null;
                 }
+
+                this.sfw =! Store.category.nsfw;
             },
 
             /**
@@ -338,6 +347,7 @@
                     type: this.submissionType,
                     photos: _.map(this.photos, 'id'),
                     gif_id: this.gif_id,
+                    nsfw: !(this.sfw),
                 }).then((response) => {
                     // success
                     this.errors = [];
@@ -439,6 +449,7 @@
                 this.suggestedCats = [];
                 this.submissionType = 'text';
                 this.title = '';
+                this.sfw = true;
 
                 // Link
                 this.submitURL = '';
