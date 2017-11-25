@@ -121,7 +121,7 @@ const app = new Vue({
         this.$eventHub.$on('start-conversation', this.startConversation);
         this.$eventHub.$on('new-route', this.newRoute);
         this.$eventHub.$on('close', this.closeModals);
-        this.$eventHub.$on('submit', this.showSubmit);
+        this.$eventHub.$on('submit', this.showNewSubmission);
         this.$eventHub.$on('login-modal', this.loginModal);
         this.$eventHub.$on('change-route', this.changeRoute);
         this.$eventHub.$on('markdown-guide', this.openMarkdownGuide);
@@ -278,8 +278,17 @@ const app = new Vue({
          *
          * @return void
          */
-        showSubmit() {
+        showNewSubmission() {
             this.showNewSubmissionModal = true;
+        },
+
+        /**
+         * show the submit modal.
+         *
+         * @return void
+         */
+        showNewCategory() {
+            this.showNewCategoryModal = true;
         },
 
         /**
@@ -373,12 +382,12 @@ const app = new Vue({
 
             // alt + s == event.altKey && event.keyCode == 83
             if (event.altKey && event.keyCode == 83) { // alt + s
-                this.showSubmit();
+                this.showNewSubmission();
                 return;
             }
 
             if (event.altKey && event.keyCode == 67) { // alt + c
-                this.$router.push('/channel');
+                this.showNewCategory();
                 return;
             }
 

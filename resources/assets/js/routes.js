@@ -9,7 +9,6 @@ import ModeratorPanel from './components/ModeratorPanel.vue';
 import FindCategories from './components/FindCategories.vue';
 import SubmissionPage from './components/SubmissionPage.vue';
 import UserComments from './components/UserComments.vue';
-import NewCategory from './components/NewCategory.vue';
 import AdminPanel from './components/AdminPanel.vue';
 import Bookmarks from './components/Bookmarks.vue';
 import NotFound from './components/NotFound.vue';
@@ -47,7 +46,6 @@ const routes = [
 
     { path: '/feedback', component: Feedback, meta: { title: 'Feedback' } },
 
-    { path: '/channel', component: NewCategory, meta: { title: 'New #Channel' } },
     { path: '/subscribed-channels', component: SubscribedCategories, meta: { title: 'My Subscriptions' } },
     { path: '/big-daddy', redirect: '/big-daddy/reports/submissions' },
     {

@@ -48,6 +48,7 @@
     </div>
 
     <new-submission v-show="showNewSubmissionModal" :visible.sync="showNewSubmissionModal"></new-submission>
+    <new-category v-show="showNewCategoryModal" :visible.sync="showNewCategoryModal"></new-category>
     <markdown-guide v-if="showMarkdownGuide" :visible.sync="showMarkdownGuide"></markdown-guide>
     <keyboard-shortcuts-guide v-if="showKeyboardShortcutsGuide" :visible.sync="showKeyboardShortcutsGuide"></keyboard-shortcuts-guide>
 </div>

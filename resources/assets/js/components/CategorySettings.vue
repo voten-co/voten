@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="edit-avatar-preview">
-                    <img v-bind:alt="Store.category.name" v-bind:src="Store.category.avatar" class="circle"/>
+                    <img :alt="Store.category.name" :src="Store.category.avatar" class="circle"/>
                 </div>
             </div>
         </div>
@@ -64,7 +64,7 @@
                 </el-select>
             </el-form-item>
 
-            <div class="form-toggle">
+            <div class="form-toggle no-border">
                 This channel contains mostly NSFW content:
                 <el-switch v-model="nsfw"></el-switch>
             </div>
@@ -93,8 +93,6 @@
                 errors: [],
                 customError: '',
                 sending: false,
-                Store,
-                auth,
                 description: Store.category.description,
                 nsfw: Store.category.nsfw,
                 color: Store.category.color,
@@ -152,7 +150,7 @@
                     description: this.description,
                     nsfw: this.nsfw,
                     color: this.color
-                }).then((response) => {
+                }).then(() => {
                     this.errors = []
                     this.customError = ''
 
@@ -171,11 +169,6 @@
                     this.errors = error.response.data.errors;
                     this.sending = false
                 });
-            },
-
-            // used for multi select
-            changeColor(newSelected) {
-                this.color = newSelected
             },
         },
 

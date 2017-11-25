@@ -72,10 +72,10 @@
 		</nav>
 		
 		<!-- <announcement></announcement> -->
-		<!-- <el-alert
-			title="success alert"
-			type="success">
-		</el-alert> -->
+		<!--<el-alert-->
+			<!--title="success alert"-->
+			<!--type="success">-->
+		<!--</el-alert>-->
 
 		<home-submissions></home-submissions>
 		
