@@ -58,7 +58,7 @@
                     </el-button>
                 </div>
 
-                <div v-if="preview && text" class="preview margin-top-1">
+                <div v-if="preview && text" class="preview margin-top-1 enable-user-select">
                     <markdown :text="text"></markdown>
                 </div>
             </el-form-item>
