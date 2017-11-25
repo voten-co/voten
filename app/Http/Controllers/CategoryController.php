@@ -157,6 +157,7 @@ class CategoryController extends Controller
         $category = Category::create([
             'name'        => $request->name,
             'description' => $request->description,
+            'nsfw' => $request->nsfw,
             'avatar'      => '/imgs/channel-avatar.png',
         ]);
 

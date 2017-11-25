@@ -1,96 +1,159 @@
 <template>
-    <section class="container margin-top-5 col-7 user-select" id="new-channel">
-        <h1 class="align-center">
-            Create your own real-time community
-        </h1>
+    <el-dialog
+            title="New Channel"
+            :visible="visible"
+            :width="isMobile ? '99%' : '45%'"
+            @close="close"
+            append-to-body
+            class="user-select submit-form"
+    >
+        <el-alert
+                v-if="customError"
+                :title="customError"
+                type="error">
+        </el-alert>
 
-        <div class="v-status v-status--error" v-if="customError">
-            {{ customError }}
-        </div>
+        <el-form label-position="top" label-width="10px">
+            <el-form-item label="Name">
+                <el-input
+                        placeholder="Name..."
+                        name="name"
+                        v-model="name">
+                </el-input>
 
-        <div class="form-group">
-            <input type="text" class="form-control v-input-big" placeholder="Name..." id="name" v-model="name">
+                <el-alert
+                        show-icon
+                        :closable="false"
+                        title="Names must be alpha-numeric, with no spaces. They're also not editable so make up your mind before continue! Examples: gaming, news, OldSchoolCool, modernWarfare2"
+                        type="info">
+                </el-alert>
 
-            <small class="text-muted" v-if="!name">
-                Names must be alpha-numeric, with no spaces. They're also not editable so make up your mind before continue!
-                Examples: gaming, news, OldSchoolCool, modernWarfare2
-            </small>
-            <small class="text-muted go-red" v-for="e in errors.name">{{ e }}</small>
-        </div>
+                <el-alert v-for="e in errors.name" :title="e" type="error" :key="e"></el-alert>
+            </el-form-item>
 
-        <div class="form-group">
-            <textarea name="description" rows="3" id="description" class="form-control v-input-big"
-            v-model="description" placeholder="A few word to describe your channel..."></textarea>
+            <el-form-item label="Description">
+                <el-input
+                        type="textarea"
+                        placeholder="A few word to describe your channel..."
+                        name="description"
+                        :autosize="{ minRows: 4, maxRows: 10}"
+                        v-model="description">
+                </el-input>
 
-            <small class="text-muted" v-if="!description">The description field helps users find your channel. The first few words matter the most!</small>
-            <small class="text-muted go-red" v-for="e in errors.description">{{ e }}</small>
-        </div>
+                <el-alert
+                        show-icon
+                        :closable="false"
+                        :title="'The description field helps users find your channel. The first few words matter the most!'"
+                        type="info">
+                </el-alert>
 
-        <div class="form-group">
-            <button type="submit" class="v-button v-button--green btn-block" @click="submit" :disabled="!validates">Create</button>
-        </div>
-    </section>
+                <el-alert v-for="e in errors.description" :title="e" type="error" :key="e"></el-alert>
+            </el-form-item>
+
+            <!-- NSFW Toggle -->
+            <div class="form-toggle no-border">
+                This channel is safe for work:
+                <el-switch v-model="sfw"></el-switch>
+            </div>
+
+            <el-form-item v-if="validates">
+                <el-button
+                        type="success"
+                        @click="submit"
+                        :disabled="!validates"
+                        :loading="loading"
+                >
+                    Create
+                </el-button>
+            </el-form-item>
+        </el-form>
+    </el-dialog>
 </template>
 
 <script>
-export default {
+    import Helpers from '../mixins/Helpers';
 
-    data: function () {
-        return {
-            name: '',
-            description: '',
-            nsfw: false,
-            errors: [],
-            customError: '',
-            Store
-        }
-    },
+    export default {
+        props: ['visible'],
 
-	mounted: function () {
-		this.$nextTick(function () {
-			this.$root.autoResize()
-		})
-	},
+        mixins: [Helpers],
 
-	computed: {
-		/**
-		 * Validates the inputs
-		 *
-		 * @return Boolean
-		 */
-		validates () {
-			return this.name && this.description
-		},
-	},
-
-
-    methods: {
-        submit () {
-            axios.post( '/channel', {
-                name: this.name,
-                description: this.description,
-                nsfw: this.nsfw
-            } ).then((response) => {
-                this.errors = [];
-
-                // let's add the categoriy_id to the user's moderatingAt and administratorAt
-                Store.moderatingAt.push(response.data.id);
-                Store.administratorAt.push(response.data.id);
-                Store.moderatingCategories.push(response.data);
-                Store.subscribedCategories.push(response.data);
-                Store.subscribedAt.push(response.data.id);
-
-                this.$router.push('/c/' + response.data.name + '/mod/settings?created=1');
-            }).catch((error) => {
-                if (error.response.status == 500) {
-                    this.customError = error.response.data;
-                    this.errors = [];
-                    return;
-                }
-
-                this.errors = error.response.data.errors;
-            });
+        data() {
+            return {
+                name: '',
+                description: '',
+                sfw: true,
+                errors: [],
+                customError: '',
+                loading: false,
+            }
         },
+
+        computed: {
+            /**
+             * Validates the inputs
+             *
+             * @return Boolean
+             */
+            validates() {
+                return this.name.trim() && this.description.trim();
+            },
+        },
+
+
+        methods: {
+            /**
+             * Closes the modal.
+             *
+             * @return void
+             */
+            close() {
+                this.$emit('update:visible', false);
+            },
+
+            submit () {
+                this.loading = true;
+
+                axios.post('/channel', {
+                    name: this.name,
+                    description: this.description,
+                    nsfw: !(this.sfw)
+                }).then((response) => {
+                    this.errors = [];
+
+                    // let's add the categoriy_id to the user's moderatingAt and administratorAt
+                    Store.moderatingAt.push(response.data.id);
+                    Store.administratorAt.push(response.data.id);
+                    Store.moderatingCategories.push(response.data);
+                    Store.subscribedCategories.push(response.data);
+                    Store.subscribedAt.push(response.data.id);
+
+                    this.$router.push('/c/' + response.data.name + '/mod/settings?created=1');
+
+                    this.loading = false;
+                    this.reset();
+                    this.close();
+                }).catch((error) => {
+                    if (error.response.status == 500) {
+                        this.customError = error.response.data;
+                        this.errors = [];
+                        return;
+                    }
+
+                    this.errors = error.response.data.errors;
+
+                    this.loading = false;
+                });
+            },
+
+            reset() {
+                this.name = '';
+                this.description = '';
+                this.sfw = true;
+                this.errors = [];
+                this.customError = '';
+                this.loading = false;
+            },
+        }
     }
-}
 </script>
