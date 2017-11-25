@@ -52,7 +52,7 @@
 
             <!-- NSFW Toggle -->
             <div class="form-toggle no-border">
-                This channel is safe for work:
+                Safe for work:
                 <el-switch v-model="sfw"></el-switch>
             </div>
 
