@@ -1,4 +1,4 @@
-require('./bootstrap')
+require('./bootstrap');
 
 /**
  * This is our global Store, we save so many stuff in it so that we don't have to duplicate data.
@@ -8,38 +8,48 @@ require('./bootstrap')
  * @type object
  */
 window.Store = {
-    category: [],
-    submission: [], 
-    user: [],
+    state: {
+        submissions: {
+            upVotes: [],
+            downVotes: [],
+        },
 
-    submissionUpVotes: [],
-    submissionDownVotes: [],
+        comments: {
+            upVotes: [],
+            downVotes: [],
+        },
 
-    commentUpVotes: [],
-    commentDownVotes: [],
+        bookmarks: {
+            submissionBookmarks: [],
+            commentBookmarks: [],
+            categoryBookmarks: [],
+            userBookmarks: [],
+        },
 
-    submissionBookmarks: [],
-    commentBookmarks: [],
-    categoryBookmarks: [],
-    userBookmarks: [],
+        blockedUsers: [],
 
-    blockedUsers: [],
+        moderatingCategories: [],
+        moderatorAt: [],
+        administratorAt: [],
+        moderatingAt: [], // contains both moderator and administrator
+        subscribedAt: [],
 
-    moderatingCategories: [],
-    moderatorAt: [],
-    administratorAt: [],
-    moderatingAt: [], // contains both moderator and administrator
-    subscribedAt: [],
+        notifications: [],
+        messages: [],
+        contacts: [],
 
-    notifications: [],
-    messages: [],
-    contacts: [],
+        subscribedCategories: [],
+    },
+
+    page: {
+        category: [],
+        submission: [],
+        user: [],
+    },
 
     contentRouter: 'content',
     feedFilter: '',
     sidebarFilter: '',
-
-    subscribedCategories: [],
 
     // Open tabs unique ID:
     pageUID: '_' + Math.random().toString(36).substr(2, 9),

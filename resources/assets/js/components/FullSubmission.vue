@@ -531,6 +531,9 @@
                 this.upvoted = true
                 this.list.upvotes++
                 Store.submissionUpVotes.push(id)
+
+                this.$eventHub.$emit('push-store');
+
             },
 
 
