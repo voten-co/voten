@@ -41,7 +41,10 @@ window.Store = {
 
     subscribedCategories: [],
 
-    loading: true,
+    // Open tabs unique ID:
+    pageUID: '_' + Math.random().toString(36).substr(2, 9),
+
+    initialFilled: false,
 }
 
 require('./vue-codes');

@@ -49,7 +49,7 @@
         </div>
 
         <aside class="menu">
-            <div class="no-subscription" v-if="!sortedSubscribeds.length && !Store.loading">
+            <div class="no-subscription" v-if="!sortedSubscribeds.length">
                 <i class="v-icon v-sad" aria-hidden="true"></i>
                 No channels to display
             </div>

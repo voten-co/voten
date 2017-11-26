@@ -345,7 +345,7 @@ const app = new Vue({
 
         seenAllNotifications() {
             this.markAllNotificationsAsRead();
-            Vue.ls.set('event', 'mark-notifications-read', 60 * 60 * 1000);
+            this.crossWindowEvent('mark-notifications-read');
         },
 
         // Used for keyup.esc
