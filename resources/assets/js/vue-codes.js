@@ -32,9 +32,8 @@ import router from './routes';
  * Vue instance. First we fire the event by: "this.$eventHub.$emit('eventName', 'data')"
  * and later we listen for it by: "this.$eventHub.$on('eventName', this.newComment)"
  *
- *
- * (which is defined in the created() function of the vue componentr (or root instance), after catching the
- * event, passes the data to the defined funciton. In this example case it's newComment() but notice that
+ * (which is defined in the created() function of the vue component (or root instance), after catching the
+ * event, passes the data to the defined function. In this example case it's newComment() but notice that
  * it doesn't require to be actually written as argumans! ) Happy eventing in your awesome components.
  */
 Vue.prototype.$eventHub = new Vue();
