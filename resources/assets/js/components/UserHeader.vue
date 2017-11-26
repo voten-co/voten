@@ -147,7 +147,7 @@ export default {
             this.setBookmarked();
         },
 
-        'Store.userBookmarks' () {
+        'Store.state.bookmarks.users' () {
             this.setBookmarked();
         },
     },
@@ -159,7 +159,7 @@ export default {
          * @return void
          */
         setBookmarked () {
-        	if (Store.userBookmarks.indexOf(Store.user.id) != -1) {
+        	if (Store.state.bookmarks.users.indexOf(Store.page.user.id) != -1) {
 	        	this.bookmarked = true;
 	        } else {
                 this.bookmarked = false;
@@ -181,15 +181,15 @@ export default {
     		this.bookmarked = !this.bookmarked
 
 			axios.post('/bookmark-user', {
-				id: Store.user.id
+				id: Store.page.user.id
 			}).then((response) => {
-				if (Store.userBookmarks.indexOf(Store.user.id) != -1){
-                	var index = Store.userBookmarks.indexOf(Store.user.id)
-                	Store.userBookmarks.splice(index, 1)
+				if (Store.state.bookmarks.users.indexOf(Store.page.user.id) != -1){
+                	var index = Store.state.bookmarks.users.indexOf(Store.page.user.id)
+                	Store.state.bookmarks.users.splice(index, 1)
 
                 	return
                 }
-				Store.userBookmarks.push(Store.user.id)
+				Store.state.bookmarks.users.push(Store.page.user.id)
 			})
     	},
     },
@@ -206,7 +206,7 @@ export default {
     			return auth
     		}
 
-    		return Store.user
+    		return Store.page.user;
     	},
 
     	date () {

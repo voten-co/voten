@@ -171,15 +171,15 @@
                 this.setVoteds();
             },
 
-            'Store.commentUpVotes' () {
+            'Store.state.comments.upVotes' () {
                 this.setVoteds();
             },
 
-            'Store.commentDownVotes' () {
+            'Store.state.comments.downVotes' () {
                 this.setVoteds();
             },
 
-            'Store.commentBookmarks' () {
+            'Store.state.bookmarks.comments' () {
                 this.setBookmarked();
             },
 		},
@@ -305,7 +305,7 @@
         	 * @return boolean
         	 */
             showApprove() {
-				return !this.list.approved_at && Store.moderatingAt.indexOf(this.list.category_id) != -1 && !this.owns
+				return !this.list.approved_at && Store.state.moderatingAt.indexOf(this.list.category_id) != -1 && !this.owns
 			},
 
             /**
@@ -314,7 +314,7 @@
         	 * @return boolean
         	 */
 			showDisapprove() {
-				return !this.list.deleted_at && Store.moderatingAt.indexOf(this.list.category_id) != -1 && !this.owns
+				return !this.list.deleted_at && Store.state.moderatingAt.indexOf(this.list.category_id) != -1 && !this.owns
 			},
         },
 
@@ -377,13 +377,13 @@
              * @return void
              */
             setVoteds () {
-            	if (Store.commentUpVotes.indexOf(this.list.id) != -1) {
+            	if (Store.state.comments.upVotes.indexOf(this.list.id) != -1) {
             		this.upvoted = true;
             		this.downvoted = false;
             		return;
             	}
 
-            	if (Store.commentDownVotes.indexOf(this.list.id) != -1) {
+            	if (Store.state.comments.downVotes.indexOf(this.list.id) != -1) {
             		this.downvoted = true;
             		this.upvoted = false;
             		return;
@@ -399,7 +399,7 @@
              * @return void
              */
             setBookmarked() {
-            	if(Store.commentBookmarks.indexOf(this.list.id) != -1) {
+            	if(Store.state.bookmarks.comments.indexOf(this.list.id) != -1) {
             		this.bookmarked = true;
             	} else {
                     this.bookmarked = false;
@@ -412,7 +412,7 @@
                 // owns the comment
                 if(comment.owner.id == auth.id) {
                     this.reply = false;
-                    Store.commentUpVotes.push(comment.id);
+                    Store.state.comments.upVotes.push(comment.id);
                     this.list.children.unshift(comment);
                     return;
                 }
@@ -457,12 +457,12 @@
 				axios.post('/bookmark-comment', {
 					id: this.list.id,
 				}).then((response) => {
-					if (Store.commentBookmarks.indexOf(this.list.id) != -1){
-	                	var index = Store.commentBookmarks.indexOf(this.list.id);
-	                	Store.commentBookmarks.splice(index, 1);
+					if (Store.state.bookmarks.comments.indexOf(this.list.id) != -1){
+	                	var index = Store.state.bookmarks.comments.indexOf(this.list.id);
+	                	Store.state.bookmarks.comments.splice(index, 1);
 	                	return;
 	                }
-					Store.commentBookmarks.push(this.list.id);
+					Store.state.bookmarks.comments.push(this.list.id);
 				});
         	},
 
@@ -505,8 +505,8 @@
             		this.upvoted = false;
             		this.list.upvotes --;
 
-            		var index = Store.commentUpVotes.indexOf(id);
-                	Store.commentUpVotes.splice(index, 1);
+            		var index = Store.state.comments.upVotes.indexOf(id);
+                	Store.state.comments.upVotes.splice(index, 1);
 
             		return;
             	}
@@ -516,14 +516,14 @@
             		this.downvoted = false;
             		this.list.downvotes --;
 
-            		var index = Store.commentDownVotes.indexOf(id);
-                	Store.commentDownVotes.splice(index, 1);
+            		var index = Store.state.comments.downVotes.indexOf(id);
+                	Store.state.comments.downVotes.splice(index, 1);
             	}
 
             	// Not voted
             	this.upvoted = true;
             	this.list.upvotes ++;
-            	Store.commentUpVotes.push(id);
+            	Store.state.comments.upVotes.push(id);
             },
 
 
@@ -550,8 +550,8 @@
             		this.downvoted = false;
             		this.list.downvotes --;
 
-            		var index = Store.commentDownVotes.indexOf(id);
-                	Store.commentDownVotes.splice(index, 1);
+            		var index = Store.state.comments.downVotes.indexOf(id);
+                	Store.state.comments.downVotes.splice(index, 1);
 
             		return;
             	}
@@ -561,14 +561,14 @@
             		this.upvoted = false;
             		this.list.upvotes --;
 
-            		var index = Store.commentUpVotes.indexOf(id);
-                	Store.commentUpVotes.splice(index, 1);
+            		var index = Store.state.comments.upVotes.indexOf(id);
+                	Store.state.comments.upVotes.splice(index, 1);
             	}
 
             	// Not voted
             	this.downvoted = true;
             	this.list.downvotes ++;
-            	Store.commentDownVotes.push(id);
+            	Store.state.comments.downVotes.push(id);
             },
 
             /**

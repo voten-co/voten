@@ -60,11 +60,11 @@
         },
 
         watch: {
-            'Store.categoryBookmarks' () {
+            'Store.state.bookmarks.categories' () {
                 this.setBookmarked();
             },
 
-            'Store.subscribedAt' () {
+            'Store.state.subscribedAt' () {
                 this.setSubscribed();
             }
         },
@@ -87,7 +87,7 @@
              * @return void
              */
             setBookmarked() {
-                if (Store.categoryBookmarks.indexOf(this.list.id) != -1) {
+                if (Store.state.bookmarks.categories.indexOf(this.list.id) != -1) {
                     this.bookmarked = true;
                 }
             },
@@ -98,7 +98,7 @@
              * @return void
              */
             setSubscribed() {
-                if (Store.subscribedAt.indexOf(this.list.id) != -1) {
+                if (Store.state.subscribedAt.indexOf(this.list.id) != -1) {
                     this.subscribed = true;
                 } else {
                     this.subscribed = false;
@@ -116,14 +116,14 @@
                 axios.post('/bookmark-category', {
                     id: this.list.id
                 }).then(() => {
-                    if (Store.categoryBookmarks.indexOf(this.list.id) != -1) {
-                        let index = Store.categoryBookmarks.indexOf(this.list.id);
-                        Store.categoryBookmarks.splice(index, 1);
+                    if (Store.state.bookmarks.categories.indexOf(this.list.id) != -1) {
+                        let index = Store.state.bookmarks.categories.indexOf(this.list.id);
+                        Store.state.bookmarks.categories.splice(index, 1);
 
                         return;
                     }
 
-                    Store.categoryBookmarks.push(this.list.id);
+                    Store.state.bookmarks.categories.push(this.list.id);
                 })
             },
 
@@ -138,18 +138,18 @@
                 if (this.subscribed)
                 // is subscribing
                 {
-                    Store.subscribedCategories.push(this.list);
-                    Store.subscribedAt.push(this.list.id);
+                    Store.state.subscribedCategories.push(this.list);
+                    Store.state.subscribedAt.push(this.list.id);
                 } else
                 // is un-subscribing
                 {
                     let removeItem = this.list.id;
-                    Store.subscribedCategories = Store.subscribedCategories.filter(function (category) {
+                    Store.state.subscribedCategories = Store.state.subscribedCategories.filter(function (category) {
                         return category.id != removeItem;
                     });
 
-                    let index = Store.subscribedAt.indexOf(this.list.id);
-                    Store.subscribedAt.splice(index, 1);
+                    let index = Store.state.subscribedAt.indexOf(this.list.id);
+                    Store.state.subscribedAt.splice(index, 1);
                 }
 
                 axios.post('/subscribe', {

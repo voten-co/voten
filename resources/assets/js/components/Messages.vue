@@ -129,7 +129,7 @@
         <!--------------------------------------------------------->
         <div class="container-fluid overflow-hidden" id="v-messages" v-show="pageRoute == 'chat'">
             <div class="messages-container" id="chat-box"
-                 :class="(!Store.messages || ! Store.messages.length) && !Store.messages.length ? 'flex-center' : 'flex-column-end'"
+                 :class="(!Store.state.messages || ! Store.state.messages.length) && !Store.state.messages.length ? 'flex-center' : 'flex-column-end'"
             >
                 <div class="user-select v-nth-box" v-if="!hasMessages && !loadingMessages">
                     <chat-icon width="250" height="250" class="margin-bottom-3"></chat-icon>
@@ -144,7 +144,7 @@
                         <el-button @click="loadMore" :loading="loadingMessages">Load More</el-button>
                     </div>
 
-                    <message v-for="(value, index) in Store.messages" :list="value" :key="value.id"
+                    <message v-for="(value, index) in Store.state.messages" :list="value" :key="value.id"
                              :chatting="pageRoute == 'chat'"
                              :previous="Store.messages[index-1]" :selected="selectedMessages.indexOf(value.id) != -1"
                              @select-message="selectMessage"
@@ -259,11 +259,11 @@
 
         computed: {
             hasMessages() {
-                return Store.messages.length !== 0;
+                return Store.state.messages.length !== 0;
             },
 
             hasContacts() {
-                return Store.contacts.length !== 0;
+                return Store.state.contacts.length !== 0;
             },
 
             hasSearchedContacts() {
@@ -271,7 +271,7 @@
             },
 
             isBlocked() {
-                return Store.blockedUsers.indexOf(this.currentContactId) !== -1;
+                return Store.state.blocks.users.indexOf(this.currentContactId) !== -1;
             },
 
             disableTextArea() {
@@ -282,7 +282,7 @@
                 let self = this;
 
                 if (Store.contacts) {
-                    return _.orderBy(Store.contacts.filter(function (item) {
+                    return _.orderBy(Store.state.contacts.filter(function (item) {
                         return item.contact.username.indexOf(self.filter) !== -1;
                     }), 'last_message.created_at', 'desc')
                 }
@@ -305,7 +305,7 @@
                     this.backToContacts()
 
                     // remove the contact
-                    Store.contacts = Store.contacts.filter(function (contact) {
+                    Store.state.contacts = Store.state.contacts.filter(function (contact) {
                         return contact.contact_id != contactID
                     })
                 })
@@ -324,10 +324,10 @@
                     contact_id: this.currentContactId
                 }).then(() => {
                     if (wasBlocked) {
-                        let index = Store.blockedUsers.indexOf(this.currentContactId);
-                        Store.blockedUsers.splice(index, 1);
+                        let index = Store.state.blocks.users.indexOf(this.currentContactId);
+                        Store.state.blocks.users.splice(index, 1);
                     } else {
-                        Store.blockedUsers.push(this.currentContactId);
+                        Store.state.blocks.users.push(this.currentContactId);
                     }
                 })
             },
@@ -368,10 +368,10 @@
              */
             deleteMessages () {
                 for (let i = 0; i < this.selectedMessages.length; i++) {
-                    for (let j = 0; j < Store.messages.length; j++) {
+                    for (let j = 0; j < Store.state.messages.length; j++) {
                         if (Store.messages[j].id === this.selectedMessages[i]) {
-                            let index = Store.messages.indexOf(Store.messages[j]);
-                            Store.messages.splice(index, 1);
+                            let index = Store.state.messages.indexOf(Store.messages[j]);
+                            Store.state.messages.splice(index, 1);
                         }
                     }
                 }
@@ -417,7 +417,7 @@
                 this.loadingContacts = true;
 
                 axios.get('/contacts').then((response) => {
-                    Store.contacts = response.data;
+                    Store.state.contacts = response.data;
 
                     this.loadingContacts = false;
                 }).catch(() => {
@@ -445,7 +445,7 @@
             getMessagesByContactId (contact_id) {
                 this.pageRoute = 'chat';
                 this.page = 1;
-                Store.messages = [];
+                Store.state.messages = [];
                 this.loadingMessages = true;
                 this.currentContactId = contact_id;
 
@@ -457,7 +457,7 @@
                 }).then((response) => {
                     this.loadingMessages = false;
 
-                    Store.messages = response.data.data.reverse();
+                    Store.state.messages = response.data.data.reverse();
                     this.chatScroll();
 
                     this.moreToLoad = true;
@@ -466,7 +466,7 @@
                         this.moreToLoad = false;
                     }
 
-                    if (Store.messages.length) {
+                    if (Store.state.messages.length) {
                         this.markLastMessageAsRead(contact_id);
                     }
 
@@ -495,7 +495,7 @@
                         page: this.page,
                     }
                 }).then((response) => {
-                    Store.messages.unshift(...response.data.data.reverse());
+                    Store.state.messages.unshift(...response.data.data.reverse());
 
                     this.loadingMessages = false;
 
@@ -532,7 +532,7 @@
 
             /**
              * Listens for the new messages. When receives one adds it to the
-             * Store.messages array, in case it's not for the current chat, stores
+             * Store.state.messages array, in case it's not for the current chat, stores
              * it for the contact and then fires necessary events to notify user.
              *
              * @return void
@@ -551,7 +551,7 @@
                                 this.newMessagesNotifier++;
                             }
 
-                            Store.messages.push(e.message);
+                            Store.state.messages.push(e.message);
                         }
 
                         // Sending web notifications to user's OS(if website is not active)
@@ -581,7 +581,7 @@
 
             /**
              * Updates the last saved message from the contact in "contacts page". If
-             * the contanct doesn't exist in the Store.contacts array, it creates
+             * the contanct doesn't exist in the Store.state.contacts array, it creates
              * One containing the last message which is sent as an arguman.
              *
              * @param integer contact_id (contact_id)
@@ -594,7 +594,7 @@
                     return ob.contact.id === contact_id
                 }
 
-                let i = Store.contacts.findIndex(findObject);
+                let i = Store.state.contacts.findIndex(findObject);
 
                 if (i !== -1) {
                     Store.contacts[i].last_message = message
@@ -602,7 +602,7 @@
                     let contact = message.owner;
                     let last_message = message;
 
-                    Store.contacts.push({
+                    Store.state.contacts.push({
                         contact,
                         contact_id: contact.id,
                         message_id: last_message.id,
@@ -622,7 +622,7 @@
                     return ob.contact.id === contact_id
                 }
 
-                var i = Store.contacts.findIndex(findObject)
+                var i = Store.state.contacts.findIndex(findObject)
 
                 Store.contacts[i].last_message.read_at = moment().utc().format('YYYY-MM-DD HH:mm:ss')
             },
@@ -650,7 +650,7 @@
 
                 let data = { text: msgText.trim() };
 
-                Store.messages.push({
+                Store.state.messages.push({
                     data,
                     owner: auth,
                     user_id: auth.id,
@@ -666,7 +666,7 @@
                 }).then((response) => {
                     this.updateMessage(response.data.id, response.data.data);
 
-                    if (Store.messages.length == 1) {
+                    if (Store.state.messages.length == 1) {
                         this.turnUserToContact(this.currentContactId, response.data);
                     } else {
                         this.updateLastMessage(this.currentContactId, response.data);
@@ -679,11 +679,11 @@
                 this.searchedUsers = []
                 this.filter = ''
 
-                Store.contacts.unshift({
+                Store.state.contacts.unshift({
                     contact: this.currentContact,
                     contact_id: this.currentContactId,
                     created_at: moment().utc().format('YYYY-MM-DD HH:mm:ss'),
-                    id: (Store.contacts.length + 1),
+                    id: (Store.state.contacts.length + 1),
                     last_message: message,
                     message_id: message.id,
                     user_id: auth.id
@@ -703,7 +703,7 @@
                     return ob.data.text === data.text
                 }
 
-                Store.messages.find(findObject).id = id;
+                Store.state.messages.find(findObject).id = id;
             },
 
             /**
@@ -715,7 +715,7 @@
             markConversationAsRead (contactId) {
                 if (this.currentContactId != contactId) return
 
-                Store.messages.forEach(function (element, index) {
+                Store.state.messages.forEach(function (element, index) {
                     if (element.owner.id == auth.id) {
                         element.read_at = moment().utc().format('YYYY-MM-DD HH:mm:ss')
                     }
@@ -740,7 +740,7 @@
                     return ob.id === messageId
                 }
 
-                Store.messages.find(findObject).read_at = moment().utc().format('YYYY-MM-DD HH:mm:ss');
+                Store.state.messages.find(findObject).read_at = moment().utc().format('YYYY-MM-DD HH:mm:ss');
             }
         },
     }

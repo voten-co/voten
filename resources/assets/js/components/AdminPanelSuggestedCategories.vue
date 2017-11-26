@@ -156,7 +156,7 @@
             setDefaultCategories(){
                 let array = []
 
-                Store.subscribedCategories.forEach(function(element, index) {
+                Store.state.subscribedCategories.forEach(function(element, index) {
                     array.push(element.name)
                 })
 

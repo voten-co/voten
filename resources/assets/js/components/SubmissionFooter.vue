@@ -110,19 +110,19 @@
         	},
 
         	showApprove(){
-				return !this.submission.approved_at && Store.moderatingAt.indexOf(this.submission.category_id) != -1 && !this.owns
+				return !this.submission.approved_at && Store.state.moderatingAt.indexOf(this.submission.category_id) != -1 && !this.owns
 			},
 
 			showDisapprove(){
-				return !this.submission.deleted_at && Store.moderatingAt.indexOf(this.submission.category_id) != -1 && !this.owns
+				return !this.submission.deleted_at && Store.state.moderatingAt.indexOf(this.submission.category_id) != -1 && !this.owns
 			},
 
 			showNSFW(){
-				return (this.owns || Store.moderatingAt.indexOf(this.submission.category_id) != -1) && !this.submission.nsfw
+				return (this.owns || Store.state.moderatingAt.indexOf(this.submission.category_id) != -1) && !this.submission.nsfw
 			},
 
 			showSFW(){
-				return (this.owns || Store.moderatingAt.indexOf(this.submission.category_id) != -1) && this.submission.nsfw
+				return (this.owns || Store.state.moderatingAt.indexOf(this.submission.category_id) != -1) && this.submission.nsfw
 			},
 
 			showRemoveTumbnail(){
@@ -140,7 +140,7 @@
 			navigateToSubmissionPage(event) {
 				event.preventDefault(); 
 
-				Store.submission = this.submission; 
+				Store.page.submission = this.submission;
 				
 				this.$router.push(this.url); 
 			}

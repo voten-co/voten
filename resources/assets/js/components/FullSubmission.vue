@@ -200,15 +200,15 @@
                 this.setVoteds();
             },
 
-            'Store.submissionUpVotes' () {
+            'Store.state.submissions.upVotes' () {
                 this.setVoteds();
             },
 
-            'Store.submissionDownVotes' () {
+            'Store.state.submissions.downVotes' () {
                 this.setVoteds();
             },
 
-            'Store.submissionBookmarks' () {
+            'Store.state.bookmarks.submissions' () {
                 this.setBookmarked();
             },
         },
@@ -235,19 +235,19 @@
             },
 
             showApprove() {
-                return !this.list.approved_at && Store.moderatingAt.indexOf(this.list.category_id) != -1 && !this.owns;
+                return !this.list.approved_at && Store.state.moderatingAt.indexOf(this.list.category_id) != -1 && !this.owns;
             },
 
             showDisapprove() {
-                return !this.list.deleted_at && Store.moderatingAt.indexOf(this.list.category_id) != -1 && !this.owns;
+                return !this.list.deleted_at && Store.state.moderatingAt.indexOf(this.list.category_id) != -1 && !this.owns;
             },
 
             showNSFW() {
-                return (this.owns || Store.moderatingAt.indexOf(this.list.category_id) != -1) && !this.list.nsfw;
+                return (this.owns || Store.state.moderatingAt.indexOf(this.list.category_id) != -1) && !this.list.nsfw;
             },
 
             showSFW() {
-                return (this.owns || Store.moderatingAt.indexOf(this.list.category_id) != -1) && this.list.nsfw;
+                return (this.owns || Store.state.moderatingAt.indexOf(this.list.category_id) != -1) && this.list.nsfw;
             },
 
             showRemoveTumbnail() {
@@ -353,13 +353,13 @@
              * @return void
              */
             setVoteds () {
-                if (Store.submissionUpVotes.indexOf(this.list.id) != -1) {
+                if (Store.state.submissions.upVotes.indexOf(this.list.id) != -1) {
                     this.upvoted = true;
                     this.downvoted = false;
                     return;
                 }
 
-                if (Store.submissionDownVotes.indexOf(this.list.id) != -1) {
+                if (Store.state.submissions.downVotes.indexOf(this.list.id) != -1) {
                     this.downvoted = true;
                     this.upvoted = false;
                     return;
@@ -375,7 +375,7 @@
              * @return void
              */
             setBookmarked () {
-                if (Store.submissionBookmarks.indexOf(this.list.id) != -1) {
+                if (Store.state.bookmarks.submissions.indexOf(this.list.id) != -1) {
                     this.bookmarked = true;
                 } else {
                     this.bookmarked = false;
@@ -398,14 +398,14 @@
                 axios.post('/bookmark-submission', {
                     id: this.list.id
                 }).then(() => {
-                    if (Store.submissionBookmarks.indexOf(this.list.id) != -1) {
-                        let index = Store.submissionBookmarks.indexOf(this.list.id);
-                        Store.submissionBookmarks.splice(index, 1);
+                    if (Store.state.bookmarks.submissions.indexOf(this.list.id) != -1) {
+                        let index = Store.state.bookmarks.submissions.indexOf(this.list.id);
+                        Store.state.bookmarks.submissions.splice(index, 1);
 
                         return;
                     }
 
-                    Store.submissionBookmarks.push(this.list.id);
+                    Store.state.bookmarks.submissions.push(this.list.id);
                 })
             },
 
@@ -512,8 +512,8 @@
                     this.upvoted = false
                     this.list.upvotes--
 
-                    var index = Store.submissionUpVotes.indexOf(id);
-                    Store.submissionUpVotes.splice(index, 1);
+                    var index = Store.state.submissions.upVotes.indexOf(id);
+                    Store.state.submissions.upVotes.splice(index, 1);
 
                     return
                 }
@@ -523,17 +523,16 @@
                     this.downvoted = false
                     this.list.downvotes--
 
-                    var index = Store.submissionDownVotes.indexOf(id);
-                    Store.submissionDownVotes.splice(index, 1);
+                    var index = Store.state.submissions.downVotes.indexOf(id);
+                    Store.state.submissions.downVotes.splice(index, 1);
                 }
 
                 // Not voted
                 this.upvoted = true
                 this.list.upvotes++
-                Store.submissionUpVotes.push(id)
+                Store.state.submissions.upVotes.push(id)
 
                 this.$eventHub.$emit('push-store');
-
             },
 
 
@@ -560,8 +559,8 @@
                     this.downvoted = false;
                     this.list.downvotes--;
 
-                    var index = Store.submissionDownVotes.indexOf(id);
-                    Store.submissionDownVotes.splice(index, 1);
+                    var index = Store.state.submissions.downVotes.indexOf(id);
+                    Store.state.submissions.downVotes.splice(index, 1);
 
                     return;
                 }
@@ -571,14 +570,14 @@
                     this.upvoted = false;
                     this.list.upvotes--;
 
-                    var index = Store.submissionUpVotes.indexOf(id);
-                    Store.submissionUpVotes.splice(index, 1);
+                    var index = Store.state.submissions.upVotes.indexOf(id);
+                    Store.state.submissions.upVotes.splice(index, 1);
                 }
 
                 // Not voted
                 this.downvoted = true;
                 this.list.downvotes++;
-                Store.submissionDownVotes.push(id);
+                Store.state.submissions.downVotes.push(id);
             },
 
             showPhotoViewer(index = null) {

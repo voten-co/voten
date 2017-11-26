@@ -313,7 +313,7 @@
                     this.selectedCat = null;
                 }
 
-                this.sfw =! Store.category.nsfw;
+                this.sfw =! Store.page.category.nsfw;
             },
 
             /**
@@ -324,7 +324,7 @@
             setDefaultCategories() {
                 let array = [];
 
-                Store.subscribedCategories.forEach(function (element, index) {
+                Store.state.subscribedCategories.forEach(function (element, index) {
                     array.push(element.name)
                 });
 
@@ -352,7 +352,7 @@
                     // success
                     this.errors = [];
 
-                    Store.submissionUpVotes.push(response.data.id);
+                    Store.state.submissions.upVotes.push(response.data.id);
 
                     this.$router.push('/c/' + this.selectedCat + '/' + response.data.slug);
 

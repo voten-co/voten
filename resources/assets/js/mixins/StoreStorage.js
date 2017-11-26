@@ -7,7 +7,7 @@ export default {
          * @return void
          */
         preloadStore() {
-            Store.subscribedCategories = Vue.ls.get('subscribedCategories', []);
+            Store.state.subscribedCategories = Vue.ls.get('subscribedCategories', []);
         },
 
         /**
@@ -35,31 +35,31 @@ export default {
                     sidebar_filter: Store.sidebarFilter
                 }
             }).then((response) => {
-                Store.submissionUpVotes = response.data.submissionUpvotes;
-                Store.submissionDownVotes = response.data.submissionDownvotes;
-                Store.commentUpVotes = response.data.commentUpvotes;
-                Store.commentDownVotes = response.data.commentDownvotes;
-                Store.submissionBookmarks = response.data.bookmarkedSubmissions;
-                Store.commentBookmarks = response.data.bookmarkedComments;
-                Store.categoryBookmarks = response.data.bookmarkedCategories;
-                Store.userBookmarks = response.data.bookmarkedUsers;
-                Store.subscribedCategories = response.data.subscribedCategories;
-                Store.moderatingCategories = response.data.moderatingCategories;
-                Store.blockedUsers = response.data.blockedUsers;
+                Store.state.submissions.upVotes = response.data.submissionUpvotes;
+                Store.state.submissions.downVotes = response.data.submissionDownvotes;
+                Store.state.comments.upVotes = response.data.commentUpvotes;
+                Store.state.comments.downVotes = response.data.commentDownvotes;
+                Store.state.bookmarks.submissions = response.data.bookmarkedSubmissions;
+                Store.state.bookmarks.comments = response.data.bookmarkedComments;
+                Store.state.bookmarks.categories = response.data.bookmarkedCategories;
+                Store.state.bookmarks.users = response.data.bookmarkedUsers;
+                Store.state.subscribedCategories = response.data.subscribedCategories;
+                Store.state.moderatingCategories = response.data.moderatingCategories;
+                Store.state.blocks.users = response.data.blockedUsers;
 
                 response.data.moderatingCategories.forEach(function (element, index) {
-                    Store.moderatingAt.push(element.id);
+                    Store.state.moderatingAt.push(element.id);
                 });
 
                 response.data.subscribedCategories.forEach(function (element, index) {
-                    Store.subscribedAt.push(element.id);
+                    Store.state.subscribedAt.push(element.id);
                 });
 
                 response.data.moderatingCategoriesRecords.forEach(function (element, index) {
                     if (element.role == "administrator") {
-                        Store.administratorAt.push(element.category_id);
+                        Store.state.administratorAt.push(element.category_id);
                     } else if (element.role == "moderator") {
-                        Store.moderatorAt.push(element.category_id);
+                        Store.state.moderatorAt.push(element.category_id);
                     }
                 });
 
@@ -93,13 +93,13 @@ export default {
         },
 
         pullStore() {
-            Store = Vue.ls.get('Store');
+            Store.state = Vue.ls.get('store-state');
             console.log('store pulled');
         },
 
         pushStore() {
             // console.log(Store);
-            Vue.ls.set('Store', Store, 60 * 60 * 1000);
+            Vue.ls.set('store-state', Store.state, 60 * 60 * 1000);
             console.log('store pushed');
         },
 
@@ -122,10 +122,10 @@ export default {
 
             if (document.visibilityState == 'visible') {
                 // this.pullStore();
-                let tempStore = Vue.ls.get('Store');
+                let tempStore = Vue.ls.get('store-state');
 
                 if (tempStore != null) {
-                    Store.submissionUpVotes = tempStore.submissionUpVotes;
+                    Store.state = tempStore;
                     // Store = tempStore;
                     console.log('store pulled');
                 }

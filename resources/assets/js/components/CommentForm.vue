@@ -302,7 +302,7 @@
                     submission_id: this.submission,
                     body: this.temp,
                 }).then((response) => {
-                	Store.commentUpVotes.push(response.data.id);
+                	Store.state.comments.upVotes.push(response.data.id);
                     this.$eventHub.$emit('newComment', response.data);
 
         			this.clear();

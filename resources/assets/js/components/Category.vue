@@ -66,7 +66,7 @@ export default {
 
    	computed: {
 		nsfw() {
-			return Store.category.nsfw && !auth.nsfw;
+			return Store.page.category.nsfw && !auth.nsfw;
 		},
     }
 }

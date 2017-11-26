@@ -7,8 +7,8 @@
                     <div class="category-header-left">
                         <!-- avatar -->
                         <div class="profile-avatar">
-                            <router-link :to="'/c/' + Store.category.name">
-                                <img v-bind:src="Store.category.avatar" v-bind:alt="Store.category.name"/>
+                            <router-link :to="'/c/' + Store.page.category.name">
+                                <img v-bind:src="Store.page.category.avatar" v-bind:alt="Store.page.category.name"/>
                             </router-link>
                         </div>
                         <!-- end avatar -->
@@ -16,14 +16,14 @@
 
                     <div class="category-header-middle flex-align-center">
                         <p>
-                            {{ Store.category.description }}
+                            {{ Store.page.category.description }}
                         </p>
                     </div>
 
                     <div class="category-header-right">
                         <div class="karma">
                             <div class="karma-number">
-                                {{ Store.category.subscribers }}
+                                {{ Store.page.category.subscribers }}
                             </div>
 
                             <div class="karma-text margin-bottom-1">
@@ -41,7 +41,7 @@
         <nav class="nav has-shadow user-select">
             <div class="container">
                 <h1 class="title">
-                    <i class="v-icon v-channel" aria-hidden="true"></i>{{ Store.category.name }}
+                    <i class="v-icon v-channel" aria-hidden="true"></i>{{ Store.page.category.name }}
                 </h1>
 
                 <div class="nav-left">
@@ -144,7 +144,7 @@
                 this.setBookmarked();
             },
 
-            'Store.categoryBookmarks' () {
+            'Store.state.bookmarks.categories' () {
                 this.setBookmarked();
             },
         },
@@ -157,13 +157,13 @@
                     type: 'warning'
                 }).then(() => {
                     axios.post('/category-block', {
-                        category_id: Store.category.id
+                        category_id: Store.page.category.id
                     }).then(() => {
                         this.$router.push('/');
 
                         this.$message({
                             type: 'success',
-                            message: `You no longer will see submissions from #${Store.category.name} in your feed. `
+                            message: `You no longer will see submissions from #${Store.page.category.name} in your feed. `
                         });
                     });
                 }).catch(() => {
@@ -176,7 +176,7 @@
              * @return void
              */
             setBookmarked() {
-                if (Store.categoryBookmarks.indexOf(Store.category.id) != -1) {
+                if (Store.state.bookmarks.categories.indexOf(Store.page.category.id) != -1) {
                     this.bookmarked = true;
                 } else {
                     this.bookmarked = false;
@@ -197,15 +197,15 @@
                 this.bookmarked = !this.bookmarked
 
                 axios.post('/bookmark-category', {
-                    id: Store.category.id
+                    id: Store.page.category.id
                 }).then(() => {
-                    if (Store.categoryBookmarks.indexOf(Store.category.id) != -1) {
-                        var index = Store.categoryBookmarks.indexOf(Store.category.id)
-                        Store.categoryBookmarks.splice(index, 1)
+                    if (Store.state.bookmarks.categories.indexOf(Store.page.category.id) != -1) {
+                        var index = Store.state.bookmarks.categories.indexOf(Store.page.category.id)
+                        Store.state.bookmarks.categories.splice(index, 1)
 
                         return
                     }
-                    Store.categoryBookmarks.push(Store.category.id)
+                    Store.state.bookmarks.categories.push(Store.page.category.id)
                 })
             },
         },
@@ -230,29 +230,29 @@
             },
 
             date () {
-                return moment(Store.category.created_at).utc(moment().format("MMM Do")).format("MMM Do")
+                return moment(Store.page.category.created_at).utc(moment().format("MMM Do")).format("MMM Do")
             },
 
             isModerator () {
-                return Store.moderatingAt.indexOf(Store.category.id) != -1
+                return Store.state.moderatingAt.indexOf(Store.page.category.id) != -1
             },
 
             coverBackground () {
-                if (Store.category.color == 'Red') {
+                if (Store.page.category.color == 'Red') {
                     return '#9a4e4e'
-                } else if (Store.category.color == 'Blue') {
+                } else if (Store.page.category.color == 'Blue') {
                     return '#5487d4'
-                } else if (Store.category.color == 'Dark Blue') {
+                } else if (Store.page.category.color == 'Dark Blue') {
                     return '#2f3b49'
-                } else if (Store.category.color == 'Dark Green') {
+                } else if (Store.page.category.color == 'Dark Green') {
                     return '#507e75'
-                } else if (Store.category.color == 'Bright Green') {
+                } else if (Store.page.category.color == 'Bright Green') {
                     return 'rgb(117, 148, 127)'
-                } else if (Store.category.color == 'Purple') {
+                } else if (Store.page.category.color == 'Purple') {
                     return '#4d4261'
-                } else if (Store.category.color == 'Orange') {
+                } else if (Store.page.category.color == 'Orange') {
                     return '#ffaf40'
-                } else if (Store.category.color == 'Pink') {
+                } else if (Store.page.category.color == 'Pink') {
                     return '#ec7daa'
                 } else { // userStore.color == 'Black'
                     return '#424242'

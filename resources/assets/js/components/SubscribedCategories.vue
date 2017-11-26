@@ -3,7 +3,7 @@
         <div class="margin-bottom-1">
             <h1>
                 Subscribed Channels
-                <span>({{ Store.subscribedCategories.length }})</span>:
+                <span>({{ Store.state.subscribedCategories.length }})</span>:
             </h1>
         </div>
 

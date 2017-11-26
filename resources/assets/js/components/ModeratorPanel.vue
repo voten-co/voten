@@ -64,14 +64,14 @@
             },
 
             isAdministrator () {
-                return Store.administratorAt.indexOf(Store.category.id) != -1
+                return Store.state.administratorAt.indexOf(Store.page.category.id) != -1
             },
         },
 
         beforeRouteEnter(to, from, next){
-            if (Store.category.name == to.params.name) {
+            if (Store.page.category.name == to.params.name) {
                 // loaded
-                if (Store.moderatingAt.indexOf(Store.category.id) != -1) {
+                if (Store.state.moderatingAt.indexOf(Store.page.category.id) != -1) {
                     next()
                 }
             } else {

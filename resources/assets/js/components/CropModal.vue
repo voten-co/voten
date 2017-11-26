@@ -121,7 +121,7 @@
                     axios.post('/category-avatar-crop', {
                         photo: this.photo,
 
-                        name: Store.category.name,
+                        name: Store.page.category.name,
 
                         width: parseInt(this.width * horizontal),
                         x: parseInt(this.x * horizontal),
@@ -129,7 +129,7 @@
                         height: parseInt(this.height * vertical),
                         y: parseInt(this.y * vertical),
                     }).then((response) => {
-                        Store.category.avatar = response.data
+                        Store.page.category.avatar = response.data
                         this.loading = false
                         this.close()
                     });

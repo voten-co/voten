@@ -51,29 +51,29 @@
 
         computed: {
 			name() {
-				return Store.category.name; 
+				return Store.page.category.name;
 			}, 
 
 			avatar() {
-				return Store.category.avatar; 
+				return Store.page.category.avatar;
 			}, 
 
 			coverBackground () {
-	        	if (Store.category.color == 'Red') {
+	        	if (Store.page.category.color == 'Red') {
 	        		return '#9a4e4e'
-	        	} else if (Store.category.color == 'Blue') {
+	        	} else if (Store.page.category.color == 'Blue') {
 	        		return '#5487d4'
-	        	} else if (Store.category.color == 'Dark Blue') {
+	        	} else if (Store.page.category.color == 'Dark Blue') {
 	        		return '#2f3b49'
-	        	} else if (Store.category.color == 'Dark Green') {
+	        	} else if (Store.page.category.color == 'Dark Green') {
 	        		return '#507e75'
-	        	} else if (Store.category.color == 'Bright Green') {
+	        	} else if (Store.page.category.color == 'Bright Green') {
 	        		return 'rgb(117, 148, 127)'
-	        	} else if (Store.category.color == 'Purple') {
+	        	} else if (Store.page.category.color == 'Purple') {
 	        		return '#4d4261'
-	        	} else if (Store.category.color == 'Orange') {
+	        	} else if (Store.page.category.color == 'Orange') {
 	        		return '#ffaf40'
-	        	} else if (Store.category.color == 'Pink') {
+	        	} else if (Store.page.category.color == 'Pink') {
 	        		return '#ec7daa'
 	        	} else { // userStore.color == 'Black'
 	        		return '#424242'
@@ -83,7 +83,7 @@
 		
 		methods: {
 			/**
-	    	 * Checks wheather or not the Store.category needs to be filled or updated, and if yes simply does it
+	    	 * Checks wheather or not the Store.page.category needs to be filled or updated, and if yes simply does it
 	    	 *
 	    	 * @return void
 	    	 */

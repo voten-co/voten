@@ -17,7 +17,7 @@
         <aside class="menu">
         	<div class="flex-space">
 	            <p class="menu-label">
-	                #Recommendeds<span v-if="Store.subscribedCategories.length">({{ Store.subscribedCategories.length }})</span>
+	                #Recommendeds<span v-if="Store.state.subscribedCategories.length">({{ Store.state.subscribedCategories.length }})</span>
 	            </p>
 
 				<div class="ui icon top right active-blue pointing dropdown sidebar-panel-button">
@@ -33,7 +33,7 @@
                 </div>
             </div>
 
-            <div class="no-subscription" v-if="!Store.subscribedCategories.length">
+            <div class="no-subscription" v-if="!Store.state.subscribedCategories.length">
             	<i class="v-icon v-sad" aria-hidden="true"></i>
             	No channels to display
             </div>
@@ -87,7 +87,7 @@ export default {
 
 	created() {
 		axios.get(this.authUrl('sidebar-categories')).then((response) => {
-	    	Store.subscribedCategories = response.data;
+	    	Store.state.subscribedCategories = response.data;
 	    });
 	},
 
@@ -107,7 +107,7 @@ export default {
     	sortedSubscribeds () {
 			var self = this
 
-    		return _.orderBy(Store.subscribedCategories.filter(function (category) {
+    		return _.orderBy(Store.state.subscribedCategories.filter(function (category) {
 				return category.name.toLowerCase().indexOf(self.subscribedFilter.toLowerCase()) !== -1
 			}), 'subscribers', 'desc').slice(0, 5)
     	},

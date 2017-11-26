@@ -42,11 +42,11 @@ export default {
 
     watch: {
         // if the route changes, call again the method
-        'Store.subscribedAt' () {
+        'Store.state.subscribedAt' () {
             this.setSubscribed();
         },
 
-        'Store.category' () {
+        'Store.page.category' () {
             this.setSubscribed();
         }
     },
@@ -58,7 +58,7 @@ export default {
          * @return void
          */
         setSubscribed() {
-            if (Store.subscribedAt.indexOf(Store.category.id) != -1) {
+            if (Store.state.subscribedAt.indexOf(Store.page.category.id) != -1) {
                 this.subscribed = true;
             } else {
                 this.subscribed = false;
@@ -74,24 +74,24 @@ export default {
             this.subscribed = !this.subscribed;
 
             if (this.subscribed) {
-            	Store.subscribedCategories.push(Store.category);
-                Store.subscribedAt.push(Store.category.id);
+            	Store.state.subscribedCategories.push(Store.page.category);
+                Store.state.subscribedAt.push(Store.page.category.id);
 
-            	Store.category.subscribers ++;
+            	Store.page.category.subscribers ++;
             } else {
-            	Store.category.subscribers --;
+            	Store.page.category.subscribers --;
 
-            	let removeItem = Store.category.id;
-				Store.subscribedCategories = Store.subscribedCategories.filter(function (category) {
+            	let removeItem = Store.page.category.id;
+				Store.state.subscribedCategories = Store.state.subscribedCategories.filter(function (category) {
 				  	return category.id != removeItem;
 				});
 
-                let index = Store.subscribedAt.indexOf(Store.category.id);
-                Store.subscribedAt.splice(index, 1);
+                let index = Store.state.subscribedAt.indexOf(Store.page.category.id);
+                Store.state.subscribedAt.splice(index, 1);
             }
 
             axios.post('/subscribe', {
-            	category_id: Store.category.id
+            	category_id: Store.page.category.id
             });
         }
     }

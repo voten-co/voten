@@ -122,11 +122,11 @@
                     this.errors = [];
 
                     // let's add the categoriy_id to the user's moderatingAt and administratorAt
-                    Store.moderatingAt.push(response.data.id);
-                    Store.administratorAt.push(response.data.id);
-                    Store.moderatingCategories.push(response.data);
-                    Store.subscribedCategories.push(response.data);
-                    Store.subscribedAt.push(response.data.id);
+                    Store.state.moderatingAt.push(response.data.id);
+                    Store.state.administratorAt.push(response.data.id);
+                    Store.state.moderatingCategories.push(response.data);
+                    Store.state.subscribedCategories.push(response.data);
+                    Store.state.subscribedAt.push(response.data.id);
 
                     this.$router.push('/c/' + response.data.name + '/mod/settings?created=1');
 

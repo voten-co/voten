@@ -42,7 +42,7 @@ export default {
 
     methods: {
     	/**
-    	 * Checks if the Store.user is filled with right info, if it's not fetches the right ones
+    	 * Checks if the Store.page.user is filled with right info, if it's not fetches the right ones
     	 *
     	 * @return void
     	 */
@@ -53,7 +53,7 @@ export default {
 
     computed: {
     	loaded () {
-    		return Store.user.username == this.$route.params.username
+    		return Store.page.user.username == this.$route.params.username
     	}
     }
 }

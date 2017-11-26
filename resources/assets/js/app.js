@@ -20,13 +20,16 @@ window.Store = {
         },
 
         bookmarks: {
-            submissionBookmarks: [],
-            commentBookmarks: [],
+            submissions: [],
+            comments: [],
             categoryBookmarks: [],
             userBookmarks: [],
         },
 
-        blockedUsers: [],
+        blocks: {
+            users: [],
+            categories: []
+        },
 
         moderatingCategories: [],
         moderatorAt: [],

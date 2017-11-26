@@ -41,7 +41,7 @@
 			subscribe () {
 				this.$emit('subscribed')
 
-            	Store.subscribedCategories.push(this.list)
+            	Store.state.subscribedCategories.push(this.list)
 
             	axios.post('/subscribe', {
 	            	category_id: this.list.id

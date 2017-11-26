@@ -15,9 +15,9 @@
         </header>
 
         <div class="middle background-white"
-             :class="{'flex-center' : !Store.notifications || ! Store.notifications.length}">
+             :class="{'flex-center' : !Store.state.notifications || ! Store.state.notifications.length}">
             <div class="col-7">
-                <div class="user-select v-nth-box" v-if=" !Store.notifications || ! Store.notifications.length">
+                <div class="user-select v-nth-box" v-if=" !Store.state.notifications || ! Store.state.notifications.length">
                     <notification-icon width="250" height="250" class="margin-bottom-3"></notification-icon>
 
                     <h3 class="no-notifications">
@@ -77,7 +77,7 @@
                 let temp = [];
 
                 if (Store.notifications) {
-                    Store.notifications.forEach(function (element, index, self) {
+                    Store.state.notifications.forEach(function (element, index, self) {
                         if (temp.indexOf(element.id) === -1) {
                             unique.push(element);
                             temp.push(element.id);
@@ -103,7 +103,7 @@
             getNotifications() {
                 axios.get('/notifications').then((response) => {
                     if (response.data.length > 0) {
-                        Store.notifications = response.data;
+                        Store.state.notifications = response.data;
                     }
 
                     this.loadReadNotifications();
@@ -119,7 +119,7 @@
                 this.loadMoreButton = false
 
                 axios.post('/all-notifications', { page: this.page }).then((response) => {
-                    Store.notifications.push(...response.data.data);
+                    Store.state.notifications.push(...response.data.data);
 
                     this.page++;
 
@@ -140,18 +140,18 @@
                         // lable it
                         n.broadcasted = true;
 
-                        Store.notifications.unshift(n)
+                        Store.state.notifications.unshift(n)
 
                         // give user the new recieved access (so a refresh won't be needed)
                         if (n.type == 'App\\Notifications\\BecameModerator') {
                             if (n.data.role == "moderator") {
-                                Store.moderatorAt.push(n.data.category.id)
+                                Store.state.moderatorAt.push(n.data.category.id)
                             } else if (n.data.role == "administrator") {
-                                Store.administratorAt.push(n.data.category.id)
+                                Store.state.administratorAt.push(n.data.category.id)
                             }
 
-                            Store.moderatingAt.push(n.data.category.id)
-                            Store.moderatingCategories.push(n.data.category)
+                            Store.state.moderatingAt.push(n.data.category.id)
+                            Store.state.moderatingCategories.push(n.data.category)
                         }
 
                         // Sending web notifications to user's OS (only if browser tab is not active)

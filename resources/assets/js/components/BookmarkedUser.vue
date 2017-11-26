@@ -65,7 +65,7 @@
              *  @return Boolean
              */
             setBookmarked () {
-                if (Store.userBookmarks.indexOf(this.list.id) != -1) this.bookmarked = true
+                if (Store.state.bookmarks.users.indexOf(this.list.id) != -1) this.bookmarked = true
             },
 
             /**
@@ -77,13 +77,13 @@
                 axios.post('/bookmark-user', {
                     id: this.list.id
                 }).then((response) => {
-                    if (Store.userBookmarks.indexOf(this.list.id) != -1) {
-                        var index = Store.userBookmarks.indexOf(this.list.id)
-                        Store.userBookmarks.splice(index, 1)
+                    if (Store.state.bookmarks.users.indexOf(this.list.id) != -1) {
+                        var index = Store.state.bookmarks.users.indexOf(this.list.id)
+                        Store.state.bookmarks.users.splice(index, 1)
 
                         return
                     }
-                    Store.userBookmarks.push(this.list.id)
+                    Store.state.bookmarks.users.push(this.list.id)
                 })
             },
 

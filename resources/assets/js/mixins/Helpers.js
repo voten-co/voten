@@ -36,7 +36,7 @@ export default {
          * @return bool
          */
         isModerating() {
-            return Store.moderatingAt.length > 0;
+            return Store.state.moderatingAt.length > 0;
         },
     },
 

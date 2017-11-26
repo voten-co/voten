@@ -66,7 +66,7 @@
             		return;
             	}
 
-            	Store.subscribedCategories.push(this.category);
+            	Store.state.subscribedCategories.push(this.category);
 
             	axios.post('/subscribe', {
 	            	category_id: this.category.id

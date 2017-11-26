@@ -76,20 +76,20 @@
 	                <div class="ui divider"></div>
 
 					@if(!isMobileDevice())
-						<div class="header" v-if="Store.moderatingCategories.length">Moderating Channels</div>
-						<router-link :to="'/c/' + item.name" class="item" v-for="(item, index) in Store.moderatingCategories"
-									 :key="item.id" v-if="Store.moderatingCategories.length && index < 6">
+						<div class="header" v-if="Store.state.moderatingCategories.length">Moderating Channels</div>
+						<router-link :to="'/c/' + item.name" class="item" v-for="(item, index) in Store.state.moderatingCategories"
+									 :key="item.id" v-if="Store.state.moderatingCategories.length && index < 6">
 							<img class="square" :src="item.avatar" :alt="item.name">
 							@{{ item.name }}
 						</router-link>
-						<div class="ui divider" v-if="Store.moderatingCategories.length && Store.moderatingCategories.length < 6"></div>
+						<div class="ui divider" v-if="Store.state.moderatingCategories.length && Store.state.moderatingCategories.length < 6"></div>
 
-						<div class="item" v-if="Store.moderatingCategories.length && Store.moderatingCategories.length > 6">
+						<div class="item" v-if="Store.state.moderatingCategories.length && Store.state.moderatingCategories.length > 6">
 							<i class="v-icon v-more"></i>
 
 							<div class="left menu">
 								<router-link :to="'/c/' + item.name" class="item"
-											 v-for="(item, index) in Store.moderatingCategories"
+											 v-for="(item, index) in Store.state.moderatingCategories"
 											 :key="item.id" v-if="index > 6"
 								>
 									<img class="square" :src="item.avatar" :alt="item.name">
@@ -97,7 +97,7 @@
 								</router-link>
 							</div>
 						</div>
-						<div class="ui divider" v-if="Store.moderatingCategories.length && Store.moderatingCategories.length > 6"></div>
+						<div class="ui divider" v-if="Store.state.moderatingCategories.length && Store.state.moderatingCategories.length > 6"></div>
 					@endif
 
 	                <a class="item desktop-only" @click="changeModalRoute('keyboard-shortcuts-guide')">

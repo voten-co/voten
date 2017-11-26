@@ -4,7 +4,7 @@
             <div class="flex-space">
                 <p class="menu-label">
                     <strong>My Channels:</strong>
-                    <span v-if="Store.subscribedCategories.length">({{ Store.subscribedCategories.length }})</span>
+                    <span v-if="Store.state.subscribedCategories.length">({{ Store.state.subscribedCategories.length }})</span>
                 </p>
 
                 <!--<div class="ui icon top right active-blue pointing dropdown sidebar-panel-button">-->
@@ -116,7 +116,7 @@
             sortedSubscribeds() {
                 let self = this; 
 
-                return _.orderBy(Store.subscribedCategories.filter(function(category) {
+                return _.orderBy(Store.state.subscribedCategories.filter(function(category) {
                     return category.name.toLowerCase().indexOf(self.subscribedFilter.toLowerCase()) !== -1
                 }), 'subscribers', 'desc').slice(0, (this.categoriesLimit > 2 ? this.categoriesLimit : 2))
             },
@@ -140,18 +140,18 @@
                         sidebar_filter: Store.sidebarFilter
                     }
                 }).then((response) => {
-                    Store.subscribedCategories = response.data;
+                    Store.state.subscribedCategories = response.data;
                 });
             }
         }, 
 
         /**
-         * Set the Store.category. This is not necessary but just an optimization trick. 
+         * Set the Store.page.category. This is not necessary but just an optimization trick.
          * 
          * @return void 
          */
         setStoreCategory(category) {
-            Store.category = category; 
+            Store.page.category = category;
 
             this.$router.push('/c/' + category.name); 
         }

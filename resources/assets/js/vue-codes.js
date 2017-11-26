@@ -78,11 +78,11 @@ const app = new Vue({
 
     computed: {
         unreadNotifications() {
-            return Store.notifications.filter(item => item.read_at == null).length;
+            return Store.state.notifications.filter(item => item.read_at == null).length;
         },
 
         unreadMessages() {
-            return Store.contacts.filter(item => item.last_message.owner.id != auth.id && item.last_message.read_at == null).length;
+            return Store.state.contacts.filter(item => item.last_message.owner.id != auth.id && item.last_message.read_at == null).length;
         },
 
         showRightSidebar() {
@@ -162,10 +162,10 @@ const app = new Vue({
             if (preload.user) {
                 this.submissions = preload.user;
 
-                Store.user = preload.user
+                Store.page.user = preload.user
 
-                if (Store.user.id == auth.id) {
-                    auth.stats = Store.user.stats
+                if (Store.page.user.id == auth.id) {
+                    auth.stats = Store.page.user.stats
                 }
 
                 // clear the preload
@@ -179,10 +179,10 @@ const app = new Vue({
                     username: this.$route.params.username
                 }
             }).then((response) => {
-                Store.user = response.data
+                Store.page.user = response.data
 
-                if (Store.user.id == auth.id) {
-                    auth.stats = Store.user.stats
+                if (Store.page.user.id == auth.id) {
+                    auth.stats = Store.page.user.stats
                 }
             }).catch((error) => {
                 if (error.response.status === 404) {
@@ -212,35 +212,35 @@ const app = new Vue({
         getCategoryStore: _.throttle(function (name) {
             // if landed on a submission page
             if (preload.category && preload.category.name == this.$route.params.name) {
-                Store.category = preload.category;
+                Store.page.category = preload.category;
                 delete preload.category;
                 return;
             }
 
-            if (Store.category.name == undefined || Store.category.name != this.$route.params.name) {
+            if (Store.page.category.name == undefined || Store.page.category.name != this.$route.params.name) {
                 axios.get('/get-category-store', {
                     params: {
                         name: name
                     }
                 }).then((response) => {
-                    Store.category = response.data
+                    Store.page.category = response.data
 
                     // update the category in the user's subscriptions (avatar might have changed)
-                    let category_id = Store.category.id
+                    let category_id = Store.page.category.id
 
                     function findObject(ob) {
                         return ob.id === category_id
                     }
 
-                    let i = Store.subscribedCategories.findIndex(findObject)
+                    let i = Store.state.subscribedCategories.findIndex(findObject)
 
-                    if (i != -1 && Store.subscribedCategories[i].avatar != response.data.avatar) {
-                        Store.subscribedCategories[i].avatar = response.data.avatar
-                        this.putLS('subscribedCategories', Store.subscribedCategories)
+                    if (i != -1 && Store.state.subscribedCategories[i].avatar != response.data.avatar) {
+                        Store.state.subscribedCategories[i].avatar = response.data.avatar
+                        this.putLS('subscribedCategories', Store.state.subscribedCategories)
                     }
 
                     // update the category in the user's moderating (avatar might have changed)
-                    i = Store.moderatingCategories.findIndex(findObject)
+                    i = Store.state.moderatingCategories.findIndex(findObject)
 
                     if (i != -1 && Store.moderatingCategories[i].avatar != response.data.avatar) {
                         Store.moderatingCategories[i].avatar = response.data.avatar
@@ -336,7 +336,7 @@ const app = new Vue({
         markAllNotificationsAsRead() {
             axios.post('/mark-notifications-read');
 
-            Store.notifications.forEach(function (element, index) {
+            Store.state.notifications.forEach(function (element, index) {
                 if (!element.read_at) {
                     element.read_at = moment().utc().format('YYYY-MM-DD HH:mm:ss');
                 }

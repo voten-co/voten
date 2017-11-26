@@ -111,7 +111,7 @@ export default {
 			},
 
 			subscribedCategoriesCount() {
-			   return Store.subscribedCategories.length;
+			   return Store.state.subscribedCategories.length;
 			},
 
 			/**
