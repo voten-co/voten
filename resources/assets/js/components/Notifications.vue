@@ -76,7 +76,7 @@
                 let unique = [];
                 let temp = [];
 
-                if (Store.notifications) {
+                if (Store.state.notifications) {
                     Store.state.notifications.forEach(function (element, index, self) {
                         if (temp.indexOf(element.id) === -1) {
                             unique.push(element);

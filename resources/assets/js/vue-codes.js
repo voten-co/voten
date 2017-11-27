@@ -8,7 +8,6 @@ import LoginModal from './components/LoginModal.vue';
 import Dashboard from './components/Dashboard.vue';
 import NotFound from './components/NotFound.vue';
 import Messages from './components/Messages.vue';
-import LocalStorage from './mixins/LocalStorage';
 import StoreStorage from './mixins/StoreStorage';
 import LeftSidebar from './components/auth/LeftSidebar.vue';
 import RightSidebar from './components/auth/RightSidebar.vue';
@@ -32,16 +31,6 @@ Vue.prototype.$eventHub = new Vue();
 
 
 /**
- * A great wrapper for using LocalStorage which we take advantage of a looot!
- */
-import VueLocalStorage from 'vue-ls';
-const localStorageConfig = {
-    namespace: auth.username + '__voten__'
-};
-Vue.use(VueLocalStorage, localStorageConfig);
-
-
-/**
  * The very serious and important vue instance!!! This is what gives power to voten's
  * front-end. Try to love it, maintain it, appriciate it and maybe even more! This
  * also plays a role in switching states and maintaining the Store.
@@ -49,7 +38,7 @@ Vue.use(VueLocalStorage, localStorageConfig);
 const app = new Vue({
     router,
 
-    mixins: [Helpers, LocalStorage, StoreStorage, WebNotification],
+    mixins: [Helpers, StoreStorage, WebNotification],
 
     components: {
         KeyboardShortcutsGuide,
@@ -72,7 +61,6 @@ const app = new Vue({
         showNewCategoryModal: false,
         showKeyboardShortcutsGuide: false,
         showMarkdownGuide: false,
-        sortFilter: 'hot',
         pageTitle: document.title,
     },
 
@@ -134,10 +122,6 @@ const app = new Vue({
     },
 
     methods: {
-        searchHeader(keyword) {
-            this.$eventHub.$emit('search-header', keyword);
-        },
-
         openMarkdownGuide() {
             this.showMarkdownGuide = true;
         },
@@ -192,19 +176,6 @@ const app = new Vue({
         },
 
         /**
-         * navigates to home route. aaaand bit more in case the current route IS "home"
-         *
-         * @return void
-         */
-        homeRoute() {
-            this.closeModals();
-
-            if (this.$route.name === 'home') {
-                this.$eventHub.$emit('refresh-home');
-            }
-        },
-
-        /**
          * Fetches the info about the category which we need later.
          *
          * @param string name
@@ -236,7 +207,7 @@ const app = new Vue({
 
                     if (i != -1 && Store.state.subscribedCategories[i].avatar != response.data.avatar) {
                         Store.state.subscribedCategories[i].avatar = response.data.avatar
-                        this.putLS('subscribedCategories', Store.state.subscribedCategories)
+                        Vue.putLS('subscribedCategories', Store.state.subscribedCategories)
                     }
 
                     // update the category in the user's moderating (avatar might have changed)
@@ -244,7 +215,7 @@ const app = new Vue({
 
                     if (i != -1 && Store.moderatingCategories[i].avatar != response.data.avatar) {
                         Store.moderatingCategories[i].avatar = response.data.avatar
-                        this.putLS('moderatingCategories', Store.moderatingCategories)
+                        Vue.putLS('moderatingCategories', Store.moderatingCategories)
                     }
                 }).catch((error) => {
                     if (error.response.status === 404) {
@@ -333,7 +304,7 @@ const app = new Vue({
          *
          * @return void
          */
-        markAllNotificationsAsRead() {
+        seenAllNotifications() {
             axios.post('/mark-notifications-read');
 
             Store.state.notifications.forEach(function (element, index) {
@@ -343,25 +314,9 @@ const app = new Vue({
             });
         },
 
-        seenAllNotifications() {
-            this.markAllNotificationsAsRead();
-            this.crossWindowEvent('mark-notifications-read');
-        },
-
         // Used for keyup.esc
         closeModals() {
             Store.contentRouter = 'content';
-        },
-
-        // Tells the component (that contains submissions) to change the sort method.
-        sortBy(sort, event) {
-            if (this.sortFilter == sort) {
-                return;
-            }
-
-            event.preventDefault();
-            this.sortFilter = sort;
-            this.$eventHub.$emit('sort-by', sort);
         },
 
         /**

@@ -95,12 +95,11 @@
 	import HomeSubmissions from '../components/HomeSubmissions.vue';
 	import Announcement from '../components/Announcement.vue';
 	import Helpers from '../mixins/Helpers';
-	import LocalStorage from '../mixins/LocalStorage';
 	import ScrollButton from '../components/ScrollButton.vue';
 	import FeedSettings from '../components/FeedSettings.vue';
 
     export default {
-    	mixins: [Helpers, LocalStorage],
+    	mixins: [Helpers],
 
 	    components: {
 	        HomeSubmissions,
@@ -152,7 +151,7 @@
 
         	    Store.feedFilter = filter;
 
-        	    this.putLS('feed-filter', filter);
+        	    Vue.putLS('feed-filter', filter);
 
         	    this.refresh();
         	},

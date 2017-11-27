@@ -65,7 +65,6 @@
 
 <script>
     import Helpers from '../../mixins/Helpers';
-    import LocalStorage from '../../mixins/LocalStorage';
     import SubmitIcon from '../../components/Icons/SubmitIcon.vue';
     import BookmarkIcon from '../../components/Icons/BookmarkIcon.vue';
     import SettingsIcon from '../../components/Icons/SettingsIcon.vue';
@@ -76,7 +75,7 @@
     import HomeIcon from '../../components/Icons/HomeIcon.vue';
 
     export default {
-        mixins: [Helpers, LocalStorage],
+        mixins: [Helpers],
 
         computed: {
             submitURL() {

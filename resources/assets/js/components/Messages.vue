@@ -146,7 +146,7 @@
 
                     <message v-for="(value, index) in Store.state.messages" :list="value" :key="value.id"
                              :chatting="pageRoute == 'chat'"
-                             :previous="Store.messages[index-1]" :selected="selectedMessages.indexOf(value.id) != -1"
+                             :previous="Store.state.messages[index-1]" :selected="selectedMessages.indexOf(value.id) != -1"
                              @select-message="selectMessage"
                              @last-was-read="markLastMessageAsRead(currentContactId)">
                     </message>
@@ -281,7 +281,7 @@
             filteredContacts () {
                 let self = this;
 
-                if (Store.contacts) {
+                if (Store.state.contacts) {
                     return _.orderBy(Store.state.contacts.filter(function (item) {
                         return item.contact.username.indexOf(self.filter) !== -1;
                     }), 'last_message.created_at', 'desc')
@@ -369,8 +369,8 @@
             deleteMessages () {
                 for (let i = 0; i < this.selectedMessages.length; i++) {
                     for (let j = 0; j < Store.state.messages.length; j++) {
-                        if (Store.messages[j].id === this.selectedMessages[i]) {
-                            let index = Store.state.messages.indexOf(Store.messages[j]);
+                        if (Store.state.messages[j].id === this.selectedMessages[i]) {
+                            let index = Store.state.messages.indexOf(Store.state.messages[j]);
                             Store.state.messages.splice(index, 1);
                         }
                     }
@@ -597,7 +597,7 @@
                 let i = Store.state.contacts.findIndex(findObject);
 
                 if (i !== -1) {
-                    Store.contacts[i].last_message = message
+                    Store.state.contacts[i].last_message = message
                 } else {
                     let contact = message.owner;
                     let last_message = message;
@@ -624,7 +624,7 @@
 
                 var i = Store.state.contacts.findIndex(findObject)
 
-                Store.contacts[i].last_message.read_at = moment().utc().format('YYYY-MM-DD HH:mm:ss')
+                Store.state.contacts[i].last_message.read_at = moment().utc().format('YYYY-MM-DD HH:mm:ss')
             },
 
             /**

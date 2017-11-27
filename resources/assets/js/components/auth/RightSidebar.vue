@@ -68,10 +68,9 @@
 
 <script>
     import Helpers from '../../mixins/Helpers';
-    import LocalStorage from '../../mixins/LocalStorage';
 
     export default {
-        mixins: [Helpers, LocalStorage],
+        mixins: [Helpers],
 
         data() {
             return {
@@ -86,13 +85,13 @@
             },
 
             'categoriesLimit': function() {
-                this.putLS('sidebar-categories-limit', this.categoriesLimit);
+                Vue.putLS('sidebar-categories-limit', this.categoriesLimit);
             }
         },
 
         created() {
-            if (this.isSetLS('sidebar-categories-limit')) {
-                this.categoriesLimit = this.getLS('sidebar-categories-limit');
+            if (Vue.isSetLS('sidebar-categories-limit')) {
+                this.categoriesLimit = Vue.getLS('sidebar-categories-limit');
             }
         },
 
@@ -133,7 +132,7 @@
 
                 Store.sidebarFilter = filter;
 
-                this.putLS('sidebar-filter', filter);
+                Vue.putLS('sidebar-filter', filter);
 
                 axios.get(this.authUrl('sidebar-categories'), {
                     params: {

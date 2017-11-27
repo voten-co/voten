@@ -35,11 +35,7 @@
 </template>
 
 <script>
-    import LocalStorage from '../mixins/LocalStorage';
-
     export default {
-        mixins: [LocalStorage],
-
         data() {
             return {
                 list: [],
@@ -73,8 +69,8 @@
 
         methods: {
             getEmojiList(){
-                if (this.isSetLS('emoji-list')) {
-                    this.list = this.getLS('emoji-list')
+                if (Vue.isSetLS('emoji-list')) {
+                    this.list = Vue.getLS('emoji-list')
                     return
                 }
 
@@ -86,13 +82,13 @@
 
                     this.list = temp
 
-                    this.putLS('emoji-list', temp)
+                    Vue.putLS('emoji-list', temp)
                 })
             },
 
             getHistory(){
-                if (this.isSetLS('emoji-history')) {
-                    this.history = this.getLS('emoji-history')
+                if (Vue.isSetLS('emoji-history')) {
+                    this.history = Vue.getLS('emoji-history')
                 }
             },
 
@@ -115,7 +111,7 @@
 
                     this.history.unshift(e);
 
-                    this.putLS('emoji-history', this.history);
+                    Vue.putLS('emoji-history', this.history);
 
                     return;
                 }
@@ -123,7 +119,7 @@
                 // otherwise create it for the first time
                 this.history.unshift(e);
 
-                this.putLS('emoji-history', this.history);
+                Vue.putLS('emoji-history', this.history);
             }
         }
     };

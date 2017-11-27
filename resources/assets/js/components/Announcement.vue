@@ -9,7 +9,6 @@
 </template>
 
 <script>
-    import LocalStorage from '../mixins/LocalStorage';
     import Markdown from '../components/Markdown.vue';
     import Helpers from '../mixins/Helpers';
 
@@ -18,7 +17,7 @@
         	Markdown
         },
 
-        mixins: [Helpers, LocalStorage],
+        mixins: [Helpers],
 
         data () {
             return {

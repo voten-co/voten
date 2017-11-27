@@ -7,7 +7,7 @@ export default {
          * @return void
          */
         preloadStore() {
-            Store.state.subscribedCategories = Vue.ls.get('subscribedCategories', []);
+            Store.state.subscribedCategories = Vue.getLS('subscribedCategories');
         },
 
         /**
@@ -19,8 +19,8 @@ export default {
             if (auth.isGuest == true) return;
 
             // make sure sideFilter is set
-            if (this.isSetLS('sidebar-filter')) {
-                Store.sidebarFilter = this.getLS('sidebar-filter');
+            if (Vue.isSetLS('sidebar-filter')) {
+                Store.sidebarFilter = Vue.getLS('sidebar-filter');
             } else {
                 Store.sidebarFilter = 'subscribed-channels';
             }
@@ -68,61 +68,40 @@ export default {
         },
 
         /**
-         * Fires a cross window event by filling the 'event' in LocalStorage.
-         *
-         * @param event
-         */
-        crossWindowEvent(event) {
-            Vue.ls.set('event', event, 60 * 60 * 1000);
-        },
-
-        /**
-         * Event in LocalStorage is filled, so it picks up on it, fires it, and then cleans it.
+         * Pulls 'store-state' from LocalStorage and put it in the Store.state.
+         * In other words, loads the Store from the LocalStorage.
          *
          * @return void
          */
-        updateEvent() {
-            // Fire only if there's anything to fire
-            if (Vue.ls.get('event') == '') return;
-
-            // Fire event
-            this.$eventHub.$emit(Vue.ls.get('event'));
-
-            // Empty event storage
-            Vue.ls.set('event', '', 60 * 60 * 1000);
-        },
-
         pullStore() {
-            Store.state = Vue.ls.get('store-state');
+            Store.state = Vue.getLS('store-state');
+
             console.log('store pulled');
         },
 
+        /**
+         * Pushes Store.state into LocalStorage's 'store-state'.
+         * In other words, saves the Store into the LocalStorage.
+         *
+         * @return void
+         */
         pushStore() {
-            // console.log(Store);
-            Vue.ls.set('store-state', Store.state, 60 * 60 * 1000);
+            Vue.putLS('store-state', Store.state);
             console.log('store pushed');
-        },
-
-        syncStore() {
-            return;
         }
     },
 
     created() {
-        this.$eventHub.$on('sync-store', this.syncStore);
         this.$eventHub.$on('push-store', this.pushStore);
         this.$eventHub.$on('pull-store', this.pullStore);
 
-        document.addEventListener("visibilitychange", function() {
-            // let that = this;
-
+        document.addEventListener("visibilitychange", function () {
             if (document.visibilityState == 'hidden') {
                 //
             }
 
             if (document.visibilityState == 'visible') {
-                // this.pullStore();
-                let tempStore = Vue.ls.get('store-state');
+                let tempStore = Vue.getLS('store-state');
 
                 if (tempStore != null) {
                     Store.state = tempStore;
@@ -133,35 +112,15 @@ export default {
         });
     },
 
-    /**
-     * Listen for localStorage changes. This makes it possible for us to synce all open tabs
-     * together so we won't have data missing in one tab.
-     */
-    mounted() {
-        Vue.ls.on('event', this.updateEvent);
-    },
-
     watch: {
-        // this should be _debaunced
-        // 'Store'() {
-        //     console.log('store changed');
-        //
-        //     this.pushStore();
-        // },
+        'Store.state': {
+            handler() {
+                if (Store.initialFilled === false) return;
 
-        // 'hasFocus'() {
-        //     console.log('focus changed');
-        //
-        //     if (this.hasFocus === true) {
-        //         console.log('focus == true');
-        //         this.pullStore();
-        //     }
-        // }
+                this.$eventHub.$emit('push-store');
+            },
+
+            deep: true
+        }
     },
-    //
-    // computed: {
-    //     hasFocus() {
-    //         return document.hasFocus();
-    //     }
-    // }
 };
