@@ -75,8 +75,6 @@ export default {
          */
         pullStore() {
             Store.state = Vue.getLS('store-state');
-
-            console.log('store pulled');
         },
 
         /**
@@ -85,10 +83,22 @@ export default {
          *
          * @return void
          */
-        pushStore() {
+        pushStore(delay = false) {
+            if (delay === false) {
+                this.pushStoreNow();
+                return;
+            }
+
+            this.optimizedPushStore();
+        },
+
+        pushStoreNow() {
             Vue.putLS('store-state', Store.state);
-            console.log('store pushed');
-        }
+        },
+
+        optimizedPushStore: _.debounce(function () {
+            Vue.putLS('store-state', Store.state);
+        }, 1000),
     },
 
     created() {
@@ -96,17 +106,12 @@ export default {
         this.$eventHub.$on('pull-store', this.pullStore);
 
         document.addEventListener("visibilitychange", function () {
-            if (document.visibilityState == 'hidden') {
-                //
-            }
-
+            // Just opened (or clicked on) the window
             if (document.visibilityState == 'visible') {
-                let tempStore = Vue.getLS('store-state');
+                let tempStore = Vue.getLS('store-state', true);
 
                 if (tempStore != null) {
                     Store.state = tempStore;
-                    // Store = tempStore;
-                    console.log('store pulled');
                 }
             }
         });
