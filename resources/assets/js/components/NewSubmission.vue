@@ -174,7 +174,7 @@
 
             <!-- NSFW Toggle -->
             <div class="form-toggle no-border">
-                This post is safe for work:
+                Safe for work:
                 <el-switch v-model="sfw"></el-switch>
             </div>
 
