@@ -14,8 +14,8 @@ window.Store = {
         bookmarks: {
             submissions: [],
             comments: [],
-            categoryBookmarks: [],
-            userBookmarks: [],
+            categories: [],
+            users: [],
         },
 
         blocks: {
@@ -40,11 +40,15 @@ window.Store = {
             feed: {
                 excludeUpvotedSubmissions: false,
                 excludeDownvotedSubmissions: false,
-                filter: null,
+                submissionsFilter: null,
             },
 
             commentForm: {
                 sendOnEnter: true,
+            },
+
+            sidebar: {
+                categoriesFilter: null
             }
         }
     },

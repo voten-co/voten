@@ -26,8 +26,6 @@ class StoreController extends Controller
      */
     public function index(Request $request)
     {
-        $user = Auth::user();
-
         return collect([
             'submissionUpvotes'           => $this->submissionUpvotes(), // cached
             'submissionDownvotes'         => $this->submissionDownvotes(), // cached
