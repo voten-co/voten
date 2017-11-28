@@ -16,7 +16,8 @@
                                     @{{ list.owner.username }}
                                 </router-link>
 
-                                <el-tooltip :content="'Created: ' + longDate" placement="bottom-start" transition="false" :open-delay="500">
+                                <el-tooltip :content="'Created: ' + longDate" placement="bottom-start"
+                                            transition="false" :open-delay="500">
                                     <span class="date">
                                         {{ date }}
                                     </span>
@@ -35,22 +36,26 @@
 
                             <div class="voting-wrapper display-none">
                                 <a class="fa-stack align-right" @click="voteUp">
-                                    <i class="v-icon v-up-fat" :class="upvoted ? 'go-primary animated bounceIn' : 'go-gray'"></i>
+                                    <i class="v-icon v-up-fat"
+                                       :class="upvoted ? 'go-primary animated bounceIn' : 'go-gray'"></i>
                                 </a>
 
-                                <el-tooltip :content="detailedPoints" placement="bottom" transition="false" :open-delay="500">
+                                <el-tooltip :content="detailedPoints" placement="bottom" transition="false"
+                                            :open-delay="500">
                                     <div class="detail">
                                         {{ points }} Points
                                     </div>
                                 </el-tooltip>
 
                                 <a class="fa-stack align-right" @click="voteDown">
-                                    <i class="v-icon v-down-fat" :class="downvoted ? 'go-red animated bounceIn' : 'go-gray'"></i>
+                                    <i class="v-icon v-down-fat"
+                                       :class="downvoted ? 'go-red animated bounceIn' : 'go-gray'"></i>
                                 </a>
                             </div>
 
                             <div class="margin-left-1">
-                                <el-dropdown size="medium" type="primary" trigger="click" :show-timeout="0" :hide-timeout="0">
+                                <el-dropdown size="medium" type="primary" trigger="click" :show-timeout="0"
+                                             :hide-timeout="0">
                                     <i class="el-icon-more-outline"></i>
 
                                     <el-dropdown-menu slot="dropdown">
@@ -91,9 +96,11 @@
                                     </el-dropdown-menu>
                                 </el-dropdown>
 
-                                <el-tooltip :content="bookmarked ? 'Unbookmark' : 'Bookmark'" placement="bottom-end" transition="false" :open-delay="500">
+                                <el-tooltip :content="bookmarked ? 'Unbookmark' : 'Bookmark'" placement="bottom-end"
+                                            transition="false" :open-delay="500">
                                     <a class="fa-stack" @click="bookmark">
-                                        <i class="v-icon h-yellow" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'"></i>
+                                        <i class="v-icon h-yellow"
+                                           :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'"></i>
                                     </a>
                                 </el-tooltip>
                             </div>
@@ -137,7 +144,8 @@
                             @downvote="voteDown"
                 ></gif-player>
 
-                <report-submission :submission="list" :visible.sync="showReportModal" v-if="showReportModal"></report-submission>
+                <report-submission :submission="list" :visible.sync="showReportModal"
+                                   v-if="showReportModal"></report-submission>
             </article>
         </div>
     </transition>
@@ -172,49 +180,88 @@
 
         data () {
             return {
-                bookmarked: false,
-                upvoted: false,
-                downvoted: false,
                 hidden: false,
                 showReportModal: false,
                 photoViewerIndex: null,
                 photoViewer: false,
                 embedViewer: false,
                 gifPlayer: false,
-                auth,
-                Store
             }
         },
 
         created () {
-            this.setBookmarked();
-            this.setVoteds();
             this.$eventHub.$on('photo-viewer', this.showPhotoViewer);
             this.$eventHub.$on('scape', this.closeViwer);
         },
 
-        watch: {
-            // call again the method if the route changes
-            '$route' () {
-                this.setBookmarked();
-                this.setVoteds();
-            },
-
-            'Store.state.submissions.upVotes' () {
-                this.setVoteds();
-            },
-
-            'Store.state.submissions.downVotes' () {
-                this.setVoteds();
-            },
-
-            'Store.state.bookmarks.submissions' () {
-                this.setBookmarked();
-            },
-        },
-
-
         computed: {
+            upvoted: {
+                get() {
+                    return Store.state.submissions.upVotes.indexOf(this.list.id) !== -1 ? true : false;
+                },
+
+                set() {
+                    if (this.currentVote === 'upvote') {
+                        this.list.upvotes--;
+                        let index = Store.state.submissions.upVotes.indexOf(this.list.id);
+                        Store.state.submissions.upVotes.splice(index, 1);
+
+                        return;
+                    }
+
+                    if (this.currentVote === 'downvote') {
+                        this.list.downvotes--;
+                        let index = Store.state.submissions.downVotes.indexOf(this.list.id);
+                        Store.state.submissions.downVotes.splice(index, 1);
+                    }
+
+                    this.list.upvotes++;
+                    Store.state.submissions.upVotes.push(this.list.id);
+                }
+            },
+
+            downvoted: {
+                get() {
+                    return Store.state.submissions.downVotes.indexOf(this.list.id) !== -1 ? true : false;
+                },
+
+                set() {
+                    if (this.currentVote === 'downvote') {
+                        this.list.downvotes--;
+                        let index = Store.state.submissions.downVotes.indexOf(this.list.id);
+                        Store.state.submissions.downVotes.splice(index, 1);
+
+                        return;
+                    }
+
+                    if (this.currentVote === 'upvote') {
+                        this.list.upvotes--;
+                        let index = Store.state.submissions.upVotes.indexOf(this.list.id);
+                        Store.state.submissions.upVotes.splice(index, 1);
+                    }
+
+                    this.list.downvotes++;
+                    Store.state.submissions.downVotes.push(this.list.id);
+                }
+            },
+
+            bookmarked: {
+                get() {
+                    return Store.state.bookmarks.submissions.indexOf(this.list.id) !== -1 ? true : false;
+                },
+
+                set() {
+                    if (Store.state.bookmarks.submissions.indexOf(this.list.id) !== -1) {
+                        let index = Store.state.bookmarks.submissions.indexOf(this.list.id);
+                        Store.state.bookmarks.submissions.splice(index, 1);
+
+                        return;
+                    }
+
+                    Store.state.bookmarks.submissions.push(this.list.id);
+                }
+            },
+
             points() {
                 let total = this.list.upvotes - this.list.downvotes;
                 if (total < 0) return 0;
@@ -265,7 +312,7 @@
              * @return boolean
              */
             nsfw() {
-                return this.list.nsfw && !auth.nsfwMedia
+                return this.list.nsfw && !auth.nsfwMedia;
             },
 
             /**
@@ -274,13 +321,7 @@
              * @return mixed
              */
             currentVote () {
-                if (this.upvoted)
-                    return "upvote";
-
-                if (this.downvoted)
-                    return "downvote";
-
-                return null;
+                return this.upvoted ? "upvote" : this.downvoted ? "downvote" : null;
             },
 
             date () {
@@ -299,6 +340,78 @@
 
         methods: {
             /**
+             * Upvote submission
+             *
+             * @return void
+             */
+            voteUp: _.debounce(function () {
+                if (this.isGuest) {
+                    this.mustBeLogin();
+                    return;
+                }
+
+                axios.post('/upvote-submission', {
+                    submission_id: this.list.id,
+                    previous_vote: this.currentVote
+                });
+
+                if (this.currentVote === 'upvote') {
+                    this.upvoted = false;
+                    return;
+                } else if (this.currentVote === 'downvote') {
+                    this.downvoted = false;
+                }
+
+                this.upvoted = true;
+            }, 700, { leading: true, trailing: false }),
+
+            /**
+             * Downvote submission
+             *
+             * @return void
+             */
+            voteDown: _.debounce(function () {
+                if (this.isGuest) {
+                    this.mustBeLogin();
+                    return;
+                }
+
+                axios.post('/downvote-submission', {
+                    submission_id: this.list.id,
+                    previous_vote: this.currentVote
+                });
+
+                if (this.currentVote === 'downvote') {
+                    this.downvoted = false;
+                    return;
+                } else if (this.currentVote === 'upvote') {
+                    this.upvoted = false;
+                }
+
+                this.downvoted = true;
+            }, 700, { leading: true, trailing: false }),
+
+            /**
+             * Toggles the submission into bookmarks
+             *
+             * @return void
+             */
+            bookmark: _.debounce(function (submission) {
+                if (this.isGuest) {
+                    this.mustBeLogin();
+                    return;
+                }
+
+                this.bookmarked = !this.bookmarked;
+
+                axios.post('/bookmark-submission', {
+                    id: this.list.id
+                }).catch(() => {
+                    this.bookmarked = !this.bookmarked;
+                });
+            }, 700, { leading: true, trailing: false }),
+
+            /**
              * Fires the "submission-edit" event that gets picked up by the TextSubmission.vue component.
              *
              * @return void
@@ -316,9 +429,7 @@
                 this.list.data.thumbnail = null;
                 this.list.data.img = null;
 
-                axios.post('/remove-thumbnail', {
-                    id: this.list.id
-                });
+                axios.post('/remove-thumbnail', { id: this.list.id });
             },
 
             /**
@@ -327,10 +438,12 @@
              * @return void
              */
             markAsNSFW() {
+                this.list.nsfw = true;
+
                 axios.post('/mark-submission-nsfw', {
                     id: this.list.id
-                }).then((response) => {
-                    this.list.nsfw = true;
+                }).catch(() => {
+                    this.list.nsfw = false;
                 })
             },
 
@@ -340,73 +453,13 @@
              * @return void
              */
             markAsSFW() {
+                this.list.nsfw = false;
+
                 axios.post('/mark-submission-sfw', {
                     id: this.list.id
-                }).then(() => {
-                    this.list.nsfw = false;
+                }).catch(() => {
+                    this.list.nsfw = true;
                 });
-            },
-
-            /**
-             * whether or not the user has voted on submission
-             *
-             * @return void
-             */
-            setVoteds () {
-                if (Store.state.submissions.upVotes.indexOf(this.list.id) != -1) {
-                    this.upvoted = true;
-                    this.downvoted = false;
-                    return;
-                }
-
-                if (Store.state.submissions.downVotes.indexOf(this.list.id) != -1) {
-                    this.downvoted = true;
-                    this.upvoted = false;
-                    return;
-                }
-
-                this.downvoted = false;
-                this.upvoted = false;
-            },
-
-            /**
-             * Whether or not user has bookmarked the submission
-             *
-             * @return void
-             */
-            setBookmarked () {
-                if (Store.state.bookmarks.submissions.indexOf(this.list.id) != -1) {
-                    this.bookmarked = true;
-                } else {
-                    this.bookmarked = false;
-                }
-            },
-
-            /**
-             * Toggles the submission into bookmarks
-             *
-             * @return void
-             */
-            bookmark (submission) {
-                if (this.isGuest) {
-                    this.mustBeLogin();
-                    return;
-                }
-
-                this.bookmarked = !this.bookmarked
-
-                axios.post('/bookmark-submission', {
-                    id: this.list.id
-                }).then(() => {
-                    if (Store.state.bookmarks.submissions.indexOf(this.list.id) != -1) {
-                        let index = Store.state.bookmarks.submissions.indexOf(this.list.id);
-                        Store.state.bookmarks.submissions.splice(index, 1);
-
-                        return;
-                    }
-
-                    Store.state.bookmarks.submissions.push(this.list.id);
-                })
             },
 
             /**
@@ -415,7 +468,9 @@
              * @return void
              */
             hide() {
-                axios.post('/hide-submission', { submission_id: this.list.id }).then(() => {
+                axios.post('/hide-submission', {
+                    submission_id: this.list.id
+                }).then(() => {
                     this.$message({
                         message: 'You will no longer see this post in your feed.',
                         type: 'success'
@@ -431,7 +486,9 @@
              * @return void
              */
             destroy() {
-                axios.post('/destroy-submission', { id: this.list.id }).then(() => {
+                axios.post('/destroy-submission', {
+                    id: this.list.id
+                }).then(() => {
                     this.$message({
                         message: 'Post was successfully deleted.',
                         type: 'success'
@@ -463,7 +520,7 @@
              *
              * @return void
              */
-            disapprove(){
+            disapprove() {
                 axios.post('/disapprove-submission', {
                     submission_id: this.list.id
                 }).then(() => {
@@ -485,97 +542,8 @@
              *
              * @return void
              */
-            report () {
+            report() {
                 this.showReportModal = true;
-            },
-
-            /**
-             * Upvote submission
-             *
-             * @return void
-             */
-            voteUp () {
-                if (this.isGuest) {
-                    this.mustBeLogin();
-                    return;
-                }
-
-                let id = this.list.id
-
-                axios.post('/upvote-submission', {
-                    submission_id: id,
-                    previous_vote: this.currentVote
-                })
-
-                // Have up-voted
-                if (this.upvoted) {
-                    this.upvoted = false
-                    this.list.upvotes--
-
-                    var index = Store.state.submissions.upVotes.indexOf(id);
-                    Store.state.submissions.upVotes.splice(index, 1);
-
-                    return
-                }
-
-                // Have down-voted
-                if (this.downvoted) {
-                    this.downvoted = false
-                    this.list.downvotes--
-
-                    var index = Store.state.submissions.downVotes.indexOf(id);
-                    Store.state.submissions.downVotes.splice(index, 1);
-                }
-
-                // Not voted
-                this.upvoted = true
-                this.list.upvotes++
-                Store.state.submissions.upVotes.push(id)
-            },
-
-
-            /**
-             * Downvote submission
-             *
-             * @return void
-             */
-            voteDown () {
-                if (this.isGuest) {
-                    this.mustBeLogin();
-                    return;
-                }
-
-                let id = this.list.id;
-
-                axios.post('/downvote-submission', {
-                    submission_id: id,
-                    previous_vote: this.currentVote
-                });
-
-                // Have down-voted
-                if (this.downvoted) {
-                    this.downvoted = false;
-                    this.list.downvotes--;
-
-                    var index = Store.state.submissions.downVotes.indexOf(id);
-                    Store.state.submissions.downVotes.splice(index, 1);
-
-                    return;
-                }
-
-                // Have up-voted
-                if (this.upvoted) {
-                    this.upvoted = false;
-                    this.list.upvotes--;
-
-                    var index = Store.state.submissions.upVotes.indexOf(id);
-                    Store.state.submissions.upVotes.splice(index, 1);
-                }
-
-                // Not voted
-                this.downvoted = true;
-                this.list.downvotes++;
-                Store.state.submissions.downVotes.push(id);
             },
 
             showPhotoViewer(index = null) {

@@ -162,10 +162,10 @@
 				this.page = 0;
 	    	},
 
-            refresh() {
+            refresh: _.debounce(function () {
                 this.clearContent();
                 this.getSubmissions();
-            },
+            }, 700, { leading: true, trailing: false }),
 	    }
     };
 </script>

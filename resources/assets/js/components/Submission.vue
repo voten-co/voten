@@ -79,7 +79,8 @@
                             @downvote="voteDown"
                 ></gif-player>
 
-                <report-submission :submission="list" :visible.sync="showReportModal" v-if="showReportModal"></report-submission>
+                <report-submission :submission="list" :visible.sync="showReportModal"
+                                   v-if="showReportModal"></report-submission>
             </article>
         </div>
     </transition>
@@ -114,9 +115,6 @@
 
         data () {
             return {
-                bookmarked: false,
-                upvoted: false,
-                downvoted: false,
                 hidden: false,
                 sendingQuickComment: false,
                 quickComment: '',
@@ -129,32 +127,78 @@
         },
 
         created () {
-            this.setBookmarked();
-            this.setVoteds();
             this.$eventHub.$on('photo-viewer', this.showPhotoViewer);
             this.$eventHub.$on('scape', this.closeViwer);
         },
 
-        watch: {
-            '$route' () {
-                this.setBookmarked();
-                this.setVoteds();
-            },
-
-            'Store.state.submissions.upVotes' () {
-                this.setVoteds();
-            },
-
-            'Store.state.submissions.downVotes' () {
-                this.setVoteds();
-            },
-
-            'Store.state.bookmarks.submissions' () {
-                this.setBookmarked();
-            },
-        },
-
         computed: {
+            upvoted: {
+                get() {
+                    return Store.state.submissions.upVotes.indexOf(this.list.id) !== -1 ? true : false;
+                },
+
+                set() {
+                    if (this.currentVote === 'upvote') {
+                        this.list.upvotes--;
+                        let index = Store.state.submissions.upVotes.indexOf(this.list.id);
+                        Store.state.submissions.upVotes.splice(index, 1);
+
+                        return;
+                    }
+
+                    if (this.currentVote === 'downvote') {
+                        this.list.downvotes--;
+                        let index = Store.state.submissions.downVotes.indexOf(this.list.id);
+                        Store.state.submissions.downVotes.splice(index, 1);
+                    }
+
+                    this.list.upvotes++;
+                    Store.state.submissions.upVotes.push(this.list.id);
+                }
+            },
+
+            downvoted: {
+                get() {
+                    return Store.state.submissions.downVotes.indexOf(this.list.id) !== -1 ? true : false;
+                },
+
+                set() {
+                    if (this.currentVote === 'downvote') {
+                        this.list.downvotes--;
+                        let index = Store.state.submissions.downVotes.indexOf(this.list.id);
+                        Store.state.submissions.downVotes.splice(index, 1);
+
+                        return;
+                    }
+
+                    if (this.currentVote === 'upvote') {
+                        this.list.upvotes--;
+                        let index = Store.state.submissions.upVotes.indexOf(this.list.id);
+                        Store.state.submissions.upVotes.splice(index, 1);
+                    }
+
+                    this.list.downvotes++;
+                    Store.state.submissions.downVotes.push(this.list.id);
+                }
+            },
+
+            bookmarked: {
+                get() {
+                    return Store.state.bookmarks.submissions.indexOf(this.list.id) !== -1 ? true : false;
+                },
+
+                set() {
+                    if (Store.state.bookmarks.submissions.indexOf(this.list.id) !== -1) {
+                        let index = Store.state.bookmarks.submissions.indexOf(this.list.id);
+                        Store.state.bookmarks.submissions.splice(index, 1);
+
+                        return;
+                    }
+
+                    Store.state.bookmarks.submissions.push(this.list.id);
+                }
+            },
+
             points() {
                 let total = this.list.upvotes - this.list.downvotes;
 
@@ -192,15 +236,7 @@
              * @return mixed
              */
             currentVote () {
-                if (this.upvoted) {
-                    return "upvote";
-                }
-
-                if (this.downvoted) {
-                    return "downvote";
-                }
-
-                return null;
+                return this.upvoted ? "upvote" : this.downvoted ? "downvote" : null;
             },
 
             date () {
@@ -209,13 +245,11 @@
         },
 
         methods: {
-            removeThumbnail(){
+            removeThumbnail() {
                 this.list.data.thumbnail = null
                 this.list.data.img = null
 
-                axios.post('/remove-thumbnail', {
-                    id: this.list.id
-                })
+                axios.post('/remove-thumbnail', { id: this.list.id });
             },
 
             /**
@@ -224,10 +258,12 @@
              * @return void
              */
             markAsNSFW() {
+                this.list.nsfw = true;
+
                 axios.post('/mark-submission-nsfw', {
                     id: this.list.id
-                }).then((response) => {
-                    this.list.nsfw = true
+                }).catch(() => {
+                    this.list.nsfw = false;
                 })
             },
 
@@ -237,74 +273,14 @@
              * @return void
              */
             markAsSFW() {
+                this.list.nsfw = false;
+
                 axios.post('/mark-submission-sfw', {
                     id: this.list.id
-                }).then((response) => {
-                    this.list.nsfw = false
-                })
+                }).catch(() => {
+                    this.list.nsfw = true;
+                });
             },
-
-            /**
-             * whether or not the user has voted on submission
-             *
-             * @return void
-             */
-            setVoteds () {
-                if (Store.state.submissions.upVotes.indexOf(this.list.id) != -1) {
-                    this.upvoted = true;
-                    this.downvoted = false;
-                    return;
-                }
-
-                if (Store.state.submissions.downVotes.indexOf(this.list.id) != -1) {
-                    this.downvoted = true;
-                    this.upvoted = false;
-                    return;
-                }
-
-                this.downvoted = false;
-                this.upvoted = false;
-            },
-
-            /**
-             * Whether or not user has bookmarked the submission
-             *
-             * @return void
-             */
-            setBookmarked() {
-                if (Store.state.bookmarks.submissions.indexOf(this.list.id) != -1) {
-                    this.bookmarked = true;
-                } else {
-                    this.bookmarked = false;
-                }
-            },
-
-            /**
-             * Toggles the submission into bookmarks
-             *
-             * @return void
-             */
-            bookmark: _.throttle(function (submission) {
-                if (this.isGuest) {
-                    this.mustBeLogin();
-                    return;
-                }
-
-                this.bookmarked = !this.bookmarked
-
-                axios.post('/bookmark-submission', {
-                    id: this.list.id
-                }).then(() => {
-                    if (Store.state.bookmarks.submissions.indexOf(this.list.id) != -1) {
-                        var index = Store.state.bookmarks.submissions.indexOf(this.list.id);
-                        Store.state.bookmarks.submissions.splice(index, 1);
-
-                        return;
-                    }
-
-                    Store.state.bookmarks.submissions.push(this.list.id);
-                })
-            }, 500),
 
             /**
              * hide(block) submission
@@ -366,92 +342,76 @@
             },
 
             /**
-             *  Upvote submission
+             * Upvote submission
              *
-             *  @return void
+             * @return void
              */
-            voteUp: _.throttle(function () {
+            voteUp: _.debounce(function () {
                 if (this.isGuest) {
                     this.mustBeLogin();
                     return;
                 }
-
-                let id = this.list.id;
 
                 axios.post('/upvote-submission', {
-                    submission_id: id,
+                    submission_id: this.list.id,
                     previous_vote: this.currentVote
-                })
+                });
 
-                // Have up-voted
-                if (this.upvoted) {
+                if (this.currentVote === 'upvote') {
                     this.upvoted = false;
-                    this.list.upvotes--;
-
-                    var index = Store.state.submissions.upVotes.indexOf(id);
-                    Store.state.submissions.upVotes.splice(index, 1);
-
                     return;
-                }
-
-                // Have down-voted
-                if (this.downvoted) {
+                } else if (this.currentVote === 'downvote') {
                     this.downvoted = false;
-                    this.list.downvotes--;
-
-                    var index = Store.state.submissions.downVotes.indexOf(id);
-                    Store.state.submissions.downVotes.splice(index, 1);
                 }
 
-                // Not voted
                 this.upvoted = true;
-                this.list.upvotes++;
-                Store.state.submissions.upVotes.push(id);
-            }, 500),
+            }, 700, { leading: true, trailing: false }),
 
             /**
-             *  Downvote submission
+             * Downvote submission
              *
-             *  @return void
+             * @return void
              */
-            voteDown: _.throttle(function () {
+            voteDown: _.debounce(function () {
                 if (this.isGuest) {
                     this.mustBeLogin();
                     return;
                 }
 
-                let id = this.list.id
-
                 axios.post('/downvote-submission', {
-                    submission_id: id,
+                    submission_id: this.list.id,
                     previous_vote: this.currentVote
-                })
+                });
 
-                // Have down-voted
-                if (this.downvoted) {
-                    this.downvoted = false
-                    this.list.downvotes--
-
-                    var index = Store.state.submissions.downVotes.indexOf(id);
-                    Store.state.submissions.downVotes.splice(index, 1);
-
-                    return
+                if (this.currentVote === 'downvote') {
+                    this.downvoted = false;
+                    return;
+                } else if (this.currentVote === 'upvote') {
+                    this.upvoted = false;
                 }
 
-                // Have up-voted
-                if (this.upvoted) {
-                    this.upvoted = false
-                    this.list.upvotes--
+                this.downvoted = true;
+            }, 700, { leading: true, trailing: false }),
 
-                    var index = Store.state.submissions.upVotes.indexOf(id);
-                    Store.state.submissions.upVotes.splice(index, 1);
+            /**
+             * Toggles the submission into bookmarks
+             *
+             * @return void
+             */
+            bookmark: _.debounce(function (submission) {
+                if (this.isGuest) {
+                    this.mustBeLogin();
+                    return;
                 }
 
-                // Not voted
-                this.downvoted = true
-                this.list.downvotes++
-                Store.state.submissions.downVotes.push(id)
-            }, 500),
+                this.bookmarked = !this.bookmarked;
+
+                axios.post('/bookmark-submission', {
+                    id: this.list.id
+                }).catch(() => {
+                    this.bookmarked = !this.bookmarked;
+                });
+            }, 700, { leading: true, trailing: false }),
 
             showPhotoViewer(index = null){
                 if (index !== null) {
