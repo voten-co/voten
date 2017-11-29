@@ -220,7 +220,6 @@
                 selectedMessages: [],
                 pageRoute: 'contacts',
                 currentContact: [],
-                currentChatId: '',
                 messageText: '',
                 currentContactId: 0,
                 page: 1,
@@ -282,11 +281,8 @@
                 let self = this;
 
                 if (Store.state.contacts) {
-                    return _.orderBy(Store.state.contacts.filter(function (item) {
-                        return item.contact.username.indexOf(self.filter) !== -1;
-                    }), 'last_message.created_at', 'desc')
+                    return _.orderBy(Store.state.contacts.filter(item => item.contact.username.indexOf(self.filter) !== -1), 'last_message.created_at', 'desc');
                 }
-
             }
         },
 
@@ -305,9 +301,7 @@
                     this.backToContacts()
 
                     // remove the contact
-                    Store.state.contacts = Store.state.contacts.filter(function (contact) {
-                        return contact.contact_id != contactID
-                    })
+                    Store.state.contacts = Store.state.contacts.filter(contact => contact.contact_id != contactID);
                 })
             },
 
@@ -332,8 +326,8 @@
                 })
             },
 
-            emoji(shortname){
-                this.messageText = this.messageText + shortname + " "
+            emoji(shortname) {
+                this.messageText = this.messageText + shortname + " ";
             },
 
             toggleEmojiPicker() {
@@ -349,7 +343,7 @@
              *
              * @return void
              */
-            selectMessage (id) {
+            selectMessage(id) {
                 if (this.selectedMessages.indexOf(id) !== -1) {
                     let index = this.selectedMessages.indexOf(id);
                     this.selectedMessages.splice(index, 1);
@@ -590,11 +584,7 @@
              * @return void
              */
             updateLastMessage (contact_id, message) {
-                function findObject(ob) {
-                    return ob.contact.id === contact_id
-                }
-
-                let i = Store.state.contacts.findIndex(findObject);
+                let i = Store.state.contacts.findIndex(c => c.contact.id === contact_id);
 
                 if (i !== -1) {
                     Store.state.contacts[i].last_message = message
@@ -618,13 +608,9 @@
              * @return void
              */
             markLastMessageAsRead (contact_id) {
-                function findObject(ob) {
-                    return ob.contact.id === contact_id
-                }
+                let i = Store.state.contacts.findIndex(c => c.contact.id === contact_id);
 
-                var i = Store.state.contacts.findIndex(findObject)
-
-                Store.state.contacts[i].last_message.read_at = this.now()
+                Store.state.contacts[i].last_message.read_at = this.now();
             },
 
             /**
@@ -696,14 +682,8 @@
              *
              * @return
              */
-            updateMessage (id, d) {
-                var data = d;
-
-                function findObject(ob) {
-                    return ob.data.text === data.text
-                }
-
-                Store.state.messages.find(findObject).id = id;
+            updateMessage (id, data) {
+                Store.state.messages.find(m => m.data.text === data.text).id = id;
             },
 
             /**
@@ -713,11 +693,11 @@
              * @return void
              */
             markConversationAsRead (contactId) {
-                if (this.currentContactId != contactId) return
+                if (this.currentContactId != contactId) return;
 
-                Store.state.messages.forEach(function (element, index) {
+                Store.state.messages.forEach((element, index) => {
                     if (element.owner.id == auth.id) {
-                        element.read_at = this.now()
+                        element.read_at = this.now();
                     }
                 });
             },
@@ -734,13 +714,9 @@
              * @return void
              */
             markMessageAsRead (messageId, contactId) {
-                if (this.currentContactId != contactId) return
+                if (this.currentContactId != contactId) return;
 
-                function findObject(ob) {
-                    return ob.id === messageId
-                }
-
-                Store.state.messages.find(findObject).read_at = this.now();
+                Store.state.messages.find(m => m.id === messageId).read_at = this.now();
             }
         },
     }
