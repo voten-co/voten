@@ -15,8 +15,7 @@ export default {
          *
          * @return bool
          */
-        isGuest()
-        {
+        isGuest() {
             return auth.isGuest;
         },
 
@@ -25,8 +24,7 @@ export default {
          *
          * @return bool
          */
-        isMobile()
-        {
+        isMobile() {
             return auth.isMobileDevice;
         },
 
@@ -47,8 +45,7 @@ export default {
          * @param string font
          * @return void
          */
-        loadWebFont()
-        {
+        loadWebFont() {
             WebFont.load({
                 google: {
                     families: [auth.font]
@@ -63,8 +60,7 @@ export default {
          * @param bool explicit
          * @return void
          */
-        setPageTitle(title, explicit = false)
-        {
+        setPageTitle(title, explicit = false) {
             if (explicit == true) {
                 document.title = title;
                 return;
@@ -78,8 +74,7 @@ export default {
          *
          * @return void
          */
-        mustBeLogin()
-        {
+        mustBeLogin() {
             if (!this.isGuest) return;
 
             this.$eventHub.$emit('login-modal');
@@ -92,8 +87,7 @@ export default {
          * @param integer length
          * @return string
          */
-        str_limit(str, length)
-        {
+        str_limit(str, length) {
             if (str.length > length)
                 return str = str.substring(0, length) + '...';
             return str;
@@ -118,8 +112,7 @@ export default {
          *
          * @return boolean
          */
-        whileTyping (event)
-        {
+        whileTyping (event) {
             return event.target.tagName.toLowerCase() === 'textarea' || event.target.tagName.toLowerCase() === 'input';
         },
 
@@ -129,8 +122,7 @@ export default {
          * @param string timestamp
          * @return boolean
          */
-        isItToday(timestamp)
-        {
+        isItToday(timestamp) {
             if (typeof timestamp != 'string') {
                 timestamp = timestamp.date;
             }
@@ -145,8 +137,7 @@ export default {
          * @param string timezone
          * @return string
          */
-        parseDateForToday(timestamp, timezone)
-        {
+        parseDateForToday(timestamp, timezone) {
             if (typeof timestamp != 'string') {
                 timestamp = timestamp.date;
             }
@@ -165,8 +156,7 @@ export default {
          * @param string timezone
          * @return string
          */
-        parseDate(timestamp, timezone)
-        {
+        parseDate(timestamp, timezone) {
             if (typeof timestamp != 'string') {
                 timestamp = timestamp.date;
             }
@@ -185,8 +175,7 @@ export default {
          * @param string timezone
          * @return string
          */
-        parseFullDate(timestamp, timezone)
-        {
+        parseFullDate(timestamp, timezone) {
             if (typeof timestamp != 'string') {
                 timestamp = timestamp.date;
             }
@@ -205,8 +194,7 @@ export default {
          * @param string timezone
          * @return string
          */
-        parsDiffForHumans(timestamp, timezone)
-        {
+        parsDiffForHumans(timestamp, timezone) {
             if (typeof timestamp != 'string') {
                 timestamp = timestamp.date;
             }
@@ -224,8 +212,7 @@ export default {
          * @param string route
          * @return string
          */
-        authUrl(route)
-        {
+        authUrl(route) {
             return !this.isGuest ? '/auth/' + route : '/' + route;
         },
 
