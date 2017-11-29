@@ -50,7 +50,7 @@ export default {
     },
 
     methods: {
-        subscribe() {
+        subscribe: _.debounce(function () {
             this.subscribed = !this.subscribed;
 
             axios.post('/subscribe', {
@@ -58,7 +58,7 @@ export default {
             }).catch(() => {
                 this.subscribed = !this.subscribed;
             });
-        }
+        }, 700, { leading: true, trailing: false }),
     }
 }
 </script>

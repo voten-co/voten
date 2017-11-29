@@ -16,7 +16,7 @@
                     </h2>
 
                     <div class="flex-align-center">
-                        <el-tooltip :content="bookmarked ? 'Unbookmark' : 'Bookmark'" placement="left"
+                        <el-tooltip :content="bookmarked ? 'Unbookmark' : 'Bookmark'" placement="top"
                                     transition="false" :open-delay="500">
                             <i class="v-icon h-yellow pointer"
                                :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'" @click="bookmark"></i>

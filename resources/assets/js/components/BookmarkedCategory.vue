@@ -112,7 +112,7 @@
                 });
             }, 700, { leading: true, trailing: false }),
 
-            subscribe() {
+            subscribe: _.debounce(function () {
                 this.subscribed = !this.subscribed;
 
                 axios.post('/subscribe', {
@@ -122,7 +122,7 @@
                 });
 
                 this.$emit('subscribed');
-            },
+            }, 700, { leading: true, trailing: false }),
         },
     };
 </script>

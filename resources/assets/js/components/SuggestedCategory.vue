@@ -38,11 +38,10 @@
     export default {
     	mixins: [Helpers],
 
-        data: function () {
+        data() {
             return {
             	visible: false,
                 category: [],
-                Store
             }
         },
 
@@ -53,10 +52,11 @@
         methods: {
             getCategory() {
             	axios.get(this.authUrl('suggested-category')).then((response) => {
-					if (response.data != null) {
-						this.visible = true
-						this.category = response.data
-					}
+            	    // We got nothing to suggest.
+					if (response.data == null) return;
+
+                    this.visible = true;
+                    this.category = response.data;
             	});
             },
 
@@ -67,6 +67,7 @@
             	}
 
             	Store.state.subscribedCategories.push(this.category);
+                Store.state.subscribedAt.push(this.category.id);
 
             	axios.post('/subscribe', {
 	            	category_id: this.category.id
