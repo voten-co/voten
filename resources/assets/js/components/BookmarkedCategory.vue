@@ -46,30 +46,51 @@
         data() {
             return {
                 Store,
-                bookmarked: false,
-                subscribed: false,
                 visible: true
             }
         },
 
         props: ['list'],
 
-        created() {
-            this.setBookmarked();
-            this.setSubscribed();
-        },
+        computed: {
+            bookmarked: {
+                get() {
+                    return Store.state.bookmarks.categories.indexOf(this.list.id) !== -1 ? true : false;
+                },
 
-        watch: {
-            'Store.state.bookmarks.categories' () {
-                this.setBookmarked();
+                set() {
+                    if (Store.state.bookmarks.categories.indexOf(this.list.id) !== -1) {
+                        let index = Store.state.bookmarks.categories.indexOf(this.list.id);
+                        Store.state.bookmarks.categories.splice(index, 1);
+
+                        return;
+                    }
+
+                    Store.state.bookmarks.categories.push(this.list.id);
+                }
             },
 
-            'Store.state.subscribedAt' () {
-                this.setSubscribed();
-            }
-        },
+            subscribed: {
+                get() {
+                    return Store.state.subscribedAt.indexOf(this.list.id) !== -1 ? true : false;
+                },
 
-        computed: {
+                set() {
+                    if (Store.state.subscribedAt.indexOf(this.list.id) !== -1) {
+                        let removeItem = this.list.id;
+                        Store.state.subscribedCategories = Store.state.subscribedCategories.filter(category => category.id != removeItem);
+
+                        let index = Store.state.subscribedAt.indexOf(this.list.id);
+                        Store.state.subscribedAt.splice(index, 1);
+
+                        return;
+                    }
+
+                    Store.state.subscribedCategories.push(this.list);
+                    Store.state.subscribedAt.push(this.list.id);
+                }
+            },
+
             /**
              * Has the user just registered?
              *
@@ -81,79 +102,23 @@
         },
 
         methods: {
-            /**
-             * Whether or not user has bookmarked the category
-             *
-             * @return void
-             */
-            setBookmarked() {
-                if (Store.state.bookmarks.categories.indexOf(this.list.id) != -1) {
-                    this.bookmarked = true;
-                }
-            },
-
-            /**
-             * Whether or not user has subscribed to the category
-             *
-             * @return void
-             */
-            setSubscribed() {
-                if (Store.state.subscribedAt.indexOf(this.list.id) != -1) {
-                    this.subscribed = true;
-                } else {
-                    this.subscribed = false;
-                }
-            },
-
-            /**
-             * Toggles the category into bookmarks
-             *
-             * @return void
-             */
-            bookmark(category) {
+            bookmark: _.debounce(function () {
                 this.bookmarked = !this.bookmarked;
 
                 axios.post('/bookmark-category', {
                     id: this.list.id
-                }).then(() => {
-                    if (Store.state.bookmarks.categories.indexOf(this.list.id) != -1) {
-                        let index = Store.state.bookmarks.categories.indexOf(this.list.id);
-                        Store.state.bookmarks.categories.splice(index, 1);
+                }).catch(() => {
+                    this.bookmarked = !this.bookmarked;
+                });
+            }, 700, { leading: true, trailing: false }),
 
-                        return;
-                    }
-
-                    Store.state.bookmarks.categories.push(this.list.id);
-                })
-            },
-
-            /**
-             * Subscribes to the category.
-             *
-             * @return void
-             */
             subscribe() {
                 this.subscribed = !this.subscribed;
 
-                if (this.subscribed)
-                // is subscribing
-                {
-                    Store.state.subscribedCategories.push(this.list);
-                    Store.state.subscribedAt.push(this.list.id);
-                } else
-                // is un-subscribing
-                {
-                    let removeItem = this.list.id;
-                    Store.state.subscribedCategories = Store.state.subscribedCategories.filter(function (category) {
-                        return category.id != removeItem;
-                    });
-
-                    let index = Store.state.subscribedAt.indexOf(this.list.id);
-                    Store.state.subscribedAt.splice(index, 1);
-                }
-
                 axios.post('/subscribe', {
                     category_id: this.list.id
+                }).catch(() => {
+                    this.subscribed = !this.subscribed;
                 });
 
                 this.$emit('subscribed');

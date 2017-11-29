@@ -123,30 +123,18 @@
             return {
                 showModeratorsModal: false,
                 showRulesModal: false,
-                Store,
-                bookmarked: false,
                 showFirstHeader: true
             }
         },
 
         created () {
-            this.setBookmarked();
             this.$eventHub.$on('scrolled-to-top', () => {
                 this.showFirstHeader = true
             });
+
             this.$eventHub.$on('scrolled-a-bit', () => {
                 this.showFirstHeader = false
             });
-        },
-
-        watch: {
-            '$route' () {
-                this.setBookmarked();
-            },
-
-            'Store.state.bookmarks.categories' () {
-                this.setBookmarked();
-            },
         },
 
         methods: {
@@ -170,47 +158,40 @@
                 });
             },
 
-            /**
-             * Whether or not user has bookmarked the category
-             *
-             * @return void
-             */
-            setBookmarked() {
-                if (Store.state.bookmarks.categories.indexOf(Store.page.category.id) != -1) {
-                    this.bookmarked = true;
-                } else {
-                    this.bookmarked = false;
-                }
-            },
-
-            /**
-             *  Toggles the category into bookmarks
-             *
-             *  @return void
-             */
-            bookmark (category) {
+            bookmark: _.debounce(function () {
                 if (this.isGuest) {
                     this.mustBeLogin();
                     return;
                 }
 
-                this.bookmarked = !this.bookmarked
+                this.bookmarked = !this.bookmarked;
 
                 axios.post('/bookmark-category', {
                     id: Store.page.category.id
-                }).then(() => {
-                    if (Store.state.bookmarks.categories.indexOf(Store.page.category.id) != -1) {
-                        var index = Store.state.bookmarks.categories.indexOf(Store.page.category.id)
-                        Store.state.bookmarks.categories.splice(index, 1)
-
-                        return
-                    }
-                    Store.state.bookmarks.categories.push(Store.page.category.id)
-                })
-            },
+                }).catch(() => {
+                    this.bookmarked = !this.bookmarked;
+                });
+            }, 700, { leading: true, trailing: false }),
         },
 
         computed: {
+            bookmarked: {
+                get() {
+                    return Store.state.bookmarks.categories.indexOf(Store.page.category.id) !== -1 ? true : false;
+                },
+
+                set() {
+                    if (Store.state.bookmarks.categories.indexOf(Store.page.category.id) !== -1) {
+                        let index = Store.state.bookmarks.categories.indexOf(Store.page.category.id);
+                        Store.state.bookmarks.categories.splice(index, 1);
+
+                        return;
+                    }
+
+                    Store.state.bookmarks.categories.push(Store.page.category.id);
+                }
+            },
+
             /**
              * the sort of the page
              *

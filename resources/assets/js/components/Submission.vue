@@ -289,7 +289,12 @@
              */
             hide () {
                 this.hidden = true;
-                axios.post('/hide-submission', { submission_id: this.list.id });
+
+                axios.post('/hide-submission', {
+                    submission_id: this.list.id
+                }).catch(() => {
+                    this.hidden = false;
+                });
             },
 
             /**
@@ -298,7 +303,8 @@
              * @return void
              */
             destroy () {
-                axios.post('/destroy-submission', { id: this.list.id })
+                axios.post('/destroy-submission', { id: this.list.id });
+
                 if (this.full) {
                     this.$router.push('/');
                 } else {
@@ -312,10 +318,12 @@
              * @return void
              */
             approve() {
+                this.list.approved_at = moment().utc().format('YYYY-MM-DD HH:mm:ss');
+
                 axios.post('/approve-submission', {
                     submission_id: this.list.id
-                }).then(() => {
-                    this.list.approved_at = moment().utc().format('YYYY-MM-DD HH:mm:ss')
+                }).catch(() => {
+                    this.list.approved_at = null;
                 })
             },
 
@@ -324,12 +332,14 @@
              *
              * @return void
              */
-            disapprove(){
+            disapprove() {
+                this.hidden = true;
+
                 axios.post('/disapprove-submission', {
                     submission_id: this.list.id
-                }).then(() => {
-                    this.hidden = true;
-                })
+                }).catch(() => {
+                    this.hidden = false;
+                });
             },
 
             /**
@@ -341,11 +351,6 @@
                 this.showReportModal = true;
             },
 
-            /**
-             * Upvote submission
-             *
-             * @return void
-             */
             voteUp: _.debounce(function () {
                 if (this.isGuest) {
                     this.mustBeLogin();
@@ -367,11 +372,6 @@
                 this.upvoted = true;
             }, 700, { leading: true, trailing: false }),
 
-            /**
-             * Downvote submission
-             *
-             * @return void
-             */
             voteDown: _.debounce(function () {
                 if (this.isGuest) {
                     this.mustBeLogin();
@@ -393,12 +393,7 @@
                 this.downvoted = true;
             }, 700, { leading: true, trailing: false }),
 
-            /**
-             * Toggles the submission into bookmarks
-             *
-             * @return void
-             */
-            bookmark: _.debounce(function (submission) {
+            bookmark: _.debounce(function () {
                 if (this.isGuest) {
                     this.mustBeLogin();
                     return;

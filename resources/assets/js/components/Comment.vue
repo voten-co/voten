@@ -140,9 +140,6 @@
                 editing: false,
                 body: this.list,
                 visible: true,
-                bookmarked: false,
-                upvoted: false,
-                downvoted: false,
                 reply: false,
                 childrenLimit: 4,
                 highlighted: false,
@@ -151,8 +148,6 @@
         },
 
         created() {
-        	this.setBookmarked();
-        	this.setVoteds();
             this.$eventHub.$on('newComment', this.newComment);
             this.$eventHub.$on('patchedComment', this.patchedComment);
             this.$eventHub.$on('deletedComment', this.deletedComment);
@@ -165,26 +160,74 @@
             });
 		},
 
-		watch: {
-            '$route' () {
-                this.setBookmarked();
-                this.setVoteds();
-            },
-
-            'Store.state.comments.upVotes' () {
-                this.setVoteds();
-            },
-
-            'Store.state.comments.downVotes' () {
-                this.setVoteds();
-            },
-
-            'Store.state.bookmarks.comments' () {
-                this.setBookmarked();
-            },
-		},
-
         computed: {
+            upvoted: {
+                get() {
+                    return Store.state.comments.upVotes.indexOf(this.list.id) !== -1 ? true : false;
+                },
+
+                set() {
+                    if (this.currentVote === 'upvote') {
+                        this.list.upvotes--;
+                        let index = Store.state.comments.upVotes.indexOf(this.list.id);
+                        Store.state.comments.upVotes.splice(index, 1);
+
+                        return;
+                    }
+
+                    if (this.currentVote === 'downvote') {
+                        this.list.downvotes--;
+                        let index = Store.state.comments.downVotes.indexOf(this.list.id);
+                        Store.state.comments.downVotes.splice(index, 1);
+                    }
+
+                    this.list.upvotes++;
+                    Store.state.comments.upVotes.push(this.list.id);
+                }
+            },
+
+            downvoted: {
+                get() {
+                    return Store.state.comments.downVotes.indexOf(this.list.id) !== -1 ? true : false;
+                },
+
+                set() {
+                    if (this.currentVote === 'downvote') {
+                        this.list.downvotes--;
+                        let index = Store.state.comments.downVotes.indexOf(this.list.id);
+                        Store.state.comments.downVotes.splice(index, 1);
+
+                        return;
+                    }
+
+                    if (this.currentVote === 'upvote') {
+                        this.list.upvotes--;
+                        let index = Store.state.comments.upVotes.indexOf(this.list.id);
+                        Store.state.comments.upVotes.splice(index, 1);
+                    }
+
+                    this.list.downvotes++;
+                    Store.state.comments.downVotes.push(this.list.id);
+                }
+            },
+
+            bookmarked: {
+                get() {
+                    return Store.state.bookmarks.comments.indexOf(this.list.id) !== -1 ? true : false;
+                },
+
+                set() {
+                    if (Store.state.bookmarks.comments.indexOf(this.list.id) !== -1) {
+                        let index = Store.state.bookmarks.comments.indexOf(this.list.id);
+                        Store.state.bookmarks.comments.splice(index, 1);
+
+                        return;
+                    }
+
+                    Store.state.bookmarks.comments.push(this.list.id);
+                }
+            },
+
             isParent() {
                 return this.list.parent_id == 0 ? true : false;
             },
@@ -272,19 +315,13 @@
 			},
 
             /**
-             * The current vote type. It's being used to optimize the voting request on the server-side
+             * The current vote type. It's being used to optimize the voing request on the server-side.
+             *
+             * @return mixed
              */
-			currentVote () {
-			    if (this.upvoted) {
-			    	return "upvote";
-			    }
-
-				if (this.downvoted) {
-					return "downvote";
-				}
-
-				return null;
-			},
+            currentVote () {
+                return this.upvoted ? "upvote" : this.downvoted ? "downvote" : null;
+            },
 
             date () {
             	return moment(this.list.created_at).utc(moment().format("Z")).fromNow();
@@ -371,41 +408,6 @@
                 this.$eventHub.$emit('edit-comment', this.list); 
             },
 
-        	/**
-             * whether or not the user has voted on comment
-             *
-             * @return void
-             */
-            setVoteds () {
-            	if (Store.state.comments.upVotes.indexOf(this.list.id) != -1) {
-            		this.upvoted = true;
-            		this.downvoted = false;
-            		return;
-            	}
-
-            	if (Store.state.comments.downVotes.indexOf(this.list.id) != -1) {
-            		this.downvoted = true;
-            		this.upvoted = false;
-            		return;
-            	}
-
-                this.downvoted = false;
-                this.upvoted = false;
-            },
-
-        	/**
-             * whether or not user has bookmarked the comment
-             *
-             * @return void
-             */
-            setBookmarked() {
-            	if(Store.state.bookmarks.comments.indexOf(this.list.id) != -1) {
-            		this.bookmarked = true;
-            	} else {
-                    this.bookmarked = false;
-                }
-            },
-
         	newComment(comment) {
                 if (this.list.id != comment.parent_id) return;
 
@@ -443,29 +445,6 @@
         		this.showReportModal = true;
             },
 
-            /**
-             *  Toggles the comment into bookmarks
-             */
-        	bookmark() {
-        		if (this.isGuest) {
-            		this.mustBeLogin();
-            		return;
-            	}
-
-        		this.bookmarked = !this.bookmarked;
-
-				axios.post('/bookmark-comment', {
-					id: this.list.id,
-				}).then((response) => {
-					if (Store.state.bookmarks.comments.indexOf(this.list.id) != -1){
-	                	var index = Store.state.bookmarks.comments.indexOf(this.list.id);
-	                	Store.state.bookmarks.comments.splice(index, 1);
-	                	return;
-	                }
-					Store.state.bookmarks.comments.push(this.list.id);
-				});
-        	},
-
         	/**
              *  Send comment to CommentForm to be replied to. 
              * 
@@ -482,94 +461,62 @@
                 this.$eventHub.$emit('reply-comment', this.list); 
         	},
 
-            /**
-             *  upVote comment
-             *
-             *  @return void
-             */
-            voteUp () {
-            	if (this.isGuest) {
-            		this.mustBeLogin();
-            		return;
-            	}
+            bookmark: _.debounce(function () {
+                if (this.isGuest) {
+                    this.mustBeLogin();
+                    return;
+                }
 
-				let id = this.list.id;
+                this.bookmarked = !this.bookmarked;
 
-				axios.post('/upvote-comment', {
-                    comment_id: id,
+                axios.post('/bookmark-comment', {
+                    id: this.list.id
+                }).catch(() => {
+                    this.bookmarked = !this.bookmarked;
+                });
+            }, 700, { leading: true, trailing: false }),
+
+            voteUp: _.debounce(function () {
+                if (this.isGuest) {
+                    this.mustBeLogin();
+                    return;
+                }
+
+                axios.post('/upvote-comment', {
+                    comment_id: this.list.id,
                     previous_vote: this.currentVote
                 });
 
-            	// Have up-voted
-            	if (this.upvoted) {
-            		this.upvoted = false;
-            		this.list.upvotes --;
+                if (this.currentVote === 'upvote') {
+                    this.upvoted = false;
+                    return;
+                } else if (this.currentVote === 'downvote') {
+                    this.downvoted = false;
+                }
 
-            		var index = Store.state.comments.upVotes.indexOf(id);
-                	Store.state.comments.upVotes.splice(index, 1);
+                this.upvoted = true;
+            }, 700, { leading: true, trailing: false }),
 
-            		return;
-            	}
+            voteDown: _.debounce(function () {
+                if (this.isGuest) {
+                    this.mustBeLogin();
+                    return;
+                }
 
-				// Have down-voted
-            	if (this.downvoted) {
-            		this.downvoted = false;
-            		this.list.downvotes --;
-
-            		var index = Store.state.comments.downVotes.indexOf(id);
-                	Store.state.comments.downVotes.splice(index, 1);
-            	}
-
-            	// Not voted
-            	this.upvoted = true;
-            	this.list.upvotes ++;
-            	Store.state.comments.upVotes.push(id);
-            },
-
-
-            /**
-             *  downVote comment
-             *
-             *  @return void
-             */
-            voteDown () {
-            	if (this.isGuest) {
-            		this.mustBeLogin();
-            		return;
-            	}
-
-				let id = this.list.id;
-
-				axios.post('/downvote-comment', {
-                    comment_id: id,
+                axios.post('/downvote-comment', {
+                    comment_id: this.list.id,
                     previous_vote: this.currentVote
                 });
 
-            	// Have down-voted
-            	if (this.downvoted) {
-            		this.downvoted = false;
-            		this.list.downvotes --;
+                if (this.currentVote === 'downvote') {
+                    this.downvoted = false;
+                    return;
+                } else if (this.currentVote === 'upvote') {
+                    this.upvoted = false;
+                }
 
-            		var index = Store.state.comments.downVotes.indexOf(id);
-                	Store.state.comments.downVotes.splice(index, 1);
-
-            		return;
-            	}
-
-				// Have up-voted
-            	if (this.upvoted) {
-            		this.upvoted = false;
-            		this.list.upvotes --;
-
-            		var index = Store.state.comments.upVotes.indexOf(id);
-                	Store.state.comments.upVotes.splice(index, 1);
-            	}
-
-            	// Not voted
-            	this.downvoted = true;
-            	this.list.downvotes ++;
-            	Store.state.comments.downVotes.push(id);
-            },
+                this.downvoted = true;
+            }, 700, { leading: true, trailing: false }),
 
             /**
              * Deletes the comment. Only the owner is allowed to make such decision.
@@ -598,10 +545,10 @@
              *
              * @return void
              */
-			approve(){
+			approve() {
 				axios.post('/approve-comment', {
 				    comment_id: this.list.id
-				}).then((response) => {
+				}).then(() => {
 				    this.list.approved_at = moment().utc().format('YYYY-MM-DD HH:mm:ss');
 				})
 			},
@@ -611,10 +558,10 @@
              *
              * @return void
              */
-			disapprove(){
+			disapprove() {
 				axios.post('/disapprove-comment', {
 				    comment_id: this.list.id
-				}).then((response) => {
+				}).then(() => {
 					this.visible = false;
 				})
 			},

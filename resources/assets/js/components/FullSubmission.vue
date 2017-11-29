@@ -339,11 +339,6 @@
         },
 
         methods: {
-            /**
-             * Upvote submission
-             *
-             * @return void
-             */
             voteUp: _.debounce(function () {
                 if (this.isGuest) {
                     this.mustBeLogin();
@@ -365,11 +360,6 @@
                 this.upvoted = true;
             }, 700, { leading: true, trailing: false }),
 
-            /**
-             * Downvote submission
-             *
-             * @return void
-             */
             voteDown: _.debounce(function () {
                 if (this.isGuest) {
                     this.mustBeLogin();
@@ -391,12 +381,7 @@
                 this.downvoted = true;
             }, 700, { leading: true, trailing: false }),
 
-            /**
-             * Toggles the submission into bookmarks
-             *
-             * @return void
-             */
-            bookmark: _.debounce(function (submission) {
+            bookmark: _.debounce(function () {
                 if (this.isGuest) {
                     this.mustBeLogin();
                     return;

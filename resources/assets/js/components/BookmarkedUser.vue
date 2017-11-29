@@ -47,45 +47,41 @@
         data() {
             return {
                 Store,
-                bookmarked: false,
                 visible: true
             }
         },
 
         props: ['list'],
 
-        created () {
-            this.setBookmarked()
+        computed: {
+            bookmarked: {
+                get() {
+                    return Store.state.bookmarks.users.indexOf(this.list.id) !== -1 ? true : false;
+                },
+
+                set() {
+                    if (Store.state.bookmarks.users.indexOf(this.list.id) !== -1) {
+                        let index = Store.state.bookmarks.users.indexOf(this.list.id);
+                        Store.state.bookmarks.users.splice(index, 1);
+
+                        return;
+                    }
+
+                    Store.state.bookmarks.users.push(this.list.id);
+                }
+            },
         },
 
         methods: {
-            /**
-             *  Whether or not user has bookmarked the submission
-             *
-             *  @return Boolean
-             */
-            setBookmarked () {
-                if (Store.state.bookmarks.users.indexOf(this.list.id) != -1) this.bookmarked = true
-            },
-
-            /**
-             *  Toggles the user into bookmarks
-             */
-            bookmark (user) {
-                this.bookmarked = !this.bookmarked
+            bookmark: _.debounce(function () {
+                this.bookmarked = !this.bookmarked;
 
                 axios.post('/bookmark-user', {
                     id: this.list.id
-                }).then((response) => {
-                    if (Store.state.bookmarks.users.indexOf(this.list.id) != -1) {
-                        var index = Store.state.bookmarks.users.indexOf(this.list.id)
-                        Store.state.bookmarks.users.splice(index, 1)
-
-                        return
-                    }
-                    Store.state.bookmarks.users.push(this.list.id)
-                })
-            },
+                }).catch(() => {
+                    this.bookmarked = !this.bookmarked;
+                });
+            }, 700, { leading: true, trailing: false }),
 
             sendMessage(user) {
                 this.$eventHub.$emit('start-conversation', user);

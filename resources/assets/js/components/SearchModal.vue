@@ -170,7 +170,7 @@
                 }).catch(() => {
                     this.loading = false;
                 });
-            }, 600),
+            }, 600, { leading: true, trailing: false }),
 
             close() {
                 this.$eventHub.$emit('close');
