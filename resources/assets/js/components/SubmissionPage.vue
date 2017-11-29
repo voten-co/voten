@@ -95,11 +95,9 @@
                 loadingComments: true,
                 loadingSubmission: true,
                 comments: [],
-                auth,
                 sort: 'hot',
                 onlineUsers: [],
                 category: this.$route.params.name,
-                Store,
                 preload
             }
         },

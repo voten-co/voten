@@ -74,29 +74,23 @@ const app = new Vue({
         },
 
         showRightSidebar() {
-            if (Store.contentRouter === 'notifications') {
-                return false;
-            }
-
-            if (Store.contentRouter === 'messages') {
-                return false;
-            }
-
-            if (Store.contentRouter === 'search') {
-                return false;
-            }
-
-            return true;
-        }
+            return Store.contentRouter === 'notifications' || Store.contentRouter === 'messages' || Store.contentRouter === 'search' ? false : true;
+        },
     },
-
 
     watch: {
         '$route' () {
             this.closeModals();
         },
-    },
 
+        'unreadNotifications'() {
+            this.updatePageTitle();
+        },
+
+        'unreadMessages'() {
+            this.updatePageTitle();
+        },
+    },
 
     created: function () {
         this.loadWebFont();
@@ -268,17 +262,13 @@ const app = new Vue({
          * @return void
          */
         updatePageTitle() {
-            // disable for now
-            return;
-
             let total = this.unreadMessages + this.unreadNotifications;
 
             if (total > 0) {
                 document.title = '(' + total + ') ' + this.pageTitle;
-                return;
+            } else {
+                document.title = this.pageTitle;
             }
-
-            document.title = this.pageTitle;
         },
 
         /**
@@ -295,8 +285,6 @@ const app = new Vue({
             if (newRoute === 'notifications') {
                 this.seenAllNotifications();
             }
-
-            this.updatePageTitle();
         },
 
         /**
@@ -307,14 +295,18 @@ const app = new Vue({
         seenAllNotifications() {
             axios.post('/mark-notifications-read');
 
-            Store.state.notifications.forEach(function (element, index) {
-                if (!element.read_at) {
-                    element.read_at = moment().utc().format('YYYY-MM-DD HH:mm:ss');
+            Store.state.notifications.forEach((element, index) => {
+                if (! element.read_at) {
+                    element.read_at = this.now();
                 }
             });
         },
 
-        // Used for keyup.esc
+        /**
+         * Used for keyup.esc
+         *
+         * @return void
+         */
         closeModals() {
             Store.contentRouter = 'content';
         },

@@ -207,6 +207,15 @@ export default {
         },
 
         /**
+         * Parses a timestamp for current moment.
+         *
+         * @return string
+         */
+        now() {
+            return moment().utc().format('YYYY-MM-DD HH:mm:ss');
+        },
+
+        /**
          * prefixes the route with /auth if it's for authenticated users
          *
          * @param string route
