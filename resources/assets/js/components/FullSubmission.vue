@@ -496,7 +496,7 @@
                 axios.post('/approve-submission', {
                     submission_id: this.list.id
                 }).then(() => {
-                    this.list.approved_at = moment().utc().format('YYYY-MM-DD HH:mm:ss');
+                    this.list.approved_at = this.now();
                 })
             },
 

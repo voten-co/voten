@@ -435,7 +435,7 @@
 
                 this.editing = false; 
             	this.list.body = comment.body;
-                this.list.edited_at = moment().utc().format('YYYY-MM-DD HH:mm:ss');
+                this.list.edited_at = this.now();
             },
 
             /**
@@ -549,7 +549,7 @@
 				axios.post('/approve-comment', {
 				    comment_id: this.list.id
 				}).then(() => {
-				    this.list.approved_at = moment().utc().format('YYYY-MM-DD HH:mm:ss');
+				    this.list.approved_at = this.now();
 				})
 			},
 

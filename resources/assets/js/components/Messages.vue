@@ -624,7 +624,7 @@
 
                 var i = Store.state.contacts.findIndex(findObject)
 
-                Store.state.contacts[i].last_message.read_at = moment().utc().format('YYYY-MM-DD HH:mm:ss')
+                Store.state.contacts[i].last_message.read_at = this.now()
             },
 
             /**
@@ -655,7 +655,7 @@
                     owner: auth,
                     user_id: auth.id,
                     read_at: null,
-                    created_at: moment().utc().format('YYYY-MM-DD HH:mm:ss')
+                    created_at: this.now()
                 });
 
                 this.chatScroll();
@@ -682,7 +682,7 @@
                 Store.state.contacts.unshift({
                     contact: this.currentContact,
                     contact_id: this.currentContactId,
-                    created_at: moment().utc().format('YYYY-MM-DD HH:mm:ss'),
+                    created_at: this.now(),
                     id: (Store.state.contacts.length + 1),
                     last_message: message,
                     message_id: message.id,
@@ -717,7 +717,7 @@
 
                 Store.state.messages.forEach(function (element, index) {
                     if (element.owner.id == auth.id) {
-                        element.read_at = moment().utc().format('YYYY-MM-DD HH:mm:ss')
+                        element.read_at = this.now()
                     }
                 });
             },
@@ -740,7 +740,7 @@
                     return ob.id === messageId
                 }
 
-                Store.state.messages.find(findObject).read_at = moment().utc().format('YYYY-MM-DD HH:mm:ss');
+                Store.state.messages.find(findObject).read_at = this.now();
             }
         },
     }

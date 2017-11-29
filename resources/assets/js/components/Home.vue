@@ -52,13 +52,13 @@
 						<!--</div>-->
 					<!--</div>-->
 
-					<el-tooltip content="Refresh (R)" placement="bottom" transition="false" :open-delay="100">
+					<el-tooltip content="Refresh (R)" placement="bottom" transition="false" :open-delay="500">
 						<button class="feed-panel-button" @click="refresh">
 							<i class="v-icon v-refetch"></i>
 						</button>
 					</el-tooltip>
 
-					<el-tooltip content="Customize Feed" placement="bottom" transition="false" :open-delay="100">
+					<el-tooltip content="Customize Feed" placement="bottom" transition="false" :open-delay="500">
 						<button class="feed-panel-button margin-right-half" @click="showFeedSettings = true">
 							<i class="v-icon v-sliders"></i>
 						</button>
