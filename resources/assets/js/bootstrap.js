@@ -10,6 +10,22 @@ Vue.use(ElementUI, { locale });
 import LocalStorage from './plugins/local-storage';
 Vue.use(LocalStorage);
 
+import VueProgressBar from 'vue-progressbar';
+const VueProgressBarOptions = {
+    color: '#5587d7',
+    failedColor: '#db6e6e',
+    thickness: '5px',
+    transition: {
+        speed: '0.2s',
+        opacity: '0.6s',
+        termination: 300
+    },
+    autoRevert: true,
+    location: 'left',
+    inverse: false
+};
+Vue.use(VueProgressBar, VueProgressBarOptions);
+
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the
