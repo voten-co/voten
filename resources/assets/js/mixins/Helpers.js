@@ -224,13 +224,13 @@ export default {
         authUrl(route) {
             return !this.isGuest ? '/auth/' + route : '/' + route;
         },
-
+        
         /**
          * Catches the scroll event and fires the neccessary ones for componenets. (Such as Inifinite Scrolling)
          *
          * @return void
          */
-        scrolled(event) {
+        scrolled: _.throttle(function (event) {
             this.$eventHub.$emit('scrolled');
 
             let box = event.target;
@@ -246,6 +246,6 @@ export default {
             } else {
                 this.$eventHub.$emit('scrolled-a-lot');
             }
-        },
+        }, 200, { leading: true, trailing: true }),
     }
 };
