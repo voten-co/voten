@@ -1,5 +1,7 @@
 <template>
-	<section class="bookmarked-items" @scroll="scrolled" :class="{'flex-center' : nothingFound}">
+	<section class="bookmarked-items" :class="{'flex-center' : nothingFound}"
+			 v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore"
+	>
 		<bookmarked-category v-for="category in categories" :list="category" :key="category.id"></bookmarked-category>
 
 	    <no-content v-if="nothingFound" :text="'No bookmarked channels yet'"></no-content>
@@ -29,7 +31,6 @@
 
         data() {
             return {
-				isActive: null, 
 				NoMoreItems: false,
 				loading: true,
                 nothingFound: false,
@@ -39,21 +40,17 @@
         },
 
         created () {
-			this.$eventHub.$on('scrolled-to-bottom', this.loadMore)
-            this.getCategories()
+            this.getCategories();
 		},
-		
-		activated() {
-			this.isActive = true;
-		},
-		deactivated() {
-			this.isActive = false;
-		}, 
+
+        computed: {
+            cantLoadMore() {
+                return this.loading || this.NoMoreItems || this.nothingFound;
+            },
+        },
 
 	    watch: {
 			'$route': function () {
-				if (this.isActive === false) return;
-
 				this.clearContent(); 
 				this.getCategories(); 
 			}
@@ -62,39 +59,30 @@
 
         methods: {
 			loadMore () {
-				if (this.isActive === false) return;
-				
-				if ( Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems ) {
-					this.getCategories()
-				}
-			},
+                this.getCategories();
+            },
 
         	clearContent () {
-				this.nothingFound = false
-				this.users = []
-				this.loading = true
+				this.nothingFound = false;
+				this.users = [];
+				this.loading = true;
         	},
 
             getCategories () {
-				this.page ++
-           		this.loading = true
+				this.page ++;
+           		this.loading = true;
 
             	axios.get('/bookmarked-categories', {
             		params: {
                         page: this.page
 					}
             	}).then((response) => {
-					this.categories = [...this.categories, ...response.data.data]
+					this.categories = [...this.categories, ...response.data.data];
 
-					if (response.data.next_page_url == null) {
-						this.NoMoreItems = true
-					}
+					if (response.data.next_page_url == null) this.NoMoreItems = true;
+                    if(this.categories.length == 0) this.nothingFound = true;
 
-					if(this.categories.length == 0){
-						this.nothingFound = true
-					}
-
-					this.loading = false
+                    this.loading = false
                 })
             }
         }

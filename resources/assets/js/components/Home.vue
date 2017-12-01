@@ -79,7 +79,7 @@
         <!--type="success">-->
         <!--</el-alert>-->
 
-        <section id="submissions" class="home-submissions" @scroll="scrolled">
+        <section id="submissions" class="home-submissions" v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore">
             <div v-for="(value, index) in uniqueList" v-bind:key="value.id">
                 <suggested-category v-if="index == 5"></suggested-category>
 
@@ -209,13 +209,15 @@
         },
 
         created() {
-            this.$eventHub.$on('scrolled-to-bottom', this.loadMore);
-
             this.setPageTitle('Voten - Social Bookmarking For The 21st Century', true);
             this.askNotificationPermission();
         },
 
         computed: {
+            cantLoadMore() {
+                return this.loading || this.NoMoreItems || this.nothingFound;
+            },
+
             NoMoreItems() {
                 return Store.page.home.NoMoreItems;
             },
@@ -246,11 +248,9 @@
         },
 
         methods: {
-            loadMore: _.throttle(function () {
-                if (Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems && this.$route.name == 'home') {
-                    getSubmissions(this.sort);
-                }
-            }, 600),
+            loadMore() {
+                getSubmissions(this.sort);
+            },
 
             /**
              * Resets all the basic data

@@ -1,5 +1,7 @@
 <template>
-	<div class="padding-bottom-10 flex1" id="submissions" @scroll="scrolled" :class="{'flex-center' : nothingFound}">
+	<div class="padding-bottom-10 flex1" id="submissions" :class="{'flex-center' : nothingFound}"
+		 v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore"
+	>
 		<submission :list="submission" v-for="submission in uniqueList" v-bind:key="submission.id"></submission>
 
 		<no-content v-if="nothingFound" :text="'No submissions here yet'"></no-content>
@@ -42,8 +44,7 @@ export default {
 
    	created () {
 		this.clear(); 
-		this.$eventHub.$on('scrolled-to-bottom', this.loadMore); 
-		this.$eventHub.$on('refresh-category-submissions', this.clear); 
+		this.$eventHub.$on('refresh-category-submissions', this.clear);
 	},
 
 	watch: {
@@ -53,12 +54,15 @@ export default {
 			}
 
 			this.clear();
-			this.$eventHub.$on('scrolled-to-bottom', this.loadMore);
-			this.$eventHub.$on('refresh-category-submissions', this.clear); 
+			this.$eventHub.$on('refresh-category-submissions', this.clear);
 		}
 	},
 
 	computed: {
+        cantLoadMore() {
+            return this.loading || this.NoMoreItems || this.nothingFound;
+        },
+
     	sort() {
     	    if (this.$route.query.sort == 'new')
     	    	return 'new';
@@ -76,11 +80,9 @@ export default {
 
     methods: {
 		loadMore () {
-			if (Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems && this.$route.name == 'category-submissions') {
-				this.getSubmissions();
-			}
+            this.getSubmissions();
 		},
-        
+
     	clear () {
             this.submissions = []; 
             this.loading = true; 

@@ -1,106 +1,99 @@
 <template>
-	<section class="bookmarked-items padding-1" @scroll="scrolled" :class="{'flex-center' : nothingFound}">
-		<section class="box-typical comments" id="comments-section" v-if="comments.length">
-	    	<div class="box-typical-inner ui threaded comments">
-	    		<div v-for="c in comments" :key="c.id" class="v-comment-not-full">
-	    			<comment :list="c" :comments-order="'created_at'"></comment>
-	    		</div>
-	    	</div>
-	    </section>
+    <section class="bookmarked-items padding-1" :class="{'flex-center' : nothingFound}"
+             v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore"
+    >
+        <section class="box-typical comments" id="comments-section" v-if="comments.length">
+            <div class="box-typical-inner ui threaded comments">
+                <div v-for="c in comments" :key="c.id" class="v-comment-not-full">
+                    <comment :list="c" :comments-order="'created_at'"></comment>
+                </div>
+            </div>
+        </section>
 
-		<no-content v-if="nothingFound" :text="'No bookmarked comments yet'"></no-content>
+        <no-content v-if="nothingFound" :text="'No bookmarked comments yet'"></no-content>
 
-		<loading v-show="loading"></loading>
+        <loading v-show="loading"></loading>
 
-	    <no-more-items :text="'No more items to load'" v-if="NoMoreItems && !nothingFound"></no-more-items>
-	</section>
+        <no-more-items :text="'No more items to load'" v-if="NoMoreItems && !nothingFound"></no-more-items>
+    </section>
 </template>
 
 <script>
-    import Loading from '../components/Loading.vue'; 
-    import Comment from '../components/Comment.vue'; 
-    import NoContent from '../components/NoContent.vue'; 
-    import NoMoreItems from '../components/NoMoreItems.vue'; 
-	import Helpers from '../mixins/Helpers'; 
+    import Loading from '../components/Loading.vue';
+    import Comment from '../components/Comment.vue';
+    import NoContent from '../components/NoContent.vue';
+    import NoMoreItems from '../components/NoMoreItems.vue';
+    import Helpers from '../mixins/Helpers';
 
     export default {
-		mixins: [Helpers], 
-		
+        mixins: [Helpers],
+
         components: {
             Loading,
             Comment,
             NoContent,
-			NoMoreItems
+            NoMoreItems
         },
 
         data() {
             return {
-				isActive: null, 
-	            NoMoreItems: false,
-				loading: true,
+                NoMoreItems: false,
+                loading: true,
                 nothingFound: false,
                 comments: [],
-				page: 0
+                page: 0
             }
         },
 
         created () {
-			this.$eventHub.$on('scrolled-to-bottom', this.loadMore)
             this.getComments()
-		},
+        },
 
-		activated() {
-			this.isActive = true;
-		},
-		deactivated() {
-			this.isActive = false;
-		}, 
 
-	    watch: {
-			'$route': function () {
-				if (this.isActive === false) return;
+        watch: {
+            '$route': function () {
+                this.clearContent();
+                this.getComments();
+            }
+        },
 
-				this.clearContent(); 
-				this.getComments(); 
-			}
-		},
-
+        computed: {
+            cantLoadMore() {
+                return this.loading || this.NoMoreItems || this.nothingFound;
+            },
+        },
 
         methods: {
-			loadMore () {
-				if (this.isActive === false) return;
-				
-				if ( Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems ) {
-					this.getComments()
-				}
-			},
+            loadMore () {
+                this.getComments();
+            },
 
-        	clearContent () {
-				this.nothingFound = false
-				this.users = []
-				this.loading = true
-        	},
+            clearContent () {
+                this.nothingFound = false
+                this.users = []
+                this.loading = true
+            },
 
             getComments () {
-				this.loading = true
-				this.page ++
+                this.loading = true
+                this.page++
 
-            	axios.get('/bookmarked-comments', {
-            		params: {
+                axios.get('/bookmarked-comments', {
+                    params: {
                         page: this.page
-					}
-            	}).then((response) => {
-					this.comments = [...this.comments, ...response.data.data]
+                    }
+                }).then((response) => {
+                    this.comments = [...this.comments, ...response.data.data]
 
-					if (response.data.next_page_url == null) {
-						this.NoMoreItems = true
-					}
+                    if (response.data.next_page_url == null) {
+                        this.NoMoreItems = true
+                    }
 
-					if(this.comments.length == 0){
-						this.nothingFound = true
-					}
+                    if (this.comments.length == 0) {
+                        this.nothingFound = true
+                    }
 
-					this.loading = false
+                    this.loading = false
                 })
             }
         }

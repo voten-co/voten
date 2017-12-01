@@ -1,5 +1,6 @@
 <template>
-	<section class="bookmarked-items" @scroll="scrolled" :class="{'flex-center' : nothingFound}">
+	<section class="bookmarked-items" :class="{'flex-center' : nothingFound}"
+			 v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore">
         <bookmarked-user v-for="user in users" :list="user" :key="user.id"></bookmarked-user>
 
 	    <no-content v-if="nothingFound" :text="'No bookmarked users yet'"></no-content>
@@ -29,7 +30,6 @@
 
         data() {
             return {
-				isActive: null, 
 	            NoMoreItems: false,
 				loading: true,
                 nothingFound: false,
@@ -39,35 +39,26 @@
         },
 
         created () {
-			this.$eventHub.$on('scrolled-to-bottom', this.loadMore)
             this.getUsers()
 		},
-		
-		activated() {
-			this.isActive = true;
-		},
-		deactivated() {
-			this.isActive = false;
-		}, 
 
 	    watch: {
 			'$route': function () {
-				if (this.isActive === false) return;
-
 				this.clearContent()
 				this.getUsers()
 			}
 		},
 
+        computed: {
+            cantLoadMore() {
+                return this.loading || this.NoMoreItems || this.nothingFound;
+            },
+        },
 
         methods: {
 			loadMore () {
-				if (this.isActive === false) return;
-
-				if ( Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems ) {
-					this.getUsers()
-				}
-			},
+                this.getUsers();
+            },
 
         	clearContent () {
 				this.nothingFound = false
