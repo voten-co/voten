@@ -35,7 +35,7 @@ Vue.prototype.$eventHub = new Vue();
  * front-end. Try to love it, maintain it, appriciate it and maybe even more! This
  * also plays a role in switching states and maintaining the Store.
  */
-const app = new Vue({
+window.app = new Vue({
     router,
 
     mixins: [Helpers, StoreStorage, WebNotification],

@@ -302,6 +302,16 @@ hr {
     padding-bottom: 3em;
 }
 
+.padding-top-bottom-2 {
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
+
+.padding-top-bottom-1 {
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
 .primary-background {
 	background: $primary-color !important;
 }
@@ -597,4 +607,8 @@ kbd {
 
 .overflow-hidden {
     overflow-y: hidden;
+}
+
+.rotate {
+    animation: rotating 1s linear infinite;
 }

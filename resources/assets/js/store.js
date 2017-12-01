@@ -57,6 +57,13 @@ window.Store = {
         category: [],
         submission: [],
         user: [],
+        home: {
+            page: 0,
+            NoMoreItems: false,
+            nothingFound: false,
+            submissions: [],
+            loading: null,
+        }
     },
 
     contentRouter: 'content',

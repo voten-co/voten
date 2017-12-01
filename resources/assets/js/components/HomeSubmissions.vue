@@ -50,22 +50,22 @@
 		},
 		deactivated() {
 			this.isActive = false;
-		}, 
+		},
 
-	    created: function() {
-	        this.getSubmissions();
+	    created() {
+//	        this.getSubmissions();
 			this.$eventHub.$on('scrolled-to-bottom', this.loadMore);
 			this.$eventHub.$on('refresh-home', this.refresh);
 	    },
 
-	    watch: {
-			'$route': function () {
-				if (this.isActive === false) return;
-
-				this.clearContent(); 
-				this.getSubmissions(); 
-			}
-		},
+//	    watch: {
+//			'$route': function () {
+//				if (this.isActive === false) return;
+//
+//				this.clearContent();
+//				this.getSubmissions();
+//			}
+//		},
 
 		computed: {
 			/**
@@ -135,14 +135,14 @@
 		                filter: Store.feedFilter
 				    }
 	            }).then((response) => {
-					this.submissions = [...this.submissions, ...response.data.data]; 
+					this.submissions = [...this.submissions, ...response.data.data];
 
 					if (!this.submissions.length) {
-						this.nothingFound = true; 
+						this.nothingFound = true;
 					}
 
 					if (response.data.next_page_url == null) {
-						this.NoMoreItems = true; 
+						this.NoMoreItems = true;
 					}
 
 					this.loading = false;

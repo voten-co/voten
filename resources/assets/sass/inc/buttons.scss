@@ -112,6 +112,10 @@ label.v-toggle--checked.v-toggle {
     align-items: center;
     border-radius: 2px;
     color: #75797b;
+
+    i {
+        font-size: 25px;
+    }
      
     &:hover, 
     & i:hover {
