@@ -11,6 +11,7 @@
                         :prefix-icon="loadingContacts ? 'el-icon-loading' : 'el-icon-search'"
                         v-model="filter"
                         @input="searchUsers(filter)"
+                        clearable
                         ref="searchContacts"
                 ></el-input>
 

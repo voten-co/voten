@@ -8,8 +8,9 @@
                             :placeholder="placeholder"
                             v-model="filter"
                             class="input-with-select"
+                            clearable
                             @input="search(filter)"
-                            :suffix-icon="loading ? 'el-icon-loading' : 'el-icon-search'"
+                            :prefix-icon="loading ? 'el-icon-loading' : 'el-icon-search'"
                     >
                         <el-select
                                 v-model="type"
