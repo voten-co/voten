@@ -107,12 +107,12 @@
             banUser() {
                 this.sending = true;
 
-                console.log(Store.page.category.name);
+                console.log(Store.page.category.temp.name);
 
                 axios.post('/ban-user', {
                     username: this.username,
                     description: this.description,
-                    category: Store.page.category.name,
+                    category: Store.page.category.temp.name,
                     duration: this.duration
                 }).then((response) => {
                     // add the banned user to the this.bannedUsers array
@@ -162,9 +162,9 @@
 
 
         beforeRouteEnter(to, from, next){
-            if (Store.page.category.name == to.params.name) {
+            if (Store.page.category.temp.name == to.params.name) {
                 // loaded
-                if (Store.state.moderatingAt.indexOf(Store.page.category.id) != -1) {
+                if (Store.state.moderatingAt.indexOf(Store.page.category.temp.id) != -1) {
                     next()
                 }
             } else {

@@ -31,42 +31,19 @@ export default {
 		ScrollButton,
     },
 
-    data() {
-        return {
-			isActive: null,
-        	Store,
-			auth
-        }
-	},
-	
-	activated() {
-		this.isActive = true;
-	},
+   	// created() {
+   	// 	this.setPageTitle('#' + this.$route.params.name);
+	// },
 
-	deactivated() {
-		this.isActive = false;
-	}, 
-
-   	created() {
-   		this.setPageTitle('#' + this.$route.params.name);
-	},
-
-    watch: {
-		'$route': function () {
-			if (this.isActive === false) return;
-
-			// if (this.$route.name !== 'submission-page') {
-			// 	this.$destroy();
-			// }
-
-			this.$root.getCategoryStore(this.$route.params.name);
-			this.setPageTitle('#' + this.$route.params.name);
-		}
-	},
+//     watch: {
+// 		'$route': function () {
+// //			this.$root.getCategoryStore(this.$route.params.name);
+// 		}
+// 	},
 
    	computed: {
 		nsfw() {
-			return Store.page.category.nsfw && !auth.nsfw;
+			return Store.page.category.temp.nsfw && !auth.nsfw;
 		},
     }
 }

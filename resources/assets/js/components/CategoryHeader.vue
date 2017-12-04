@@ -7,8 +7,8 @@
                     <div class="category-header-left">
                         <!-- avatar -->
                         <div class="profile-avatar">
-                            <router-link :to="'/c/' + Store.page.category.name">
-                                <img v-bind:src="Store.page.category.avatar" v-bind:alt="Store.page.category.name"/>
+                            <router-link :to="'/c/' + Store.page.category.temp.name">
+                                <img v-bind:src="Store.page.category.temp.avatar" v-bind:alt="Store.page.category.temp.name"/>
                             </router-link>
                         </div>
                         <!-- end avatar -->
@@ -16,14 +16,14 @@
 
                     <div class="category-header-middle flex-align-center">
                         <p>
-                            {{ Store.page.category.description }}
+                            {{ Store.page.category.temp.description }}
                         </p>
                     </div>
 
                     <div class="category-header-right">
                         <div class="karma">
                             <div class="karma-number">
-                                {{ Store.page.category.subscribers }}
+                                {{ Store.page.category.temp.subscribers }}
                             </div>
 
                             <div class="karma-text margin-bottom-1">
@@ -41,7 +41,7 @@
         <nav class="nav has-shadow user-select">
             <div class="container">
                 <h1 class="title">
-                    <i class="v-icon v-channel" aria-hidden="true"></i>{{ Store.page.category.name }}
+                    <i class="v-icon v-channel" aria-hidden="true"></i>{{ Store.page.category.temp.name }}
                 </h1>
 
                 <div class="nav-left">
@@ -145,13 +145,13 @@
                     type: 'warning'
                 }).then(() => {
                     axios.post('/category-block', {
-                        category_id: Store.page.category.id
+                        category_id: Store.page.category.temp.id
                     }).then(() => {
                         this.$router.push('/');
 
                         this.$message({
                             type: 'success',
-                            message: `You no longer will see submissions from #${Store.page.category.name} in your feed. `
+                            message: `You no longer will see submissions from #${Store.page.category.temp.name} in your feed. `
                         });
                     });
                 }).catch(() => {
@@ -167,7 +167,7 @@
                 this.bookmarked = !this.bookmarked;
 
                 axios.post('/bookmark-category', {
-                    id: Store.page.category.id
+                    id: Store.page.category.temp.id
                 }).catch(() => {
                     this.bookmarked = !this.bookmarked;
                 });
@@ -175,28 +175,6 @@
         },
 
         computed: {
-            bookmarked: {
-                get() {
-                    return Store.state.bookmarks.categories.indexOf(Store.page.category.id) !== -1 ? true : false;
-                },
-
-                set() {
-                    if (Store.state.bookmarks.categories.indexOf(Store.page.category.id) !== -1) {
-                        let index = Store.state.bookmarks.categories.indexOf(Store.page.category.id);
-                        Store.state.bookmarks.categories.splice(index, 1);
-
-                        return;
-                    }
-
-                    Store.state.bookmarks.categories.push(Store.page.category.id);
-                }
-            },
-
-            /**
-             * the sort of the page
-             *
-             * @return mixed
-             */
             sort() {
                 if (this.$route.name != 'category-submissions')
                     return null;
@@ -210,30 +188,47 @@
                 return 'hot';
             },
 
+            bookmarked: {
+                get() {
+                    return Store.state.bookmarks.categories.indexOf(Store.page.category.temp.id) !== -1 ? true : false;
+                },
+
+                set() {
+                    if (Store.state.bookmarks.categories.indexOf(Store.page.category.temp.id) !== -1) {
+                        let index = Store.state.bookmarks.categories.indexOf(Store.page.category.temp.id);
+                        Store.state.bookmarks.categories.splice(index, 1);
+
+                        return;
+                    }
+
+                    Store.state.bookmarks.categories.push(Store.page.category.temp.id);
+                }
+            },
+
             date () {
-                return moment(Store.page.category.created_at).utc(moment().format("MMM Do")).format("MMM Do")
+                return moment(Store.page.category.temp.created_at).utc(moment().format("MMM Do")).format("MMM Do")
             },
 
             isModerator () {
-                return Store.state.moderatingAt.indexOf(Store.page.category.id) != -1
+                return Store.state.moderatingAt.indexOf(Store.page.category.temp.id) != -1
             },
 
             coverBackground () {
-                if (Store.page.category.color == 'Red') {
+                if (Store.page.category.temp.color == 'Red') {
                     return '#9a4e4e'
-                } else if (Store.page.category.color == 'Blue') {
+                } else if (Store.page.category.temp.color == 'Blue') {
                     return '#5487d4'
-                } else if (Store.page.category.color == 'Dark Blue') {
+                } else if (Store.page.category.temp.color == 'Dark Blue') {
                     return '#2f3b49'
-                } else if (Store.page.category.color == 'Dark Green') {
+                } else if (Store.page.category.temp.color == 'Dark Green') {
                     return '#507e75'
-                } else if (Store.page.category.color == 'Bright Green') {
+                } else if (Store.page.category.temp.color == 'Bright Green') {
                     return 'rgb(117, 148, 127)'
-                } else if (Store.page.category.color == 'Purple') {
+                } else if (Store.page.category.temp.color == 'Purple') {
                     return '#4d4261'
-                } else if (Store.page.category.color == 'Orange') {
+                } else if (Store.page.category.temp.color == 'Orange') {
                     return '#ffaf40'
-                } else if (Store.page.category.color == 'Pink') {
+                } else if (Store.page.category.temp.color == 'Pink') {
                     return '#ec7daa'
                 } else { // userStore.color == 'Black'
                     return '#424242'

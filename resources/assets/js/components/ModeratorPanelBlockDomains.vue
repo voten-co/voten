@@ -135,9 +135,9 @@
 
 
         beforeRouteEnter(to, from, next){
-            if (Store.page.category.name == to.params.name) {
+            if (Store.page.category.temp.name == to.params.name) {
                 // loaded
-                if (Store.state.moderatingAt.indexOf(Store.page.category.id) != -1) {
+                if (Store.state.moderatingAt.indexOf(Store.page.category.temp.id) != -1) {
                     next()
                 }
             } else {

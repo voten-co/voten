@@ -177,21 +177,21 @@ window.app = new Vue({
         getCategoryStore: _.throttle(function (name) {
             // if landed on a submission page
             if (preload.category && preload.category.name == this.$route.params.name) {
-                Store.page.category = preload.category;
+                Store.page.category.temp = preload.category;
                 delete preload.category;
                 return;
             }
 
-            if (Store.page.category.name == undefined || Store.page.category.name != this.$route.params.name) {
+            if (Store.page.category.temp.name == undefined || Store.page.category.temp.name != this.$route.params.name) {
                 axios.get('/get-category-store', {
                     params: {
                         name: name
                     }
                 }).then((response) => {
-                    Store.page.category = response.data
+                    Store.page.category.temp = response.data
 
                     // update the category in the user's subscriptions (avatar might have changed)
-                    let category_id = Store.page.category.id
+                    let category_id = Store.page.category.temp.id
 
                     function findObject(ob) {
                         return ob.id === category_id

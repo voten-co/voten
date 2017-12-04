@@ -1,88 +1,91 @@
 <template>
     <!--el-fade-in-linear-->
-    <div class="submission-item submission-wrapper" v-show="!hidden" :id="'submission' + list.id">
-        <!-- side-voting -->
-        <div class="side-voting desktop-only">
-            <i class="v-icon v-up-fat side-vote-icon"
-               :class="upvoted ? 'go-primary animated bounceIn' : 'go-gray'"
-               @click="voteUp"></i>
+    <transition name="el-fade-in-linear">
 
-            <div class="user-select vote-number">
-                {{ points }}
+        <div class="submission-item submission-wrapper" v-show="!hidden" :id="'submission' + list.id">
+            <!-- side-voting -->
+            <div class="side-voting desktop-only">
+                <i class="v-icon v-up-fat side-vote-icon"
+                   :class="upvoted ? 'go-primary animated bounceIn' : 'go-gray'"
+                   @click="voteUp"></i>
+
+                <div class="user-select vote-number">
+                    {{ points }}
+                </div>
+
+                <i class="v-icon v-down-fat side-vote-icon"
+                   @click="voteDown"
+                   :class="downvoted ? 'go-red animated bounceIn' : 'go-gray'"></i>
             </div>
 
-            <i class="v-icon v-down-fat side-vote-icon"
-               @click="voteDown"
-               :class="downvoted ? 'go-red animated bounceIn' : 'go-gray'"></i>
+            <article class="flex1" v-bind:class="'box-typical profile-post ' + list.type">
+                <!-- content -->
+                <div class="profile-post-content">
+                    <text-submission v-if="list.type == 'text'" :submission="list" :nsfw="nsfw" :full="full"
+                                     @bookmark="bookmark"
+                                     :url="'/c/' + list.category_name + '/' + list.slug"
+                                     :comments="list.comments_number" :bookmarked="bookmarked"
+                                     @report="report" @hide="hide" @nsfw="markAsNSFW" @sfw="markAsSFW"
+                                     @destroy="destroy" @approve="approve" @disapprove="disapprove"
+                                     @removethumbnail="removeThumbnail" :upvoted="upvoted" :downvoted="downvoted"
+                                     @upvote="voteUp" @downvote="voteDown" :points="points"
+                    ></text-submission>
+
+                    <img-submission v-if="list.type == 'img'" :submission="list" :nsfw="nsfw" :full="full"
+                                    @zoom="showPhotoViewer" @bookmark="bookmark"
+                                    :url="'/c/' + list.category_name + '/' + list.slug" :comments="list.comments_number"
+                                    :bookmarked="bookmarked"
+                                    @report="report" @hide="hide" @nsfw="markAsNSFW" @sfw="markAsSFW" @destroy="destroy"
+                                    @approve="approve" @disapprove="disapprove" @removethumbnail="removeThumbnail"
+                                    :upvoted="upvoted" :downvoted="downvoted" @upvote="voteUp" @downvote="voteDown"
+                                    :points="points"
+                    ></img-submission>
+
+                    <gif-submission v-if="list.type == 'gif'" :submission="list" :nsfw="nsfw" :full="full"
+                                    @play-gif="showGifPlayer" @bookmark="bookmark"
+                                    :url="'/c/' + list.category_name + '/' + list.slug" :comments="list.comments_number"
+                                    :bookmarked="bookmarked"
+                                    @report="report" @hide="hide" @nsfw="markAsNSFW" @sfw="markAsSFW" @destroy="destroy"
+                                    @approve="approve" @disapprove="disapprove" @removethumbnail="removeThumbnail"
+                                    :upvoted="upvoted" :downvoted="downvoted" @upvote="voteUp" @downvote="voteDown"
+                                    :points="points"
+                    ></gif-submission>
+
+                    <link-submission v-if="list.type == 'link'" :submission="list" :nsfw="nsfw" :full="full"
+                                     @embed="showEmbed" @bookmark="bookmark"
+                                     :url="'/c/' + list.category_name + '/' + list.slug"
+                                     :comments="list.comments_number" :bookmarked="bookmarked"
+                                     @report="report" @hide="hide" @nsfw="markAsNSFW" @sfw="markAsSFW"
+                                     @destroy="destroy" @approve="approve" @disapprove="disapprove"
+                                     @removethumbnail="removeThumbnail" :upvoted="upvoted" :downvoted="downvoted"
+                                     @upvote="voteUp" @downvote="voteDown" :points="points"
+                    ></link-submission>
+                </div>
+
+                <!-- full page modals -->
+                <photo-viewer v-if="photoViewer" :bookmarked="bookmarked" :points="points" @close="closeViwer"
+                              :list="list" :photoindex="photoViewerIndex"
+                              :upvoted="upvoted" :downvoted="downvoted" @bookmark="bookmark" @upvote="voteUp"
+                              @downvote="voteDown"
+                ></photo-viewer>
+
+                <embed-viewer v-if="embedViewer" :bookmarked="bookmarked" :points="points" @close="closeEmbed"
+                              :list="list"
+                              :upvoted="upvoted" :downvoted="downvoted" @bookmark="bookmark" @upvote="voteUp"
+                              @downvote="voteDown"
+                ></embed-viewer>
+
+                <gif-player v-if="gifPlayer" :bookmarked="bookmarked" :points="points" @close="closeGifPlayer"
+                            :list="list"
+                            :upvoted="upvoted" :downvoted="downvoted" @bookmark="bookmark" @upvote="voteUp"
+                            @downvote="voteDown"
+                ></gif-player>
+
+                <report-submission :submission="list" :visible.sync="showReportModal"
+                                   v-if="showReportModal"></report-submission>
+            </article>
         </div>
-
-        <article class="flex1" v-bind:class="'box-typical profile-post ' + list.type">
-            <!-- content -->
-            <div class="profile-post-content">
-                <text-submission v-if="list.type == 'text'" :submission="list" :nsfw="nsfw" :full="full"
-                                 @bookmark="bookmark"
-                                 :url="'/c/' + list.category_name + '/' + list.slug"
-                                 :comments="list.comments_number" :bookmarked="bookmarked"
-                                 @report="report" @hide="hide" @nsfw="markAsNSFW" @sfw="markAsSFW"
-                                 @destroy="destroy" @approve="approve" @disapprove="disapprove"
-                                 @removethumbnail="removeThumbnail" :upvoted="upvoted" :downvoted="downvoted"
-                                 @upvote="voteUp" @downvote="voteDown" :points="points"
-                ></text-submission>
-
-                <img-submission v-if="list.type == 'img'" :submission="list" :nsfw="nsfw" :full="full"
-                                @zoom="showPhotoViewer" @bookmark="bookmark"
-                                :url="'/c/' + list.category_name + '/' + list.slug" :comments="list.comments_number"
-                                :bookmarked="bookmarked"
-                                @report="report" @hide="hide" @nsfw="markAsNSFW" @sfw="markAsSFW" @destroy="destroy"
-                                @approve="approve" @disapprove="disapprove" @removethumbnail="removeThumbnail"
-                                :upvoted="upvoted" :downvoted="downvoted" @upvote="voteUp" @downvote="voteDown"
-                                :points="points"
-                ></img-submission>
-
-                <gif-submission v-if="list.type == 'gif'" :submission="list" :nsfw="nsfw" :full="full"
-                                @play-gif="showGifPlayer" @bookmark="bookmark"
-                                :url="'/c/' + list.category_name + '/' + list.slug" :comments="list.comments_number"
-                                :bookmarked="bookmarked"
-                                @report="report" @hide="hide" @nsfw="markAsNSFW" @sfw="markAsSFW" @destroy="destroy"
-                                @approve="approve" @disapprove="disapprove" @removethumbnail="removeThumbnail"
-                                :upvoted="upvoted" :downvoted="downvoted" @upvote="voteUp" @downvote="voteDown"
-                                :points="points"
-                ></gif-submission>
-
-                <link-submission v-if="list.type == 'link'" :submission="list" :nsfw="nsfw" :full="full"
-                                 @embed="showEmbed" @bookmark="bookmark"
-                                 :url="'/c/' + list.category_name + '/' + list.slug"
-                                 :comments="list.comments_number" :bookmarked="bookmarked"
-                                 @report="report" @hide="hide" @nsfw="markAsNSFW" @sfw="markAsSFW"
-                                 @destroy="destroy" @approve="approve" @disapprove="disapprove"
-                                 @removethumbnail="removeThumbnail" :upvoted="upvoted" :downvoted="downvoted"
-                                 @upvote="voteUp" @downvote="voteDown" :points="points"
-                ></link-submission>
-            </div>
-
-            <!-- full page modals -->
-            <photo-viewer v-if="photoViewer" :bookmarked="bookmarked" :points="points" @close="closeViwer"
-                          :list="list" :photoindex="photoViewerIndex"
-                          :upvoted="upvoted" :downvoted="downvoted" @bookmark="bookmark" @upvote="voteUp"
-                          @downvote="voteDown"
-            ></photo-viewer>
-
-            <embed-viewer v-if="embedViewer" :bookmarked="bookmarked" :points="points" @close="closeEmbed"
-                          :list="list"
-                          :upvoted="upvoted" :downvoted="downvoted" @bookmark="bookmark" @upvote="voteUp"
-                          @downvote="voteDown"
-            ></embed-viewer>
-
-            <gif-player v-if="gifPlayer" :bookmarked="bookmarked" :points="points" @close="closeGifPlayer"
-                        :list="list"
-                        :upvoted="upvoted" :downvoted="downvoted" @bookmark="bookmark" @upvote="voteUp"
-                        @downvote="voteDown"
-            ></gif-player>
-
-            <report-submission :submission="list" :visible.sync="showReportModal"
-                               v-if="showReportModal"></report-submission>
-        </article>
-    </div>
+    </transition>
 </template>
 
 <script>

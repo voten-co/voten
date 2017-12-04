@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="edit-avatar-preview">
-                    <img :alt="Store.page.category.name" :src="Store.page.category.avatar" class="circle"/>
+                    <img :alt="Store.page.category.temp.name" :src="Store.page.category.temp.avatar" class="circle"/>
                 </div>
             </div>
         </div>
@@ -43,7 +43,7 @@
             <el-form-item label="Description">
                 <el-input
                         type="textarea"
-                        :placeholder="'How would you describe #' + Store.page.category.name + '?'"
+                        :placeholder="'How would you describe #' + Store.page.category.temp.name + '?'"
                         name="description"
                         :autosize="{ minRows: 4, maxRows: 10}"
                         :maxlength="230"
@@ -93,9 +93,9 @@
                 errors: [],
                 customError: '',
                 sending: false,
-                description: Store.page.category.description,
-                nsfw: Store.page.category.nsfw,
-                color: Store.page.category.color,
+                description: Store.page.category.temp.description,
+                nsfw: Store.page.category.temp.nsfw,
+                color: Store.page.category.temp.color,
                 colors: [
                     'Blue', 'Dark Blue', 'Red', 'Dark', 'Dark Green', 'Bright Green', 'Purple', 'Orange', 'Pink'
                 ],
@@ -104,19 +104,19 @@
         },
 
         watch: {
-            'Store.page.category': function () {
-                this.description = Store.page.category.description
-                this.nsfw = Store.page.category.nsfw
-                this.color = Store.page.category.color
+            'Store.page.category.temp': function () {
+                this.description = Store.page.category.temp.description
+                this.nsfw = Store.page.category.temp.nsfw
+                this.color = Store.page.category.temp.color
             }
         },
 
         computed: {
             changed () {
                 if (
-                    Store.page.category.color != this.color ||
-                    Store.page.category.nsfw != this.nsfw ||
-                    Store.page.category.description != this.description
+                    Store.page.category.temp.color != this.color ||
+                    Store.page.category.temp.nsfw != this.nsfw ||
+                    Store.page.category.temp.description != this.description
                 ) {
                     return true
                 }
@@ -146,7 +146,7 @@
                 this.sending = true
 
                 axios.post('/category-patch', {
-                    name: Store.page.category.name,
+                    name: Store.page.category.temp.name,
                     description: this.description,
                     nsfw: this.nsfw,
                     color: this.color
@@ -154,9 +154,9 @@
                     this.errors = []
                     this.customError = ''
 
-                    Store.page.category.nsfw = this.nsfw
-                    Store.page.category.color = this.color
-                    Store.page.category.description = this.description
+                    Store.page.category.temp.nsfw = this.nsfw
+                    Store.page.category.temp.color = this.color
+                    Store.page.category.temp.description = this.description
                     this.sending = false
                 }).catch((error) => {
                     if (error.response.status == 500) {
@@ -174,9 +174,9 @@
 
 
         beforeRouteEnter(to, from, next){
-            if (Store.page.category.name == to.params.name) {
+            if (Store.page.category.temp.name == to.params.name) {
                 // loaded
-                if (Store.state.administratorAt.indexOf(Store.page.category.id) != -1) {
+                if (Store.state.administratorAt.indexOf(Store.page.category.temp.id) != -1) {
                     next()
                 }
             } else {

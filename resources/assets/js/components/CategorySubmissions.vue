@@ -1,147 +1,167 @@
 <template>
-	<div class="padding-bottom-10 flex1" id="submissions" :class="{'flex-center' : nothingFound}"
-		 v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore"
-	>
-		<submission :list="submission" v-for="submission in uniqueList" v-bind:key="submission.id"></submission>
+    <div class="padding-bottom-10 flex1" id="submissions" :class="{'flex-center' : nothingFound}"
+         v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore"
+    >
+        <submission :list="submission" v-for="submission in uniqueList" v-bind:key="submission.id"></submission>
 
-		<no-content v-if="nothingFound" :text="'No submissions here yet'"></no-content>
+        <no-content v-if="nothingFound" :text="'No submissions here yet'"></no-content>
 
-		<loading v-if="loading"></loading>
+        <div class="flex-center padding-top-bottom-1" v-if="loading && page > 1">
+            <i class="el-icon-loading"></i>
+        </div>
 
-		<no-more-items :text="'No more items to load'" v-if="NoMoreItems && !nothingFound && !loading"></no-more-items>
-	</div>
+        <no-more-items :text="'No more items to load'" v-if="NoMoreItems && !nothingFound && !loading"></no-more-items>
+    </div>
 </template>
 
 <script>
-import Submission from '../components/Submission.vue';
-import Loading from '../components/Loading.vue';
-import NoContent from '../components/NoContent.vue';
-import NoMoreItems from '../components/NoMoreItems.vue';
-import Helpers from '../mixins/Helpers';
+    import Submission from '../components/Submission.vue';
+    import NoContent from '../components/NoContent.vue';
+    import NoMoreItems from '../components/NoMoreItems.vue';
+    import Helpers from '../mixins/Helpers';
 
-export default {
-	mixins: [Helpers],
+    function getSubmissions(sort = 'hot', categoryName) {
+        return new Promise((resolve, reject) => {
+            Store.page.category.page++;
+            Store.page.category.loading = true;
 
-    components: {
-        Submission,
-        Loading,
-        NoContent,
-		NoMoreItems
-    },
+            // if a guest has landed on a category page
+            if (preload.submissions && Store.page.category.page == 1) {
+                Store.page.category.submissions = preload.submissions.data;
+                if (! Store.page.category.submissions.length) Store.page.category.nothingFound = true;
+                if (preload.submissions.next_page_url == null) Store.page.category.NoMoreItems = true;
+                Store.page.category.loading = false;
+                delete preload.submissions;
+                return;
+            }
 
-    data: function () {
-        return {
-			isActive: null, 
-			NoMoreItems: false,
-			nothingFound: false,
-        	Store,
-        	preload,
-            submissions: [],
-            loading: true,
-			page: 0
-        }
-	},
+            axios.get(auth.isGuest == true ? '/auth/category-submissions' : '/category-submissions', {
+                params: {
+                    sort: sort,
+                    page: Store.page.category.page,
+                    category: categoryName
+                }
+            }).then((response) => {
+                Store.page.category.submissions = [...Store.page.category.submissions, ...response.data.data];
 
-   	created () {
-		this.clear(); 
-		this.$eventHub.$on('refresh-category-submissions', this.clear);
-	},
+                if (! Store.page.category.submissions.length) Store.page.category.nothingFound = true;
+                if (response.data.next_page_url == null) Store.page.category.NoMoreItems = true;
 
-	watch: {
-		'$route': function() {
-			if (this.$route.name !== 'category-submissions' || this.isActive === false) {
-				return;
-			}
+                Store.page.category.loading = false;
 
-			this.clear();
-			this.$eventHub.$on('refresh-category-submissions', this.clear);
-		}
-	},
+                resolve(response);
+            }).catch((error) => {
+                reject(error);
+            });
+        });
+    }
 
-	computed: {
-        cantLoadMore() {
-            return this.loading || this.NoMoreItems || this.nothingFound;
+    function clear() {
+        Store.page.category.submissions = [];
+        Store.page.category.loading = true;
+        Store.page.category.nothingFound = false;
+        Store.page.category.NoMoreItems = false;
+        Store.page.category.page = 0;
+    }
+
+    export default {
+        mixins: [Helpers],
+
+        components: {
+            Submission,
+            NoContent,
+            NoMoreItems
         },
 
-    	sort() {
-    	    if (this.$route.query.sort == 'new')
-    	    	return 'new';
+        data() {
+            return {
+                preload,
+            }
+        },
 
-    	    if (this.$route.query.sort == 'rising')
-    	    	return 'rising';
+        beforeRouteEnter (to, from, next) {
+            if (typeof app != "undefined") {
+                app.$Progress.start();
+            }
 
-    	    return 'hot';
-    	},
+            clear();
 
-		uniqueList() {
-			return _.uniq(this.submissions);
-		}
-	},
-
-    methods: {
-		loadMore () {
-            this.getSubmissions();
-		},
-
-    	clear () {
-            this.submissions = []; 
-            this.loading = true; 
-            this.nothingFound = false; 
-            this.NoMoreItems = false; 
-			this.page = 0;
-
-			this.updateCategoryStore(); 
-			this.getSubmissions(); 
-    	},
-    	
-    	updateCategoryStore () {
-			this.$root.getCategoryStore(this.$route.params.name); 
-    	},
-
-    	getSubmissions () {
-			this.page ++; 
-            this.loading = true; 
-
-            // if landed on a category page
-        	if (preload.submissions && this.page == 1) {
-        		this.submissions = preload.submissions.data;
-
-				if (!this.submissions.length) {
-					this.nothingFound = true; 
-				}
-
-				if (preload.submissions.next_page_url == null) {
-					this.NoMoreItems = true; 
-				}
-
-				this.loading = false;
-
-				// clear the preload
-				delete preload.submissions;
-
-				return;
-        	}
-
-            axios.get(this.authUrl('category-submissions'), {
-            	params: {
-			    	sort: this.sort,
-	                page: this.page,
-	                category: this.$route.params.name
-			    }
-            }).then((response) => {
-				this.submissions = [...this.submissions, ...response.data.data]; 
-
-				if (!this.submissions.length) {
-					this.nothingFound = true; 
-				}
-
-				if (response.data.next_page_url == null) {
-					this.NoMoreItems = true; 
-				}
-
-				this.loading = false; 
+            Promise.all([getSubmissions(to.query.sort, to.params.name), Store.getCategory(to.params.name)]).then(() => {
+                next(vm => {
+                    vm.$Progress.finish();
+                });
             });
+        },
+
+        beforeRouteUpdate (to, from, next) {
+            this.clear();
+
+            this.$Progress.start();
+
+            Promise.all([getSubmissions(to.query.sort, to.params.name), Store.getCategory(to.params.name, false)]).then(values => {
+                Store.setCategory(values[1]);
+                this.setPageTitle('#' + to.params.name);
+                this.$Progress.finish();
+                next();
+            });
+        },
+
+        created () {
+            this.$eventHub.$on('refresh-category-submissions', this.refresh);
+            this.setPageTitle('#' + this.$route.params.name);
+        },
+
+        computed: {
+            NoMoreItems() {
+                return Store.page.category.NoMoreItems;
+            },
+
+            nothingFound() {
+                return Store.page.category.nothingFound;
+            },
+
+            submissions() {
+                return Store.page.category.submissions;
+            },
+
+            loading() {
+                return Store.page.category.loading;
+            },
+
+            page() {
+                return Store.page.category.page;
+            },
+
+            cantLoadMore() {
+                return this.loading || this.NoMoreItems || this.nothingFound;
+            },
+
+            sort() {
+                return this.$route.query.sort ? this.$route.query.sort : 'hot';
+            },
+
+            uniqueList() {
+                return _.uniq(Store.page.category.submissions);
+            }
+        },
+
+        methods: {
+            loadMore() {
+                getSubmissions(this.sort, this.$route.params.name);
+            },
+
+            clear() {
+                Store.page.category.submissions = [];
+                Store.page.category.loading = true;
+                Store.page.category.nothingFound = false;
+                Store.page.category.NoMoreItems = false;
+                Store.page.category.page = 0;
+            },
+
+            refresh() {
+                this.clear(); 
+                getSubmissions(this.sort, this.$route.params.name);
+            }
         }
-    }
-};
+    };
 </script>

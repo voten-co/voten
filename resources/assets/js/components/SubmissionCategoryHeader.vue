@@ -23,17 +23,9 @@
     export default {
         data () {
             return {
-				isActive: null, 
                 Store
             }
 		},
-
-		activated() {
-			this.isActive = true;
-		},
-		deactivated() {
-			this.isActive = false;
-		}, 
 
 		created() {
 			this.updateCategoryStore();
@@ -51,29 +43,29 @@
 
         computed: {
 			name() {
-				return Store.page.category.name;
+				return Store.page.category.temp.name;
 			}, 
 
 			avatar() {
-				return Store.page.category.avatar;
+				return Store.page.category.temp.avatar;
 			}, 
 
 			coverBackground () {
-	        	if (Store.page.category.color == 'Red') {
+	        	if (Store.page.category.temp.color == 'Red') {
 	        		return '#9a4e4e'
-	        	} else if (Store.page.category.color == 'Blue') {
+	        	} else if (Store.page.category.temp.color == 'Blue') {
 	        		return '#5487d4'
-	        	} else if (Store.page.category.color == 'Dark Blue') {
+	        	} else if (Store.page.category.temp.color == 'Dark Blue') {
 	        		return '#2f3b49'
-	        	} else if (Store.page.category.color == 'Dark Green') {
+	        	} else if (Store.page.category.temp.color == 'Dark Green') {
 	        		return '#507e75'
-	        	} else if (Store.page.category.color == 'Bright Green') {
+	        	} else if (Store.page.category.temp.color == 'Bright Green') {
 	        		return 'rgb(117, 148, 127)'
-	        	} else if (Store.page.category.color == 'Purple') {
+	        	} else if (Store.page.category.temp.color == 'Purple') {
 	        		return '#4d4261'
-	        	} else if (Store.page.category.color == 'Orange') {
+	        	} else if (Store.page.category.temp.color == 'Orange') {
 	        		return '#ffaf40'
-	        	} else if (Store.page.category.color == 'Pink') {
+	        	} else if (Store.page.category.temp.color == 'Pink') {
 	        		return '#ec7daa'
 	        	} else { // userStore.color == 'Black'
 	        		return '#424242'
@@ -83,7 +75,7 @@
 		
 		methods: {
 			/**
-	    	 * Checks wheather or not the Store.page.category needs to be filled or updated, and if yes simply does it
+	    	 * Checks wheather or not the Store.page.category.temp needs to be filled or updated, and if yes simply does it
 	    	 *
 	    	 * @return void
 	    	 */

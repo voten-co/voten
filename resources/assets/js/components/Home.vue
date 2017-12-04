@@ -116,7 +116,6 @@
     import FeedSettings from '../components/FeedSettings.vue';
     import Submission from '../components/Submission.vue';
     import SuggestedCategory from '../components/SuggestedCategory.vue';
-    import Loading from '../components/SimpleLoading.vue';
     import NoContent from '../components/NoContent.vue';
     import NoMoreItems from '../components/NoMoreItems.vue';
 
@@ -134,16 +133,6 @@
                 delete preload.submissions;
                 return;
             }
-
-//            // make sure feedFitler is set
-//            if (app.$route.query.filter == 'all') {
-//                Store.feedFilter = 'all-channels';
-//                Vue.putLS('feed-filter', 'all-channels');
-//            } else if (Vue.isSetLS('feed-filter')) {
-//                Store.feedFilter = Vue.getLS('feed-filter');
-//            } else {
-//                Store.feedFilter = 'subscribed-channels';
-//            }
 
             axios.get(auth.isGuest == true ? '/auth/home' : '/home', {
                 params: {
@@ -174,7 +163,6 @@
             ScrollButton,
             FeedSettings,
             Submission,
-            Loading,
             SuggestedCategory,
             NoContent,
             NoMoreItems

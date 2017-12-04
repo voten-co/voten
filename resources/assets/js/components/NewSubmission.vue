@@ -313,7 +313,7 @@
                     this.selectedCat = null;
                 }
 
-                this.sfw =! Store.page.category.nsfw;
+                this.sfw =! Store.page.category.temp.nsfw;
             },
 
             /**
