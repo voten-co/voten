@@ -119,42 +119,6 @@
     import NoContent from '../components/NoContent.vue';
     import NoMoreItems from '../components/NoMoreItems.vue';
 
-    function getSubmissions(sort = 'hot') {
-        return new Promise((resolve, reject) => {
-            Store.page.home.page++;
-            Store.page.home.loading = true;
-
-            // if landed on the home page as guest
-            if (preload.submissions && app.$route.name == 'home') {
-                Store.page.home.submissions = preload.submissions.data;
-                if (!Store.page.home.submissions.length) Store.page.home.nothingFound = true;
-                if (preload.submissions.next_page_url == null) Store.page.home.NoMoreItems = true;
-                Store.page.home.loading = false;
-                delete preload.submissions;
-                return;
-            }
-
-            axios.get(auth.isGuest == true ? '/auth/home' : '/home', {
-                params: {
-                    sort: sort,
-                    page: Store.page.home.page,
-                    filter: Store.feedFilter
-                }
-            }).then((response) => {
-                Store.page.home.submissions = [...Store.page.home.submissions, ...response.data.data];
-
-                if (!Store.page.home.submissions.length) Store.page.home.nothingFound = true;
-                if (response.data.next_page_url == null) Store.page.home.NoMoreItems = true;
-
-                Store.page.home.loading = false;
-
-                resolve(response);
-            }).catch((error) => {
-                reject(error);
-            });
-        });
-    }
-
     export default {
         mixins: [Helpers],
 
@@ -176,21 +140,25 @@
         },
 
         beforeRouteEnter (to, from, next) {
-            if (typeof app != "undefined") {
-                app.$Progress.start();
-            }
+            if (! Store.page.home.submissions.length) {
+                if (typeof app != "undefined") {
+                    app.$Progress.start();
+                }
 
-            getSubmissions(to.query.sort).then(() => {
-                next(vm => vm.$Progress.finish());
-            });
+                Store.page.home.getSubmissions(to.query.sort).then(() => {
+                    next(vm => vm.$Progress.finish());
+                });
+            } else {
+                next();
+            }
         },
 
         beforeRouteUpdate (to, from, next) {
-            this.clearContent();
+            Store.page.home.clear();
 
             this.$Progress.start();
 
-            getSubmissions(to.query.sort).then(() => {
+            Store.page.home.getSubmissions(to.query.sort).then(() => {
                 this.$Progress.finish();
                 next();
             });
@@ -199,6 +167,7 @@
         created() {
             this.setPageTitle('Voten - Social Bookmarking For The 21st Century', true);
             this.askNotificationPermission();
+            this.$eventHub.$on('refresh-home', this.refresh);
         },
 
         computed: {
@@ -237,26 +206,13 @@
 
         methods: {
             loadMore() {
-                getSubmissions(this.sort);
-            },
-
-            /**
-             * Resets all the basic data
-             *
-             * @return void
-             */
-            clearContent() {
-                Store.page.home.page = 0;
-                Store.page.home.nothingFound = false;
-                Store.page.home.NoMoreItems = false;
-                Store.page.home.submissions = [];
-                Store.page.home.loading = true;
+                Store.page.home.getSubmissions(this.sort);
             },
 
             refresh: _.debounce(function () {
                 this.refreshing = true;
-                this.clearContent();
-                getSubmissions(this.sort).then(() => this.refreshing = false);
+                Store.page.home.clear();
+                Store.page.home.getSubmissions(this.sort).then(() => this.refreshing = false);
             }, 700, { leading: true, trailing: false }),
 
             /**

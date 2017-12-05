@@ -9,7 +9,7 @@
 
         <!-- Home -->
         <el-tooltip content="Home Feed (H)" placement="right" transition="false" :open-delay="500">
-            <a @click.prevent="pushRouter('/')" href="/" :class="{ 'active': activeRoute === 'home' }" class="item">
+            <a @click.prevent="goHome" href="/" :class="{ 'active': activeRoute === 'home' }" class="item">
                 <i class="v-icon v-home" aria-hidden="true"></i>
             </a>
         </el-tooltip>
@@ -147,6 +147,14 @@
                 this.$eventHub.$emit('close');
                 
                 this.$router.push(route);
+            }, 
+
+            goHome() {
+                if (this.$route.name != 'home') {
+                    Store.page.home.clear();                    
+                }
+
+                this.pushRouter('/'); 
             }
         }
     }

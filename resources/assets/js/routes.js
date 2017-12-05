@@ -138,13 +138,13 @@ const routes = [
     { path: '*', component: NotFound, meta: { title: 'Not Found' } },
 ]
 
-import VueRouter from 'vue-router'
+import VueRouter from 'vue-router'; 
 Vue.use(VueRouter);
 
 var router = new VueRouter({
     mode: 'history',
     routes
-})
+}); 
 
 
 // scroll behavior 
@@ -196,7 +196,7 @@ window.addEventListener('popstate', () => {
 /**
  * Since Google Analytics's default tracking code doesn't play nice with
  * single-page-applications, we're gonna use this one. What it does
- * is simple running after after navigating to the new routes.
+ * is simply running after navigating to each new route.
  */
 router.afterEach((to, from) => {
 	if (Laravel.env == 'production') {
@@ -217,7 +217,7 @@ router.afterEach((to, from) => {
 	   ga('set', 'page', to.path);
 	   ga('send', 'pageview');
 	}
-})
+}); 
 
 
 export default router;

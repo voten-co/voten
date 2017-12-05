@@ -89,7 +89,7 @@
                                             Delete
                                         </el-dropdown-item>
 
-                                        <el-dropdown-item class="go-red" @click.native="removeThumbnail"
+                                        <el-dropdown-item @click.native="removeThumbnail"
                                                           v-if="showRemoveTumbnail">
                                             Remove Thumbnail
                                         </el-dropdown-item>

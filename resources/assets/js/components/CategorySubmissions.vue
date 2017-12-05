@@ -20,50 +20,6 @@
     import NoMoreItems from '../components/NoMoreItems.vue';
     import Helpers from '../mixins/Helpers';
 
-    function getSubmissions(sort = 'hot', categoryName) {
-        return new Promise((resolve, reject) => {
-            Store.page.category.page++;
-            Store.page.category.loading = true;
-
-            // if a guest has landed on a category page
-            if (preload.submissions && Store.page.category.page == 1) {
-                Store.page.category.submissions = preload.submissions.data;
-                if (! Store.page.category.submissions.length) Store.page.category.nothingFound = true;
-                if (preload.submissions.next_page_url == null) Store.page.category.NoMoreItems = true;
-                Store.page.category.loading = false;
-                delete preload.submissions;
-                return;
-            }
-
-            axios.get(auth.isGuest == true ? '/auth/category-submissions' : '/category-submissions', {
-                params: {
-                    sort: sort,
-                    page: Store.page.category.page,
-                    category: categoryName
-                }
-            }).then((response) => {
-                Store.page.category.submissions = [...Store.page.category.submissions, ...response.data.data];
-
-                if (! Store.page.category.submissions.length) Store.page.category.nothingFound = true;
-                if (response.data.next_page_url == null) Store.page.category.NoMoreItems = true;
-
-                Store.page.category.loading = false;
-
-                resolve(response);
-            }).catch((error) => {
-                reject(error);
-            });
-        });
-    }
-
-    function clear() {
-        Store.page.category.submissions = [];
-        Store.page.category.loading = true;
-        Store.page.category.nothingFound = false;
-        Store.page.category.NoMoreItems = false;
-        Store.page.category.page = 0;
-    }
-
     export default {
         mixins: [Helpers],
 
@@ -84,9 +40,9 @@
                 app.$Progress.start();
             }
 
-            clear();
+            Store.page.category.clear();
 
-            Promise.all([getSubmissions(to.query.sort, to.params.name), Store.getCategory(to.params.name)]).then(() => {
+            Promise.all([Store.page.category.getSubmissions(to.query.sort, to.params.name), Store.page.category.getCategory(to.params.name)]).then(() => {
                 next(vm => {
                     vm.$Progress.finish();
                 });
@@ -94,12 +50,12 @@
         },
 
         beforeRouteUpdate (to, from, next) {
-            this.clear();
+            Store.page.category.clear();
 
             this.$Progress.start();
 
-            Promise.all([getSubmissions(to.query.sort, to.params.name), Store.getCategory(to.params.name, false)]).then(values => {
-                Store.setCategory(values[1]);
+            Promise.all([Store.page.category.getSubmissions(to.query.sort, to.params.name), Store.page.category.getCategory(to.params.name, false)]).then(values => {
+                Store.page.category.setCategory(values[1]);
                 this.setPageTitle('#' + to.params.name);
                 this.$Progress.finish();
                 next();
@@ -147,20 +103,12 @@
 
         methods: {
             loadMore() {
-                getSubmissions(this.sort, this.$route.params.name);
-            },
-
-            clear() {
-                Store.page.category.submissions = [];
-                Store.page.category.loading = true;
-                Store.page.category.nothingFound = false;
-                Store.page.category.NoMoreItems = false;
-                Store.page.category.page = 0;
+                Store.page.category.getSubmissions(this.sort, this.$route.params.name);
             },
 
             refresh() {
-                this.clear(); 
-                getSubmissions(this.sort, this.$route.params.name);
+                Store.page.category.clear(); 
+                Store.page.category.getSubmissions(this.sort, this.$route.params.name);
             }
         }
     };
