@@ -448,6 +448,6 @@ SQL;
             ]);
         }
 
-        return 'all good';
+        return redirect('backend/server-control');
     }
 }
