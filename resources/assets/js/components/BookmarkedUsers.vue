@@ -5,14 +5,15 @@
 
 	    <no-content v-if="nothingFound" :text="'No bookmarked users yet'"></no-content>
 
-		<loading v-show="loading"></loading>
+		<div class="flex-center padding-top-bottom-1" v-if="loading && page > 1">
+			<i class="el-icon-loading"></i>
+		</div>
 
 		<no-more-items :text="'No more items to load'" v-if="NoMoreItems && !nothingFound"></no-more-items>
 	</section>
 </template>
 
 <script>
-    import Loading from '../components/Loading.vue'; 
     import BookmarkedUser from '../components/BookmarkedUser.vue'; 
 	import NoMoreItems from '../components/NoMoreItems.vue'; 
     import NoContent from '../components/NoContent.vue'; 
@@ -24,70 +25,53 @@
         components: {
         	NoContent,
         	BookmarkedUser,
-        	Loading,
 			NoMoreItems
         },
-
-        data() {
-            return {
-	            NoMoreItems: false,
-				loading: true,
-                nothingFound: false,
-                users: [],
-				page: 0
-            }
-        },
-
-        created () {
-            this.getUsers()
-		},
-
-	    watch: {
-			'$route': function () {
-				this.clearContent()
-				this.getUsers()
-			}
-		},
 
         computed: {
             cantLoadMore() {
                 return this.loading || this.NoMoreItems || this.nothingFound;
-            },
+			},
+			
+			NoMoreItems() {
+				return Store.page.bookmarkedUsers.NoMoreItems;
+			},
+
+			nothingFound() {
+				return Store.page.bookmarkedUsers.nothingFound;
+			},
+
+			users() {
+				return Store.page.bookmarkedUsers.users;
+			},
+
+			loading() {
+				return Store.page.bookmarkedUsers.loading;
+			},
+
+			page() {
+				return Store.page.bookmarkedUsers.page;
+			}
         },
 
         methods: {
 			loadMore () {
-                this.getUsers();
+                Store.page.bookmarkedUsers.getUsers();
             },
+		}, 
+		
+		beforeRouteEnter (to, from, next) {
+			if (! Store.page.bookmarkedUsers.page > 0) {
+				if (typeof app != "undefined") {
+					app.$Progress.start();
+				}
 
-        	clearContent () {
-				this.nothingFound = false
-				this.users = []
-				this.loading = true
-        	},
-
-            getUsers () {
-				this.loading = true
-				this.page ++
-
-            	axios.get('/bookmarked-users', {
-            		params: {
-                        page: this.page
-					}
-            	}).then((response) => {
-					this.users = [...this.users, ...response.data.data]
-
-					if (response.data.next_page_url == null) {
-						this.NoMoreItems = true
-					}
-
-					if(this.users.length == 0){
-						this.nothingFound = true
-					}
-
-					this.loading = false
-                })
-            }
-        }
+				Store.page.bookmarkedUsers.getUsers().then(() => {
+					next(vm => vm.$Progress.finish());
+				});
+			} else {
+				next();
+			}
+		},
     };
 </script>

@@ -52,9 +52,15 @@
 					</section>
 						
 					<div class="align-center" v-if="moreComments">
-						<button class="v-button v-button-outline--green v-button--block half-width" @click="loadMoreComments">
+						<el-button 
+							type="success"
+							plain
+							class="half-width" 
+							@click="loadMoreComments"
+							:loading="loadingComments"
+						>
 							Load More Comments
-						</button>
+						</el-button>
 					</div>
 				</div>
 			</div>
@@ -171,7 +177,6 @@
 
         	loadMoreComments () {
         		this.page ++;
-                this.moreComments = false;
         		this.getComments();
         	},
 
@@ -286,13 +291,15 @@
 	                	sort: this.sort
                 	}
                 }).then((response) => {
-                	this.loadingComments = false
+                	this.loadingComments = false; 
 
-                    this.comments.push(...response.data.data)
+                    this.comments.push(...response.data.data); 
 
                     if (response.data.next_page_url != null) {
-                    	this.moreComments = true
-                    }
+                    	this.moreComments = true; 
+                    } else {
+						this.moreComments = false; 
+					}
                 })
             },
 

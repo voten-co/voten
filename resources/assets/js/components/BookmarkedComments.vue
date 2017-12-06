@@ -12,14 +12,15 @@
 
         <no-content v-if="nothingFound" :text="'No bookmarked comments yet'"></no-content>
 
-        <loading v-show="loading"></loading>
+        <div class="flex-center padding-top-bottom-1" v-if="loading && page > 1">
+            <i class="el-icon-loading"></i>
+        </div>
 
         <no-more-items :text="'No more items to load'" v-if="NoMoreItems && !nothingFound"></no-more-items>
     </section>
 </template>
 
 <script>
-    import Loading from '../components/Loading.vue';
     import Comment from '../components/Comment.vue';
     import NoContent from '../components/NoContent.vue';
     import NoMoreItems from '../components/NoMoreItems.vue';
@@ -29,73 +30,55 @@
         mixins: [Helpers],
 
         components: {
-            Loading,
             Comment,
             NoContent,
             NoMoreItems
-        },
-
-        data() {
-            return {
-                NoMoreItems: false,
-                loading: true,
-                nothingFound: false,
-                comments: [],
-                page: 0
-            }
-        },
-
-        created () {
-            this.getComments()
-        },
-
-
-        watch: {
-            '$route': function () {
-                this.clearContent();
-                this.getComments();
-            }
         },
 
         computed: {
             cantLoadMore() {
                 return this.loading || this.NoMoreItems || this.nothingFound;
             },
+
+            NoMoreItems() {
+                return Store.page.bookmarkedComments.NoMoreItems;
+            },
+
+            nothingFound() {
+                return Store.page.bookmarkedComments.nothingFound;
+            },
+
+            comments() {
+                return Store.page.bookmarkedComments.comments;
+            },
+
+            loading() {
+                return Store.page.bookmarkedComments.loading;
+            },
+
+            page() {
+                return Store.page.bookmarkedComments.page;
+            }
         },
 
         methods: {
             loadMore () {
-                this.getComments();
+                Store.page.bookmarkedComments.getComments();
             },
+        }, 
 
-            clearContent () {
-                this.nothingFound = false
-                this.users = []
-                this.loading = true
-            },
+        beforeRouteEnter (to, from, next) {
+            if (! Store.page.bookmarkedComments.page > 0) {
+                if (typeof app != "undefined") {
+                    app.$Progress.start();
+                }
 
-            getComments () {
-                this.loading = true
-                this.page++
-
-                axios.get('/bookmarked-comments', {
-                    params: {
-                        page: this.page
-                    }
-                }).then((response) => {
-                    this.comments = [...this.comments, ...response.data.data]
-
-                    if (response.data.next_page_url == null) {
-                        this.NoMoreItems = true
-                    }
-
-                    if (this.comments.length == 0) {
-                        this.nothingFound = true
-                    }
-
-                    this.loading = false
-                })
+                Store.page.bookmarkedComments.getComments().then(() => {
+                    next(vm => vm.$Progress.finish());
+                });
+            } else {
+                next();
             }
-        }
+        },
     };
 </script>

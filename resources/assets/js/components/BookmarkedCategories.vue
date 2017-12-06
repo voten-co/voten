@@ -6,14 +6,15 @@
 
 	    <no-content v-if="nothingFound" :text="'No bookmarked channels yet'"></no-content>
 
-		<loading v-show="loading"></loading>
+		<div class="flex-center padding-top-bottom-1" v-if="loading && page > 1">
+			<i class="el-icon-loading"></i>
+		</div>
 
 		<no-more-items :text="'No more items to load'" v-if="NoMoreItems && !nothingFound"></no-more-items>
 	</section>
 </template>
 
 <script>
-    import Loading from '../components/Loading.vue';
     import BookmarkedCategory from '../components/BookmarkedCategory.vue';
 	import NoMoreItems from '../components/NoMoreItems.vue';
     import NoContent from '../components/NoContent.vue';
@@ -25,66 +26,53 @@
         components: {
         	NoContent,
         	BookmarkedCategory,
-        	Loading,
 			NoMoreItems
         },
-
-        data() {
-            return {
-				NoMoreItems: false,
-				loading: true,
-                nothingFound: false,
-				page: 0,
-                categories: []
-            }
-        },
-
-        created () {
-            this.getCategories();
-		},
 
         computed: {
             cantLoadMore() {
                 return this.loading || this.NoMoreItems || this.nothingFound;
-            },
-        },
+			},
+			
+			NoMoreItems() {
+				return Store.page.bookmarkedCategories.NoMoreItems;
+			},
 
-	    watch: {
-			'$route': function () {
-				this.clearContent(); 
-				this.getCategories(); 
+			nothingFound() {
+				return Store.page.bookmarkedCategories.nothingFound;
+			},
+
+			categories() {
+				return Store.page.bookmarkedCategories.categories;
+			},
+
+			loading() {
+				return Store.page.bookmarkedCategories.loading;
+			},
+
+			page() {
+				return Store.page.bookmarkedCategories.page;
 			}
-		},
-
+        },
 
         methods: {
 			loadMore () {
-                this.getCategories();
+                Store.page.bookmarkedCategories.getCategories(); 
             },
+		}, 
 
-        	clearContent () {
-				this.nothingFound = false;
-				this.users = [];
-				this.loading = true;
-        	},
+		beforeRouteEnter (to, from, next) {
+			if (! Store.page.bookmarkedCategories.page > 0) {
+				if (typeof app != "undefined") {
+					app.$Progress.start();
+				}
 
-            getCategories () {
-				this.page ++;
-           		this.loading = true;
-
-            	axios.get('/bookmarked-categories', {
-            		params: {
-                        page: this.page
-					}
-            	}).then((response) => {
-					this.categories = [...this.categories, ...response.data.data];
-
-					if (response.data.next_page_url == null) this.NoMoreItems = true;
-                    if(this.categories.length == 0) this.nothingFound = true;
-
-                    this.loading = false
-                })
-            }
-        }
-    };
+				Store.page.bookmarkedCategories.getCategories().then(() => {
+					next(vm => vm.$Progress.finish());
+				});
+			} else {
+				next();
+			}
+		},
+	}
 </script>

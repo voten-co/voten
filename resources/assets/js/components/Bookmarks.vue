@@ -38,6 +38,9 @@
 
         beforeRouteEnter (to, from, next) {
 			Store.page.bookmarkedSubmissions.clear(); 
+			Store.page.bookmarkedComments.clear(); 
+			Store.page.bookmarkedCategories.clear(); 
+			Store.page.bookmarkedUsers.clear(); 
 			
 			next();
         },

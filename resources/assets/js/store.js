@@ -196,7 +196,7 @@ window.Store = {
 
         bookmarkedSubmissions: {
             NoMoreItems: false,
-            loading: true,
+            loading: null,
             nothingFound: false,
             submissions: [],
             page: 0, 
@@ -228,12 +228,133 @@ window.Store = {
             clear() {
                 this.nothingFound = false;
                 this.submissions = [];
-                this.loading = true;
+                this.loading = null;
                 this.page = 0; 
                 this.NoMoreItems = false; 
             },
+        }, 
+
+        bookmarkedComments: {
+            NoMoreItems: false,
+            loading: null,
+            nothingFound: false,
+            comments: [],
+            page: 0, 
+
+            getComments () {
+                return new Promise((resolve, reject) => {
+                    this.loading = true; 
+                    this.page++; 
+
+                    axios.get('/bookmarked-comments', {
+                        params: {
+                            page: this.page
+                        }
+                    }).then((response) => {
+                        this.comments = [...this.comments, ...response.data.data]; 
+
+                        if (response.data.next_page_url == null) this.NoMoreItems = true; 
+                        if (this.comments.length == 0) this.nothingFound = true; 
+
+                        this.loading = false; 
+
+                        resolve(response);
+                    }).catch((error) => {
+                        reject(error); 
+                    }); 
+                });
+            }, 
+
+            clear() {
+                this.NoMoreItems = false; 
+                this.loading = null; 
+                this.nothingFound = false; 
+                this.comments = []; 
+                this.page = 0; 
+            },
+        }, 
+
+        bookmarkedCategories: {
+            NoMoreItems: false,
+            loading: null,
+            nothingFound: false,
+            page: 0,
+            categories: [], 
+
+            getCategories () {
+                return new Promise((resolve, reject) => {
+                    this.page ++;
+                    this.loading = true;
+
+                    axios.get('/bookmarked-categories', {
+                        params: {
+                            page: this.page
+                        }
+                    }).then((response) => {
+                        this.categories = [...this.categories, ...response.data.data];
+
+                        if (response.data.next_page_url == null) this.NoMoreItems = true;
+                        if(this.categories.length == 0) this.nothingFound = true;
+
+                        this.loading = false; 
+
+                        resolve(response); 
+                    }).catch(error => {
+                        reject(error); 
+                    }); 
+                }); 
+            }, 
+
+            clear() {
+                this.NoMoreItems = false; 
+                this.loading = null; 
+                this.nothingFound = false; 
+                this.page = 0; 
+                this.categories = []; 
+            }
+        }, 
+
+        bookmarkedUsers: {
+            NoMoreItems: false,
+            loading: null,
+            nothingFound: false,
+            users: [],
+            page: 0, 
+
+            getUsers() {
+                return new Promise((resolve, reject) => {
+                    this.loading = true; 
+                    this.page ++; 
+
+                    axios.get('/bookmarked-users', {
+                        params: {
+                            page: this.page
+                        }
+                    }).then((response) => {
+                        this.users = [...this.users, ...response.data.data]; 
+
+                        if (response.data.next_page_url == null) this.NoMoreItems = true; 
+                        if (this.users.length == 0) this.nothingFound = true; 
+
+                        this.loading = false; 
+
+                        resolve(response); 
+                    }).catch(error => {
+                        reject(error); 
+                    }); 
+                }); 
+            }, 
+
+            clear() {
+                this.NoMoreItems = false; 
+                this.loading = null; 
+                this.nothingFound = false; 
+                this.users = []; 
+                this.page = 0; 
+            }
         }
     },
+    
 
     contentRouter: 'content',
     feedFilter: '',

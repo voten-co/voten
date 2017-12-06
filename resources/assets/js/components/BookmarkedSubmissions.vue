@@ -30,7 +30,7 @@
 
         computed: {
             cantLoadMore() {
-                return Store.page.bookmarkedSubmissions.loading || Store.page.bookmarkedSubmissions.NoMoreItems || Store.page.bookmarkedSubmissions.nothingFound;
+                return this.loading || this.NoMoreItems || this.nothingFound;
             },
 
             NoMoreItems() {
