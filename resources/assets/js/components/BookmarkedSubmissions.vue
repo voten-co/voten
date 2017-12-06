@@ -55,7 +55,7 @@
         },
 
         beforeRouteEnter (to, from, next) {
-            if (! Store.page.bookmarkedSubmissions.submissions.length) {
+            if (! Store.page.bookmarkedSubmissions.page > 0) {
                 if (typeof app != "undefined") {
                     app.$Progress.start();
                 }

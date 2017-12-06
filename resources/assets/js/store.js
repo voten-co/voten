@@ -66,12 +66,12 @@ window.Store = {
                 return new Promise((resolve, reject) => {
                     // if a guest has landed on a submission page
                     if (preload.category && preload.category.name == app.$route.params.name) {
-                        Store.page.category.temp = preload.category;
+                        this.temp = preload.category;
                         delete preload.category;
-                        resolve(Store.page.category.temp);
+                        resolve(this.temp);
                     }
 
-                    if (typeof Store.page.category.temp.name == "undefined" || Store.page.category.temp.name != category_name) {
+                    if (typeof this.temp.name == "undefined" || this.temp.name != category_name) {
                         axios.get('/get-category-store', {
                             params: {
                                 name: category_name
@@ -87,26 +87,26 @@ window.Store = {
                             reject(error);
                         });
                     } else {
-                        resolve(Store.page.category.temp);
+                        resolve(this.temp);
                     }
                 });
             },
 
             setCategory(data) {
-                Store.page.category.temp = data;
+                this.temp = data;
             }, 
 
             getSubmissions(sort = 'hot', categoryName) {
                 return new Promise((resolve, reject) => {
-                    Store.page.category.page++;
-                    Store.page.category.loading = true;
+                    this.page++;
+                    this.loading = true;
 
                     // if a guest has landed on a category page
-                    if (preload.submissions && Store.page.category.page == 1) {
-                        Store.page.category.submissions = preload.submissions.data;
-                        if (! Store.page.category.submissions.length) Store.page.category.nothingFound = true;
-                        if (preload.submissions.next_page_url == null) Store.page.category.NoMoreItems = true;
-                        Store.page.category.loading = false;
+                    if (preload.submissions && this.page == 1) {
+                        this.submissions = preload.submissions.data;
+                        if (! this.submissions.length) this.nothingFound = true;
+                        if (preload.submissions.next_page_url == null) this.NoMoreItems = true;
+                        this.loading = false;
                         delete preload.submissions;
                         return;
                     }
@@ -114,16 +114,16 @@ window.Store = {
                     axios.get(auth.isGuest == true ? '/auth/category-submissions' : '/category-submissions', {
                         params: {
                             sort: sort,
-                            page: Store.page.category.page,
+                            page: this.page,
                             category: categoryName
                         }
                     }).then((response) => {
-                        Store.page.category.submissions = [...Store.page.category.submissions, ...response.data.data];
+                        this.submissions = [...this.submissions, ...response.data.data];
 
-                        if (! Store.page.category.submissions.length) Store.page.category.nothingFound = true;
-                        if (response.data.next_page_url == null) Store.page.category.NoMoreItems = true;
+                        if (! this.submissions.length) this.nothingFound = true;
+                        if (response.data.next_page_url == null) this.NoMoreItems = true;
 
-                        Store.page.category.loading = false;
+                        this.loading = false;
 
                         resolve(response);
                     }).catch((error) => {
@@ -133,11 +133,11 @@ window.Store = {
             }, 
 
             clear() {
-                Store.page.category.submissions = [];
-                Store.page.category.loading = true;
-                Store.page.category.nothingFound = false;
-                Store.page.category.NoMoreItems = false;
-                Store.page.category.page = 0;
+                this.submissions = [];
+                this.loading = true;
+                this.nothingFound = false;
+                this.NoMoreItems = false;
+                this.page = 0;
             }
         },
         submission: [],
@@ -151,15 +151,15 @@ window.Store = {
 
             getSubmissions(sort = 'hot') {
                 return new Promise((resolve, reject) => {
-                    Store.page.home.page++;
-                    Store.page.home.loading = true;
+                    this.page++;
+                    this.loading = true;
 
                     // if landed on the home page as guest
                     if (preload.submissions && app.$route.name == 'home') {
-                        Store.page.home.submissions = preload.submissions.data;
-                        if (!Store.page.home.submissions.length) Store.page.home.nothingFound = true;
-                        if (preload.submissions.next_page_url == null) Store.page.home.NoMoreItems = true;
-                        Store.page.home.loading = false;
+                        this.submissions = preload.submissions.data;
+                        if (!this.submissions.length) this.nothingFound = true;
+                        if (preload.submissions.next_page_url == null) this.NoMoreItems = true;
+                        this.loading = false;
                         delete preload.submissions;
                         return;
                     }
@@ -167,16 +167,16 @@ window.Store = {
                     axios.get(auth.isGuest == true ? '/auth/home' : '/home', {
                         params: {
                             sort: sort,
-                            page: Store.page.home.page,
+                            page: this.page,
                             filter: Store.feedFilter
                         }
                     }).then((response) => {
-                        Store.page.home.submissions = [...Store.page.home.submissions, ...response.data.data];
+                        this.submissions = [...this.submissions, ...response.data.data];
 
-                        if (!Store.page.home.submissions.length) Store.page.home.nothingFound = true;
-                        if (response.data.next_page_url == null) Store.page.home.NoMoreItems = true;
+                        if (!this.submissions.length) this.nothingFound = true;
+                        if (response.data.next_page_url == null) this.NoMoreItems = true;
 
-                        Store.page.home.loading = false;
+                        this.loading = false;
 
                         resolve(response);
                     }).catch((error) => {
@@ -186,13 +186,14 @@ window.Store = {
             }, 
 
             clear() {
-                Store.page.home.page = 0;
-                Store.page.home.nothingFound = false;
-                Store.page.home.NoMoreItems = false;
-                Store.page.home.submissions = [];
-                Store.page.home.loading = true;
+                this.page = 0;
+                this.nothingFound = false;
+                this.NoMoreItems = false;
+                this.submissions = [];
+                this.loading = true;
             }
         }, 
+
         bookmarkedSubmissions: {
             NoMoreItems: false,
             loading: true,
