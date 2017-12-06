@@ -25,21 +25,21 @@
 				</div>
 			</div>
 		</nav>
-		
-		<keep-alive>
-			<router-view></router-view>
-		</keep-alive>
+
+		<router-view></router-view>
 	</div>
 </template>
 
-
 <script>
-	export default {
-		beforeRouteLeave(to, from, next) {
-			// Too keep bookmarked records fresh 
-			this.$destroy();
+	import Helpers from '../mixins/Helpers';
 
+    export default {
+		mixins: [Helpers],
+
+        beforeRouteEnter (to, from, next) {
+			Store.page.bookmarkedSubmissions.clear(); 
+			
 			next();
-		}
-	}
+        },
+    };
 </script>

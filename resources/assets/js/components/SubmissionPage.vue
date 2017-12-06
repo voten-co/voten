@@ -309,7 +309,6 @@
 			Echo.leave('submission.' + from.params.slug);
 			
 			Store.page.submission = [];
-			this.$destroy();
 
 			next();
 		}, 

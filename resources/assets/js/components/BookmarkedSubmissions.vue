@@ -5,90 +5,73 @@
 
         <no-content v-if="nothingFound" :text="'No bookmarked submissions yet'"></no-content>
 
-        <loading v-show="loading"></loading>
+        <div class="flex-center padding-top-bottom-1" v-if="loading && page > 1">
+            <i class="el-icon-loading"></i>
+        </div>
 
         <no-more-items :text="'No more items to load'" v-if="NoMoreItems && !nothingFound"></no-more-items>
     </section>
 </template>
 
 <script>
-    import Loading from '../components/Loading.vue';
     import Submission from '../components/Submission.vue';
     import NoContent from '../components/NoContent.vue';
     import NoMoreItems from '../components/NoMoreItems.vue';
     import Helpers from '../mixins/Helpers';
 
-
     export default {
         mixins: [Helpers],
 
         components: {
-            Loading,
             Submission,
             NoContent,
             NoMoreItems
         },
 
-        data() {
-            return {
-                NoMoreItems: false,
-                loading: true,
-                nothingFound: false,
-                submissions: [],
-                page: 0
-            }
-        },
-
-        created () {
-            this.getSubmissions();
-        },
-
-        watch: {
-            '$route': function () {
-                this.clearContent();
-                this.getSubmissions();
-            }
-        },
-
         computed: {
             cantLoadMore() {
-                return this.loading || this.NoMoreItems || this.nothingFound;
+                return Store.page.bookmarkedSubmissions.loading || Store.page.bookmarkedSubmissions.NoMoreItems || Store.page.bookmarkedSubmissions.nothingFound;
             },
+
+            NoMoreItems() {
+                return Store.page.bookmarkedSubmissions.NoMoreItems;
+            },
+
+            nothingFound() {
+                return Store.page.bookmarkedSubmissions.nothingFound;
+            },
+
+            submissions() {
+                return Store.page.bookmarkedSubmissions.submissions;
+            },
+
+            loading() {
+                return Store.page.bookmarkedSubmissions.loading;
+            },
+
+            page() {
+                return Store.page.bookmarkedSubmissions.page;
+            }
+        },
+
+        beforeRouteEnter (to, from, next) {
+            if (! Store.page.bookmarkedSubmissions.submissions.length) {
+                if (typeof app != "undefined") {
+                    app.$Progress.start();
+                }
+
+                Store.page.bookmarkedSubmissions.getSubmissions().then(() => {
+                    next(vm => vm.$Progress.finish());
+                });
+            } else {
+                next();
+            }
         },
 
         methods: {
             loadMore() {
-                this.getSubmissions();
+                Store.page.bookmarkedSubmissions.getSubmissions();
             },
-
-            clearContent() {
-                this.nothingFound = false;
-                this.submissions = [];
-                this.loading = true;
-            },
-
-            getSubmissions () {
-                this.page++;
-                this.loading = true;
-
-                axios.get('/bookmarked-submissions', {
-                    params: {
-                        page: this.page
-                    }
-                }).then((response) => {
-                    this.submissions = [...this.submissions, ...response.data.data];
-
-                    if (response.data.next_page_url == null) {
-                        this.NoMoreItems = true;
-                    }
-
-                    if (this.submissions.length == 0) {
-                        this.nothingFound = true;
-                    }
-
-                    this.loading = false;
-                })
-            }
         }
     };
 </script>
