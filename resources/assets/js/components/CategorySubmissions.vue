@@ -1,5 +1,5 @@
 <template>
-    <div class="padding-bottom-10 flex1" id="submissions" :class="{'flex-center' : nothingFound}"
+    <section class="padding-bottom-10 flex1" id="submissions" :class="{'flex-center' : nothingFound}"
          v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore"
     >
         <submission :list="submission" v-for="submission in uniqueList" v-bind:key="submission.id"></submission>
@@ -11,7 +11,7 @@
         </div>
 
         <no-more-items :text="'No more items to load'" v-if="NoMoreItems && !nothingFound && !loading"></no-more-items>
-    </div>
+    </section>
 </template>
 
 <script>
@@ -40,7 +40,9 @@
                 app.$Progress.start();
             }
 
-            Store.page.category.clear();
+            if (typeof Store.page.category.temp.name != 'undefined' && Store.page.category.temp.name != to.params.name) {
+                Store.page.category.clear();
+            }
 
             Promise.all([Store.page.category.getSubmissions(to.query.sort, to.params.name), Store.page.category.getCategory(to.params.name)]).then(() => {
                 next(vm => {

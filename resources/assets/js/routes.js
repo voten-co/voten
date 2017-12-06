@@ -159,14 +159,17 @@ const scrollPositions = Object.create(null);
  */
 router.beforeEach((to, from, next) => {
     // scroll behavior 
-    let element = document.getElementById(scrollableElementId)
+    let element = document.getElementById(scrollableElementId); 
+
     if (element !== null) {
-        scrollPositions[from.name] = element.scrollTop
+        scrollPositions[from.name] = element.scrollTop; 
     }
+
+    console.log(scrollPositions)
 
     // page title 
     if (to.meta.title) {
-        document.title = to.meta.title
+        document.title = to.meta.title; 
     } else {
     	if (
 	    		to.name != "submission-page" &&
@@ -184,11 +187,14 @@ router.beforeEach((to, from, next) => {
 
 // scroll behavior 
 window.addEventListener('popstate', () => {
-    let currentRouteName = router.history.current.name
+    let currentRouteName = router.history.current.name; 
 
-    let element = document.getElementById(scrollableElementId)
+    console.log(currentRouteName)
+
+    let element = document.getElementById(scrollableElementId); 
+
     if (element !== null && currentRouteName in scrollPositions) {
-        setTimeout(() => element.scrollTop = scrollPositions[currentRouteName], 50)
+        setTimeout(() => element.scrollTop = scrollPositions[currentRouteName], 50); 
     }
 }); 
 
@@ -199,6 +205,8 @@ window.addEventListener('popstate', () => {
  * is simply running after navigating to each new route.
  */
 router.afterEach((to, from) => {
+    console.log(scrollPositions)
+
 	if (Laravel.env == 'production') {
 		(function(i, s, o, g, r, a, m) {
 	       i['GoogleAnalyticsObject'] = r;

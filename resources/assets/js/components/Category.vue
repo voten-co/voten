@@ -31,16 +31,6 @@ export default {
 		ScrollButton,
     },
 
-   	// created() {
-   	// 	this.setPageTitle('#' + this.$route.params.name);
-	// },
-
-//     watch: {
-// 		'$route': function () {
-// //			this.$root.getCategoryStore(this.$route.params.name);
-// 		}
-// 	},
-
    	computed: {
 		nsfw() {
 			return Store.page.category.temp.nsfw && !auth.nsfw;
