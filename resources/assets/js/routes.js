@@ -165,8 +165,6 @@ router.beforeEach((to, from, next) => {
         scrollPositions[from.name] = element.scrollTop; 
     }
 
-    console.log(scrollPositions)
-
     // page title 
     if (to.meta.title) {
         document.title = to.meta.title; 
@@ -189,8 +187,6 @@ router.beforeEach((to, from, next) => {
 window.addEventListener('popstate', () => {
     let currentRouteName = router.history.current.name; 
 
-    console.log(currentRouteName)
-
     let element = document.getElementById(scrollableElementId); 
 
     if (element !== null && currentRouteName in scrollPositions) {
@@ -205,8 +201,6 @@ window.addEventListener('popstate', () => {
  * is simply running after navigating to each new route.
  */
 router.afterEach((to, from) => {
-    console.log(scrollPositions)
-
 	if (Laravel.env == 'production') {
 		(function(i, s, o, g, r, a, m) {
 	       i['GoogleAnalyticsObject'] = r;
