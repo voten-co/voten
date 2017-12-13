@@ -1,6 +1,6 @@
 <template>
 	<div class="padding-bottom-10 flex1" :class="{'flex-center' : nothingFound}" id="submissions" 
-		v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore"
+		v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore" @scroll="scrolled"
 	>
 		<submission :list="submission" v-for="submission in submissions" v-bind:key="submission.id"></submission>
 	
