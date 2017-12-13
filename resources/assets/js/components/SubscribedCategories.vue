@@ -8,7 +8,7 @@
         </div>
 
         <section>
-            <bookmarked-category v-for="category in categories" :list="category" :key="category.id"></bookmarked-category>
+            <subscribed-category v-for="category in categories" :list="category" :key="category.id"></subscribed-category>
 
             <no-content v-if="nothingFound" :text="'You have not bookmarked any channels yet'"></no-content>
 
@@ -21,7 +21,7 @@
 
 <script>
     import Loading from '../components/Loading.vue';
-    import BookmarkedCategory from '../components/BookmarkedCategory.vue';
+    import SubscribedCategory from '../components/BookmarkedCategory.vue';
     import NoMoreItems from '../components/NoMoreItems.vue';
     import NoContent from '../components/NoContent.vue';
     import Helpers from '../mixins/Helpers';
@@ -31,7 +31,7 @@
 
         components: {
             NoContent,
-            BookmarkedCategory,
+            SubscribedCategory,
             Loading,
             NoMoreItems
         },

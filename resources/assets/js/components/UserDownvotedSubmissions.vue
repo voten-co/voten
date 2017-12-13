@@ -1,96 +1,107 @@
 <template>
-	<div class="padding-bottom-10 flex1" @scroll="scrolled" :class="{'flex-center' : nothingFound}" id="submissions">
-	    <div v-for="submission in submissions" v-bind:key="submission.id">
-	        <submission :list="submission"></submission>
-	    </div>
-
+	<div class="padding-bottom-10 flex1" :class="{'flex-center' : nothingFound}" id="submissions"
+		v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore"
+	>
+		<div v-for="submission in submissions" v-bind:key="submission.id">
+			<submission :list="submission"></submission>
+		</div>
+	
 		<no-content v-if="nothingFound" :text="'This user has not downvoted any submissions yet'"></no-content>
-
+	
 		<loading v-if="loading"></loading>
-
-	    <no-more-items :text="'No more items to load'" v-if="NoMoreItems && !nothingFound"></no-more-items>
+	
+		<no-more-items :text="'No more items to load'" v-if="NoMoreItems && !nothingFound"></no-more-items>
 	</div>
 </template>
 
 <script>
-    import Submission from '../components/Submission.vue'; 
-    import Loading from '../components/Loading.vue'; 
-    import NoContent from '../components/NoContent.vue'; 
-	import NoMoreItems from '../components/NoMoreItems.vue'; 
+	import Submission from '../components/Submission.vue';
+	import Loading from '../components/Loading.vue';
+	import NoContent from '../components/NoContent.vue';
+	import NoMoreItems from '../components/NoMoreItems.vue';
 	import Helpers from '../mixins/Helpers';
-
-
-    export default {
+	
+	export default {
 		mixins: [Helpers],
-
-        components: {
-            Submission,
-            Loading,
-            NoContent,
-            NoMoreItems
-        },
-
-        data () {
-            return {
-            	NoMoreItems: false,
-	            page: 0,
-                submissions: [],
-                loading: true,
-                nothingFound: false
-            }
-        },
-
-       created () {
-            this.getSubmissions()
-			this.$eventHub.$on('scrolled-to-bottom', this.loadMore)
-       },
-
-	    watch: {
-			'$route': function () {
-				this.clearContent()
-				this.getSubmissions()
+	
+		components: {
+			Submission,
+			Loading,
+			NoContent,
+			NoMoreItems
+		},
+	
+		computed: {
+			NoMoreItems() {
+				return Store.page.user.downVotedSubmissions.NoMoreItems;
+			},
+	
+			submissions() {
+				return Store.page.user.downVotedSubmissions.submissions;
+			},
+	
+			loading() {
+				return Store.page.user.downVotedSubmissions.loading;
+			},
+	
+			page() {
+				return Store.page.user.downVotedSubmissions.page;
+			},
+	
+			nothingFound() {
+				return Store.page.user.downVotedSubmissions.nothingFound;
+			},
+	
+			cantLoadMore() {
+				return this.loading || this.NoMoreItems || this.nothingFound;
+			},
+		},
+	
+		beforeRouteEnter(to, from, next) {
+			if (typeof Store.page.user.temp.username != 'undefined' && Store.page.user.temp.username != to.params.username) {
+				Store.page.user.downVotedSubmissions.clear();
+			}
+	
+			if (Store.page.user.downVotedSubmissions.page === 0) {
+				if (typeof app != "undefined") {
+					app.$Progress.start();
+				}
+	
+				Promise.all([
+					Store.page.user.downVotedSubmissions.getSubmissions(),
+					Store.page.user.getUser(to.params.username)
+				]).then(() => {
+					next(vm => {
+						vm.$Progress.finish();
+					});
+				});
+			} else {
+				next(vm => {
+					vm.$Progress.finish();
+				});
 			}
 		},
-
-
-        methods: {
-			loadMore () {
-				if ( Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems ) {
-					this.getSubmissions()
-				}
-			},
-
-        	/**
-        	 * Fetches the submissions via ajax call
-        	 *
-        	 * @return void
-        	 */
-        	getSubmissions  () {
-				this.page ++
-           		this.loading = true
-
-        		axios.post('/downvoted-submissions', {
-        			page: this.page
-        		}).then((response) => {
-					this.submissions = [...this.submissions, ...response.data.data]
-
-					if (response.data.next_page_url == null) {
-						this.NoMoreItems = true
-					}
-
-	                if(this.submissions.length < 1) {
-	                	this.nothingFound = true
-	                }
-
-					this.loading = false
-	            })
-        	},
-
-            clearContent () {
-				this.submissions = []
-				this.loading = true
-            	this.nothingFound = false
-            }
-        }
-    }
+	
+		beforeRouteUpdate(to, from, next) {
+			Store.page.user.downVotedSubmissions.clear();
+	
+			this.$Progress.start();
+	
+			Promise.all([
+				Store.page.user.downVotedSubmissions.getSubmissions(),
+				Store.page.user.getUser(to.params.username, false)
+			]).then(values => {
+				Store.page.user.setUser(values[1]);
+				this.setPageTitle('Down-voted Submissions | @' + to.params.username);
+				this.$Progress.finish();
+				next();
+			});
+		},
+	
+		methods: {
+			loadMore() {
+				Store.page.user.downVotedSubmissions.getSubmissions();
+			}
+		}
+	}
 </script>

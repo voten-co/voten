@@ -89,9 +89,7 @@
             <no-content v-if="Store.page.home.nothingFound"
                         :text="'No submissions at this time. Try subscribing to more channels or changing your feed filter. '"></no-content>
 
-            <div class="flex-center padding-top-bottom-1" v-if="loading && page > 1">
-                <i class="el-icon-loading"></i>
-            </div>
+            <loading v-if="loading && page > 1"></loading>
 
             <no-more-items :text="'No more items to load'" v-if="NoMoreItems && !nothingFound"></no-more-items>
         </section>
@@ -116,6 +114,7 @@
     import FeedSettings from '../components/FeedSettings.vue';
     import Submission from '../components/Submission.vue';
     import SuggestedCategory from '../components/SuggestedCategory.vue';
+    import Loading from '../components/Loading.vue';
     import NoContent from '../components/NoContent.vue';
     import NoMoreItems from '../components/NoMoreItems.vue';
 
@@ -127,6 +126,7 @@
             ScrollButton,
             FeedSettings,
             Submission,
+            Loading, 
             SuggestedCategory,
             NoContent,
             NoMoreItems
@@ -140,7 +140,7 @@
         },
 
         beforeRouteEnter (to, from, next) {
-            if (! Store.page.home.submissions.length) {
+            if (Store.page.home.page === 0) {
                 if (typeof app != "undefined") {
                     app.$Progress.start();
                 }

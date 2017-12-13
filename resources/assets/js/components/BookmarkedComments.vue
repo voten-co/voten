@@ -12,9 +12,7 @@
 
         <no-content v-if="nothingFound" :text="'No bookmarked comments yet'"></no-content>
 
-        <div class="flex-center padding-top-bottom-1" v-if="loading && page > 1">
-            <i class="el-icon-loading"></i>
-        </div>
+        <loading v-if="loading && page > 1"></loading>
 
         <no-more-items :text="'No more items to load'" v-if="NoMoreItems && !nothingFound"></no-more-items>
     </section>
@@ -24,6 +22,7 @@
     import Comment from '../components/Comment.vue';
     import NoContent from '../components/NoContent.vue';
     import NoMoreItems from '../components/NoMoreItems.vue';
+    import Loading from '../components/Loading.vue';
     import Helpers from '../mixins/Helpers';
 
     export default {
@@ -32,6 +31,7 @@
         components: {
             Comment,
             NoContent,
+            Loading, 
             NoMoreItems
         },
 

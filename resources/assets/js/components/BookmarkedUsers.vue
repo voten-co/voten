@@ -5,9 +5,7 @@
 
 	    <no-content v-if="nothingFound" :text="'No bookmarked users yet'"></no-content>
 
-		<div class="flex-center padding-top-bottom-1" v-if="loading && page > 1">
-			<i class="el-icon-loading"></i>
-		</div>
+		<loading v-if="loading && page > 1"></loading>
 
 		<no-more-items :text="'No more items to load'" v-if="NoMoreItems && !nothingFound"></no-more-items>
 	</section>
@@ -17,13 +15,15 @@
     import BookmarkedUser from '../components/BookmarkedUser.vue'; 
 	import NoMoreItems from '../components/NoMoreItems.vue'; 
     import NoContent from '../components/NoContent.vue'; 
+    import Loading from '../components/Loading.vue'; 
 	import Helpers from '../mixins/Helpers'; 
 
     export default {
 		mixins: [Helpers], 
 
         components: {
-        	NoContent,
+			NoContent,
+			Loading, 
         	BookmarkedUser,
 			NoMoreItems
         },

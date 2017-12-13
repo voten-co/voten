@@ -32,9 +32,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/update-account', 'UserSettingsController@updateAccount');
     Route::post('/update-email', 'UserSettingsController@updateEmail');
     Route::post('/update-password', 'UserSettingsController@updatePassword');
-    Route::post('/upvoted-submissions', 'UserController@upVotedSubmissions');
+    Route::get('/upvoted-submissions', 'UserController@upVotedSubmissions');
     Route::post('/update-home-feed', 'UserSettingsController@updateHomeFeed');
-    Route::post('/downvoted-submissions', 'UserController@downVotedSubmissions');
+    Route::get('/downvoted-submissions', 'UserController@downVotedSubmissions');
     Route::post('/email/verify/resend', 'Auth\VerificationController@resendVerifyEmailAddress');
 
     // submission
