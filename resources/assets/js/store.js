@@ -171,10 +171,6 @@ window.Store = {
 
                         resolve(response);
                     }).catch((error) => {
-                        if (error.response.status === 404) {
-                            this.$router.push('/404')
-                        }
-
                         this.loadingSubmission = false;
 
                         reject(error); 
