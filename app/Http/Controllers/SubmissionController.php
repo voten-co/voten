@@ -217,8 +217,6 @@ class SubmissionController extends Controller
 
         $category = $this->getCategoryByName($submission->category_name);
 
-        $category->stats = $this->categoryStats($category->id);
-
         $submission->category = $category;
 
         return $submission;

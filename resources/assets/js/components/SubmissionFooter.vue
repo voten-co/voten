@@ -3,9 +3,9 @@
 		<div :class="auth.isMobileDevice ? 'flex-space' : 'display-inline'">
 			<div :class="auth.isMobileDevice ? '' : 'display-inline'">
 				<el-tooltip class="item" content="Comments" placement="top" transition="false" :open-delay="500">
-					<a :href="url" class="comments-icon h-green" @click="navigateToSubmissionPage">
+					<router-link :to="url" class="comments-icon h-green">
 						<i class="v-icon v-chat"></i><span v-if="comments" v-text="comments"></span>
-					</a>
+					</router-link>
 				</el-tooltip>
 				
 				<el-tooltip class="item" :content="bookmarked ? 'Unbookmark' : 'Bookmark'" placement="top" transition="false" :open-delay="500">
@@ -134,16 +134,6 @@
             date () {
                 return moment(this.submission.created_at).utc(moment().format("Z")).fromNow()
             },
-        },
-		
-		methods: {
-			navigateToSubmissionPage(event) {
-				event.preventDefault(); 
-
-				Store.page.submission = this.submission;
-				
-				this.$router.push(this.url); 
-			}
-		}
+        }
     };
 </script>
