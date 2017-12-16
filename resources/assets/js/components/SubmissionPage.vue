@@ -20,9 +20,9 @@
 	
 							<el-dropdown size="medium" trigger="click" :show-timeout="0" :hide-timeout="0" type="primary" v-show="comments.length > 1">
 								<span class="el-dropdown-link">
-																	{{ sort === 'hot' ? 'Hot' : 'New' }}
-																	<i class="el-icon-arrow-down el-icon--right"></i>
-															  	</span>
+									{{ sort === 'hot' ? 'Hot' : 'New' }}
+									<i class="el-icon-arrow-down el-icon--right"></i>
+								</span>
 	
 								<el-dropdown-menu slot="dropdown">
 									<el-dropdown-item @click.native="newSort('hot')">
@@ -38,12 +38,12 @@
 	
 						<div class="box-typical-inner ui threaded comments" v-if="submission.id != 0">
 							<span class="simple-loading" v-if="loadingComments && page < 2">
-															<i class="el-icon-loading"></i>
-														</span>
+																<i class="el-icon-loading"></i>
+															</span>
 	
 							<span v-if="!loadingComments && comments.length < 1" class="no-comments-yet">
-															No comments here yet. Care to be the first one?
-														</span>
+																No comments here yet. Care to be the first one?
+															</span>
 	
 							<comment :list="c" :comments-order="commentsOrder" v-for="c in uniqueList" :key="c.id" :full="true"></comment>
 						</div>
@@ -89,13 +89,10 @@
 			return {
 				page: 1,
 				moreComments: false,
-				// submission: [],
 				loadingComments: true,
-				// loadingSubmission: true,
 				comments: [],
 				sort: 'hot',
 				onlineUsers: [],
-				// category: this.$route.params.name,
 				preload
 			}
 		},
@@ -140,8 +137,6 @@
 		beforeRouteLeave(to, from, next) {
 			Echo.leave('submission.' + from.params.slug);
 	
-			Store.page.submission.submission = [];
-	
 			next();
 		},
 	
@@ -152,17 +147,17 @@
 			Store.page.submission.getSubmission(to.params.slug).then(() => {
 				Echo.leave('submission.' + from.params.slug);
 				this.$Progress.finish();
-
+	
 				next();
 			}).catch((error) => {
 				// if (error.response.status === 404) {
 				// 	this.$router.push('/404')
 				// }
-
+	
 				this.$Progress.fail();
 			});
-
-			
+	
+	
 		},
 	
 		computed: {
