@@ -293,7 +293,7 @@
 			newSort(sort) {
 				if (sort == this.sort) return;
 	
-				Store.page.submission.clear();
+				this.clear();
 				this.getComments();
 				this.sort = sort;
 			}
