@@ -45,6 +45,9 @@
                     class="search margin-bottom-1"
                     clearable
                     name="subscribedFilter"
+                    autocorrect="off" 
+                    autocapitalize="off" 
+                    spellcheck="false"
             >
             </el-input>
         </div>
