@@ -152,6 +152,12 @@
             this.$eventHub.$on('patchedComment', this.patchedComment);
             this.$eventHub.$on('deletedComment', this.deletedComment);
         },
+        
+        beforeDestroy() {
+            this.$eventHub.$off('newComment', this.newComment);
+            this.$eventHub.$off('patchedComment', this.patchedComment);
+            this.$eventHub.$off('deletedComment', this.deletedComment);
+        },
 
 		mounted() {
 			this.$nextTick(function () {

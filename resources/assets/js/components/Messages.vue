@@ -5,69 +5,60 @@
                 <!--------------------------------------------------------->
                 <!--------------------- contacts page --------------------->
                 <!--------------------------------------------------------->
-                <el-input
-                        v-show="pageRoute == 'contacts'"
-                        placeholder="Search by @username or name..."
-                        :prefix-icon="loadingContacts ? 'el-icon-loading' : 'el-icon-search'"
-                        v-model="filter"
-                        @input="searchUsers(filter)"
-                        clearable
-                        ref="searchContacts"
-                ></el-input>
-
+                <el-input v-show="pageRoute == 'contacts'" placeholder="Search by @username or name..." :prefix-icon="loadingContacts ? 'el-icon-loading' : 'el-icon-search'" v-model="filter" @input="searchUsers(filter)" clearable ref="searchContacts"></el-input>
+    
                 <!-- Cancel Button -->
                 <el-button type="text" @click="close" class="margin-left-1" v-show="pageRoute == 'contacts'">
                     Cancel
                 </el-button>
-
-
+    
+    
                 <!--------------------------------------------------------->
                 <!----------------------- Chat page ----------------------->
                 <!--------------------------------------------------------->
                 <div class="vo-modal-title flex-align-center" v-if="pageRoute == 'chat'">
                     <router-link :to="'/@' + currentContact.username">
                         <h1 class="title desktop-only">
-                            <img v-bind:src="currentContact.avatar">
-                            @{{ currentContact.username }}
+                            <img v-bind:src="currentContact.avatar"> @{{ currentContact.username }}
                         </h1>
                     </router-link>
-
+    
                     <div class="v-message-badge desktop-only" v-if="isBlocked">
                         <el-tooltip content="Blocked" placement="bottom" transition="false" :open-delay="500">
                             <i class="v-icon v-block go-gray" aria-hidden="true"></i>
                         </el-tooltip>
                     </div>
                 </div>
-
+    
                 <!-- Modal Buttons -->
                 <div class="buttons" v-show="pageRoute == 'chat'">
                     <!-- Close Button -->
                     <div class="v-close" @click="close">
                         <i class="el-icon-close" aria-hidden="true"></i>
                     </div>
-
+    
                     <!-- Menu Button -->
                     <el-dropdown size="medium" type="primary" trigger="click" :show-timeout="0" :hide-timeout="0">
                         <div class="v-back">
                             <i class="el-icon-more-outline"></i>
                         </div>
-
+    
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item @click.native="leaveConversation">
                                 Leave Conversation
                             </el-dropdown-item>
-
+    
                             <el-dropdown-item @click.native="blockUser">
                                 {{ isBlocked ? 'Unblock User' : 'Block User' }}
                             </el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
-
+    
                     <!-- Back Button -->
                     <div class="v-back" @click="backToContacts">
                         <i class="el-icon-back" aria-hidden="true"></i>
                     </div>
-
+    
                     <!-- Delete Button -->
                     <div class="v-delete-button" v-show="selectedMessages.length" @click="deleteMessages">
                         <i class="v-icon block-before v-trash" aria-hidden="true"></i>
@@ -75,46 +66,44 @@
                 </div>
             </div>
         </header>
-
-
+    
+    
         <!--------------------------------------------------------->
         <!--------------------- contacts page --------------------->
         <!--------------------------------------------------------->
-        <div class="middle background-white" id="v-contacts" v-show="pageRoute == 'contacts'"
-             :class="{'flex-center' : (!hasContacts && !hasSearchedContacts)}">
+        <div class="middle background-white" id="v-contacts" v-show="pageRoute == 'contacts'" :class="{'flex-center' : (!hasContacts && !hasSearchedContacts)}">
             <div class="col-7">
                 <div class="user-select v-nth-box" v-if="!hasContacts && !hasSearchedContacts">
                     <contacts-icon width="250" height="250" class="margin-bottom-3"></contacts-icon>
-
+    
                     <h3 class="no-notifications">
                         No contacts here yet
                     </h3>
                 </div>
-
+    
                 <ul class="v-contact-list">
-                    <li v-for="c in filteredContacts" @click="getMessagesByContact(c.contact)"
-                        :class="(!c.last_message.read_at && c.last_message.user_id != auth.id) ? 'has-unread-messages' : ''">
+                    <li v-for="c in filteredContacts" @click="getMessagesByContact(c.contact)" :class="(!c.last_message.read_at && c.last_message.user_id != auth.id) ? 'has-unread-messages' : ''">
                         <div class="v-contact-avatar">
-                            <img v-bind:src="c.contact.avatar" v-bind:alt="c.contact.username"/>
+                            <img v-bind:src="c.contact.avatar" v-bind:alt="c.contact.username" />
                         </div>
-
+    
                         <div class="v-contact">
                             <h3>
                                 @{{ c.contact.username }}
                                 <span class="v-contact-username">{{ c.contact.username }}</span>
                             </h3>
-
+    
                             <p>
                                 {{ c.last_message.data.text }}
                             </p>
                         </div>
                     </li>
-
+    
                     <li v-for="user in searchedUsers" @click="getMessagesByUser(user)">
                         <div class="v-contact-avatar">
-                            <img v-bind:src="user.avatar" v-bind:alt="user.username"/>
+                            <img v-bind:src="user.avatar" v-bind:alt="user.username" />
                         </div>
-
+    
                         <div class="v-contact">
                             <h3>@{{ user.username }}<span class="v-contact-username">{{ user.username }}</span></h3>
                             <p></p>
@@ -123,68 +112,52 @@
                 </ul>
             </div>
         </div>
-
-
+    
+    
         <!--------------------------------------------------------->
         <!----------------------- Chat page ----------------------->
         <!--------------------------------------------------------->
         <div class="container-fluid overflow-hidden" id="v-messages" v-show="pageRoute == 'chat'">
-            <div class="messages-container" id="chat-box"
-                 :class="(!Store.state.messages || ! Store.state.messages.length) && !Store.state.messages.length ? 'flex-center' : 'flex-column-end'"
-            >
+            <div class="messages-container" id="chat-box" :class="(!Store.state.messages || ! Store.state.messages.length) && !Store.state.messages.length ? 'flex-center' : 'flex-column-end'">
                 <div class="user-select v-nth-box" v-if="!hasMessages && !loadingMessages">
                     <chat-icon width="250" height="250" class="margin-bottom-3"></chat-icon>
-
+    
                     <h3 class="no-messages">
                         No messages here yet
                     </h3>
                 </div>
-
+    
                 <div class="overflow-auto" v-if="hasMessages" id="scrollable-wrapper">
                     <div class="flex-center" v-if="moreToLoad">
                         <el-button @click="loadMore" :loading="loadingMessages">Load More</el-button>
                     </div>
-
-                    <message v-for="(value, index) in Store.state.messages" :list="value" :key="value.id"
-                             :chatting="pageRoute == 'chat'"
-                             :previous="Store.state.messages[index-1]" :selected="selectedMessages.indexOf(value.id) != -1"
-                             @select-message="selectMessage"
-                             @last-was-read="markLastMessageAsRead(currentContactId)">
+    
+                    <message v-for="(value, index) in Store.state.messages" :list="value" :key="value.id" :chatting="pageRoute == 'chat'" :previous="Store.state.messages[index-1]" :selected="selectedMessages.indexOf(value.id) != -1" @select-message="selectMessage" @last-was-read="markLastMessageAsRead(currentContactId)">
                     </message>
                 </div>
-
+    
                 <div class="new-message-notify user-select" v-if="newMessagesNotifier" @click="downToNewMessages">
                     {{ newMessagesNotifier }} new messages
                 </div>
             </div>
-
+    
             <!-- Chat Textarea -->
             <div class="padding-sides-1" id="chat-textarea">
                 <form class="chat-input-form">
-                    <el-input
-                            type="textarea"
-                            autosize
-                            placeholder="Type your message here..."
-                            v-model="messageText"
-                            @keydown.enter.native="sendMessage"
-                            :disabled="disableTextArea"
-                            name="message"
-                            :maxlength="5000"
-                            ref="messageForm"
-                    ></el-input>
-
+                    <el-input type="textarea" autosize placeholder="Type your message here..." v-model="messageText" @keydown.enter.native="sendMessage" :disabled="disableTextArea" name="message" :maxlength="5000" ref="messageForm"></el-input>
+    
                     <span class="send-button comment-emoji-button">
-						<div @click="toggleEmojiPicker" class="flex-center">
-							<emoji-icon width="38" height="38"></emoji-icon>
-						</div>
-
-						<emoji-picker v-if="emojiPicker" @emoji="emoji"
-                                      v-on-clickaway="closeEmojiPicker"></emoji-picker>
-					</span>
-
+    						<div @click="toggleEmojiPicker" class="flex-center">
+    							<emoji-icon width="38" height="38"></emoji-icon>
+    						</div>
+    
+    						<emoji-picker v-if="emojiPicker" @emoji="emoji"
+                                          v-on-clickaway="closeEmojiPicker"></emoji-picker>
+    					</span>
+    
                     <button type="submit" :class="{ 'go-green': messageText.trim() }" @click="sendMessage">
-                        <i class="v-icon v-send" aria-hidden="true"></i>
-                    </button>
+                            <i class="v-icon v-send" aria-hidden="true"></i>
+                        </button>
                 </form>
             </div>
         </div>
@@ -196,15 +169,17 @@
     import Helpers from '../mixins/Helpers';
     import Message from './Message.vue';
     import EmojiPicker from '../components/EmojiPicker.vue';
-    import { mixin as clickaway } from 'vue-clickaway';
+    import {
+        mixin as clickaway
+    } from 'vue-clickaway';
     import ContactsIcon from './Icons/ContactsIcon.vue';
     import ChatIcon from '../components/Icons/ChatIcon.vue';
     import EmojiIcon from '../components/Icons/EmojiIcon.vue';
-
-
+    
+    
     export default {
         mixins: [InputHelpers, clickaway, Helpers],
-
+    
         components: {
             Message,
             EmojiPicker,
@@ -212,7 +187,7 @@
             ChatIcon,
             EmojiIcon
         },
-
+    
         data() {
             return {
                 filter: '',
@@ -230,15 +205,19 @@
                 newMessagesNotifier: 0,
             }
         },
-
-        created () {
+    
+        created() {
             this.getContacts();
             this.listen();
             this.$eventHub.$on('conversation', this.getMessagesByUser);
         },
-
+    
+        beforeDestroy() {
+            this.$eventHub.$off('conversation', this.getMessagesByUser);
+        },
+    
         watch: {
-            'Store.contentRouter'() {
+            'Store.contentRouter' () {
                 if (Store.contentRouter === 'messages' && this.pageRoute === 'chat') {
                     // Because otherwise user has clicked on MessageButton (and there is no existing conversation)
                     if (this.hasMessages) {
@@ -246,47 +225,47 @@
                         this.markLastMessageAsRead(this.currentContactId);
                     }
                 }
-
+    
                 if (Store.contentRouter === 'messages' && this.pageRoute === 'contacts') {
                     this.$refs.searchContacts.$refs.input.focus();
                 }
-
+    
                 if (Store.contentRouter === 'messages' && this.pageRoute === 'chat') {
                     this.$refs.messageForm.$refs.textarea.focus();
                 }
             }
         },
-
+    
         computed: {
             hasMessages() {
                 return Store.state.messages.length !== 0;
             },
-
+    
             hasContacts() {
                 return Store.state.contacts.length !== 0;
             },
-
+    
             hasSearchedContacts() {
                 return this.searchedUsers.length !== 0;
             },
-
+    
             isBlocked() {
                 return Store.state.blocks.users.indexOf(this.currentContactId) !== -1;
             },
-
+    
             disableTextArea() {
                 return this.isBlocked || this.loadingMessages;
             },
-
-            filteredContacts () {
+    
+            filteredContacts() {
                 let self = this;
-
+    
                 if (Store.state.contacts) {
                     return _.orderBy(Store.state.contacts.filter(item => item.contact.username.indexOf(self.filter) !== -1), 'last_message.created_at', 'desc');
                 }
             }
         },
-
+    
         methods: {
             /**
              * deletes all the messages from and the conversation
@@ -298,23 +277,23 @@
                     contact_id: this.currentContactId
                 }).then(() => {
                     let contactID = this.currentContactId
-
+    
                     this.backToContacts()
-
+    
                     // remove the contact
                     Store.state.contacts = Store.state.contacts.filter(contact => contact.contact_id != contactID);
                 })
             },
-
+    
             /**
              * adds the contact to the auth user's blocked user's list (the blocked usre won't be able
              * to send further messages)
              *
              * @return void
              */
-            blockUser () {
+            blockUser() {
                 let wasBlocked = this.isBlocked;
-
+    
                 axios.post('/block-contact', {
                     contact_id: this.currentContactId
                 }).then(() => {
@@ -326,19 +305,19 @@
                     }
                 })
             },
-
+    
             emoji(shortname) {
                 this.messageText = this.messageText + shortname + " ";
             },
-
+    
             toggleEmojiPicker() {
                 this.emojiPicker = !this.emojiPicker;
             },
-
+    
             closeEmojiPicker() {
                 this.emojiPicker = false
             },
-
+    
             /**
              * Toggles the message into the selected messages
              *
@@ -350,10 +329,10 @@
                     this.selectedMessages.splice(index, 1);
                     return;
                 }
-
+    
                 this.selectedMessages.push(id);
             },
-
+    
             /**
              * Loops through the messages and deletes the ones that
              * were selected. And sends the ajax-request to
@@ -361,7 +340,7 @@
              *
              * @return void
              */
-            deleteMessages () {
+            deleteMessages() {
                 for (let i = 0; i < this.selectedMessages.length; i++) {
                     for (let j = 0; j < Store.state.messages.length; j++) {
                         if (Store.state.messages[j].id === this.selectedMessages[i]) {
@@ -370,14 +349,14 @@
                         }
                     }
                 }
-
+    
                 axios.post('/delete-messages', {
                     messages: this.selectedMessages,
                 }).then(() => {
                     this.selectedMessages = [];
                 })
             },
-
+    
             /**
              * Gets a collection of users that the auth user is actually
              * allowed to start a conversation with and adds it to the
@@ -385,50 +364,52 @@
              *
              * @return void
              */
-            searchUsers: _.debounce(function (typed) {
+            searchUsers: _.debounce(function(typed) {
                 if (!typed.trim()) return;
-
+    
                 this.loadingContacts = true;
-
-                axios.post('/search-contacts', { filter: typed }).then((response) => {
+    
+                axios.post('/search-contacts', {
+                    filter: typed
+                }).then((response) => {
                     this.searchedUsers = response.data;
-
+    
                     this.loadingContacts = false;
                 }).catch(() => {
                     this.loadingContacts = false;
                 });
             }, 600),
-
+    
             close() {
                 this.$eventHub.$emit('close');
             },
-
-            backToContacts () {
+    
+            backToContacts() {
                 this.pageRoute = 'contacts';
                 this.currentContactId = 0;
             },
-
-            getContacts () {
+    
+            getContacts() {
                 this.loadingContacts = true;
-
+    
                 axios.get('/contacts').then((response) => {
                     Store.state.contacts = response.data;
-
+    
                     this.loadingContacts = false;
                 }).catch(() => {
                     this.loadingContacts = false;
                 });
             },
-
-            getMessagesByContact (contact) {
+    
+            getMessagesByContact(contact) {
                 this.currentContact = contact;
                 this.getMessagesByContactId(contact.id);
             },
-            getMessagesByUser (user) {
+            getMessagesByUser(user) {
                 this.currentContact = user;
                 this.getMessagesByContactId(user.id);
             },
-
+    
             /**
              * Fetches the messages for the selected conversaion which is especified
              * by the contact_id. It also decides which event is needed to be
@@ -437,13 +418,13 @@
              * @param integer contact_id
              * @return void
              */
-            getMessagesByContactId (contact_id) {
+            getMessagesByContactId(contact_id) {
                 this.pageRoute = 'chat';
                 this.page = 1;
                 Store.state.messages = [];
                 this.loadingMessages = true;
                 this.currentContactId = contact_id;
-
+    
                 axios.get('/messages', {
                     params: {
                         contact_id: contact_id,
@@ -451,28 +432,28 @@
                     }
                 }).then((response) => {
                     this.loadingMessages = false;
-
+    
                     Store.state.messages = response.data.data.reverse();
                     this.chatScroll();
-
+    
                     this.moreToLoad = true;
-
+    
                     if (response.data.next_page_url === null) {
                         this.moreToLoad = false;
                     }
-
+    
                     if (Store.state.messages.length) {
                         this.markLastMessageAsRead(contact_id);
                     }
-
-                    this.$nextTick(function () {
+    
+                    this.$nextTick(function() {
                         this.$refs.messageForm.$refs.textarea.focus();
                     });
                 }).catch(() => {
                     this.loadingMessages = false;
                 });
             },
-
+    
             /**
              * In case there are more messages ready to be loaded
              * (specified by this.getMessagesByContactId()) it fetches
@@ -480,10 +461,10 @@
              *
              * @return void
              */
-            loadMore () {
+            loadMore() {
                 this.page++;
                 this.loadingMessages = true;
-
+    
                 axios.get('/messages', {
                     params: {
                         contact_id: this.currentContactId,
@@ -491,9 +472,9 @@
                     }
                 }).then((response) => {
                     Store.state.messages.unshift(...response.data.data.reverse());
-
+    
                     this.loadingMessages = false;
-
+    
                     if (response.data.next_page_url == null) {
                         this.moreToLoad = false;
                     }
@@ -501,30 +482,30 @@
                     this.loadingMessages = false;
                 });
             },
-
+    
             /**
              * Scrolls the chat page to the bottom of the chat window.
              *
              * @return void
              */
-            downToNewMessages () {
+            downToNewMessages() {
                 this.newMessagesNotifier = 0;
                 this.chatScroll();
             },
-
+    
             /**
              * Scrolls the chat page to the bottom of the chat window.
              *
              * @return void
              */
-            chatScroll () {
-                setTimeout(function () {
+            chatScroll() {
+                setTimeout(function() {
                     $("#scrollable-wrapper").stop().animate({
                         scrollTop: $("#scrollable-wrapper")[0].scrollHeight
                     }, 500)
                 }, 200)
             },
-
+    
             /**
              * Listens for the new messages. When receives one adds it to the
              * Store.state.messages array, in case it's not for the current chat, stores
@@ -532,48 +513,48 @@
              *
              * @return void
              */
-            listen () {
+            listen() {
                 Echo.private('App.User.' + auth.id)
                     .listen('MessageCreated', (e) => {
                         this.updateLastMessage(e.contact_id, e.message);
-
+    
                         if (this.currentContactId == e.contact_id) {
                             let chatBox = $("#scrollable-wrapper");
-
+    
                             if (chatBox[0].scrollHeight - chatBox.scrollTop() < (chatBox.outerHeight() + 500)) {
                                 this.chatScroll();
                             } else {
                                 this.newMessagesNotifier++;
                             }
-
+    
                             Store.state.messages.push(e.message);
                         }
-
+    
                         // Sending web notifications to user's OS(if website is not active)
                         if (document.hidden == true) {
                             let body = e.message.data.text;
                             let link = 'new-message';
                             let avatar = e.message.owner.avatar;
-
+    
                             let title = 'New Message';
-
+    
                             const data = {
                                 title: title,
                                 body: body,
                                 url: link,
                                 icon: avatar
                             };
-
+    
                             this.$eventHub.$emit('push-notification', data);
                         }
-
+    
                     }).listen('MessageRead', (e) => {
-                    this.markMessageAsRead(e.message_id, e.contact_id);
-                }).listen('ConversationRead', (e) => {
-                    this.markConversationAsRead(e.contact_id);
-                })
+                        this.markMessageAsRead(e.message_id, e.contact_id);
+                    }).listen('ConversationRead', (e) => {
+                        this.markConversationAsRead(e.contact_id);
+                    })
             },
-
+    
             /**
              * Updates the last saved message from the contact in "contacts page". If
              * the contanct doesn't exist in the Store.state.contacts array, it creates
@@ -584,15 +565,15 @@
              *
              * @return void
              */
-            updateLastMessage (contact_id, message) {
+            updateLastMessage(contact_id, message) {
                 let i = Store.state.contacts.findIndex(c => c.contact.id === contact_id);
-
+    
                 if (i !== -1) {
                     Store.state.contacts[i].last_message = message
                 } else {
                     let contact = message.owner;
                     let last_message = message;
-
+    
                     Store.state.contacts.push({
                         contact,
                         contact_id: contact.id,
@@ -601,42 +582,44 @@
                     });
                 }
             },
-
+    
             /**
              * Marks the last message of the conversaion as read, so it won't be counted in unreadMessages counting.
              *
              * @param integer contact_id
              * @return void
              */
-            markLastMessageAsRead (contact_id) {
+            markLastMessageAsRead(contact_id) {
                 let i = Store.state.contacts.findIndex(c => c.contact.id === contact_id);
-
+    
                 Store.state.contacts[i].last_message.read_at = this.now();
             },
-
+    
             /**
              * Submits the message, scrolls ...
              *
              * @return void
              */
-            sendMessage (event) {
+            sendMessage(event) {
                 if (this.shiftPlusEnter(event)) return;
-
+    
                 event.preventDefault();
-
+    
                 if (!this.messageText.trim()) return;
-
+    
                 this.closeEmojiPicker();
-
+    
                 let msgText = this.messageText;
                 this.messageText = '';
-
+    
                 $(event.target).css('height', 43);
-
+    
                 if (this.isEmpty(msgText)) return;
-
-                let data = { text: msgText.trim() };
-
+    
+                let data = {
+                    text: msgText.trim()
+                };
+    
                 Store.state.messages.push({
                     data,
                     owner: auth,
@@ -644,15 +627,15 @@
                     read_at: null,
                     created_at: this.now()
                 });
-
+    
                 this.chatScroll();
-
+    
                 axios.post('/message', {
                     contact: this.currentContactId,
                     text: msgText
                 }).then((response) => {
                     this.updateMessage(response.data.id, response.data.data);
-
+    
                     if (Store.state.messages.length == 1) {
                         this.turnUserToContact(this.currentContactId, response.data);
                     } else {
@@ -660,12 +643,12 @@
                     }
                 })
             },
-
-
-            turnUserToContact (contactID, message) {
+    
+    
+            turnUserToContact(contactID, message) {
                 this.searchedUsers = []
                 this.filter = ''
-
+    
                 Store.state.contacts.unshift({
                     contact: this.currentContact,
                     contact_id: this.currentContactId,
@@ -676,47 +659,47 @@
                     user_id: auth.id
                 })
             },
-
-
+    
+    
             /**
              * Updates the message with the ajax respond info
              *
              * @return
              */
-            updateMessage (id, data) {
+            updateMessage(id, data) {
                 Store.state.messages.find(m => m.data.text === data.text).id = id;
             },
-
+    
             /**
              * Marks all the messages (owned by auth) as read
              * (The contact has opened the conversatioon)
              *
              * @return void
              */
-            markConversationAsRead (contactId) {
+            markConversationAsRead(contactId) {
                 if (this.currentContactId != contactId) return;
-
+    
                 Store.state.messages.forEach((element, index) => {
                     if (element.owner.id == auth.id) {
                         element.read_at = this.now();
                     }
                 });
             },
-
-            broadcastAsRead () {
+    
+            broadcastAsRead() {
                 axios.post('/conversation-read', {
                     sender_id: this.currentContactId
                 });
             },
-
+    
             /**
              * Marks the message as Read
              *
              * @return void
              */
-            markMessageAsRead (messageId, contactId) {
+            markMessageAsRead(messageId, contactId) {
                 if (this.currentContactId != contactId) return;
-
+    
                 Store.state.messages.find(m => m.id === messageId).read_at = this.now();
             }
         },

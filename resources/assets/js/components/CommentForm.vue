@@ -1,7 +1,7 @@
 <template>
     <div class="fixed-comment-form-wrapper" id="comment-form">
         <div v-if="preview && message" class="form-wrapper margin-bottom-1 preview">
-            <markdown :text="message"></markdown>
+            <markdown :text="message.trim()"></markdown>
         </div>
 
         <div class="editing-comment-wrapper user-select" v-if="(editing || replying) && !loading">
@@ -31,7 +31,7 @@
                     :disabled="loading"
                     name="comment"
                     :maxlength="5000"
-                    ref="commentForm"
+                    ref="input"
             ></el-input>
 
             <span class="send-button comment-emoji-button" v-show="!loading">
@@ -111,6 +111,12 @@
             this.$eventHub.$on('reply-comment', this.setReplying);
             this.$eventHub.$on('pressed-esc', this.clear);
         },
+
+        beforeDestroy() {
+            this.$eventHub.$off('edit-comment', this.setEditing);
+            this.$eventHub.$off('reply-comment', this.setReplying);
+            this.$eventHub.$off('pressed-esc', this.clear);
+        }, 
 
         computed: {
         	replying() {
@@ -208,7 +214,8 @@
                 this.editingComment = comment; 
                 this.message = this.editingComment.body; 
                 this.parent = this.editingComment.parent_id; 
-                this.$refs.commentForm.$refs.textarea.focus();
+
+                this.$refs.input.focus();
             },
 
             setReplying(comment) {
@@ -216,7 +223,8 @@
 
                 this.replyingComment = comment; 
                 this.parent = this.replyingComment.id; 
-                this.$refs.commentForm.$refs.textarea.focus();
+
+                this.$refs.input.focus();
             }, 
 
             /**
@@ -238,13 +246,12 @@
         	},
 
             toggleEmojiPicker() {
-                this.emojiPicker = ! this.emojiPicker;
+                this.emojiPicker =! this.emojiPicker;
             },
 
             closeEmojiPicker() {
                 this.emojiPicker = false; 
             },
-
 
         	submit(event) {
                 // ignore shift + enter

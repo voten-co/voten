@@ -103,6 +103,10 @@
 			this.$eventHub.$on('newComment', this.newComment);
 			this.setPageTitle(this.submission.title);
 		},
+
+		beforeDestroy() {
+			this.$eventHub.$off('newComment', this.newComment);
+		}, 
 	
 		watch: {
 			'$route' () {

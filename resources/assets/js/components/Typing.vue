@@ -39,6 +39,10 @@
             this.$eventHub.$on('finished-typing', this.finishedTyping);
         },
 
+        beforeDestroy() {
+            this.$eventHub.$off('finished-typing', this.finishedTyping);
+        }, 
+
         methods: {
             listen() {
                 // we can't do presence channel or/and listen for private channels, if the user is a guest

@@ -170,6 +170,10 @@
             this.$eventHub.$on('refresh-home', this.refresh);
         },
 
+        beforeDestroy() {
+            this.$eventHub.$off('refresh-home', this.refresh);                
+        }, 
+
         computed: {
             cantLoadMore() {
                 return this.loading || this.NoMoreItems || this.nothingFound;

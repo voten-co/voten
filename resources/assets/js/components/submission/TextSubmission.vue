@@ -110,7 +110,11 @@
 
         created() {
         	this.$eventHub.$on('edit-submission', this.editSubmission);
-        },
+		},
+		
+		beforeDestroy() {
+   			this.$eventHub.$off('edit-submission', this.editSubmission);			
+		}, 
 
 		methods: {
 			/**
