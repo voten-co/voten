@@ -65,14 +65,6 @@
 
 <script>
     import Helpers from '../../mixins/Helpers';
-    import SubmitIcon from '../../components/Icons/SubmitIcon.vue';
-    import BookmarkIcon from '../../components/Icons/BookmarkIcon.vue';
-    import SettingsIcon from '../../components/Icons/SettingsIcon.vue';
-    import SearchIcon from '../../components/Icons/SearchIcon.vue';
-    import ChatIcon from '../../components/Icons/ChatIcon.vue';
-    import ChannelIcon from '../../components/Icons/ChannelIcon.vue';
-    import ProfileIcon from '../../components/Icons/ProfileIcon.vue';
-    import HomeIcon from '../../components/Icons/HomeIcon.vue';
 
     export default {
         mixins: [Helpers],
@@ -82,18 +74,7 @@
                 return this.$route.params.name ? "/submit?channel=" + this.$route.params.name : "/submit";
             }
         }, 
-
-        components: {
-            SubmitIcon,
-            SettingsIcon,
-            BookmarkIcon,
-            SearchIcon,
-            ChatIcon,
-            ChannelIcon,
-            ProfileIcon,
-            HomeIcon
-        }, 
-
+   
         computed: {
             contentRoute() {
                 return Store.contentRouter; 

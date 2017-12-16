@@ -1,7 +1,7 @@
 <template>
-	<transition name="fade">
-		<div class="no-content-wrapper user-select" v-show="visible" v-once>
-			<sad-icon width="160" height="160"></sad-icon>
+	<transition name="el-fade-in-linear">
+		<div class="no-content-wrapper user-select" v-show="visible">
+			<submission-icon width="160" height="160"></submission-icon>
 			
 	        <p v-text="text"></p>
 		</div>
@@ -10,13 +10,13 @@
 
 
 <script>
-	import SadIcon from './Icons/SadIcon.vue';
+	import SubmissionIcon from './Icons/SubmissionIcon.vue';
 
     export default {
 		props: ['text'],
 
 		components: {
-			SadIcon
+			SubmissionIcon
 		}, 
 
 		data () {
