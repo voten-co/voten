@@ -62,6 +62,36 @@ img {
     vertical-align: middle;
 }
 
+// only desktop
+@media (min-width: 768px) {
+    ::-webkit-scrollbar {
+      width: 10px;
+      background-color: rgba(0,0,0,0);
+    //   border-radius: 100px;
+    }
+    
+    ::-webkit-scrollbar:hover {
+      background-color: rgba(0, 0, 0, 0.09);
+    }
+
+    ::-webkit-scrollbar-thumb:vertical {
+      background-color: rgba(0,0,0,0.5);
+      border-radius: 100px;
+      background-clip: padding-box;
+      border: 2px solid rgba(0, 0, 0, 0);
+      min-height: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        cursor: pointer; 
+    }
+
+    ::-webkit-scrollbar-thumb:vertical:active {
+      background: rgba(0,0,0,0.61);
+      border-radius: 100px;
+    }
+}
+
 ::-moz-selection {
     background: $primary-color;
     /* WebKit/Blink Browsers */
@@ -598,7 +628,6 @@ kbd {
         padding: .5em;
     }
 }
-
 
 .padding-half-1 {
     padding: .5em 1em;
