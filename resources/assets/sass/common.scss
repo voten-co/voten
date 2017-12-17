@@ -24,12 +24,15 @@ body {
     margin: 0;
     font-weight: 400;
     line-height: 1.428571428571429;
-    font-family: 'Lato', Trebuchet MS;
     text-rendering: optimizeLegibility;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     -moz-font-smoothing: antialiased;
     -o-font-smoothing: antialiased;
+}
+
+body {
+    font-family: 'Lato', Trebuchet MS;
 }
 
 a {

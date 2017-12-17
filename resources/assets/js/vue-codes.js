@@ -14,6 +14,7 @@ import RightSidebar from './components/auth/RightSidebar.vue';
 import NewSubmission from './components/NewSubmission.vue';
 import NewCategory from './components/NewCategory.vue';
 import Helpers from './mixins/Helpers';
+import FontLoader from './mixins/FontLoader';
 import router from './routes';
 
 
@@ -38,7 +39,7 @@ Vue.prototype.$eventHub = new Vue();
 window.app = new Vue({
     router,
 
-    mixins: [Helpers, StoreStorage, WebNotification],
+    mixins: [Helpers, StoreStorage, WebNotification, FontLoader],
 
     components: {
         KeyboardShortcutsGuide,

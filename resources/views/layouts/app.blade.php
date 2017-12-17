@@ -32,7 +32,7 @@
 
 @include('google-analytics')
 
-<div id="voten-app" :class="{ 'background-white': Store.contentRouter != 'content' }" :style="{ fontFamily: auth.font }">
+<div id="voten-app" :class="{ 'background-white': Store.contentRouter != 'content' }">
     <vue-progress-bar></vue-progress-bar>
 
     <div class="v-content-wrapper">

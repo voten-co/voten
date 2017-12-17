@@ -31,7 +31,7 @@
 <body>
 @include('google-analytics')
 
-<div id="voten-app" :class="{ 'background-white': Store.contentRouter != 'content' }" :style="{ fontFamily: auth.font }">
+<div id="voten-app" :class="{ 'background-white': Store.contentRouter != 'content' }">
     @include('app-header')
 
     <div class="v-content-wrapper">
