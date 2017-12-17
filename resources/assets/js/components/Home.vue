@@ -61,7 +61,7 @@
                     </el-tooltip>
 
                     <el-tooltip content="Customize Feed" placement="bottom" transition="false" :open-delay="500">
-                        <button class="feed-panel-button margin-right-half" @click="showFeedSettings = true">
+                        <button class="feed-panel-button margin-right-half" @click="showSettings = true">
                             <i class="el-icon-setting"></i>
                         </button>
                     </el-tooltip>
@@ -98,11 +98,11 @@
         <scroll-button scrollable="submissions"></scroll-button>
 
         <el-dialog
-                title="Customize Your Feed"
-                :visible.sync="showFeedSettings"
+                title="Customize Feed"
+                :visible.sync="showSettings"
                 :width="isMobile ? '99%' : '35%'"
         >
-            <feed-settings></feed-settings>
+            <settings></settings>
         </el-dialog>
     </div>
 </template>
@@ -111,7 +111,7 @@
     import Announcement from '../components/Announcement.vue';
     import Helpers from '../mixins/Helpers';
     import ScrollButton from '../components/ScrollButton.vue';
-    import FeedSettings from '../components/FeedSettings.vue';
+    import Settings from '../components/FeedSettings.vue';
     import Submission from '../components/Submission.vue';
     import SuggestedCategory from '../components/SuggestedCategory.vue';
     import Loading from '../components/Loading.vue';
@@ -124,7 +124,7 @@
         components: {
             Announcement,
             ScrollButton,
-            FeedSettings,
+            Settings,
             Submission,
             Loading, 
             SuggestedCategory,
@@ -134,7 +134,7 @@
 
         data() {
             return {
-                showFeedSettings: false,
+                showSettings: false,
                 refreshing: false
             }
         },

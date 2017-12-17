@@ -24,6 +24,7 @@ window.Store = {
         },
 
         moderatingCategories: [],
+        bookmarkedCategories: [],
         moderatorAt: [],
         administratorAt: [],
         moderatingAt: [], // contains both moderator and administrator
@@ -34,23 +35,6 @@ window.Store = {
         contacts: [],
 
         subscribedCategories: [],
-
-        // client-side settings: There's not need to save these settings in the server-side. However, we do sync them to the cloud.
-        settings: {
-            feed: {
-                excludeUpvotedSubmissions: false,
-                excludeDownvotedSubmissions: false,
-                submissionsFilter: null,
-            },
-
-            commentForm: {
-                sendOnEnter: true,
-            },
-
-            sidebar: {
-                categoriesFilter: null
-            }
-        }
     },
 
     page: {
@@ -630,9 +614,30 @@ window.Store = {
     },
 
 
+    // client-side settings: There's not need to save these settings in the server-side. However, we do sync them to the cloud.
+    settings: {
+        feed: {
+            excludeUpvotedSubmissions: false,
+            excludeDownvotedSubmissions: false,
+            submissionsFilter: null,
+        },
+
+        commentForm: {
+            sendOnEnter: true,
+        },
+
+        rightSidebar: {
+            categoriesFilter: 'subscribed', 
+            categoriesLimit: 10, 
+            showCategoryAvatars: true, 
+            color: 'Gray'
+        }
+    }, 
+
     contentRouter: 'content',
     feedFilter: '',
     sidebarFilter: '',
+
 
     // Open tabs unique ID:
     pageUID: '_' + Math.random().toString(36).substr(2, 9),

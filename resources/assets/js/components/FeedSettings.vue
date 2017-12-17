@@ -65,11 +65,6 @@
         },
 
         methods: {
-            /**
-             * Stores the changes in the database. (using the recently changed values)
-             *
-             * @return void
-             */
             save() {
                 this.sending = true;
 

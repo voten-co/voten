@@ -59,7 +59,7 @@
                 </div>
 
                 <div v-if="preview && text" class="preview margin-top-1 enable-user-select">
-                    <markdown :text="text"></markdown>
+                    <markdown :text="text.trim()"></markdown>
                 </div>
             </el-form-item>
 

@@ -38,6 +38,7 @@ class StoreController extends Controller
             'subscribedCategories'        => $this->subscribedCategories($request->sidebar_filter),
             'moderatingCategories'        => $this->moderatingCategories(),
             'moderatingCategoriesRecords' => $this->moderatingCategoriesRecords(),
+            'bookmarkedCategoriesRecords' => $this->bookmarkedCategoriesRecords(),
             'blockedUsers'                => $this->blockedUsers(), // cached
         ]);
     }
@@ -78,29 +79,21 @@ class StoreController extends Controller
     }
 
     // returns subscriptions of Auth user
-    protected function subscribedCategories($filter = 'subscribed-channels')
+    protected function subscribedCategories()
     {
         if (!Auth::check()) {
             return $this->getDefaultCategoryRecords();
         }
 
-        if ($filter == 'moderating-channels') {
-            return Auth::user()->categoryRoles;
-        } elseif ($filter == 'bookmarked-channels') {
-            return Auth::user()->bookmarkedCategories;
-        }
-
-        // $filter == "subscribed channels"
         return Auth::user()->subscriptions;
     }
-
-    /**
-     * returns categoeis for sidebar.
-     *
-     * @return collection
-     */
-    public function sidebarCategories(Request $request)
+    
+    protected function bookmarkedCategoriesRecords() {
+        return Auth::user()->bookmarkedCategories;
+    }
+    
+    public function sidebarCategories()
     {
-        return $this->subscribedCategories($request->sidebar_filter);
+        return $this->subscribedCategories();
     }
 }

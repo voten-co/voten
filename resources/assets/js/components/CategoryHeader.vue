@@ -198,10 +198,14 @@
                         let index = Store.state.bookmarks.categories.indexOf(Store.page.category.temp.id);
                         Store.state.bookmarks.categories.splice(index, 1);
 
+                        let removeItem = Store.page.category.temp.id; 
+                        Store.state.bookmarkedCategories = Store.state.bookmarkedCategories.filter(category => category.id != removeItem);
+
                         return;
                     }
 
                     Store.state.bookmarks.categories.push(Store.page.category.temp.id);
+                    Store.state.bookmarkedCategories.push(Store.page.category.temp); 
                 }
             },
 

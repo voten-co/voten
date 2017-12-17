@@ -29,17 +29,6 @@
                 </el-select>
             </el-form-item>
 
-            <el-form-item label="Sidebar Color">
-                <el-select v-model="form.sidebar_color" placeholder="Sidebar Color..." filterable>
-                    <el-option
-                            v-for="item in sideColors"
-                            :key="item"
-                            :label="item"
-                            :value="item">
-                    </el-option>
-                </el-select>
-            </el-form-item>
-
             <h3 class="dotted-title">
                 <span>
                     Notify me when
@@ -87,14 +76,10 @@
 					'Sorts Mill Goudy', 'Patrick Hand', 'Dancing Script', 'Satisfy', 'Montserrat', 'Gloria Hallelujah', 'Courgette',
 					'Indie Flower', 'Handlee', 'Arvo'
 				],
-				sideColors: [
-					'Blue', 'Dark Blue', 'Red', 'Dark', 'Gray', 'Green', 'Purple'
-				],
 
                 form: {
                     username: auth.username,
                     font: auth.font,
-                    sidebar_color: auth.sidebar_color,
                     notify_submissions_replied: auth.notify_submissions_replied,
                     notify_comments_replied: auth.notify_comments_replied,
                     notify_mentions: auth.notify_mentions,
@@ -109,7 +94,6 @@
 	    computed: {
 	    	changed () {
 	    		if (
-	                auth.sidebar_color != this.form.sidebar_color ||
 	                auth.font != this.form.font ||
 	                auth.notify_submissions_replied != this.form.notify_submissions_replied ||
 	                auth.notify_mentions != this.form.notify_mentions ||
@@ -136,7 +120,6 @@
                 let changedUsername = (auth.username !== this.form.username);
 
             	axios.post( '/update-account', {
-                    sidebar_color: this.form.sidebar_color,
                     username: this.form.username,
                     font: this.form.font,
                     notify_submissions_replied: this.form.notify_submissions_replied,
@@ -146,7 +129,6 @@
 	                this.errors = []; 
 	                this.customError = ''; 
 
-                    auth.sidebar_color = this.form.sidebar_color;
 	                auth.font = this.form.font;
 	                auth.username = this.form.username;
 	                auth.notify_submissions_replied = this.form.notify_submissions_replied;

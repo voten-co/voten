@@ -45,17 +45,18 @@ export default {
                 Store.state.bookmarks.users = response.data.bookmarkedUsers;
                 Store.state.subscribedCategories = response.data.subscribedCategories;
                 Store.state.moderatingCategories = response.data.moderatingCategories;
+                Store.state.bookmarkedCategories = response.data.bookmarkedCategoriesRecords;
                 Store.state.blocks.users = response.data.blockedUsers;
 
-                response.data.moderatingCategories.forEach(function (element, index) {
+                response.data.moderatingCategories.forEach((element, index) => {
                     Store.state.moderatingAt.push(element.id);
                 });
 
-                response.data.subscribedCategories.forEach(function (element, index) {
+                response.data.subscribedCategories.forEach((element, index) => {
                     Store.state.subscribedAt.push(element.id);
                 });
 
-                response.data.moderatingCategoriesRecords.forEach(function (element, index) {
+                response.data.moderatingCategoriesRecords.forEach((element, index) => {
                     if (element.role == "administrator") {
                         Store.state.administratorAt.push(element.category_id);
                     } else if (element.role == "moderator") {
