@@ -43,7 +43,16 @@
             </span>
 
             <button type="submit" :class="{ 'go-green': message.trim() }" @click="submit($event)">
-                <i class="v-icon v-send" aria-hidden="true" v-show="!loading"></i>
+                <el-tooltip placement="bottom-end" transition="false" 
+                    v-show="!loading"
+                >
+                    <div slot="content">
+                        Press Enter to send<br/>
+                        Press Shift+Enter to add a new paragraph 
+                    </div>
+                    <i class="v-icon v-send" aria-hidden="true"></i>
+                </el-tooltip>
+
                 <moon-loader :loading="loading" :size="'25px'" :color="'#555'"></moon-loader>
             </button>
         </form>
