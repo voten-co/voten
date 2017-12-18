@@ -59,6 +59,8 @@
 
         <div class="flex-space user-select comment-form-guide-wrapper">
             <typing></typing>
+            
+            <small class="go-red" v-if="error" v-text="error"></small>
 
             <div>
                 <button class="comment-form-guide" @click="preview =! preview" type="button" v-show="message">
@@ -111,6 +113,7 @@
                 editingComment: [], 
                 replyingComment: [], 
                 parent: 0,
+                error: null 
             }
         },
 
@@ -248,6 +251,7 @@
                 this.loading = false; 
                 this.preview = false; 
                 this.parent = 0;
+                this.error = null; 
             },
 
         	emoji(shortname) {
@@ -305,8 +309,9 @@
                         this.$eventHub.$emit('patchedComment', this.editingComment);
                         
                         this.clear();                        
-                    }).catch(() => {
-        		        this.clear();
+                    }).catch(error => {
+                        this.clear(); 
+                        this.error = error.response.data; 
                     });
 
                     return;
@@ -322,8 +327,9 @@
                     this.$eventHub.$emit('newComment', response.data);
 
         			this.clear();
-                }).catch(() => {
-                    this.clear();
+                }).catch(error => {
+                    this.clear(); 
+                    this.error = error.response.data; 
                 });
         	},
         },
