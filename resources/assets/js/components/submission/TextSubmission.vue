@@ -44,7 +44,7 @@
 			</div>
 
 			<div v-if="editing && preview" class="form-wrapper margin-bottom-1 margin-top-1 preview">
-				<markdown v-if="editedBody" :text="editedBody"></markdown>
+				<markdown v-if="editedBody" :text="editedBody.trim()"></markdown>
 			</div>
 		</div>
 
