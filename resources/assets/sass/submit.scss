@@ -1,0 +1,28 @@
+.submit-form {
+  .submit-type i {
+    cursor: pointer;
+  }
+
+  .el-button--text {
+    color: #8a909b;
+  }
+
+  .el-upload {
+    width: 100%;
+  }
+
+  .el-upload__tip {
+    margin-top: -18px;
+  }
+
+  .el-upload-dragger {
+    width: 100%;
+    background-color: #fcfcfc;
+  }
+
+  .el-input-group__prepend {
+    background-color: #fff;
+  }
+}
+
+

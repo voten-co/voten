@@ -1,0 +1,43 @@
+.el-button {
+  border-radius: 3px;
+
+  &, i {
+    font-weight: bold;
+  }
+}
+
+.el-button.v-button--upload {
+  position: relative;
+  margin: 0;
+
+  input {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    cursor: pointer;
+  }
+}
+
+.is-plain {
+  border-width: 2px;
+  border-color: #bbcfef;
+}
+
+.el-button--primary.is-plain {
+  border-color: $primary-color;
+  background: rgba(255, 255, 255, 0);
+}
+
+.el-button--success.is-plain {
+  border-color: $green-color;
+  background: rgba(255, 255, 255, 0);
+}
+
+.el-button--danger.is-plain {
+  border-color: $red-color;
+  background: rgba(255, 255, 255, 0);
+}

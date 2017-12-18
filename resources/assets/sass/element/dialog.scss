@@ -1,0 +1,22 @@
+// dialog
+.el-dialog__body {
+  padding: 1em 20px;
+}
+
+.el-dialog__footer {
+  padding-top: 0;
+}
+
+.el-dialog__header {
+    box-shadow: 0 2px 0 rgba(236, 238, 239, 0.45);
+    padding-bottom: 15px;
+
+    .el-dialog__title {
+        font-size: 21px;
+        font-weight: bold;
+    }
+
+    .el-dialog__headerbtn {
+        font-size: 24px;
+    }
+}
