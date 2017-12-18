@@ -232,9 +232,12 @@
 
 #submissions, 
 #comments-index, 
-#settings, 
-#comments-submission-page {
+#settings {
     overflow-y: scroll;
+}
+
+#comments-submission-page {
+    overflow-y: auto; 
 }
 
 // only desktop 
