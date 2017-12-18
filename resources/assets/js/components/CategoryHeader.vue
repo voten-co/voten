@@ -171,7 +171,7 @@
                 }).catch(() => {
                     this.bookmarked = !this.bookmarked;
                 });
-            }, 700, { leading: true, trailing: false }),
+            }, 200, { leading: true, trailing: false }),
         },
 
         computed: {

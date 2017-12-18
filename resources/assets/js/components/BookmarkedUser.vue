@@ -81,7 +81,7 @@
                 }).catch(() => {
                     this.bookmarked = !this.bookmarked;
                 });
-            }, 700, { leading: true, trailing: false }),
+            }, 200, { leading: true, trailing: false }),
 
             sendMessage(user) {
                 this.$eventHub.$emit('start-conversation', user);

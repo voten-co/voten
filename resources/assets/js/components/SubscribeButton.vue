@@ -58,7 +58,7 @@ export default {
             }).catch(() => {
                 this.subscribed = !this.subscribed;
             });
-        }, 700, { leading: true, trailing: false }),
+        }, 200, { leading: true, trailing: false }),
     }
 }
 </script>

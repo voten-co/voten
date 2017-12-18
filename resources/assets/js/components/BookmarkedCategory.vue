@@ -114,7 +114,7 @@
                 }).catch(() => {
                     this.bookmarked = !this.bookmarked;
                 });
-            }, 700, { leading: true, trailing: false }),
+            }, 200, { leading: true, trailing: false }),
 
             subscribe: _.debounce(function () {
                 this.subscribed = !this.subscribed;
@@ -126,7 +126,7 @@
                 });
 
                 this.$emit('subscribed');
-            }, 700, { leading: true, trailing: false }),
+            }, 200, { leading: true, trailing: false }),
         },
     };
 </script>

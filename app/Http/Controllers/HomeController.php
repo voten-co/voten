@@ -41,23 +41,32 @@ class HomeController extends Controller
             'page' => 'required|integer|min:1',
         ]);
 
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             return $this->guestHome($request);
         }
 
         $submissions = (new Submission())->newQuery();
 
-        // spicify the filter:
-        if ($request->filter == 'all-channels') {
-            // guest what? we don't have to do anything :|
-        } elseif ($request->filter == 'moderating-channels') {
-            $submissions->whereIn('category_id', Auth::user()->moderatingIds());
-        } elseif ($request->filter == 'bookmarked-channels') {
-            $submissions->whereIn('category_id', $this->bookmarkedCategories());
-        } elseif ($request->filter == 'by-bookmarked-users') {
-            $submissions->whereIn('user_id', $this->bookmarkedUsers());
-        } else { // $request->filter == "subscribed channels"
-            $submissions->whereIn('category_id', $this->subscriptions());
+        switch ($request->filter) {
+            case 'all':
+                // guest what? we don't have to do anything :|
+                break;
+
+            case 'moderating': 
+                $submissions->whereIn('category_id', Auth::user()->moderatingIds());
+                break; 
+
+            case 'bookmarked': 
+                $submissions->whereIn('category_id', $this->bookmarkedCategories());
+                break; 
+
+            case 'by-bookmarked-users': 
+                $submissions->whereIn('user_id', $this->bookmarkedUsers());
+                break; 
+
+            default: // subscribed
+                $submissions->whereIn('category_id', $this->subscriptions());
+                break;
         }
 
         // exclude user's blocked categories
@@ -67,28 +76,34 @@ class HomeController extends Controller
         $submissions->whereNotIn('id', $this->hiddenSubmissions());
 
         // exclude NSFW if user doens't want to see them
-        if (!settings('nsfw')) {
+        if (! settings('nsfw')) {
             $submissions->where('nsfw', false);
         }
-
-        if (settings('exclude_upvoted_submissions')) {
+      
+        if ($request->exclude_upvoted_submissions == 'true') {
             $submissions->whereNotIn('id', $this->submissionUpvotesIds());
         }
-
-        if (settings('exclude_downvoted_submissions')) {
+      
+        if ($request->exclude_downvoted_submissions == 'true') {
             $submissions->whereNotIn('id', $this->submissionDownvotesIds());
         }
-
-        if ($request->sort == 'new') {
-            $submissions->orderBy('created_at', 'desc');
-        } elseif ($request->sort == 'rising') {
-            $submissions->where('created_at', '>=', Carbon::now()->subHour())
-                        ->orderBy('rate', 'desc');
-        } else {
-            // default $request->sort = 'hot'
-            $submissions->orderBy('rate', 'desc');
+        
+        switch ($request->sort) {
+            case 'new':
+                $submissions->orderBy('created_at', 'desc');
+                break;
+            
+            case 'rising':
+                $submissions->where('created_at', '>=', Carbon::now()->subHour())
+                    ->orderBy('rate', 'desc');
+                break; 
+            
+            default: // 'hot'
+                $submissions->orderBy('rate', 'desc');
+                break;
         }
 
+        // filter duplicate submissions: 
         $submissions->groupBy('url');
 
         return $submissions->simplePaginate(15);

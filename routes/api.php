@@ -160,7 +160,6 @@ Route::get('/rules', 'RulesController@index');
 Route::get('/emoji-list', 'EmojiController@index');
 Route::get('/submission-photos', 'SubmissionController@getPhotos');
 Route::get('/search', 'SearchController@index');
-Route::get('/home', 'HomeController@feed');
 Route::get('/category-submissions', 'CategoryController@submissions');
 Route::get('/get-category-store', 'CategoryController@fillStore');
 Route::get('/suggested-category', 'SuggestionController@category');

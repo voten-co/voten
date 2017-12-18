@@ -217,7 +217,7 @@
                 this.refreshing = true;
                 Store.page.home.clear();
                 Store.page.home.getSubmissions(this.sort).then(() => this.refreshing = false);
-            }, 700, { leading: true, trailing: false }),
+            }, 200, { leading: true, trailing: false }),
 
             /**
              * changes the filter for home feed

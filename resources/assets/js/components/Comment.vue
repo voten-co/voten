@@ -480,7 +480,7 @@
                 }).catch(() => {
                     this.bookmarked = !this.bookmarked;
                 });
-            }, 700, { leading: true, trailing: false }),
+            }, 200, { leading: true, trailing: false }),
 
             voteUp: _.debounce(function () {
                 if (this.isGuest) {
@@ -501,7 +501,7 @@
                 }
 
                 this.upvoted = true;
-            }, 700, { leading: true, trailing: false }),
+            }, 200, { leading: true, trailing: false }),
 
             voteDown: _.debounce(function () {
                 if (this.isGuest) {
@@ -522,7 +522,7 @@
                 }
 
                 this.downvoted = true;
-            }, 700, { leading: true, trailing: false }),
+            }, 200, { leading: true, trailing: false }),
 
             /**
              * Deletes the comment. Only the owner is allowed to make such decision.
