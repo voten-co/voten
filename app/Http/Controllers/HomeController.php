@@ -102,8 +102,7 @@ class HomeController extends Controller
                 $submissions->orderBy('rate', 'desc');
                 break;
         }
-
-        // filter duplicate submissions: 
+        
         $submissions->groupBy('url');
 
         return $submissions->simplePaginate(15);
@@ -126,14 +125,18 @@ class HomeController extends Controller
 
         $submissions->where('nsfw', false);
 
-        if ($request->sort == 'new') {
-            $submissions->orderBy('created_at', 'desc');
-        } elseif ($request->sort == 'rising') {
-            $submissions->where('created_at', '>=', Carbon::now()->subHour())
-                        ->orderBy('rate', 'desc');
-        } else {
-            // hot
-            $submissions->orderBy('rate', 'desc');
+        switch ($request->sort) {
+            case 'new':
+                $submissions->orderBy('created_at', 'desc');
+                break;
+            
+            case 'rising':
+                $submissions->where('created_at', '>=', Carbon::now()->subHour())->orderBy('rate', 'desc');
+                break; 
+
+            default: // hot
+                $submissions->orderBy('rate', 'desc');
+                break;
         }
 
         $submissions->groupBy('url');
