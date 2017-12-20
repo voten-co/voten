@@ -18,6 +18,7 @@
 	import NoContent from '../components/NoContent.vue';
 	import UserHeader from '../components/UserHeader.vue';
 	import Helpers from '../mixins/Helpers';
+	import Loading from '../components/Loading.vue';
 	
 	export default {
 		mixins: [Helpers],
@@ -27,6 +28,7 @@
 			NoContent,
 			UserHeader,
 			NoMoreItems,
+			Loading
 		},
 	
 		computed: {
