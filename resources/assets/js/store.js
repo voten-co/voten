@@ -59,16 +59,14 @@ window.Store = {
     },
 
 
-    // client-side settings: There's not need to save these settings in the server-side. However, we do sync them to the cloud.
+    // client-side settings: There's not need to save these settings in the server-side. 
+    // However, we do sync them to the cloud.
     settings: {
         feed: {
             excludeUpvotedSubmissions: false,
-            excludeDownvotedSubmissions: false,
-            submissionsFilter: null,
-        },
-
-        commentForm: {
-            sendOnEnter: true,
+            excludeDownvotedSubmissions: true,
+            submissionsFilter: '',
+            submissionsTypes: ['All']
         },
 
         rightSidebar: {
@@ -84,7 +82,7 @@ window.Store = {
     sidebarFilter: '',
 
 
-    // Open tabs unique ID:
+    // Open tab's unique ID:
     pageUID: '_' + Math.random().toString(36).substr(2, 9),
 
     initialFilled: false,

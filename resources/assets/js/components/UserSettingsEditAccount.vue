@@ -29,6 +29,18 @@
                 </el-select>
             </el-form-item>
 
+            <div class="form-toggle">
+                <span>Display NSFW submissions: <small>(You must be 18 or older)</small></span>
+                <el-switch v-model="form.nsfw"></el-switch>
+            </div>
+
+            <transition name="el-zoom-in-top">
+                <div class="form-toggle" v-if="form.nsfw">
+                    <span>Display preview for NSFW submissions:</span>
+                    <el-switch v-model="form.nsfwMedia"></el-switch>
+                </div>
+            </transition>
+
             <h3 class="dotted-title">
                 <span>
                     Notify me when
@@ -78,6 +90,9 @@
 				],
 
                 form: {
+                    nsfw: auth.nsfw,
+                    nsfwMedia: auth.nsfwMedia,
+                    
                     username: auth.username,
                     font: auth.font,
                     notify_submissions_replied: auth.notify_submissions_replied,
@@ -94,6 +109,8 @@
 	    computed: {
 	    	changed () {
 	    		if (
+                    auth.nsfw != this.form.nsfw ||
+                    auth.nsfwMedia != this.form.nsfwMedia || 
 	                auth.font != this.form.font ||
 	                auth.notify_submissions_replied != this.form.notify_submissions_replied ||
 	                auth.notify_mentions != this.form.notify_mentions ||
@@ -120,6 +137,8 @@
                 let changedUsername = (auth.username !== this.form.username);
 
             	axios.post( '/update-account', {
+                    nsfw: this.form.nsfw,
+                    nsfw_media: this.form.nsfwMedia,
                     username: this.form.username,
                     font: this.form.font,
                     notify_submissions_replied: this.form.notify_submissions_replied,

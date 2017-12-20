@@ -94,10 +94,8 @@
                 categories: [],
                 users: [],
                 submissions: [],
-                type: 'Categories',
-                types: [
-                    'Categories', 'Submissions', 'Users'
-                ]
+                type: 'Channels',
+                types: ['Channels', 'Submissions', 'Users']
             }
         },
 

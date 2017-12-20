@@ -29,7 +29,7 @@ class SearchController extends Controller
         ]);
 
         try {
-            if ($request->type == 'Categories') {
+            if ($request->type == 'Channels') {
                 return Category::search($request->searched)->take(20)->get();
             }
 

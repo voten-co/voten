@@ -24,9 +24,10 @@ export default {
                 params: {
                     sort,
                     page: this.page,
-                    filter: Store.feedFilter, 
-                    exclude_upvoted_submissions: true, 
-                    exclude_downvoted_submissions: true 
+                    // filter: Store.feedFilter, 
+                    exclude_upvoted_submissions: Store.settings.feed.excludeUpvotedSubmissions, 
+                    exclude_downvoted_submissions: Store.settings.feed.excludeDownvotedSubmissions, 
+                    types: Store.settings.feed.submissionsTypes
                 }
             }).then((response) => {
                 this.submissions = [...this.submissions, ...response.data.data];
@@ -49,5 +50,5 @@ export default {
         this.NoMoreItems = false;
         this.submissions = [];
         this.loading = true;
-    }
+    }, 
 }
