@@ -3,7 +3,6 @@ import Notifications from './components/Notifications.vue';
 import MarkdownGuide from './components/MarkdownGuide.vue';
 import GuestSidebar from './components/GuestSidebar.vue';
 import SearchModal from './components/SearchModal.vue';
-import WebNotification from './mixins/WebNotification';
 import LoginModal from './components/LoginModal.vue';
 import Dashboard from './components/Dashboard.vue';
 import NotFound from './components/NotFound.vue';
@@ -39,7 +38,7 @@ Vue.prototype.$eventHub = new Vue();
 window.app = new Vue({
     router,
 
-    mixins: [Helpers, StoreStorage, WebNotification, FontLoader],
+    mixins: [Helpers, StoreStorage, FontLoader],
 
     components: {
         KeyboardShortcutsGuide,
@@ -128,6 +127,24 @@ window.app = new Vue({
          * @return void
          */
         pushNotification(data) {
+            let self = this; 
+            
+            Push.create(data.title, {
+                body: data.body,
+                icon: data.icon ? data.icon : '/imgs/v-logo.png',
+                timeout: 5000,
+                onClick: function () {
+                    if (data.url == 'new-message') {
+                        Store.contentRouter = 'messages'; 
+                    } else {
+                        self.$router.push(data.url); 
+                    }
+
+                    window.focus();
+                    this.close();
+                }
+            });
+
             this.webNotification(data.title, data.body, data.url, data.icon);
         },
 
