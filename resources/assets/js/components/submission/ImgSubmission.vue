@@ -5,7 +5,7 @@
 		</div>
 
 		<div v-if="isAlbum && showBigThumbnail">
-			<img :src="value.thumbnail_path" v-for="(value, index) in photos"
+			<img :src="value.thumbnail_path" v-for="(value, index) in photos" :key="value.id"
 			@click="$emit('zoom', index)" :alt="submission.title" class="margin-bottom-1" />
 		</div>
 
@@ -18,13 +18,15 @@
 				</a>
 
 				<div class="flex1">
-					<router-link :to="'/c/' + submission.channel_name + '/' + submission.slug" class="flex-space v-ultra-bold">
+					<router-link :to="'/c/' + submission.channel_name + '/' + submission.slug" 
+						class="flex-space v-ultra-bold" :class="{'submission-title': full}"
+					>
 						{{ submission.title }}
 					</router-link>
 
 					<submission-footer :url="url" :comments="comments" :bookmarked="bookmarked" :submission="submission" v-if="!full"
-					@bookmark="$emit('bookmark')" @report="$emit('report')" @hide="$emit('hide')" @nsfw="$emit('nsfw')" @sfw="$emit('sfw')" @destroy="$emit('destroy')" @approve="$emit('approve')" @disapprove="$emit('disapprove')" @removethumbnail="$emit('removethumbnail')" :upvoted="upvoted" :downvoted="downvoted" :points="points"
-					@upvote="$emit('upvote')" @downvote="$emit('downvote')"
+						@bookmark="$emit('bookmark')" @report="$emit('report')" @hide="$emit('hide')" @nsfw="$emit('nsfw')" @sfw="$emit('sfw')" @destroy="$emit('destroy')" @approve="$emit('approve')" @disapprove="$emit('disapprove')" @removethumbnail="$emit('removethumbnail')" :upvoted="upvoted" :downvoted="downvoted" :points="points"
+						@upvote="$emit('upvote')" @downvote="$emit('downvote')"
 					></submission-footer>
 				</div>
 			</span>
@@ -58,7 +60,7 @@
 		computed: {
 			thumbnail() {
 				return {
-					backgroundImage: 'url(' + this.submission.data.thumbnail_path + ')'
+					backgroundImage: 'url(' + this.submission.data.thumbnail_path + ')'; 
 				};
 			},
 
