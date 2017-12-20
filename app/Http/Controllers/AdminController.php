@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
+use App\Channel;
 use App\Comment;
 use App\Filters;
 use App\Report;
@@ -50,13 +50,13 @@ class AdminController extends Controller
     }
 
     /**
-     * Returns the latest created categories.
+     * Returns the latest created channels.
      *
      * @return \Illuminate\Support\Collection
      */
-    public function categories()
+    public function channels()
     {
-        return Category::orderBy('id', 'desc')->simplePaginate(30);
+        return Channel::orderBy('id', 'desc')->simplePaginate(30);
     }
 
     /**
@@ -131,19 +131,19 @@ class AdminController extends Controller
     }
 
     /**
-     * searches the categories.
+     * searches the channels.
      *
      * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getCategories(Request $request)
+    public function getChannels(Request $request)
     {
         $this->validate($request, [
             'name' => 'required',
         ]);
 
-        return Category::where('name', 'like', '%'.$request->name.'%')
+        return Channel::where('name', 'like', '%'.$request->name.'%')
                     ->select('id', 'name')->take(100)->get()->pluck('name');
     }
 }

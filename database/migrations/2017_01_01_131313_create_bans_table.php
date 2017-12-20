@@ -16,7 +16,7 @@ class CreateBansTable extends Migration
         Schema::create('bans', function (Blueprint $table) {
             $table->increments('id');
             $table->string('user_id')->index();
-            $table->string('category')->index()->nullable();
+            $table->string('channel')->index()->nullable();
             $table->text('description')->nullable();
             $table->dateTimeTz('unban_at')->nullable();
             $table->timestamps();

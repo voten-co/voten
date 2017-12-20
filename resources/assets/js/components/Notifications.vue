@@ -145,13 +145,13 @@
                         // give user the new recieved access (so a refresh won't be needed)
                         if (n.type == 'App\\Notifications\\BecameModerator') {
                             if (n.data.role == "moderator") {
-                                Store.state.moderatorAt.push(n.data.category.id)
+                                Store.state.moderatorAt.push(n.data.channel.id)
                             } else if (n.data.role == "administrator") {
-                                Store.state.administratorAt.push(n.data.category.id)
+                                Store.state.administratorAt.push(n.data.channel.id)
                             }
 
-                            Store.state.moderatingAt.push(n.data.category.id)
-                            Store.state.moderatingCategories.push(n.data.category)
+                            Store.state.moderatingAt.push(n.data.channel.id)
+                            Store.state.moderatingChannels.push(n.data.channel)
                         }
 
                         // Sending web notifications to user's OS (only if browser tab is not active)

@@ -2,11 +2,11 @@
     <div>
         <el-form label-position="top" label-width="10px" :model="form">
             <el-form-item label="Limit channel results to:">
-                <el-input-number v-model="form.categoriesLimit" :step="1" :min="2" :max="500"></el-input-number>
+                <el-input-number v-model="form.channelsLimit" :step="1" :min="2" :max="500"></el-input-number>
             </el-form-item>
 
             <el-form-item label="Filter channels by...">
-                <el-select v-model="form.categoriesFilter" placeholder="Filter channels by..." filterable>
+                <el-select v-model="form.channelsFilter" placeholder="Filter channels by..." filterable>
                     <el-option v-for="item in filters" :key="item.value" :label="item.description" :value="item.value">
                     </el-option>
                 </el-select>
@@ -14,7 +14,7 @@
 
             <div class="form-toggle no-border">
                 Display channel avatars:
-                <el-switch v-model="form.showCategoryAvatars"></el-switch>
+                <el-switch v-model="form.showChannelAvatars"></el-switch>
             </div>
 
             <el-form-item label="Sidebar Color">
@@ -43,9 +43,9 @@
         data() {
             return {
                 form: {
-                    categoriesFilter: Store.settings.rightSidebar.categoriesFilter,
-                    categoriesLimit: Store.settings.rightSidebar.categoriesLimit, 
-                    showCategoryAvatars: Store.settings.rightSidebar.showCategoryAvatars, 
+                    channelsFilter: Store.settings.rightSidebar.channelsFilter,
+                    channelsLimit: Store.settings.rightSidebar.channelsLimit, 
+                    showChannelAvatars: Store.settings.rightSidebar.showChannelAvatars, 
                     color: Store.settings.rightSidebar.color, 
                 },
 
@@ -64,9 +64,9 @@
         computed: {
             changed() {
                 if (
-                    Store.settings.rightSidebar.categoriesFilter != this.form.categoriesFilter ||
-                    Store.settings.rightSidebar.categoriesLimit != this.form.categoriesLimit || 
-                    Store.settings.rightSidebar.showCategoryAvatars != this.form.showCategoryAvatars || 
+                    Store.settings.rightSidebar.channelsFilter != this.form.channelsFilter ||
+                    Store.settings.rightSidebar.channelsLimit != this.form.channelsLimit || 
+                    Store.settings.rightSidebar.showChannelAvatars != this.form.showChannelAvatars || 
                     Store.settings.rightSidebar.color != this.form.color 
                 ) {
                     return true;
@@ -78,9 +78,9 @@
     
         methods: {
             save() {
-                Store.settings.rightSidebar.categoriesFilter = this.form.categoriesFilter;
-                Store.settings.rightSidebar.categoriesLimit = this.form.categoriesLimit;
-                Store.settings.rightSidebar.showCategoryAvatars = this.form.showCategoryAvatars;
+                Store.settings.rightSidebar.channelsFilter = this.form.channelsFilter;
+                Store.settings.rightSidebar.channelsLimit = this.form.channelsLimit;
+                Store.settings.rightSidebar.showChannelAvatars = this.form.showChannelAvatars;
                 Store.settings.rightSidebar.color = this.form.color;
             }
         }

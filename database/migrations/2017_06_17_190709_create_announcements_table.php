@@ -15,7 +15,7 @@ class CreateAnnouncementsTable extends Migration
     {
         Schema::create('announcements', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('category_name')->index()->nullable();
+            $table->string('channel_name')->index()->nullable();
             $table->integer('user_id')->unsigned()->index();
             $table->string('title');
             $table->text('body');

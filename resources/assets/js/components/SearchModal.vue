@@ -41,12 +41,12 @@
 
 
             <div class="col-7 user-select padding-1">
-                <ul class="v-contact-list" v-if="type == 'Categories'">
-                    <category-search-item v-for="category in categories" :list="category"
-                                          :key="category.id"></category-search-item>
+                <ul class="v-contact-list" v-if="type == 'Channels'">
+                    <channel-search-item v-for="channel in channels" :list="channel"
+                                          :key="channel.id"></channel-search-item>
                 </ul>
 
-                <h1 class="align-center" v-if="noCategories && filter.trim()">
+                <h1 class="align-center" v-if="noChannels && filter.trim()">
                     No channel matched your keywords
                 </h1>
 
@@ -71,7 +71,7 @@
 </template>
 
 <script>
-    import CategorySearchItem from '../components/CategorySearchItem.vue';
+    import ChannelSearchItem from '../components/ChannelSearchItem.vue';
     import UserSearchItem from '../components/UserSearchItem.vue';
     import Submission from '../components/Submission.vue';
     import Helpers from '../mixins/Helpers';
@@ -80,7 +80,7 @@
         mixins: [Helpers],
 
         components: {
-            CategorySearchItem,
+            ChannelSearchItem,
             Submission,
             UserSearchItem
         },
@@ -91,7 +91,7 @@
                 filter: '',
                 result: [],
                 loading: false,
-                categories: [],
+                channels: [],
                 users: [],
                 submissions: [],
                 type: 'Channels',
@@ -116,8 +116,8 @@
                 return this.type == 'Submissions' && this.submissions.length == 0 && !this.loading;
             },
 
-            noCategories() {
-                return this.type == 'Categories' && this.categories.length == 0 && !this.loading;
+            noChannels() {
+                return this.type == 'Channels' && this.channels.length == 0 && !this.loading;
             },
 
             noUsers() {
@@ -125,7 +125,7 @@
             },
 
             placeholder() {
-                if (this.type == 'Categories') {
+                if (this.type == 'Channels') {
                     return 'Search by #name or description...';
                 }
                 if (this.type == 'Users') {
@@ -156,8 +156,8 @@
                         searched: this.filter,
                     }
                 }).then((response) => {
-                    if (this.type == 'Categories') {
-                        this.categories = response.data;
+                    if (this.type == 'Channels') {
+                        this.channels = response.data;
                     }
                     if (this.type == 'Users') {
                         this.users = response.data;

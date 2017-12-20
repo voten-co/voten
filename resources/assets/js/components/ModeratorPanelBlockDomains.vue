@@ -80,7 +80,7 @@
                 axios.post('/block-domain', {
                     domain: this.domain,
                     description: this.description,
-                    category: this.$route.params.name
+                    channel: this.$route.params.name
                 }).then((response) => {
                     this.domain = '';
                     this.description = '';
@@ -95,7 +95,7 @@
 
 
             /**
-             * Fetches the list of already blocked domains on this category.
+             * Fetches the list of already blocked domains on this channel.
              *
              * @return void
              */
@@ -104,7 +104,7 @@
 
                 axios.get('/blocked-domains', {
                     params: {
-                        category: this.$route.params.name
+                        channel: this.$route.params.name
                     }
                 }).then((response) => {
                     this.blockedDomains = response.data;
@@ -123,7 +123,7 @@
                 axios.delete('/block-domain/destroy', {
                     params: {
                         domain: domain,
-                        category: this.$route.params.name
+                        channel: this.$route.params.name
                     }
                 }).then(() => {
                     this.blockedDomains = this.blockedDomains.filter(function (item) {
@@ -135,9 +135,9 @@
 
 
         beforeRouteEnter(to, from, next){
-            if (Store.page.category.temp.name == to.params.name) {
+            if (Store.page.channel.temp.name == to.params.name) {
                 // loaded
-                if (Store.state.moderatingAt.indexOf(Store.page.category.temp.id) != -1) {
+                if (Store.state.moderatingAt.indexOf(Store.page.channel.temp.id) != -1) {
                     next()
                 }
             } else {

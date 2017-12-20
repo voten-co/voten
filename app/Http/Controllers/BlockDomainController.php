@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\BlockedDomain;
-use App\Category;
+use App\Channel;
 use Illuminate\Http\Request;
 
 class BlockDomainController extends Controller
@@ -27,16 +27,16 @@ class BlockDomainController extends Controller
     {
         $this->validate($request, [
             'domain'   => 'required|url',
-            'category' => 'alpha_num|max:25',
+            'channel' => 'alpha_num|max:25',
         ]);
 
         if (!($blockEverywhere = !$request->ajax() && $this->mustBeVotenAdministrator())) {
-            $category = Category::where('name', $request->category)->firstOrFail();
-            abort_unless($this->mustBeModerator($category->id), 403);
+            $channel = Channel::where('name', $request->channel)->firstOrFail();
+            abort_unless($this->mustBeModerator($channel->id), 403);
         }
 
         $blockedDomain = new BlockedDomain([
-            'category'    => $blockEverywhere ? 'all' : $request->category,
+            'channel'    => $blockEverywhere ? 'all' : $request->channel,
             'domain'      => domain($request->domain),
             'description' => $request->description,
         ]);
@@ -46,7 +46,7 @@ class BlockDomainController extends Controller
     }
 
     /**
-     * Returns all the domains that are blocked for submitting(url type submission) to this category.
+     * Returns all the domains that are blocked for submitting(url type submission) to this channel.
      *
      * @param \Illuminate\Http\Request $request
      *
@@ -55,10 +55,10 @@ class BlockDomainController extends Controller
     public function index(Request $request)
     {
         $this->validate($request, [
-            'category' => 'required|max:25',
+            'channel' => 'required|max:25',
         ]);
 
-        return BlockedDomain::where('category', $request->category)
+        return BlockedDomain::where('channel', $request->channel)
                     ->orderBy('created_at', 'desc')
                     ->get();
     }
@@ -74,18 +74,18 @@ class BlockDomainController extends Controller
     {
         $this->validate($request, [
             'domain'   => 'required',
-            'category' => 'required|alpha_num|min:3|max:50',
+            'channel' => 'required|alpha_num|min:3|max:50',
         ]);
 
         if (!($blockEverywhere = !$request->ajax() && $this->mustBeVotenAdministrator())) {
-            $category = Category::where('name', $request->category)->firstOrFail();
-            abort_unless($this->mustBeModerator($category->id), 403);
+            $channel = Channel::where('name', $request->channel)->firstOrFail();
+            abort_unless($this->mustBeModerator($channel->id), 403);
         }
 
         BlockedDomain::where('domain', $request->domain)
-                    ->where('category', $blockEverywhere ? 'all' : $request->category)
+                    ->where('channel', $blockEverywhere ? 'all' : $request->channel)
                     ->delete();
 
-        return $blockEverywhere ? back() : response('Unblocked in '.$request->category, 200);
+        return $blockEverywhere ? back() : response('Unblocked in '.$request->channel, 200);
     }
 }

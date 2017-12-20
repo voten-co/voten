@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Activity;
-use App\Category;
+use App\Channel;
 use App\Events\SubmissionWasCreated;
 use App\Events\SubmissionWasDeleted;
 use App\Filters;
 use App\Photo;
 use App\PhotoTools;
 use App\Submission;
-use App\Traits\CachableCategory;
+use App\Traits\CachableChannel;
 use App\Traits\CachableSubmission;
 use App\Traits\CachableUser;
 use App\Traits\Submit;
@@ -21,7 +21,7 @@ use Illuminate\Http\Request;
 
 class SubmissionController extends Controller
 {
-    use Filters, PhotoTools, CachableUser, CachableSubmission, CachableCategory, Submit;
+    use Filters, PhotoTools, CachableUser, CachableSubmission, CachableChannel, Submit;
 
     public function __construct()
     {
@@ -31,17 +31,17 @@ class SubmissionController extends Controller
     /**
      * shows the submission page to guests.
      *
-     * @param string $category
+     * @param string $channel
      * @param string $slug
      *
      * @return view
      */
-    public function show($category, $slug)
+    public function show($channel, $slug)
     {
         $submission = $this->getSubmissionBySlug($slug);
-        $category = $this->getCategoryByName($submission->category_name);
-        $category->stats = $this->categoryStats($category->id);
-        $submission->category = $category;
+        $channel = $this->getChannelByName($submission->channel_name);
+        $channel->stats = $this->channelStats($channel->id);
+        $submission->channel = $channel;
 
         return view('submission.show', compact('submission'));
     }
@@ -62,7 +62,7 @@ class SubmissionController extends Controller
             return response('I hate to break it to you but your account has been banned.', 500);
         }
 
-        // Make sure user is allowed to submit to this category. (isn't banned from it)
+        // Make sure user is allowed to submit to this channel. (isn't banned from it)
         if ($this->isUserBanned($user->id, $request->name)) {
             return response('You have been banned from submitting to #'.$request->name.'. If you think there has been some kind of mistake, please contact the moderators of #'.$request->name.'.', 500);
         }
@@ -76,7 +76,7 @@ class SubmissionController extends Controller
             $this->validate($request, [
                 'url'   => 'required|url',
                 'title' => 'required|between:7,150',
-                'name'  => 'required|exists:categories',
+                'name'  => 'required|exists:channels',
             ]);
 
             // check if it's in the blocked domains list
@@ -106,7 +106,7 @@ class SubmissionController extends Controller
             $this->validate($request, [
                 'title'  => 'required|between:7,150',
                 'photos' => 'required',
-                'name'   => 'required|exists:categories',
+                'name'   => 'required|exists:channels',
             ]);
 
             $data = $this->imgSubmission($request);
@@ -116,7 +116,7 @@ class SubmissionController extends Controller
             $this->validate($request, [
                 'title' => 'required|between:7,150',
                 'gif_id'   => 'required|integer',
-                'name'  => 'required|exists:categories',
+                'name'  => 'required|exists:channels',
             ]);
 
             $data = $this->gifSubmission($request);
@@ -126,23 +126,23 @@ class SubmissionController extends Controller
             $this->validate($request, [
                 'title' => 'required|between:7,150',
                 'type'  => 'required|in:link,img,text',
-                'name'  => 'required|exists:categories',
+                'name'  => 'required|exists:channels',
             ]);
 
             $data = $this->textSubmission($request);
         }
 
-        $category = $this->getCategoryByName($request->name);
+        $channel = $this->getChannelByName($request->name);
 
         try {
             $submission = Submission::create([
                 'title'         => $request->title,
                 'slug'          => $slug = $this->slug($request->title),
-                'url'           => $request->type === 'link' ? $request->url : config('app.url').'/c/'.$category->name.'/'.$slug,
+                'url'           => $request->type === 'link' ? $request->url : config('app.url').'/c/'.$channel->name.'/'.$slug,
                 'domain'        => $request->type === 'link' ? domain($request->url) : null,
                 'type'          => $request->type,
-                'category_name' => $request->name,
-                'category_id'   => $category->id,
+                'channel_name' => $request->name,
+                'channel_id'   => $channel->id,
                 'nsfw'          => $request->nsfw,
                 'rate'          => firstRate(),
                 'user_id'       => $user->id,
@@ -215,9 +215,9 @@ class SubmissionController extends Controller
 
         $submission = $this->getSubmissionBySlug($request->slug);
 
-        $category = $this->getCategoryByName($submission->category_name);
+        $channel = $this->getChannelByName($submission->channel_name);
 
-        $submission->category = $category;
+        $submission->channel = $channel;
 
         return $submission;
     }

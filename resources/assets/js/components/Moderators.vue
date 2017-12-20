@@ -81,7 +81,7 @@
 
         methods: {
             getModerators() {
-                axios.get('/category-moderators', {
+                axios.get('/channel-moderators', {
                     params: {
                         name: this.$route.params.name
                     }

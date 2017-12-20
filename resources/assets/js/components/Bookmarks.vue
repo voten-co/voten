@@ -15,7 +15,7 @@
 						Comments
 					</router-link>
 
-					<router-link active-class="is-active" :to="{name: 'bookmarked-categories'}" class="nav-item is-tab">
+					<router-link active-class="is-active" :to="{name: 'bookmarked-channels'}" class="nav-item is-tab">
 						Channels
 					</router-link>
 
@@ -39,7 +39,7 @@
         beforeRouteEnter (to, from, next) {
 			Store.page.bookmarkedSubmissions.clear(); 
 			Store.page.bookmarkedComments.clear(); 
-			Store.page.bookmarkedCategories.clear(); 
+			Store.page.bookmarkedChannels.clear(); 
 			Store.page.bookmarkedUsers.clear(); 
 			
 			next();

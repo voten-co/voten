@@ -30,7 +30,7 @@ class NsfwController extends Controller
         $submission = $this->getSubmissionById($request->id);
 
         abort_unless(
-            $this->mustBeOwner($submission) || $this->mustBeModerator($submission->category_id
+            $this->mustBeOwner($submission) || $this->mustBeModerator($submission->channel_id
         ), 403);
 
         $submission->update([
@@ -58,7 +58,7 @@ class NsfwController extends Controller
         $submission = $this->getSubmissionById($request->id);
 
         abort_unless(
-            $this->mustBeOwner($submission) || $this->mustBeModerator($submission->category_id
+            $this->mustBeOwner($submission) || $this->mustBeModerator($submission->channel_id
         ), 403);
 
         $submission->update([

@@ -125,10 +125,10 @@
                             Channels
                         </td>
                         <td>
-                            {{ $categoriesToday }}
+                            {{ $channelsToday }}
                         </td>
                         <td>
-                            {{ $categoriesTotal }}
+                            {{ $channelsTotal }}
                         </td>
                     </tr>
 

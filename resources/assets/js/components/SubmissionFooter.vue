@@ -69,7 +69,7 @@
 			<router-link :to="'/' + '@' + submission.owner.username" class="h-underline desktop-only">
 				{{ '@' + submission.owner.username }}
 			</router-link>
-			to <router-link :to="'/c/' + submission.category_name" class="category-label h-underline">#{{ submission.category_name }}</router-link>
+			to <router-link :to="'/c/' + submission.channel_name" class="channel-label h-underline">#{{ submission.channel_name }}</router-link>
 		</span>
 
 		<div class="mobile-only mobile-submission-item-action" v-if="isMobile">
@@ -77,7 +77,7 @@
 			<router-link :to="'/' + '@' + submission.owner.username" class="h-underline">
 				{{ '@' + submission.owner.username }}
 			</router-link>
-			to <router-link :to="'/c/' + submission.category_name" class="category-label h-underline">#{{ submission.category_name }}</router-link>
+			to <router-link :to="'/c/' + submission.channel_name" class="channel-label h-underline">#{{ submission.channel_name }}</router-link>
 		</div>
 	</div>
 </template>
@@ -110,19 +110,19 @@
         	},
 
         	showApprove(){
-				return !this.submission.approved_at && Store.state.moderatingAt.indexOf(this.submission.category_id) != -1 && !this.owns
+				return !this.submission.approved_at && Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1 && !this.owns
 			},
 
 			showDisapprove(){
-				return !this.submission.deleted_at && Store.state.moderatingAt.indexOf(this.submission.category_id) != -1 && !this.owns
+				return !this.submission.deleted_at && Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1 && !this.owns
 			},
 
 			showNSFW(){
-				return (this.owns || Store.state.moderatingAt.indexOf(this.submission.category_id) != -1) && !this.submission.nsfw
+				return (this.owns || Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1) && !this.submission.nsfw
 			},
 
 			showSFW(){
-				return (this.owns || Store.state.moderatingAt.indexOf(this.submission.category_id) != -1) && this.submission.nsfw
+				return (this.owns || Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1) && this.submission.nsfw
 			},
 
 			showRemoveTumbnail(){

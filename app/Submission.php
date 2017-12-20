@@ -16,7 +16,7 @@ class Submission extends Model
      * @var array
      */
     protected $fillable = [
-        'data', 'title', 'slug', 'type', 'category_id', 'category_name', 'rate',
+        'data', 'title', 'slug', 'type', 'channel_id', 'channel_name', 'rate',
         'upvotes', 'downvotes', 'user_id', 'data', 'nsfw', 'approved_at',
         'deleted_at', 'comments_number', 'url', 'domain',
     ];
@@ -57,13 +57,13 @@ class Submission extends Model
     }
 
     /**
-     * A Submission belongs to a Category.
+     * A Submission belongs to a Channel.
      *
      * @return \Illuminate\Database\Eloquent\Relations\belongsTo
      */
-    public function category()
+    public function channel()
     {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsTo(Channel::class, 'channel_id');
     }
 
     /**
@@ -93,7 +93,7 @@ class Submission extends Model
      */
     public function url()
     {
-        return '/c/'.$this->category_name.'/'.$this->slug;
+        return '/c/'.$this->channel_name.'/'.$this->slug;
     }
 
     /**

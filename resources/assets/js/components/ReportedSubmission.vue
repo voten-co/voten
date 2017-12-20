@@ -8,7 +8,7 @@
                     :open-delay="100"
             >
                 <div class="left" slot="reference">
-                    <router-link :to="'/c/' + list.submission.category_name + '/' + list.submission.slug">
+                    <router-link :to="'/c/' + list.submission.channel_name + '/' + list.submission.slug">
                         {{ str_limit(list.submission.title, 20) }}
                     </router-link>
                 </div>
@@ -18,7 +18,7 @@
                 </p>
 
                 <div class="flex-right">
-                    <el-button @click="$router.push('/c/' + list.submission.category_name + '/' + list.submission.slug)" size="mini">
+                    <el-button @click="$router.push('/c/' + list.submission.channel_name + '/' + list.submission.slug)" size="mini">
                         Open
                     </el-button>
                 </div>

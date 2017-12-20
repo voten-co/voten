@@ -17,7 +17,7 @@ class Comment extends Model
      * @var array
      */
     protected $fillable = [
-        'body', 'upvotes', 'rate', 'downvotes', 'submission_id', 'level', 'parent_id', 'category_id', 'user_id', 'edited_at',
+        'body', 'upvotes', 'rate', 'downvotes', 'submission_id', 'level', 'parent_id', 'channel_id', 'user_id', 'edited_at',
     ];
 
     protected $with = [

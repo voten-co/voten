@@ -15,9 +15,9 @@
                         Submitted by
                         <router-link :to="'/' + '@' + list.owner.username">@{{ list.owner.username }}</router-link>
                         to
-                        <router-link :to="'/c/' + list.category_name">#{{ list.category_name }}</router-link>
+                        <router-link :to="'/c/' + list.channel_name">#{{ list.channel_name }}</router-link>
                         -
-                        <router-link :to="'/c/' + list.category_name + '/' + list.slug">
+                        <router-link :to="'/c/' + list.channel_name + '/' + list.slug">
                             {{ date }}
                         </router-link>
                     </small>

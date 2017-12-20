@@ -32,7 +32,7 @@
 					</p>
 				</div>
 
-				<input type="hidden" name="category_name" value="home">
+				<input type="hidden" name="channel_name" value="home">
 
 				<div class="field">
 					<div class="control">

@@ -69,7 +69,7 @@ class UsernameMentioned extends Notification implements ShouldBroadcast
     public function toArray($notifiable)
     {
         return [
-            'url'    => '/c/'.$this->submission->category_name.'/'.$this->submission->slug,
+            'url'    => '/c/'.$this->submission->channel_name.'/'.$this->submission->slug,
             'name'   => $this->user->username,
             'avatar' => $this->user->avatar,
             'body'   => '@'.$this->user->username.' mentioned your username at "'.$this->submission->title.'"',

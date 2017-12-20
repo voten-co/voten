@@ -12,7 +12,7 @@
 
                 <el-tooltip content="Delete" placement="top" transition="false" :open-delay="500">
                     <i class="pointer v-icon go-gray v-delete h-red"
-                       @click="$emit('delete-rule', list.id, list.category_id)"></i>
+                       @click="$emit('delete-rule', list.id, list.channel_id)"></i>
                 </el-tooltip>
             </div>
         </div>

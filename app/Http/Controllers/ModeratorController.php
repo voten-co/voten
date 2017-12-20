@@ -17,14 +17,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
+use App\Channel;
 use App\Comment;
 use App\Events\CommentWasDeleted;
 use App\Events\SubmissionWasDeleted;
 use App\Notifications\BecameModerator;
 use App\Report;
 use App\Submission;
-use App\Traits\CachableCategory;
+use App\Traits\CachableChannel;
 use App\Traits\CachableComment;
 use App\Traits\CachableSubmission;
 use App\User;
@@ -35,7 +35,7 @@ use Illuminate\Http\Request;
 
 class ModeratorController extends Controller
 {
-    use CachableSubmission, CachableCategory, CachableComment;
+    use CachableSubmission, CachableChannel, CachableComment;
 
     public function __construct()
     {
@@ -53,17 +53,17 @@ class ModeratorController extends Controller
     {
         $this->validate($request, [
             'username' => 'required',
-            'category' => 'required',
+            'channel' => 'required',
         ]);
 
-        $category = $this->getCategoryByName($request->category);
+        $channel = $this->getChannelByName($request->channel);
 
         // To make it easier for moderators, we're gonna exlcude users that should
         // not be banned/moderator in a channel. This includes users who are
         // already bannd and moderators (administrators and moderators).
-        $bannedUsers = $category->bannedUsers();
+        $bannedUsers = $channel->bannedUsers();
 
-        $mods = $this->categoryMods($category->id);
+        $mods = $this->channelMods($channel->id);
 
         return User::where('username', 'like', '%'.$request->username.'%')
                     ->whereNotIn('id', $bannedUsers)
@@ -81,10 +81,10 @@ class ModeratorController extends Controller
     public function index(Request $request)
     {
         $this->validate($request, [
-            'category_name' => 'required',
+            'channel_name' => 'required',
         ]);
 
-        return Category::where('name', $request->category_name)->firstOrFail()->moderators;
+        return Channel::where('name', $request->channel_name)->firstOrFail()->moderators;
     }
 
     /**
@@ -102,7 +102,7 @@ class ModeratorController extends Controller
 
         $submission = Submission::withTrashed()->findOrFail($request->submission_id);
 
-        abort_unless($this->mustBeModerator($submission->category_id), 403);
+        abort_unless($this->mustBeModerator($submission->channel_id), 403);
 
         $submission->update([
             'approved_at' => Carbon::now(),
@@ -136,7 +136,7 @@ class ModeratorController extends Controller
 
         $submission = $this->getSubmissionById($request->submission_id);
 
-        abort_unless($this->mustBeModerator($submission->category_id), 403);
+        abort_unless($this->mustBeModerator($submission->channel_id), 403);
 
         $submission->update([
             'approved_at' => null,
@@ -162,7 +162,7 @@ class ModeratorController extends Controller
             'comment_id' => 'required|integer',
         ]);
 
-        abort_unless($this->mustBeModerator(Comment::withTrashed()->where('id', $request->comment_id)->value('category_id')), 403);
+        abort_unless($this->mustBeModerator(Comment::withTrashed()->where('id', $request->comment_id)->value('channel_id')), 403);
 
         DB::table('comments')->where('id', $request->comment_id)->update([
             'approved_at' => Carbon::now(),
@@ -195,7 +195,7 @@ class ModeratorController extends Controller
         $comment = $this->getCommentById($request->comment_id);
         $submission = $this->getSubmissionById($comment->submission_id);
 
-        abort_unless($this->mustBeModerator($comment->category_id), 403);
+        abort_unless($this->mustBeModerator($comment->channel_id), 403);
 
         event(new CommentWasDeleted($comment, $submission, false));
 
@@ -209,7 +209,7 @@ class ModeratorController extends Controller
     }
 
     /**
-     * adds a new moderator to the category.
+     * adds a new moderator to the channel.
      *
      * @param \Illuminate\Http\Request $request
      *
@@ -218,24 +218,24 @@ class ModeratorController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'category_name' => 'required',
+            'channel_name' => 'required',
             'username'      => 'required',
             'role'          => 'in:administrator,moderator',
         ]);
 
-        $category = Category::where('name', $request->category_name)->firstOrFail();
+        $channel = Channel::where('name', $request->channel_name)->firstOrFail();
 
-        abort_unless($this->mustBeAdministrator($category->id) && $request->username != Auth::user()->username, 403);
+        abort_unless($this->mustBeAdministrator($channel->id) && $request->username != Auth::user()->username, 403);
 
         $user = User::where('username', $request->username)->firstOrFail();
 
-        $category->moderators()->attach($user->id, [
+        $channel->moderators()->attach($user->id, [
             'role' => $request->role,
         ]);
 
-        $user->notify(new BecameModerator($category, $request->role));
+        $user->notify(new BecameModerator($channel, $request->role));
 
-        $this->updateCategoryMods($category->id, $user->id);
+        $this->updateChannelMods($channel->id, $user->id);
 
         return response('New moderator added successfully', 200);
     }
@@ -248,20 +248,20 @@ class ModeratorController extends Controller
     public function destroy(Request $request)
     {
         $this->validate($request, [
-            'category_name' => 'required',
+            'channel_name' => 'required',
             'username'      => 'required',
         ]);
 
-        $category = Category::where('name', $request->category_name)->firstOrFail();
+        $channel = Channel::where('name', $request->channel_name)->firstOrFail();
 
-        abort_unless($this->mustBeAdministrator($category->id) && $request->username != Auth::user()->username, 403);
+        abort_unless($this->mustBeAdministrator($channel->id) && $request->username != Auth::user()->username, 403);
 
         $user_id = User::where('username', $request->username)->value('id');
 
-        $category->moderators()->detach($user_id);
+        $channel->moderators()->detach($user_id);
 
-        $this->updateCategoryMods($category->id, $user_id);
+        $this->updateChannelMods($channel->id, $user_id);
 
-        return response($request->username.' is no longer a moderator at #'.$request->category_name, 200);
+        return response($request->username.' is no longer a moderator at #'.$request->channel_name, 200);
     }
 }

@@ -15,7 +15,7 @@ class CreateSuggestedsTable extends Migration
     {
         Schema::create('suggesteds', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('category_id')->unsigned()->index();
+            $table->integer('channel_id')->unsigned()->index();
             $table->string('group')->nullable()->index(); // 'technology', 'lifestyle', etc.
             $table->string('language')->default('en')->index();
             $table->integer('z_index')->default(0);

@@ -43,7 +43,7 @@ namespace App{
      * App\Announcement.
      *
      * @property int $id
-     * @property string|null $category_name
+     * @property string|null $channel_name
      * @property int $user_id
      * @property string $title
      * @property string $body
@@ -54,7 +54,7 @@ namespace App{
      *
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Announcement whereActiveUntil($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Announcement whereBody($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\Announcement whereCategoryName($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\Announcement whereChannelName($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Announcement whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Announcement whereId($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Announcement whereTitle($value)
@@ -94,14 +94,14 @@ namespace App{
      *
      * @property int $id
      * @property string $user_id
-     * @property string|null $category
+     * @property string|null $channel
      * @property string|null $description
      * @property string|null $unban_at
      * @property \Carbon\Carbon|null $created_at
      * @property \Carbon\Carbon|null $updated_at
      * @property-read \App\User $user
      *
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\Ban whereCategory($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\Ban whereChannel($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Ban whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Ban whereDescription($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Ban whereId($value)
@@ -120,12 +120,12 @@ namespace App{
      *
      * @property int $id
      * @property string $domain
-     * @property string $category
+     * @property string $channel
      * @property string|null $description
      * @property \Carbon\Carbon|null $created_at
      * @property \Carbon\Carbon|null $updated_at
      *
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\BlockedDomain whereCategory($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\BlockedDomain whereChannel($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\BlockedDomain whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\BlockedDomain whereDescription($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\BlockedDomain whereDomain($value)
@@ -162,7 +162,7 @@ namespace App{
 
 namespace App{
     /**
-     * App\Category.
+     * App\Channel.
      *
      * @property int $id
      * @property string $name
@@ -185,35 +185,35 @@ namespace App{
      * @property-read \Illuminate\Database\Eloquent\Collection|\App\Submission[] $submissions
      * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $subscriptions
      *
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\Category bookmarkedBy(\App\User $user)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\Channel bookmarkedBy(\App\User $user)
      * @method static bool|null forceDelete()
-     * @method static \Illuminate\Database\Query\Builder|\App\Category onlyTrashed()
+     * @method static \Illuminate\Database\Query\Builder|\App\Channel onlyTrashed()
      * @method static bool|null restore()
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereActive($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereAvatar($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereColor($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereCreatedAt($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereDeletedAt($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereDescription($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereLanguage($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereName($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereNsfw($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\Category wherePublic($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereSettings($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereSubscribers($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereUpdatedAt($value)
-     * @method static \Illuminate\Database\Query\Builder|\App\Category withTrashed()
-     * @method static \Illuminate\Database\Query\Builder|\App\Category withoutTrashed()
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\Channel whereActive($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\Channel whereAvatar($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\Channel whereColor($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\Channel whereCreatedAt($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\Channel whereDeletedAt($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\Channel whereDescription($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\Channel whereId($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\Channel whereLanguage($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\Channel whereName($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\Channel whereNsfw($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\Channel wherePublic($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\Channel whereSettings($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\Channel whereSubscribers($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\Channel whereUpdatedAt($value)
+     * @method static \Illuminate\Database\Query\Builder|\App\Channel withTrashed()
+     * @method static \Illuminate\Database\Query\Builder|\App\Channel withoutTrashed()
      */
-    class Category extends \Eloquent
+    class Channel extends \Eloquent
     {
     }
 }
 
 namespace App{
     /**
-     * App\CategoryForbiddenName.
+     * App\ChannelForbiddenName.
      *
      * @property int $id
      * @property string $name
@@ -222,17 +222,17 @@ namespace App{
      * @property \Carbon\Carbon|null $updated_at
      *
      * @method static bool|null forceDelete()
-     * @method static \Illuminate\Database\Query\Builder|\App\CategoryForbiddenName onlyTrashed()
+     * @method static \Illuminate\Database\Query\Builder|\App\ChannelForbiddenName onlyTrashed()
      * @method static bool|null restore()
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\CategoryForbiddenName whereCreatedAt($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\CategoryForbiddenName whereDeletedAt($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\CategoryForbiddenName whereId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\CategoryForbiddenName whereName($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\CategoryForbiddenName whereUpdatedAt($value)
-     * @method static \Illuminate\Database\Query\Builder|\App\CategoryForbiddenName withTrashed()
-     * @method static \Illuminate\Database\Query\Builder|\App\CategoryForbiddenName withoutTrashed()
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\ChannelForbiddenName whereCreatedAt($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\ChannelForbiddenName whereDeletedAt($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\ChannelForbiddenName whereId($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\ChannelForbiddenName whereName($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\ChannelForbiddenName whereUpdatedAt($value)
+     * @method static \Illuminate\Database\Query\Builder|\App\ChannelForbiddenName withTrashed()
+     * @method static \Illuminate\Database\Query\Builder|\App\ChannelForbiddenName withoutTrashed()
      */
-    class CategoryForbiddenName extends \Eloquent
+    class ChannelForbiddenName extends \Eloquent
     {
     }
 }
@@ -245,7 +245,7 @@ namespace App{
      * @property int $submission_id
      * @property int $user_id
      * @property int $parent_id
-     * @property int $category_id
+     * @property int $channel_id
      * @property int $level
      * @property float $rate
      * @property int $upvotes
@@ -268,7 +268,7 @@ namespace App{
      * @method static bool|null restore()
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereApprovedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereBody($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereCategoryId($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereChannelId($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereDeletedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Comment whereDownvotes($value)
@@ -382,13 +382,13 @@ namespace App{
      * @property int $id
      * @property string $invitation
      * @property string|null $email
-     * @property string|null $category
+     * @property string|null $channel
      * @property int $sent
      * @property string|null $claimed_at
      * @property \Carbon\Carbon|null $created_at
      * @property \Carbon\Carbon|null $updated_at
      *
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\Invite whereCategory($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\Invite whereChannel($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Invite whereClaimedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Invite whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Invite whereEmail($value)
@@ -458,7 +458,7 @@ namespace App{
      * App\Report.
      *
      * @property int $id
-     * @property int|null $category_id
+     * @property int|null $channel_id
      * @property int $reportable_id
      * @property string $reportable_type
      * @property string $subject
@@ -475,7 +475,7 @@ namespace App{
      * @method static bool|null forceDelete()
      * @method static \Illuminate\Database\Query\Builder|\App\Report onlyTrashed()
      * @method static bool|null restore()
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\Report whereCategoryId($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\Report whereChannelId($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Report whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Report whereDeletedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Report whereDescription($value)
@@ -499,12 +499,12 @@ namespace App{
      *
      * @property int $id
      * @property string $title
-     * @property int $category_id
+     * @property int $channel_id
      * @property \Carbon\Carbon|null $created_at
      * @property \Carbon\Carbon|null $updated_at
-     * @property-read \App\Category $category
+     * @property-read \App\Channel $channel
      *
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\Rule whereCategoryId($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\Rule whereChannelId($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Rule whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Rule whereId($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Rule whereTitle($value)
@@ -524,12 +524,12 @@ namespace App{
      * @property string $title
      * @property string $type
      * @property array $data
-     * @property string $category_name
+     * @property string $channel_name
      * @property float $rate
      * @property int|null $resubmit_id
      * @property int $user_id
      * @property int $nsfw
-     * @property int $category_id
+     * @property int $channel_id
      * @property int $upvotes
      * @property int $downvotes
      * @property int $comments_number
@@ -538,7 +538,7 @@ namespace App{
      * @property \Carbon\Carbon|null $created_at
      * @property \Carbon\Carbon|null $updated_at
      * @property-read \Illuminate\Database\Eloquent\Collection|\App\Bookmark[] $bookmarks
-     * @property-read \App\Category $category
+     * @property-read \App\Channel $channel
      * @property-read \App\CommentCollection|\App\Comment[] $comments
      * @property-read \App\User $notifiable
      * @property-read \App\User $owner
@@ -548,8 +548,8 @@ namespace App{
      * @method static \Illuminate\Database\Query\Builder|\App\Submission onlyTrashed()
      * @method static bool|null restore()
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Submission whereApprovedAt($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\Submission whereCategoryId($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\Submission whereCategoryName($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\Submission whereChannelId($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\Submission whereChannelName($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Submission whereCommentsNumber($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Submission whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Submission whereData($value)
@@ -578,9 +578,9 @@ namespace App{
      * App\Subscription.
      *
      * @property int $user_id
-     * @property int $category_id
+     * @property int $channel_id
      *
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\Subscription whereCategoryId($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\Subscription whereChannelId($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Subscription whereUserId($value)
      */
     class Subscription extends \Eloquent
@@ -593,15 +593,15 @@ namespace App{
      * App\Suggested.
      *
      * @property int $id
-     * @property int $category_id
+     * @property int $channel_id
      * @property string|null $group
      * @property string $language
      * @property int $z_index
      * @property \Carbon\Carbon|null $created_at
      * @property \Carbon\Carbon|null $updated_at
-     * @property-read \App\Category $category
+     * @property-read \App\Channel $channel
      *
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\Suggested whereCategoryId($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\Suggested whereChannelId($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Suggested whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Suggested whereGroup($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\Suggested whereId($value)
@@ -639,21 +639,21 @@ namespace App{
      * @property string|null $remember_token
      * @property \Carbon\Carbon|null $created_at
      * @property \Carbon\Carbon|null $updated_at
-     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Category[] $bookmarkedCategories
+     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Channel[] $bookmarkedChannels
      * @property-read \App\CommentCollection|\App\Comment[] $bookmarkedComments
      * @property-read \Illuminate\Database\Eloquent\Collection|\App\Submission[] $bookmarkedSubmissions
      * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $bookmarkedUsers
      * @property-read \Illuminate\Database\Eloquent\Collection|\App\Bookmark[] $bookmarks
-     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Category[] $categoryRoles
+     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Channel[] $channelRoles
      * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Client[] $clients
      * @property-read \App\CommentCollection|\App\Comment[] $commentDownvotes
      * @property-read \App\CommentCollection|\App\Comment[] $commentUpvotes
      * @property-read \App\CommentCollection|\App\Comment[] $comments
      * @property-read \Illuminate\Database\Eloquent\Collection|\App\Conversation[] $contacts
      * @property-read \Illuminate\Database\Eloquent\Collection|\App\Message[] $conversations
-     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Category[] $feedHot
-     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Category[] $feedNew
-     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Category[] $feedRising
+     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Channel[] $feedHot
+     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Channel[] $feedNew
+     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Channel[] $feedRising
      * @property-read \Illuminate\Database\Eloquent\Collection|\App\User[] $hiddenUsers
      * @property-read \Illuminate\Database\Eloquent\Collection|\App\Submission[] $hides
      * @property-read \Illuminate\Database\Eloquent\Collection|\App\Message[] $messages
@@ -661,7 +661,7 @@ namespace App{
      * @property-read \Illuminate\Database\Eloquent\Collection|\App\Submission[] $submissionDownvotes
      * @property-read \Illuminate\Database\Eloquent\Collection|\App\Submission[] $submissionUpvotes
      * @property-read \Illuminate\Database\Eloquent\Collection|\App\Submission[] $submissions
-     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Category[] $subscriptions
+     * @property-read \Illuminate\Database\Eloquent\Collection|\App\Channel[] $subscriptions
      * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[] $tokens
      *
      * @method static \Illuminate\Database\Eloquent\Builder|\App\User bookmarkedBy(\App\User $user)

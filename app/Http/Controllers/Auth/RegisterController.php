@@ -209,7 +209,7 @@ class RegisterController extends Controller
 
             'bookmarkedSubmissions' => collect(),
             'bookmarkedComments'    => collect(),
-            'bookmarkedCategories'  => collect(),
+            'bookmarkedChannels'  => collect(),
             'bookmarkedUsers'       => collect(),
 
             'commentUpvotes'   => collect(),

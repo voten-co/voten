@@ -7,7 +7,7 @@ export default {
             // if landed on a submission page
             if (preload.submission) {
                 this.submission = preload.submission;
-                Store.page.category.temp = preload.submission.category;
+                Store.page.channel.temp = preload.submission.channel;
                 this.loadingSubmission = false;
                 delete preload.submission;
                 return;
@@ -20,7 +20,7 @@ export default {
             }).then((response) => {
                 this.submission = response.data;
 
-                Store.page.category.temp = response.data.category;
+                Store.page.channel.temp = response.data.channel;
 
                 this.loadingSubmission = false;
 

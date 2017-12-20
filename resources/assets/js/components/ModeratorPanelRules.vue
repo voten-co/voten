@@ -60,7 +60,7 @@
                 errors: [],
                 title: null,
                 id: null,
-                category_id: null,
+                channel_id: null,
                 items: [],
                 type: 'create',
             }
@@ -76,7 +76,7 @@
 
                 axios.post('/create-rule', {
                     title: this.title,
-                    category_name: this.$route.params.name
+                    channel_name: this.$route.params.name
                 }).then((response) => {
                     this.items.unshift(response.data)
                     this.clear()
@@ -102,10 +102,10 @@
                 });
             },
 
-            destroy(rule_id, category_id){
+            destroy(rule_id, channel_id){
                 axios.post('/destroy-rule', {
                     rule_id,
-                    category_id
+                    channel_id
                 }).then(() => {
                     this.items = this.items.filter(function (item) {
                         return item.id != rule_id
@@ -116,7 +116,7 @@
             editRule(rule) {
                 this.title = rule.title;
                 this.id = rule.id;
-                this.category_id = rule.category_id;
+                this.channel_id = rule.channel_id;
 
                 this.type = 'edit';
             },
@@ -126,7 +126,7 @@
 
                 axios.post('/patch-rule', {
                     title: this.title,
-                    category_id: this.category_id,
+                    channel_id: this.channel_id,
                     rule_id: this.id,
                 }).then(() => {
                     let id = this.id
@@ -148,7 +148,7 @@
             clear() {
                 this.title = null;
                 this.id = null;
-                this.category_id = null;
+                this.channel_id = null;
                 this.type = 'create';
                 this.errors = [];
             }
@@ -156,9 +156,9 @@
 
         // only administrators can access this route
         beforeRouteEnter(to, from, next){
-            if (Store.page.category.temp.name == to.params.name) {
+            if (Store.page.channel.temp.name == to.params.name) {
                 // loaded
-                if (Store.state.administratorAt.indexOf(Store.page.category.temp.id) != -1) {
+                if (Store.state.administratorAt.indexOf(Store.page.channel.temp.id) != -1) {
                     next()
                 }
             } else {

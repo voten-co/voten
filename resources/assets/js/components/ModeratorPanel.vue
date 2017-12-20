@@ -28,7 +28,7 @@
                     Manage Moderators
                 </router-link>
 
-                <router-link :to="{ name: 'category-settings' }" active-class="is-active"
+                <router-link :to="{ name: 'channel-settings' }" active-class="is-active"
                              v-if="isAdministrator">
                     Settings
                 </router-link>
@@ -55,7 +55,7 @@
 
         computed: {
             /**
-             * Has the user just created this category?
+             * Has the user just created this channel?
              *
              * @return boolean
              */
@@ -64,14 +64,14 @@
             },
 
             isAdministrator () {
-                return Store.state.administratorAt.indexOf(Store.page.category.temp.id) != -1
+                return Store.state.administratorAt.indexOf(Store.page.channel.temp.id) != -1
             },
         },
 
         beforeRouteEnter(to, from, next){
-            if (Store.page.category.temp.name == to.params.name) {
+            if (Store.page.channel.temp.name == to.params.name) {
                 // loaded
-                if (Store.state.moderatingAt.indexOf(Store.page.category.temp.id) != -1) {
+                if (Store.state.moderatingAt.indexOf(Store.page.channel.temp.id) != -1) {
                     next()
                 }
             } else {

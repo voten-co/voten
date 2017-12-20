@@ -1,10 +1,10 @@
-.v-contact-list li .category-search-item-avatar,
-.v-contact-list li a .category-search-item-avatar {
+.v-contact-list li .channel-search-item-avatar,
+.v-contact-list li a .channel-search-item-avatar {
     flex-basis: 65px;
     margin-right: 2em;
 }
 
-.category-search-item-avatar img {
+.channel-search-item-avatar img {
     border-radius: 4px;
 }
 
@@ -14,8 +14,8 @@
     list-style: none;
 }
 
-.v-search-items li .category-search-item-avatar,
-.v-search-items li a .category-search-item-avatar,
+.v-search-items li .channel-search-item-avatar,
+.v-search-items li a .channel-search-item-avatar,
 .v-search-items li a .user-search-item-avatar,
 .v-search-items li .user-search-item-avatar {
     flex-basis: 65px;
@@ -33,7 +33,7 @@
     margin: auto;
 }
 
-.category-search-item-arrow {
+.channel-search-item-arrow {
     flex-basis: 40px;
     padding: 1em;
 }

@@ -1,0 +1,88 @@
+export default {
+    temp: [],
+    page: 0,
+    NoMoreItems: false,
+    nothingFound: false,
+    submissions: [],
+    loading: null,
+
+    getChannel(channel_name, set = true) {
+        return new Promise((resolve, reject) => {
+            // if a guest has landed on a submission page
+            if (preload.channel && preload.channel.name == app.$route.params.name) {
+                this.temp = preload.channel;
+                delete preload.channel;
+                resolve(this.temp);
+            }
+
+            if (typeof this.temp.name == "undefined" || this.temp.name != channel_name) {
+                axios.get('/get-channel-store', {
+                    params: {
+                        name: channel_name
+                    }
+                }).then((response) => {
+                    if (set == true) {
+                        this.setChannel(response.data);
+                        resolve(response);
+                    }
+
+                    resolve(response.data);
+                }).catch((error) => {
+                    reject(error);
+                });
+            } else {
+                resolve(this.temp);
+            }
+        });
+    },
+
+    setChannel(data) {
+        this.temp = data;
+    },
+
+    getSubmissions(sort = 'hot', channelName) {
+        return new Promise((resolve, reject) => {
+            this.page++;
+            this.loading = true;
+
+            // if a guest has landed on a channel page
+            if (preload.submissions && this.page == 1) {
+                this.submissions = preload.submissions.data;
+                if (!this.submissions.length) this.nothingFound = true;
+                if (preload.submissions.next_page_url == null) this.NoMoreItems = true;
+                this.loading = false;
+                delete preload.submissions;
+                return;
+            }
+
+            axios.get(auth.isGuest == false ? '/auth/channel-submissions' : '/channel-submissions', {
+                params: {
+                    sort: sort,
+                    page: this.page,
+                    channel: channelName
+                }
+            }).then((response) => {
+                this.submissions = [...this.submissions, ...response.data.data];
+
+                if (!this.submissions.length) this.nothingFound = true;
+                if (response.data.next_page_url == null) this.NoMoreItems = true;
+
+                this.loading = false;
+
+                resolve(response);
+            }).catch((error) => {
+                this.loading = false; 
+
+                reject(error);
+            });
+        });
+    },
+
+    clear() {
+        this.submissions = [];
+        this.loading = true;
+        this.nothingFound = false;
+        this.NoMoreItems = false;
+        this.page = 0;
+    }
+}

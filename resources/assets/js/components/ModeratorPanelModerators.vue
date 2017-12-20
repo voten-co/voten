@@ -78,7 +78,7 @@
                 this.users = [];
 
                 axios.post('/moderators', {
-                    category_name: this.$route.params.name
+                    channel_name: this.$route.params.name
                 }).then((response) => {
                     this.mods = response.data
                 })
@@ -93,7 +93,7 @@
                 axios.get('/users', {
                     params: {
                         username: query,
-                        category: this.$route.params.name
+                        channel: this.$route.params.name
                     }
                 }).then((response) => {
                     this.users = response.data
@@ -105,7 +105,7 @@
                 this.sending = true;
 
                 axios.post('/add-moderator', {
-                    category_name: this.$route.params.name,
+                    channel_name: this.$route.params.name,
                     username: this.username,
                     role: this.role
                 }).then(() => {
@@ -121,9 +121,9 @@
         },
 
         beforeRouteEnter(to, from, next){
-            if (Store.page.category.temp.name == to.params.name) {
+            if (Store.page.channel.temp.name == to.params.name) {
                 // loaded
-                if (Store.state.administratorAt.indexOf(Store.page.category.temp.id) != -1) {
+                if (Store.state.administratorAt.indexOf(Store.page.channel.temp.id) != -1) {
                     next()
                 }
             } else {

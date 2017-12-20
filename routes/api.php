@@ -5,11 +5,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/big-daddy', 'AdminController@isAdministrator');
     Route::post('/admin/users', 'AdminController@indexUsers');
     Route::post('/admin/comments', 'AdminController@comments');
-    Route::post('/admin/channels', 'AdminController@categories');
+    Route::post('/admin/channels', 'AdminController@channels');
     Route::post('/admin/submissions', 'AdminController@submissions');
     Route::post('/admin/search-users', 'AdminController@searchUsers');
     Route::post('/admin/suggesteds', 'SuggestionController@adminIndex');
-    Route::get('/admin/get-categories', 'AdminController@getCategories');
+    Route::get('/admin/get-channels', 'AdminController@getChannels');
     Route::post('/admin/suggested/destroy', 'SuggestionController@destroy');
     Route::get('/admin/reported-comments', 'AdminController@reportedComments');
     Route::get('/admin/reported-submissions', 'AdminController@reportedSubmissions');
@@ -19,7 +19,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/feedback/delete', 'FeedbacksController@destroy')->middleware('administrator');
 
     // Find Channels
-    Route::get('/find-categories', 'SuggestionController@findCategories');
+    Route::get('/find-channels', 'SuggestionController@findChannels');
     Route::post('/store-suggested-channel', 'SuggestionController@store');
 
     // User
@@ -59,11 +59,11 @@ Route::group(['middleware' => 'auth:api'], function () {
     // bookmarks
     Route::post('/bookmark-user', 'BookmarksController@bookmarkUser');
     Route::post('/bookmark-comment', 'BookmarksController@bookmarkComment');
-    Route::post('/bookmark-category', 'BookmarksController@bookmarkCategory');
+    Route::post('/bookmark-channel', 'BookmarksController@bookmarkChannel');
     Route::get('/bookmarked-users', 'BookmarksController@getBookmarkedUsers');
     Route::post('/bookmark-submission', 'BookmarksController@bookmarkSubmission');
     Route::get('/bookmarked-comments', 'BookmarksController@getBookmarkedComments');
-    Route::get('/bookmarked-categories', 'BookmarksController@getBookmarkedCategories');
+    Route::get('/bookmarked-channels', 'BookmarksController@getBookmarkedChannels');
     Route::get('/bookmarked-submissions', 'BookmarksController@getBookmarkedSubmissions');
 
     // Comment
@@ -72,13 +72,13 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/submission-comments', 'CommentController@index');
     Route::get('/search-mentionables', 'SearchController@mentions');
 
-    // Category
-    Route::post('/channel', 'CategoryController@store');
-    Route::post('/category-patch', 'CategoryController@patch');
-    Route::post('/category-block', 'BlockCategoriesController@store');
-    Route::delete('/category-unblock', 'BlockCategoriesController@destroy');
-    Route::get('/get-categories', 'CategoryController@getCategories');
-    Route::get('/subscribed-categories', 'SubscribeController@index');
+    // Channel
+    Route::post('/channel', 'ChannelController@store');
+    Route::post('/channel-patch', 'ChannelController@patch');
+    Route::post('/channel-block', 'BlockChannelsController@store');
+    Route::delete('/channel-unblock', 'BlockChannelsController@destroy');
+    Route::get('/get-channels', 'ChannelController@getChannels');
+    Route::get('/subscribed-channels', 'SubscribeController@index');
 
     // rule
     Route::post('/create-rule', 'RulesController@store');
@@ -120,8 +120,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     // Photo uploading
     Route::post('/user-avatar-crop', 'PhotoController@cropUserAvatar');
     Route::post('/upload-temp-avatar', 'PhotoController@uploadTempAvatar');
-    Route::post('/category-avatar', 'PhotoController@categoryAvatarAPI');
-    Route::post('/category-avatar-crop', 'PhotoController@cropCategoryAvatar');
+    Route::post('/channel-avatar', 'PhotoController@channelAvatarAPI');
+    Route::post('/channel-avatar-crop', 'PhotoController@cropChannelAvatar');
     Route::post('/photo', 'PhotoController@store');
     Route::post('/gif', 'GifController@store');
 
@@ -144,9 +144,9 @@ Route::group(['middleware' => 'auth:api'], function () {
 
 Route::group(['prefix' => 'auth', 'middleware' => 'auth:api'], function () {
     Route::get('/home', 'HomeController@feed');
-    Route::get('/category-submissions', 'CategoryController@submissions');
-    Route::get('/sidebar-categories', 'StoreController@sidebarCategories');
-    Route::get('/suggested-category', 'SuggestionController@category');
+    Route::get('/channel-submissions', 'ChannelController@submissions');
+    Route::get('/sidebar-channels', 'StoreController@sidebarChannels');
+    Route::get('/suggested-channel', 'SuggestionController@channel');
     Route::get('/announcement', 'AnnouncementController@get');
 });
 
@@ -155,16 +155,16 @@ Route::get('/home', 'HomeController@feed');
 Route::get('/get-submission', 'SubmissionController@getBySlug');
 Route::get('/get-submission-by-id', 'SubmissionController@getById');
 Route::get('/submission-comments', 'CommentController@index');
-Route::get('/category-moderators', 'CategoryController@moderators');
+Route::get('/channel-moderators', 'ChannelController@moderators');
 Route::get('/rules', 'RulesController@index');
 Route::get('/emoji-list', 'EmojiController@index');
 Route::get('/submission-photos', 'SubmissionController@getPhotos');
 Route::get('/search', 'SearchController@index');
-Route::get('/category-submissions', 'CategoryController@submissions');
-Route::get('/get-category-store', 'CategoryController@fillStore');
-Route::get('/suggested-category', 'SuggestionController@category');
+Route::get('/channel-submissions', 'ChannelController@submissions');
+Route::get('/get-channel-store', 'ChannelController@fillStore');
+Route::get('/suggested-channel', 'SuggestionController@channel');
 Route::get('/get-user-store', 'UserController@fillStore');
 Route::get('/user-submissions', 'UserController@submissions');
 Route::get('/user-comments', 'UserController@comments');
-Route::get('/sidebar-categories', 'StoreController@sidebarCategories');
+Route::get('/sidebar-channels', 'StoreController@sidebarChannels');
 Route::get('/announcement', 'AnnouncementController@get');

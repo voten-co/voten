@@ -51,7 +51,7 @@
 		<!-- submission indexing pages -->
 		<div v-else>
 			<h3 class="title">
-				<router-link :to="'/c/' + submission.category_name + '/' + submission.slug"
+				<router-link :to="'/c/' + submission.channel_name + '/' + submission.slug"
 					class="flex-space v-ultra-bold"
 				>
 					{{ submission.title }}

@@ -1,12 +1,12 @@
-import AdminPanelSuggestedCategories from './components/AdminPanelSuggestedCategories.vue';
-import BookmarkedCategories from './components/BookmarkedCategories.vue';
+import AdminPanelSuggestedChannels from './components/AdminPanelSuggestedChannels.vue';
+import BookmarkedChannels from './components/BookmarkedChannels.vue';
 import SubmissionRedirector from './components/SubmissionRedirector.vue';
-import CategorySubmissions from './components/CategorySubmissions.vue';
+import ChannelSubmissions from './components/ChannelSubmissions.vue';
 import BookmarkedComments from './components/BookmarkedComments.vue';
 import BookmarkedUsers from './components/BookmarkedUsers.vue';
 import UserSubmissions from './components/UserSubmissions.vue';
 import ModeratorPanel from './components/ModeratorPanel.vue';
-import FindCategories from './components/FindCategories.vue';
+import FindChannels from './components/FindChannels.vue';
 import SubmissionPage from './components/SubmissionPage.vue';
 import UserComments from './components/UserComments.vue';
 import AdminPanel from './components/AdminPanel.vue';
@@ -15,9 +15,9 @@ import NotFound from './components/NotFound.vue';
 import Settings from './components/Settings.vue';
 import Home from './components/Home.vue';
 import Feedback from './components/Feedback.vue';
-import Category from './components/Category.vue';
+import Channel from './components/Channel.vue';
 import UserPage from './components/UserPage.vue';
-import CategorySettings from './components/CategorySettings.vue';
+import ChannelSettings from './components/ChannelSettings.vue';
 import AdminPanelComments from './components/AdminPanelComments.vue';
 import ModeratorPanelRules from './components/ModeratorPanelRules.vue';
 import AdminPanelSubmissions from './components/AdminPanelSubmissions.vue';
@@ -34,7 +34,7 @@ import ModeratorPanelBlockDomains from './components/ModeratorPanelBlockDomains.
 import ModeratorPanelReportedComments from './components/ModeratorPanelReportedComments.vue';
 import UserSettingsEditEmailAndPassword from './components/UserSettingsEditEmailAndPassword.vue';
 import ModeratorPanelReportedSubmissions from './components/ModeratorPanelReportedSubmissions.vue';
-import SubscribedCategories from './components/SubscribedCategories.vue';
+import SubscribedChannels from './components/SubscribedChannels.vue';
 
 
 const routes = [
@@ -46,7 +46,7 @@ const routes = [
 
     { path: '/feedback', component: Feedback, meta: { title: 'Feedback' } },
 
-    { path: '/subscribed-channels', component: SubscribedCategories, meta: { title: 'My Subscriptions' } },
+    { path: '/subscribed-channels', component: SubscribedChannels, meta: { title: 'My Subscriptions' } },
     { path: '/big-daddy', redirect: '/big-daddy/reports/submissions' },
     {
         path: '/big-daddy',
@@ -54,7 +54,7 @@ const routes = [
         children: [
             { path: 'submissions', component: AdminPanelSubmissions, name: 'admin-panel-submissions' },
             { path: 'comments', component: AdminPanelComments, name: 'admin-panel-comments' },
-            { path: 'suggested-categories', component: AdminPanelSuggestedCategories, name: 'admin-panel-suggested-categories' },
+            { path: 'suggested-channels', component: AdminPanelSuggestedChannels, name: 'admin-panel-suggested-channels' },
         ]
     },
 
@@ -85,9 +85,9 @@ const routes = [
     { path: '/c/:name/mod', redirect: '/c/:name/mod/reports/submissions' },
     {
         path: '/c/:name',
-        component: Category,
+        component: Channel,
         children: [
-        	{ path: '', component: CategorySubmissions, name: 'category-submissions' },
+        	{ path: '', component: ChannelSubmissions, name: 'channel-submissions' },
             {
                 path: 'mod',
                 component: ModeratorPanel,
@@ -108,7 +108,7 @@ const routes = [
                     { path: 'block-domains', name: 'moderator-panel-block-domains', component: ModeratorPanelBlockDomains, meta: { title: 'Block Domains | Moderator Panel' } },
                     { path: 'rules', name: 'moderator-panel-rules', component: ModeratorPanelRules, meta: { title: 'Rules | Moderator Panel' } },
                     { path: 'manage-moderators', name: 'moderator-panel-manage-moderators', component: ModeratorPanelModerators, meta: { title: 'Manage Moderators | Moderator Panel' } },
-                    { path: 'settings', name: 'category-settings', component: CategorySettings, meta: { title: 'Settings | Moderator Panel' } },
+                    { path: 'settings', name: 'channel-settings', component: ChannelSettings, meta: { title: 'Settings | Moderator Panel' } },
                 ]
             },
         ]
@@ -118,7 +118,7 @@ const routes = [
 
     { path: '/deleted-submission', component: DeletedSubmissionPage },
     { path: '/submission/:id', component: SubmissionRedirector },
-    { path: '/find-channels', component: FindCategories, name: 'find-categories', meta: { title: 'Find Channels' } },
+    { path: '/find-channels', component: FindChannels, name: 'find-channels', meta: { title: 'Find Channels' } },
     { path: '/404', component: NotFound, name: 'not-found', meta: { title: 'Not Found' } },
     { path: '/c/:name/:slug', component: SubmissionPage, name: 'submission-page' },
 
@@ -130,7 +130,7 @@ const routes = [
         children: [
             { path: 'submissions', component: BookmarkedSubmissions, name: 'bookmarked-submissions', meta: { title: 'Submissions | Bookmarks' } },
             { path: 'comments', component: BookmarkedComments, name: 'bookmarked-comments', meta: { title: 'Comments | Bookmarks' } },
-            { path: 'channels', component: BookmarkedCategories, name: 'bookmarked-categories', meta: { title: 'Channels | Bookmarks' } },
+            { path: 'channels', component: BookmarkedChannels, name: 'bookmarked-channels', meta: { title: 'Channels | Bookmarks' } },
             { path: 'users', component: BookmarkedUsers, name: 'bookmarked-users', meta: { title: 'Users | Bookmarks' } },
         ]
     },
@@ -171,7 +171,7 @@ router.beforeEach((to, from, next) => {
     } else {
     	if (
 	    		to.name != "submission-page" &&
-	    		to.name != "category" &&
+	    		to.name != "channel" &&
 	    		to.name != "home" &&
 	    		to.name != "user-submissions" &&
 	    		to.name != "user-comments"

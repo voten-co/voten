@@ -17,7 +17,7 @@ class CreateInvitesTable extends Migration
             $table->increments('id');
             $table->string('invitation')->index();
             $table->string('email')->unique()->nullable();
-            $table->string('category')->nullable(); // Add the ability to invite to join specific categories.
+            $table->string('channel')->nullable(); // Add the ability to invite to join specific channels.
             $table->boolean('sent')->default(0);
             $table->timestamp('claimed_at')->nullable();
             $table->timestamps();

@@ -14,6 +14,6 @@ class BlockedDomain extends Model
      *   @var array
      */
     protected $fillable = [
-        'domain', 'category', 'description',
+        'domain', 'channel', 'description',
     ];
 }

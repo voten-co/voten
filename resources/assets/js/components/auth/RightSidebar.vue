@@ -12,11 +12,11 @@
                     </button>
         
                     <!-- <strong>My Channels:</strong>
-                    <span v-if="categoriesCount">({{ categoriesCount }})</span> -->
+                    <span v-if="channelsCount">({{ channelsCount }})</span> -->
                 </span>
             </div>
     
-            <el-input :placeholder="filterForHumans + ' (' + categoriesCount + ')'" prefix-icon="el-icon-search" size="small" v-model="subscribedFilter" class="search margin-bottom-1" clearable name="subscribedFilter" autocorrect="off" autocapitalize="off" spellcheck="false">
+            <el-input :placeholder="filterForHumans + ' (' + channelsCount + ')'" prefix-icon="el-icon-search" size="small" v-model="subscribedFilter" class="search margin-bottom-1" clearable name="subscribedFilter" autocorrect="off" autocapitalize="off" spellcheck="false">
             </el-input>
         </div>
     
@@ -26,12 +26,12 @@
             </div>
     
             <ul class="menu-list" v-else>
-                <li v-for="category in sortedSubscribeds" :key="category.id">
-                    <router-link :to="'/c/' + category.name" active-class="active">
-                        <img class="square" :src="category.avatar" :alt="category.name" v-if="showCategoryAvatars">
+                <li v-for="channel in sortedSubscribeds" :key="channel.id">
+                    <router-link :to="'/c/' + channel.name" active-class="active">
+                        <img class="square" :src="channel.avatar" :alt="channel.name" v-if="showChannelAvatars">
                         <span v-else>#</span>
     
-                        <span class="v-channels-text">{{ category.name }}</span>
+                        <span class="v-channels-text">{{ channel.name }}</span>
                     </router-link>
                 </li>
             </ul>
@@ -62,41 +62,41 @@
                 this.subscribedFilter = '';
             },
     
-            // 'categoriesLimit': function() {
-            //     Vue.putLS('sidebar-categories-limit', this.categoriesLimit);
+            // 'channelsLimit': function() {
+            //     Vue.putLS('sidebar-channels-limit', this.channelsLimit);
             // }
         },
     
         // created() {
-        //     if (Vue.isSetLS('sidebar-categories-limit')) {
-        //         this.categoriesLimit = Vue.getLS('sidebar-categories-limit');
+        //     if (Vue.isSetLS('sidebar-channels-limit')) {
+        //         this.channelsLimit = Vue.getLS('sidebar-channels-limit');
         //     }
         // },
     
         computed: {
-            categories() {
+            channels() {
                 if (this.filter == 'bookmarked') {
-                    return Store.state.bookmarkedCategories; 
+                    return Store.state.bookmarkedChannels; 
                 }
                 
                 if (this.filter == 'moderating') {
-                    return Store.state.moderatingCategories; 
+                    return Store.state.moderatingChannels; 
                 }
                 
                 // subscribed
-                return Store.state.subscribedCategories; 
+                return Store.state.subscribedChannels; 
             }, 
 
-            categoriesCount() {
-                return this.categories.length;
+            channelsCount() {
+                return this.channels.length;
             },
 
-            showCategoryAvatars() {
-                return Store.settings.rightSidebar.showCategoryAvatars;
+            showChannelAvatars() {
+                return Store.settings.rightSidebar.showChannelAvatars;
             },
     
-            categoriesLimit() {
-                return Store.settings.rightSidebar.categoriesLimit;
+            channelsLimit() {
+                return Store.settings.rightSidebar.channelsLimit;
             },
     
             theme() {
@@ -104,7 +104,7 @@
             },
     
             filter() {
-                return Store.settings.rightSidebar.categoriesFilter;
+                return Store.settings.rightSidebar.channelsFilter;
             },
     
             filterForHumans() {
@@ -119,9 +119,9 @@
                 let self = this;
     
                 return _.orderBy(
-                    self.categories
-                        .filter(category => category.name.toLowerCase().indexOf(self.subscribedFilter.toLowerCase()) !== -1), 'subscribers', 'desc')
-                        .slice(0, (self.categoriesLimit > 2 ? self.categoriesLimit : 2)
+                    self.channels
+                        .filter(channel => channel.name.toLowerCase().indexOf(self.subscribedFilter.toLowerCase()) !== -1), 'subscribers', 'desc')
+                        .slice(0, (self.channelsLimit > 2 ? self.channelsLimit : 2)
                 ); 
             },
         }

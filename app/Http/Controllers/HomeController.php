@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Submission;
-use App\Traits\CachableCategory;
+use App\Traits\CachableChannel;
 use App\Traits\CachableSubmission;
 use App\Traits\CachableUser;
 use Auth;
@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    use CachableUser, CachableSubmission, CachableCategory;
+    use CachableUser, CachableSubmission, CachableChannel;
 
     /**
      * Displays the home page.
@@ -53,11 +53,11 @@ class HomeController extends Controller
                 break;
 
             case 'moderating': 
-                $submissions->whereIn('category_id', Auth::user()->moderatingIds());
+                $submissions->whereIn('channel_id', Auth::user()->moderatingIds());
                 break; 
 
             case 'bookmarked': 
-                $submissions->whereIn('category_id', $this->bookmarkedCategories());
+                $submissions->whereIn('channel_id', $this->bookmarkedChannels());
                 break; 
 
             case 'by-bookmarked-users': 
@@ -65,12 +65,12 @@ class HomeController extends Controller
                 break; 
 
             default: // subscribed
-                $submissions->whereIn('category_id', $this->subscriptions());
+                $submissions->whereIn('channel_id', $this->subscriptions());
                 break;
         }
 
-        // exclude user's blocked categories
-        $submissions->whereNotIn('category_id', $this->hiddenCategories());
+        // exclude user's blocked channels
+        $submissions->whereNotIn('channel_id', $this->hiddenChannels());
 
         // exclude user's hidden submissions
         $submissions->whereNotIn('id', $this->hiddenSubmissions());
@@ -109,7 +109,7 @@ class HomeController extends Controller
     }
 
     /**
-     * returns submisisons from default categories. by time we're gonna improve this.
+     * returns submisisons from default channels. by time we're gonna improve this.
      *
      * @param \Illuminate\Http\Request $request
      *
@@ -120,7 +120,7 @@ class HomeController extends Controller
         $submissions = (new Submission())->newQuery();
 
         $submissions->whereIn(
-            'category_id', $this->getDefaultCategories()
+            'channel_id', $this->getDefaultChannels()
         );
 
         $submissions->where('nsfw', false);

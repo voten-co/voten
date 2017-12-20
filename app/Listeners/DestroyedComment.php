@@ -4,14 +4,14 @@ namespace App\Listeners;
 
 use App\Events\CommentWasDeleted;
 use App\Report;
-use App\Traits\CachableCategory;
+use App\Traits\CachableChannel;
 use App\Traits\CachableComment;
 use App\Traits\CachableSubmission;
 use App\Traits\CachableUser;
 
 class DestroyedComment
 {
-    use CachableUser, CachableCategory, CachableComment, CachableSubmission;
+    use CachableUser, CachableChannel, CachableComment, CachableSubmission;
 
     /**
      * Handle the event.
@@ -22,7 +22,7 @@ class DestroyedComment
      */
     public function handle(CommentWasDeleted $event)
     {
-        $this->updateCategoryCommentsCount($event->comment->category_id, -1);
+        $this->updateChannelCommentsCount($event->comment->channel_id, -1);
 
         $event->submission->update([
             'comments_number' => ($event->submission->comments_number - 1),

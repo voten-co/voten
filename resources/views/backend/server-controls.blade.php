@@ -120,7 +120,7 @@
                 </h1>
 
                 <p>
-                    Sends "CategoryRemovalWarning" email to inactive categories' moderators.
+                    Sends "ChannelRemovalWarning" email to inactive channels' moderators.
                 </p>
             </div>
 

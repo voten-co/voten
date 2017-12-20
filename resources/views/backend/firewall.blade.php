@@ -9,9 +9,9 @@
 <section class="section container">
     <div class="columns is-multiline is-mobile">
         <div class="column is-half">
-            <h1 class="title">Forbidden Channel Names ({{ $forbiddenCategoryNames->total() }}):</h1>
+            <h1 class="title">Forbidden Channel Names ({{ $forbiddenChannelNames->total() }}):</h1>
 
-            <form class="control has-addons" action="/forbidden-category-name/store" method="post">
+            <form class="control has-addons" action="/forbidden-channel-name/store" method="post">
                 {{ csrf_field() }}
 
                 <div class="field has-addons">
@@ -38,13 +38,13 @@
                 </thead>
 
                 <tbody>
-                    @foreach ($forbiddenCategoryNames as $forbiddenCategoryName)
+                    @foreach ($forbiddenChannelNames as $forbiddenChannelName)
                         <tr>
                             <td>
-                                {{ $forbiddenCategoryName->name }}
+                                {{ $forbiddenChannelName->name }}
                             </td>
                             <td>
-                                <form action="/forbidden-category-name/destroy/{{ $forbiddenCategoryName->id }}" method="post">
+                                <form action="/forbidden-channel-name/destroy/{{ $forbiddenChannelName->id }}" method="post">
                                     {{ csrf_field() }}
                                     {{ method_field('delete') }}
 
@@ -58,7 +58,7 @@
                 </tbody>
             </table>
 
-            {{ $forbiddenCategoryNames->links() }}
+            {{ $forbiddenChannelNames->links() }}
         </div>
 
         <div class="column is-half">
@@ -166,7 +166,7 @@
                                     {{ method_field('delete') }}
 
                                     <input type="hidden" name="domain" value="{{ $domain->domain }}">
-                                    <input type="hidden" name="category" value="all">
+                                    <input type="hidden" name="channel" value="all">
 
                                     <button class="button is-danger is-small" type="submit">
                                         Delete

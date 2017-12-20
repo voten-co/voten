@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Traits\CachableCategory;
+use App\Traits\CachableChannel;
 use App\Traits\CachableUser;
 use Auth;
 use Illuminate\Http\Request;
 
 class SubscribeController extends Controller
 {
-    use CachableUser, CachableCategory;
+    use CachableUser, CachableChannel;
 
     public function __construct()
     {
@@ -22,7 +22,7 @@ class SubscribeController extends Controller
     }
 
     /**
-     * subscribing/unsubscrbing to categories.
+     * subscribing/unsubscrbing to channels.
      *
      * @param \Illuminate\Http\Request $request
      *
@@ -31,36 +31,36 @@ class SubscribeController extends Controller
     public function subscribeToggle(Request $request)
     {
         $this->validate($request, [
-            'category_id' => 'required|integer',
+            'channel_id' => 'required|integer',
         ]);
 
         $user = Auth::user();
 
         try {
-            $result = $user->subscriptions()->toggle($request->category_id);
+            $result = $user->subscriptions()->toggle($request->channel_id);
         } catch (\Exception $e) {
             return response('duplicate action', 200);
         }
 
         // subscibed
         if ($result['attached']) {
-            $this->updateSubscriptions($user->id, $request->category_id, true);
+            $this->updateSubscriptions($user->id, $request->channel_id, true);
 
-            $this->updateCategorySubscribersCount($request->category_id);
+            $this->updateChannelSubscribersCount($request->channel_id);
 
             return response('Subscribed', 200);
         }
 
         // unsubscribed
-        $this->updateSubscriptions($user->id, $request->category_id, false);
+        $this->updateSubscriptions($user->id, $request->channel_id, false);
 
-        $this->updateCategorySubscribersCount($request->category_id, -1);
+        $this->updateChannelSubscribersCount($request->channel_id, -1);
 
         return response('Unsubscribed', 200);
     }
 
     /**
-     * whether or not the user is subscribed to the category.
+     * whether or not the user is subscribed to the channel.
      *
      * @param \Illuminate\Http\Request $request
      *
@@ -69,11 +69,11 @@ class SubscribeController extends Controller
     public function isSubscribed(Request $request)
     {
         $this->validate($request, [
-            'category_id' => 'required|integer',
+            'channel_id' => 'required|integer',
         ]);
 
         $subscriptions = $this->subscriptions();
 
-        return in_array($request->category_id, $subscriptions) ? 'true' : 'false';
+        return in_array($request->channel_id, $subscriptions) ? 'true' : 'false';
     }
 }

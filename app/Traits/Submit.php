@@ -152,9 +152,9 @@ trait Submit
      *
      * @return bool
      */
-    protected function isDuplicateTitle($title, $category)
+    protected function isDuplicateTitle($title, $channel)
     {
-        return Submission::withTrashed()->where('title', $title)->where('category_name', $category)->exists();
+        return Submission::withTrashed()->where('title', $title)->where('channel_name', $channel)->exists();
     }
 
     /**

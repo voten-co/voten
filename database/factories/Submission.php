@@ -4,7 +4,7 @@ use Faker\Generator as Faker;
 
 $factory->define(\App\Submission::class, function (Faker $faker) {
     $title = $faker->sentence($nbWords = 6, $variableNbWords = true);
-    $category = factory('App\User')->create();
+    $channel = factory('App\User')->create();
 
     return [
         'user_id'       => function () {
@@ -13,8 +13,8 @@ $factory->define(\App\Submission::class, function (Faker $faker) {
         'title'         => $title,
         'data'          => ['text' => $faker->paragraph()],
         'type'          => 'text',
-        'category_id'   => $category->id,
-        'category_name' => $category->name,
+        'channel_id'   => $channel->id,
+        'channel_name' => $channel->name,
         'slug'          => str_slug($title),
     ];
 });

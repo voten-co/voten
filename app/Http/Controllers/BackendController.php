@@ -4,15 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Activity;
 use App\AppointeddUser;
-use App\Category;
-use App\CategoryForbiddenName;
+use App\Channel;
+use App\ChannelForbiddenName;
 use App\Comment;
 use App\FireWallBannedIp;
 use App\Message;
 use App\Notifications\BecameModerator;
 use App\Report;
 use App\Submission;
-use App\Traits\CachableCategory;
+use App\Traits\CachableChannel;
 use App\Traits\CachableUser;
 use App\Traits\EchoServer;
 use App\User;
@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Cache;
 
 class BackendController extends Controller
 {
-    use EchoServer, CachableCategory, CachableUser;
+    use EchoServer, CachableChannel, CachableUser;
 
     public function __construct()
     {
@@ -41,59 +41,59 @@ class BackendController extends Controller
     {
         $forbiddenUsernames = UserForbiddenName::orderBy('created_at', 'desc')->paginate(30);
 
-        $forbiddenCategoryNames = CategoryForbiddenName::orderBy('created_at', 'desc')->paginate(30);
+        $forbiddenChannelNames = ChannelForbiddenName::orderBy('created_at', 'desc')->paginate(30);
 
-        $blockedDomains = \App\BlockedDomain::where('category', 'all')->orderBy('created_at', 'desc')->paginate(30);
+        $blockedDomains = \App\BlockedDomain::where('channel', 'all')->orderBy('created_at', 'desc')->paginate(30);
 
         $banned_ip_addresses = FireWallBannedIp::orderBy('created_at', 'desc')->paginate(50);
 
-        return view('backend.firewall', compact('forbiddenUsernames', 'forbiddenCategoryNames', 'blockedDomains', 'banned_ip_addresses'));
+        return view('backend.firewall', compact('forbiddenUsernames', 'forbiddenChannelNames', 'blockedDomains', 'banned_ip_addresses'));
     }
 
     /**
-     * Shows categories.
+     * Shows channels.
      *
      * @param Request $request
      *
      * @return \Illuminate\View\View
      */
-    public function showCategories(Request $request)
+    public function showChannels(Request $request)
     {
         if ($request->filled('filter')) {
-            $categories = Category::search($request->filter)->take(20)->get();
+            $channels = Channel::search($request->filter)->take(20)->get();
         } else {
-            $categories = (new Category())->newQuery();
+            $channels = (new Channel())->newQuery();
 
             if ($request->filled('sort_by')) {
                 if ($request->sort_by == 'subscribers') {
-                    $categories->orderBy('subscribers', 'desc');
+                    $channels->orderBy('subscribers', 'desc');
                 } elseif ($request->sort_by == 'submissions_count') {
-                    $categories->withCount('submissions')->orderBy('submissions_count', 'desc');
+                    $channels->withCount('submissions')->orderBy('submissions_count', 'desc');
                 } elseif ($request->sort_by == 'comments_count') {
-                    $categories->withCount('comments')->orderBy('comments_count', 'desc');
+                    $channels->withCount('comments')->orderBy('comments_count', 'desc');
                 }
             } else {
-                $categories->orderBy('id', 'desc');
+                $channels->orderBy('id', 'desc');
             }
 
-            $categories = $categories->paginate(30);
+            $channels = $channels->paginate(30);
         }
 
-        return view('backend.categories', compact('categories'));
+        return view('backend.channels', compact('channels'));
     }
 
     /**
-     * Shows the category page.
+     * Shows the channel page.
      *
      * @return \Illuminate\View\View
      */
-    public function showCategory($category)
+    public function showChannel($channel)
     {
-        $category = Category::where('name', $category)->firstOrFail();
+        $channel = Channel::where('name', $channel)->firstOrFail();
 
-        $isAdministrator = $this->mustBeAdministrator($category->id, true);
+        $isAdministrator = $this->mustBeAdministrator($channel->id, true);
 
-        return view('backend.category', compact('category', 'isAdministrator'));
+        return view('backend.channel', compact('channel', 'isAdministrator'));
     }
 
     /**
@@ -143,8 +143,8 @@ class BackendController extends Controller
             $query->where('created_at', '>=', Carbon::now()->subDay());
         })->count();
 
-        $categoriesTotal = Category::all()->count();
-        $categoriesToday = Category::where('created_at', '>=', Carbon::now()->subDay())->count();
+        $channelsTotal = Channel::all()->count();
+        $channelsToday = Channel::where('created_at', '>=', Carbon::now()->subDay())->count();
 
         $subscriptionsTotal = DB::table('subscriptions')->count();
         $subscriptionsToday = DB::table('subscriptions')->where('created_at', '>=', Carbon::now()->subDay())->count();
@@ -202,7 +202,7 @@ class BackendController extends Controller
         $users = User::orderBy('id', 'desc')->paginate(30);
 
         return view('backend.dashboard', compact(
-            'usersTotal', 'usersToday', 'categoriesTotal', 'categoriesToday', 'submissionsTotal', 'submissionsToday', 'commentsTotal', 'commentsToday', 'messagesTotal', 'messagesToday', 'reportsTotal',
+            'usersTotal', 'usersToday', 'channelsTotal', 'channelsToday', 'submissionsTotal', 'submissionsToday', 'commentsTotal', 'commentsToday', 'messagesTotal', 'messagesToday', 'reportsTotal',
             'reportsToday', 'submissionVotesTotal', 'submissionVotesToday', 'commentVotesTotal', 'commentVotesToday',
             'users', 'activeUsersToday', 'activeUsersTotal', 'activities', 'echo_server_status', 'subscriptionsToday', 'subscriptionsTotal'
             )
@@ -274,13 +274,13 @@ class BackendController extends Controller
      *
      * @return redirect
      */
-    public function storeForbiddenCategoryName(Request $request)
+    public function storeForbiddenChannelName(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:categories',
+            'name' => 'required|unique:channels',
         ]);
 
-        CategoryForbiddenName::create([
+        ChannelForbiddenName::create([
             'name' => $request->name,
         ]);
 
@@ -290,11 +290,11 @@ class BackendController extends Controller
     /**
      * destroys a forbidden-username model.
      *
-     * @param \App\CategoryForbiddenName $forbidden
+     * @param \App\ChannelForbiddenName $forbidden
      *
      * @return redirect
      */
-    public function destroyForbiddenCategoryName(CategoryForbiddenName $forbidden)
+    public function destroyForbiddenChannelName(ChannelForbiddenName $forbidden)
     {
         $forbidden->delete();
 
@@ -302,21 +302,21 @@ class BackendController extends Controller
     }
 
     /**
-     * Takes over the category. (gives you a role in the category as "administrator").
+     * Takes over the channel. (gives you a role in the channel as "administrator").
      *
      * @return redirect
      */
-    public function takeOverCategory(Category $category)
+    public function takeOverChannel(Channel $channel)
     {
-        $category->moderators()->attach(Auth::id(), [
+        $channel->moderators()->attach(Auth::id(), [
             'role' => 'administrator',
         ]);
 
-        Auth::user()->notify(new BecameModerator($category, 'administrator'));
+        Auth::user()->notify(new BecameModerator($channel, 'administrator'));
 
-        $this->updateCategoryMods($category->id, Auth::id());
+        $this->updateChannelMods($channel->id, Auth::id());
 
-        session()->flash('status', "You're not an administrator of #".$category->name.'. Go knock yourself out. ');
+        session()->flash('status', "You're not an administrator of #".$channel->name.'. Go knock yourself out. ');
 
         return back();
     }

@@ -18,8 +18,8 @@
         font-size: 77%;
     }
 
-    .v-contact-list li .category-search-item-avatar,
-    .v-contact-list li a .category-search-item-avatar {
+    .v-contact-list li .channel-search-item-avatar,
+    .v-contact-list li a .channel-search-item-avatar {
         flex-basis: 41px;
         margin-right: 1em;
     }
@@ -38,7 +38,7 @@
         display: none !important;
     }
 
-    .category-suggestion .avatar {
+    .channel-suggestion .avatar {
         flex-basis: 40px;
         margin-right: 1em;
     }

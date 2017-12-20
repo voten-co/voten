@@ -29,7 +29,7 @@
 				}).then((response) => {
 					this.loading = false
 
-				    this.$router.push('/c/' + response.data.category_name + '/' + response.data.slug)
+				    this.$router.push('/c/' + response.data.channel_name + '/' + response.data.slug)
 				}).catch((error) => {
 					this.loading = false;
 

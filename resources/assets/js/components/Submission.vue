@@ -23,7 +23,7 @@
                 <div class="profile-post-content">
                     <text-submission v-if="list.type == 'text'" :submission="list" :nsfw="nsfw" :full="full"
                                      @bookmark="bookmark"
-                                     :url="'/c/' + list.category_name + '/' + list.slug"
+                                     :url="'/c/' + list.channel_name + '/' + list.slug"
                                      :comments="list.comments_number" :bookmarked="bookmarked"
                                      @report="report" @hide="hide" @nsfw="markAsNSFW" @sfw="markAsSFW"
                                      @destroy="destroy" @approve="approve" @disapprove="disapprove"
@@ -33,7 +33,7 @@
 
                     <img-submission v-if="list.type == 'img'" :submission="list" :nsfw="nsfw" :full="full"
                                     @zoom="showPhotoViewer" @bookmark="bookmark"
-                                    :url="'/c/' + list.category_name + '/' + list.slug" :comments="list.comments_number"
+                                    :url="'/c/' + list.channel_name + '/' + list.slug" :comments="list.comments_number"
                                     :bookmarked="bookmarked"
                                     @report="report" @hide="hide" @nsfw="markAsNSFW" @sfw="markAsSFW" @destroy="destroy"
                                     @approve="approve" @disapprove="disapprove" @removethumbnail="removeThumbnail"
@@ -43,7 +43,7 @@
 
                     <gif-submission v-if="list.type == 'gif'" :submission="list" :nsfw="nsfw" :full="full"
                                     @play-gif="showGifPlayer" @bookmark="bookmark"
-                                    :url="'/c/' + list.category_name + '/' + list.slug" :comments="list.comments_number"
+                                    :url="'/c/' + list.channel_name + '/' + list.slug" :comments="list.comments_number"
                                     :bookmarked="bookmarked"
                                     @report="report" @hide="hide" @nsfw="markAsNSFW" @sfw="markAsSFW" @destroy="destroy"
                                     @approve="approve" @disapprove="disapprove" @removethumbnail="removeThumbnail"
@@ -53,7 +53,7 @@
 
                     <link-submission v-if="list.type == 'link'" :submission="list" :nsfw="nsfw" :full="full"
                                      @embed="showEmbed" @bookmark="bookmark"
-                                     :url="'/c/' + list.category_name + '/' + list.slug"
+                                     :url="'/c/' + list.channel_name + '/' + list.slug"
                                      :comments="list.comments_number" :bookmarked="bookmarked"
                                      @report="report" @hide="hide" @nsfw="markAsNSFW" @sfw="markAsSFW"
                                      @destroy="destroy" @approve="approve" @disapprove="disapprove"
@@ -315,7 +315,7 @@
             },
 
             /**
-             * Approves the submission. Only the moderators of category are allowed to do this.
+             * Approves the submission. Only the moderators of channel are allowed to do this.
              *
              * @return void
              */
@@ -330,7 +330,7 @@
             },
 
             /**
-             * Disapproves the submission. Only the moderators of category are allowed to do this.
+             * Disapproves the submission. Only the moderators of channel are allowed to do this.
              *
              * @return void
              */

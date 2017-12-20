@@ -102,7 +102,7 @@ trait Filters
     }
 
     /**
-     * Removes the subscribed categories from the colleciton.
+     * Removes the subscribed channels from the colleciton.
      *
      * @param Illuminate\Support\Collection $collection
      *
@@ -110,18 +110,18 @@ trait Filters
      */
     protected function noSubscribedFilter($collection)
     {
-        $subscribedCategories = collect($this->subscriptions());
+        $subscribedChannels = collect($this->subscriptions());
 
         if (get_class($collection) === 'Illuminate\Pagination\Paginator' || get_class($collection) === 'Illuminate\Pagination\LengthAwarePaginator') {
             return $collection->setCollection(
-                $collection->filter(function ($value, $key) use ($subscribedCategories) {
-                    return !$subscribedCategories->contains($value->id);
+                $collection->filter(function ($value, $key) use ($subscribedChannels) {
+                    return !$subscribedChannels->contains($value->id);
                 })->unique()
             );
         }
 
-        return $collection->filter(function ($value, $key) use ($subscribedCategories) {
-            return !$subscribedCategories->contains($value->id);
+        return $collection->filter(function ($value, $key) use ($subscribedChannels) {
+            return !$subscribedChannels->contains($value->id);
         })->unique();
     }
 }

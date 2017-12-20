@@ -10,7 +10,7 @@
 					Comments
 				</router-link>
 
-				<router-link :to="'/big-daddy/suggested-categories'" class="nav-item is-tab" active-class="is-active">
+				<router-link :to="'/big-daddy/suggested-channels'" class="nav-item is-tab" active-class="is-active">
 					Suggesteds
 				</router-link>
 			</div>

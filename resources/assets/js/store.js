@@ -1,10 +1,10 @@
 import home from './store/home'; 
-import category from './store/category'; 
+import channel from './store/channel'; 
 import user from './store/user'; 
 import submission from './store/submission'; 
 import bookmarkedSubmissions from './store/bookmarkedSubmissions'; 
 import bookmarkedComments from './store/bookmarkedComments'; 
-import bookmarkedCategories from './store/bookmarkedCategories'; 
+import bookmarkedChannels from './store/bookmarkedChannels'; 
 import bookmarkedUsers from './store/bookmarkedUsers'; 
 
 window.Store = {
@@ -24,17 +24,17 @@ window.Store = {
         bookmarks: {
             submissions: [],
             comments: [],
-            categories: [],
+            channels: [],
             users: [],
         },
 
         blocks: {
             users: [],
-            categories: []
+            channels: []
         },
 
-        moderatingCategories: [],
-        bookmarkedCategories: [],
+        moderatingChannels: [],
+        bookmarkedChannels: [],
         moderatorAt: [],
         administratorAt: [],
         moderatingAt: [], // contains both moderator and administrator
@@ -44,17 +44,17 @@ window.Store = {
         messages: [],
         contacts: [],
 
-        subscribedCategories: [],
+        subscribedChannels: [],
     },
 
     page: {
-        category, 
+        channel, 
         submission,
         user,
         home, 
         bookmarkedSubmissions,
         bookmarkedComments,
-        bookmarkedCategories,
+        bookmarkedChannels,
         bookmarkedUsers
     },
 
@@ -70,9 +70,9 @@ window.Store = {
         },
 
         rightSidebar: {
-            categoriesFilter: 'subscribed', 
-            categoriesLimit: 10, 
-            showCategoryAvatars: true, 
+            channelsFilter: 'subscribed', 
+            channelsLimit: 10, 
+            showChannelAvatars: true, 
             color: 'Gray'
         }
     }, 

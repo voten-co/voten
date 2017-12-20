@@ -12,7 +12,7 @@ import StoreStorage from './mixins/StoreStorage';
 import LeftSidebar from './components/auth/LeftSidebar.vue';
 import RightSidebar from './components/auth/RightSidebar.vue';
 import NewSubmission from './components/NewSubmission.vue';
-import NewCategory from './components/NewCategory.vue';
+import NewChannel from './components/NewChannel.vue';
 import Helpers from './mixins/Helpers';
 import FontLoader from './mixins/FontLoader';
 import router from './routes';
@@ -54,12 +54,12 @@ window.app = new Vue({
         NotFound,
         Messages,
         NewSubmission,
-        NewCategory,
+        NewChannel,
     },
 
     data: {
         showNewSubmissionModal: false,
-        showNewCategoryModal: false,
+        showNewChannelModal: false,
         showKeyboardShortcutsGuide: false,
         showMarkdownGuide: false,
         pageTitle: document.title,
@@ -171,46 +171,46 @@ window.app = new Vue({
         },
 
         /**
-         * Fetches the info about the category which we need later.
+         * Fetches the info about the channel which we need later.
          *
          * @param string name
          */
-        getCategoryStore: _.throttle(function (name) {
+        getChannelStore: _.throttle(function (name) {
             // if landed on a submission page
-            if (preload.category && preload.category.name == this.$route.params.name) {
-                Store.page.category.temp = preload.category;
-                delete preload.category;
+            if (preload.channel && preload.channel.name == this.$route.params.name) {
+                Store.page.channel.temp = preload.channel;
+                delete preload.channel;
                 return;
             }
 
-            if (Store.page.category.temp.name == undefined || Store.page.category.temp.name != this.$route.params.name) {
-                axios.get('/get-category-store', {
+            if (Store.page.channel.temp.name == undefined || Store.page.channel.temp.name != this.$route.params.name) {
+                axios.get('/get-channel-store', {
                     params: {
                         name: name
                     }
                 }).then((response) => {
-                    Store.page.category.temp = response.data
+                    Store.page.channel.temp = response.data
 
-                    // update the category in the user's subscriptions (avatar might have changed)
-                    let category_id = Store.page.category.temp.id
+                    // update the channel in the user's subscriptions (avatar might have changed)
+                    let channel_id = Store.page.channel.temp.id
 
                     function findObject(ob) {
-                        return ob.id === category_id
+                        return ob.id === channel_id
                     }
 
-                    let i = Store.state.subscribedCategories.findIndex(findObject)
+                    let i = Store.state.subscribedChannels.findIndex(findObject)
 
-                    if (i != -1 && Store.state.subscribedCategories[i].avatar != response.data.avatar) {
-                        Store.state.subscribedCategories[i].avatar = response.data.avatar
-                        Vue.putLS('subscribedCategories', Store.state.subscribedCategories)
+                    if (i != -1 && Store.state.subscribedChannels[i].avatar != response.data.avatar) {
+                        Store.state.subscribedChannels[i].avatar = response.data.avatar
+                        Vue.putLS('subscribedChannels', Store.state.subscribedChannels)
                     }
 
-                    // update the category in the user's moderating (avatar might have changed)
-                    i = Store.state.moderatingCategories.findIndex(findObject)
+                    // update the channel in the user's moderating (avatar might have changed)
+                    i = Store.state.moderatingChannels.findIndex(findObject)
 
-                    if (i != -1 && Store.moderatingCategories[i].avatar != response.data.avatar) {
-                        Store.moderatingCategories[i].avatar = response.data.avatar
-                        Vue.putLS('moderatingCategories', Store.moderatingCategories)
+                    if (i != -1 && Store.moderatingChannels[i].avatar != response.data.avatar) {
+                        Store.moderatingChannels[i].avatar = response.data.avatar
+                        Vue.putLS('moderatingChannels', Store.moderatingChannels)
                     }
                 }).catch((error) => {
                     if (error.response.status === 404) {
@@ -253,8 +253,8 @@ window.app = new Vue({
          *
          * @return void
          */
-        showNewCategory() {
-            this.showNewCategoryModal = true;
+        showNewChannel() {
+            this.showNewChannelModal = true;
         },
 
         /**
@@ -335,7 +335,7 @@ window.app = new Vue({
             }
 
             if (event.altKey && event.keyCode == 67) { // alt + c
-                this.showNewCategory();
+                this.showNewChannel();
                 return;
             }
 
@@ -375,8 +375,8 @@ window.app = new Vue({
                 case 82: // "r"
                     if (this.$route.name === 'home') {
                         this.$eventHub.$emit('refresh-home');
-                    } else if (this.$route.name === 'category-submissions') {
-                        this.$eventHub.$emit('refresh-category-submissions');
+                    } else if (this.$route.name === 'channel-submissions') {
+                        this.$eventHub.$emit('refresh-channel-submissions');
                     }
 
                     break;

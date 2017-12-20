@@ -12,7 +12,7 @@ class CreateCommentsTable extends Migration
             $table->integer('submission_id')->unsigned()->index();
             $table->integer('user_id')->unsigned()->index();
             $table->integer('parent_id')->unsigned()->index()->default(0);
-            $table->integer('category_id')->unsigned()->index();
+            $table->integer('channel_id')->unsigned()->index();
             $table->integer('level')->default(0);
 
             $table->float('rate')->index();

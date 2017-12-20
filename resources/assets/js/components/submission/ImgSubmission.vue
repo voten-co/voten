@@ -18,7 +18,7 @@
 				</a>
 
 				<div class="flex1">
-					<router-link :to="'/c/' + submission.category_name + '/' + submission.slug" class="flex-space v-ultra-bold">
+					<router-link :to="'/c/' + submission.channel_name + '/' + submission.slug" class="flex-space v-ultra-bold">
 						{{ submission.title }}
 					</router-link>
 

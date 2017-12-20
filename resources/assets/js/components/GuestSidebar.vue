@@ -17,7 +17,7 @@
         <aside class="menu">
         	<div class="flex-space">
 	            <p class="menu-label">
-	                #Recommendeds<span v-if="Store.state.subscribedCategories.length">({{ Store.state.subscribedCategories.length }})</span>
+	                #Recommendeds<span v-if="Store.state.subscribedChannels.length">({{ Store.state.subscribedChannels.length }})</span>
 	            </p>
 
 				<div class="ui icon top right active-blue pointing dropdown sidebar-panel-button">
@@ -25,7 +25,7 @@
 				</div>
         	</div>
 
-            <div class="ui category search side-box-search">
+            <div class="ui channel search side-box-search">
                 <div class="ui mini icon input">
                   <input class="prompt" type="text" placeholder="Channels..." spellcheck="false"
 						 v-model="subscribedFilter">
@@ -33,16 +33,16 @@
                 </div>
             </div>
 
-            <div class="no-subscription" v-if="!Store.state.subscribedCategories.length">
+            <div class="no-subscription" v-if="!Store.state.subscribedChannels.length">
             	<i class="v-icon v-sad" aria-hidden="true"></i>
             	No channels to display
             </div>
 
             <ul class="menu-list" v-else>
-                <li v-for="category in sortedSubscribeds">
-    				<router-link :to="'/c/' + category.name">
-    					<img class="square" v-bind:src="category.avatar" v-bind:alt="category.name">
-                        <span class="v-channels-text">{{ category.name }}</span>
+                <li v-for="channel in sortedSubscribeds">
+    				<router-link :to="'/c/' + channel.name">
+    					<img class="square" v-bind:src="channel.avatar" v-bind:alt="channel.name">
+                        <span class="v-channels-text">{{ channel.name }}</span>
     				</router-link>
                 </li>
             </ul>
@@ -86,8 +86,8 @@ export default {
 	},
 
 	created() {
-		axios.get(this.authUrl('sidebar-categories')).then((response) => {
-	    	Store.state.subscribedCategories = response.data;
+		axios.get(this.authUrl('sidebar-channels')).then((response) => {
+	    	Store.state.subscribedChannels = response.data;
 	    });
 	},
 
@@ -107,8 +107,8 @@ export default {
     	sortedSubscribeds () {
 			var self = this
 
-    		return _.orderBy(Store.state.subscribedCategories.filter(function (category) {
-				return category.name.toLowerCase().indexOf(self.subscribedFilter.toLowerCase()) !== -1
+    		return _.orderBy(Store.state.subscribedChannels.filter(function (channel) {
+				return channel.name.toLowerCase().indexOf(self.subscribedFilter.toLowerCase()) !== -1
 			}), 'subscribers', 'desc').slice(0, 5)
     	},
     },

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Ban;
-use App\Category;
+use App\Channel;
 use App\User;
 use Carbon\Carbon;
 use DB;
@@ -23,18 +23,18 @@ class BanController extends Controller
     {
         $this->validate($request, [
             'username' => 'required',
-            'category' => 'required|alpha_num|max:25',
+            'channel' => 'required|alpha_num|max:25',
             'duration' => 'integer|min:0|max:999',
         ]);
 
-        if ($request->category != 'all') {
-            $category = Category::where('name', $request->category)->firstOrFail();
+        if ($request->channel != 'all') {
+            $channel = Channel::where('name', $request->channel)->firstOrFail();
         }
 
         $user = User::where('username', $request->username)->firstOrFail();
 
         // make sure only voten-administrators are able to ban users everywhere
-        if ($request->category == 'all') {
+        if ($request->channel == 'all') {
             abort_unless($this->mustBeVotenAdministrator() && $request->username != Auth::user()->username, 403);
 
             // remove all user's data that might have been spam and harmful to others
@@ -49,7 +49,7 @@ class BanController extends Controller
             // set active to 0 (to make future checkings easier)
             $user->update(['active' => false]);
         } else {
-            abort_unless($this->mustBeModerator($category->id) && $request->username != Auth::user()->username, 403);
+            abort_unless($this->mustBeModerator($channel->id) && $request->username != Auth::user()->username, 403);
         }
 
         // BAN DURATION: if the duration is set as 0 we set a really big number like 17 years!
@@ -61,7 +61,7 @@ class BanController extends Controller
 
         $blockedUser = new Ban([
             'user_id'     => $user->id,
-            'category'    => $request->category,
+            'channel'    => $request->channel,
             'description' => $request->description,
             'unban_at'    => $unban_at,
         ]);
@@ -80,7 +80,7 @@ class BanController extends Controller
     }
 
     /**
-     * Returns all the users that are banned from submitting to targeted category.
+     * Returns all the users that are banned from submitting to targeted channel.
      *
      * @param \Illuminate\Http\Request $request
      *
@@ -89,21 +89,21 @@ class BanController extends Controller
     public function index(Request $request)
     {
         $this->validate($request, [
-            'category' => 'required|max:25',
+            'channel' => 'required|max:25',
         ]);
 
-        if ($request->category != 'all') {
-            $category = Category::where('name', $request->category)->firstOrFail();
+        if ($request->channel != 'all') {
+            $channel = Channel::where('name', $request->channel)->firstOrFail();
         }
 
         // make sure only voten-administrators are able to ban users everywhere
-        if ($request->category == 'all') {
+        if ($request->channel == 'all') {
             abort_unless($this->mustBeVotenAdministrator(), 403);
         } else {
-            abort_unless($this->mustBeModerator($category->id), 403);
+            abort_unless($this->mustBeModerator($channel->id), 403);
         }
 
-        return Ban::where('category', $request->category)
+        return Ban::where('channel', $request->channel)
                     ->with('user')
                     ->where('unban_at', '>=', Carbon::now())
                     ->orderBy('created_at', 'desc')
@@ -121,25 +121,25 @@ class BanController extends Controller
     {
         $this->validate($request, [
             'user_id'  => 'required|integer',
-            'category' => 'required|alpha_num|max:25',
+            'channel' => 'required|alpha_num|max:25',
         ]);
 
-        if ($request->category != 'all') {
-            $category = Category::where('name', $request->category)->firstOrFail();
+        if ($request->channel != 'all') {
+            $channel = Channel::where('name', $request->channel)->firstOrFail();
         }
 
         // make sure only voten-administrators are able to ban users everywhere
-        if ($request->category == 'all') {
+        if ($request->channel == 'all') {
             abort_unless($this->mustBeVotenAdministrator(), 403);
         } else {
-            abort_unless($this->mustBeModerator($category->id), 403);
+            abort_unless($this->mustBeModerator($channel->id), 403);
         }
 
         Ban::where('user_id', $request->user_id)
-                    ->where('category', $request->category)
+                    ->where('channel', $request->channel)
                     ->delete();
 
-        if ($request->category == 'all') {
+        if ($request->channel == 'all') {
             User::where('id', $request->user_id)->update(['active' => true]);
         }
 
@@ -150,6 +150,6 @@ class BanController extends Controller
             return back();
         }
 
-        return response('Unbanned from '.$request->category, 200);
+        return response('Unbanned from '.$request->channel, 200);
     }
 }

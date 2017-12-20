@@ -159,9 +159,9 @@
                         filterable
                         remote
                         placeholder="#channel..."
-                        :remote-method="getSuggestedCategories"
+                        :remote-method="getSuggestedChannels"
                         loading-text="Loading..."
-                        :loading="loadingCategories">
+                        :loading="loadingChannels">
                     <el-option
                             v-for="item in suggestedCats"
                             :key="item"
@@ -227,7 +227,7 @@
                 customError: '',
 
                 loading: false,
-                loadingCategories: false,
+                loadingChannels: false,
                 selectedCat: null,
                 suggestedCats: [],
                 submissionType: 'text',
@@ -276,14 +276,14 @@
         },
 
         created() {
-            this.setDefaultCategories();
+            this.setDefaultChannels();
             this.submitApi();
         },
 
         watch: {
             'visible'() {
                 if (this.visible) {
-                    this.setDefaultCategories();
+                    this.setDefaultChannels();
                     this.submitApi();
                 }
             }
@@ -313,7 +313,7 @@
                     this.selectedCat = null;
                 }
 
-                this.sfw =! Store.page.category.temp.nsfw;
+                this.sfw =! Store.page.channel.temp.nsfw;
             },
 
             /**
@@ -321,10 +321,10 @@
              *
              * @return void
              */
-            setDefaultCategories() {
+            setDefaultChannels() {
                 let array = [];
 
-                Store.state.subscribedCategories.forEach(function (element, index) {
+                Store.state.subscribedChannels.forEach(function (element, index) {
                     array.push(element.name)
                 });
 
@@ -412,20 +412,20 @@
              * @param string typed
              * @return void
              */
-            getSuggestedCategories: _.debounce(function (typed) {
+            getSuggestedChannels: _.debounce(function (typed) {
                 if (!typed) return;
 
-                this.loadingCategories = true;
+                this.loadingChannels = true;
 
-                axios.get('/get-categories', {
+                axios.get('/get-channels', {
                     params: {
                         name: typed
                     }
                 }).then((response) => {
                     this.suggestedCats = response.data;
-                    this.loadingCategories = false;
+                    this.loadingChannels = false;
                 }).catch(() => {
-                    this.loadingCategories = false;
+                    this.loadingChannels = false;
                 });
             }, 600),
 
@@ -444,7 +444,7 @@
                 this.customError = '';
 
                 this.loading = false;
-                this.loadingCategories = false;
+                this.loadingChannels = false;
                 this.selectedCat = null;
                 this.suggestedCats = [];
                 this.submissionType = 'text';

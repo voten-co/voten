@@ -30,7 +30,7 @@
 		<div class="form-group">
 			<input type="text" v-model="username" class="form-control" placeholder="Username..." v-bind:value="selectedUsername" v-on:input="getUsers(username)">
 			<small class="text-muted go-red" v-for="e in banErrors.username">{{ e }}</small>
-			<ul class="category-hashtags" v-show="users.length">
+			<ul class="channel-hashtags" v-show="users.length">
                 <li v-for="user in sortedUsers"><a href="#" @click.prevent="selectUsername(user)">@{{ user }}</a></li>
             </ul>
 		</div>
@@ -129,7 +129,7 @@
 
                 axios.post( '/send-invite', {
                     email: this.inviteTo,
-                    category: this.catInfo.category_name,
+                    channel: this.catInfo.channel_name,
                 }).then((response) => {
                     this.inviteTo = '';
                     this.inviteErrors = [];
@@ -150,7 +150,7 @@
 
 	                axios.post( '/block-domain', {
 	                    url: this.domain,
-	                    category: this.catInfo.category_name,
+	                    channel: this.catInfo.channel_name,
 	                } ).then((response) => {
 	                    this.domain = '';
 	                    this.blockErrors = [];
@@ -171,7 +171,7 @@
 
 	                axios.post( '/ban-user', {
 	                    username: this.username,
-	                    category: this.catInfo.category_name,
+	                    channel: this.catInfo.channel_name,
 	                } ).then((response) => {
 	                    this.username = '';
 	                    this.banErrors = [];

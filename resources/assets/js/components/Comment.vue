@@ -348,7 +348,7 @@
         	 * @return boolean
         	 */
             showApprove() {
-				return !this.list.approved_at && Store.state.moderatingAt.indexOf(this.list.category_id) != -1 && !this.owns
+				return !this.list.approved_at && Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 && !this.owns
 			},
 
             /**
@@ -357,7 +357,7 @@
         	 * @return boolean
         	 */
 			showDisapprove() {
-				return !this.list.deleted_at && Store.state.moderatingAt.indexOf(this.list.category_id) != -1 && !this.owns
+				return !this.list.deleted_at && Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 && !this.owns
 			},
         },
 
@@ -547,7 +547,7 @@
             },
 
             /**
-             * Approves the comment. Only the moderators of category are allowed to do this.
+             * Approves the comment. Only the moderators of channel are allowed to do this.
              *
              * @return void
              */
@@ -560,7 +560,7 @@
 			},
 
 			/**
-             * Disapproves the comment. Only the moderators of category are allowed to do this.
+             * Disapproves the comment. Only the moderators of channel are allowed to do this.
              *
              * @return void
              */

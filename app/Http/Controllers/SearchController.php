@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
+use App\Channel;
 use App\Filters;
 use App\Submission;
 use App\Traits\CachableUser;
@@ -30,7 +30,7 @@ class SearchController extends Controller
 
         try {
             if ($request->type == 'Channels') {
-                return Category::search($request->searched)->take(20)->get();
+                return Channel::search($request->searched)->take(20)->get();
             }
 
             if ($request->type == 'Submissions') {

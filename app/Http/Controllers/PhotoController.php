@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
+use App\Channel;
 use App\Photo;
 use App\PhotoTools;
-use App\Traits\CachableCategory;
+use App\Traits\CachableChannel;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -13,7 +13,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 class PhotoController extends Controller
 {
-    use PhotoTools, CachableCategory;
+    use PhotoTools, CachableChannel;
 
     public function __construct()
     {
@@ -103,13 +103,13 @@ class PhotoController extends Controller
     }
 
     /**
-     * Crops the uploaded photo with the sent coordinates and sets it as category's avatar.
+     * Crops the uploaded photo with the sent coordinates and sets it as channel's avatar.
      *
      * @param \Illuminate\Http\Request $request
      *
      * @return string
      */
-    public function cropCategoryAvatar(Request $request)
+    public function cropChannelAvatar(Request $request)
     {
         $this->validate($request, [
             'photo'  => 'required',
@@ -119,27 +119,27 @@ class PhotoController extends Controller
             'y'      => 'required|integer',
         ]);
 
-        $category = Category::where('name', $request->name)->firstOrFail();
+        $channel = Channel::where('name', $request->name)->firstOrFail();
 
-        abort_unless($this->mustBeAdministrator($category->id), 403);
+        abort_unless($this->mustBeAdministrator($channel->id), 403);
 
-        $category->avatar = $this->cropImg(
+        $channel->avatar = $this->cropImg(
             $request->photo,
             $request->width,
             $request->height,
             $request->x,
             $request->y,
-            'categories/avatars'
+            'channels/avatars'
         );
 
-        $category->update();
+        $channel->update();
 
-        $this->putCategoryInTheCache($category);
+        $this->putChannelInTheCache($channel);
 
-        return $category->avatar;
+        return $channel->avatar;
     }
 
-    protected function createAvatar($image, $folder = 'categories/avatars')
+    protected function createAvatar($image, $folder = 'channels/avatars')
     {
         $filename = time().str_random(7).'.png';
         $image = Image::make($image->getRealPath());

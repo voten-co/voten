@@ -30,8 +30,8 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\PatchedComment',
         ],
 
-        'App\Events\CategoryWasUpdated' => [
-            'App\Listeners\UpdatedCategory',
+        'App\Events\ChannelWasUpdated' => [
+            'App\Listeners\UpdatedChannel',
         ],
 
         'App\Events\ReportWasCreated' => [

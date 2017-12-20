@@ -1,8 +1,8 @@
-.category-label {
+.channel-label {
     color: #777;
 }
 
-.category-label i {
+.channel-label i {
     font-size: 0.8em;
 }
 
@@ -117,18 +117,18 @@
     color: $red-color;
 }
 
-.category-hashtags {
+.channel-hashtags {
     padding: 0;
 }
 
-.category-hashtags li {
+.channel-hashtags li {
     list-style: none;
     display: inline-block;
     margin-top: 15px;
     margin-right: 10px;
 }
 
-.category-hashtags li a {
+.channel-hashtags li a {
     color: #999;
     border: 2px solid #999;
     padding: 5px;
@@ -137,7 +137,7 @@
     text-decoration: none;
 }
 
-.category-hashtags li a:hover {
+.channel-hashtags li a:hover {
     color: #777;
     border-color: #777;
     transition: 0.2 s;

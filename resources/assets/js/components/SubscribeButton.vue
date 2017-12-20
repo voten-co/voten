@@ -26,25 +26,25 @@ export default {
 
         subscribed: {
             get() {
-                return Store.state.subscribedAt.indexOf(Store.page.category.temp.id) !== -1 ? true : false;
+                return Store.state.subscribedAt.indexOf(Store.page.channel.temp.id) !== -1 ? true : false;
             },
 
             set() {
-                if (Store.state.subscribedAt.indexOf(Store.page.category.temp.id) !== -1) {
-                    Store.page.category.temp.subscribers --;
+                if (Store.state.subscribedAt.indexOf(Store.page.channel.temp.id) !== -1) {
+                    Store.page.channel.temp.subscribers --;
 
-                    let removeItem = Store.page.category.temp.id;
-                    Store.state.subscribedCategories = Store.state.subscribedCategories.filter(category => category.id != removeItem);
+                    let removeItem = Store.page.channel.temp.id;
+                    Store.state.subscribedChannels = Store.state.subscribedChannels.filter(channel => channel.id != removeItem);
 
-                    let index = Store.state.subscribedAt.indexOf(Store.page.category.temp.id);
+                    let index = Store.state.subscribedAt.indexOf(Store.page.channel.temp.id);
                     Store.state.subscribedAt.splice(index, 1);
 
                     return;
                 }
 
-                Store.state.subscribedCategories.push(Store.page.category.temp);
-                Store.state.subscribedAt.push(Store.page.category.temp.id);
-                Store.page.category.temp.subscribers ++;
+                Store.state.subscribedChannels.push(Store.page.channel.temp);
+                Store.state.subscribedAt.push(Store.page.channel.temp.id);
+                Store.page.channel.temp.subscribers ++;
             }
         },
     },
@@ -54,7 +54,7 @@ export default {
             this.subscribed = !this.subscribed;
 
             axios.post('/subscribe', {
-            	category_id: Store.page.category.temp.id
+            	channel_id: Store.page.channel.temp.id
             }).catch(() => {
                 this.subscribed = !this.subscribed;
             });

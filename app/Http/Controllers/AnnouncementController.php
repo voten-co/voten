@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Announcement;
-use App\Traits\CachableCategory;
+use App\Traits\CachableChannel;
 use Auth;
 use Carbon\Carbon;
 use DB;
@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class AnnouncementController extends Controller
 {
-    use CachableCategory;
+    use CachableChannel;
 
     public function __construct()
     {
@@ -28,7 +28,7 @@ class AnnouncementController extends Controller
         abort_unless($this->mustBeVotenAdministrator(), 403);
 
         $announcements = Announcement::where([
-            ['category_name', 'home'],
+            ['channel_name', 'home'],
         ])->get();
 
         return view('backend.announcements', compact('announcements'));
@@ -48,12 +48,12 @@ class AnnouncementController extends Controller
             'title'   => 'required',
         ]);
 
-        if ($request->category_name == 'home' && !$request->ajax()) {
+        if ($request->channel_name == 'home' && !$request->ajax()) {
             // only a voten administrator is able to make an announcement to everyone's home-feed
             abort_unless($this->mustBeVotenAdministrator(), 403);
         } else {
-            $category = $this->getCategoryByName($request->category);
-            abort_unless($this->mustBeAdministrator($category->id), 403);
+            $channel = $this->getChannelByName($request->channel);
+            abort_unless($this->mustBeAdministrator($channel->id), 403);
         }
 
         // active duration
@@ -64,7 +64,7 @@ class AnnouncementController extends Controller
         }
 
         $announcement = new Announcement([
-            'category_name' => $request->category_name,
+            'channel_name' => $request->channel_name,
             'user_id'       => Auth::user()->id,
             'title'         => $request->title,
             'body'          => $request->body,
@@ -90,7 +90,7 @@ class AnnouncementController extends Controller
         }
 
         return Announcement::where([
-            ['category_name', 'home'],
+            ['channel_name', 'home'],
             ['active_until', '>=', Carbon::now()],
         ])->whereNotIn('id', Auth::user()->seenAnnouncements())->get();
     }
@@ -123,11 +123,11 @@ class AnnouncementController extends Controller
      */
     public function destroy(Announcement $announcement, Request $request)
     {
-        if ($announcement->category_name == 'home') {
+        if ($announcement->channel_name == 'home') {
             abort_unless($this->mustBeVotenAdministrator(), 403);
         } else {
-            $category = $this->getCategoryByName($announcement->category_name);
-            abort_unless($this->mustBeAdministrator($category->id), 403);
+            $channel = $this->getChannelByName($announcement->channel_name);
+            abort_unless($this->mustBeAdministrator($channel->id), 403);
         }
 
         $announcement->delete();

@@ -10,7 +10,7 @@ $factory->define(\App\Comment::class, function (Faker $faker) {
         'body'          => $faker->paragraph(),
         'parent_id'     => 0,
         'submission_id' => $submission->id,
-        'category_id'   => $submission->category_id,
+        'channel_id'   => $submission->channel_id,
         'level'         => 0,
         'upvotes'       => 1,
         'downvotes'     => 0,

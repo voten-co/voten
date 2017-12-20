@@ -14,7 +14,7 @@ class Ban extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'category', 'description', 'unban_at',
+        'user_id', 'channel', 'description', 'unban_at',
     ];
 
     public function user()

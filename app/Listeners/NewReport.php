@@ -7,12 +7,12 @@ use App\Mail\BackendNewReport;
 use App\Notifications\CommentReported;
 use App\Notifications\SubmissionReported;
 use App\Permissions;
-use App\Traits\CachableCategory;
+use App\Traits\CachableChannel;
 use App\User;
 
 class NewReport
 {
-    use CachableCategory, Permissions;
+    use CachableChannel, Permissions;
 
     /**
      * Handle the event.
@@ -23,15 +23,15 @@ class NewReport
      */
     public function handle(ReportWasCreated $event)
     {
-        $category = $this->getCategoryById($event->report->category_id);
+        $channel = $this->getChannelById($event->report->channel_id);
 
-        $category_mods = $category->moderators;
+        $channel_mods = $channel->moderators;
 
-        foreach ($category_mods as $user) {
+        foreach ($channel_mods as $user) {
             if ($event->report->reportable_type == 'App\Submission') {
-                $user->notify(new SubmissionReported($category, $event->report->submission));
+                $user->notify(new SubmissionReported($channel, $event->report->submission));
             } elseif ($event->report->reportable_type == 'App\Comment') {
-                $user->notify(new CommentReported($category, $event->report->comment));
+                $user->notify(new CommentReported($channel, $event->report->comment));
             }
         }
 

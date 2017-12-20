@@ -19,20 +19,20 @@ class RolesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'category_id' => 'required|String',
+            'channel_id' => 'required|String',
             'user_id'     => 'required|String',
             'role'        => 'required|in:administrator,moderator',
         ]);
 
         abort_unless($this->mustBeAdministrator(), 403);
 
-        $category = Category::findOrFail($request->category_id);
+        $channel = Channel::findOrFail($request->channel_id);
         $user = User::findOrFail($request->user_id);
 
-        $user->categoryRoles()->attach($category, [
+        $user->channelRoles()->attach($channel, [
             'role' => $request->role,
         ]);
 
-        return $user->username.'is now a '.$request->role.' in '.$category->name;
+        return $user->username.'is now a '.$request->role.' in '.$channel->name;
     }
 }

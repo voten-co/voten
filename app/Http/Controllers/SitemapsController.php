@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
+use App\Channel;
 use App\Submission;
 use App\User;
 
@@ -38,7 +38,7 @@ class SitemapsController extends Controller
     public function submissions()
     {
         $submissions = Submission::orderBy('id', 'desc')
-            ->select('id', 'category_name', 'slug', 'created_at')
+            ->select('id', 'channel_name', 'slug', 'created_at')
             ->get();
 
         return response()->view('sitemaps.submissions', compact('submissions'))
@@ -61,17 +61,17 @@ class SitemapsController extends Controller
     }
 
     /**
-     * Loads the categories sitemap.
+     * Loads the channels sitemap.
      *
      * @return \Symfony\Component\HttpFoundation\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function categories()
+    public function channels()
     {
-        $categories = Category::orderBy('id', 'desc')
+        $channels = Channel::orderBy('id', 'desc')
             ->select('id', 'name', 'created_at')
             ->get();
 
-        return response()->view('sitemaps.categories', compact('categories'))
+        return response()->view('sitemaps.channels', compact('channels'))
             ->header('Content-Type', 'text/xml');
     }
 }

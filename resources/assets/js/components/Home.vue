@@ -81,7 +81,7 @@
 
         <section id="submissions" class="home-submissions" v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore">
             <div v-for="(value, index) in uniqueList" v-bind:key="value.id">
-                <suggested-category v-if="index == 5"></suggested-category>
+                <suggested-channel v-if="index == 5"></suggested-channel>
 
                 <submission :list="value"></submission>
             </div>
@@ -113,7 +113,7 @@
     import ScrollButton from '../components/ScrollButton.vue';
     import Settings from '../components/FeedSettings.vue';
     import Submission from '../components/Submission.vue';
-    import SuggestedCategory from '../components/SuggestedCategory.vue';
+    import SuggestedChannel from '../components/SuggestedChannel.vue';
     import Loading from '../components/Loading.vue';
     import NoContent from '../components/NoContent.vue';
     import NoMoreItems from '../components/NoMoreItems.vue';
@@ -127,7 +127,7 @@
             Settings,
             Submission,
             Loading, 
-            SuggestedCategory,
+            SuggestedChannel,
             NoContent,
             NoMoreItems
         },

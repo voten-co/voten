@@ -93,7 +93,7 @@
                 axios.get('/users', {
                     params: {
                         username: query,
-                        category: this.$route.params.name
+                        channel: this.$route.params.name
                     }
                 }).then((response) => {
                     this.users = response.data;
@@ -107,12 +107,12 @@
             banUser() {
                 this.sending = true;
 
-                console.log(Store.page.category.temp.name);
+                console.log(Store.page.channel.temp.name);
 
                 axios.post('/ban-user', {
                     username: this.username,
                     description: this.description,
-                    category: Store.page.category.temp.name,
+                    channel: Store.page.channel.temp.name,
                     duration: this.duration
                 }).then((response) => {
                     // add the banned user to the this.bannedUsers array
@@ -137,7 +137,7 @@
                 axios.delete('/ban-user/destroy', {
                     params: {
                         user_id,
-                        category: this.$route.params.name
+                        channel: this.$route.params.name
                     }
                 }).then(() => {
                     this.bannedUsers = this.bannedUsers.filter(function (item) {
@@ -147,13 +147,13 @@
             },
 
             /**
-             * Fetches the list of already banned users on this category.
+             * Fetches the list of already banned users on this channel.
              *
              * @return void
              */
             getBannedUsers () {
                 axios.post('/banned-users', {
-                    category: this.$route.params.name
+                    channel: this.$route.params.name
                 }).then((response) => {
                     this.bannedUsers = response.data;
                 });
@@ -162,9 +162,9 @@
 
 
         beforeRouteEnter(to, from, next){
-            if (Store.page.category.temp.name == to.params.name) {
+            if (Store.page.channel.temp.name == to.params.name) {
                 // loaded
-                if (Store.state.moderatingAt.indexOf(Store.page.category.temp.id) != -1) {
+                if (Store.state.moderatingAt.indexOf(Store.page.channel.temp.id) != -1) {
                     next()
                 }
             } else {

@@ -26,14 +26,14 @@ trait CachableUser
             'commentKarma'    => $user->comment_karma,
 
             'hiddenSubmissions' => $user->hiddenSubmissions(),
-            'hiddenCategories'  => $user->hiddenCategories(),
+            'hiddenChannels'  => $user->hiddenChannels(),
             'subscriptions'     => $user->subscriptions->pluck('id'),
 
             'blockedUsers' => $user->blockedUsers(),
 
             'bookmarkedSubmissions' => DB::table('bookmarks')->where(['user_id' => $user->id, 'bookmarkable_type' => 'App\Submission'])->pluck('bookmarkable_id'),
             'bookmarkedComments'    => DB::table('bookmarks')->where(['user_id' => $user->id, 'bookmarkable_type' => 'App\Comment'])->pluck('bookmarkable_id'),
-            'bookmarkedCategories'  => DB::table('bookmarks')->where(['user_id' => $user->id, 'bookmarkable_type' => 'App\Category'])->pluck('bookmarkable_id'),
+            'bookmarkedChannels'  => DB::table('bookmarks')->where(['user_id' => $user->id, 'bookmarkable_type' => 'App\Channel'])->pluck('bookmarkable_id'),
             'bookmarkedUsers'       => DB::table('bookmarks')->where(['user_id' => $user->id, 'bookmarkable_type' => 'App\User'])->pluck('bookmarkable_id'),
 
             'submissionUpvotes'   => $user->submissionUpvotesIds(),
@@ -105,23 +105,23 @@ trait CachableUser
     }
 
     /**
-     * Returns the IDs of auth uers's hidden categories.
+     * Returns the IDs of auth uers's hidden channels.
      *
      * @return array
      */
-    protected function hiddenCategories($id = 0)
+    protected function hiddenChannels($id = 0)
     {
         if ($id === 0) {
             $id = Auth::id();
         }
 
-        if ($value = Redis::hget('user.'.$id.'.data', 'hiddenCategories')) {
+        if ($value = Redis::hget('user.'.$id.'.data', 'hiddenChannels')) {
             return json_decode($value);
         }
 
         $result = $this->cacheUserData($id);
 
-        return json_decode($result['hiddenCategories']);
+        return json_decode($result['hiddenChannels']);
     }
 
     /**
@@ -147,25 +147,25 @@ trait CachableUser
     }
 
     /**
-     * updates the hiddenCategories records of the auth user.
+     * updates the hiddenChannels records of the auth user.
      *
      * @param int $id
-     * @param int $category_id
+     * @param int $channel_id
      *
      * @return void
      */
-    protected function updateHiddenCategories($id, $category_id)
+    protected function updateHiddenChannels($id, $channel_id)
     {
-        $hiddenCategories = $this->hiddenCategories($id);
+        $hiddenChannels = $this->hiddenChannels($id);
 
-        array_push($hiddenCategories, $category_id);
+        array_push($hiddenChannels, $channel_id);
 
         // we need to make sure the cached data exists
-        if (!Redis::hget('user.'.$id.'.data', 'hiddenCategories')) {
+        if (!Redis::hget('user.'.$id.'.data', 'hiddenChannels')) {
             $this->cacheUserData($id);
         }
 
-        Redis::hset('user.'.$id.'.data', 'hiddenCategories', json_encode($hiddenCategories));
+        Redis::hset('user.'.$id.'.data', 'hiddenChannels', json_encode($hiddenChannels));
     }
 
     /**
@@ -253,19 +253,19 @@ trait CachableUser
      *
      * @return array
      */
-    protected function bookmarkedCategories($id = 0)
+    protected function bookmarkedChannels($id = 0)
     {
         if ($id === 0) {
             $id = Auth::id();
         }
 
-        if ($value = Redis::hget('user.'.$id.'.data', 'bookmarkedCategories')) {
+        if ($value = Redis::hget('user.'.$id.'.data', 'bookmarkedChannels')) {
             return json_decode($value);
         }
 
         $result = $this->cacheUserData($id);
 
-        return json_decode($result['bookmarkedCategories']);
+        return json_decode($result['bookmarkedChannels']);
     }
 
     /**
@@ -353,22 +353,22 @@ trait CachableUser
      *
      * @return void
      */
-    protected function updateBookmarkedCategories($id, $bookmarkable_id, $attach = true)
+    protected function updateBookmarkedChannels($id, $bookmarkable_id, $attach = true)
     {
-        $bookmarkedCategories = $this->bookmarkedCategories($id);
+        $bookmarkedChannels = $this->bookmarkedChannels($id);
 
         if ($attach === true) {
-            array_push($bookmarkedCategories, $bookmarkable_id);
+            array_push($bookmarkedChannels, $bookmarkable_id);
         } else {
-            $bookmarkedCategories = array_values(array_diff($bookmarkedCategories, [$bookmarkable_id]));
+            $bookmarkedChannels = array_values(array_diff($bookmarkedChannels, [$bookmarkable_id]));
         }
 
         // we need to make sure the cached data exists
-        if (!Redis::hget('user.'.$id.'.data', 'bookmarkedCategories')) {
+        if (!Redis::hget('user.'.$id.'.data', 'bookmarkedChannels')) {
             $this->cacheUserData($id);
         }
 
-        Redis::hset('user.'.$id.'.data', 'bookmarkedCategories', json_encode($bookmarkedCategories));
+        Redis::hset('user.'.$id.'.data', 'bookmarkedChannels', json_encode($bookmarkedChannels));
     }
 
     /**
@@ -421,18 +421,18 @@ trait CachableUser
      * Updates the subscriptions records of the auth user.
      *
      * @param int $id
-     * @param int $category_id
+     * @param int $channel_id
      *
      * @return void
      */
-    protected function updateSubscriptions($id, $category_id, $newSubscribe = true)
+    protected function updateSubscriptions($id, $channel_id, $newSubscribe = true)
     {
         $subscriptions = $this->subscriptions($id);
 
         if ($newSubscribe === true) {
-            array_push($subscriptions, $category_id);
+            array_push($subscriptions, $channel_id);
         } else {
-            $subscriptions = array_values(array_diff($subscriptions, [$category_id]));
+            $subscriptions = array_values(array_diff($subscriptions, [$channel_id]));
         }
 
         // we need to make sure the cached data exists

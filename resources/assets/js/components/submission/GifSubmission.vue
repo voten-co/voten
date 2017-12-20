@@ -17,14 +17,14 @@
 	            </a>
 
 				<h1 class="submission-title" v-if="full">
-					<router-link :to="'/c/' + submission.category_name + '/' + submission.slug"
+					<router-link :to="'/c/' + submission.channel_name + '/' + submission.slug"
                                  class="flex-space v-ultra-bold">
 	                    {{ submission.title }}
 	                </router-link>
 				</h1>
 
                 <div class="flex1" v-else>
-					<router-link :to="'/c/' + submission.category_name + '/' + submission.slug"
+					<router-link :to="'/c/' + submission.channel_name + '/' + submission.slug"
                                  class="flex-space v-ultra-bold">
 	                    {{ submission.title }}
 	                </router-link>

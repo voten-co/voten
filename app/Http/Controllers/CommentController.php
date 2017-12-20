@@ -7,7 +7,7 @@ use App\Comment;
 use App\Events\CommentWasCreated;
 use App\Events\CommentWasDeleted;
 use App\Events\CommentWasPatched;
-use App\Traits\CachableCategory;
+use App\Traits\CachableChannel;
 use App\Traits\CachableComment;
 use App\Traits\CachableSubmission;
 use App\Traits\CachableUser;
@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    use CachableSubmission, CachableUser, CachableComment, CachableCategory;
+    use CachableSubmission, CachableUser, CachableComment, CachableChannel;
 
     public function __construct()
     {
@@ -50,7 +50,7 @@ class CommentController extends Controller
         $comment = Comment::create([
             'body'          => $request->body,
             'user_id'       => $author->id,
-            'category_id'   => $submission->category_id,
+            'channel_id'   => $submission->channel_id,
             'parent_id'     => $request->parent_id,
             'level'         => $request->parent_id == 0 ? 0 : ($parentComment->level + 1),
             'submission_id' => $submission->id,

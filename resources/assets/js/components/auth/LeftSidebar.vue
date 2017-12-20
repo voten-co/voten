@@ -97,7 +97,7 @@
                     return 'home';
                 }
 
-                if (this.$route.name === 'bookmarked-submissions' || this.$route.name === 'bookmarked-comments' || this.$route.name === 'bookmarked-users' || this.$route.name === 'bookmarked-categories') {
+                if (this.$route.name === 'bookmarked-submissions' || this.$route.name === 'bookmarked-comments' || this.$route.name === 'bookmarked-users' || this.$route.name === 'bookmarked-channels') {
                     return 'bookmarks';
                 }
 

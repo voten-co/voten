@@ -14,10 +14,10 @@ class CreateRolesTable extends Migration
     public function up()
     {
         Schema::create('roles', function (Blueprint $table) {
-            $table->primary(['user_id', 'role', 'category_id']);
+            $table->primary(['user_id', 'role', 'channel_id']);
             $table->integer('user_id')->unsigned();
             $table->string('role'); // values: administrator, moderator
-            $table->integer('category_id')->unsigned();
+            $table->integer('channel_id')->unsigned();
         });
     }
 

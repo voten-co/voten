@@ -16,7 +16,7 @@ class CreateBlockedDomainsTable extends Migration
         Schema::create('blocked_domains', function (Blueprint $table) {
             $table->increments('id');
             $table->string('domain')->index();
-            $table->string('category')->index();
+            $table->string('channel')->index();
             $table->string('description')->nullable();
             $table->timestamps();
         });

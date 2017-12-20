@@ -13,10 +13,10 @@ class Rule extends Model
      *
      * @var array
      */
-    protected $fillable = ['title', 'category_id'];
+    protected $fillable = ['title', 'channel_id'];
 
-    public function category()
+    public function channel()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Channel::class);
     }
 }

@@ -11,7 +11,7 @@
 		            {{ list.bio }}
 		        </p>
 		    </div>
-		    <div class="category-search-item-arrow">
+		    <div class="channel-search-item-arrow">
 		    	<i class="v-icon flaticon-right-arrow-2"></i>
 		    </div>
 	    </router-link>

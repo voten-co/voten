@@ -11,17 +11,17 @@ class Suggested extends Model
      *
      * @var array
      */
-    protected $fillable = ['z_index', 'group', 'category_id'];
+    protected $fillable = ['z_index', 'group', 'channel_id'];
 
-    protected $with = ['category'];
+    protected $with = ['channel'];
 
     /**
      * A comment has an owner.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function category()
+    public function channel()
     {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsTo(Channel::class, 'channel_id');
     }
 }

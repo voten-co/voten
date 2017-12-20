@@ -2,12 +2,12 @@ export default {
     methods: {
         /**
          * Preloads few Store data using the HTML5 local storage. This'll get more updates in the future.
-         * Let's begin by preloading sidebar categories.
+         * Let's begin by preloading sidebar channels.
          *
          * @return void
          */
         preloadStore() {
-            Store.state.subscribedCategories = Vue.getLS('subscribedCategories');
+            Store.state.subscribedChannels = Vue.getLS('subscribedChannels');
         },
 
         /**
@@ -41,26 +41,26 @@ export default {
                 Store.state.comments.downVotes = response.data.commentDownvotes;
                 Store.state.bookmarks.submissions = response.data.bookmarkedSubmissions;
                 Store.state.bookmarks.comments = response.data.bookmarkedComments;
-                Store.state.bookmarks.categories = response.data.bookmarkedCategories;
+                Store.state.bookmarks.channels = response.data.bookmarkedChannels;
                 Store.state.bookmarks.users = response.data.bookmarkedUsers;
-                Store.state.subscribedCategories = response.data.subscribedCategories;
-                Store.state.moderatingCategories = response.data.moderatingCategories;
-                Store.state.bookmarkedCategories = response.data.bookmarkedCategoriesRecords;
+                Store.state.subscribedChannels = response.data.subscribedChannels;
+                Store.state.moderatingChannels = response.data.moderatingChannels;
+                Store.state.bookmarkedChannels = response.data.bookmarkedChannelsRecords;
                 Store.state.blocks.users = response.data.blockedUsers;
 
-                response.data.moderatingCategories.forEach((element, index) => {
+                response.data.moderatingChannels.forEach((element, index) => {
                     Store.state.moderatingAt.push(element.id);
                 });
 
-                response.data.subscribedCategories.forEach((element, index) => {
+                response.data.subscribedChannels.forEach((element, index) => {
                     Store.state.subscribedAt.push(element.id);
                 });
 
-                response.data.moderatingCategoriesRecords.forEach((element, index) => {
+                response.data.moderatingChannelsRecords.forEach((element, index) => {
                     if (element.role == "administrator") {
-                        Store.state.administratorAt.push(element.category_id);
+                        Store.state.administratorAt.push(element.channel_id);
                     } else if (element.role == "moderator") {
-                        Store.state.moderatorAt.push(element.category_id);
+                        Store.state.moderatorAt.push(element.channel_id);
                     }
                 });
 

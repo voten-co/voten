@@ -41,7 +41,7 @@
             destroy(){
                 axios.post('/destroy-moderator', {
                     username: this.list.username,
-                    category_name: this.$route.params.name
+                    channel_name: this.$route.params.name
                 }).then(() => {
                     this.$emit('delete-moderator');
                 })

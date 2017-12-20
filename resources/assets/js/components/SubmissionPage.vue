@@ -1,7 +1,7 @@
 <template>
 	<div id="submission-page" class="home-wrapper">
 		<div class="flex1" id="comments-submission-page">
-			<submission-category-header></submission-category-header>
+			<submission-channel-header></submission-channel-header>
 	
 			<div class="col-full padding-bottom-1 flex1">
 				<nsfw-warning v-if="submission.nsfw == 1 && !auth.nsfw" :text="'This submission contains NSFW content which can not be displayed according to your personal settings.'">
@@ -66,8 +66,8 @@
 	import FullSubmission from '../components/FullSubmission.vue';
 	import Comment from '../components/Comment.vue';
 	import CommentForm from '../components/CommentForm.vue';
-	import CategoryHeader from '../components/CategoryHeader.vue';
-	import SubmissionCategoryHeader from '../components/SubmissionCategoryHeader.vue';
+	import ChannelHeader from '../components/ChannelHeader.vue';
+	import SubmissionChannelHeader from '../components/SubmissionChannelHeader.vue';
 	import Loading from '../components/Loading.vue';
 	import NsfwWarning from '../components/NsfwWarning.vue';
 	import Helpers from '../mixins/Helpers';
@@ -80,8 +80,8 @@
 			Comment,
 			CommentForm,
 			Loading,
-			CategoryHeader,
-			SubmissionCategoryHeader,
+			ChannelHeader,
+			SubmissionChannelHeader,
 			NsfwWarning
 		},
 	
@@ -119,7 +119,7 @@
 		},
 	
 		beforeRouteEnter(to, from, next) {
-			if (typeof Store.page.category.temp.name != 'undefined' && Store.page.category.temp.name != to.params.name) {
+			if (typeof Store.page.channel.temp.name != 'undefined' && Store.page.channel.temp.name != to.params.name) {
 				Store.page.submission.clearSubmission();
 			}
 	

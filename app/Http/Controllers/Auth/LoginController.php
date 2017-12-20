@@ -141,7 +141,7 @@ class LoginController extends Controller
 
             'bookmarkedSubmissions' => collect(),
             'bookmarkedComments'    => collect(),
-            'bookmarkedCategories'  => collect(),
+            'bookmarkedChannels'  => collect(),
             'bookmarkedUsers'       => collect(),
 
             'commentUpvotes'   => collect(),

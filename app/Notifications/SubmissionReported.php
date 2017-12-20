@@ -2,7 +2,7 @@
 
 namespace App\Notifications;
 
-use App\Category;
+use App\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -15,16 +15,16 @@ class SubmissionReported extends Notification implements ShouldBroadcast
 {
     use Queueable, InteractsWithSockets, SerializesModels;
 
-    protected $category;
+    protected $channel;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Category $category)
+    public function __construct(Channel $channel)
     {
-        $this->category = $category;
+        $this->channel = $channel;
     }
 
     /**
@@ -64,10 +64,10 @@ class SubmissionReported extends Notification implements ShouldBroadcast
     public function toArray($notifiable)
     {
         return [
-            'url'    => '/c/'.$this->category->name.'/mod/reports/submissions/',
-            'name'   => $this->category->name,
-            'avatar' => $this->category->avatar,
-            'body'   => 'Submission reported at #'.$this->category->name,
+            'url'    => '/c/'.$this->channel->name.'/mod/reports/submissions/',
+            'name'   => $this->channel->name,
+            'avatar' => $this->channel->avatar,
+            'body'   => 'Submission reported at #'.$this->channel->name,
         ];
     }
 

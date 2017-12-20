@@ -3,13 +3,13 @@
 namespace App\Listeners;
 
 use App\Events\SubmissionWasCreated;
-use App\Traits\CachableCategory;
+use App\Traits\CachableChannel;
 use App\Traits\CachableSubmission;
 use App\Traits\CachableUser;
 
 class NewSubmission
 {
-    use CachableUser, CachableSubmission, CachableCategory;
+    use CachableUser, CachableSubmission, CachableChannel;
 
     /**
      * Create the event listener.
@@ -32,6 +32,6 @@ class NewSubmission
     {
         $this->updateUserSubmissionsCount($event->submission->user_id);
 
-        $this->updateCategorySubmissionsCount($event->submission->category_id);
+        $this->updateChannelSubmissionsCount($event->submission->channel_id);
     }
 }

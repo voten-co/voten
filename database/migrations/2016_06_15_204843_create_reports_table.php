@@ -9,7 +9,7 @@ class CreateReportsTable extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('category_id')->nullable()->unsigned()->index();
+            $table->integer('channel_id')->nullable()->unsigned()->index();
             $table->integer('reportable_id')->unsigned()->index();
             $table->string('reportable_type')->index();
             $table->string('subject')->index();

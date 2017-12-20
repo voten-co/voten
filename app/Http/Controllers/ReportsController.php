@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
+use App\Channel;
 use App\Comment;
 use App\Report;
 use App\Submission;
-use App\Traits\CachableCategory;
+use App\Traits\CachableChannel;
 use Auth;
 use Illuminate\Http\Request;
 
 class ReportsController extends Controller
 {
-    use CachableCategory;
+    use CachableChannel;
 
     public function __construct()
     {
@@ -42,7 +42,7 @@ class ReportsController extends Controller
             'reportable_type' => "App\Submission",
             'reportable_id'   => $request->submission_id,
             'user_id'         => Auth::user()->id,
-            'category_id'     => Submission::where('id', $request->submission_id)->value('category_id'),
+            'channel_id'     => Submission::where('id', $request->submission_id)->value('channel_id'),
             'description'     => $request->description,
         ]);
         $report->save();
@@ -73,7 +73,7 @@ class ReportsController extends Controller
             'reportable_type' => "App\Comment",
             'reportable_id'   => $request->comment_id,
             'user_id'         => Auth::user()->id,
-            'category_id'     => Comment::where('id', $request->comment_id)->value('category_id'),
+            'channel_id'     => Comment::where('id', $request->comment_id)->value('channel_id'),
             'description'     => $request->description,
         ]);
         $report->save();
@@ -91,24 +91,24 @@ class ReportsController extends Controller
     public function reportedSubmissions(Request $request)
     {
         $this->validate($request, [
-            'category' => 'required',
+            'channel' => 'required',
             'type'     => 'required',
         ]);
 
-        $category_id = Category::where('name', $request->category)->value('id');
+        $channel_id = Channel::where('name', $request->channel)->value('id');
 
-        abort_unless($this->mustBeModerator($category_id), 403);
+        abort_unless($this->mustBeModerator($channel_id), 403);
 
         if ($request->type == 'solved') {
             return Report::onlyTrashed()->whereHas('submission')->whereHas('reporter')->where([
-                'category_id'     => $category_id,
+                'channel_id'     => $channel_id,
                 'reportable_type' => 'App\Submission',
             ])->with('reporter', 'submission')->orderBy('created_at', 'desc')->simplePaginate(50);
         }
 
         // default type which is "unsolved"
         return Report::whereHas('submission')->whereHas('reporter')->where([
-            'category_id'     => $category_id,
+            'channel_id'     => $channel_id,
             'reportable_type' => 'App\Submission',
         ])->with('reporter', 'submission')->orderBy('created_at', 'desc')->simplePaginate(50);
     }
@@ -123,24 +123,24 @@ class ReportsController extends Controller
     public function reportedComments(Request $request)
     {
         $this->validate($request, [
-            'category' => 'required',
+            'channel' => 'required',
             'type'     => 'required',
         ]);
 
-        $category_id = Category::where('name', $request->category)->value('id');
+        $channel_id = Channel::where('name', $request->channel)->value('id');
 
-        abort_unless($this->mustBeModerator($category_id), 403);
+        abort_unless($this->mustBeModerator($channel_id), 403);
 
         if ($request->type == 'solved') {
             return Report::onlyTrashed()->whereHas('comment')->whereHas('reporter')->where([
-                'category_id'     => $category_id,
+                'channel_id'     => $channel_id,
                 'reportable_type' => 'App\Comment',
             ])->with('reporter', 'comment.submission')->orderBy('created_at', 'desc')->simplePaginate(50);
         }
 
         // default type which is "unsolved"
         return Report::whereHas('comment')->whereHas('reporter')->where([
-            'category_id'     => $category_id,
+            'channel_id'     => $channel_id,
             'reportable_type' => 'App\Comment',
         ])->with('reporter', 'comment.submission')->orderBy('created_at', 'desc')->simplePaginate(50);
     }

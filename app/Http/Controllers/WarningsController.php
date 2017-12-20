@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
-use App\Mail\CategoryRemovalWarning;
+use App\Channel;
+use App\Mail\ChannelRemovalWarning;
 use Carbon\Carbon;
 
 class WarningsController extends Controller
@@ -14,28 +14,28 @@ class WarningsController extends Controller
     }
 
     /**
-     * Sends "CategoryRemovalWarning" email for inactive categories.
+     * Sends "ChannelRemovalWarning" email for inactive channels.
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function categoriesRemoval()
+    public function channelsRemoval()
     {
-        $inactive_categories = Category::where('created_at', '<=', Carbon::now()->subMonths(2))
+        $inactive_channels = Channel::where('created_at', '<=', Carbon::now()->subMonths(2))
             ->whereDoesntHave('submissions', function ($query) {
                 $query->where('created_at', '>=', Carbon::now()->subMonths(2));
             })->get();
 
-        foreach ($inactive_categories as $category) {
-            $mods = $category->moderators;
+        foreach ($inactive_channels as $channel) {
+            $mods = $channel->moderators;
 
             foreach ($mods as $user) {
                 if ($user->confirmed) {
-                    \Mail::to($user->email)->queue(new CategoryRemovalWarning($user, $category));
+                    \Mail::to($user->email)->queue(new ChannelRemovalWarning($user, $channel));
                 }
             }
         }
 
-        session()->flash('status', $inactive_categories->count().' channels are going to get a warning email. ');
+        session()->flash('status', $inactive_channels->count().' channels are going to get a warning email. ');
 
         return back();
     }

@@ -12,7 +12,7 @@ class Announcement extends Model
      * @var array
      */
     protected $fillable = [
-        'category_name', 'user_id', 'title', 'body', 'active_until',
+        'channel_name', 'user_id', 'title', 'body', 'active_until',
     ];
 
     /**

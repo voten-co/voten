@@ -117,11 +117,11 @@
                         this.close()
                     });
 
-                } else if (this.type == 'category') {
-                    axios.post('/category-avatar-crop', {
+                } else if (this.type == 'channel') {
+                    axios.post('/channel-avatar-crop', {
                         photo: this.photo,
 
-                        name: Store.page.category.temp.name,
+                        name: Store.page.channel.temp.name,
 
                         width: parseInt(this.width * horizontal),
                         x: parseInt(this.x * horizontal),
@@ -129,7 +129,7 @@
                         height: parseInt(this.height * vertical),
                         y: parseInt(this.y * vertical),
                     }).then((response) => {
-                        Store.page.category.temp.avatar = response.data
+                        Store.page.channel.temp.avatar = response.data
                         this.loading = false
                         this.close()
                     });

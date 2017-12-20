@@ -282,19 +282,19 @@
             },
 
             showApprove() {
-                return !this.list.approved_at && Store.state.moderatingAt.indexOf(this.list.category_id) != -1 && !this.owns;
+                return !this.list.approved_at && Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 && !this.owns;
             },
 
             showDisapprove() {
-                return !this.list.deleted_at && Store.state.moderatingAt.indexOf(this.list.category_id) != -1 && !this.owns;
+                return !this.list.deleted_at && Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 && !this.owns;
             },
 
             showNSFW() {
-                return (this.owns || Store.state.moderatingAt.indexOf(this.list.category_id) != -1) && !this.list.nsfw;
+                return (this.owns || Store.state.moderatingAt.indexOf(this.list.channel_id) != -1) && !this.list.nsfw;
             },
 
             showSFW() {
-                return (this.owns || Store.state.moderatingAt.indexOf(this.list.category_id) != -1) && this.list.nsfw;
+                return (this.owns || Store.state.moderatingAt.indexOf(this.list.channel_id) != -1) && this.list.nsfw;
             },
 
             showRemoveTumbnail() {
@@ -488,7 +488,7 @@
             },
 
             /**
-             * Approves the submission. Only the moderators of category are allowed to do this.
+             * Approves the submission. Only the moderators of channel are allowed to do this.
              *
              * @return void
              */
@@ -501,7 +501,7 @@
             },
 
             /**
-             * Disapproves the submission. Only the moderators of category are allowed to do this.
+             * Disapproves the submission. Only the moderators of channel are allowed to do this.
              *
              * @return void
              */

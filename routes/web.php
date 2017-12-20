@@ -15,9 +15,9 @@ Route::group(['middleware' => ['maintenance', 'http2']], function () {
     Route::get('/privacy-policy', 'PagesController@privacyPolicy');
 
     // guest browsing routes
-    Route::get('/c/{category}', 'CategoryController@show')->middleware('correct-view');
-    Route::get('/c/{category}/hot', 'CategoryController@redirect');
-    Route::get('/c/{category}/{slug}', 'SubmissionController@show')->middleware('correct-view');
+    Route::get('/c/{channel}', 'ChannelController@show')->middleware('correct-view');
+    Route::get('/c/{channel}/hot', 'ChannelController@redirect');
+    Route::get('/c/{channel}/{slug}', 'SubmissionController@show')->middleware('correct-view');
 
     Route::get('/@{username}', 'UserController@showSubmissions')->middleware('correct-view');
     Route::get('/@{username}/comments', 'UserController@showComments')->middleware('correct-view');
@@ -31,7 +31,7 @@ Route::group(['middleware' => ['maintenance', 'http2']], function () {
     Route::get('/pages.xml', 'SitemapsController@pages');
     Route::get('/submissions.xml', 'SitemapsController@submissions');
     Route::get('/users.xml', 'SitemapsController@users');
-    Route::get('/channels.xml', 'SitemapsController@categories');
+    Route::get('/channels.xml', 'SitemapsController@channels');
 });
 
 // backend-admin
@@ -45,10 +45,10 @@ Route::delete('/block-domain/destroy', 'BlockDomainController@destroy');
 Route::get('/backend/server-control', 'BackendController@serverControls');
 Route::get('/backend/firewall', 'BackendController@firewall');
 Route::get('/backend/appointed-users', 'BackendController@indexAppointedUsers');
-Route::get('/backend/channels', 'BackendController@showCategories');
-Route::get('/backend/channels/{category}', 'BackendController@showCategory');
-Route::delete('/backend/channels/{category}/destroy', 'CategoryController@destroy');
-Route::post('/backend/channels/{category}/takeover', 'BackendController@takeOverCategory');
+Route::get('/backend/channels', 'BackendController@showChannels');
+Route::get('/backend/channels/{channel}', 'BackendController@showChannel');
+Route::delete('/backend/channels/{channel}/destroy', 'ChannelController@destroy');
+Route::post('/backend/channels/{channel}/takeover', 'BackendController@takeOverChannel');
 Route::get('/backend/users', 'BackendController@showUsers');
 Route::get('/backend/users/{user}', 'BackendController@showUser');
 Route::delete('/backend/users/destroy', 'UserController@destroy');
@@ -66,13 +66,13 @@ Route::post('/disapprove-submission', 'ModeratorController@disapproveSubmission'
 Route::post('/backend/update-comments-count', 'BackendController@updateCommentsCount');
 Route::post('/forbidden-username/store', 'BackendController@storeForbiddenUsername');
 Route::delete('/appointed/destroy/{appointed}', 'BackendController@destroyAppointed');
-Route::post('/forbidden-category-name/store', 'BackendController@storeForbiddenCategoryName');
+Route::post('/forbidden-channel-name/store', 'BackendController@storeForbiddenChannelName');
 Route::delete('/forbidden-username/destroy/{forbidden}', 'BackendController@destroyForbiddenUsername');
-Route::delete('/forbidden-category-name/destroy/{forbidden}', 'BackendController@destroyForbiddenCategoryName');
+Route::delete('/forbidden-channel-name/destroy/{forbidden}', 'BackendController@destroyForbiddenChannelName');
 Route::get('/backend/emails', 'EmailsController@index');
 Route::post('/emails/announcement/store', 'EmailsController@store');
 Route::post('/emails/announcement/send', 'EmailsController@send');
-Route::post('/backend/channel-removal-warnings/send', 'WarningsController@categoriesRemoval');
+Route::post('/backend/channel-removal-warnings/send', 'WarningsController@channelsRemoval');
 Route::get('/emails/announcement/preview', 'EmailsController@preview');
 
 // ssh control

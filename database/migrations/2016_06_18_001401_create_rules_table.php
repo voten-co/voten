@@ -16,7 +16,7 @@ class CreateRulesTable extends Migration
             $table->increments('id');
             $table->text('title');
             // $table->text('body')->nullable(0);
-            $table->integer('category_id')->unsigned()->index();
+            $table->integer('channel_id')->unsigned()->index();
             $table->timestamps();
         });
     }

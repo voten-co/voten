@@ -5,13 +5,13 @@ namespace App\Listeners;
 use App\Events\SubmissionWasDeleted;
 use App\Photo;
 use App\Report;
-use App\Traits\CachableCategory;
+use App\Traits\CachableChannel;
 use App\Traits\CachableSubmission;
 use App\Traits\CachableUser;
 
 class DestroyedSubmission
 {
-    use CachableUser, CachableSubmission, CachableCategory;
+    use CachableUser, CachableSubmission, CachableChannel;
 
     /**
      * Handle the event.
@@ -22,7 +22,7 @@ class DestroyedSubmission
      */
     public function handle(SubmissionWasDeleted $event)
     {
-        $this->updateCategorySubmissionsCount($event->submission->category_id, -1);
+        $this->updateChannelSubmissionsCount($event->submission->channel_id, -1);
 
         if ($event->deletedByAuthor) {
             $this->deletedByAuthor($event);

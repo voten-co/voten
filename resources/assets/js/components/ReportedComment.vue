@@ -8,7 +8,7 @@
                     :open-delay="100"
             >
                 <div class="left" slot="reference">
-                    <router-link :to="list.comment.submission != undefined ? '/c/' + list.comment.submission.category_name + '/' + list.comment.submission.slug : '/deleted-submission'">
+                    <router-link :to="list.comment.submission != undefined ? '/c/' + list.comment.submission.channel_name + '/' + list.comment.submission.slug : '/deleted-submission'">
                         {{ str_limit(list.comment.body, 20) }}
                     </router-link>
                 </div>
@@ -18,7 +18,7 @@
                 </p>
 
                 <div class="flex-right">
-                    <el-button @click="$router.push(list.comment.submission != undefined ? '/c/' + list.comment.submission.category_name + '/' + list.comment.submission.slug : '/deleted-submission')" size="mini">
+                    <el-button @click="$router.push(list.comment.submission != undefined ? '/c/' + list.comment.submission.channel_name + '/' + list.comment.submission.slug : '/deleted-submission')" size="mini">
                         Open
                     </el-button>
                 </div>

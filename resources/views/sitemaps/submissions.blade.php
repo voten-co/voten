@@ -4,7 +4,7 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
     @foreach($submissions as $submission)
         <url>
-            <loc>{{ config('app.url') }}/c/{{ $submission->category_name }}/{{ $submission->slug }}</loc>
+            <loc>{{ config('app.url') }}/c/{{ $submission->channel_name }}/{{ $submission->slug }}</loc>
             <lastmod>{{ iso8601($submission->created_at) }}</lastmod>
             @if(strtotime($submission->created_at) > strtotime('-1 days'))
                 <changefreq>hourly</changefreq>

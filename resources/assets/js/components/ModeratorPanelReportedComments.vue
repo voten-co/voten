@@ -137,7 +137,7 @@
 
                 axios.post('/reported-comments', {
                     type: this.type,
-                    category: this.$route.params.name,
+                    channel: this.$route.params.name,
                     page: this.page
                 }).then((response) => {
                     this.items = [...this.items, ...response.data.data]
@@ -158,9 +158,9 @@
 
 
         beforeRouteEnter(to, from, next){
-            if (Store.page.category.temp.name == to.params.name) {
+            if (Store.page.channel.temp.name == to.params.name) {
                 // loaded
-                if (Store.state.moderatingAt.indexOf(Store.page.category.temp.id) != -1) {
+                if (Store.state.moderatingAt.indexOf(Store.page.channel.temp.id) != -1) {
                     next()
                 }
             } else {
