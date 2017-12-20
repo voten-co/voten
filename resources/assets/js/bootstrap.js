@@ -10,6 +10,7 @@ Vue.use(ElementUI, { locale });
 import LocalStorage from './plugins/local-storage';
 Vue.use(LocalStorage);
 
+
 import VueProgressBar from 'vue-progressbar';
 const VueProgressBarOptions = {
     color: '#5587d7',
@@ -18,8 +19,13 @@ const VueProgressBarOptions = {
 };
 Vue.use(VueProgressBar, VueProgressBarOptions);
 
+
 import infiniteScroll from 'vue-infinite-scroll';
 Vue.use(infiniteScroll);
+
+
+window.Push = require('push.js'); 
+
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
