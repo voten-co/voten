@@ -324,8 +324,8 @@
             setDefaultChannels() {
                 let array = [];
 
-                Store.state.subscribedChannels.forEach(function (element, index) {
-                    array.push(element.name)
+                Store.state.subscribedChannels.forEach((element, index) => {
+                    array.push(element.name); 
                 });
 
                 this.suggestedCats = array;
