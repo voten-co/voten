@@ -24,10 +24,10 @@ export default {
                 params: {
                     sort,
                     page: this.page,
-                    // filter: Store.feedFilter, 
+                    filter: Store.settings.feed.submissionsFilter, 
                     exclude_upvoted_submissions: Store.settings.feed.excludeUpvotedSubmissions, 
                     exclude_downvoted_submissions: Store.settings.feed.excludeDownvotedSubmissions, 
-                    types: Store.settings.feed.submissionsTypes
+                    type: Store.settings.feed.submissionsType, 
                 }
             }).then((response) => {
                 this.submissions = [...this.submissions, ...response.data.data];

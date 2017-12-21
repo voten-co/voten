@@ -69,6 +69,28 @@ class HomeController extends Controller
                 break;
         }
 
+        switch ($request->type) {
+            case 'GIF': 
+                $submissions->where('type', 'gif');
+                break; 
+            
+            case 'Link': 
+                $submissions->where('type', 'link');
+                break; 
+
+            case 'Image': 
+                $submissions->where('type', 'img');
+                break; 
+
+            case 'Text': 
+                $submissions->where('type', 'text');
+                break; 
+
+            default: // subscribed
+                // guest what? we don't have to do anything :|
+                break;
+        }
+
         // exclude user's blocked channels
         $submissions->whereNotIn('channel_id', $this->hiddenChannels());
 

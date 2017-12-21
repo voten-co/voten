@@ -60,7 +60,7 @@
 		computed: {
 			thumbnail() {
 				return {
-					backgroundImage: 'url(' + this.submission.data.thumbnail_path + ')'; 
+					backgroundImage: 'url(' + this.submission.data.thumbnail_path + ')'
 				};
 			},
 

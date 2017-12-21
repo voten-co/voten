@@ -17,19 +17,20 @@
             </div>
             
             <el-form-item label="Submissions Type:">
-                <!-- <el-radio-group v-model="form.submissionsTypes" size="small">
-                  <el-radio-button label="All" value="all"></el-radio-button>
+                <el-radio-group v-model="form.submissionsType" size="small">
+                  <el-radio-button label="All"></el-radio-button>
                   <el-radio-button label="Link"></el-radio-button>
                   <el-radio-button label="Text"></el-radio-button>
                   <el-radio-button label="Image"></el-radio-button>
-                  <el-radio-button label="GIF" value="gif"></el-radio-button>
-                </el-radio-group> -->
+                  <el-radio-button label="GIF"></el-radio-button>
+                </el-radio-group>
+            </el-form-item>
 
-                <el-checkbox-group v-model="form.submissionsTypes" size="small">
-                  <el-checkbox-button v-for="type in submissionsTypes" :label="type" :key="type">
-                      {{ type }}
-                  </el-checkbox-button>
-                </el-checkbox-group>
+            <el-form-item label="Limit submissions to:">
+                <el-select v-model="form.submissionsFilter" placeholder="Limit submissions to:" filterable>
+                    <el-option v-for="item in filters" :key="item.value" :label="item.description" :value="item.value">
+                    </el-option>
+                </el-select>
             </el-form-item>
 
             <el-form-item v-if="changed">
@@ -53,12 +54,16 @@
                     excludeUpvotedSubmissions: Store.settings.feed.excludeUpvotedSubmissions,
                     excludeDownvotedSubmissions: Store.settings.feed.excludeDownvotedSubmissions,
                     submissionsFilter: Store.settings.feed.submissionsFilter,
-                    submissionsTypes: Store.settings.feed.submissionsTypes,
+                    submissionsType: Store.settings.feed.submissionsType,
                 }, 
 
-                submissionsTypes: [
-                    'All', 'GIF', 'Image', 'Link', 'Text'
-                ]
+                filters: [
+                    {value: 'all', description: 'Submissions from all channels',},
+                    {value: 'subscribed', description: 'Only submissions from channels I am subscribed to'},
+                    {value: 'moderating', description: 'Only submissions from channels I am moderating'},
+                    {value: 'bookmarked', description: 'Only submissions from channels I have bookmarked'},
+                    {value: 'by-bookmarked-users', description: 'Only submissions from users I have bookmarked'},
+                ], 
             }
         },
 
@@ -68,7 +73,7 @@
                     Store.settings.feed.excludeUpvotedSubmissions != this.form.excludeUpvotedSubmissions ||
                     Store.settings.feed.excludeDownvotedSubmissions != this.form.excludeDownvotedSubmissions || 
                     Store.settings.feed.submissionsFilter != this.form.submissionsFilter || 
-                    Store.settings.feed.submissionsTypes != this.form.submissionsTypes 
+                    Store.settings.feed.submissionsType != this.form.submissionsType 
                 ) {
                     return true;
                 }
@@ -82,7 +87,7 @@
                 Store.settings.feed.excludeUpvotedSubmissions = this.form.excludeUpvotedSubmissions;
                 Store.settings.feed.excludeDownvotedSubmissions = this.form.excludeDownvotedSubmissions;
                 Store.settings.feed.submissionsFilter = this.form.submissionsFilter;
-                Store.settings.feed.submissionsTypes = this.form.submissionsTypes;
+                Store.settings.feed.submissionsType = this.form.submissionsType;
             }
         }
     };

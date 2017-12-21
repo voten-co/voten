@@ -65,8 +65,8 @@ window.Store = {
         feed: {
             excludeUpvotedSubmissions: false,
             excludeDownvotedSubmissions: true,
-            submissionsFilter: '',
-            submissionsTypes: ['All']
+            submissionsFilter: 'subscribed',
+            submissionsType: 'All', 
         },
 
         rightSidebar: {
