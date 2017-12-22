@@ -1,8 +1,6 @@
 <template>
     <div class="sidebar-right user-select" :class="theme">
-        <el-dialog title="Customize Sidebar" :visible.sync="showSettings" :width="isMobile ? '99%' : '35%'">
-            <settings></settings>
-        </el-dialog>
+        <settings :visible.sync="showSettings" v-if="showSettings"></settings>
     
         <div class="fixed-header">
             <div class="flex-space">

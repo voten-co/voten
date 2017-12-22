@@ -1,45 +1,53 @@
 <template>
-    <section class="user-select">
-        <p>
-            Other than subscribing to channels, there are more filters available to make sure you get the
-            content that suits you the best.
-        </p>
+    <el-dialog
+            title="Customize Feed"
+            :visible="visible"
+            :width="isMobile ? '99%' : '550px'"
+            @close="close"
+            append-to-body
+    >
+        <section class="user-select">
+            <p>
+                Other than subscribing to channels, there are more filters available to make sure you get the
+                content that suits you the best.
+            </p>
 
-        <el-form label-position="top" label-width="10px" :model="form">
-            <div class="form-toggle">
-                <span>Exclude my upvoted submissions:</span>
-                <el-switch v-model="form.excludeUpvotedSubmissions"></el-switch>
-            </div>
+            <el-form label-position="top" label-width="10px" :model="form">
+                <div class="form-toggle">
+                    <span>Exclude my upvoted submissions:</span>
+                    <el-switch v-model="form.excludeUpvotedSubmissions"></el-switch>
+                </div>
 
-            <div class="form-toggle no-border">
-                <span>Exclude my downvoted submissions:</span>
-                <el-switch v-model="form.excludeDownvotedSubmissions"></el-switch>
-            </div>
-            
-            <el-form-item label="Submissions Type:">
-                <el-radio-group v-model="form.submissionsType" size="small">
-                  <el-radio-button label="All"></el-radio-button>
-                  <el-radio-button label="Link"></el-radio-button>
-                  <el-radio-button label="Text"></el-radio-button>
-                  <el-radio-button label="Image"></el-radio-button>
-                  <el-radio-button label="GIF"></el-radio-button>
-                </el-radio-group>
-            </el-form-item>
+                <div class="form-toggle no-border">
+                    <span>Exclude my downvoted submissions:</span>
+                    <el-switch v-model="form.excludeDownvotedSubmissions"></el-switch>
+                </div>
+                
+                <el-form-item label="Submissions Type:">
+                    <el-radio-group v-model="form.submissionsType" size="small">
+                    <el-radio-button label="All"></el-radio-button>
+                    <el-radio-button label="Link"></el-radio-button>
+                    <el-radio-button label="Text"></el-radio-button>
+                    <el-radio-button label="Image"></el-radio-button>
+                    <el-radio-button label="GIF"></el-radio-button>
+                    </el-radio-group>
+                </el-form-item>
 
-            <el-form-item label="Limit submissions to:">
-                <el-select v-model="form.submissionsFilter" placeholder="Limit submissions to:" filterable>
-                    <el-option v-for="item in filters" :key="item.value" :label="item.description" :value="item.value">
-                    </el-option>
-                </el-select>
-            </el-form-item>
+                <el-form-item label="Limit submissions to:">
+                    <el-select v-model="form.submissionsFilter" placeholder="Limit submissions to:" filterable>
+                        <el-option v-for="item in filters" :key="item.value" :label="item.description" :value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
 
-            <el-form-item v-if="changed">
-                <el-button type="success" @click="save" size="medium">
-                    Save
-                </el-button>
-            </el-form-item>
-        </el-form>
-    </section>
+                <el-form-item v-if="changed">
+                    <el-button type="success" @click="save" size="medium">
+                        Save
+                    </el-button>
+                </el-form-item>
+            </el-form>
+        </section>
+    </el-dialog>
 </template>
 
 <script>
@@ -47,6 +55,8 @@
 
     export default {
         mixins: [Helpers], 
+
+        props: ['visible'], 
 
         data() {
             return {
@@ -88,7 +98,14 @@
                 Store.settings.feed.excludeDownvotedSubmissions = this.form.excludeDownvotedSubmissions;
                 Store.settings.feed.submissionsFilter = this.form.submissionsFilter;
                 Store.settings.feed.submissionsType = this.form.submissionsType;
-            }
+                
+                this.$eventHub.$emit('refresh-home');
+                this.close(); 
+            }, 
+
+            close() {
+                this.$emit('update:visible', false);
+            },
         }
     };
 </script>

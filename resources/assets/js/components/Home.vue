@@ -97,13 +97,7 @@
 
         <scroll-button scrollable="submissions"></scroll-button>
 
-        <el-dialog
-                title="Customize Feed"
-                :visible.sync="showSettings"
-                :width="isMobile ? '99%' : '35%'"
-        >
-            <settings></settings>
-        </el-dialog>
+        <settings :visible.sync="showSettings" v-if="showSettings"></settings>
     </div>
 </template>
 
