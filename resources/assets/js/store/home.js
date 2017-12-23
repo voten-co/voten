@@ -27,6 +27,7 @@ export default {
                     filter: Store.settings.feed.submissionsFilter, 
                     exclude_upvoted_submissions: Store.settings.feed.excludeUpvotedSubmissions, 
                     exclude_downvoted_submissions: Store.settings.feed.excludeDownvotedSubmissions, 
+                    exclude_bookmarked_submissions: Store.settings.feed.excludeBookmarkedSubmissions, 
                     type: Store.settings.feed.submissionsType, 
                 }
             }).then((response) => {

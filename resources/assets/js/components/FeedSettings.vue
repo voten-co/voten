@@ -23,6 +23,11 @@
                     <el-switch v-model="form.excludeDownvotedSubmissions"></el-switch>
                 </div>
                 
+                <div class="form-toggle no-border">
+                    <span>Exclude my bookmarked submissions:</span>
+                    <el-switch v-model="form.excludeBookmarkedSubmissions"></el-switch>
+                </div>
+                
                 <el-form-item label="Submissions Type:">
                     <el-radio-group v-model="form.submissionsType" size="small">
                     <el-radio-button label="All"></el-radio-button>
@@ -65,6 +70,7 @@
                     excludeDownvotedSubmissions: Store.settings.feed.excludeDownvotedSubmissions,
                     submissionsFilter: Store.settings.feed.submissionsFilter,
                     submissionsType: Store.settings.feed.submissionsType,
+                    excludeBookmarkedSubmissions: Store.settings.feed.excludeBookmarkedSubmissions,
                 }, 
 
                 filters: [
@@ -83,7 +89,8 @@
                     Store.settings.feed.excludeUpvotedSubmissions != this.form.excludeUpvotedSubmissions ||
                     Store.settings.feed.excludeDownvotedSubmissions != this.form.excludeDownvotedSubmissions || 
                     Store.settings.feed.submissionsFilter != this.form.submissionsFilter || 
-                    Store.settings.feed.submissionsType != this.form.submissionsType 
+                    Store.settings.feed.submissionsType != this.form.submissionsType || 
+                    Store.settings.feed.excludeBookmarkedSubmissions != this.form.excludeBookmarkedSubmissions 
                 ) {
                     return true;
                 }
@@ -98,6 +105,7 @@
                 Store.settings.feed.excludeDownvotedSubmissions = this.form.excludeDownvotedSubmissions;
                 Store.settings.feed.submissionsFilter = this.form.submissionsFilter;
                 Store.settings.feed.submissionsType = this.form.submissionsType;
+                Store.settings.feed.excludeBookmarkedSubmissions = this.form.excludeBookmarkedSubmissions;
                 
                 this.$eventHub.$emit('refresh-home');
                 this.close(); 

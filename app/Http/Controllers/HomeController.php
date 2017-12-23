@@ -110,6 +110,10 @@ class HomeController extends Controller
             $submissions->whereNotIn('id', $this->submissionDownvotesIds());
         }
         
+        if ($request->exclude_bookmarked_submissions == 'true') {
+            $submissions->whereNotIn('id', $this->bookmarkedSubmissions());
+        }
+        
         switch ($request->sort) {
             case 'new':
                 $submissions->orderBy('created_at', 'desc');
