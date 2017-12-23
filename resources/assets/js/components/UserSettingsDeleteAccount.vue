@@ -55,10 +55,6 @@
             }
         },
 
-        created() {
-        	document.title = 'Delete Account'; 
-        },
-
         methods: {
             /**
              * Destroys account, logs out

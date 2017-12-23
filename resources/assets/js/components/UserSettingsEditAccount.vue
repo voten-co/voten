@@ -101,11 +101,7 @@
                 }
             }
         },
-
-        created() {
-        	document.title = 'My Account | Settings'
-        },
-
+ 
 	    computed: {
 	    	changed () {
 	    		if (

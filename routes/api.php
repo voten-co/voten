@@ -48,7 +48,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::post('/remove-thumbnail', 'SubmissionController@removeThumbnail');
 
-    Route::get('/notifications', 'NotificationsController@unreadIndex');
+    Route::get('/notifications/unseen', 'NotificationsController@unreadIndex');
 
     // voting
     Route::post('/upvote-comment', 'CommentVotesController@upVote');
@@ -126,8 +126,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/gif', 'GifController@store');
 
     // notification
-    Route::post('/all-notifications', 'NotificationsController@readIndex');
-    Route::post('/mark-notifications-read', 'NotificationsController@markAsRead');
+    Route::get('/notifications', 'NotificationsController@readIndex');
+    Route::post('/notifications/seen', 'NotificationsController@markAsRead');
 
     // subscribe
     Route::post('/subscribe', 'SubscribeController@subscribeToggle');

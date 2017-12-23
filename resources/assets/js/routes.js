@@ -12,7 +12,6 @@ import UserComments from './components/UserComments.vue';
 import AdminPanel from './components/AdminPanel.vue';
 import Bookmarks from './components/Bookmarks.vue';
 import NotFound from './components/NotFound.vue';
-import Settings from './components/Settings.vue';
 import Home from './components/Home.vue';
 import Feedback from './components/Feedback.vue';
 import Channel from './components/Channel.vue';
@@ -25,14 +24,10 @@ import DeletedSubmissionPage from './components/DeletedSubmissionPage.vue';
 import BookmarkedSubmissions from './components/BookmarkedSubmissions.vue';
 import ModeratorPanelBanUsers from './components/ModeratorPanelBanUsers.vue';
 import UserUpvotedSubmissions from './components/UserUpvotedSubmissions.vue';
-import UserSettingsEditProfile from './components/UserSettingsEditProfile.vue';
-import UserSettingsEditAccount from './components/UserSettingsEditAccount.vue';
 import UserDownvotedSubmissions from './components/UserDownvotedSubmissions.vue';
 import ModeratorPanelModerators from './components/ModeratorPanelModerators.vue';
-import UserSettingsDeleteAccount from './components/UserSettingsDeleteAccount.vue';
 import ModeratorPanelBlockDomains from './components/ModeratorPanelBlockDomains.vue';
 import ModeratorPanelReportedComments from './components/ModeratorPanelReportedComments.vue';
-import UserSettingsEditEmailAndPassword from './components/UserSettingsEditEmailAndPassword.vue';
 import ModeratorPanelReportedSubmissions from './components/ModeratorPanelReportedSubmissions.vue';
 import SubscribedChannels from './components/SubscribedChannels.vue';
 
@@ -58,23 +53,23 @@ const routes = [
         ]
     },
 
-    { path: '/@:username/settings', redirect: '/@:username/settings/account' },
+    // { path: '/@:username/settings', redirect: '/@:username/settings/account' },
     {
         path: '/@:username',
         component: UserPage,
         children: [
             { path: '', component: UserSubmissions, name: 'user-submissions' },
-            {
-                 path: 'settings',
-                 component: Settings,
-                 name: 'user-settings',
-                 children: [
-                     { path: 'account', component: UserSettingsEditAccount, name: 'user-settings-account' },
-                     { path: 'profile', component: UserSettingsEditProfile, name: 'user-settings-profile' },
-                     { path: 'delete-account', component: UserSettingsDeleteAccount, name: 'user-settings-delete-account' },
-                     { path: 'email-and-password', component: UserSettingsEditEmailAndPassword, name: 'user-settings-email-and-password' },
-                 ]
-             },
+            // {
+            //      path: 'settings',
+            //      component: Settings,
+            //      name: 'user-settings',
+            //      children: [
+            //          { path: 'account', component: UserSettingsEditAccount, name: 'user-settings-account' },
+            //          { path: 'profile', component: UserSettingsEditProfile, name: 'user-settings-profile' },
+            //          { path: 'delete-account', component: UserSettingsDeleteAccount, name: 'user-settings-delete-account' },
+            //          { path: 'email-and-password', component: UserSettingsEditEmailAndPassword, name: 'user-settings-email-and-password' },
+            //      ]
+            //  },
             { path: 'comments', component: UserComments, name: 'user-comments' },
             { path: 'upvoted-submissions', component: UserUpvotedSubmissions, name: 'user-upvotes' },
             { path: 'downvoted-submissions', component: UserDownvotedSubmissions, name: 'user-downvotes' },

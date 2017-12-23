@@ -16,7 +16,7 @@
         
         <!-- Notifications -->
         <el-tooltip content="Notifications (N)" placement="right" transition="false" :open-delay="500">
-            <a class="item" :class="{'active' : activeRoute === 'notifications'}" @click="changeRoute('notifications')">
+            <a class="item" :class="{'active' : activeRoute === 'notifications'}" @click="Store.showNotifications = true">
                 <el-badge :value="unreadNotifications" :max="99">
                     <i class="el-icon-bell" aria-hidden="true"></i>
                 </el-badge>
@@ -48,7 +48,7 @@
 
         <!-- Settings -->
         <el-tooltip content="Preferences" placement="right" transition="false" :open-delay="500">
-            <a class="item" @click.prevent="pushRouter('/@' + auth.username + '/settings')" :href="'/@' + auth.username + '/settings'"
+            <a class="item" @click.prevent="Store.showPreferences = true"
                :class="{'active' : activeRoute === 'settings'}">
                 <i class="el-icon-setting" aria-hidden="true"></i>
             </a>
@@ -85,10 +85,6 @@
                     return 'messages';
                 }
 
-                if (this.contentRoute === 'notifications') {
-                    return 'notifications';
-                }
-
                 if (this.contentRoute === 'search') {
                     return 'search';
                 }
@@ -99,10 +95,6 @@
 
                 if (this.$route.name === 'bookmarked-submissions' || this.$route.name === 'bookmarked-comments' || this.$route.name === 'bookmarked-users' || this.$route.name === 'bookmarked-channels') {
                     return 'bookmarks';
-                }
-
-                if (this.$route.name === 'user-settings-account' || this.$route.name === 'user-settings-profile' || this.$route.name === 'user-settings-email-and-password') {
-                    return 'settings';
                 }
                 
                 if (this.$route.name === 'submit') {
@@ -136,7 +128,7 @@
                 }
 
                 this.pushRouter('/'); 
-            }
+            }, 
         }
     }
 </script>

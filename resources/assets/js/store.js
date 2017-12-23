@@ -47,6 +47,21 @@ window.Store = {
         subscribedChannels: [],
     },
 
+    methods: {
+        /**
+         * Mark all notifications as seen. 
+         */
+        seenAllNotifications() {
+            axios.post('/notifications/seen').then(() => {
+                Store.state.notifications.forEach((element, index) => {
+                    if (! element.read_at) {
+                        element.read_at = moment().utc().format('YYYY-MM-DD HH:mm:ss'); 
+                    }
+                });
+            }); 
+        }
+    }, 
+
     page: {
         channel, 
         submission,
@@ -80,6 +95,8 @@ window.Store = {
     contentRouter: 'content',
     feedFilter: '',
     sidebarFilter: '',
+    showPreferences: false, 
+    showNotifications: false, 
 
 
     // Open tab's unique ID:

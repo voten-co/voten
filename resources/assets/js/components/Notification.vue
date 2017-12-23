@@ -1,5 +1,5 @@
 <template>
-	<li :class="{ 'has-unread-messages' : notification.broadcasted }" @mouseover="seen">
+	<li :class="{ 'has-unread-messages' : notification.broadcasted }" @mouseover="$emit('seen')">
         <router-link :to="notification.data.url">
             <div class="v-contact-avatar">
                 <img v-bind:src="notification.data.avatar" v-bind:alt="notification.data.name" />
@@ -31,17 +31,6 @@
 
                 return this.parseDate(this.notification.created_at);
             },
-        },
-
-        methods: {
-        	/**
-        	 * seen the notification
-        	 *
-        	 * @return void
-        	 */
-        	seen() {
-        	    this.notification.broadcasted = false;
-        	},
         }
     }
 </script>

@@ -2,7 +2,7 @@
     <el-dialog
             title="Moderators"
             :visible="visible"
-            :width="isMobile ? '99%' : '35%'"
+            :width="isMobile ? '99%' : '550px'"
             @close="close"
             append-to-body
             class="user-select"

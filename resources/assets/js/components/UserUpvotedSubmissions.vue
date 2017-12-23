@@ -1,5 +1,7 @@
 <template>
-	<div class="padding-bottom-10 flex1" :class="{'flex-center' : nothingFound}" id="submissions" v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore">
+	<div class="padding-bottom-10 flex1" :class="{'flex-center' : nothingFound}" id="submissions" 
+		v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore" @scroll="scrolled"
+	>
 		<div v-for="submission in submissions" v-bind:key="submission.id">
 			<submission :list="submission"></submission>
 		</div>

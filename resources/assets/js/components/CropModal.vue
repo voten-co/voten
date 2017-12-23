@@ -112,9 +112,15 @@
                         height: parseInt(this.height * vertical),
                         y: parseInt(this.y * vertical),
                     }).then((response) => {
-                        auth.avatar = response.data
-                        this.loading = false
-                        this.close()
+                        auth.avatar = response.data; 
+
+                        this.loading = false; 
+
+                        if (typeof Store.page.user.temp.username != 'undefined' && Store.page.user.temp.id == auth.id) {
+                            Store.page.user.getUser(auth.username); 
+                        }
+
+                        this.close(); 
                     });
 
                 } else if (this.type == 'channel') {
@@ -129,9 +135,9 @@
                         height: parseInt(this.height * vertical),
                         y: parseInt(this.y * vertical),
                     }).then((response) => {
-                        Store.page.channel.temp.avatar = response.data
-                        this.loading = false
-                        this.close()
+                        Store.page.channel.temp.avatar = response.data; 
+                        this.loading = false; 
+                        this.close(); 
                     });
 
                 }

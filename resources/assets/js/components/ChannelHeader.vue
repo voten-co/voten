@@ -137,6 +137,16 @@
             });
         },
 
+        beforeDestroy() {
+            this.$eventHub.$off('scrolled-to-top', () => {
+                this.showFirstHeader = true
+            });
+
+            this.$eventHub.$off('scrolled-a-bit', () => {
+                this.showFirstHeader = false
+            });
+        }, 
+
         methods: {
             block() {
                 this.$confirm(`Blocking a channel will exclude it form your feed. Are you sure about this?`, 'Warning', {

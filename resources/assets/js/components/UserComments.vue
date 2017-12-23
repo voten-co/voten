@@ -1,5 +1,7 @@
 <template>
-	<div class="padding-bottom-10 flex1" :class="{'flex-center' : nothingFound}" id="comments-index" v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore">
+	<div class="padding-bottom-10 flex1" :class="{'flex-center' : nothingFound}" id="comments-index" 
+		v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore" @scroll="scrolled"
+	>
 		<section class="box-typical comments" id="comments-section" v-if="comments.length">
 			<div class="box-typical-inner ui threaded comments">
 				<div v-for="c in comments" class="v-comment-not-full" :key="c.id">

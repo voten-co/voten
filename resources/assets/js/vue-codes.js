@@ -7,6 +7,7 @@ import LoginModal from './components/LoginModal.vue';
 import Dashboard from './components/Dashboard.vue';
 import NotFound from './components/NotFound.vue';
 import Messages from './components/Messages.vue';
+import Settings from './components/Settings.vue';
 import StoreStorage from './mixins/StoreStorage';
 import LeftSidebar from './components/auth/LeftSidebar.vue';
 import RightSidebar from './components/auth/RightSidebar.vue';
@@ -54,6 +55,7 @@ window.app = new Vue({
         Messages,
         NewSubmission,
         NewChannel,
+        Settings, 
     },
 
     data: {
@@ -108,7 +110,6 @@ window.app = new Vue({
         this.$eventHub.$on('change-route', this.changeRoute);
         this.$eventHub.$on('markdown-guide', this.openMarkdownGuide);
         this.$eventHub.$on('push-notification', this.pushNotification)
-        this.$eventHub.$on('mark-notifications-read', this.markAllNotificationsAsRead);
 
         if (this.$route.query.search) {
             this.changeRoute('search');
@@ -144,8 +145,6 @@ window.app = new Vue({
                     this.close();
                 }
             });
-
-            this.webNotification(data.title, data.body, data.url, data.icon);
         },
 
         /**
@@ -299,26 +298,8 @@ window.app = new Vue({
             this.$eventHub.$emit('close');
 
             Store.contentRouter = newRoute;
-
-            if (newRoute === 'notifications') {
-                this.seenAllNotifications();
-            }
         },
-
-        /**
-         * Marks all user notifications as read
-         *
-         * @return void
-         */
-        seenAllNotifications() {
-            axios.post('/mark-notifications-read');
-
-            Store.state.notifications.forEach((element, index) => {
-                if (! element.read_at) {
-                    element.read_at = this.now();
-                }
-            });
-        },
+        
 
         /**
          * Used for keyup.esc
@@ -327,6 +308,8 @@ window.app = new Vue({
          */
         closeModals() {
             Store.contentRouter = 'content';
+            Store.showNotifications = false; 
+            Store.showPreferences = false; 
         },
 
         /**
@@ -365,7 +348,7 @@ window.app = new Vue({
                 case 78: // "n"
                     if (this.isGuest) break;
 
-                    this.changeRoute('notifications');
+                    Store.showNotifications = true; 
                     break;
                 case 77: // "m"
                     if (this.isGuest) break;

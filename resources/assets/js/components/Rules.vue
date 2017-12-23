@@ -2,7 +2,7 @@
     <el-dialog
             :title="'Rules of #' + $route.params.name"
             :visible="visible"
-            :width="isMobile ? '99%' : '35%'"
+            :width="isMobile ? '99%' : '550px'"
             @close="close"
             append-to-body
     >

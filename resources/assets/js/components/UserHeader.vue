@@ -89,11 +89,7 @@
                     <router-link :to="'/@' + $route.params.username + '/comments'" class="nav-item is-tab" active-class="is-active" exact>
                         Comments
                     </router-link>
-    
-                    <router-link :to="'/@' + $route.params.username + '/settings'" class="nav-item is-tab" active-class="is-active" v-if="isAuth">
-                        Settings
-                    </router-link>
-    
+
                     <router-link :to="'/@' + $route.params.username + '/upvoted-submissions'" class="nav-item is-tab" active-class="is-active" v-if="isAuth">
                         Upvoted
                     </router-link>
@@ -144,6 +140,16 @@
                 this.showFirstHeader = false
             });
         },
+
+        beforeDestroy() {
+            this.$eventHub.$off('scrolled-to-top', () => {
+                this.showFirstHeader = true
+            });
+
+            this.$eventHub.$off('scrolled-a-bit', () => {
+                this.showFirstHeader = false
+            });
+        }, 
     
         methods: {
             bookmark: _.debounce(function() {
@@ -155,11 +161,11 @@
                 this.bookmarked = !this.bookmarked;
     
                 axios.post('/bookmark-user', {
-                    id: Store.page.user.id
+                    id: Store.page.user.temp.id
                 }).catch(() => {
                     this.bookmarked = !this.bookmarked;
                 });
-            }, 700, {
+            }, 200, {
                 leading: true,
                 trailing: false
             }),

@@ -106,8 +106,7 @@
                 sending: false,
                 errors: [],
                 customError: '',
-                auth,
-                Store,
+
                 form: {
                     name: auth.name,
                     bio: auth.bio,
@@ -120,12 +119,9 @@
                 coverColors: [
                     'Blue', 'Dark Blue', 'Red', 'Dark', 'Dark Green', 'Bright Green', 'Purple', 'Pink', 'Orange'
                 ],
+                
                 fileUploadFormData: new FormData(),
             }
-        },
-
-        created () {
-            document.title = 'My Profile | Settings';
         },
 
         computed: {
@@ -181,12 +177,21 @@
                     this.errors = [];
                     this.customError = '';
 
-                    auth.name = this.form.name
-                    auth.bio = this.form.bio
-                    auth.location = this.form.location
-                    auth.color = this.form.color
-                    auth.info.website = this.form.website
-                    auth.info.twitter = this.form.twitter
+                    auth.name = this.form.name; 
+                    auth.bio = this.form.bio; 
+                    auth.location = this.form.location; 
+                    auth.color = this.form.color; 
+                    auth.info.website = this.form.website; 
+                    auth.info.twitter = this.form.twitter; 
+
+                    if (typeof Store.page.user.temp.username != 'undefined' && Store.page.user.temp.id == auth.id) {
+                        Store.page.user.temp.name = auth.name; 
+                        Store.page.user.temp.bio = auth.bio; 
+                        Store.page.user.temp.color = auth.color; 
+                        Store.page.user.temp.location = auth.location; 
+                        Store.page.user.temp.info.website = auth.info.website; 
+                        Store.page.user.temp.info.twitter = auth.info.twitter; 
+                    }
 
                     this.sending = false;
                 }).catch((error) => {

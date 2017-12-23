@@ -37,8 +37,7 @@
 
     <div class="v-content-wrapper">
         <left-sidebar></left-sidebar>
-
-        <notifications v-show="Store.contentRouter == 'notifications'"></notifications>
+        
         <messages v-show="Store.contentRouter == 'messages'"></messages>
         <search-modal v-if="Store.contentRouter == 'search'"></search-modal>
 
@@ -49,7 +48,9 @@
         <right-sidebar v-show="showRightSidebar"></right-sidebar>
     </div>
 
+    <notifications :visible.sync="Store.showNotifications" v-show="Store.showNotifications"></notifications>
     <new-submission v-show="showNewSubmissionModal" :visible.sync="showNewSubmissionModal"></new-submission>
+    <settings v-show="Store.showPreferences" :visible.sync="Store.showPreferences"></settings>
     <new-channel v-show="showNewChannelModal" :visible.sync="showNewChannelModal"></new-channel>
     <markdown-guide v-if="showMarkdownGuide" :visible.sync="showMarkdownGuide"></markdown-guide>
     <keyboard-shortcuts-guide v-if="showKeyboardShortcutsGuide" :visible.sync="showKeyboardShortcutsGuide"></keyboard-shortcuts-guide>

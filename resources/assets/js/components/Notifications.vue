@@ -1,44 +1,43 @@
 <template>
-    <div class="vo-modal" id="notifications">
-        <header class="user-select">
-            <div class="flex-space">
-                <!-- Modal Title -->
-                <div class="vo-modal-title"><h1 class="title">Notifications</h1></div>
+    <el-dialog
+            title="Notifications"
+            :visible="visible"
+            @close="close"
+            append-to-body
+            fullscreen
+            class="user-select"
+    >
+        <div class="vo-modal" id="notifications">
+            <div class="middle background-white"
+                :class="{'flex-center' : !Store.state.notifications || ! Store.state.notifications.length}">
+                <div class="col-7">
+                    <div class="user-select v-nth-box" v-if=" !Store.state.notifications || ! Store.state.notifications.length">
+                        <notification-icon width="250" height="250" class="margin-bottom-3"></notification-icon>
 
-                <!-- Close Button -->
-                <el-tooltip content="Close (esc)" placement="bottom-end" transition="false" :open-delay="500">
-                    <div class="v-close" @click="close">
-                        <i class="v-icon block-before v-cancel" aria-hidden="true"></i>
+                        <h3 class="no-notifications">
+                            No notifications here yet
+                        </h3>
                     </div>
-                </el-tooltip>
-            </div>
-        </header>
 
-        <div class="middle background-white"
-             :class="{'flex-center' : !Store.state.notifications || ! Store.state.notifications.length}">
-            <div class="col-7">
-                <div class="user-select v-nth-box" v-if=" !Store.state.notifications || ! Store.state.notifications.length">
-                    <notification-icon width="250" height="250" class="margin-bottom-3"></notification-icon>
+                    <ul class="v-contact-list user-select">
+                        <notification v-for="n in uniqueList" 
+                            :notification="n" 
+                            :key="n.id"
+                            @seen="n.broadcasted = false"
+                        ></notification>
+                    </ul>
 
-                    <h3 class="no-notifications">
-                        No notifications here yet
-                    </h3>
-                </div>
-
-                <ul class="v-contact-list user-select">
-                    <notification v-for="n in uniqueList" :notification="n" :key="n.id"></notification>
-                </ul>
-
-                <div class="align-center">
-                    <el-button type="primary"
-                               class="v-button-big margin-top-bottom-3"
-                               @click="loadReadNotifications" v-show="loadMoreButton">
-                        Load More
-                    </el-button>
+                    <div class="align-center">
+                        <el-button type="primary"
+                                class="v-button-big margin-top-bottom-3"
+                                @click="loadReadNotifications" v-show="loadMoreButton">
+                            Load More
+                        </el-button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </el-dialog>
 </template>
 
 <script>
@@ -52,10 +51,20 @@
 
         components: { Notification, NotificationIcon },
 
+        props: ['visible'],
+
         data() {
             return {
                 page: 1,
                 loadMoreButton: false,
+            }
+        },
+
+        watch: {
+            'visible'() {
+                if (this.visible) {
+                    Store.methods.seenAllNotifications(); 
+                }
             }
         },
 
@@ -92,7 +101,7 @@
 
         methods: {
             close() {
-                this.$eventHub.$emit('close')
+                this.$emit('update:visible', false);
             },
 
             /**
@@ -101,7 +110,7 @@
              * @return void
              */
             getNotifications() {
-                axios.get('/notifications').then((response) => {
+                axios.get('/notifications/unseen').then((response) => {
                     if (response.data.length > 0) {
                         Store.state.notifications = response.data;
                     }
@@ -118,7 +127,11 @@
             loadReadNotifications() {
                 this.loadMoreButton = false
 
-                axios.post('/all-notifications', { page: this.page }).then((response) => {
+                axios.get('/notifications', { 
+                    params: {
+                        page: this.page
+                    } 
+                }).then((response) => {
                     Store.state.notifications.push(...response.data.data);
 
                     this.page++;
@@ -140,38 +153,38 @@
                         // lable it
                         n.broadcasted = true;
 
-                        Store.state.notifications.unshift(n)
+                        Store.state.notifications.unshift(n); 
 
                         // give user the new recieved access (so a refresh won't be needed)
                         if (n.type == 'App\\Notifications\\BecameModerator') {
                             if (n.data.role == "moderator") {
-                                Store.state.moderatorAt.push(n.data.channel.id)
+                                Store.state.moderatorAt.push(n.data.channel.id); 
                             } else if (n.data.role == "administrator") {
-                                Store.state.administratorAt.push(n.data.channel.id)
+                                Store.state.administratorAt.push(n.data.channel.id); 
                             }
 
-                            Store.state.moderatingAt.push(n.data.channel.id)
-                            Store.state.moderatingChannels.push(n.data.channel)
+                            Store.state.moderatingAt.push(n.data.channel.id); 
+                            Store.state.moderatingChannels.push(n.data.channel); 
                         }
 
                         // Sending web notifications to user's OS (only if browser tab is not active)
                         if (document.hidden == true) {
-                            let body = n.data.body
-                            let link = n.data.url
-                            let avatar = n.data.avatar
+                            let body = n.data.body ;
+                            let link = n.data.url ;
+                            let avatar = n.data.avatar ;
 
                             let title = 'Now Notification'
 
                             if (n.type == 'App\\Notifications\\CommentReplied') {
-                                title = 'New Reply'
+                                title = 'New Reply'; 
                             } else if (n.type == 'App\\Notifications\\SubmissionReplied') {
-                                title = 'New Comment'
+                                title = 'New Comment'; 
                             } else if (n.type == 'App\\Notifications\\BecameModerator') {
-                                title = 'Now Moderating'
+                                title = 'Now Moderating'; 
                             } else if (n.type == 'App\\Notifications\\CommentReported') {
-                                title = 'New Report'
+                                title = 'New Report'; 
                             } else if (n.type == 'App\\Notifications\\SubmissionReported') {
-                                title = 'New Report'
+                                title = 'New Report'; 
                             }
 
                             const data = {
@@ -179,9 +192,9 @@
                                 body: body,
                                 url: link,
                                 icon: avatar
-                            }
+                            }; 
 
-                            this.$eventHub.$emit('push-notification', data)
+                            this.$eventHub.$emit('push-notification', data); 
                         }
                     })
             },

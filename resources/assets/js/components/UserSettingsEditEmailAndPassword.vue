@@ -36,10 +36,12 @@
                     <el-alert v-if="passwordError" :title="passwordError" type="error"></el-alert>
                 </el-form-item>
 
-                <el-button type="success" @click="updateEmail" :disabled="!password" :loading="sendingEmail"
-                           size="medium">Confirm
+                <el-button type="success" @click="updateEmail" :disabled="!password" :loading="sendingEmail" size="medium">
+                    Confirm
                 </el-button>
-                <el-button type="text" @click="saveEmail = false" size="medium">Cancel</el-button>
+                <el-button type="text" @click="saveEmail = false" size="medium">
+                    Cancel
+                </el-button>
             </div>
         </el-form>
 
@@ -74,9 +76,9 @@
                 <el-alert v-if="passwordError" :title="passwordError" type="error"></el-alert>
             </el-form-item>
 
-            <el-form-item>
-                <el-button type="success" @click="updatePassword" :loading="sendingPassword" size="medium"
-                           v-if="changedPassword">Save
+            <el-form-item v-if="changedPassword">
+                <el-button type="success" @click="updatePassword" :loading="sendingPassword" size="medium">
+                    Save
                 </el-button>
             </el-form-item>
         </el-form>
@@ -119,10 +121,6 @@
             changedPassword() {
                 return (this.newpassword == this.confirmpassword) && (this.newpassword) && (this.oldpassword);
             }
-        },
-
-        created () {
-            document.title = 'Email & Password | Settings';
         },
 
         methods: {
