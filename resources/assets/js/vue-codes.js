@@ -3,6 +3,7 @@ import Notifications from './components/Notifications.vue';
 import MarkdownGuide from './components/MarkdownGuide.vue';
 import GuestSidebar from './components/GuestSidebar.vue';
 import SearchModal from './components/SearchModal.vue';
+import Feedback from './components/Feedback.vue';
 import LoginModal from './components/LoginModal.vue';
 import Dashboard from './components/Dashboard.vue';
 import NotFound from './components/NotFound.vue';
@@ -56,6 +57,7 @@ window.app = new Vue({
         NewSubmission,
         NewChannel,
         Settings, 
+        Feedback
     },
 
     data: {

@@ -1,125 +1,108 @@
 <template>
-    <section class="container col-7 user-select" id="feedback-page" :class="{ 'margin-top-5': !isMobile }">
-        <div class="flex1" v-show="! messageSent">
-            <div class="align-center" v-if="! isMobile">
-                <feedback-icon width="250" height="250"></feedback-icon>
-            </div>
+    <el-dialog
+            title="Give Feedback"
+            :visible="visible"
+            :width="isMobile ? '99%' : '600px'"
+            @close="close"
+            append-to-body
+            class="user-select"
+    >
+        <section class="user-select" id="feedback-modal">
+            <el-form label-position="top" label-width="10px">
+                <p>
+                    Please pick a subject for your feedback and tell us a few words about it. 
+                    We review all feedbacks; however, we may not write back to all of them.
+                </p>
 
-            <h1>
-                Send a feedback
-            </h1>
+                <el-form-item label="Subject">
+                    <el-select v-model="subject" placeholder="Subject">
+                        <el-option
+                                v-for="item in subjects"
+                                :key="item"
+                                :label="item"
+                                :value="item">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
 
-            <p>
-                Please pick a subject for your feedback and tell us few words about it. We review all feedbacks seriously; however, we may not write back to all of them.
-            </p>
+                <el-form-item label="Desciption">
+                    <el-input
+                            type="textarea"
+                            v-model="description"
+                            placeholder="Desciption..."
+                            name="description"
+                            :maxlength="2000"
+                            :autosize="{ minRows: 4, maxRows: 10}"
+                    ></el-input>
+                </el-form-item>
+            </el-form>
+        </section>
 
-            <!-- Radio Buttons -->
-            <div class="radio" v-for="item in subjects">
-                <label><input type="radio" name="subject" :value="item" v-model="subject">{{ item }}</label>
-            </div>
+        <!-- submit -->
+        <span slot="footer" class="dialog-footer">
+            <el-button type="text" @click="close" size="medium" class="margin-right-1">
+                Cancel
+            </el-button>
 
-            <div class="form-group margin-top-1">
-                    <textarea name="name" class="form-control v-input-big" rows="5" id="feedback"
-                              placeholder="Desciption..."
-                              v-model="description"
-                    ></textarea>
-            </div>
-
-            <button type="button" class="v-button v-button--green" :disabled="!description"
-                    @click="send" >
+            <el-button 
+                type="success" 
+                @click="send" 
+                :loading="sending" 
+                :disabled="!description.trim()"
+                size="medium"
+            >
                 Send Feedback
-            </button>
-        </div>
-
-        <div class="padding-top-bottom-3 sent align-center" v-show="messageSent">
-            <i class="v-icon v-success go-green" aria-hidden="true"
-               :class="{ 'rubberBand animated': messageSent }"
-            ></i>
-
-            <p>
-                Thanks for helping us create something amazing!
-            </p>
-
-            <router-link class="v-button" to="/">
-                Go Home
-            </router-link>
-
-            <button class="v-button" @click="reset">
-                Send Another Feedback
-            </button>
-        </div>
-    </section>
+            </el-button>
+        </span>
+    </el-dialog>
 </template>
 
 <script>
-    import FeedbackIcon from '../components/Icons/FeedbackIcon.vue';
     import Helpers from '../mixins/Helpers';
 
 	export default {
-        components: {
-	       FeedbackIcon
-        },
-
 	    mixins: [Helpers],
+
+        props: ['visible'],
 
 	    data () {
 	        return {
+                sending: false, 
 	            subject: 'Report a bug',
 	            description: '',
-	            messageSent: false,
                 subjects: [
                     'Report a bug',
                     'Thumbs-up about a feature',
                     'Suggestion',
                     'Other'
-                ]
+                ], 
 	        }
 	    },
 
-		mounted: function () {
-			this.$nextTick(function () {
-				this.$root.autoResize();
-		    	document.getElementById('feedback').focus();
-			})
-		},
-
 	    methods: {
-		    reset() {
-                this.subject = 'Report a bug';
-                this.description = '';
-                this.messageSent = false;
-
-                this.$root.autoResize();
-                document.getElementById('feedback').focus();
+            close() {
+                this.$emit('update:visible', false);
             },
 
-	        send: function(){
-	            this.messageSent = true;
+	        send() {
+	            this.sending = true;
 
 	            axios.post( '/feedback', {
 	                subject: this.subject,
 	                description: this.description
-	            }).catch((error) => {
-                    this.messageSent = false;
+	            }).then(() => {
+                    this.sending = false;
+
+                    this.$message({
+                        message: 'Feedback recieved. Thanks for caring!',
+                        type: 'success'
+                    });
+
+                    this.close(); 
+                }).catch((error) => {
+                    this.sending = false;
                 });
 	        },
 	    },
 	}
 </script>
-
-<style>
-    #feedback-page .sent i {
-        display: block;
-        font-size: 7em;
-        margin-bottom: 15px;
-    }
-
-    #feedback-page .sent p {
-        font-size: 25px;
-    }
-
-    #feedback-page .ui.checkbox label:before {
-        background: #f3f6f5;
-        border: 2px solid #d7d7d7;
-    }
-</style>

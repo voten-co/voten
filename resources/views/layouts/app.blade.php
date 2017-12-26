@@ -50,9 +50,10 @@
 
     <notifications :visible.sync="Store.showNotifications" v-show="Store.showNotifications"></notifications>
     <new-submission v-show="Store.showNewSubmissionModal" :visible.sync="Store.showNewSubmissionModal"></new-submission>
-    <settings v-show="Store.showPreferences" :visible.sync="Store.showPreferences"></settings>
+    <settings v-if="Store.showPreferences" :visible.sync="Store.showPreferences"></settings>
     <new-channel v-show="Store.showNewChannelModal" :visible.sync="Store.showNewChannelModal"></new-channel>
     <markdown-guide v-if="showMarkdownGuide" :visible.sync="showMarkdownGuide"></markdown-guide>
+    <feedback v-if="Store.showFeedbackModal" :visible.sync="Store.showFeedbackModal"></feedback>
     <keyboard-shortcuts-guide v-if="Store.showKeyboardShortcutsGuide" :visible.sync="Store.showKeyboardShortcutsGuide"></keyboard-shortcuts-guide>
 </div>
 
