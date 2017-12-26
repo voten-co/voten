@@ -2,7 +2,6 @@
 .v-send-1:before { content: '\e800'; } /* '' */
 .v-letter:before { content: '\e801'; } /* '' */
 .v-seen:before { content: '\e802'; } /* '' */
-.v-bookmarks:before { content: '\e803'; } /* '' */
 .v-cancel:before { content: '\e806'; } /* '' */
 .v-cancel-small:before { content: '\e807'; } /* '' */
 .v-link:before { content: '\e808'; } /* '' */
@@ -11,7 +10,6 @@
 .v-calendar:before { content: '\e80c'; } /* '' */
 .v-picture:before { content: '\e80e'; } /* '' */
 .v-comment:before { content: '\e80f'; } /* '' */
-.v-channels:before { content: '\e811'; } /* '' */
 .v-bell-on:before { content: '\e812'; } /* '' */
 .v-image:before { content: '\e813'; } /* '' */
 .v-dot-3:before { content: '\e814'; } /* '' */
@@ -43,7 +41,6 @@
 .v-config:before { content: '\e83c'; } /* '' */
 .v-scroll-up:before { content: '\e83d'; } /* '' */
 .v-sad:before { content: '\e840'; } /* '' */
-.v-home:before { content: '\e844'; } /* '' */
 .v-doc-add:before { content: '\e845'; } /* '' */
 .v-minus:before { content: '\e846'; } /* '' */
 .v-shocked:before { content: '\e848'; } /* '' */
@@ -72,6 +69,7 @@
 .v-play-outline:before { content: '\e862'; } /* '' */
 .v-exchange:before { content: '\e863'; } /* '' */
 .v-more-vertical:before { content: '\e864'; } /* '' */
+.v-home:before { content: '\e865'; } /* '' */
 .v-dashboard:before { content: '\e866'; } /* '' */
 .v-inbox:before { content: '\e867'; } /* '' */
 .v-hash:before { content: '\f029'; } /* '' */
