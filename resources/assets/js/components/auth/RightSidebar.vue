@@ -98,6 +98,17 @@
                     </router-link>
                 </li>
             </ul>
+
+            <div class="align-center">
+                <el-button type="text"
+                    @click="moreChannels" 
+                    class="go-gray full-width"
+                    size="mini"
+                    v-if="showLoadMoreChannels"
+                >
+                    Show more
+                </el-button>
+            </div>
         </aside>
     </div>
 </template>
@@ -145,6 +156,10 @@
         // },
     
         computed: {
+            showLoadMoreChannels() {
+                return this.channels.length > this.channelsLimit && !this.subscribedFilter;
+            }, 
+
             channels() {
                 if (this.filter == 'bookmarked') {
                     return Store.state.bookmarkedChannels; 
@@ -198,6 +213,14 @@
         }, 
 
         methods: {
+            moreChannels() {
+                Store.settings.rightSidebar.channelsLimit += 15; 
+            }, 
+            
+            lessChannels() {
+                Store.settings.rightSidebar.channelsLimit -= 15; 
+            }, 
+
             signOut() {
                 this.$confirm(`Are you sure about signing out of your account?`, 'Confirm', {
                     confirmButtonText: 'Yes',
