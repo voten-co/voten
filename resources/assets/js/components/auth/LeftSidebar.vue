@@ -2,13 +2,6 @@
 <template>
     <div class="sidebar-left user-select">
         <div class="top">
-            <!-- profile -->
-            <el-tooltip content="Profile" placement="right" transition="false" :open-delay="500">
-                <a @click.prevent="pushRouter('/' + '@' + auth.username)" :href="'/' + '@' + auth.username" :class="{ 'active': activeRoute === 'user-settings'}" class="item">
-                    <img :src="auth.avatar" :alt="auth.username" class="avatar">
-                </a>
-            </el-tooltip>
-
             <!-- Home -->
             <el-tooltip content="Home Feed (H)" placement="right" transition="false" :open-delay="500">
                 <a @click.prevent="goHome" href="/" :class="{ 'active': activeRoute === 'home' }" class="item">
