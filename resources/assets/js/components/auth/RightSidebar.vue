@@ -1,21 +1,86 @@
 <template>
     <div class="sidebar-right user-select" :class="theme">
+        <div class="side-menu-wrapper">
+            <div class="box" @click="showMenu =! showMenu">
+                <span>
+                    <img :src="auth.avatar" :alt="auth.username" 
+                        class="avatar"  
+                    >
+
+                    <strong>{{ '@' + auth.username }}</strong>
+                </span>
+
+                <i :class="showMenu ? 'el-icon-close' : 'el-icon-arrow-down'"></i>
+            </div>
+
+            <el-collapse-transition>
+                <ul v-show="showMenu" class="menu">
+                    <li><router-link class="item" to="/">Home</router-link></li>
+                    <li><router-link class="item" :to="'/@' + auth.username">Profile</router-link></li>
+                    <li><router-link class="item" to="/bookmarks">Bookmarks</router-link></li>
+                    <li><router-link class="item" to="/subscribed-channels">Subscriptions</router-link></li>
+                    <li class="item" @click="Store.showPreferences = true">Preferences</li>
+
+
+                    <hr>
+
+
+                    <li><router-link to="/find-channels" class="item">Discover channels</router-link></li>
+                    <li class="item" @click="Store.showNewChannelModal = true">Create a new channel</li>
+                    <li class="item" @click="Store.showKeyboardShortcutsGuide = true">Keyboard shortcuts</li>
+                    <li><a href="https://help.voten.co/" target="_blank" class="item">Help center</a></li>
+                    
+                    <el-collapse-transition>
+                        <div v-show="showSubMenu">
+                            <li><router-link to="/about" class="item">About</router-link></li>
+                            <li><a href="mailto:info@voten.co" class="item">Contact Us</a></li>
+                            <li><router-link to="/tos" class="item">Terms of service</router-link></li>
+                            <li><router-link to="/privacy-policy" class="item">Privacy policy</router-link></li>
+                            <li><a href="https://medium.com/voten" class="item" target="_blank">Blog</a></li>
+                            <li><router-link to="/credits" class="item">Credits</router-link></li>
+                            <li><a href="https://github.com/voten-co/voten" class="item" target="_blank">Source code</a></li>
+                        </div>
+                    </el-collapse-transition>
+
+                    <div class="align-center">
+                        <el-button type="text"
+                            @click="showSubMenu =! showSubMenu" 
+                            class="go-gray full-width"
+                            size="mini"
+                        >
+                            {{ showSubMenu ? 'Show less' : 'Show more' }}
+                        </el-button>
+                    </div>
+
+
+                    <hr>
+
+
+                    <li class="item go-green" @click="Store.showFeedbackModal = true">Give feedback</li>           
+                    <li class="item go-red" @click="signOut">Sign Out</li>                    
+                </ul>
+            </el-collapse-transition>
+        </div>  
+
+
         <settings :visible.sync="showSettings" v-if="showSettings"></settings>
+        
     
         <div class="fixed-header">
             <div class="flex-space">
                 <span class="menu-label">
+                    <strong>My Channels:</strong>
+                    <span v-if="channelsCount">({{ channelsCount }})</span>
+
                     <button class="feed-panel-button margin-right-half" @click="showSettings = true">
                         <i class="el-icon-setting"></i>
                     </button>
-        
-                    <!-- <strong>My Channels:</strong>
-                    <span v-if="channelsCount">({{ channelsCount }})</span> -->
                 </span>
             </div>
     
-            <el-input :placeholder="filterForHumans + ' (' + channelsCount + ')'" prefix-icon="el-icon-search" size="small" v-model="subscribedFilter" class="search margin-bottom-1" clearable name="subscribedFilter" autocorrect="off" autocapitalize="off" spellcheck="false">
-            </el-input>
+            <el-input :placeholder="filterForHumans + ' (' + channelsCount + ')'" prefix-icon="el-icon-search" size="small" v-model="subscribedFilter" class="search margin-bottom-1" clearable name="subscribedFilter" 
+                autocorrect="off" autocapitalize="off" spellcheck="false"
+            ></el-input>
         </div>
     
         <aside class="menu">
@@ -52,6 +117,8 @@
             return {
                 subscribedFilter: '',
                 showSettings: false,
+                showMenu: false, 
+                showSubMenu: false, 
             };
         },
     
@@ -59,6 +126,12 @@
             '$route': function() {
                 this.subscribedFilter = '';
             },
+
+            'showMenu'() {
+                if (this.showMenu === false) {
+                    this.showSubMenu = false; 
+                }
+            }
     
             // 'channelsLimit': function() {
             //     Vue.putLS('sidebar-channels-limit', this.channelsLimit);
@@ -122,6 +195,28 @@
                         .slice(0, (self.channelsLimit > 2 ? self.channelsLimit : 2)
                 ); 
             },
+        }, 
+
+        methods: {
+            signOut() {
+                this.$confirm(`Are you sure about signing out of your account?`, 'Confirm', {
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'Never mind',
+                    type: 'warning'
+                }).then(() => {
+                    Vue.clearLS(); 
+
+                    axios.post('/logout').then(() => {
+                        window.location = "/";
+                    }).catch(() => {
+                        this.$message({
+                            message: 'Something went wrong.',
+                            type: 'error'
+                        });
+                    }); 
+                }).catch(() => {
+                });
+            }
         }
     }
 </script>

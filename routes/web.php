@@ -3,7 +3,6 @@
 
 Route::group(['middleware' => ['maintenance', 'http2']], function () {
     Route::auth();
-    Route::get('/logout', 'Auth\LoginController@logout');
     Route::get('/email/verify', 'Auth\VerificationController@verifyEmailAddress');
 
     // Public Pages

@@ -93,9 +93,8 @@
             },
 
             clear() {
-                this.history = []
-
-                this.forgetLS('emoji-history')
+                this.history = []; 
+                Vue.forgetLS('emoji-history'); 
             },
 
             pick(e) {

@@ -2,7 +2,7 @@
     <el-dialog
             title="New Channel"
             :visible="visible"
-            :width="isMobile ? '99%' : '45%'"
+            :width="isMobile ? '99%' : '600px'"
             @close="close"
             append-to-body
             class="user-select submit-form"
@@ -16,10 +16,11 @@
         <el-form label-position="top" label-width="10px">
             <el-form-item label="Name">
                 <el-input
-                        placeholder="Name..."
-                        name="name"
-                        v-model="name">
-                </el-input>
+                    placeholder="Name..."
+                    name="name"
+                    v-model="name"
+                    autocorrect="off" autocapitalize="off" spellcheck="false"
+                ></el-input>
 
                 <el-alert
                         show-icon

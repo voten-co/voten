@@ -98,6 +98,10 @@ window.Store = {
     sidebarFilter: '',
     showPreferences: false, 
     showNotifications: false, 
+    showNewChannelModal: false, 
+    showFeedbackModal: false, 
+    showNewSubmissionModal: false, 
+    showKeyboardShortcutsGuide: false, 
 
 
     // Open tab's unique ID:

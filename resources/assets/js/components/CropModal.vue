@@ -2,7 +2,7 @@
     <el-dialog
             title="Crop Image"
             :visible="visible"
-            :width="isMobile ? '99%' : '45%'"
+            :width="isMobile ? '99%' : '600px'"
             @close="close"
             append-to-body
             class="user-select"

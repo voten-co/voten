@@ -17,6 +17,7 @@
     color: #fff;
     display: flex;
     flex-direction: column;
+    justify-content: space-between; 
     align-items: center;
     padding-top: 1em;
     border-right: 2px solid #000;
@@ -79,7 +80,7 @@
     aside {
         padding: 1em;
         padding-right: 0;
-        overflow-y: scroll;
+        overflow-y: auto;
         height: 100%;
 
         img {
@@ -187,4 +188,66 @@
 .side-box-search {
     margin-bottom: 1em;
     margin-top: .5em;
+}
+
+
+.side-menu-wrapper {
+    .box {
+        display: flex; 
+        justify-content: space-between;
+        padding: 1em;
+        align-items: center; 
+        height: 70px;
+        cursor: pointer;
+
+        img {
+            width: 40px; 
+            height: 40px; 
+            border-radius: 50%;
+        }
+    }
+
+    .menu {
+        list-style: none;
+        padding: 1em .5em !important;
+        background-color: #fff;
+        margin: 0;
+
+        .item {
+            color: #333; 
+            cursor: pointer;
+            padding: .5em 1em;
+            border-radius: 2px; 
+            font-size: 12px;
+            width: 100%;
+            display: block;
+
+            &:hover {
+                background: #5587d7;
+                color: #fff; 
+
+            }
+
+            &.go-red:hover {
+                background: #db6e6e; 
+                color: #fff !important; 
+            }
+
+            &.go-green:hover {
+                background: #78b38a; 
+                color: #fff !important; 
+            }
+
+            &.has-sub-menu {
+                display: flex; 
+                align-items: center; 
+                justify-content: space-between; 
+            }
+        }
+    }
+
+    hr {
+        border-top: 2px solid #f3f3f3;
+        margin: .5em 0;
+    }
 }

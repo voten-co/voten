@@ -8,7 +8,7 @@ const LocalStorage = {
          * @return void
          */
         Vue.putLS = function (key, value) {
-            localStorage.setItem(":" + key, JSON.stringify(value));
+            localStorage.setItem(key, JSON.stringify(value));
         },
 
         /**
@@ -18,7 +18,7 @@ const LocalStorage = {
          * @return object
          */
         Vue.getLS = function (key) {
-            let result = JSON.parse(localStorage.getItem(":" + key));
+            let result = JSON.parse(localStorage.getItem(key));
 
             if (result === null) {
                 return [];
@@ -34,13 +34,7 @@ const LocalStorage = {
          * @return boolean
          */
         Vue.isSetLS = function (key) {
-            let prefixedKey = ":" + key;
-
-            if (prefixedKey in localStorage) {
-                return true;
-            }
-
-            return false;
+            return (key in localStorage) ? true : false; 
         },
 
         /**
@@ -50,6 +44,10 @@ const LocalStorage = {
          */
         Vue.clearLS = function () {
             localStorage.clear();
+        }, 
+
+        Vue.forgetLS = function (key) {
+            localStorage.removeItem(key);
         }
     }
 };

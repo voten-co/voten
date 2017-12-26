@@ -2,7 +2,7 @@
     <el-dialog
             title="Keyboard Shortcuts"
             :visible="visible"
-            :width="isMobile ? '99%' : '45%'"
+            :width="isMobile ? '99%' : '600px'"
             @close="close"
             append-to-body
             class="user-select"

@@ -49,11 +49,11 @@
     </div>
 
     <notifications :visible.sync="Store.showNotifications" v-show="Store.showNotifications"></notifications>
-    <new-submission v-show="showNewSubmissionModal" :visible.sync="showNewSubmissionModal"></new-submission>
+    <new-submission v-show="Store.showNewSubmissionModal" :visible.sync="Store.showNewSubmissionModal"></new-submission>
     <settings v-show="Store.showPreferences" :visible.sync="Store.showPreferences"></settings>
-    <new-channel v-show="showNewChannelModal" :visible.sync="showNewChannelModal"></new-channel>
+    <new-channel v-show="Store.showNewChannelModal" :visible.sync="Store.showNewChannelModal"></new-channel>
     <markdown-guide v-if="showMarkdownGuide" :visible.sync="showMarkdownGuide"></markdown-guide>
-    <keyboard-shortcuts-guide v-if="showKeyboardShortcutsGuide" :visible.sync="showKeyboardShortcutsGuide"></keyboard-shortcuts-guide>
+    <keyboard-shortcuts-guide v-if="Store.showKeyboardShortcutsGuide" :visible.sync="Store.showKeyboardShortcutsGuide"></keyboard-shortcuts-guide>
 </div>
 
 @include('php-to-js-data')

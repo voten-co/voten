@@ -59,9 +59,6 @@ window.app = new Vue({
     },
 
     data: {
-        showNewSubmissionModal: false,
-        showNewChannelModal: false,
-        showKeyboardShortcutsGuide: false,
         showMarkdownGuide: false,
         pageTitle: document.title,
     },
@@ -261,7 +258,7 @@ window.app = new Vue({
          * @return void
          */
         showNewSubmission() {
-            this.showNewSubmissionModal = true;
+            Store.showNewSubmissionModal = true;
         },
 
         /**
@@ -270,7 +267,7 @@ window.app = new Vue({
          * @return void
          */
         showNewChannel() {
-            this.showNewChannelModal = true;
+            Store.showNewChannelModal = true;
         },
 
         /**
@@ -340,7 +337,7 @@ window.app = new Vue({
             }
 
             if (event.shiftKey && event.keyCode == 191) { // shift + /
-                this.openMarkdownGuide();
+                Store.showKeyboardShortcutsGuide = true; 
                 return;
             }
 

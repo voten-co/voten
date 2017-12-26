@@ -2,6 +2,7 @@
 .v-send-1:before { content: '\e800'; } /* '' */
 .v-letter:before { content: '\e801'; } /* '' */
 .v-seen:before { content: '\e802'; } /* '' */
+.v-bookmarks:before { content: '\e803'; } /* '' */
 .v-cancel:before { content: '\e806'; } /* '' */
 .v-cancel-small:before { content: '\e807'; } /* '' */
 .v-link:before { content: '\e808'; } /* '' */

@@ -19,6 +19,8 @@
     .el-dialog__headerbtn {
         font-size: 24px;
     }
+
+    @include user-select();
 }
 
 .el-dialog.is-fullscreen {

@@ -6,7 +6,7 @@
             @close="close"
             append-to-body
     >
-        <div>
+        <div class="user-select">
             <el-form label-position="top" label-width="10px" :model="form">
                 <el-form-item label="Limit channel results to:">
                     <el-input-number v-model="form.channelsLimit" :step="1" :min="2" :max="500"></el-input-number>

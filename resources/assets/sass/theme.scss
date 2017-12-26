@@ -241,6 +241,26 @@
     .sidebar-panel-button i:hover {
         color: #000;
     }
+
+    .side-menu-wrapper {
+        .box {
+            border-bottom: 2px solid #e7e7e7;
+            box-shadow: 0 2px 0 rgba(236, 238, 239, 0.25);
+
+            img {
+                border: 1px solid #9f9f9f;
+            }
+
+            &:hover {
+                background: darken(#f4f5f7, 3%);
+            }
+        }
+
+        .menu {
+            box-shadow: rgba(236, 238, 239, 0.25) 0px 2px 0px;
+            border-bottom: 2px solid rgb(231, 231, 231);
+        }
+    }
 }
 
 /////////////////////////////////////////////
@@ -279,6 +299,25 @@
 
     .sidebar-panel-button i:hover {
         color: #000;
+    }
+
+    .side-menu-wrapper {
+        .box {
+            border-bottom: 2px solid rgb(44, 49, 55);
+            color: #fff; 
+
+            img {
+                border: 1px solid #9f9f9f;
+            }
+
+            &:hover {
+                background: darken(#323e4c, 3%);
+            }
+        }
+
+        .menu {
+            border-bottom: 2px solid rgb(44, 49, 55);
+        }
     }
 }
 
@@ -319,6 +358,25 @@
     .sidebar-panel-button i:hover {
         color: #000;
     }
+
+    .side-menu-wrapper {
+        .box {
+            border-bottom: 2px solid rgb(44, 49, 55);
+            color: #fff; 
+
+            img {
+                border: 1px solid #9f9f9f;
+            }
+
+            &:hover {
+                background: darken(#343d5a, 3%);
+            }
+        }
+
+        .menu {
+            border-bottom: 2px solid rgb(44, 49, 55);
+        }
+    }
 }
 
 /////////////////////////////////////////////
@@ -358,6 +416,25 @@
     .sidebar-panel-button i:hover {
         color: #000;
     }
+
+    .side-menu-wrapper {
+        .box {
+            border-bottom: 2px solid #4a3534;
+            color: #fff; 
+
+            img {
+                border: 1px solid #9f9f9f;
+            }
+
+            &:hover {
+                background: darken(#673e3d, 4%);
+            }
+        }
+
+        .menu {
+            border-bottom: 2px solid #4a3534;
+        }
+    }
 }
 
 /////////////////////////////////////////////
@@ -396,6 +473,25 @@
 
     .sidebar-panel-button i:hover {
         color: #000;
+    }
+
+    .side-menu-wrapper {
+        .box {
+            border-bottom: 2px solid #303030;
+            color: #fff; 
+
+            img {
+                border: 1px solid #9f9f9f;
+            }
+
+            &:hover {
+                background: darken(#3e3e3e, 4%);
+            }
+        }
+
+        .menu {
+            border-bottom: 2px solid #303030;
+        }
     }
 }
 
@@ -437,6 +533,25 @@
     .sidebar-panel-button i:hover {
         color: #000;
     }
+
+    .side-menu-wrapper {
+        .box {
+            border-bottom: 2px solid #354440;
+            color: #fff; 
+
+            img {
+                border: 1px solid #9f9f9f;
+            }
+
+            &:hover {
+                background: darken(#455d58, 4%);
+            }
+        }
+
+        .menu {
+            border-bottom: 2px solid #354440;
+        }
+    }
 }
 
 /////////////////////////////////////////////
@@ -476,8 +591,23 @@
     .sidebar-panel-button i:hover {
         color: #000;
     }
+
+    .side-menu-wrapper {
+        .box {
+            border-bottom: 2px solid #43404a;
+            color: #fff; 
+
+            img {
+                border: 1px solid #9f9f9f;
+            }
+
+            &:hover {
+                background: darken(#4d4261, 4%);
+            }
+        }
+
+        .menu {
+            border-bottom: 2px solid #43404a;
+        }
+    }
 }
-
-
-
-// end themes 

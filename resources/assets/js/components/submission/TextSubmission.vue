@@ -37,7 +37,9 @@
 						Formatting Guide
 					</el-button>
 
-					<el-button @click="preview = !preview" type="text" size="mini" :icon="preview ? 'el-icon-close' : 'el-icon-view'">
+					<el-button @click="preview = !preview" type="text" size="mini" 
+						:icon="preview ? 'el-icon-close' : 'el-icon-view'"
+					>
 						Preview
 					</el-button>
 				</div>
