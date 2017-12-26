@@ -68,14 +68,16 @@
     
         <div class="fixed-header">
             <div class="flex-space">
-                <span class="menu-label">
-                    <strong>My Channels:</strong>
-                    <span v-if="channelsCount">({{ channelsCount }})</span>
+                <div class="menu-label">
+                    <span>
+                        <strong>My Channels:</strong>
+                        <span v-if="channelsCount">({{ channelsCount }})</span>
+                    </span>
 
-                    <button class="feed-panel-button margin-right-half" @click="showSettings = true">
-                        <i class="el-icon-setting"></i>
-                    </button>
-                </span>
+                    <el-tooltip content="Customize Sidebar" placement="left" transition="false" :open-delay="500">
+                        <i class="el-icon-setting" @click="showSettings = true"></i>
+                    </el-tooltip>
+                </div>
             </div>
     
             <el-input :placeholder="filterForHumans + ' (' + channelsCount + ')'" prefix-icon="el-icon-search" size="small" v-model="subscribedFilter" class="search margin-bottom-1" clearable name="subscribedFilter" 
