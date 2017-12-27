@@ -23,37 +23,6 @@
                 </div>
 
                 <div class="flex-center">
-                    <!--<div class="ui icon top right active-blue pointing dropdown feed-panel-button" @click="mustBeLogin" v-tooltip.bottom="{content: 'Customize'}">-->
-                    <!--<i class="v-icon v-sliders"></i>-->
-
-                    <!--<div class="menu">-->
-                    <!--<div class="header">-->
-                    <!--Filter by-->
-                    <!--</div>-->
-
-                    <!--<button class="item" @click="changeFilter('subscribed-channels')" :class="{ 'active' : filter == 'subscribed-channels' }">-->
-                    <!--Subscribed channels-->
-                    <!--</button>-->
-
-                    <!--<button class="item" @click="changeFilter('all-channels')" :class="{ 'active' : filter == 'all-channels' }">-->
-                    <!--All channels-->
-                    <!--</button>-->
-
-                    <!--<button class="item" @click="changeFilter('moderating-channels')" :class="{ 'active' : filter == 'moderating-channels' }"-->
-                    <!--v-if="isModerating">-->
-                    <!--Moderating channels-->
-                    <!--</button>-->
-
-                    <!--<button class="item" @click="changeFilter('bookmarked-channels')" :class="{ 'active' : filter == 'bookmarked-channels' }">-->
-                    <!--Bookmarked channels-->
-                    <!--</button>-->
-
-                    <!--<button class="item" @click="changeFilter('by-bookmarked-users')" :class="{ 'active' : filter == 'by-bookmarked-users' }">-->
-                    <!--By bookmarked users-->
-                    <!--</button>-->
-                    <!--</div>-->
-                    <!--</div>-->
-
                     <el-tooltip content="Refresh (R)" placement="bottom" transition="false" :open-delay="500">
                         <button class="feed-panel-button" @click="refresh">
                             <i class="el-icon-refresh" :class="{'rotate': refreshing}"></i>
