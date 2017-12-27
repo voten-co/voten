@@ -2,6 +2,8 @@
 .v-send-1:before { content: '\e800'; } /* '' */
 .v-letter:before { content: '\e801'; } /* '' */
 .v-seen:before { content: '\e802'; } /* '' */
+.v-chat:before { content: '\e803'; } /* '' */
+.v-comment:before { content: '\e804'; } /* '' */
 .v-cancel:before { content: '\e806'; } /* '' */
 .v-cancel-small:before { content: '\e807'; } /* '' */
 .v-link:before { content: '\e808'; } /* '' */
@@ -9,7 +11,6 @@
 .v-tools:before { content: '\e80a'; } /* '' */
 .v-calendar:before { content: '\e80c'; } /* '' */
 .v-picture:before { content: '\e80e'; } /* '' */
-.v-comment:before { content: '\e80f'; } /* '' */
 .v-bell-on:before { content: '\e812'; } /* '' */
 .v-image:before { content: '\e813'; } /* '' */
 .v-dot-3:before { content: '\e814'; } /* '' */
@@ -62,7 +63,6 @@
 .v-next:before { content: '\e85b'; } /* '' */
 .v-previous:before { content: '\e85c'; } /* '' */
 .v-unbookmark:before { content: '\e85d'; } /* '' */
-.v-chat:before { content: '\e85e'; } /* '' */
 .v-gif-1:before { content: '\e85f'; } /* '' */
 .v-play:before { content: '\e860'; } /* '' */
 .v-down-dir:before { content: '\e861'; } /* '' */

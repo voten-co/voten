@@ -4,7 +4,7 @@
 			<div :class="auth.isMobileDevice ? '' : 'display-inline'">
 				<el-tooltip class="item" content="Comments" placement="top" transition="false" :open-delay="500">
 					<router-link :to="url" class="comments-icon h-green">
-						<i class="v-icon v-chat"></i><span v-if="comments" v-text="comments"></span>
+						<i class="v-icon v-comment"></i><span v-if="comments" v-text="comments"></span>
 					</router-link>
 				</el-tooltip>
 				
