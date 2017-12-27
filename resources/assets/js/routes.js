@@ -13,7 +13,6 @@ import AdminPanel from './components/AdminPanel.vue';
 import Bookmarks from './components/Bookmarks.vue';
 import NotFound from './components/NotFound.vue';
 import Home from './components/Home.vue';
-import Feedback from './components/Feedback.vue';
 import Channel from './components/Channel.vue';
 import UserPage from './components/UserPage.vue';
 import ChannelSettings from './components/ChannelSettings.vue';
@@ -29,6 +28,10 @@ import ModeratorPanelModerators from './components/ModeratorPanelModerators.vue'
 import ModeratorPanelBlockDomains from './components/ModeratorPanelBlockDomains.vue';
 import ModeratorPanelReportedComments from './components/ModeratorPanelReportedComments.vue';
 import ModeratorPanelReportedSubmissions from './components/ModeratorPanelReportedSubmissions.vue';
+import TermsOfService from './components/pages/TermsOfService.vue';
+import PrivacyPolicy from './components/pages/PrivacyPolicy.vue';
+import About from './components/pages/About.vue';
+import Credits from './components/pages/Credits.vue';
 import SubscribedChannels from './components/SubscribedChannels.vue';
 
 
@@ -39,7 +42,10 @@ const routes = [
         component: Home
     },
 
-    { path: '/feedback', component: Feedback, meta: { title: 'Feedback' } },
+    { path: '/tos', component: TermsOfService, meta: { title: 'Terms Of Service' } },
+    { path: '/privacy-policy', component: PrivacyPolicy, meta: { title: 'Privacy Policy' } },
+    { path: '/about', component: About, meta: { title: 'About' } },
+    { path: '/credits', component: Credits, meta: { title: 'Credits' } },
 
     { path: '/subscribed-channels', component: SubscribedChannels, meta: { title: 'My Subscriptions' } },
     { path: '/big-daddy', redirect: '/big-daddy/reports/submissions' },
@@ -53,23 +59,11 @@ const routes = [
         ]
     },
 
-    // { path: '/@:username/settings', redirect: '/@:username/settings/account' },
     {
         path: '/@:username',
         component: UserPage,
         children: [
             { path: '', component: UserSubmissions, name: 'user-submissions' },
-            // {
-            //      path: 'settings',
-            //      component: Settings,
-            //      name: 'user-settings',
-            //      children: [
-            //          { path: 'account', component: UserSettingsEditAccount, name: 'user-settings-account' },
-            //          { path: 'profile', component: UserSettingsEditProfile, name: 'user-settings-profile' },
-            //          { path: 'delete-account', component: UserSettingsDeleteAccount, name: 'user-settings-delete-account' },
-            //          { path: 'email-and-password', component: UserSettingsEditEmailAndPassword, name: 'user-settings-email-and-password' },
-            //      ]
-            //  },
             { path: 'comments', component: UserComments, name: 'user-comments' },
             { path: 'upvoted-submissions', component: UserUpvotedSubmissions, name: 'user-upvotes' },
             { path: 'downvoted-submissions', component: UserDownvotedSubmissions, name: 'user-downvotes' },

@@ -6,12 +6,7 @@ Route::group(['middleware' => ['maintenance', 'http2']], function () {
     Route::get('/email/verify', 'Auth\VerificationController@verifyEmailAddress');
 
     // Public Pages
-    Route::get('/tos', 'PagesController@tos');
     Route::get('/', 'HomeController@homePage')->middleware('correct-view');
-    Route::get('/credits', 'PagesController@credits');
-    Route::get('/features', 'PagesController@features');
-    Route::get('/about', 'PagesController@about');
-    Route::get('/privacy-policy', 'PagesController@privacyPolicy');
 
     // guest browsing routes
     Route::get('/c/{channel}', 'ChannelController@show')->middleware('correct-view');

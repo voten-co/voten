@@ -28,7 +28,6 @@
 @import "inc/transitions";
 @import "inc/landing";
 @import "inc/emojione";
-@import "inc/patterns";
 @import "inc/mobile";
 @import "inc/photo-viewer"; 
 @import "inc/sidebar";
@@ -41,3 +40,51 @@
 @import "element/buttons";
 @import "element/form";
 @import "other";
+
+ 
+#page {
+    padding: 2em 3em; 
+}
+
+.container-grid {
+    display: grid; 
+    grid-template-columns: auto auto auto; 
+    grid-gap: 1em;
+}
+
+.credits {
+    .item {
+        background: #fff;
+        padding: 1em;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+
+        h3 a {
+            font-weight: 600;
+            color: #333;
+        }
+
+        p {
+            font-size: 14px;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .item {
+            margin-bottom: 1em; 
+        }
+    }    
+}
+
+
+@media (max-width: 768px) {
+    #page {
+        padding: 2em 1em; 
+    }
+
+    .container-grid {
+        display: block; 
+    }
+}
