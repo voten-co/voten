@@ -33,9 +33,11 @@
                 <!-- Modal Buttons -->
                 <div class="buttons" v-show="pageRoute == 'chat'">
                     <!-- Close Button -->
-                    <div class="v-close" @click="close">
-                        <i class="el-icon-close" aria-hidden="true"></i>
-                    </div>
+                    <el-tooltip content="Close (esc)" placement="bottom" transition="false" :open-delay="500">
+                        <div class="v-close" @click="close">
+                            <i class="el-icon-close" aria-hidden="true"></i>
+                        </div>
+                    </el-tooltip>
     
                     <!-- Menu Button -->
                     <el-dropdown size="medium" type="primary" trigger="click" :show-timeout="0" :hide-timeout="0">
@@ -55,14 +57,18 @@
                     </el-dropdown>
     
                     <!-- Back Button -->
-                    <div class="v-back" @click="backToContacts">
-                        <i class="el-icon-back" aria-hidden="true"></i>
-                    </div>
+                    <el-tooltip content="Back to contacts" placement="bottom" transition="false" :open-delay="500">
+                        <div class="v-back" @click="backToContacts">
+                            <i class="el-icon-back" aria-hidden="true"></i>
+                        </div>
+                    </el-tooltip>
     
                     <!-- Delete Button -->
-                    <div class="v-delete-button" v-show="selectedMessages.length" @click="deleteMessages">
-                        <i class="v-icon block-before v-trash" aria-hidden="true"></i>
-                    </div>
+                    <el-tooltip :content="'Delete ' + selectedMessages.length + ' selected messages'" placement="bottom" transition="false" :open-delay="500">
+                        <div class="v-delete-button" v-show="selectedMessages.length" @click="deleteMessages">
+                            <i class="v-icon block-before v-trash" aria-hidden="true"></i>
+                        </div>
+                    </el-tooltip>
                 </div>
             </div>
         </header>
