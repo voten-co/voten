@@ -47,8 +47,8 @@ const routes = [
     { path: '/about', component: About, meta: { title: 'About' } },
     { path: '/credits', component: Credits, meta: { title: 'Credits' } },
 
-    { path: '/subscribed-channels', component: SubscribedChannels, meta: { title: 'My Subscriptions' } },
-    { path: '/big-daddy', redirect: '/big-daddy/reports/submissions' },
+    { path: '/subscriptions', component: SubscribedChannels, name: 'subscriptions', meta: { title: 'My Subscriptions' } },
+    { path: '/big-daddy', redirect: '/big-daddy/submissions' },
     {
         path: '/big-daddy',
         component: AdminPanel,
@@ -104,10 +104,9 @@ const routes = [
     },
 
 
-
     { path: '/deleted-submission', component: DeletedSubmissionPage },
     { path: '/submission/:id', component: SubmissionRedirector },
-    { path: '/find-channels', component: FindChannels, name: 'find-channels', meta: { title: 'Find Channels' } },
+    { path: '/discover-channels', component: FindChannels, name: 'discover-channels', meta: { title: 'Find Channels' } },
     { path: '/404', component: NotFound, name: 'not-found', meta: { title: 'Not Found' } },
     { path: '/c/:name/:slug', component: SubmissionPage, name: 'submission-page' },
 

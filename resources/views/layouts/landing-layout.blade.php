@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{--  <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -18,7 +18,6 @@
 
     <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
 
-    {{-- CSRF Token --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script>
         window.Laravel = <?php echo json_encode([
@@ -121,4 +120,4 @@
     <script src="{{ mix('js/landing.js') }}"></script>
     @yield('script')
 </body>
-</html>
+</html>  --}}

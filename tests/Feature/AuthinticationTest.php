@@ -17,7 +17,7 @@ class AuthinticationTest extends TestCase
             'email'                 => 'test@test.com',
             'password'              => 'password',
             'password_confirmation' => 'password',
-        ])->assertRedirect('/find-channels?newbie=1&sidebar=0');
+        ])->assertRedirect('/discover-channels?newbie=1&sidebar=0');
     }
 
     /** @test */

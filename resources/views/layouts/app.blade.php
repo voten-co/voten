@@ -42,6 +42,8 @@
         <search-modal v-if="Store.contentRouter == 'search'"></search-modal>
 
         <div class="v-content" id="v-content" v-show="Store.contentRouter == 'content'" @scroll="scrolled">
+            <announcement></announcement>
+            
             @yield('content')
         </div>
 

@@ -42,12 +42,6 @@
             </div>
         </nav>
 
-        <!-- <announcement></announcement> -->
-        <!--<el-alert-->
-        <!--title="success alert"-->
-        <!--type="success">-->
-        <!--</el-alert>-->
-
         <section id="submissions" class="home-submissions" v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore">
             <div v-for="(value, index) in uniqueList" v-bind:key="value.id">
                 <suggested-channel v-if="index == 5"></suggested-channel>
@@ -71,7 +65,6 @@
 </template>
 
 <script>
-    import Announcement from '../components/Announcement.vue';
     import Helpers from '../mixins/Helpers';
     import ScrollButton from '../components/ScrollButton.vue';
     import Settings from '../components/FeedSettings.vue';
@@ -85,7 +78,6 @@
         mixins: [Helpers],
 
         components: {
-            Announcement,
             ScrollButton,
             Settings,
             Submission,

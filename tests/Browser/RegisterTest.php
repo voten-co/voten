@@ -28,7 +28,7 @@ class RegisterTest extends DuskTestCase
                     ->keys('.form-register input[name="password"]', 'absolutelyamazing')
                     ->type('confirm_password', 'absolutelyamazing')
                     ->click('.form-register button.v-button')
-                    ->waitForLocation('/find-channels')
+                    ->waitForLocation('/discover-channels')
                     ->assertSee('Welcome to Voten, dusk');
         });
     }

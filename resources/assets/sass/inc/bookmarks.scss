@@ -8,6 +8,11 @@
     align-items: center;
     margin-bottom: 1em;
     background: #f9f9f9;
+
+    small {
+        margin-left: .5em;
+        font-size: 52%;
+    }
 }
 
 @media screen and (max-width: 768px) {

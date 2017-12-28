@@ -186,7 +186,7 @@ export default {
     	    }).then((response) => {
     	    	this.loading = false;
     	    	this.errors = [];
-    	    	window.location = "/find-channels?newbie=1&sidebar=0";
+    	    	window.location = "/discover-channels?newbie=1&sidebar=0";
     	    }).catch((error) => {
     	    	this.loading = false;
     	    	this.errors = error.response.data.errors;

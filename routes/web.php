@@ -2,7 +2,13 @@
 
 
 Route::group(['middleware' => ['maintenance', 'http2']], function () {
+    // Authintication routes 
     Route::auth();
+
+    // social logins
+    Route::get('/login/google', 'Auth\LoginController@redirectToGoogle');
+    Route::get('/login/google/callback', 'Auth\LoginController@handleGoogleCallback');
+
     Route::get('/email/verify', 'Auth\VerificationController@verifyEmailAddress');
 
     // Public Pages
@@ -12,13 +18,8 @@ Route::group(['middleware' => ['maintenance', 'http2']], function () {
     Route::get('/c/{channel}', 'ChannelController@show')->middleware('correct-view');
     Route::get('/c/{channel}/hot', 'ChannelController@redirect');
     Route::get('/c/{channel}/{slug}', 'SubmissionController@show')->middleware('correct-view');
-
     Route::get('/@{username}', 'UserController@showSubmissions')->middleware('correct-view');
     Route::get('/@{username}/comments', 'UserController@showComments')->middleware('correct-view');
-
-    // social logins
-    Route::get('/login/google', 'Auth\LoginController@redirectToGoogle');
-    Route::get('/login/google/callback', 'Auth\LoginController@handleGoogleCallback');
 
     // sitemaps
     Route::get('/sitemap.xml', 'SitemapsController@index');

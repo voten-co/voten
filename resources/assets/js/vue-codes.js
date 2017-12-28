@@ -17,6 +17,7 @@ import NewChannel from './components/NewChannel.vue';
 import Helpers from './mixins/Helpers';
 import FontLoader from './mixins/FontLoader';
 import router from './routes';
+import Announcement from './components/Announcement.vue';
 
 
 /**
@@ -46,16 +47,17 @@ window.app = new Vue({
         KeyboardShortcutsGuide,
         MarkdownGuide,
         Notifications,
+        NewSubmission,
+        Announcement, 
         RightSidebar,
         GuestSidebar,
         LeftSidebar,
         SearchModal,
         LoginModal,
+        NewChannel,
         Dashboard,
         NotFound,
         Messages,
-        NewSubmission,
-        NewChannel,
         Settings, 
         Feedback
     },

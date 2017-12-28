@@ -13,11 +13,15 @@
                         <router-link :to="'/c/' + list.name">
                             {{ list.name }}
                         </router-link>
+
+                        <small>({{ list.subscribers }} subscribers)</small>
                     </h2>
 
                     <div class="flex-align-center">
-                        <el-tooltip :content="bookmarked ? 'Unbookmark' : 'Bookmark'" placement="top" transition="false"
-                                    :open-delay="500">
+                        <el-tooltip :content="bookmarked ? 'Unbookmark' : 'Bookmark'" placement="top" 
+                            transition="false"
+                            :open-delay="500"
+                        >
                             <i class="v-icon h-yellow pointer" v-if="!isNewbie"
                                :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'" @click="bookmark"></i>
                         </el-tooltip>

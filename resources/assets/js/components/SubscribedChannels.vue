@@ -1,18 +1,21 @@
 <template>
-    <div class="container margin-top-1 col-7 user-select">
-        <div class="margin-bottom-1">
-            <h1>
-                Subscribed Channels
-                <span>({{ Store.state.subscribedChannels.length }})</span>:
-            </h1>
-        </div>
+    <div class="home-wrapper">
+        <nav class="nav has-shadow user-select">
+            <div class="container">
+                <h1 class="title">
+                    Subscribed Channels
+                </h1>
+            </div>
+        </nav>
 
-        <section>
+        <section class="bookmarked-items" :class="{'flex-center' : nothingFound}"
+            v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore"
+        >
             <subscribed-channel v-for="channel in channels" :list="channel" :key="channel.id"></subscribed-channel>
 
             <no-content v-if="nothingFound" :text="'You have not bookmarked any channels yet'"></no-content>
 
-            <loading v-show="loading"></loading>
+            <loading v-show="loading && page > 1"></loading>
 
             <no-more-items :text="'No more items to load'" v-if="NoMoreItems && !nothingFound"></no-more-items>
         </section>
@@ -36,63 +39,53 @@
             NoMoreItems
         },
 
-        data: function () {
-            return {
-                NoMoreItems: false,
-                loading: true,
-                nothingFound: false,
-                page: 0,
-                channels: []
+        computed: {
+            cantLoadMore() {
+                return this.loading || this.NoMoreItems || this.nothingFound;
+            },
+
+            NoMoreItems() {
+                return Store.page.subscribedChannels.NoMoreItems;
+            },
+
+            nothingFound() {
+                return Store.page.subscribedChannels.nothingFound;
+            },
+
+            channels() {
+                return Store.page.subscribedChannels.channels;
+            },
+
+            loading() {
+                return Store.page.subscribedChannels.loading;
+            },
+
+            page() {
+                return Store.page.subscribedChannels.page;
             }
-        },
+        }, 
+       
 
-        created () {
-            this.$eventHub.$on('scrolled-to-bottom', this.loadMore);
-            this.getChannels();
-        },
+        beforeRouteEnter (to, from, next) {
+            Store.page.subscribedChannels.clear(); 
 
-        watch: {
-            '$route': function () {
-                this.clearContent();
-                this.getChannels();
+            if (! Store.page.subscribedChannels.page > 0) {
+                if (typeof app != "undefined") {
+                    app.$Progress.start();
+                }
+
+                Store.page.subscribedChannels.getChannels().then(() => {
+                    next(vm => vm.$Progress.finish());
+                });
+            } else {
+                next();
             }
         },
 
 
         methods: {
             loadMore () {
-                if (Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems) {
-                    this.getChannels();
-                }
-            },
-
-            clearContent () {
-                this.nothingFound = false;
-                this.users = [];
-                this.loading = true;
-            },
-
-            getChannels () {
-                this.page ++;
-                this.loading = true;
-
-                axios.get('/subscribed-channels', {
-                    params: {
-                        page: this.page
-                    }
-                }).then((response) => {
-                    this.channels = [...this.channels, ...response.data.data];
-
-                    if (response.data.next_page_url == null) {
-                        this.NoMoreItems = true;
-                    }
-
-                    if(this.channels.length == 0) {
-                        this.nothingFound = true;
-                    }
-
-                    this.loading = false;
-                })
+                Store.page.subscribedChannels.getChannels(); 
             }
         }
     };

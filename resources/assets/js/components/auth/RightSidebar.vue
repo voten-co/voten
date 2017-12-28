@@ -18,14 +18,14 @@
                     <li><router-link class="item" to="/">Home</router-link></li>
                     <li><router-link class="item" :to="'/@' + auth.username">Profile</router-link></li>
                     <li><router-link class="item" to="/bookmarks">Bookmarks</router-link></li>
-                    <li><router-link class="item" to="/subscribed-channels">Subscriptions</router-link></li>
+                    <li><router-link class="item" :to="{name: 'subscriptions'}">Subscriptions</router-link></li>
                     <li class="item" @click="Store.showPreferences = true">Preferences</li>
 
 
                     <hr>
 
 
-                    <li><router-link to="/find-channels" class="item">Discover channels</router-link></li>
+                    <li><router-link :to="{name: 'discover-channels'}" class="item">Discover channels</router-link></li>
                     <li class="item" @click="Store.showNewChannelModal = true">Create a new channel</li>
                     <li class="item" @click="Store.showKeyboardShortcutsGuide = true">Keyboard shortcuts</li>
                     <li><a href="https://help.voten.co/" target="_blank" class="item">Help center</a></li>

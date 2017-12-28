@@ -31,10 +31,4 @@
         <changefreq>weekly</changefreq>
         <priority>1</priority>
     </url>
-
-    <url>
-        <loc>{{ config('app.url') }}/help</loc>
-        <changefreq>daily</changefreq>
-        <priority>1</priority>
-    </url>
 </urlset>

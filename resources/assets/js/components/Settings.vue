@@ -95,3 +95,10 @@
         }
     }
 </script>
+
+<style lang="scss">
+    .go-red.is-active {
+        background: #db6e6e !important;
+        color: #fff;
+    }
+</style>

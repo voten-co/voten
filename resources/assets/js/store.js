@@ -5,6 +5,7 @@ import submission from './store/submission';
 import bookmarkedSubmissions from './store/bookmarkedSubmissions'; 
 import bookmarkedComments from './store/bookmarkedComments'; 
 import bookmarkedChannels from './store/bookmarkedChannels'; 
+import subscribedChannels from './store/subscribedChannels'; 
 import bookmarkedUsers from './store/bookmarkedUsers'; 
 
 window.Store = {
@@ -70,7 +71,8 @@ window.Store = {
         bookmarkedSubmissions,
         bookmarkedComments,
         bookmarkedChannels,
-        bookmarkedUsers
+        bookmarkedUsers, 
+        subscribedChannels
     },
 
 
