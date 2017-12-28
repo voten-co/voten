@@ -1,4 +1,4 @@
-@extends('layouts.landing-layout')
+@extends('layouts.guest')
 
 @section('title')
 	<title>Sign up | Voten</title>

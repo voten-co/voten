@@ -1,4 +1,4 @@
-@extends('layouts.landing-layout')
+@extends('layouts.guest')
 
 @section('head')
 	<title>Not Found 404 - Voten</title>

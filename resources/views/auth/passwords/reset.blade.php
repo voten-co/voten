@@ -1,4 +1,4 @@
-@extends('layouts.landing-layout')
+@extends('layouts.guest')
 
 @section('title')
 	<title>Reset Password | Voten</title>
