@@ -1,12 +1,15 @@
 <template>
-	<section class="bookmarked-items" :class="{'flex-center' : nothingFound}"
-			 v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore">
-        <bookmarked-user v-for="user in users" :list="user" :key="user.id"></bookmarked-user>
+	<section 
+		class="bookmarked-items"
+		:class="{'flex-center' : nothingFound}"
+		v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore"
+	>
+		<div class="index-channels">
+			<bookmarked-user v-for="user in users" :list="user" :key="user.id"></bookmarked-user>			
+		</div>
 
 	    <no-content v-if="nothingFound" :text="'No bookmarked users yet'"></no-content>
-
 		<loading v-if="loading && page > 1"></loading>
-
 		<no-more-items :text="'No more items to load'" v-if="NoMoreItems && !nothingFound"></no-more-items>
 	</section>
 </template>

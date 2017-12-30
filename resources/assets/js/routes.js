@@ -106,7 +106,7 @@ const routes = [
 
     { path: '/deleted-submission', component: DeletedSubmissionPage },
     { path: '/submission/:id', component: SubmissionRedirector },
-    { path: '/discover-channels', component: FindChannels, name: 'discover-channels', meta: { title: 'Find Channels' } },
+    { path: '/discover-channels', component: FindChannels, name: 'discover-channels', meta: { title: 'Discover Channels' } },
     { path: '/404', component: NotFound, name: 'not-found', meta: { title: 'Not Found' } },
     { path: '/c/:name/:slug', component: SubmissionPage, name: 'submission-page' },
 

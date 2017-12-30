@@ -235,7 +235,37 @@
     }
 }
 
+.index-channels {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 0 1em;
+    padding-bottom: 2em !important;
+}
+// only mobile
+@media (max-width: 1024px) {
+    .index-channels {
+        grid-template-columns: auto;
+    }
+}
+
+@media (min-width: 1440px) {
+    .index-channels {
+        grid-template-columns: auto auto auto;
+    }
+}
+@media (min-width: 1920px) {
+    .index-channels {
+        grid-template-columns: auto auto auto auto;
+    }
+}
+@media (min-width: 2560px) {
+    .index-channels {
+        grid-template-columns: auto auto auto auto auto;
+    }
+}
+
 #submissions, 
+#channels, 
 #comments-index, 
 #settings {
     overflow-y: scroll;
@@ -247,7 +277,7 @@
 
 // only desktop 
 @media (min-width: 768px) {
-	#submissions, 
+    #submissions, 
     #comments-index, 
     #settings {
         padding: 2em 1em;

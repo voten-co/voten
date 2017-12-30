@@ -36,7 +36,7 @@
     <vue-progress-bar></vue-progress-bar>
 
     <div class="v-content-wrapper">
-        <left-sidebar></left-sidebar>
+        <left-sidebar v-show="showLeftSidebar"></left-sidebar>
         
         <messages v-show="Store.contentRouter == 'messages'"></messages>
         <search-modal v-if="Store.contentRouter == 'search'"></search-modal>

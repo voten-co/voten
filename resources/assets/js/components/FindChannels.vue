@@ -1,117 +1,110 @@
 <template>
-	<div class="container margin-top-1 col-7 user-select">
-		<div class="margin-bottom-1 align-center" v-if="!isNewbie">
-			<h1>Find Channels</h1>
-		</div>
-
-		<div class="margin-top-bottom-1 align-center" v-if="isNewbie">
-			<h2>
-				Welcome to Voten, {{ auth.username }}
+	<div class="home-wrapper">	
+		<div class="align-center user-select padding-sides-1" v-if="isNewbie">
+			<h2 v-if="isNewbie && !reachedMinimum">
+				Please subscribe to
+				<b>{{ 3 - subscribedChannelsCount }}</b> more channels to continue
 			</h2>
 
-			<h1 v-if="isNewbie && !reachedMinimum">
-				Please subscribe to <b>{{ 3 - subscribedChannelsCount }}</b> more channels
-			</h1>
-
 			<transition name="fade">
-				<div class="text-or-button" v-if="isNewbie && reachedMinimum">
-					<h1>Keep going</h1>
-
-					or
-
-					<router-link class="v-button v-button--primary" :to="{name: 'home', query: { sidebar: 1, newbie: 1 }}">
-						Start Voting
-					</router-link>
+				<div class="text-or-button padding-1" v-if="isNewbie && reachedMinimum">
+					<el-button 
+						@click="$router.push({name: 'home', query: { sidebar: 1, newbie: 1 }})"
+						type="primary"
+					>
+						Start Voting <i class="el-icon-arrow-right el-icon-right"></i>
+					</el-button>
 				</div>
 			</transition>
+
+			<el-input :placeholder="'Search by #name or description...'" 
+				v-model="searchFilter" class="input-with-select" clearable @input="search(searchFilter)"
+				:prefix-icon="loading && searchFilter ? 'el-icon-loading' : 'el-icon-search'" v-if="isNewbie">
+			</el-input>
 		</div>
 
-		<div class="find-channels-filters-wrapper">
-			<div class="ui massive icon input flex-search margin-top-bottom-1">
-				<input type="text" placeholder="Search by #name or description..." v-model="searchFilter" v-on:input="search(searchFilter)">
-				<i class="v-icon v-search search icon"></i>
-			</div>
+		<div class="find-channels-filters-wrapper user-select" v-if="! isNewbie">
+			<el-input :placeholder="'Search by #name or description...'" v-model="searchFilter" class="input-with-select" clearable @input="search(searchFilter)"
+			    :prefix-icon="loading && searchFilter ? 'el-icon-loading' : 'el-icon-search'">
+			</el-input>
 
-			<div class="flex-space">
+			<div class="flex-space margin-top-1">
 				<div>
-					<ul class="flat-nav">
-						<li class="item" :class="{ 'active': orderBy == 'subscribers' }" @click="changeOrder('subscribers')">
-							Subscribers
-						</li>
+					<small class="margin-right-1">
+						Sort by:
+					</small>
 
-						<li class="item" :class="{ 'active': orderBy == 'new' }" @click="changeOrder('new')">
-							New
-						</li>
-
-						<li class="item" :class="{ 'active': orderBy == 'activity' }" @click="changeOrder('activity')">
-							Activity
-						</li>
-					</ul>
+					<el-radio-group v-model="orderBy" size="mini" @change="changeOrder">
+						<el-radio-button label="None"></el-radio-button>
+						<el-radio-button label="Subscribers"></el-radio-button>
+						<el-radio-button label="Activity"></el-radio-button>
+						<el-radio-button label="Newest"></el-radio-button>
+						<el-radio-button label="Oldest"></el-radio-button>
+					</el-radio-group>					
 				</div>
 
-				<toggle-button v-model="excludeSubscribeds"
-							   :width="200"
-							   :height="30"
-							   :color="{checked: '#5f85d1', unchecked: '#78b38a'}"
-							   :labels="{checked: 'Exclude Subscribed Channels', unchecked: 'Include Subscribed Channels'}"
-							   v-if="!isNewbie"
-				/>
+				<el-checkbox v-model="excludeSubscribeds" @change="excludeSubscribedsChanged">
+					Exclude subscribed
+				</el-checkbox>
 			</div>
 		</div>
 
-		<bookmarked-channel v-for="(value, index) in items" :key="value.id"
-			 :list="value" @subscribed="subscribed(index)"></bookmarked-channel>
+		<section class="home-submissions" v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore">
+			<div class="index-channels">
+				<bookmarked-channel v-for="item in items" :key="item.id" :list="item"></bookmarked-channel>				
+			</div>
 
-		<loading v-show="loading"></loading>
-
-		<no-content v-if="noContent" :text="'No results were found with current filters.'"></no-content>
-
-		<no-more-items :text="'No more items to load'" v-if="NoMoreItems && !noContent"></no-more-items>
+			<loading v-show="loading"></loading>		
+			<no-content v-if="noContent" :text="'No results were found with current filters.'"></no-content>
+			<no-more-items :text="'No more items to load'" v-if="NoMoreItems && !noContent"></no-more-items>
+		</section>
 	</div>
 </template>
 
 
 <script>
-    import BookmarkedChannel from '../components/BookmarkedChannel.vue';
-    import NoContent from '../components/NoContent.vue';
-	import NoMoreItems from '../components/NoMoreItems.vue';
-	import Loading from '../components/Loading.vue';
+	import BookmarkedChannel from "../components/BookmarkedChannel.vue";
+	import NoContent from "../components/NoContent.vue";
+	import NoMoreItems from "../components/NoMoreItems.vue";
+	import Loading from "../components/Loading.vue";
 
-
-export default {
-        components: {
-            BookmarkedChannel,
+	export default {
+		components: {
+			BookmarkedChannel,
 			NoContent,
 			NoMoreItems,
-            Loading
-    	},
+			Loading
+		},
 
-        data: function () {
-            return {
+		data() {
+			return {
 				Store,
 				auth,
 				NoMoreItems: false,
-            	loading: true,
-                items: [],
+				loading: true,
+				items: [],
 				page: 0,
-				counter: 0,
-				searchFilter: '',
-                excludeSubscribeds: true,
-                orderBy: ''
-            }
-        },
+				searchFilter: "",
+				excludeSubscribeds: true,
+				orderBy: "None"
+			};
+		},
 
 		computed: {
-			noContent() {
-				return (!this.items.length && !this.loading) ? true : false
+			cantLoadMore() {
+				return this.loading || this.NoMoreItems || this.nothingFound;
 			},
 
-			reachedMinimum () {
-				return this.counter > 2
+			noContent() {
+				return !this.items.length && !this.loading ? true : false;
+			},
+
+			reachedMinimum() {
+				return Store.state.subscribedChannels.length > 2;
 			},
 
 			subscribedChannelsCount() {
-			   return Store.state.subscribedChannels.length;
+				return Store.state.subscribedChannels.length;
 			},
 
 			/**
@@ -119,8 +112,8 @@ export default {
 			 *
 			 * @return Boolean
 			 */
-			isNewbie () {
-			     return this.$route.query.newbie == 1;
+			isNewbie() {
+				 return this.$route.query.newbie == 1;
 			},
 
 			/**
@@ -128,121 +121,109 @@ export default {
 			 *
 			 * @return Boolean
 			 */
-			canLeave () {
+			canLeave() {
 				if (this.isNewbie) {
 					return this.reachedMinimum;
 				}
 
 				return true;
-			},
-
+			}
 		},
 
-        created () {
-            this.getChannels();
-			this.$eventHub.$on('scrolled-to-bottom', this.loadMore);
-        },
+		created() {
+			this.getChannels();
+		},
 
-        watch: {
-            'excludeSubscribeds' () {
-                this.clear();
+		methods: {
+			excludeSubscribedsChanged() {
+				this.clear();
+				this.searchFilter ? this.search() : this.getChannels();
+			}, 
 
-                this.searchFilter ? this.search() : this.getChannels();
-            },
-        },
-
-        methods: {
-            changeOrder(order) {
-                if (order == this.orderBy) return;
-
-                this.clear();
-
-                this.searchFilter = '';
-
-               	this.orderBy = order;
-
-               	this.getChannels();
+			changeOrder(order) {
+				this.clear();
+				this.searchFilter = "";
+				this.getChannels();
 			},
 
-			subscribed(index) {
-				this.counter += 1
-			},
-
-			loadMore () {
-				if ( Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems && !this.searchFilter.trim() ) {
+			loadMore() {
+				if (
+					Store.contentRouter == "content" &&
+					!this.loading &&
+					!this.NoMoreItems &&
+					!this.searchFilter.trim()
+				) {
 					this.getChannels();
 				}
 			},
 
-
-            getChannels () {
+			getChannels() {
 				this.loading = true;
-				this.page ++;
+				this.page++;
 
-				axios.get('/find-channels', {
+				axios.get("/find-channels", {
 					params: {
 						page: this.page,
 						order_by: this.orderBy,
-                        exclude_subscribeds: this.excludeSubscribeds
+						exclude_subscribeds: this.excludeSubscribeds
 					}
-				}).then((response) => {
-				   	this.items = [...this.items, ...response.data.data];
+				}).then(response => {
+					this.items = [...this.items, ...response.data.data];
 
-				   	if (response.data.next_page_url == null) {
-					   	this.NoMoreItems = true;
-				   	}
+					if (response.data.next_page_url == null) this.NoMoreItems = true;
 
-				   	this.loading = false;
-			   })
-            },
-
-            clear() {
-                this.items = [];
-                this.page = 0;
-                this.NoMoreItems = false;
+					this.loading = false;
+				}).catch(error => {
+					this.loading = false;
+				}); 
 			},
 
-            search: _.debounce(function () {
-                if(!this.searchFilter.trim()) {
-                    this.clear();
-                    this.getChannels();
+			clear() {
+				this.items = [];
+				this.page = 0;
+				this.NoMoreItems = false;
+			},
 
-                    return;
+			search: _.debounce(function () {
+				if (!this.searchFilter.trim()) {
+					this.clear();
+					this.getChannels();
+
+					return;
 				}
 
-                this.clear();
-                this.orderBy = '';
-                this.loading = true;
+				this.clear();
+				this.orderBy = "";
+				this.loading = true;
 
-                axios.get('/find-channels', {
-                    params: {
-                        filter: this.searchFilter,
-                        exclude_subscribeds: this.excludeSubscribeds
-                    }
-                }).then((response) => {
-                    this.items = response.data;
+				axios
+					.get("/find-channels", {
+						params: {
+							filter: this.searchFilter,
+							exclude_subscribeds: this.excludeSubscribeds
+						}
+					})
+					.then(response => {
+						this.items = response.data;
 
-                    this.loading = false;
-                });
-            }, 600),
-        },
+						this.loading = false;
+					});
+			}, 600)
+		},
 
 		beforeRouteLeave(to, from, next) {
 			if (!this.canLeave) {
-				next(false)
+				next(false);
 			} else {
-				next()
+				next();
 			}
 		}
-    };
+	};
 </script>
 
 <style>
 	.find-channels-filters-wrapper {
-		margin-bottom: 2em;
 		padding: 1em;
-		border: 1px solid #eaeaea;
-		border-radius: 4px;
 		border-bottom: 2px solid #5587d7;
 	}
 </style>

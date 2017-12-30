@@ -45,14 +45,22 @@
     color: #595959;
 }
 
+.bookmarked-item h2 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.bookmarked-item p {
+    font-size: 14px;
+}
+
 .bookmarked-item .avatar {
     flex-basis: 65px;
-    margin-right: 2em;
+    margin-right: 1em;
 }
 @media screen and (max-width: 768px) {
   .bookmarked-item .avatar {
     flex-basis: 48px;
-    margin-right: 1em;
   }
 }
 

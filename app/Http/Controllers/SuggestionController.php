@@ -67,11 +67,13 @@ class SuggestionController extends Controller
         // sorted by an option
         $channels = (new Channel())->newQuery();
 
-        if ($request->order_by == 'new') {
+        if ($request->order_by == 'Newest') {
             $channels->orderBy('id', 'desc');
-        } elseif ($request->order_by == 'subscribers') {
+        } elseif ($request->order_by == 'Oldest') {
+            $channels->orderBy('id', 'asc');
+        } elseif ($request->order_by == 'Subscribers') {
             $channels->orderBy('subscribers', 'desc');
-        } elseif ($request->order_by == 'activity') {
+        } elseif ($request->order_by == 'Activity') {
             $channels->withCount('submissions')->orderBy('submissions_count', 'desc');
         }
 

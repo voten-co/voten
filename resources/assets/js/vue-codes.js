@@ -64,6 +64,7 @@ window.app = new Vue({
 
     data: {
         showMarkdownGuide: false,
+        showSidebars: true,
         pageTitle: document.title,
     },
 
@@ -76,14 +77,24 @@ window.app = new Vue({
             return Store.state.contacts.filter(item => item.last_message.owner.id != auth.id && item.last_message.read_at == null).length;
         },
 
-        showRightSidebar() {
-            return Store.contentRouter === 'notifications' || Store.contentRouter === 'messages' || Store.contentRouter === 'search' ? false : true;
+        showRightSidebarOnly() {
+            return Store.contentRouter === 'messages' || Store.contentRouter === 'search' ? false : true;
         },
+
+        showRightSidebar() {
+            return this.showRightSidebarOnly & this.showSidebars; 
+        }, 
+
+        showLeftSidebar() {
+            return this.showSidebars; 
+        }
     },
 
     watch: {
         '$route' () {
             this.closeModals();
+
+            this.setSidebar(); 
         },
 
         'unreadNotifications'() {
@@ -115,9 +126,19 @@ window.app = new Vue({
         if (this.$route.query.search) {
             this.changeRoute('search');
         }
+
+        this.setSidebar(); 
     },
 
     methods: {
+        setSidebar() {
+            if (this.$route.query.sidebar == 1) {
+                this.showSidebars = true;
+            } else if (this.$route.query.sidebar == 0) {
+                this.showSidebars = false;                 
+            }
+        }, 
+
         openMarkdownGuide() {
             this.showMarkdownGuide = true;
         },

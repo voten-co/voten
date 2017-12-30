@@ -1,6 +1,6 @@
 <template>
-    <transition name="fade">
-        <section class="bookmarked-item user-select" v-show="visible">
+    <transition name="el-fade-in-linear">
+        <div class="bookmarked-item user-select" v-show="visible">
             <div class="avatar">
                 <router-link :to="'/c/' + list.name">
                     <img :src="list.avatar" :alt="list.name">
@@ -11,7 +11,7 @@
                 <div class="flex-space">
                     <h2>
                         <router-link :to="'/c/' + list.name">
-                            {{ list.name }}
+                            #{{ list.name }}
                         </router-link>
 
                         <small>({{ list.subscribers }} subscribers)</small>
@@ -23,17 +23,32 @@
                             :open-delay="500"
                         >
                             <i class="v-icon h-yellow pointer" v-if="!isNewbie"
-                               :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'" @click="bookmark"></i>
+                               :class="bookmarked ? 'v-unbookmark go-yellow' : 'v-bookmark go-gray'" @click="bookmark"></i>
                         </el-tooltip>
 
-                        <el-button
+                        <el-tooltip :content="subscribed ? 'Unsubscribe' : 'Subscribe'" placement="top" 
+                            transition="false"
+                            :open-delay="500"
+                        >
+                            <i 
+                                class="subscribe-icon"
+                                :class="subscribed ? 'go-red el-icon-remove' : 'go-green el-icon-circle-plus-outline'"
+                                @click="subscribe"
+                            ></i>
+                        </el-tooltip>
+                        
+
+                        <!-- <el-button
                                 class="margin-left-1"
                                 size="mini"
-                                :type="subscribed ? 'danger' : 'success'"
                                 plain
                                 @click="subscribe"
-                                v-text="subscribed ? 'Unsubscribe' : 'Subscribe'"
-                        ></el-button>
+                        >
+                        :type="subscribed ? 'danger' : 'success'"
+                        v-text="subscribed ? 'Unsubscribe' : 'Subscribe'"
+                        
+                            <i class="el-icon-circle-plus-outline"></i>
+                        </el-button> -->
                     </div>
                 </div>
 
@@ -41,9 +56,17 @@
                     {{ list.description }}
                 </p>
             </div>
-        </section>
+        </div>
     </transition>
 </template>
+
+<style lang="scss">
+.subscribe-icon {
+    font-weight: 600;
+    margin-left: .5em;
+    cursor: pointer;
+}
+</style>
 
 <script>
     export default {
