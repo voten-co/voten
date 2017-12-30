@@ -40,9 +40,11 @@
 
         <nav class="nav has-shadow user-select">
             <div class="container">
-                <h1 class="title">
-                    <i class="v-icon v-channel" aria-hidden="true"></i>{{ Store.page.channel.temp.name }}
-                </h1>
+                <el-tooltip content="Scroll to top" placement="bottom" transition="false" :open-delay="500">
+                    <h1 class="title pointer" @click="scrollToTop('submissions')">
+                        <i class="v-icon v-channel" aria-hidden="true"></i>{{ Store.page.channel.temp.name }}
+                    </h1>
+                </el-tooltip>
 
                 <div class="nav-left">
                     <router-link :to="{ path: '/c/' + $route.params.name }" class="nav-item is-tab"

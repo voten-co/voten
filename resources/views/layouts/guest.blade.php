@@ -46,8 +46,6 @@
         {{--  <right-sidebar v-show="showRightSidebar"></right-sidebar>  --}}
     </div>
 
-    {{--  <scroll-button></scroll-button>  --}}
-
     {{--  <rules v-if="modalRouter == 'rules'" :sidebar="sidebar"></rules>
     <moderators v-if="modalRouter == 'moderators'" :sidebar="sidebar"></moderators>
     <keyboard-shortcuts-guide v-if="modalRouter == 'keyboard-shortcuts-guide'" :sidebar="sidebar"></keyboard-shortcuts-guide>

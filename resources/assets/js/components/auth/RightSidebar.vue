@@ -110,6 +110,15 @@
                 >
                     Show more
                 </el-button>
+                
+                <el-button type="text"
+                    @click="pushToDiscoverChannels" 
+                    class="go-gray full-width"
+                    size="mini"
+                    v-else
+                >
+                    Discover channels
+                </el-button>
             </div>
         </aside>
     </div>
@@ -145,17 +154,7 @@
                     this.showSubMenu = false; 
                 }
             }
-    
-            // 'channelsLimit': function() {
-            //     Vue.putLS('sidebar-channels-limit', this.channelsLimit);
-            // }
         },
-    
-        // created() {
-        //     if (Vue.isSetLS('sidebar-channels-limit')) {
-        //         this.channelsLimit = Vue.getLS('sidebar-channels-limit');
-        //     }
-        // },
     
         computed: {
             showLoadMoreChannels() {
@@ -217,6 +216,10 @@
         methods: {
             moreChannels() {
                 Store.settings.rightSidebar.channelsLimit += 15; 
+            }, 
+
+            pushToDiscoverChannels() {
+                this.$router.push({name: 'discover-channels'}); 
             }, 
             
             lessChannels() {

@@ -2,9 +2,11 @@
     <div class="home-wrapper" id="home">
         <nav class="nav has-shadow user-select">
             <div class="container">
-                <h1 class="title">
-                    Home
-                </h1>
+                <el-tooltip content="Scroll to top" placement="bottom" transition="false" :open-delay="500">
+                    <h1 class="title pointer" @click="scrollToTop('submissions')">
+                        Home
+                    </h1>
+                </el-tooltip>                
 
                 <div class="nav-left">
                     <router-link :to="{ path: '/' }" class="nav-item is-tab" :class="{ 'is-active': sort == 'hot' }">
@@ -42,7 +44,9 @@
             </div>
         </nav>
 
-        <section id="submissions" class="home-submissions" v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore">
+        <section id="submissions" class="home-submissions" 
+            v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore" @scroll="scrolled"
+        >
             <div v-for="(value, index) in uniqueList" v-bind:key="value.id">
                 <suggested-channel v-if="index == 5"></suggested-channel>
 
@@ -57,16 +61,12 @@
             <no-more-items :text="'No more items to load'" v-if="NoMoreItems && !nothingFound"></no-more-items>
         </section>
 
-
-        <scroll-button scrollable="submissions"></scroll-button>
-
         <settings :visible.sync="showSettings" v-if="showSettings"></settings>
     </div>
 </template>
 
 <script>
     import Helpers from '../mixins/Helpers';
-    import ScrollButton from '../components/ScrollButton.vue';
     import Settings from '../components/FeedSettings.vue';
     import Submission from '../components/Submission.vue';
     import SuggestedChannel from '../components/SuggestedChannel.vue';
@@ -78,7 +78,6 @@
         mixins: [Helpers],
 
         components: {
-            ScrollButton,
             Settings,
             Submission,
             Loading, 

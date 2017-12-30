@@ -7,8 +7,6 @@
 		</nsfw-warning>
 
 		<router-view v-else></router-view>
-
-		<scroll-button scrollable="submissions"></scroll-button>
 	</div>
 </template>
 
@@ -18,8 +16,6 @@ import ChannelHeader from '../components/ChannelHeader.vue';
 import NsfwWarning from '../components/NsfwWarning.vue';
 import ChannelSubmissions from '../components/ChannelSubmissions.vue';
 import Helpers from '../mixins/Helpers';
-import ScrollButton from '../components/ScrollButton.vue';
-
 
 export default {
 	mixins: [Helpers],
@@ -28,7 +24,6 @@ export default {
         ChannelSubmissions,
         ChannelHeader,
 		NsfwWarning, 
-		ScrollButton,
     },
 
    	computed: {

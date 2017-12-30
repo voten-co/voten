@@ -247,5 +247,14 @@ export default {
                 this.$eventHub.$emit('scrolled-a-lot');
             }
         }, 200, { leading: true, trailing: true }),
+
+        /**
+         * Scroll the page to the top of the element with the passed ID. 
+         * 
+         * @param string scrollable 
+         */
+        scrollToTop(scrollable) {
+            document.getElementById(scrollable).scrollTop = 0;
+        }
     }
 };
