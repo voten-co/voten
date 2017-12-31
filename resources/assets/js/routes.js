@@ -1,37 +1,111 @@
-import AdminPanelSuggestedChannels from './components/AdminPanelSuggestedChannels.vue';
+// for administrators only 
+const AdminPanel = resolve => { 
+    require.ensure(['./components/AdminPanel.vue'], () => {
+        resolve(require('./components/AdminPanel.vue')); 
+    }, 'admin-pannel'); 
+}; 
+const AdminPanelSuggestedChannels = resolve => { 
+    require.ensure(['./components/AdminPanelSuggestedChannels.vue'], () => {
+        resolve(require('./components/AdminPanelSuggestedChannels.vue')); 
+    }, 'admin-pannel'); 
+}; 
+const AdminPanelSubmissions = resolve => { 
+    require.ensure(['./components/AdminPanelSubmissions.vue'], () => {
+        resolve(require('./components/AdminPanelSubmissions.vue')); 
+    }, 'admin-pannel'); 
+}; 
+const AdminPanelComments = resolve => { 
+    require.ensure(['./components/AdminPanelComments.vue'], () => {
+        resolve(require('./components/AdminPanelComments.vue')); 
+    }, 'admin-pannel'); 
+}; 
+
+// For moderators only 
+const ModeratorPanel = resolve => {
+    require.ensure(['./components/ModeratorPanel.vue'], () => {
+        resolve(require('./components/ModeratorPanel.vue'));
+    }, 'moderator-pannel');
+}; 
+const ModeratorPanelRules = resolve => {
+    require.ensure(['./components/ModeratorPanelRules.vue'], () => {
+        resolve(require('./components/ModeratorPanelRules.vue'));
+    }, 'moderator-pannel');
+}; 
+const ModeratorPanelModerators = resolve => {
+    require.ensure(['./components/ModeratorPanelModerators.vue'], () => {
+        resolve(require('./components/ModeratorPanelModerators.vue'));
+    }, 'moderator-pannel');
+}; 
+const ModeratorPanelBlockDomains = resolve => {
+    require.ensure(['./components/ModeratorPanelBlockDomains.vue'], () => {
+        resolve(require('./components/ModeratorPanelBlockDomains.vue'));
+    }, 'moderator-pannel');
+}; 
+const ModeratorPanelBanUsers = resolve => {
+    require.ensure(['./components/ModeratorPanelBanUsers.vue'], () => {
+        resolve(require('./components/ModeratorPanelBanUsers.vue'));
+    }, 'moderator-pannel');
+}; 
+
+const ModeratorPanelReportedComments = resolve => {
+    require.ensure(['./components/ModeratorPanelReportedComments.vue'], () => {
+        resolve(require('./components/ModeratorPanelReportedComments.vue'));
+    }, 'moderator-pannel');
+}; 
+
+const ModeratorPanelReportedSubmissions = resolve => {
+    require.ensure(['./components/ModeratorPanelReportedSubmissions.vue'], () => {
+        resolve(require('./components/ModeratorPanelReportedSubmissions.vue'));
+    }, 'moderator-pannel');
+}; 
+
+const ChannelSettings = resolve => {
+    require.ensure(['./components/ChannelSettings.vue'], () => {
+        resolve(require('./components/ChannelSettings.vue'));
+    }, 'moderator-pannel');
+}; 
+
+// static pages 
+const TermsOfService = resolve => {
+    require.ensure(['./components/pages/TermsOfService.vue'], () => {
+        resolve(require('./components/pages/TermsOfService.vue'));
+    }, 'pages');
+}; 
+const PrivacyPolicy = resolve => {
+    require.ensure(['./components/pages/PrivacyPolicy.vue'], () => {
+        resolve(require('./components/pages/PrivacyPolicy.vue'));
+    }, 'pages');
+}; 
+const About = resolve => {
+    require.ensure(['./components/pages/About.vue'], () => {
+        resolve(require('./components/pages/About.vue'));
+    }, 'pages');
+}; 
+const Credits = resolve => {
+    require.ensure(['./components/pages/Credits.vue'], () => {
+        resolve(require('./components/pages/Credits.vue'));
+    }, 'pages');
+}; 
+
+
 import BookmarkedChannels from './components/BookmarkedChannels.vue';
 import SubmissionRedirector from './components/SubmissionRedirector.vue';
 import ChannelSubmissions from './components/ChannelSubmissions.vue';
 import BookmarkedComments from './components/BookmarkedComments.vue';
 import BookmarkedUsers from './components/BookmarkedUsers.vue';
 import UserSubmissions from './components/UserSubmissions.vue';
-import ModeratorPanel from './components/ModeratorPanel.vue';
 import FindChannels from './components/FindChannels.vue';
 import SubmissionPage from './components/SubmissionPage.vue';
 import UserComments from './components/UserComments.vue';
-import AdminPanel from './components/AdminPanel.vue';
 import Bookmarks from './components/Bookmarks.vue';
 import NotFound from './components/NotFound.vue';
 import Home from './components/Home.vue';
 import Channel from './components/Channel.vue';
 import UserPage from './components/UserPage.vue';
-import ChannelSettings from './components/ChannelSettings.vue';
-import AdminPanelComments from './components/AdminPanelComments.vue';
-import ModeratorPanelRules from './components/ModeratorPanelRules.vue';
-import AdminPanelSubmissions from './components/AdminPanelSubmissions.vue';
 import DeletedSubmissionPage from './components/DeletedSubmissionPage.vue';
 import BookmarkedSubmissions from './components/BookmarkedSubmissions.vue';
-import ModeratorPanelBanUsers from './components/ModeratorPanelBanUsers.vue';
 import UserUpvotedSubmissions from './components/UserUpvotedSubmissions.vue';
 import UserDownvotedSubmissions from './components/UserDownvotedSubmissions.vue';
-import ModeratorPanelModerators from './components/ModeratorPanelModerators.vue';
-import ModeratorPanelBlockDomains from './components/ModeratorPanelBlockDomains.vue';
-import ModeratorPanelReportedComments from './components/ModeratorPanelReportedComments.vue';
-import ModeratorPanelReportedSubmissions from './components/ModeratorPanelReportedSubmissions.vue';
-import TermsOfService from './components/pages/TermsOfService.vue';
-import PrivacyPolicy from './components/pages/PrivacyPolicy.vue';
-import About from './components/pages/About.vue';
-import Credits from './components/pages/Credits.vue';
 import SubscribedChannels from './components/SubscribedChannels.vue';
 
 

@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="home-wrapper">
 		<admin-panel-header></admin-panel-header>
 
 		<router-view></router-view>
@@ -14,13 +14,13 @@
         	AdminPanelHeader
         },
 
-        data: function () {
+        data() {
             return {
                 statistics: []
             }
         },
 
-        beforeRouteEnter(to, from, next){
+        beforeRouteEnter(to, from, next) {
         	axios.post('/big-daddy').then((response) => {
                 if (response.data == true) {
                 	next();

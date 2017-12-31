@@ -1,93 +1,93 @@
 <template>
-    <div class="container margin-top-1">
-        <div class="col-7">
-            <div class="flex-space user-select">
-                <h1 class="v-bold">Suggested Channels({{ list.length }}):</h1>
+    <div id="submissions" class="home-submissions">
+        <div class="flex-space user-select">
+            <h2 class="v-bold">
+                Suggested Channels({{ list.length }}):
+            </h2>
 
-                <button class="v-button v-button--primary" @click="form = !form">
-                    New
-                </button>
+            <el-button type="primary" @click="form = !form" size="medium">
+                New
+            </el-button>
+        </div>
+
+        <div v-show="form" class="form-wrapper user-select">
+            <div class="form-group">
+                <el-select
+                        v-model="channel_name"
+                        filterable
+                        remote
+                        placeholder="Search by name..."
+                        :remote-method="getChannels"
+                        loading-text="Loading..."
+                        :loading="loading">
+                    <el-option
+                            v-for="item in channels"
+                            :key="item"
+                            :label="item"
+                            :value="item">
+                    </el-option>
+                </el-select>
             </div>
 
-            <div v-show="form" class="form-wrapper user-select">
-                <div class="form-group">
-                    <el-select
-                            v-model="channel_name"
-                            filterable
-                            remote
-                            placeholder="Search by name..."
-                            :remote-method="getChannels"
-                            loading-text="Loading..."
-                            :loading="loading">
-                        <el-option
-                                v-for="item in channels"
-                                :key="item"
-                                :label="item"
-                                :value="item">
-                        </el-option>
-                    </el-select>
-                </div>
-
-                <div class="form-group">
-                    <label for="group" class="form-label">Group:</label>
-                    <input type="text" class="form-control" name="group" v-model="group" id="group"
-                           placeholder="Group...">
-                </div>
-
-                <div class="form-group">
-                    <label for="index" class="form-label">Index:</label>
-                    <input type="number" class="form-control" name="index" v-model="z_index" id="index"
-                           placeholder="Index...">
-                </div>
-
-                <button class="v-button v-button--green" @click="submit">
-                    Create
-                </button>
+            <div class="form-group">
+                <label for="group" class="form-label">Group:</label>
+                <input type="text" class="form-control" name="group" v-model="group" id="group"
+                        placeholder="Group...">
             </div>
 
-            <div class="v-box">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>#channel</th>
-                        <th>Group</th>
-                        <th>Z_Index</th>
-                        <th>Subscribers</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    <tr v-for="item in list">
-                        <td>
-                            <router-link :to="'/c/' + item.channel.name">
-                                <b>#{{ item.channel.name }}</b>
-                            </router-link>
-                        </td>
-
-                        <td>
-                            {{ item.group }}
-                        </td>
-
-                        <td>
-					      		<span class="detail">
-					      		    {{ item.z_index }}
-					      		</span>
-                        </td>
-
-                        <td>
-                            {{ item.channel.subscribers }}
-                        </td>
-
-                        <td>
-                            <div class="display-flex">
-                                <i class="v-icon v-trash h-red pointer" @click="destroy(item.id)"></i>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div class="form-group">
+                <label for="index" class="form-label">Index:</label>
+                <input type="number" class="form-control" name="index" v-model="z_index" id="index"
+                        placeholder="Index...">
             </div>
+
+            <button class="v-button v-button--green" @click="submit">
+                Create
+            </button>
+        </div>
+
+        <div class="v-box">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>#channel</th>
+                    <th>Group</th>
+                    <th>Z_Index</th>
+                    <th>Subscribers</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr v-for="item in list">
+                    <td>
+                        <router-link :to="'/c/' + item.channel.name">
+                            <b>#{{ item.channel.name }}</b>
+                        </router-link>
+                    </td>
+
+                    <td>
+                        {{ item.group }}
+                    </td>
+
+                    <td>
+                            <span class="detail">
+                                {{ item.z_index }}
+                            </span>
+                    </td>
+
+                    <td>
+                        {{ item.channel.subscribers }}
+                    </td>
+
+                    <td>
+                        <div class="display-flex">
+                            <i class="v-icon v-trash h-red pointer" @click="destroy(item.id)"></i>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </template>

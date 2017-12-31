@@ -1,5 +1,7 @@
 <template>
-	<div class="container margin-top-1 col-7">
+	<div id="submissions" class="home-submissions" 
+		v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore" @scroll="scrolled"
+	>
 		<section class="box-typical comments" v-if="comments.length">
 			<div class="box-typical-inner ui threaded comments">
 				<div v-for="c in uniqueList" :key="c.id" class="v-comment-not-full">
@@ -18,9 +20,13 @@
     import Loading from '../components/Loading.vue'
     import Comment from '../components/Comment.vue'
     import NoContent from '../components/NoContent.vue'
-    import NoMoreItems from '../components/NoMoreItems.vue'
+	import NoMoreItems from '../components/NoMoreItems.vue'
+	import Helpers from '../mixins/Helpers';
+
 
     export default {
+		mixins: [Helpers],
+
         components: {
         	Loading,
         	Comment,
@@ -51,13 +57,10 @@
 		},
 
 		computed: {
-			/**
-			 * Due to the issue with duplicate notifiactions (cuz the present ones have diffrent
-			 * timestamps) we need a different approch to make sure the list is always unique.
-			 * This ugly coded methods does it! Maybe move this to the Helpers.js mixin?!
-			 *
-			 * @return array
-			 */
+			cantLoadMore() {
+				return this.loading || this.NoMoreItems || this.nothingFound;
+			},
+			
 			uniqueList() {
 				let unique = []
 				let temp = []
