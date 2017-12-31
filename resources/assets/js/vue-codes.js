@@ -63,7 +63,6 @@ window.app = new Vue({
     },
 
     data: {
-        showMarkdownGuide: false,
         showSidebars: true,
         pageTitle: document.title,
     },
@@ -121,7 +120,7 @@ window.app = new Vue({
         this.$eventHub.$on('login-modal', this.loginModal);
         this.$eventHub.$on('change-route', this.changeRoute);
         this.$eventHub.$on('markdown-guide', this.openMarkdownGuide);
-        this.$eventHub.$on('push-notification', this.pushNotification)
+        this.$eventHub.$on('push-notification', this.pushNotification); 
 
         if (this.$route.query.search) {
             this.changeRoute('search');
@@ -146,7 +145,7 @@ window.app = new Vue({
         }, 
 
         openMarkdownGuide() {
-            this.showMarkdownGuide = true;
+            Store.showMarkdownGuide = true;
         },
 
         /**

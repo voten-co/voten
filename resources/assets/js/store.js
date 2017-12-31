@@ -104,6 +104,7 @@ window.Store = {
     showFeedbackModal: false, 
     showNewSubmissionModal: false, 
     showKeyboardShortcutsGuide: false, 
+    showMarkdownGuide: false, 
 
 
     // Open tab's unique ID:

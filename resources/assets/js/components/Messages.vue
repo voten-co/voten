@@ -174,7 +174,7 @@
                             Preview
                         </button>
 
-                        <button class="comment-form-guide" @click="$eventHub.$emit('markdown-guide')" type="button">
+                        <button class="comment-form-guide" @click="Store.showMarkdownGuide = true" type="button">
                             Formatting Guide
                         </button>
                     </div>

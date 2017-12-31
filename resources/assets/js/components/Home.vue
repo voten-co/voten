@@ -174,21 +174,6 @@
             }, 200, { leading: true, trailing: false }),
 
             /**
-             * changes the filter for home feed
-             *
-             * @return void
-             */
-            changeFilter(filter) {
-                if (Store.feedFilter == filter) return;
-
-                Store.feedFilter = filter;
-
-                Vue.putLS('feed-filter', filter);
-
-                this.refresh();
-            },
-
-            /**
              * fires the submit event
              *
              * @return void
