@@ -132,6 +132,7 @@
         -webkit-box-direction: normal;
         -ms-flex-direction: column;
         flex-direction: column;
+        margin-right: 1em;
 
         hr {
             border-top: 2px solid #e7e7e7;
@@ -167,11 +168,9 @@
 
     .content {
         padding: 0 1em;
-        -webkit-box-flex: 1;
-        -ms-flex: 1;
-        flex: 1;
+        // flex: 1;
         background: #fbfbfb;
-        margin: 0 1em;
+        // margin: 0 1em;
         border: 2px solid #e7e7e7;
         border-radius: 4px;
     }

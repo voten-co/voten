@@ -157,8 +157,9 @@ class ChannelController extends Controller
         $channel = Channel::create([
             'name'        => $request->name,
             'description' => $request->description,
-            'nsfw' => $request->nsfw,
+            'nsfw'        => $request->nsfw,
             'avatar'      => '/imgs/channel-avatar.png',
+            'color'       => 'Blue',
         ]);
 
         $this->setInitialUserToChannelRoles(Auth::user(), $channel);

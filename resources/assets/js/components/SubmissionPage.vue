@@ -228,6 +228,12 @@
 	
 				this.comments.unshift(comment);
 				this.submission.comments_number++;
+
+				if (comment.user_id == auth.id) {
+					this.$nextTick(function () {
+						document.getElementById('comment' + comment.id).scrollIntoView();					
+					});
+				}
 			},
 	
 			/**

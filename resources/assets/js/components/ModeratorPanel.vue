@@ -18,29 +18,40 @@
                     Block Domains
                 </router-link>
 
-                <router-link :to="{ name: 'moderator-panel-rules' }" active-class="is-active"
-                             v-if="isAdministrator">
-                    Rules
-                </router-link>
-
-                <router-link :to="{ name: 'moderator-panel-manage-moderators' }" active-class="is-active"
-                             v-if="isAdministrator">
-                    Manage Moderators
-                </router-link>
+                <hr v-if="isAdministrator">
 
                 <router-link :to="{ name: 'channel-settings' }" active-class="is-active"
                              v-if="isAdministrator">
                     Settings
                 </router-link>
+                
+                <router-link :to="{ name: 'moderator-panel-manage-moderators' }" active-class="is-active"
+                             v-if="isAdministrator">
+                    Manage Moderators
+                </router-link>
+                
+                <router-link :to="{ name: 'moderator-panel-rules' }" active-class="is-active"
+                             v-if="isAdministrator">
+                    Rules
+                </router-link>
             </div>
 
-            <div class="content">
-                <transition name="slide-fade" mode="out-in">
-                    <keep-alive>
-                        <router-view></router-view>
-                    </keep-alive>
-                </transition>
-            </div>
+            <section class="flex1">
+                <el-alert
+                    :title="newCreatedMessage"
+                    v-if="justCreated"
+                    class="margin-bottom-1"
+                    type="success">
+                </el-alert>
+
+                <div class="content">
+                    <transition name="slide-fade" mode="out-in">
+                        <keep-alive>
+                            <router-view></router-view>
+                        </keep-alive>
+                    </transition>
+                </div>
+            </section>
         </div>
     </div>
 </template>
@@ -49,7 +60,10 @@
     export default {
         data() {
             return {
-                Store
+                Store, 
+                newCreatedMessage: `Congratulations on creating your new channel.
+                We're gonna have a party later but for now let's set a few settings to make sure your 
+                channel looks as awesome as you are.`
             }
         },
 

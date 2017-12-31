@@ -12,6 +12,11 @@
                 :title="customError"
                 type="error">
         </el-alert>
+        
+        <el-alert
+                :title="warning"
+                type="warning">
+        </el-alert>
 
         <el-form label-position="top" label-width="10px">
             <el-form-item label="Name">
@@ -86,6 +91,7 @@
                 errors: [],
                 customError: '',
                 loading: false,
+                warning: `At the current stage, we're trying to keep the channels number short, making it easier for new users. Thus, please do a little search before creating your channel to make sure a similar one doesn't already exist. `
             }
         },
 
@@ -127,6 +133,7 @@
                     Store.state.moderatingChannels.push(response.data);
                     Store.state.subscribedChannels.push(response.data);
                     Store.state.subscribedAt.push(response.data.id);
+                    Store.page.channel.temp = response.data; 
 
                     this.$router.push('/c/' + response.data.name + '/mod/settings?created=1');
 

@@ -422,6 +422,11 @@
                     this.reply = false;
                     Store.state.comments.upVotes.push(comment.id);
                     this.list.children.unshift(comment);
+                    
+                    this.$nextTick(function () {
+                        document.getElementById('comment' + comment.id).scrollIntoView();					
+                    });
+                    
                     return;
                 }
 

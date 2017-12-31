@@ -92,7 +92,7 @@
     }
 
     .typing {
-        margin-top: -26px;
+        margin-top: -18px;
         color: #717577;
     }
 

@@ -287,8 +287,6 @@
         		this.temp = this.message;
         		this.message = '';
 
-        		$('#comment-form-' + this.parent).css('height', 43);
-
         		this.loading = true;
 
                 // edit
