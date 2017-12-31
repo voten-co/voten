@@ -2,9 +2,7 @@
     <div class="vo-modal" id="messages" v-loading="loadingMessages & page === 1">
         <header class="user-select">
             <div class="flex-space" :class="{'padding-desktop-1-mobile-half': pageRoute == 'contacts'}">
-                <!--------------------------------------------------------->
-                <!--------------------- contacts page --------------------->
-                <!--------------------------------------------------------->
+                <!-- contacts page -->
                 <el-input v-show="pageRoute == 'contacts'" placeholder="Search by @username or name..." :prefix-icon="loadingContacts ? 'el-icon-loading' : 'el-icon-search'" v-model="filter" @input="searchUsers(filter)" clearable ref="searchContacts"></el-input>
     
                 <!-- Cancel Button -->
@@ -13,9 +11,7 @@
                 </el-button>
     
     
-                <!--------------------------------------------------------->
-                <!----------------------- Chat page ----------------------->
-                <!--------------------------------------------------------->
+                <!-- Chat page -->
                 <div class="vo-modal-title flex-align-center" v-if="pageRoute == 'chat'">
                     <router-link :to="'/@' + currentContact.username">
                         <h1 class="title desktop-only">
@@ -74,9 +70,7 @@
         </header>
     
     
-        <!--------------------------------------------------------->
-        <!--------------------- contacts page --------------------->
-        <!--------------------------------------------------------->
+        <!-- contacts page -->
         <div class="middle background-white" id="v-contacts" v-show="pageRoute == 'contacts'" :class="{'flex-center' : (!hasContacts && !hasSearchedContacts)}">
             <div class="col-7">
                 <div class="user-select v-nth-box" v-if="!hasContacts && !hasSearchedContacts">
@@ -120,9 +114,7 @@
         </div>
     
     
-        <!--------------------------------------------------------->
-        <!----------------------- Chat page ----------------------->
-        <!--------------------------------------------------------->
+        <!-- Chat page -->
         <div class="container-fluid overflow-hidden" id="v-messages" v-show="pageRoute == 'chat'">
             <div class="messages-container" id="chat-box" :class="(!Store.state.messages || ! Store.state.messages.length) && !Store.state.messages.length ? 'flex-center' : 'flex-column-end'">
                 <div class="user-select v-nth-box" v-if="!hasMessages && !loadingMessages">
@@ -149,6 +141,10 @@
     
             <!-- Chat Textarea -->
             <div class="padding-sides-1" id="chat-textarea">
+                <div v-if="preview && messageText" class="form-wrapper margin-bottom-1 preview">
+                    <markdown :text="messageText.trim()"></markdown>
+                </div>
+
                 <form class="chat-input-form">
                     <el-input type="textarea" autosize placeholder="Type your message here..." v-model="messageText" @keydown.enter.native="sendMessage" :disabled="disableTextArea" name="message" :maxlength="5000" ref="messageForm"></el-input>
     
@@ -162,9 +158,27 @@
     					</span>
     
                     <button type="submit" :class="{ 'go-green': messageText.trim() }" @click="sendMessage">
+                        <el-tooltip placement="bottom-end" transition="false">
+                            <div slot="content">
+                                Press Enter to send<br/>
+                                Press Shift+Enter to add a new paragraph 
+                            </div>
                             <i class="v-icon v-send" aria-hidden="true"></i>
-                        </button>
+                        </el-tooltip>
+                    </button>
                 </form>
+
+                <div class="flex-right user-select comment-form-guide-wrapper">
+                    <div>
+                        <button class="comment-form-guide" @click="preview =! preview" type="button" v-show="messageText.trim()">
+                            Preview
+                        </button>
+
+                        <button class="comment-form-guide" @click="$eventHub.$emit('markdown-guide')" type="button">
+                            Formatting Guide
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -172,6 +186,7 @@
 
 <script>
     import InputHelpers from '../InputHelpers';
+    import Markdown from '../components/Markdown.vue'; 
     import Helpers from '../mixins/Helpers';
     import Message from './Message.vue';
     import EmojiPicker from '../components/EmojiPicker.vue';
@@ -191,7 +206,8 @@
             EmojiPicker,
             ContactsIcon,
             ChatIcon,
-            EmojiIcon
+            EmojiIcon, 
+            Markdown
         },
     
         data() {
@@ -209,6 +225,7 @@
                 loadingMessages: true,
                 moreToLoad: false,
                 newMessagesNotifier: 0,
+                preview : false, 
             }
         },
     

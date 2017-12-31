@@ -63,7 +63,7 @@
             <small class="go-red" v-if="error" v-text="error"></small>
 
             <div>
-                <button class="comment-form-guide" @click="preview =! preview" type="button" v-show="message">
+                <button class="comment-form-guide" @click="preview =! preview" type="button" v-show="message.trim()">
                     Preview
                 </button>
 
