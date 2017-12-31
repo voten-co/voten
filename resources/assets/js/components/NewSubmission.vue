@@ -173,10 +173,11 @@
             </el-form-item>
 
             <!-- NSFW Toggle -->
-            <div class="form-toggle no-border">
-                Safe for work:
-                <el-switch v-model="sfw"></el-switch>
-            </div>
+            <el-form-item>
+                <el-checkbox v-model="sfw">
+                    Safe for work
+                </el-checkbox>
+            </el-form-item>
 
             <hr class="dashed-hr">
 

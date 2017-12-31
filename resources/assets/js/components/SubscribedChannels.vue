@@ -11,12 +11,12 @@
         <section class="bookmarked-items" :class="{'flex-center' : nothingFound}"
             v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore"
         >
-            <subscribed-channel v-for="channel in channels" :list="channel" :key="channel.id"></subscribed-channel>
+            <div class="index-channels">
+                <subscribed-channel v-for="channel in channels" :list="channel" :key="channel.id"></subscribed-channel>
+            </div>
 
             <no-content v-if="nothingFound" :text="'You have not bookmarked any channels yet'"></no-content>
-
             <loading v-show="loading && page > 1"></loading>
-
             <no-more-items :text="'No more items to load'" v-if="NoMoreItems && !nothingFound"></no-more-items>
         </section>
     </div>

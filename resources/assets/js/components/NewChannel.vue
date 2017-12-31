@@ -52,22 +52,21 @@
             </el-form-item>
 
             <!-- NSFW Toggle -->
-            <div class="form-toggle no-border">
-                Safe for work:
-                <el-switch v-model="sfw"></el-switch>
-            </div>
-
-            <el-form-item v-if="validates">
-                <el-button
-                        type="success"
-                        @click="submit"
-                        :disabled="!validates"
-                        :loading="loading"
-                >
-                    Create
-                </el-button>
-            </el-form-item>
+            <el-checkbox v-model="sfw">
+                Safe for work
+            </el-checkbox>
         </el-form>
+
+        <span slot="footer" class="dialog-footer">
+            <el-button
+                    type="success"
+                    @click="submit"
+                    :disabled="!validates"
+                    :loading="loading"
+            >
+                Create
+            </el-button>
+        </span>
     </el-dialog>
 </template>
 
