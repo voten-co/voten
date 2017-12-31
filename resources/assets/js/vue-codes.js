@@ -94,7 +94,7 @@ window.app = new Vue({
         '$route' () {
             this.closeModals();
 
-            this.setSidebar(); 
+            this.setQueries(); 
         },
 
         'unreadNotifications'() {
@@ -106,7 +106,7 @@ window.app = new Vue({
         },
     },
 
-    created: function () {
+    created() {
         this.loadWebFont();
 
         window.addEventListener('keydown', this.keydown);
@@ -127,15 +127,21 @@ window.app = new Vue({
             this.changeRoute('search');
         }
 
-        this.setSidebar(); 
+        this.setQueries(); 
     },
 
     methods: {
-        setSidebar() {
+        setQueries() {
+            // sidebar 
             if (this.$route.query.sidebar == 1) {
                 this.showSidebars = true;
             } else if (this.$route.query.sidebar == 0) {
                 this.showSidebars = false;                 
+            }
+
+            // feedback 
+            if (this.$route.query.feedback == 1) {
+                Store.showFeedbackModal = true; 
             }
         }, 
 

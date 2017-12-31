@@ -15,7 +15,7 @@ The Voten Team
 
 @component('mail::subcopy')
     Need help? Check out our [Help Center](https://voten.co/help), ask [community](https://voten.co/c/VotenSupport), or hit us up on Twitter [@voten_co](https://twitter.com/voten_co).
-    Want to give us feedback? Let us know what you think on our [feedback page](https://voten.co/feedback).
+    Want to give us feedback? Let us know what you think on our [feedback page](https://voten.co?feedback=1).
 @endcomponent
 
 @endcomponent
