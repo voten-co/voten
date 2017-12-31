@@ -96,7 +96,6 @@ window.Store = {
     }, 
 
     contentRouter: 'content',
-    feedFilter: '',
     sidebarFilter: '',
     showPreferences: false, 
     showNotifications: false, 
