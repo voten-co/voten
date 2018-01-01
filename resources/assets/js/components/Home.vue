@@ -44,7 +44,7 @@
             </div>
         </nav>
 
-        <section id="submissions" class="home-submissions" 
+        <section id="submissions" class="home-submissions" :class="{'flex-center' : nothingFound}"
             v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore" @scroll="scrolled"
         >
             <div v-for="(value, index) in uniqueList" v-bind:key="value.id">
@@ -54,7 +54,7 @@
             </div>
 
             <no-content v-if="Store.page.home.nothingFound"
-                        :text="'No submissions at this time. Try subscribing to more channels or changing your feed filter. '"></no-content>
+                        :text="'No submissions at this time. Try subscribing to more channels or adjusting your feed filters.'"></no-content>
 
             <loading v-if="loading && page > 1"></loading>
 
