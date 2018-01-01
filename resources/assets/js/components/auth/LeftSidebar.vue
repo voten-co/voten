@@ -58,6 +58,19 @@
         </div>
 
         <div class="bottom">
+            <!-- admin buttons -->
+            <el-tooltip content="Backend Dashboard" placement="right" transition="false" :open-delay="500" v-if="auth.isVotenAdminstrator">
+                <a class="item" href="/backend" target="_blank">
+                    <i class="el-icon-service" aria-hidden="true"></i>
+                </a>
+            </el-tooltip>
+            
+            <el-tooltip content="Big-daddy Dashboard" placement="right" transition="false" :open-delay="500" v-if="auth.isVotenAdminstrator">
+                <a class="item" @click.prevent="pushRouter('/big-daddy')" href="/big-daddy">
+                    <i class="el-icon-view" aria-hidden="true"></i>
+                </a>
+            </el-tooltip>
+
             <!-- Help Center -->
             <el-tooltip content="Help Center" placement="right" transition="false" :open-delay="500">
                 <a class="item" href="https://help.voten.co/" target="_blank">
