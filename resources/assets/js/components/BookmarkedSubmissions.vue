@@ -3,7 +3,7 @@
              :class="{'flex-center' : nothingFound}">
         <submission v-for="submission in submissions" :list="submission" :key="submission.id"></submission>
 
-        <no-content v-if="nothingFound" :text="'No bookmarked submissions yet'"></no-content>
+        <no-content v-if="nothingFound" :text="'No bookmarked submissions yet'" icon="submission"></no-content>
 
         <loading v-if="loading && page > 1"></loading>
 

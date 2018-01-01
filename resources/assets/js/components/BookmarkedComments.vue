@@ -10,10 +10,8 @@
             </div>
         </section>
 
-        <no-content v-if="nothingFound" :text="'No bookmarked comments yet'"></no-content>
-
+        <no-content v-if="nothingFound" :text="'No bookmarked comments yet'" icon="comment"></no-content>
         <loading v-if="loading && page > 1"></loading>
-
         <no-more-items :text="'No more items to load'" v-if="NoMoreItems && !nothingFound"></no-more-items>
     </section>
 </template>

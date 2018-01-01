@@ -6,7 +6,7 @@
 			<bookmarked-channel v-for="channel in channels" :list="channel" :key="channel.id"></bookmarked-channel>
 		</div>
 
-	    <no-content v-if="nothingFound" :text="'No bookmarked channels yet'"></no-content>
+	    <no-content v-if="nothingFound" :text="'No bookmarked channels yet'" icon="channel"></no-content>
 		<loading v-if="loading && page > 1"></loading>
 		<no-more-items :text="'No more items to load'" v-if="NoMoreItems && !nothingFound"></no-more-items>
 	</section>
