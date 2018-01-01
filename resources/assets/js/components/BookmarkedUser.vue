@@ -11,7 +11,7 @@
                 <div class="flex-space">
                     <h2>
                         <router-link :to="'/@' + list.username">
-                            <i class="v-icon v-atsign" aria-hidden="true"></i>{{ list.username }}
+                            {{ '@' + list.username }}
                         </router-link>
                     </h2>
 
@@ -19,18 +19,13 @@
                         <el-tooltip :content="bookmarked ? 'Unbookmark' : 'Bookmark'" placement="top"
                                     transition="false" :open-delay="500">
                             <i class="v-icon h-yellow pointer"
-                               :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'" @click="bookmark"></i>
+                               :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark go-gray'" @click="bookmark"></i>
                         </el-tooltip>
-
-
-                        <el-button
-                                class="margin-left-1"
-                                size="mini"
-                                type="success"
-                                plain
-                                @click="sendMessage(list)">
-                            Message
-                        </el-button>
+                        
+                        <el-tooltip content="Start a private conversation" placement="top"
+                                    transition="false" :open-delay="500">
+                            <i class="v-icon go-green v-chat pointer" @click="sendMessage(list)"></i>
+                        </el-tooltip>
                     </div>
                 </div>
 
