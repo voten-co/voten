@@ -36,19 +36,6 @@
                                 @click="subscribe"
                             ></i>
                         </el-tooltip>
-                        
-
-                        <!-- <el-button
-                                class="margin-left-1"
-                                size="mini"
-                                plain
-                                @click="subscribe"
-                        >
-                        :type="subscribed ? 'danger' : 'success'"
-                        v-text="subscribed ? 'Unsubscribe' : 'Subscribe'"
-                        
-                            <i class="el-icon-circle-plus-outline"></i>
-                        </el-button> -->
                     </div>
                 </div>
 
@@ -61,11 +48,11 @@
 </template>
 
 <style lang="scss">
-.subscribe-icon {
-    font-weight: 600;
-    margin-left: .5em;
-    cursor: pointer;
-}
+    .subscribe-icon {
+        font-weight: 600;
+        margin-left: .5em;
+        cursor: pointer;
+    }
 </style>
 
 <script>
