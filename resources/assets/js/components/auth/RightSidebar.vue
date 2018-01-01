@@ -115,7 +115,7 @@
                     @click="pushToDiscoverChannels" 
                     class="go-gray full-width"
                     size="mini"
-                    v-else
+                    v-if="showDiscoverChannels"
                 >
                     Discover channels
                 </el-button>
@@ -159,6 +159,10 @@
         computed: {
             showLoadMoreChannels() {
                 return this.channels.length > this.channelsLimit && !this.subscribedFilter;
+            }, 
+
+            showDiscoverChannels() {
+                return this.channels.length < this.channelsLimit && !this.subscribedFilter; 
             }, 
 
             channels() {
