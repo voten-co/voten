@@ -20,7 +20,7 @@
     
                         <router-link :to="'/@' + userStore.username">
                             <h2>
-                                <i class="v-icon v-atsign" aria-hidden="true"></i>{{ userStore.username }}
+                                {{ '@' + userStore.username }}
                             </h2>
                         </router-link>
     
@@ -174,18 +174,18 @@
         computed: {
             bookmarked: {
                 get() {
-                    return Store.state.bookmarks.users.indexOf(Store.page.user.id) !== -1 ? true : false;
+                    return Store.state.bookmarks.users.indexOf(Store.page.user.temp.id) !== -1 ? true : false;
                 },
     
                 set() {
-                    if (Store.state.bookmarks.users.indexOf(Store.page.user.id) !== -1) {
-                        let index = Store.state.bookmarks.users.indexOf(Store.page.user.id);
+                    if (Store.state.bookmarks.users.indexOf(Store.page.user.temp.id) !== -1) {
+                        let index = Store.state.bookmarks.users.indexOf(Store.page.user.temp.id);
                         Store.state.bookmarks.users.splice(index, 1);
     
                         return;
                     }
     
-                    Store.state.bookmarks.users.push(Store.page.user.id);
+                    Store.state.bookmarks.users.push(Store.page.user.temp.id);
                 }
             },
     
