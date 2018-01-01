@@ -493,11 +493,11 @@
              * @return void
              */
             approve() {
+                this.list.approved_at = this.now();
+                
                 axios.post('/approve-submission', {
                     submission_id: this.list.id
-                }).then(() => {
-                    this.list.approved_at = this.now();
-                })
+                }); 
             },
 
             /**
