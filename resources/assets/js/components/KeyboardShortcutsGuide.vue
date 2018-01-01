@@ -7,7 +7,7 @@
             append-to-body
             class="user-select"
     >
-        <table class="table enable-user-select">
+        <table class="table">
             <thead>
             <tr>
                 <th>Key</th>
