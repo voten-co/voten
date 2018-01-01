@@ -29,7 +29,7 @@
                     </a>
                 </div>
 
-                <div class="content">
+                <div class="content flex1">
                     <transition name="slide-fade" mode="out-in">
                         <component :is="currentView"></component>
                     </transition>
