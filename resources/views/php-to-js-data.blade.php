@@ -28,29 +28,31 @@
             stats: {!! Auth::user()->stats() !!},
             isGuest: {{ 'false' }},
             confirmedEmail: {{ Auth::user()->confirmed ? 'true' : 'false' }},
+            isVotenAdminstrator: {{ optional(Auth::user())->isVotenAdministrator() ? 'true' : 'false' }}
         };
 
         var preload = {};
-    </script>
-@else
-    <script>
-        var auth = {
-            font: 'Lato',
-            nsfw: {{ 'false' }},
-            nsfwMedia: {{ 'false' }},
-            sidebar_color: 'Gray',
-            isMobileDevice: {{ isMobileDevice() ? 'true' : 'false' }},
-            <?php
-                if (isMobileDevice()) {
-                    $submission_small_thumbnail = 'false';
-                } else {
-                    $submission_small_thumbnail = 'true';
-                }
-            ?>
-            submission_small_thumbnail: {{ $submission_small_thumbnail }},
-            isGuest: {{ 'true' }}
-        };
+            </script>
+        @else
+            <script>
+                var auth = {
+                    font: 'Lato',
+                    nsfw: {{ 'false' }},
+                    nsfwMedia: {{ 'false' }},
+                    sidebar_color: 'Gray',
+                    isMobileDevice: {{ isMobileDevice() ? 'true' : 'false' }},
+                    <?php
+                        if (isMobileDevice()) {
+                            $submission_small_thumbnail = 'false';
+                        } else {
+                            $submission_small_thumbnail = 'true';
+                        }
+                    ?>
+                    submission_small_thumbnail: {{ $submission_small_thumbnail }},
+                    isGuest: {{ 'true' }}, 
+                    isVotenAdminstrator: false 
+                 };
 
-        var preload = {};
-    </script>
+             var preload = {};
+        </script>
 @endif
