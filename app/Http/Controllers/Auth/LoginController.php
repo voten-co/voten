@@ -128,8 +128,8 @@ class LoginController extends Controller
             'submissionsCount' => 0,
             'commentsCount'    => 0,
 
-            'submissionKarma' => 0,
-            'commentKarma'    => 0,
+            'submissionXp' => 0,
+            'commentXp'    => 0,
 
             'hiddenSubmissions' => collect(),
             'subscriptions'     => collect(),

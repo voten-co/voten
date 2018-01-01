@@ -164,17 +164,17 @@ trait Permissions
     }
 
     /**
-     * Does the auth user have the required minimum karma points?
+     * Does the auth user have the required minimum xp points?
      *
      * @param int $number
      *
      * @return bool
      */
-    protected function mustHaveMinimumKarma($number)
+    protected function mustHaveMinimumXp($number)
     {
         $stats = $this->userStats(Auth::id());
 
-        return ($stats['submission_karma'] + $stats['comment_karma']) >= $number;
+        return ($stats['submission_xp'] + $stats['comment_xp']) >= $number;
     }
 
     /* --------------------------------------------------------------------- */

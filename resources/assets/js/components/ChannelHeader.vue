@@ -21,12 +21,12 @@
                     </div>
 
                     <div class="channel-header-right">
-                        <div class="karma">
-                            <div class="karma-number">
+                        <div class="xp">
+                            <div class="xp-number">
                                 {{ Store.page.channel.temp.subscribers }}
                             </div>
 
-                            <div class="karma-text margin-bottom-1">
+                            <div class="xp-text margin-bottom-1">
                                 Subscribers
                             </div>
 

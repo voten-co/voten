@@ -139,8 +139,8 @@ class ChannelController extends Controller
             return response('I hate to break it to you but your account has been banned.', 500);
         }
 
-        if (!$this->mustHaveMinimumKarma(10) && !$this->mustBeWhitelisted()) {
-            return response('During beta, channel creation requires a minimum of 10 karma points. 
+        if (!$this->mustHaveMinimumXp(10) && !$this->mustBeWhitelisted()) {
+            return response('During beta, channel creation requires a minimum of 10 xp points. 
             Either do a bit of activity or contact administrators to lift the limits for your account.', 500);
         }
 

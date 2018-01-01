@@ -34,7 +34,7 @@ class SubmissionVotesController extends Controller
         // remove the $submission_id from the array
         if ($previous_vote == 'upvote') {
             $upvotes = array_values(array_diff($upvotes, [$submission_id]));
-            $this->updateSubmissionKarma($author_id, -1);
+            $this->updateSubmissionXp($author_id, -1);
         }
 
         // remove the $submission_id from the downvotes array and add it to the upvotes array
@@ -45,13 +45,13 @@ class SubmissionVotesController extends Controller
             array_push($upvotes, $submission_id);
 
             $this->updateSubmissionDownvotesIds($voter_id, $downvotes);
-            $this->updateSubmissionKarma($author_id, 2);
+            $this->updateSubmissionXp($author_id, 2);
         }
 
         // add the $submission_id to the array
         if ($previous_vote == null) {
             array_push($upvotes, $submission_id);
-            $this->updateSubmissionKarma($author_id, 1);
+            $this->updateSubmissionXp($author_id, 1);
         }
 
         $this->updateSubmissionUpvotesIds($voter_id, $upvotes);
@@ -74,7 +74,7 @@ class SubmissionVotesController extends Controller
         // remove the $submission_id from the array
         if ($previous_vote == 'downvote') {
             $downvotes = array_values(array_diff($downvotes, [$submission_id]));
-            $this->updateSubmissionKarma($author_id, 1);
+            $this->updateSubmissionXp($author_id, 1);
         }
 
         // remove the $submission_id from the downvotes array and add it to the upvotes array
@@ -85,13 +85,13 @@ class SubmissionVotesController extends Controller
             array_push($downvotes, $submission_id);
 
             $this->updateSubmissionUpvotesIds($voter_id, $upvotes);
-            $this->updateSubmissionKarma($author_id, -2);
+            $this->updateSubmissionXp($author_id, -2);
         }
 
         // add the $submission_id to the array
         if ($previous_vote == null) {
             array_push($downvotes, $submission_id);
-            $this->updateSubmissionKarma($author_id, -1);
+            $this->updateSubmissionXp($author_id, -1);
         }
 
         $this->updateSubmissionDownvotesIds($voter_id, $downvotes);

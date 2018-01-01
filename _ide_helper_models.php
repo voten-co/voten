@@ -624,8 +624,8 @@ namespace App{
      * @property string|null $website
      * @property string|null $location
      * @property string $avatar
-     * @property int $submission_karma
-     * @property int|null $comment_karma
+     * @property int $submission_xp
+     * @property int|null $comment_xp
      * @property string $color
      * @property string|null $bio
      * @property int $active
@@ -672,7 +672,7 @@ namespace App{
      * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereAvatar($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereBio($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereColor($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCommentKarma($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCommentXp($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereConfirmed($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereDeletedAt($value)
@@ -684,7 +684,7 @@ namespace App{
      * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePassword($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRememberToken($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereSettings($value)
-     * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereSubmissionKarma($value)
+     * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereSubmissionXp($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUsername($value)
      * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereVerified($value)

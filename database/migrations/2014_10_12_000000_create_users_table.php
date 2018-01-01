@@ -22,8 +22,8 @@ class CreateUsersTable extends Migration
             $table->json('settings');
             $table->json('info')->nullable();
             $table->boolean('verified')->default(0);
-            $table->integer('submission_karma')->default(0); // used for backup (in case redis get's flushed)
-            $table->integer('comment_karma')->default(0); // used for backup (in case redis get's flushed)
+            $table->integer('submission_xp')->default(0); // used for backup (in case redis get's flushed)
+            $table->integer('comment_xp')->default(0); // used for backup (in case redis get's flushed)
             $table->string('password');
             $table->softDeletes();
             $table->rememberToken();

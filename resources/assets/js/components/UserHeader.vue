@@ -55,23 +55,23 @@
                     </div>
     
                     <div class="user-header-right">
-                        <div class="karma">
-                            <div class="karma-number">
-                                {{ userStore.stats.submission_karma }}
+                        <div class="xp">
+                            <div class="xp-number">
+                                {{ userStore.stats.submission_xp }}
                             </div>
     
-                            <div class="karma-text">
-                                Post Karma
+                            <div class="xp-text">
+                                Post XP
                             </div>
                         </div>
     
-                        <div class="karma margin-top-1">
-                            <div class="karma-number">
-                                {{ userStore.stats.comment_karma }}
+                        <div class="xp margin-top-1">
+                            <div class="xp-number">
+                                {{ userStore.stats.comment_xp }}
                             </div>
     
-                            <div class="karma-text">
-                                Comment Karma
+                            <div class="xp-text">
+                                Comment XP
                             </div>
                         </div>
                     </div>

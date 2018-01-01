@@ -34,7 +34,7 @@ class CommentVotesController extends Controller
         // remove the $comment_id from the array
         if ($previous_vote == 'upvote') {
             $upvotes = array_values(array_diff($upvotes, [$comment_id]));
-            $this->updateCommentKarma($author_id, -1);
+            $this->updateCommentXp($author_id, -1);
         }
 
         // remove the $comment_id from the downvotes array and add it to the upvotes array
@@ -45,13 +45,13 @@ class CommentVotesController extends Controller
             array_push($upvotes, $comment_id);
 
             $this->updateCommentDownvotesIds($voter_id, $downvotes);
-            $this->updateCommentKarma($author_id, 2);
+            $this->updateCommentXp($author_id, 2);
         }
 
         // add the $comment_id to the array
         if ($previous_vote == null) {
             array_push($upvotes, $comment_id);
-            $this->updateCommentKarma($author_id, 1);
+            $this->updateCommentXp($author_id, 1);
         }
 
         $this->updateCommentUpvotesIds($voter_id, $upvotes);
@@ -74,7 +74,7 @@ class CommentVotesController extends Controller
         // remove the $comment_id from the array
         if ($previous_vote == 'downvote') {
             $downvotes = array_values(array_diff($downvotes, [$comment_id]));
-            $this->updateCommentKarma($author_id, 1);
+            $this->updateCommentXp($author_id, 1);
         }
 
         // remove the $comment_id from the downvotes array and add it to the upvotes array
@@ -85,13 +85,13 @@ class CommentVotesController extends Controller
             array_push($downvotes, $comment_id);
 
             $this->updateCommentUpvotesIds($voter_id, $upvotes);
-            $this->updateCommentKarma($author_id, -2);
+            $this->updateCommentXp($author_id, -2);
         }
 
         // add the $comment_id to the array
         if ($previous_vote == null) {
             array_push($downvotes, $comment_id);
-            $this->updateCommentKarma($author_id, -1);
+            $this->updateCommentXp($author_id, -1);
         }
 
         $this->updateCommentDownvotesIds($voter_id, $downvotes);

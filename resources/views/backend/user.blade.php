@@ -103,15 +103,15 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Submission Karma</td>
+                        <td>Submission Xp</td>
                         <td class="align-right">
-                            {{ $user->stats['submission_karma'] }}
+                            {{ $user->stats['submission_xp'] }}
                         </td>
                     </tr>
                     <tr>
-                        <td>Comment Karma</td>
+                        <td>Comment Xp</td>
                         <td class="align-right">
-                            {{ $user->stats['comment_karma'] }}
+                            {{ $user->stats['comment_xp'] }}
                         </td>
                     </tr>
                     <tr>

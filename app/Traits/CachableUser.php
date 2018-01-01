@@ -22,8 +22,8 @@ trait CachableUser
             'submissionsCount' => $user->submissions()->count(),
             'commentsCount'    => $user->comments()->count(),
 
-            'submissionKarma' => $user->submission_karma,
-            'commentKarma'    => $user->comment_karma,
+            'submissionXp' => $user->submission_xp,
+            'commentXp'    => $user->comment_xp,
 
             'hiddenSubmissions' => $user->hiddenSubmissions(),
             'hiddenChannels'  => $user->hiddenChannels(),
@@ -62,7 +62,7 @@ trait CachableUser
         }
 
         $stats = Redis::hmget('user.'.$id.'.data',
-                        'submissionsCount', 'commentsCount', 'submissionKarma', 'commentKarma');
+                        'submissionsCount', 'commentsCount', 'submissionXp', 'commentXp');
 
         // if user's data is not cached, then fetch it from database and then cache it
         if (json_decode($stats[0]) === null || json_decode($stats[1]) === null || json_decode($stats[2]) === null || json_decode($stats[3]) === null) {
@@ -71,16 +71,16 @@ trait CachableUser
             return collect([
                 'submissionsCount' => $stats['submissionsCount'],
                 'commentsCount'    => $stats['commentsCount'],
-                'submission_karma' => $stats['submissionKarma'],
-                'comment_karma'    => $stats['commentKarma'],
+                'submission_xp' => $stats['submissionXp'],
+                'comment_xp'    => $stats['commentXp'],
             ]);
         }
 
         return collect([
             'submissionsCount' => json_decode($stats[0]),
             'commentsCount'    => json_decode($stats[1]),
-            'submission_karma' => json_decode($stats[2]),
-            'comment_karma'    => json_decode($stats[3]),
+            'submission_xp' => json_decode($stats[2]),
+            'comment_xp'    => json_decode($stats[3]),
         ]);
     }
 
@@ -632,62 +632,62 @@ trait CachableUser
     }
 
     /**
-     * updates the submission_karma of the author user.
+     * updates the submission_xp of the author user.
      *
      * @param int $id
      * @param int $number
      *
      * @return void
      */
-    protected function updateSubmissionKarma($id, $number)
+    protected function updateSubmissionXp($id, $number)
     {
         // we need to make sure the cached data exists
-        if (!Redis::hget('user.'.$id.'.data', 'submissionKarma')) {
+        if (!Redis::hget('user.'.$id.'.data', 'submissionXp')) {
             $this->cacheUserData($id);
         }
 
-        $newKarma = Redis::hincrby('user.'.$id.'.data', 'submissionKarma', $number);
+        $newXp = Redis::hincrby('user.'.$id.'.data', 'submissionXp', $number);
 
         // for newbie users we update on each new vote
-        if ($newKarma < 100) {
-            DB::table('users')->where('id', $id)->update(['submission_karma' => $newKarma]);
+        if ($newXp < 100) {
+            DB::table('users')->where('id', $id)->update(['submission_xp' => $newXp]);
 
             return;
         }
 
         // but for major ones, we do this once a 50 times
-        if (($newKarma % 20) === 0) {
-            DB::table('users')->where('id', $id)->update(['submission_karma' => $newKarma]);
+        if (($newXp % 20) === 0) {
+            DB::table('users')->where('id', $id)->update(['submission_xp' => $newXp]);
         }
     }
 
     /**
-     * updates the comment_karma of the author user.
+     * updates the comment_xp of the author user.
      *
      * @param int $id
      * @param int $number
      *
      * @return void
      */
-    protected function updateCommentKarma($id, $number)
+    protected function updateCommentXp($id, $number)
     {
         // we need to make sure the cached data exists
-        if (!Redis::hget('user.'.$id.'.data', 'commentKarma')) {
+        if (!Redis::hget('user.'.$id.'.data', 'commentXp')) {
             $this->cacheUserData($id);
         }
 
-        $newKarma = Redis::hincrby('user.'.$id.'.data', 'commentKarma', $number);
+        $newXp = Redis::hincrby('user.'.$id.'.data', 'commentXp', $number);
 
         // for newbie users we update on each new vote
-        if ($newKarma < 100) {
-            DB::table('users')->where('id', $id)->update(['comment_karma' => $newKarma]);
+        if ($newXp < 100) {
+            DB::table('users')->where('id', $id)->update(['comment_xp' => $newXp]);
 
             return;
         }
 
         // but for major ones, we do this once a 20 times
-        if (($newKarma % 20) === 0) {
-            DB::table('users')->where('id', $id)->update(['comment_karma' => $newKarma]);
+        if (($newXp % 20) === 0) {
+            DB::table('users')->where('id', $id)->update(['comment_xp' => $newXp]);
         }
     }
 }
