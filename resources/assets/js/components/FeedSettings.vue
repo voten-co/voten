@@ -44,14 +44,14 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-
-                <el-form-item v-if="changed">
-                    <el-button type="success" @click="save" size="medium">
-                        Save
-                    </el-button>
-                </el-form-item>
             </el-form>
         </section>
+
+        <span slot="footer" class="dialog-footer" v-if="changed">
+            <el-button type="success" @click="save" size="medium">
+                Save
+            </el-button>
+        </span>
     </el-dialog>
 </template>
 
