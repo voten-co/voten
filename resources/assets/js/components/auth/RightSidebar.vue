@@ -162,7 +162,7 @@
             }, 
 
             showDiscoverChannels() {
-                return this.channels.length < this.channelsLimit && !this.subscribedFilter; 
+                return this.channels.length < this.channelsLimit && !this.subscribedFilter && Store.settings.rightSidebar.channelsFilter == 'subscribed'; 
             }, 
 
             channels() {
