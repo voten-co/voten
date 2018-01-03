@@ -289,6 +289,8 @@
              * @return void
              */
             hide () {
+                if (this.isGuest) {this.mustBeLogin(); return;}
+
                 this.hidden = true;
 
                 axios.post('/hide-submission', {
@@ -349,6 +351,8 @@
              *  @return void
              */
             report() {
+                if (this.isGuest) {this.mustBeLogin(); return;}
+
                 this.showReportModal = true;
             },
 

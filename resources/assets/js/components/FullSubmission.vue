@@ -340,10 +340,7 @@
 
         methods: {
             voteUp: _.debounce(function () {
-                if (this.isGuest) {
-                    this.mustBeLogin();
-                    return;
-                }
+                if (this.isGuest) {this.mustBeLogin(); return;}
 
                 axios.post('/upvote-submission', {
                     submission_id: this.list.id,
@@ -453,6 +450,8 @@
              * @return void
              */
             hide() {
+                if (this.isGuest) {this.mustBeLogin(); return;}
+                
                 axios.post('/hide-submission', {
                     submission_id: this.list.id
                 }).then(() => {
@@ -528,6 +527,8 @@
              * @return void
              */
             report() {
+                if (this.isGuest) {this.mustBeLogin(); return;}
+                
                 this.showReportModal = true;
             },
 

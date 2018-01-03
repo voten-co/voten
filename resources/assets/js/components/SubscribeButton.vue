@@ -3,8 +3,12 @@
 </template>
 
 <script>
+import Helpers from '../mixins/Helpers';
+
 export default {
-    data: function () {
+    mixins: [Helpers], 
+
+    data() {
         return {
             Store
         }
@@ -51,6 +55,8 @@ export default {
 
     methods: {
         subscribe: _.debounce(function () {
+            if (this.isGuest) {this.mustBeLogin(); return;}
+
             this.subscribed = !this.subscribed;
 
             axios.post('/subscribe', {

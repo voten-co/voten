@@ -6,9 +6,9 @@ export default {
          *
          * @return void
          */
-        preloadStore() {
-            Store.state.subscribedChannels = Vue.getLS('subscribedChannels');
-        },
+        // preloadStore() {
+        //     Store.state.subscribedChannels = Vue.getLS('subscribedChannels');
+        // },
 
         /**
          * Filles the Store
@@ -16,25 +16,14 @@ export default {
          * @return void
          */
         fillBasicStore() {
-            if (auth.isGuest == true) return;
-
-            // make sure sideFilter is set
-            if (Vue.isSetLS('sidebar-filter')) {
-                Store.sidebarFilter = Vue.getLS('sidebar-filter');
-            } else {
-                Store.sidebarFilter = 'subscribed-channels';
-            }
+            if (this.isGuest) return;
 
             // preLoad few Store values. This is used to avoid need for loading. Sure it might be fast enough now,
             // but it's not instant! This makes it instant. Also, we need to make sure the preloaded data is
             // fresh, and that's why we're still doing the ajax request to update it. Performance baby!
-            this.preloadStore();
+            // this.preloadStore();
 
-            axios.get('/fill-basic-store', {
-                params: {
-                    sidebar_filter: Store.sidebarFilter
-                }
-            }).then((response) => {
+            axios.get('/fill-basic-store').then(response => {
                 Store.state.submissions.upVotes = response.data.submissionUpvotes;
                 Store.state.submissions.downVotes = response.data.submissionDownvotes;
                 Store.state.comments.upVotes = response.data.commentUpvotes;
@@ -103,6 +92,8 @@ export default {
     },
 
     created() {
+        if (this.isGuest) return; 
+
         this.$eventHub.$on('push-store', this.pushStore);
         this.$eventHub.$on('pull-store', this.pullStore);
 
@@ -121,7 +112,8 @@ export default {
     watch: {
         'Store.state': {
             handler() {
-                if (Store.initialFilled === false) return;
+                if (this.isGuest) return;
+                if (!Store.initialFilled) return;
 
                 this.$eventHub.$emit('push-store');
             },

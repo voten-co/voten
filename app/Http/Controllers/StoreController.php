@@ -24,7 +24,7 @@ class StoreController extends Controller
      *
      * @return collection
      */
-    public function index(Request $request)
+    public function index()
     {
         return collect([
             'submissionUpvotes'           => $this->submissionUpvotes(), // cached
@@ -35,7 +35,7 @@ class StoreController extends Controller
             'bookmarkedComments'          => $this->bookmarkedComments(), // cached
             'bookmarkedChannels'        => $this->bookmarkedChannels(), // cached
             'bookmarkedUsers'             => $this->bookmarkedUsers(), // cached
-            'subscribedChannels'        => $this->subscribedChannels($request->sidebar_filter),
+            'subscribedChannels'        => $this->subscribedChannels(),
             'moderatingChannels'        => $this->moderatingChannels(),
             'moderatingChannelsRecords' => $this->moderatingChannelsRecords(),
             'bookmarkedChannelsRecords' => $this->bookmarkedChannelsRecords(),

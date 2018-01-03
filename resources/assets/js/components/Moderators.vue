@@ -96,6 +96,8 @@
             },
 
             sendMessage(user) {
+                if (this.isGuest) {this.mustBeLogin(); return;}
+
                 this.$eventHub.$emit('start-conversation', user);
                 this.close();
             }

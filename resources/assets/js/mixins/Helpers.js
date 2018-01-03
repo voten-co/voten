@@ -18,6 +18,15 @@ export default {
         isGuest() {
             return auth.isGuest;
         },
+        
+        /**
+        * Is the user an authinticated user 
+        *
+        * @return bool
+        */
+        isLoggedIn() {
+            return !auth.isGuest;
+        },
 
         /**
          * Is visitor browsing via a mobile device

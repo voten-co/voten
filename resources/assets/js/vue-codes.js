@@ -130,6 +130,10 @@ window.app = new Vue({
     },
 
     methods: {
+        loginModal() {
+            Store.showAuthinticationModal = true; 
+        }, 
+
         setQueries() {
             // sidebar 
             if (this.$route.query.sidebar == 1) {

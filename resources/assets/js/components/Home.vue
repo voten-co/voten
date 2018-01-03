@@ -31,14 +31,18 @@
                         </button>
                     </el-tooltip>
 
-                    <el-tooltip content="Customize Feed" placement="bottom" transition="false" :open-delay="500">
+                    <el-tooltip content="Customize Feed" placement="bottom" transition="false" :open-delay="500" v-if="isLoggedIn">
                         <button class="feed-panel-button margin-right-half" @click="showSettings = true">
                             <i class="el-icon-setting"></i>
                         </button>
                     </el-tooltip>
 
-                    <el-button type="primary" icon="el-icon-plus" plain size="medium" @click="submit">
+                    <el-button type="primary" icon="el-icon-plus" plain size="medium" @click="submit" v-if="isLoggedIn">
                         Submit
+                    </el-button>
+                    
+                    <el-button type="success" size="medium" @click="submit" v-if="isGuest">
+                        Sign up
                     </el-button>
                 </div>
             </div>
@@ -48,7 +52,7 @@
             v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore" @scroll="scrolled"
         >
             <div v-for="(value, index) in uniqueList" v-bind:key="value.id">
-                <suggested-channel v-if="index == 5"></suggested-channel>
+                <suggested-channel v-if="isLoggedIn && index == 5"></suggested-channel>
 
                 <submission :list="value"></submission>
             </div>
@@ -61,7 +65,7 @@
             <no-more-items :text="'No more items to load'" v-if="NoMoreItems && !nothingFound"></no-more-items>
         </section>
 
-        <settings :visible.sync="showSettings" v-if="showSettings"></settings>
+        <settings :visible.sync="showSettings" v-if="showSettings && isLoggedIn"></settings>
     </div>
 </template>
 

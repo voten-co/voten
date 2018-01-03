@@ -10,7 +10,7 @@
             </el-tooltip>
 
             <!-- Notifications -->
-            <el-tooltip content="Notifications (N)" placement="right" transition="false" :open-delay="500">
+            <el-tooltip content="Notifications (N)" placement="right" transition="false" :open-delay="500" v-if="isLoggedIn">
                 <a class="item" :class="{'active' : activeRoute === 'notifications'}" @click="Store.showNotifications = true">
                     <el-badge :value="unreadNotifications" :max="99">
                         <i class="el-icon-bell" aria-hidden="true"></i>
@@ -19,7 +19,7 @@
             </el-tooltip>
 
             <!-- Messages Inbox -->
-            <el-tooltip content="Messages (M)" placement="right" transition="false" :open-delay="500">
+            <el-tooltip content="Messages (M)" placement="right" transition="false" :open-delay="500" v-if="isLoggedIn">
                 <a class="item" id="messages-btn" :class="{'active' : activeRoute === 'messages'}" @click="changeRoute('messages')">
                     <el-badge :value="unreadMessages" :max="99">
                         <i class="v-icon v-inbox" aria-hidden="true"></i>
@@ -28,7 +28,7 @@
             </el-tooltip>
 
             <!-- Bookmarks -->
-            <el-tooltip content="Bookmarks (B)" placement="right" transition="false" :open-delay="500">
+            <el-tooltip content="Bookmarks (B)" placement="right" transition="false" :open-delay="500" v-if="isLoggedIn">
                 <a @click.prevent="pushRouter('/bookmarks')" href="/bookmarks" class="item" :class="{'active' : activeRoute === 'bookmarks'}">
                     <i class="v-icon v-bookmark" aria-hidden="true"></i>
                 </a>
@@ -42,7 +42,7 @@
             </el-tooltip>
 
             <!-- Settings -->
-            <el-tooltip content="Preferences" placement="right" transition="false" :open-delay="500">
+            <el-tooltip content="Preferences" placement="right" transition="false" :open-delay="500" v-if="isLoggedIn">
                 <a class="item" @click.prevent="Store.showPreferences = true"
                    :class="{'active' : activeRoute === 'settings'}">
                     <i class="el-icon-setting" aria-hidden="true"></i>
@@ -50,14 +50,21 @@
             </el-tooltip>
 
             <!-- Submit -->
-            <el-tooltip content="Add Content" placement="right" transition="false" :open-delay="500">
+            <el-tooltip content="Add Content" placement="right" transition="false" :open-delay="500" v-if="isLoggedIn">
                 <a class="item" @click="$eventHub.$emit('submit')" :class="{'active' : activeRoute === 'submit'}">
                     <i class="el-icon-plus" aria-hidden="true"></i>
                 </a>
             </el-tooltip>
+
+            <!-- Help Center for guests -->
+            <el-tooltip content="Help Center" placement="right" transition="false" :open-delay="500" v-if="isGuest">
+                <a class="item" href="https://help.voten.co/" target="_blank">
+                    <i class="el-icon-question" aria-hidden="true"></i>
+                </a>
+            </el-tooltip>
         </div>
 
-        <div class="bottom">
+        <div class="bottom" v-if="isLoggedIn">
             <!-- admin buttons -->
             <el-tooltip content="Backend Dashboard" placement="right" transition="false" :open-delay="500" v-if="auth.isVotenAdminstrator">
                 <a class="item" href="/backend" target="_blank">

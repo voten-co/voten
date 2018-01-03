@@ -151,6 +151,8 @@
 
         methods: {
             block() {
+                if (this.isGuest) {this.mustBeLogin(); return;}
+
                 this.$confirm(`Blocking a channel will exclude it form your feed. Are you sure about this?`, 'Warning', {
                     confirmButtonText: 'Yes',
                     cancelButtonText: 'Never mind',

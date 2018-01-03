@@ -35,7 +35,7 @@
     <vue-progress-bar></vue-progress-bar>
 
     <div class="v-content-wrapper">
-		{{--  <left-sidebar></left-sidebar>  --}}
+		<left-sidebar></left-sidebar>
 
 		<search-modal v-if="Store.contentRouter == 'search'"></search-modal>
 
@@ -43,14 +43,12 @@
             @yield('content')
         </div>
 
-        {{--  <right-sidebar v-show="showRightSidebar"></right-sidebar>  --}}
+        <right-sidebar v-show="showRightSidebar"></right-sidebar>
     </div>
 
-    {{--  <rules v-if="modalRouter == 'rules'" :sidebar="sidebar"></rules>
-    <moderators v-if="modalRouter == 'moderators'" :sidebar="sidebar"></moderators>
-    <keyboard-shortcuts-guide v-if="modalRouter == 'keyboard-shortcuts-guide'" :sidebar="sidebar"></keyboard-shortcuts-guide>
-    <markdown-guide v-if="modalRouter == 'markdown-guide'" :sidebar="sidebar"></markdown-guide>
-    <login-modal v-if="modalRouter == 'login'" :sidebar="sidebar"></login-modal>  --}}
+    <login-modal v-if="Store.showAuthinticationModal" :visible.sync="Store.showAuthinticationModal"></login-modal>
+    <markdown-guide v-if="Store.showMarkdownGuide" :visible.sync="Store.showMarkdownGuide"></markdown-guide>
+    <keyboard-shortcuts-guide v-if="Store.showKeyboardShortcutsGuide" :visible.sync="Store.showKeyboardShortcutsGuide"></keyboard-shortcuts-guide>
 </div>
 
 @include('php-to-js-data')

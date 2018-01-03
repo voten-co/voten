@@ -453,6 +453,8 @@
              *  Report(and block) comment
              */
             report() {
+                if (this.isGuest) {this.mustBeLogin(); return;}
+
         		this.showReportModal = true;
             },
 

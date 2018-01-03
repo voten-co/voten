@@ -96,7 +96,6 @@ window.Store = {
     }, 
 
     contentRouter: 'content',
-    sidebarFilter: '',
     showPreferences: false, 
     showNotifications: false, 
     showNewChannelModal: false, 
@@ -104,6 +103,7 @@ window.Store = {
     showNewSubmissionModal: false, 
     showKeyboardShortcutsGuide: false, 
     showMarkdownGuide: false, 
+    showAuthinticationModal: false, 
 
 
     // Open tab's unique ID:
