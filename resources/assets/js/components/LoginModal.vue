@@ -10,8 +10,7 @@
 		</div>
 
 		<div class="align-center margin-top-bottom-1">
-			<strong>Or</strong>, Sign up with/
-			<strong>without</strong> your email address:
+			<strong>Or</strong>
 		</div>
 
 		<!-- login form  -->
