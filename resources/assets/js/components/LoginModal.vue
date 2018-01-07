@@ -10,7 +10,8 @@
 		</div>
 
 		<div class="align-center margin-top-bottom-1">
-			<strong>Or</strong>, Sign up with/<strong>without</strong> your email address:
+			<strong>Or</strong>, Sign up with/
+			<strong>without</strong> your email address:
 		</div>
 
 		<!-- login form  -->
@@ -130,15 +131,24 @@
 			</el-form-item>
 
 			<el-form-item class="margin-top-1">
-				<div class="g-recaptcha" data-sitekey="6Ld5qj8UAAAAAK6CV98kVBit2ZaoJz9C97ak06cq"></div>
+				<el-alert v-if="registerForm.errors['g-recaptcha-response']"
+				          title="You didn't pass the reCAPTCHA check"
+						  class="margin-bottom-1"
+				          type="error"></el-alert>
+
+				<vue-recaptcha sitekey="6Ld5qj8UAAAAAK6CV98kVBit2ZaoJz9C97ak06cq"
+				               @verify="reCaptchaVerified"
+							   ref="recaptcha"
+				               @expired="reCaptchaExpired"></vue-recaptcha>
 			</el-form-item>
 
 			<el-form-item>
 				<span>
 					By clicking "Sign up", you agree to our
 					<router-link to="/tos"
-					             class="go-primary">terms of service</router-link> 
-					and <router-link to="/privacy-policy">privacy policy</router-link>. 
+					             class="go-primary">terms of service</router-link>
+					and
+					<router-link to="/privacy-policy">privacy policy</router-link>.
 				</span>
 			</el-form-item>
 		</el-form>
@@ -189,12 +199,13 @@
 <script>
 // @keyup.enter="register"
 import Helpers from "../mixins/Helpers";
+import VueRecaptcha from "vue-recaptcha";
 import GoogleLoginButton from "../components/GoogleLoginButton";
 
 export default {
     mixins: [Helpers],
 
-    components: { GoogleLoginButton },
+    components: { GoogleLoginButton, VueRecaptcha },
 
     props: ["visible"],
 
@@ -209,7 +220,8 @@ export default {
                 password: "",
                 password_confirmation: "",
                 email: "",
-                errors: []
+                errors: [],
+                reCAPTCHA: ""
             },
 
             loginForm: {
@@ -232,6 +244,14 @@ export default {
     },
 
     methods: {
+        reCaptchaVerified(response) {
+            this.registerForm.reCAPTCHA = response;
+        },
+
+        reCaptchaExpired() {
+            this.registerForm.reCAPTCHA = '';
+		},
+		
         login() {
             this.loading = true;
 
@@ -260,8 +280,8 @@ export default {
                     username: this.registerForm.username,
                     email: this.registerForm.email,
                     password: this.registerForm.password,
-                    password_confirmation: this.registerForm
-                        .password_confirmation
+					password_confirmation: this.registerForm.password_confirmation, 
+					'g-recaptcha-response': this.registerForm.reCAPTCHA
                 })
                 .then(response => {
                     this.loading = false;
@@ -269,7 +289,8 @@ export default {
                     window.location = "/discover-channels?newbie=1&sidebar=0";
                 })
                 .catch(error => {
-                    this.loading = false;
+					this.loading = false;
+					this.$refs.recaptcha.reset();
                     this.registerForm.errors = error.response.data.errors;
                 });
         },
