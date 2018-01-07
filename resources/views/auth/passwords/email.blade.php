@@ -1,39 +1,59 @@
-@extends('layouts.guest')
+@extends('layouts.guest') 
 
 @section('title')
-	<title>Forgot my password | Voten</title>
-@stop
+	<title>Forgot my password</title>
+@stop 
 
 @section('content')
-    <div class="container-mid user-select">
-        <div class="col-7">
+<section class="home-wrapper user-select">
+	<nav class="nav has-shadow user-select">
+		<div class="container">
+			<h1 class="title">
+				Request a password reset
+			</h1>
 
-            @if (session('status'))
-                <div class="v-status v-status--success">
-                    {{ session('status') }}
-                </div>
-            @endif
+			<div class="flex-center">
+				<a href="/register" class="margin-right-1">
+					<el-button size="small" type="text">Sign up</el-button>
+				</a>
 
-            <div class="v-box">
-				<h1 class="title align-center">Request a password reset</h1>
-
-				<p>
-					Enter your registered email address below and we'll email you a link to reset your password.
-				</p>
-
-                <form class="form-horizontal" role="form" method="POST" action="{{ url('/password/email') }}">
-					{{ csrf_field() }}
-
-					<div class="form-group">
-						<input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" placeholder="Email Address..." required>
-						@if ($errors->has('email'))
-							<small class="text-muted go-red">{{ $errors->first('email') }}</small>
-		                @endif
-					</div>
-
-					<button class="v-button v-button--green" type="submit">Send Password Reset Link</button>
-				</form>
+				<a href="/login" class="margin-right-1">
+					<el-button size="small" type="text">Login</el-button>
+				</a>
 			</div>
-        </div>
-    </div>
+		</div>
+	</nav>
+
+	<div id="page" class="home-submissions">
+		@if (session('status'))
+			<el-alert type="success" title="{{ session('status') }}" :closable="false" show-icon></el-alert>
+		@endif
+		
+		<p>
+			Enter your registered email address below and we'll email you a link to reset your password.
+		</p>
+
+		<form class="form-horizontal" role="form" method="POST" action="{{ url('/password/email') }}">
+			{{ csrf_field() }}
+
+			<el-input
+				placeholder="Email Address..."
+				name="email"
+				value="{{ old('email') }}"
+			></el-input>
+
+			@if ($errors->has('email'))
+				<div class="margin-top-1">
+					<el-alert type="error" title="{{ $errors->first('email') }}"></el-alert>
+				</div>
+			@endif
+
+			<div class="margin-top-1">
+				<el-button type="success" size="medium" native-type="submit">
+					Send Password Reset Link
+				</el-button>
+			</div>
+		</form>
+	</div>
+</section>
 @endsection

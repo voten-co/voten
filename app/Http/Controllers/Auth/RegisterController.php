@@ -54,18 +54,11 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        if (isset($data['email'])) {
-            return Validator::make($data, [
-                'username' => 'required|min:3|max:25|unique:users|regex:/^[A-Za-z0-9\._]+$/',
-                'email'    => 'required|email|max:255|unique:users',
-                'password' => 'required|min:6|confirmed',
-            ]);
-        }
-
-        // if the user doesn't wanna share his email address with us
         return Validator::make($data, [
             'username' => 'required|min:3|max:25|unique:users|regex:/^[A-Za-z0-9\._]+$/',
+            'email'    => 'sometimes|email|max:255|unique:users|nullable',
             'password' => 'required|min:6|confirmed',
+            'g-recaptcha-response' => ['required', new \App\Rules\Recaptcha]
         ]);
     }
 
@@ -162,7 +155,7 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $this->validator($request->all())->validate();
-
+        
         // make sure the username is not in the blacklist
         if ($this->isForbiddenUsername($request->username)) {
             return response('This username is forbidden. Please pick another one.', 500);

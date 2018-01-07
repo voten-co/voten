@@ -40,12 +40,6 @@
 
         <nav class="nav has-shadow user-select">
             <div class="container">
-                <el-tooltip content="Scroll to top" placement="bottom" transition="false" :open-delay="500">
-                    <h1 class="title pointer" @click="scrollToTop('submissions')">
-                        <i class="v-icon v-channel" aria-hidden="true"></i>{{ Store.page.channel.temp.name }}
-                    </h1>
-                </el-tooltip>
-
                 <div class="nav-left">
                     <router-link :to="{ path: '/c/' + $route.params.name }" class="nav-item is-tab"
                                  :class="{ 'is-active': sort == 'hot' }">
@@ -63,6 +57,12 @@
                     </router-link>
                 </div>
 
+                <el-tooltip content="Scroll to top" placement="bottom" transition="false" :open-delay="500">
+                    <h1 class="title pointer" @click="scrollToTop('submissions')">
+                        <i class="v-icon v-channel" aria-hidden="true"></i>{{ Store.page.channel.temp.name }}
+                    </h1>
+                </el-tooltip>
+                
                 <div class="channel-admin-btn">
                     <el-dropdown size="medium" type="primary" trigger="click" :show-timeout="0" :hide-timeout="0">
                         <i class="v-icon v-more-vertical"></i>

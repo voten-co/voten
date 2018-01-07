@@ -1,130 +1,196 @@
 <template>
-    <div class="side-fixed"  id="v-sidebar">
-        <div class="sidebar-offer-wrapper">
-        	<h3>
-        		New to Voten?
-        	</h3>
+	<div class="sidebar-right user-select theme-gray">
+		<div class="padding-1"
+		     @keyup.enter="logMeIn">
+			<el-form label-position="top"
+			         label-width="10px">
+				<google-login-button size="mini"></google-login-button>
 
-        	<p>
-        		Sign up now to get your own personalized timeline, modified sidebar, customizable design, and real-time experience!
-        	</p>
-
-        	<button class="v-button v-button--block" @click="signUp">
-        		Sign up
-        	</button>
-        </div>
-
-        <aside class="menu">
-        	<div class="flex-space">
-	            <p class="menu-label">
-	                #Recommendeds<span v-if="Store.state.subscribedChannels.length">({{ Store.state.subscribedChannels.length }})</span>
-	            </p>
-
-				<div class="ui icon top right active-blue pointing dropdown sidebar-panel-button">
-	            	<i class="v-icon v-config" @click="mustBeLogin"></i>
+				<div class="align-center margin-top-bottom-1">
+					<strong>Or</strong>
 				</div>
-        	</div>
 
-            <div class="ui channel search side-box-search">
-                <div class="ui mini icon input">
-                  <input class="prompt" type="text" placeholder="Channels..." spellcheck="false"
-						 v-model="subscribedFilter">
-                  <i class="v-icon v-search search icon"></i>
-                </div>
-            </div>
+				<div class="margin-bottom-half">
+					<el-input placeholder="Username or email address..."
+					          name="username"
+					          v-model="login.username"
+					          required
+					          size="mini"
+					          autocorrect="off"
+					          autocapitalize="off"
+					          spellcheck="false"></el-input>
+				</div>
 
-            <div class="no-subscription" v-if="!Store.state.subscribedChannels.length">
-            	<i class="v-icon v-sad" aria-hidden="true"></i>
-            	No channels to display
-            </div>
+				<div class="margin-bottom-half">
+					<el-input placeholder="Password..."
+					          name="password"
+					          v-model="login.password"
+					          required
+					          size="mini"
+					          type="password"
+					          autocorrect="off"
+					          autocapitalize="off"
+					          spellcheck="false"></el-input>
+				</div>
 
-            <ul class="menu-list" v-else>
-                <li v-for="channel in sortedSubscribeds">
-    				<router-link :to="'/c/' + channel.name">
-    					<img class="square" v-bind:src="channel.avatar" v-bind:alt="channel.name">
-                        <span class="v-channels-text">{{ channel.name }}</span>
-    				</router-link>
-                </li>
-            </ul>
-        </aside>
+				<div class="margin-bottom-half">
+					<el-alert v-for="e in login.errors.username"
+					          :title="e"
+					          type="error"
+					          show-icon
+					          :closable="false"
+					          :key="e"></el-alert>
+					
+					<el-alert v-for="e in login.errors.email"
+					          :title="e"
+					          type="error"
+					          show-icon
+					          :closable="false"
+					          :key="e"></el-alert>
 
-        <hr>
+					<el-alert v-for="e in login.errors.password"
+					          :title="e"
+					          type="error"
+					          show-icon
+					          :closable="false"
+					          :key="e"></el-alert>
+				</div>
 
-        <ul class="sidebar-copyright">
-        	<li>&copy; 2017 Voten</li>
-        	<li><a href="/about">About</a></li>
-        	<li><router-link to="/help">Help Center</router-link></li>
-        	<li><a href="/tos">Terms</a></li>
-        	<li><a href="https://medium.com/voten" target="_blank">Blog</a></li>
-        	<li><a href="/privacy-policy">Privacy Policy</a></li>
-        	<li><a href="/credits">Credits</a></li>
-        	<li><a href="mailto:info@voten.co">Contact</a></li>
-        	<li><a href="mailto:press@voten.co">Press</a></li>
-        	<li><a href="https://github.com/voten-co/voten" target="_blank">Source code</a></li>
-        </ul>
-    </div>
+				<div class="margin-bottom-1">
+					<el-checkbox v-model="login.remember"
+					             size="mini">
+						Remember me
+					</el-checkbox>
+				</div>
+
+				<div class="flex-space">
+					<el-button size="mini"
+					           @click="logMeIn"
+					           :loading="login.loading"
+					           :disabled="!login.username.trim() || !login.password.trim()"
+					           type="success">
+						Login
+					</el-button>
+
+					<a class="el-button el-button--text el-button--mini"
+						href="/password/reset"
+					>
+						Forgotten password
+					</a>
+				</div>
+			</el-form>
+		</div>
+
+		<hr class="thik-light-hr">
+
+		<div class="sidebar-offer-wrapper">
+			<h3>New to Voten?</h3>
+
+			<p>
+				Sign up now to get your own personalized timeline, customized design, and real-time experience!
+			</p>
+
+			<el-button type="primary"
+			           size="mini"
+					   @click="Store.showAuthinticationModal = true"
+			           class="full-width">
+				Sign up
+			</el-button>
+		</div>
+
+		<hr class="thik-light-hr">
+
+		<ul class="sidebar-copyright">
+			<li>&copy; 2018 Voten</li>
+			<li>
+				<router-link to="/about">About</router-link>
+			</li>
+			<li>
+				<a href="https://help.voten.co/"
+				   target="_blank">Help Center</a>
+			</li>
+			<li>
+				<router-link to="/tos">Terms</router-link>
+			</li>
+			<li>
+				<a href="https://medium.com/voten"
+				   target="_blank">Blog</a>
+			</li>
+			<li>
+				<router-link to="/privacy-policy">Privacy Policy</router-link>
+			</li>
+			<li>
+				<router-link to="/credits">Credits</router-link>
+			</li>
+			<li>
+				<a href="mailto:info@voten.co">Contact</a>
+			</li>
+			<li>
+				<a href="mailto:press@voten.co">Press</a>
+			</li>
+			<li>
+				<a href="https://github.com/voten-co/voten"
+				   target="_blank">Source code</a>
+			</li>
+		</ul>
+	</div>
 </template>
 
 <script>
-import Helpers from '../mixins/Helpers';
+import Helpers from "../mixins/Helpers";
+import GoogleLoginButton from "../components/GoogleLoginButton";
 
 export default {
-	mixins: [Helpers],
+    mixins: [Helpers],
 
-    data: function () {
+    components: { GoogleLoginButton },
+
+    data() {
         return {
-            subscribedFilter: '',
-            auth,
-            Store
+            login: {
+                username: "",
+                password: "",
+                remember: true,
+                loading: false,
+                errors: []
+            }
         };
     },
 
-	watch: {
-		'$route': function () {
-			this.subscribedFilter = '';
-		}
-	},
-
-	created() {
-		axios.get(this.authUrl('sidebar-channels')).then((response) => {
-	    	Store.state.subscribedChannels = response.data;
-	    });
-	},
-
-    computed: {
-        submitURL(){
-            if (this.$route.params.name)
-            	return "/submit?channel=" + this.$route.params.name
-
-            return "/submit"
-        },
-
-    	/**
-    	 * The sorted version of comments
-    	 *
-    	 * @return {Array} comments
-    	 */
-    	sortedSubscribeds () {
-			var self = this
-
-    		return _.orderBy(Store.state.subscribedChannels.filter(function (channel) {
-				return channel.name.toLowerCase().indexOf(self.subscribedFilter.toLowerCase()) !== -1
-			}), 'subscribers', 'desc').slice(0, 5)
-    	},
+    created() {
+        axios.get(this.authUrl("sidebar-channels")).then(response => {
+            Store.state.subscribedChannels = response.data;
+        });
     },
 
     methods: {
-        changeRoute(newRoute) {
-        	this.$eventHub.$emit('new-route', newRoute)
-        },
-
         signUp() {
-        	if (this.isMobile) {
-        		this.$eventHub.$emit('toggle-sidebar');
-        	}
+            if (this.isMobile) {
+                this.$eventHub.$emit("toggle-sidebar");
+            }
 
             this.mustBeLogin();
+        },
+
+        logMeIn() {
+            this.login.loading = true;
+            this.login.errors = [];
+
+            axios
+                .post("/login", {
+                    username: this.login.username,
+                    password: this.login.password,
+                    remember: this.login.remember
+                })
+                .then(response => {
+                    this.login.loading = false;
+                    location.reload();
+                })
+                .catch(error => {
+                    this.login.errors = error.response.data.errors;
+                    this.login.loading = false;
+                });
         }
-    },
-}
+    }
+};
 </script>

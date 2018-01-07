@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     @yield('head')
+
+    @yield('title')
+
     <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
@@ -43,7 +46,7 @@
             @yield('content')
         </div>
 
-        <right-sidebar v-show="showRightSidebar"></right-sidebar>
+        <guest-sidebar v-show="showRightSidebar"></guest-sidebar>
     </div>
 
     <login-modal v-if="Store.showAuthinticationModal" :visible.sync="Store.showAuthinticationModal"></login-modal>
@@ -54,6 +57,7 @@
 @include('php-to-js-data')
 
 @yield('script')
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 	<script src="{{ mix('/js/manifest.js') }}"></script>
 	<script src="{{ mix('/js/vendor.js') }}"></script>
 	<script src="{{ mix('/js/app.js') }}"></script>

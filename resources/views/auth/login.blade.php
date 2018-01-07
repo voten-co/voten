@@ -1,61 +1,79 @@
 @extends('layouts.guest')
 
 @section('title')
-	<title>Sign in | Voten</title>
+	<title>Login | Voten</title>
 @stop
 
 @section('content')
-	<div class="container-mid user-select">
-		<div class="col-7">
-			<div class="social-login-buttons">
-		        <a href="/login/google" class="v-button button-google">
-		            <i class="v-icon v-google"></i>
-		            Connect With Google
-		        </a>
+<section class="home-wrapper user-select">
+	<nav class="nav has-shadow user-select">
+		<div class="container">
+			<h1 class="title">
+				Login
+			</h1>
+
+			<div class="flex-center">
+				<a href="/register" class="margin-right-1">
+					<el-button size="small" type="text">
+						Sign up
+					</el-button>
+				</a>
 			</div>
-
-	        <div class="or">
-	            - or -
-	        </div>
-
-			<div class="v-box align-center">
-				<h1 class="title">Sign in with username and password</h1>
-
-				<p>
-					Thank you for being a part of Voten community
-				</p>
-
-				<form action="{{ url('/login') }}" method="POST" class="align-left">
-					{{ csrf_field() }}
-
-					<div class="form-group">
-						<input type="text" class="form-control" id="username" name="username" placeholder="Username..." required>
-						@if ($errors->has('username'))
-							<small class="text-muted go-red">{{ $errors->first('username') }}</small>
-		                @endif
-					</div>
-
-					<div class="form-group">
-						<input id="password" type="password" class="form-control" name="password" placeholder="Password" required>
-						@if ($errors->has('password'))
-							<small class="text-muted go-red">{{ $errors->first('password') }}</small>
-		                @endif
-					</div>
-
-					<div class="checkbox">
-						<label><input type="checkbox" name="remember">Remember Me</label>
-					</div>
-
-					<div class="flex-space">
-						<a class="v-button" href="{{ url('/password/reset') }}">Forgot my password</a>
-						<button class="v-button v-button--green">Sign In</button>
-					</div>
-				</form>
-			</div>
-
-			<p class="align-center go-gray">
-				Not a member? Then let's get you <a href="/register">signed up</a>.
-			</p>
 		</div>
+	</nav>
+
+	<div id="page" class="home-submissions" >	
+		<p>
+			Thank you for being a part of Voten community
+		</p>
+
+		@if ($errors->has('email'))
+			<div class="margin-top-1">
+				<el-alert type="error" title="{{ $errors->first('email') }}"></el-alert>
+			</div>
+		@endif
+
+		@if ($errors->has('username'))
+			<div class="margin-top-1">
+				<el-alert type="error" title="{{ $errors->first('username') }}"></el-alert>
+			</div>
+		@endif
+
+		@if ($errors->has('password'))
+			<div class="margin-top-1">
+				<el-alert type="error" title="{{ $errors->first('password') }}"></el-alert>
+			</div>
+		@endif
+
+		<el-form method="POST" action="{{ url('/login') }}" label-position="top"
+			label-width="10px">
+            {{ csrf_field() }}
+			
+			<el-form-item label="Username or Email Address:">
+				<el-input
+					placeholder="Username or Email Address..."
+					name="username"
+				></el-input>
+			</el-form-item>
+
+			<el-form-item label="Password:">
+				<el-input
+					placeholder="Password..."
+					name="password"
+					type="password"
+				></el-input>
+			</el-form-item>
+
+			<div class="margin-top-1">
+				<el-button type="success" size="medium" native-type="submit">
+					Login
+				</el-button> 
+
+				<strong class="margin-sides-1">or</strong>
+
+				<google-login-button></google-login-button>
+			</div>
+		</el-form>
 	</div>
+</section>
 @stop

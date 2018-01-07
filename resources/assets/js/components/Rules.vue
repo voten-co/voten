@@ -27,12 +27,6 @@
         <div class="align-center user-select" v-if="nothingFound">
             <h3 class="v-bold" v-text="'No exlusive rules specified yet'"></h3>
         </div>
-
-        <span slot="footer" class="dialog-footer">
-            <el-button @click="close" size="medium">
-                Close
-            </el-button>
-        </span>
     </el-dialog>
 </template>
 

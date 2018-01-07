@@ -5,46 +5,81 @@
 @stop
 
 @section('content')
-    <div class="container-mid user-select">
-        <div class="col-7">
-            <div class="v-box">
-                <h1 class="title align-center">Reset Password</h1>
+<section class="home-wrapper user-select">
+	<nav class="nav has-shadow user-select">
+		<div class="container">
+			<h1 class="title">
+				Reset Password
+			</h1>
 
-                <p>
-                    Only one more step untill getting you a new password. Try not to lose this one, because if you do... Kidding! Nothing would happen :)
-                </p>
+			<div class="flex-center">
+				<a href="/register" class="margin-right-1">
+					<el-button size="small" type="text">Sign up</el-button>
+				</a>
 
-                <form class="form-horizontal" role="form" method="POST" action="{{ url('/password/reset') }}">
-                    {{ csrf_field() }}
+				<a href="/login" class="margin-right-1">
+					<el-button size="small" type="text">Login</el-button>
+				</a>
+			</div>
+		</div>
+	</nav>
 
-                    <input type="hidden" name="token" value="{{ $token }}">
+	<div id="page" class="home-submissions" @keyup.enter="submit">
+		@if (session('status'))
+			<el-alert type="success" title="{{ session('status') }}" :closable="false" show-icon></el-alert>
+		@endif
+		
+		<p>
+            Only one more step untill getting you a new password. Try not to lose this one, because if you do... Kidding! Nothing would happen :)
+        </p>
 
-                    <div class="form-group">
-						<input type="email" class="form-control" id="email" name="email" value="{{ $email or old('email') }}" placeholder="Email Address..." required>
-						@if ($errors->has('email'))
-							<small class="text-muted go-red">{{ $errors->first('email') }}</small>
-		                @endif
-					</div>
+		<form class="form-horizontal" role="form" method="POST" action="{{ url('/password/reset') }}">
+            {{ csrf_field() }}
+            
+            <input type="hidden" name="token" value="{{ $token }}">
 
-                    <div class="form-group">
-						<input type="password" class="form-control" id="password" name="password" placeholder="Password..." required>
-						@if ($errors->has('password'))
-							<small class="text-muted go-red">{{ $errors->first('password') }}</small>
-		                @endif
-					</div>
+			<el-input class="margin-top-1"
+				placeholder="Email Address..."
+				name="email"
+				value="{{ $email or old('email') }}"
+			></el-input>
 
-                    <div class="form-group">
-						<input type="password" class="form-control" id="password-confirm" name="password_confirmation" placeholder="Confirm Password..." required>
-						@if ($errors->has('password_confirmation'))
-							<small class="text-muted go-red">{{ $errors->first('password_confirmation') }}</small>
-		                @endif
-					</div>
+			@if ($errors->has('email'))
+				<div class="margin-top-1">
+					<el-alert type="error" title="{{ $errors->first('email') }}"></el-alert>
+				</div>
+            @endif
+            
+            <el-input class="margin-top-1"
+                placeholder="Password..."
+                name="password"
+                type="password"
+            ></el-input>
 
-                    <button class="v-button v-button--green" type="submit">
-					    Reset Password
-					</button>
-                </form>
-            </div>
-        </div>
-    </div>
+            @if ($errors->has('password'))
+                <div class="margin-top-1">
+                    <el-alert type="error" title="{{ $errors->first('password') }}"></el-alert>
+                </div>
+            @endif
+            
+            <el-input class="margin-top-1"
+                placeholder="Confirm Password..."
+                name="password_confirmation"
+                type="password"
+            ></el-input>
+
+            @if ($errors->has('password_confirmation'))
+                <div class="margin-top-1">
+                    <el-alert type="error" title="{{ $errors->first('password_confirmation') }}"></el-alert>
+                </div>
+            @endif
+
+			<div class="margin-top-1">
+				<el-button type="success" size="medium" native-type="submit">
+					Reset Password
+				</el-button>
+			</div>
+		</form>
+	</div>
+</section>
 @endsection

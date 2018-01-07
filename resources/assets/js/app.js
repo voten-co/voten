@@ -1,3 +1,8 @@
+window.config = {
+    name: "Voten",
+    title: "Where your vote matters"
+}; 
+
 // All the installation codes
 import './bootstrap';
 

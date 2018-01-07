@@ -1,19 +1,62 @@
+const GuestSidebar = resolve => {
+    require.ensure(['./components/GuestSidebar.vue'], () => {
+        resolve(require('./components/GuestSidebar.vue'));
+    }, 'guest');
+}; 
+const LoginModal = resolve => {
+    require.ensure(['./components/LoginModal.vue'], () => {
+        resolve(require('./components/LoginModal.vue'));
+    }, 'guest');
+}; 
+const GoogleLoginButton = resolve => {
+    require.ensure(['./components/GoogleLoginButton.vue'], () => {
+        resolve(require('./components/GoogleLoginButton.vue'));
+    }, 'guest');
+}; 
+
+
+const Feedback = resolve => {
+    require.ensure(['./components/Feedback.vue'], () => {
+        resolve(require('./components/Feedback.vue'));
+    }, 'logged-in');
+}; 
+const Notifications = resolve => {
+    require.ensure(['./components/Notifications.vue'], () => {
+        resolve(require('./components/Notifications.vue'));
+    }, 'logged-in');
+}; 
+const Messages = resolve => {
+    require.ensure(['./components/Messages.vue'], () => {
+        resolve(require('./components/Messages.vue'));
+    }, 'logged-in');
+}; 
+const Settings = resolve => {
+    require.ensure(['./components/Settings.vue'], () => {
+        resolve(require('./components/Settings.vue'));
+    }, 'logged-in');
+}; 
+const RightSidebar = resolve => {
+    require.ensure(['./components/auth/RightSidebar.vue'], () => {
+        resolve(require('./components/auth/RightSidebar.vue'));
+    }, 'logged-in');
+}; 
+const NewSubmission = resolve => {
+    require.ensure(['./components/NewSubmission.vue'], () => {
+        resolve(require('./components/NewSubmission.vue'));
+    }, 'logged-in');
+}; 
+const NewChannel = resolve => {
+    require.ensure(['./components/NewChannel.vue'], () => {
+        resolve(require('./components/NewChannel.vue'));
+    }, 'logged-in');
+}; 
+
 import KeyboardShortcutsGuide from './components/KeyboardShortcutsGuide.vue';
-import Notifications from './components/Notifications.vue';
 import MarkdownGuide from './components/MarkdownGuide.vue';
-import GuestSidebar from './components/GuestSidebar.vue';
 import SearchModal from './components/SearchModal.vue';
-import Feedback from './components/Feedback.vue';
-import LoginModal from './components/LoginModal.vue';
-import Dashboard from './components/Dashboard.vue';
 import NotFound from './components/NotFound.vue';
-import Messages from './components/Messages.vue';
-import Settings from './components/Settings.vue';
 import StoreStorage from './mixins/StoreStorage';
 import LeftSidebar from './components/auth/LeftSidebar.vue';
-import RightSidebar from './components/auth/RightSidebar.vue';
-import NewSubmission from './components/NewSubmission.vue';
-import NewChannel from './components/NewChannel.vue';
 import Helpers from './mixins/Helpers';
 import FontLoader from './mixins/FontLoader';
 import router from './routes';
@@ -45,6 +88,7 @@ window.app = new Vue({
 
     components: {
         KeyboardShortcutsGuide,
+        GoogleLoginButton, 
         MarkdownGuide,
         Notifications,
         NewSubmission,
@@ -55,7 +99,6 @@ window.app = new Vue({
         SearchModal,
         LoginModal,
         NewChannel,
-        Dashboard,
         NotFound,
         Messages,
         Settings, 

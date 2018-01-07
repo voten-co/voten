@@ -5,61 +5,101 @@
 @stop
 
 @section('content')
+<section class="home-wrapper user-select">
+	<nav class="nav has-shadow user-select">
+		<div class="container">
+			<h1 class="title">
+				Sign up
+			</h1>
 
-<div class="container-mid">
-	<div class="col-7">
-		<div class="social-login-buttons">
-	        <a href="/login/google" class="v-button button-google">
-	            <i class="v-icon v-google"></i>
-	            Connect With Google
-	        </a>
+			<div class="flex-center">
+				<a href="/login" class="margin-right-1">
+					<el-button size="small" type="text">
+						Login 
+					</el-button>
+				</a>
+			</div>
 		</div>
+	</nav>
 
-        <div class="or">
-            - or -
-        </div>
+	<div id="page" class="home-submissions" >		
+		@if ($errors->has('email'))
+			<div class="margin-top-1">
+				<el-alert type="error" title="{{ $errors->first('email') }}"></el-alert>
+			</div>
+		@endif
 
-		<div class="v-box align-center">
-			<h1 class="title">Sign up with/without email address</h1>
+		@if ($errors->has('username'))
+			<div class="margin-top-1">
+				<el-alert type="error" title="{{ $errors->first('username') }}"></el-alert>
+			</div>
+		@endif
+
+		@if ($errors->has('password'))
+			<div class="margin-top-1">
+				<el-alert type="error" title="{{ $errors->first('password') }}"></el-alert>
+			</div>
+		@endif
+		
+		@if ($errors->has('g-recaptcha-response'))
+			<div class="margin-top-1">
+				<el-alert type="error" title="{{ $errors->first('g-recaptcha-response') }}"></el-alert>
+			</div>
+		@endif
+
+		<el-form role="form" method="POST" action="{{ url('/register') }}" label-position="top"
+			label-width="10px">
+            {{ csrf_field() }}
+			
+			<el-form-item label="Username:">
+				<el-input
+					placeholder="Username..."
+					name="username"
+				></el-input>
+			</el-form-item>
+
+			<el-form-item label="(Optional) Email Address:">
+				<el-input
+					placeholder="(Optional) Email Address..."
+					name="email"
+				></el-input>
+			</el-form-item>
+
+			<el-form-item label="Password:">
+				<el-input
+					placeholder="Password..."
+					name="password"
+					type="password"
+				></el-input>
+			</el-form-item>
+
+			<el-form-item label="Confirm Password:">
+				<el-input
+					placeholder="Confirm Password..."
+					name="password_confirmation"
+					type="password"
+				></el-input>
+			</el-form-item>
+
+			{{--  Google reCAPTCHA  --}}
+			<el-form-item class="margin-top-1">
+				<div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.key') }}"></div>
+			</el-form-item>
 
 			<p>
-				We're glad you decided to join Voten. Now let's pick you a nice username that is easy to remember:
+				By clicking Sign Up, you agree to our <router-link to="/tos">TOS</router-link>.
 			</p>
 
-			<form action="{{ url('/register') }}" method="POST" class="align-left">
-				{{ csrf_field() }}
+			<div class="margin-top-1">
+				<el-button type="success" size="medium" native-type="submit">
+					Sign up
+				</el-button> 
 
-				<div class="form-group">
-					<input type="text" class="form-control" id="username" name="username" value="{{ old('username') }}" placeholder="Username">
-					@if ($errors->has('username'))
-						<small class="text-muted go-red">{{ $errors->first('username') }}</small>
-	                @endif
-				</div>
+				<strong class="margin-sides-1">or</strong>
 
-				<div class="form-group">
-					<input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" placeholder="Email Address (optional)">
-					@if ($errors->has('email'))
-						<small class="text-muted go-red">{{ $errors->first('email') }}</small>
-	                @endif
-				</div>
-
-				<div class="form-group">
-					<input id="password" type="password" class="form-control" name="password" required placeholder="Password">
-					@if ($errors->has('password'))
-						<small class="text-muted go-red">{{ $errors->first('password') }}</small>
-	                @endif
-				</div>
-
-				<div class="form-group">
-					<input id="password-confirm" type="password" class="form-control" name="password_confirmation" required placeholder="Retype Password">
-				</div>
-
-				<div class="flex-space">
-					<span class="form-notice">By clicking Sign Up, you agree to our <a href="/tos">TOS</a>.</span>
-					<button class="v-button v-button--green">Sign up</button>
-				</div>
-			</form>
-		</div>
+				<google-login-button></google-login-button>
+			</div>
+		</el-form>
 	</div>
-</div>
+</section>
 @stop

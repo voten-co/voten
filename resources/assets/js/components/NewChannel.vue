@@ -68,6 +68,7 @@
                     @click="submit"
                     :disabled="!validates"
                     :loading="loading"
+                    size="medium"
             >
                 Create
             </el-button>

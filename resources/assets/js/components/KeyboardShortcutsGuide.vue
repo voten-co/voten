@@ -114,12 +114,6 @@
             </tr>
             </tbody>
         </table>
-
-        <span slot="footer" class="dialog-footer">
-            <el-button @click="close" size="medium">
-                Close
-            </el-button>
-        </span>
     </el-dialog>
 </template>
 

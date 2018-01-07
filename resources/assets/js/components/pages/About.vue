@@ -3,7 +3,7 @@
         <nav class="nav has-shadow user-select">
             <div class="container">
                 <h1 class="title">
-                    Social Bookmarking For The 21st Century
+                    {{ config.title }}
                 </h1>
 
                 <div class="flex-center">
@@ -46,3 +46,13 @@
         </section>
     </section>
 </template>
+
+<script>
+    export default {
+        data() {
+            return {
+                config 
+            }
+        }
+    }
+</script>

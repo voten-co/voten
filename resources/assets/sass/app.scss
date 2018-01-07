@@ -1,6 +1,6 @@
 @import "variables";
 @import "icons/css/fontello.css";
-@import 'node_modules/element-ui/packages/theme-chalk/src/index';
+@import "node_modules/element-ui/packages/theme-chalk/src/index";
 @import "inc/search";
 @import "inc/bookmarks";
 @import "bulma/nav";
@@ -8,7 +8,6 @@
 @import "bulma/tabs";
 @import "components/animate";
 @import "inc/grid";
-// @import "header";
 @import "wrapper";
 @import "common";
 @import "submit";
@@ -29,7 +28,7 @@
 @import "inc/landing";
 @import "inc/emojione";
 @import "inc/mobile";
-@import "inc/photo-viewer"; 
+@import "inc/photo-viewer";
 @import "inc/sidebar";
 @import "theme";
 @import "inc/about";
@@ -41,14 +40,20 @@
 @import "element/form";
 @import "other";
 
- 
+.logo {
+    width: 30px; 
+    height: 30px; 
+    cursor: pointer;
+    margin: auto;
+}
+
 #page {
-    padding: 2em 3em; 
+    padding: 2em 3em;
 }
 
 .container-grid {
-    display: grid; 
-    grid-template-columns: auto auto auto; 
+    display: grid;
+    grid-template-columns: auto auto auto;
     grid-gap: 1em;
 }
 
@@ -70,21 +75,20 @@
             font-size: 14px;
         }
     }
-    
+
     @media (max-width: 768px) {
         .item {
-            margin-bottom: 1em; 
+            margin-bottom: 1em;
         }
-    }    
+    }
 }
-
 
 @media (max-width: 768px) {
     #page {
-        padding: 2em 1em; 
+        padding: 2em 1em;
     }
 
     .container-grid {
-        display: block; 
+        display: block;
     }
 }

@@ -2,12 +2,6 @@
     <div class="home-wrapper" id="home">
         <nav class="nav has-shadow user-select">
             <div class="container">
-                <el-tooltip content="Scroll to top" placement="bottom" transition="false" :open-delay="500">
-                    <h1 class="title pointer" @click="scrollToTop('submissions')">
-                        Home
-                    </h1>
-                </el-tooltip>                
-
                 <div class="nav-left">
                     <router-link :to="{ path: '/' }" class="nav-item is-tab" :class="{ 'is-active': sort == 'hot' }">
                         Hot
@@ -24,6 +18,10 @@
                     </router-link>
                 </div>
 
+                <el-tooltip content="Scroll to top" placement="bottom" transition="false" :open-delay="500">
+                    <img src="/imgs/voten.png" class="logo" alt="Voten" @click="scrollToTop('submissions')">
+                </el-tooltip>    
+
                 <div class="flex-center">
                     <el-tooltip content="Refresh (R)" placement="bottom" transition="false" :open-delay="500">
                         <button class="feed-panel-button" @click="refresh">
@@ -39,10 +37,6 @@
 
                     <el-button type="primary" icon="el-icon-plus" plain size="medium" @click="submit" v-if="isLoggedIn">
                         Submit
-                    </el-button>
-                    
-                    <el-button type="success" size="medium" @click="submit" v-if="isGuest">
-                        Sign up
                     </el-button>
                 </div>
             </div>
@@ -123,7 +117,7 @@
         },
 
         created() {
-            this.setPageTitle('Voten - Social Bookmarking For The 21st Century', true);
+            this.setPageTitle('Voten: ' + config.title, true);
             this.askNotificationPermission();
             this.$eventHub.$on('refresh-home', this.refresh);
         },
@@ -176,12 +170,7 @@
                 Store.page.home.clear();
                 Store.page.home.getSubmissions(this.sort).then(() => this.refreshing = false);
             }, 200, { leading: true, trailing: false }),
-
-            /**
-             * fires the submit event
-             *
-             * @return void
-             */
+            
             submit() {
                 this.$eventHub.$emit('submit');
             },
@@ -196,7 +185,11 @@
                     if ('Notification' in window) {
                         Notification.requestPermission();
                     } else {
-                        console.log('Your browser does not support desktop notifications. ');
+                        this.$notify({
+                          title: 'Too bad!',
+                          message: 'Your browser does not support desktop notifications.',
+                          type: 'warning'
+                        });
                     }
                 }
             }
