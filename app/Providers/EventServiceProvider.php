@@ -37,6 +37,18 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\ReportWasCreated' => [
             'App\Listeners\NewReport',
         ],
+
+        'Illuminate\Auth\Events\Registered' => [
+            'App\Listeners\UserRegistered'
+        ], 
+
+        'Illuminate\Auth\Events\Login' => [
+            'App\Listeners\UserLoggedIn',
+        ], 
+
+        'Illuminate\Auth\Events\Logout' => [
+            'App\Listeners\UserLoggedOut',
+        ]
     ];
 
     /**

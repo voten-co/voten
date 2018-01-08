@@ -23,6 +23,30 @@ if (!function_exists('getRequestIpAddress')) {
     }
 }
 
+if (!function_exists('getRequestUserAgent')) {
+    /**
+     * Returns the user_agent of the request even if the website is using Cloudflare.
+     *
+     * @return string
+     */
+    function getRequestUserAgent()
+    {
+        return $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
+    }
+}
+
+if (!function_exists('getRequestCountry')) {
+    /**
+     * Returns the country that the request has been sent from even if the website is using Cloudflare.
+     *
+     * @return string
+     */
+    function getRequestCountry()
+    {
+        return $_SERVER['HTTP_CF_IPCOUNTRY'] ?? 'unknown';
+    }
+}
+
 if (!function_exists('firstRate')) {
     /**
      * Calculates the rate for votable model (currently used for submissions and comments).
