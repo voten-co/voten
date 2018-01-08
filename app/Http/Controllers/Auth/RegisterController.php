@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Mail\VerifyEmailAddress;
 use App\User;
-use App\UserForbiddenName;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
@@ -55,7 +54,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'username' => 'required|min:3|max:25|unique:users|regex:/^[A-Za-z0-9\._]+$/',
+            'username' => ['required', 'min:3', 'max:25', 'unique:users', 'regex:/^[A-Za-z0-9\._]+$/', new \App\Rules\NotForbiddenUsername],
             'email'    => 'sometimes|email|max:255|unique:users|nullable',
             'password' => 'required|min:6|confirmed',
             'g-recaptcha-response' => ['required', new \App\Rules\Recaptcha]
@@ -95,17 +94,6 @@ class RegisterController extends Controller
         ]);
     }
 
-    /**
-     * Is the username forbidden for users?
-     *
-     * @param string $username
-     *
-     * @return bool
-     */
-    protected function isForbiddenUsername($username)
-    {
-        return UserForbiddenName::where('username', $username)->exists();
-    }
 
     /**
      * Create a valid token and email it to user's email address.
@@ -155,11 +143,6 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $this->validator($request->all())->validate();
-        
-        // make sure the username is not in the blacklist
-        if ($this->isForbiddenUsername($request->username)) {
-            return response('This username is forbidden. Please pick another one.', 500);
-        }
 
         event(new Registered($user = $this->create($request->all())));
 
