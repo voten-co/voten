@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Activity;
 use App\Channel;
-use App\ChannelForbiddenName;
 use App\Comment;
 use App\Events\ChannelWasUpdated;
 use App\Filters;
@@ -131,7 +130,7 @@ class ChannelController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name'        => 'required|alpha_num|min:3|max:50|unique:channels',
+            'name'        => ['required', 'alpha_num', 'min:3', 'max:50', 'unique:channels', new \App\Rules\NotForbiddenChannelName], 
             'description' => 'required|min:10|max:250',
         ]);
 
@@ -148,10 +147,6 @@ class ChannelController extends Controller
 
         if ($tooEarly != false) {
             return response("Looks like you're over doing it. You can create another channel in ".$tooEarly.' seconds. Thank you for being patient.', 500);
-        }
-
-        if ($this->isForbiddenName($request->name)) {
-            return response('This name is forbidden. Please pick another one.', 500);
         }
 
         $channel = Channel::create([
@@ -185,16 +180,6 @@ class ChannelController extends Controller
         $user->channelRoles()->attach($channel, [
             'role' => 'administrator',
         ]);
-    }
-
-    /**
-     * is the name in the blacklist names.
-     *
-     * @return bool
-     */
-    protected function isForbiddenName($name)
-    {
-        return ChannelForbiddenName::where('name', $name)->exists();
     }
 
     /**

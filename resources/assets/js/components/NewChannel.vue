@@ -1,131 +1,122 @@
 <template>
-    <el-dialog
-            title="New Channel"
-            :visible="visible"
-            :width="isMobile ? '99%' : '600px'"
-            @close="close"
-            append-to-body
-            class="user-select submit-form"
-    >
-        <el-alert
-                v-if="customError"
-                :title="customError"
-                type="error">
-        </el-alert>
-        
-        <el-alert
-                :title="warning"
-                type="warning">
-        </el-alert>
+	<el-dialog title="New Channel"
+	           :visible="visible"
+	           :width="isMobile ? '99%' : '600px'"
+	           @close="close"
+	           append-to-body
+	           class="user-select submit-form">
+		<el-alert v-if="customError"
+		          :title="customError"
+                  class="margin-bottom-1"
+		          type="error">
+		</el-alert>
 
-        <el-form label-position="top" label-width="10px">
-            <el-form-item label="Name">
-                <el-input
-                    placeholder="Name..."
-                    name="name"
-                    v-model="name"
-                    autocorrect="off" autocapitalize="off" spellcheck="false"
-                ></el-input>
+		<el-alert :title="warning"
+		          type="warning">
+		</el-alert>
 
-                <el-alert
-                        show-icon
-                        :closable="false"
-                        title="Names must be alpha-numeric, with no spaces. They're also not editable so make up your mind before continue! Examples: gaming, news, OldSchoolCool, modernWarfare2"
-                        type="info">
-                </el-alert>
+		<el-form label-position="top"
+		         label-width="10px">
+			<el-form-item label="Name">
+				<el-input placeholder="Name..."
+				          name="name"
+				          v-model="name"
+				          autocorrect="off"
+				          autocapitalize="off"
+				          spellcheck="false"></el-input>
 
-                <el-alert v-for="e in errors.name" :title="e" type="error" :key="e"></el-alert>
-            </el-form-item>
+				<el-alert show-icon
+				          :closable="false"
+				          title="Names must be alpha-numeric, with no spaces. They're also not editable so make up your mind before continue! Examples: gaming, news, OldSchoolCool, modernWarfare2"
+				          type="info">
+				</el-alert>
 
-            <el-form-item label="Description">
-                <el-input
-                        type="textarea"
-                        placeholder="A few word to describe your channel..."
-                        name="description"
-                        :autosize="{ minRows: 4, maxRows: 10}"
-                        v-model="description">
-                </el-input>
+				<el-alert v-for="e in errors.name"
+				          :title="e"
+				          type="error"
+				          :key="e"></el-alert>
+			</el-form-item>
 
-                <el-alert
-                        show-icon
-                        :closable="false"
-                        :title="'The description field helps users find your channel. The first few words matter the most!'"
-                        type="info">
-                </el-alert>
+			<el-form-item label="Description">
+				<el-input type="textarea"
+				          placeholder="A few word to describe your channel..."
+				          name="description"
+				          :autosize="{ minRows: 4, maxRows: 10}"
+				          v-model="description">
+				</el-input>
 
-                <el-alert v-for="e in errors.description" :title="e" type="error" :key="e"></el-alert>
-            </el-form-item>
+				<el-alert show-icon
+				          :closable="false"
+				          :title="'The description field helps users find your channel. The first few words matter the most!'"
+				          type="info">
+				</el-alert>
 
-            <!-- NSFW Toggle -->
-            <el-checkbox v-model="sfw">
-                Safe for work
-            </el-checkbox>
-        </el-form>
+				<el-alert v-for="e in errors.description"
+				          :title="e"
+				          type="error"
+				          :key="e"></el-alert>
+			</el-form-item>
 
-        <span slot="footer" class="dialog-footer">
-            <el-button
-                    type="success"
-                    @click="submit"
-                    :disabled="!validates"
-                    :loading="loading"
-                    size="medium"
-            >
-                Create
-            </el-button>
-        </span>
-    </el-dialog>
+			<!-- NSFW Toggle -->
+			<el-checkbox v-model="sfw">
+				Safe for work
+			</el-checkbox>
+		</el-form>
+
+		<span slot="footer"
+		      class="dialog-footer">
+			<el-button type="success"
+			           @click="submit"
+			           :disabled="!validates"
+			           :loading="loading"
+			           size="medium">
+				Create
+			</el-button>
+		</span>
+	</el-dialog>
 </template>
 
 <script>
-    import Helpers from '../mixins/Helpers';
+import Helpers from "../mixins/Helpers";
 
-    export default {
-        props: ['visible'],
+export default {
+    props: ["visible"],
 
-        mixins: [Helpers],
+    mixins: [Helpers],
 
-        data() {
-            return {
-                name: '',
-                description: '',
-                sfw: true,
-                errors: [],
-                customError: '',
-                loading: false,
-                warning: `At the current stage, we're trying to keep the channels number short, making it easier for new users. Thus, please do a little search before creating your channel to make sure a similar one doesn't already exist. `
-            }
+    data() {
+        return {
+            name: "",
+            description: "",
+            sfw: true,
+            errors: [],
+            customError: "",
+            loading: false,
+            warning: `At the current stage, we're trying to keep the channels number short, making it easier for new users. Thus, please do a little search before creating your channel to make sure a similar one doesn't already exist. `
+        };
+    },
+
+    computed: {
+        validates() {
+            return this.name.trim() && this.description.trim();
+        }
+    },
+
+    methods: {
+        close() {
+            this.$emit("update:visible", false);
         },
 
-        computed: {
-            /**
-             * Validates the inputs
-             *
-             * @return Boolean
-             */
-            validates() {
-                return this.name.trim() && this.description.trim();
-            },
-        },
+        submit() {
+            this.loading = true;
 
-
-        methods: {
-            /**
-             * Closes the modal.
-             *
-             * @return void
-             */
-            close() {
-                this.$emit('update:visible', false);
-            },
-
-            submit () {
-                this.loading = true;
-
-                axios.post('/channel', {
+            axios
+                .post("/channel", {
                     name: this.name,
                     description: this.description,
-                    nsfw: !(this.sfw)
-                }).then((response) => {
+                    nsfw: !this.sfw
+                })
+                .then(response => {
                     this.errors = [];
 
                     // let's add the categoriy_id to the user's moderatingAt and administratorAt
@@ -134,17 +125,21 @@
                     Store.state.moderatingChannels.push(response.data);
                     Store.state.subscribedChannels.push(response.data);
                     Store.state.subscribedAt.push(response.data.id);
-                    Store.page.channel.temp = response.data; 
+                    Store.page.channel.temp = response.data;
 
-                    this.$router.push('/c/' + response.data.name + '/mod/settings?created=1');
+                    this.$router.push(
+                        "/c/" + response.data.name + "/mod/settings?created=1"
+                    );
 
                     this.loading = false;
                     this.reset();
                     this.close();
-                }).catch((error) => {
+                })
+                .catch(error => {
                     if (error.response.status == 500) {
                         this.customError = error.response.data;
                         this.errors = [];
+                        this.loading = false;
                         return;
                     }
 
@@ -152,16 +147,16 @@
 
                     this.loading = false;
                 });
-            },
+        },
 
-            reset() {
-                this.name = '';
-                this.description = '';
-                this.sfw = true;
-                this.errors = [];
-                this.customError = '';
-                this.loading = false;
-            },
+        reset() {
+            this.name = "";
+            this.description = "";
+            this.sfw = true;
+            this.errors = [];
+            this.customError = "";
+            this.loading = false;
         }
     }
+};
 </script>

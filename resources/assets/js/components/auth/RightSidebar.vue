@@ -156,10 +156,7 @@
 						<img class="square"
 						     :src="channel.avatar"
 						     :alt="channel.name"
-						     v-if="showChannelAvatars">
-						<span v-else>#</span>
-
-						<span class="v-channels-text">{{ channel.name }}</span>
+						     v-if="showChannelAvatars"><span v-else>#</span><span class="v-channels-text">{{ channel.name }}</span>
 					</router-link>
 				</li>
 			</ul>
