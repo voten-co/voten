@@ -32,6 +32,7 @@
                             placeholder="Desciption..."
                             name="description"
                             :maxlength="2000"
+                            ref="description"
                             :autosize="{ minRows: 4, maxRows: 10}"
                     ></el-input>
                 </el-form-item>
@@ -77,7 +78,13 @@
                     'Other'
                 ], 
 	        }
-	    },
+        },
+        
+        mounted() {
+            this.$nextTick(function () {
+                this.$refs.description.$refs.textarea.focus();
+            });
+        },
 
 	    methods: {
             close() {
