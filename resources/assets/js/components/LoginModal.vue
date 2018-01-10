@@ -135,7 +135,7 @@
 						  class="margin-bottom-1"
 				          type="error"></el-alert>
 
-				<vue-recaptcha sitekey="6Ld5qj8UAAAAAK6CV98kVBit2ZaoJz9C97ak06cq"
+				<vue-recaptcha :sitekey="recaptchaKey"
 				               @verify="reCaptchaVerified"
 							   ref="recaptcha"
 				               @expired="reCaptchaExpired"></vue-recaptcha>
@@ -212,7 +212,8 @@ export default {
         return {
             type: "register",
             loading: false,
-            showPassword: false,
+			showPassword: false,
+			recaptchaKey: window.Laravel.recaptchaKey, 
 
             registerForm: {
                 username: "",

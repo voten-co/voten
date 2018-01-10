@@ -25,6 +25,7 @@
             'env' => config('app.env'),
             'pusherKey' => config('broadcasting.connections.pusher.key'),
             'pusherCluster' => config('broadcasting.connections.pusher.options.cluster'),
+            'recaptchaKey' => config('services.recaptcha.key'),
         ])
     </script>
 
@@ -42,7 +43,7 @@
 
 		<search-modal v-if="Store.contentRouter == 'search'"></search-modal>
 
-        <div class="v-content" id="v-content" v-show="Store.contentRouter == 'content'" @scroll="scrolled">
+        <div class="v-content" id="v-content" v-show="Store.contentRouter == 'content'" @scroll.passive="scrolled">
             @yield('content')
         </div>
 
