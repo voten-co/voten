@@ -156,7 +156,9 @@
 						<img class="square"
 						     :src="channel.avatar"
 						     :alt="channel.name"
-						     v-if="showChannelAvatars"><span v-else>#</span><span class="v-channels-text">{{ channel.name }}</span>
+						     v-if="showChannelAvatars">
+						<span v-else>#</span>
+						<span class="v-channels-text">{{ channel.name }}</span>
 					</router-link>
 				</li>
 			</ul>
@@ -183,8 +185,8 @@
 </template>
 
 <script>
-import Helpers from "../../mixins/Helpers";
-import Settings from "../RightSidebarSettings.vue";
+import Helpers from '../../mixins/Helpers';
+import Settings from '../RightSidebarSettings.vue';
 
 export default {
     mixins: [Helpers],
@@ -195,7 +197,7 @@ export default {
 
     data() {
         return {
-            subscribedFilter: "",
+            subscribedFilter: '',
             showSettings: false,
             showMenu: false,
             showSubMenu: false
@@ -204,7 +206,7 @@ export default {
 
     watch: {
         $route: function() {
-            this.subscribedFilter = "";
+            this.subscribedFilter = '';
         },
 
         showMenu() {
@@ -216,26 +218,23 @@ export default {
 
     computed: {
         showLoadMoreChannels() {
-            return (
-                this.channels.length > this.channelsLimit &&
-                !this.subscribedFilter
-            );
+            return this.channels.length > this.channelsLimit && !this.subscribedFilter;
         },
 
         showDiscoverChannels() {
             return (
                 this.channels.length < this.channelsLimit &&
                 !this.subscribedFilter &&
-                Store.settings.rightSidebar.channelsFilter == "subscribed"
+                Store.settings.rightSidebar.channelsFilter == 'subscribed'
             );
         },
 
         channels() {
-            if (this.filter == "bookmarked") {
+            if (this.filter == 'bookmarked') {
                 return Store.state.bookmarkedChannels;
             }
 
-            if (this.filter == "moderating") {
+            if (this.filter == 'moderating') {
                 return Store.state.moderatingChannels;
             }
 
@@ -256,7 +255,7 @@ export default {
         },
 
         theme() {
-            return "theme-" + this.str_slug(Store.settings.rightSidebar.color);
+            return 'theme-' + this.str_slug(Store.settings.rightSidebar.color);
         },
 
         filter() {
@@ -264,11 +263,11 @@ export default {
         },
 
         filterForHumans() {
-            if (this.filter == "subscribed") return "Subscribed Channels";
+            if (this.filter == 'subscribed') return 'Subscribed Channels';
 
-            if (this.filter == "bookmarked") return "Bookmarked Channels";
+            if (this.filter == 'bookmarked') return 'Bookmarked Channels';
 
-            if (this.filter == "moderating") return "Moderating Channels";
+            if (this.filter == 'moderating') return 'Moderating Channels';
         },
 
         sortedSubscribeds() {
@@ -276,24 +275,29 @@ export default {
 
             return _.orderBy(
                 self.channels.filter(
-                    channel =>
-                        channel.name
-                            .toLowerCase()
-                            .indexOf(self.subscribedFilter.toLowerCase()) !== -1
+                    channel => channel.name.toLowerCase().indexOf(self.subscribedFilter.toLowerCase()) !== -1
                 ),
-                "subscribers",
-                "desc"
+                'subscribers',
+                'desc'
             ).slice(0, self.channelsLimit > 2 ? self.channelsLimit : 2);
         }
     },
 
+    created() {
+        this.$eventHub.$on('pressed-esc', this.closeMenu);
+    },
+
     methods: {
+        closeMenu() {
+            this.showMenu = false;
+        },
+
         moreChannels() {
             Store.settings.rightSidebar.channelsLimit += 15;
         },
 
         pushToDiscoverChannels() {
-            this.$router.push({ name: "discover-channels" });
+            this.$router.push({ name: 'discover-channels' });
         },
 
         lessChannels() {
@@ -301,27 +305,23 @@ export default {
         },
 
         signOut() {
-            this.$confirm(
-                `Are you sure about signing out of your account?`,
-                "Confirm",
-                {
-                    confirmButtonText: "Yes",
-                    cancelButtonText: "Never mind",
-                    type: "warning"
-                }
-            )
+            this.$confirm(`Are you sure about signing out of your account?`, 'Confirm', {
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'Never mind',
+                type: 'warning'
+            })
                 .then(() => {
                     Vue.clearLS();
 
                     axios
-                        .post("/logout")
+                        .post('/logout')
                         .then(() => {
-                            window.location = "/";
+                            window.location = '/';
                         })
                         .catch(() => {
                             this.$message({
-                                message: "Something went wrong.",
-                                type: "error"
+                                message: 'Something went wrong.',
+                                type: 'error'
                             });
                         });
                 })
