@@ -1,6 +1,6 @@
 <template>
 	<div id="submissions" class="home-submissions" 
-		v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore" @scroll="scrolled"
+		v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore" @scroll.passive="scrolled"
 	>
 		<section class="box-typical comments" v-if="comments.length">
 			<div class="box-typical-inner ui threaded comments">

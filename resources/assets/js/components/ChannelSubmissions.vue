@@ -1,10 +1,10 @@
 <template>
     <section class="padding-bottom-10 flex1" id="submissions" :class="{'flex-center' : nothingFound}" 
-        v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore" @scroll="scrolled"
+        v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore" @scroll.passive="scrolled"
     >
         <submission :list="submission" v-for="submission in uniqueList" v-bind:key="submission.id"></submission>
     
-        <no-content v-if="nothingFound" :text="'No submissions here yet'"></no-content>
+        <no-content v-if="nothingFound" :text="'No submissions here'"></no-content>
     
         <loading v-if="loading && page > 1"></loading>
     

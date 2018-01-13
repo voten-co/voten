@@ -1,6 +1,6 @@
 <template>
 	<div id="submissions" class="home-submissions" 
-		v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore" @scroll="scrolled"
+		v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore" @scroll.passive="scrolled"
 	>
         <submission :list="submission" v-for="submission in uniqueList" v-bind:key="submission.id"></submission>
 

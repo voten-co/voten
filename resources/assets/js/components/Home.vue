@@ -43,7 +43,7 @@
         </nav>
 
         <section id="submissions" class="home-submissions" :class="{'flex-center' : nothingFound}"
-            v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore" @scroll="scrolled"
+            v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore" @scroll.passive="scrolled"
         >
             <div v-for="(value, index) in uniqueList" v-bind:key="value.id">
                 <suggested-channel v-if="isLoggedIn && index == 5"></suggested-channel>
