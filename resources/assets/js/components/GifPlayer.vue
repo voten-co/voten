@@ -1,93 +1,45 @@
 <template>
-    <div class="photo-viewer-wrapper user-select">
-        <div class="photo-viewer-header">
-            <div class="flex-display">
-                <div class="info desktop-only">
-                    <h3>
-                        {{ str_limit(list.title, 40) }}
-                    </h3>
-
-                    <small class="go-gray">
-                        Submitted by
-                        <router-link :to="'/' + '@' + list.owner.username">@{{ list.owner.username }}</router-link>
-                        to
-                        <router-link :to="'/c/' + list.channel_name">#{{ list.channel_name }}</router-link>
-                        -
-                        <router-link :to="'/c/' + list.channel_name + '/' + list.slug">
-                            {{ date }}
-                        </router-link>
-                    </small>
-                </div>
-
-                <div class="voting-wrapper">
-                    <a class="fa-stack" @click="$emit('bookmark')" v-tooltip.bottom="{content: bookmarked ? 'Unbookmark' : 'Bookmark'}">
-    					<i class="v-icon h-yellow" :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'"></i>
-    				</a>
-
-                    <a class="fa-stack align-right" @click="$emit('upvote')" v-tooltip.bottom="{content: 'Upvote'}">
-                        <i class="v-icon v-up-fat" :class="upvoted ? 'go-primary' : 'go-gray'"></i>
-                    </a>
-
-                    <div class="detail">
-                        {{ points }} Points
-                    </div>
-
-                    <a class="fa-stack align-right" @click="$emit('downvote')" v-tooltip.bottom="{content: 'Downvote'}">
-                        <i class="v-icon v-down-fat" :class="downvoted ? 'go-red' : 'go-gray'"></i>
-                    </a>
-                </div>
-            </div>
-
-            <div>
-                <i class="v-icon pointer v-cancel margin-right-1" aria-hidden="true" @click="$emit('close')" v-tooltip.bottom="{content: 'Close (esc)'}"></i>
-            </div>
-        </div>
-
-        <div class="photo-wrapper">
-            <video loop controls autoplay @click.stop.prevent="" :poster="list.data.thumbnail_path">
-                <source :src="list.data.mp4_path" type="video/mp4">
-            </video>
-        </div>
-    </div>
+	<el-dialog :title="submission.title"
+	           :visible="visible"
+	           @close="close"
+	           append-to-body
+	           fullscreen
+	           class="user-select">
+		<div class="photo-viewer">
+			<video loop
+			       controls
+			       autoplay
+			       onclick="this.paused ? this.play() : this.pause();"
+			       :poster="submission.data.thumbnail_path">
+				<source :src="submission.data.mp4_path"
+				        type="video/mp4">
+			</video>
+		</div>
+	</el-dialog>
 </template>
 
 <script>
-    import Helpers from '../mixins/Helpers'
+import Helpers from '../mixins/Helpers';
 
-    export default {
-        mixins: [Helpers],
+export default {
+    props: ['visible'],
 
-        props: [
-            'points', 'upvoted', 'downvoted', 'bookmarked', 'list'
-        ],
+    mixins: [Helpers], 
 
-        computed: {
-            date () {
-                return moment(this.list.created_at).utc(moment().format("Z")).fromNow();
-            },
-        },
+    computed: {
+        submission() {
+            return Store.gifPlayer.submission; 
+        }, 
 
-        created () {
-            window.addEventListener('keyup', this.keyup);
-        },
-
-        methods: {
-            prevent(e) {
-                e.preventDefault();
-            },
-
-            /**
-             * Catches the event fired for the pressed key, and runs the neccessary methods.
-             *
-             * @param keyup event
-             * @return void
-             */
-            keyup(event){
-                // esc
-                if (event.keyCode == 27) {
-                    this.$emit('close');
-                }
-            },
+        gif() {
+            return Store.gifPlayer.gif; 
         }
-    };
+    },
+
+    methods: {
+        close() {
+            this.$emit('update:visible', false);
+        }
+    }
+};
 </script>
