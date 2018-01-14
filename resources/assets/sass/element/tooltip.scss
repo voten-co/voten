@@ -1,3 +1,5 @@
 .el-tooltip__popper {
   font-weight: bold;
+
+  @include user-select(); 
 }

@@ -5898,12 +5898,6 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
-vue-clickaway@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/vue-clickaway/-/vue-clickaway-2.1.0.tgz#392de764751f31cd20787e8fb3a6e319825f8d4f"
-  dependencies:
-    loose-envify "^1.2.0"
-
 vue-crop@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/vue-crop/-/vue-crop-1.0.1.tgz#beef6419f1cdc24a3290c1b647eb42ea0b407a2a"

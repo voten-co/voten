@@ -36,6 +36,15 @@ export default {
         isMobile() {
             return auth.isMobileDevice;
         },
+        
+        /**
+         * Is visitor browsing via a desktop device
+         *
+         * @return bool
+         */
+        isDesktop() {
+            return ! auth.isMobileDevice;
+        },
 
         /**
          * is user a moderator?

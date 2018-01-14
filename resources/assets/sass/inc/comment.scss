@@ -1,306 +1,353 @@
+[data-name="null"] {
+    display: none;
+}
+
 .comment-form {
-  padding: 0.675rem 1.05rem;
+    padding: 0.675rem 1.05rem;
 }
 
 .comment-btn {
-  position: absolute;
-  bottom: -45px;
-  border-top-left-radius: 0 !important;
-  border-top-right-radius: 0 !important;
+    position: absolute;
+    bottom: -45px;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
 }
 
 .comment {
-  padding: 25px 20px 10px;
+    padding: 25px 20px 10px;
 }
 
 .comment .card-block {
-  padding: 0;
-  margin-top: 10px;
+    padding: 0;
+    margin-top: 10px;
 }
 
 .comment .card-subtitle {
-  border-bottom: 1px solid #f3f3f3;
-  padding-bottom: 16px;
-  margin-bottom: 13px;
+    border-bottom: 1px solid #f3f3f3;
+    padding-bottom: 16px;
+    margin-bottom: 13px;
 }
 
 .ui.comments {
-  max-width: 100% !important;
+    max-width: 100% !important;
 }
 
 .ui.comments .comment .reply.form {
-  padding: 0 0 0.5em;
-  margin-top: 0;
+    padding: 0 0 0.5em;
+    margin-top: 0;
 }
 
 .ui.comments > div {
-  border-top: 1px solid #e9e9e9 !important;
-  padding: 1em;
+    border-top: 1px solid #e9e9e9 !important;
+    padding: 1em;
 }
 
 .v-comment-not-full {
-  border: 1px solid #e9e9e9 !important;
-  border-bottom: 2px solid #e9e9e9 !important;
-  border-radius: 2px;
-  padding: 0 !important;
-  margin-bottom: .5em;
+    border: 1px solid #e9e9e9 !important;
+    border-bottom: 2px solid #e9e9e9 !important;
+    border-radius: 2px;
+    padding: 0 !important;
+    margin-bottom: 0.5em;
 }
 
 .ui.comments .reply.form:first-child {
-  padding: 1em 0.5em 0.4em;
+    padding: 1em 0.5em 0.4em;
 }
 
 .ui.threaded.comments .comment .comments {
-  box-shadow: none;
-  padding: 0;
-  margin: 0;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
 }
 
 .square {
-  border-radius: 4px !important;
+    border-radius: 4px !important;
 }
 
 .circle {
-  border-radius: 50% !important;
+    border-radius: 50% !important;
 }
 
 .ui.comments .comment .avatar img,
 .ui.comments .comment img.avatar {
-  border-radius: 2px;
+    border-radius: 2px;
 }
 
 .ui.comments .reply.form textarea {
-  height: 49px;
-  border: 2px solid #a0a4a6;
-  border-right: 0;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  overflow: hidden;
-  resize: none;
-  background: #f7f7f7;
+    height: 49px;
+    border: 2px solid #a0a4a6;
+    border-right: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    overflow: hidden;
+    resize: none;
+    background: #f7f7f7;
 }
 
 .ui.comments .ui.input textarea {
-  margin: 0;
-  max-width: 100%;
-  -webkit-box-flex: initial;
-  flex: initial;
-  outline: none !important;
-  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-  text-align: left;
-  line-height: 1.2142em;
-  font-family: inherit;
-  box-shadow: none;
-  resize: none;
+    margin: 0;
+    max-width: 100%;
+    -webkit-box-flex: initial;
+    flex: initial;
+    outline: none !important;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    text-align: left;
+    line-height: 1.2142em;
+    font-family: inherit;
+    box-shadow: none;
+    resize: none;
 }
 
 .ui.action.input:not([class*="left action"]) > .button:hover {
-  border: 2px solid #5587d7;
-  background: $primary-color;
-  color: #fff;
+    border: 2px solid #5587d7;
+    background: $primary-color;
+    color: #fff;
 }
 
 .loading-comments {
-  text-align: center;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  color: #bdc4c7;
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: #bdc4c7;
 }
 
 .box-typical-inner.ui.threaded.comments {
-  margin-top: 0;
+    margin-top: 0;
 }
 
 .ui.comments .comment .actions button {
-  background: none;
-  border: none;
+    background: none;
+    border: none;
 }
 
 .ui.comments .comment form {
-  display: inline-block;
+    display: inline-block;
 }
 
 .send-button {
-  flex-basis: 50px;
-  background: none;
-  border: 2px solid #a0a4a6;
-  background-color: #f7f7f7;
-  border-radius: 4px;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  color: #d8e2e7;
-  cursor: pointer;
-  margin: 0;
-  border-left: 0;
+    flex-basis: 50px;
+    background: none;
+    border: 2px solid #a0a4a6;
+    background-color: #f7f7f7;
+    border-radius: 4px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    color: #d8e2e7;
+    cursor: pointer;
+    margin: 0;
+    border-left: 0;
 }
 
 .comment-emoji-button {
-  border-radius: 0;
-  border-right: 0;
-  position: relative;
-  flex-basis: 0;
-  display: flex;
-  align-items: center;
+    border-radius: 0;
+    border-right: 0;
+    position: relative;
+    flex-basis: 0;
+    display: flex;
+    align-items: center;
 }
 
 // only desktop
 @media (max-width: 768px) {
-  .ui.comments .comment .comments .comment {
-    margin: 0.5em 0 0;
-  }
+    .ui.comments .comment .comments .comment {
+        margin: 0.5em 0 0;
+    }
 }
 
 .full-comment-form {
-  padding: 0 0.5em !important;
-  margin-bottom: -.5em;
+    padding: 0 0.5em !important;
+    margin-bottom: -0.5em;
 }
 
 .reply .v-send,
 .reply .v-smile {
-  font-size: 19px;
+    font-size: 19px;
 }
 
 .reply .search {
-  font-size: 1.3em;
+    font-size: 1.3em;
 }
 
 .reply .flex-search input {
-  border-width: 2px !important;
+    border-width: 2px !important;
 }
 
 .comment-form-guide {
-  margin-bottom: 1em;
-  color: #717577;
-  font-size: 74%;
-  cursor: pointer;
-  font-weight: 600;
-  background: none;
-  border: none;
+    margin-bottom: 1em;
+    color: #717577;
+    font-size: 74%;
+    cursor: pointer;
+    font-weight: 600;
+    background: none;
+    border: none;
 }
 
 .content .comment-form-guide {
-  padding-left: 0.8em;
+    padding-left: 0.8em;
 }
 
 .comment-form-guide:focus,
 .comment-form-guide:hover {
-  color: #717577;
+    color: #717577;
 }
 
 .comment-form-guide:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .v-comment-info {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .broadcasted-comment {
-  background: #f9f9f9 !important;
+    background: #f9f9f9 !important;
 }
 
 .child-broadcasted-comment {
-  background: #f9f9f9 !important;
-  border: 2px dashed #e9e9e9 !important;
-  padding-bottom: .7em !important;
-  padding-right: 1em !important;
-  border-left: 2px dashed #e9e9e9 !important;
+    background: #f9f9f9 !important;
+    border: 2px dashed #e9e9e9 !important;
+    padding-bottom: 0.7em !important;
+    padding-right: 1em !important;
+    border-left: 2px dashed #e9e9e9 !important;
 }
 
 .comment .el-dropdown i {
-  color: rgba(0, 0, 0, 0.4);
+    color: rgba(0, 0, 0, 0.4);
 }
 
 #comments-section header {
-  padding: 12px 15px;
-  border-bottom: 1px solid #e9e9e9;
-  border-top: 1px solid #e9e9e9;
+    padding: 12px 15px;
+    border-bottom: 1px solid #e9e9e9;
+    border-top: 1px solid #e9e9e9;
 }
 
 .no-comments-yet {
-  margin-top: 6%;
-  margin-bottom: 6%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: $gray-color;
-  @include user-select();
+    margin-top: 6%;
+    margin-bottom: 6%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $gray-color;
+    @include user-select();
 }
-
 
 ////////////////////////////////////////////////
 // beta 2.0
 ////////////////////////////////////////////////
 
 .comment {
-  .v-icon,
-  [class^="el-icon-"],
-  [class*=" el-icon-"] {
-    font-size: 16px;
-    color: $gray-color;
-    cursor: pointer;
-    margin-right: .5em;
-  }
+    .v-icon,
+    [class^="el-icon-"],
+    [class*=" el-icon-"] {
+        font-size: 16px;
+        color: $gray-color;
+        cursor: pointer;
+        margin-right: 0.5em;
+    }
 
-  .edited {
-    background: #f4f4f4;
-    font-size: 10px;
-    padding: 4px 4px;
-    border-radius: 2px;
-    margin-left: .3em;
-  }
+    .edited {
+        background: #f4f4f4;
+        font-size: 10px;
+        padding: 4px 4px;
+        border-radius: 2px;
+        margin-left: 0.3em;
+    }
 
-  .avatar {
-    display: block;
-    width: 2em;
-    height: auto;
-    margin-right: 0.3em;
-  }
+    .avatar {
+        display: block;
+        width: 2em;
+        height: auto;
+        margin-right: 0.3em;
+    }
 
-  .avatar img,
-  img.avatar {
-    display: block;
-    margin: 0 auto;
-    width: 100%;
-    height: 100%;
-    border-radius: 0.25rem;
-  }
+    .avatar img,
+    img.avatar {
+        display: block;
+        margin: 0 auto;
+        width: 100%;
+        height: 100%;
+        border-radius: 0.25rem;
+    }
 
-  .metadata {
-    display: inline-block;
-    margin-left: 0.5em;
-    color: rgba(0, 0, 0, 0.4);
-    font-size: 0.875em;
-  }
+    .metadata {
+        display: inline-block;
+        margin-left: 0.5em;
+        color: rgba(0, 0, 0, 0.4);
+        font-size: 0.875em;
+    }
 
-  .author {
-    font-size: 1em;
-    color: rgba(0, 0, 0, 0.87);
-    font-weight: bold;
-  }
+    .author {
+        font-size: 1em;
+        color: rgba(0, 0, 0, 0.87);
+        font-weight: bold;
+    }
 
-  .text {
-    font-size: 0.9em;
-    word-wrap: break-word;
-    color: rgb(51, 51, 51);
-    line-height: 1.5;
-    margin: 1em 0px;
-  }
+    .text {
+        font-size: 0.9em;
+        word-wrap: break-word;
+        color: rgb(51, 51, 51);
+        line-height: 1.5;
+        margin: 1em 0px;
+    }
 
-  .comments .comment {
-    border-right-width: initial;
-    border-bottom-width: initial;
-    border-right-color: initial;
-    border-bottom-color: initial;
-    border-style: none none none dashed;
-    border-image: initial;
-    border-top: none;
-    background: none;
-    padding: 1em 0px 0px 0.5em;
-    margin: 1em 0px 0px 0.8em;
-    border-left: 2px dashed rgb(233, 233, 233);
-  }
+    .comments .comment {
+        border-right-width: initial;
+        border-bottom-width: initial;
+        border-right-color: initial;
+        border-bottom-color: initial;
+        border-style: none none none dashed;
+        border-image: initial;
+        border-top: none;
+        background: none;
+        padding: 1em 0px 0px 0.5em;
+        margin: 1em 0px 0px 0.8em;
+        border-left: 2px dashed rgb(233, 233, 233);
+    }
 }
 
-
+//  quick emoji picker
+.quick-box {
+    border: 2px solid #f0f0f0;
+    border-bottom: none;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    bottom: 46px;
+    position: absolute;
+    background: white;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    .item {
+        border-bottom: 1px solid #f0f0f0;
+        padding: 0.5em 1em 0.5em 1em;
+        cursor: pointer;
+        img {
+            width: 22px;
+            height: auto;
+        }
+        .name {
+            margin-left: 0.5em;
+        }
+    }
+    .selected {
+        background: #5587d7;
+        color: #fff;
+    }
+    .guide {
+        padding: 0.5em 1em;
+        font-size: 15px;
+        border-bottom: 1px solid #e7e7e7;
+        background: #f8f8f8;
+        .left {
+            color: #333;
+            font-weight: bold;
+        }
+        .right {
+            color: #979797;
+        }
+        kbd {
+            margin: 0 5px;
+        }
+    }
+}

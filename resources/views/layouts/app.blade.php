@@ -41,7 +41,7 @@
         <messages v-show="Store.contentRouter == 'messages'"></messages>
         <search-modal v-if="Store.contentRouter == 'search'"></search-modal>
 
-        <div class="v-content" id="v-content" v-show="Store.contentRouter == 'content'" @scroll="scrolled">
+        <div class="v-content" id="v-content" v-show="Store.contentRouter == 'content'" @scroll.passive="scrolled">
             <announcement></announcement>
             
             @yield('content')
@@ -56,6 +56,9 @@
     <new-channel v-show="Store.showNewChannelModal" :visible.sync="Store.showNewChannelModal"></new-channel>
     <markdown-guide v-if="Store.showMarkdownGuide" :visible.sync="Store.showMarkdownGuide"></markdown-guide>
     <feedback v-if="Store.showFeedbackModal" :visible.sync="Store.showFeedbackModal"></feedback>
+    <photo-viewer v-if="Store.photoViewer.show" :visible.sync="Store.photoViewer.show"></photo-viewer>
+    <gif-player v-if="Store.gifPlayer.show" :visible.sync="Store.gifPlayer.show"></gif-player>
+    <embed-viewer v-if="Store.embedViewer.show" :visible.sync="Store.embedViewer.show"></embed-viewer>
     <keyboard-shortcuts-guide v-if="Store.showKeyboardShortcutsGuide" :visible.sync="Store.showKeyboardShortcutsGuide"></keyboard-shortcuts-guide>
 </div>
 

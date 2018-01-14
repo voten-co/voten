@@ -39,10 +39,10 @@
 }
 
 @media (max-width: 768px) {
-	.v-contact-list li,
-	.v-contact-list li a {
-	    padding: 0.5em;
-	}
+    .v-contact-list li,
+    .v-contact-list li a {
+        padding: 0.5em;
+    }
 }
 
 .v-contact-list li:hover {
@@ -61,11 +61,11 @@
     margin-right: 2em;
 }
 @media (max-width: 768px) {
-	.v-contact-list li .v-contact-avatar,
-	.v-contact-list li a .v-contact-avatar {
-	    flex-basis: 45px;
-	    margin-right: .5em;
-	}
+    .v-contact-list li .v-contact-avatar,
+    .v-contact-list li a .v-contact-avatar {
+        flex-basis: 45px;
+        margin-right: 0.5em;
+    }
 }
 
 .v-contact-list li .v-contact,
@@ -84,7 +84,6 @@
         border: 2px solid #989898;
     }
 }
-
 
 .v-contact h3 {
     font-weight: 400;
@@ -113,13 +112,13 @@
     border: none;
     width: 100%;
     height: 100%;
-    padding: 1.0em;
+    padding: 1em;
     font-size: 1em;
     flex: 1;
 }
 
 .chat-input-form {
-    display: flex; 
+    display: flex;
     border: 2px solid #a0a4a6;
     background: #f7f7f7;
     border-radius: 4px;
@@ -141,23 +140,24 @@
     .comment-emoji-button {
         border: none;
         color: #d8e2e7;
-        opacity: .5;
 
-        &:hover, 
-        &:focus {
-            opacity: 1;
+        svg {
+            opacity: 0.5;
+
+            &:hover,
+            &:focus {
+                opacity: 1;
+            }
         }
     }
 
     button {
         border: none;
         background: #f7f7f7;
-        cursor: pointer; 
+        cursor: pointer;
         color: #bac0c3;
     }
 }
-
-
 
 .v-message-input button {
     flex-basis: 5em;

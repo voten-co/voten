@@ -1,223 +1,246 @@
 <template>
-    <transition name="el-fade-in-linear">
+	<transition name="el-fade-in-linear">
 
-        <div class="submission-item submission-wrapper" v-show="!hidden" :id="'submission' + list.id">
-            <!-- side-voting -->
-            <div class="side-voting desktop-only">
-                <i class="v-icon v-up-fat side-vote-icon"
-                   :class="upvoted ? 'go-primary animated bounceIn' : 'go-gray'"
-                   @click="voteUp"></i>
+		<div class="submission-item submission-wrapper"
+		     v-show="!hidden"
+		     :id="'submission' + list.id">
+			<!-- side-voting -->
+			<div class="side-voting desktop-only">
+				<i class="v-icon v-up-fat side-vote-icon"
+				   :class="upvoted ? 'go-primary animated bounceIn' : 'go-gray'"
+				   @click="voteUp"></i>
 
-                <div class="user-select vote-number">
-                    {{ points }}
-                </div>
+				<div class="user-select vote-number">
+					{{ points }}
+				</div>
 
-                <i class="v-icon v-down-fat side-vote-icon"
-                   @click="voteDown"
-                   :class="downvoted ? 'go-red animated bounceIn' : 'go-gray'"></i>
-            </div>
+				<i class="v-icon v-down-fat side-vote-icon"
+				   @click="voteDown"
+				   :class="downvoted ? 'go-red animated bounceIn' : 'go-gray'"></i>
+			</div>
 
-            <article class="flex1" v-bind:class="'box-typical profile-post ' + list.type">
-                <!-- content -->
-                <div class="profile-post-content">
-                    <text-submission v-if="list.type == 'text'" :submission="list" :nsfw="nsfw" :full="full"
-                                     @bookmark="bookmark"
-                                     :url="'/c/' + list.channel_name + '/' + list.slug"
-                                     :comments="list.comments_number" :bookmarked="bookmarked"
-                                     @report="report" @hide="hide" @nsfw="markAsNSFW" @sfw="markAsSFW"
-                                     @destroy="destroy" @approve="approve" @disapprove="disapprove"
-                                     @removethumbnail="removeThumbnail" :upvoted="upvoted" :downvoted="downvoted"
-                                     @upvote="voteUp" @downvote="voteDown" :points="points"
-                    ></text-submission>
+			<article class="flex1"
+			         v-bind:class="'box-typical profile-post ' + list.type">
+				<!-- content -->
+				<div class="profile-post-content">
+					<text-submission v-if="list.type == 'text'"
+					                 :submission="list"
+					                 :nsfw="nsfw"
+					                 :full="full"
+					                 @bookmark="bookmark"
+					                 :url="'/c/' + list.channel_name + '/' + list.slug"
+					                 :comments="list.comments_number"
+					                 :bookmarked="bookmarked"
+					                 @report="report"
+					                 @hide="hide"
+					                 @nsfw="markAsNSFW"
+					                 @sfw="markAsSFW"
+					                 @destroy="destroy"
+					                 @approve="approve"
+					                 @disapprove="disapprove"
+					                 @removethumbnail="removeThumbnail"
+					                 :upvoted="upvoted"
+					                 :downvoted="downvoted"
+					                 @upvote="voteUp"
+					                 @downvote="voteDown"
+					                 :points="points"></text-submission>
 
-                    <img-submission v-if="list.type == 'img'" :submission="list" :nsfw="nsfw" :full="full"
-                                    @zoom="showPhotoViewer" @bookmark="bookmark"
-                                    :url="'/c/' + list.channel_name + '/' + list.slug" :comments="list.comments_number"
-                                    :bookmarked="bookmarked"
-                                    @report="report" @hide="hide" @nsfw="markAsNSFW" @sfw="markAsSFW" @destroy="destroy"
-                                    @approve="approve" @disapprove="disapprove" @removethumbnail="removeThumbnail"
-                                    :upvoted="upvoted" :downvoted="downvoted" @upvote="voteUp" @downvote="voteDown"
-                                    :points="points"
-                    ></img-submission>
+					<img-submission v-if="list.type == 'img'"
+					                :submission="list"
+					                :nsfw="nsfw"
+					                :full="full"
+					                @zoom="showPhotoViewer"
+					                @bookmark="bookmark"
+					                :url="'/c/' + list.channel_name + '/' + list.slug"
+					                :comments="list.comments_number"
+					                :bookmarked="bookmarked"
+					                @report="report"
+					                @hide="hide"
+					                @nsfw="markAsNSFW"
+					                @sfw="markAsSFW"
+					                @destroy="destroy"
+					                @approve="approve"
+					                @disapprove="disapprove"
+					                @removethumbnail="removeThumbnail"
+					                :upvoted="upvoted"
+					                :downvoted="downvoted"
+					                @upvote="voteUp"
+					                @downvote="voteDown"
+					                :points="points"></img-submission>
 
-                    <gif-submission v-if="list.type == 'gif'" :submission="list" :nsfw="nsfw" :full="full"
-                                    @play-gif="showGifPlayer" @bookmark="bookmark"
-                                    :url="'/c/' + list.channel_name + '/' + list.slug" :comments="list.comments_number"
-                                    :bookmarked="bookmarked"
-                                    @report="report" @hide="hide" @nsfw="markAsNSFW" @sfw="markAsSFW" @destroy="destroy"
-                                    @approve="approve" @disapprove="disapprove" @removethumbnail="removeThumbnail"
-                                    :upvoted="upvoted" :downvoted="downvoted" @upvote="voteUp" @downvote="voteDown"
-                                    :points="points"
-                    ></gif-submission>
+					<gif-submission v-if="list.type == 'gif'"
+					                :submission="list"
+					                :nsfw="nsfw"
+					                :full="full"
+					                @bookmark="bookmark"
+					                @play-gif="showGifPlayer"
+					                :url="'/c/' + list.channel_name + '/' + list.slug"
+					                :comments="list.comments_number"
+					                :bookmarked="bookmarked"
+					                @report="report"
+					                @hide="hide"
+					                @nsfw="markAsNSFW"
+					                @sfw="markAsSFW"
+					                @destroy="destroy"
+					                @approve="approve"
+					                @disapprove="disapprove"
+					                @removethumbnail="removeThumbnail"
+					                :upvoted="upvoted"
+					                :downvoted="downvoted"
+					                @upvote="voteUp"
+					                @downvote="voteDown"
+					                :points="points"></gif-submission>
 
-                    <link-submission v-if="list.type == 'link'" :submission="list" :nsfw="nsfw" :full="full"
-                                     @embed="showEmbed" @bookmark="bookmark"
-                                     :url="'/c/' + list.channel_name + '/' + list.slug"
-                                     :comments="list.comments_number" :bookmarked="bookmarked"
-                                     @report="report" @hide="hide" @nsfw="markAsNSFW" @sfw="markAsSFW"
-                                     @destroy="destroy" @approve="approve" @disapprove="disapprove"
-                                     @removethumbnail="removeThumbnail" :upvoted="upvoted" :downvoted="downvoted"
-                                     @upvote="voteUp" @downvote="voteDown" :points="points"
-                    ></link-submission>
-                </div>
+					<link-submission v-if="list.type == 'link'"
+					                 :submission="list"
+					                 :nsfw="nsfw"
+					                 :full="full"
+					                 @embed="showEmbed"
+					                 @bookmark="bookmark"
+					                 :url="'/c/' + list.channel_name + '/' + list.slug"
+					                 :comments="list.comments_number"
+					                 :bookmarked="bookmarked"
+					                 @report="report"
+					                 @hide="hide"
+					                 @nsfw="markAsNSFW"
+					                 @sfw="markAsSFW"
+					                 @destroy="destroy"
+					                 @approve="approve"
+					                 @disapprove="disapprove"
+					                 @removethumbnail="removeThumbnail"
+					                 :upvoted="upvoted"
+					                 :downvoted="downvoted"
+					                 @upvote="voteUp"
+					                 @downvote="voteDown"
+					                 :points="points"></link-submission>
+				</div>
 
-                <!-- full page modals -->
-                <photo-viewer v-if="photoViewer" :bookmarked="bookmarked" :points="points" @close="closeViwer"
-                              :list="list" :photoindex="photoViewerIndex"
-                              :upvoted="upvoted" :downvoted="downvoted" @bookmark="bookmark" @upvote="voteUp"
-                              @downvote="voteDown"
-                ></photo-viewer>
-
-                <embed-viewer v-if="embedViewer" :bookmarked="bookmarked" :points="points" @close="closeEmbed"
-                              :list="list"
-                              :upvoted="upvoted" :downvoted="downvoted" @bookmark="bookmark" @upvote="voteUp"
-                              @downvote="voteDown"
-                ></embed-viewer>
-
-                <gif-player v-if="gifPlayer" :bookmarked="bookmarked" :points="points" @close="closeGifPlayer"
-                            :list="list"
-                            :upvoted="upvoted" :downvoted="downvoted" @bookmark="bookmark" @upvote="voteUp"
-                            @downvote="voteDown"
-                ></gif-player>
-
-                <report-submission :submission="list" :visible.sync="showReportModal"
-                                   v-if="showReportModal"></report-submission>
-            </article>
-        </div>
-    </transition>
+				<report-submission :submission="list"
+				                   :visible.sync="showReportModal"
+				                   v-if="showReportModal"></report-submission>
+			</article>
+		</div>
+	</transition>
 </template>
 
 <script>
-    import TextSubmission from '../components/submission/TextSubmission.vue';
-    import LinkSubmission from '../components/submission/LinkSubmission.vue';
-    import ImgSubmission from '../components/submission/ImgSubmission.vue';
-    import GifSubmission from '../components/submission/GifSubmission.vue';
-    import PhotoViewer from '../components/PhotoViewer.vue';
-    import ReportSubmission from '../components/ReportSubmission.vue';
-    import EmbedViewer from '../components/Embed.vue';
-    import GifPlayer from '../components/GifPlayer.vue';
-    import Helpers from '../mixins/Helpers';
+import TextSubmission from '../components/submission/TextSubmission.vue';
+import LinkSubmission from '../components/submission/LinkSubmission.vue';
+import ImgSubmission from '../components/submission/ImgSubmission.vue';
+import GifSubmission from '../components/submission/GifSubmission.vue';
+import ReportSubmission from '../components/ReportSubmission.vue';
+import Helpers from '../mixins/Helpers';
 
-    export default {
-        props: ['list', 'full'],
+export default {
+    props: ['list', 'full'],
 
-        mixins: [Helpers],
+    mixins: [Helpers],
 
-        components: {
-            ReportSubmission,
-            TextSubmission,
-            LinkSubmission,
-            ImgSubmission,
-            GifSubmission,
-            PhotoViewer,
-            EmbedViewer,
-            GifPlayer,
-        },
+    components: {
+        ReportSubmission,
+        TextSubmission,
+        LinkSubmission,
+        ImgSubmission,
+        GifSubmission
+    },
 
-        data () {
-            return {
-                hidden: false,
-                sendingQuickComment: false,
-                quickComment: '',
-                photoViewerIndex: null,
-                photoViewer: false,
-                embedViewer: false,
-                gifPlayer: false,
-                showReportModal: false
+    data() {
+        return {
+            hidden: false,
+            sendingQuickComment: false,
+            quickComment: '',
+            embedViewer: false,
+            gifPlayer: false,
+            showReportModal: false
+        };
+    },
+
+    computed: {
+        upvoted: {
+            get() {
+                return Store.state.submissions.upVotes.indexOf(this.list.id) !== -1 ? true : false;
+            },
+
+            set() {
+                if (this.currentVote === 'upvote') {
+                    this.list.upvotes--;
+                    let index = Store.state.submissions.upVotes.indexOf(this.list.id);
+                    Store.state.submissions.upVotes.splice(index, 1);
+
+                    return;
+                }
+
+                if (this.currentVote === 'downvote') {
+                    this.list.downvotes--;
+                    let index = Store.state.submissions.downVotes.indexOf(this.list.id);
+                    Store.state.submissions.downVotes.splice(index, 1);
+                }
+
+                this.list.upvotes++;
+                Store.state.submissions.upVotes.push(this.list.id);
             }
         },
 
-        created () {
-            this.$eventHub.$on('photo-viewer', this.showPhotoViewer);
-            this.$eventHub.$on('scape', this.closeViwer);
+        downvoted: {
+            get() {
+                return Store.state.submissions.downVotes.indexOf(this.list.id) !== -1 ? true : false;
+            },
+
+            set() {
+                if (this.currentVote === 'downvote') {
+                    this.list.downvotes--;
+                    let index = Store.state.submissions.downVotes.indexOf(this.list.id);
+                    Store.state.submissions.downVotes.splice(index, 1);
+
+                    return;
+                }
+
+                if (this.currentVote === 'upvote') {
+                    this.list.upvotes--;
+                    let index = Store.state.submissions.upVotes.indexOf(this.list.id);
+                    Store.state.submissions.upVotes.splice(index, 1);
+                }
+
+                this.list.downvotes++;
+                Store.state.submissions.downVotes.push(this.list.id);
+            }
         },
 
-        computed: {
-            upvoted: {
-                get() {
-                    return Store.state.submissions.upVotes.indexOf(this.list.id) !== -1 ? true : false;
-                },
+        bookmarked: {
+            get() {
+                return Store.state.bookmarks.submissions.indexOf(this.list.id) !== -1 ? true : false;
+            },
 
-                set() {
-                    if (this.currentVote === 'upvote') {
-                        this.list.upvotes--;
-                        let index = Store.state.submissions.upVotes.indexOf(this.list.id);
-                        Store.state.submissions.upVotes.splice(index, 1);
+            set() {
+                if (Store.state.bookmarks.submissions.indexOf(this.list.id) !== -1) {
+                    let index = Store.state.bookmarks.submissions.indexOf(this.list.id);
+                    Store.state.bookmarks.submissions.splice(index, 1);
 
-                        return;
-                    }
-
-                    if (this.currentVote === 'downvote') {
-                        this.list.downvotes--;
-                        let index = Store.state.submissions.downVotes.indexOf(this.list.id);
-                        Store.state.submissions.downVotes.splice(index, 1);
-                    }
-
-                    this.list.upvotes++;
-                    Store.state.submissions.upVotes.push(this.list.id);
+                    return;
                 }
-            },
 
-            downvoted: {
-                get() {
-                    return Store.state.submissions.downVotes.indexOf(this.list.id) !== -1 ? true : false;
-                },
+                Store.state.bookmarks.submissions.push(this.list.id);
+            }
+        },
 
-                set() {
-                    if (this.currentVote === 'downvote') {
-                        this.list.downvotes--;
-                        let index = Store.state.submissions.downVotes.indexOf(this.list.id);
-                        Store.state.submissions.downVotes.splice(index, 1);
+        points() {
+            let total = this.list.upvotes - this.list.downvotes;
 
-                        return;
-                    }
+            if (total < 0) return 0;
 
-                    if (this.currentVote === 'upvote') {
-                        this.list.upvotes--;
-                        let index = Store.state.submissions.upVotes.indexOf(this.list.id);
-                        Store.state.submissions.upVotes.splice(index, 1);
-                    }
+            return total;
+        },
 
-                    this.list.downvotes++;
-                    Store.state.submissions.downVotes.push(this.list.id);
-                }
-            },
-
-            bookmarked: {
-                get() {
-                    return Store.state.bookmarks.submissions.indexOf(this.list.id) !== -1 ? true : false;
-                },
-
-                set() {
-                    if (Store.state.bookmarks.submissions.indexOf(this.list.id) !== -1) {
-                        let index = Store.state.bookmarks.submissions.indexOf(this.list.id);
-                        Store.state.bookmarks.submissions.splice(index, 1);
-
-                        return;
-                    }
-
-                    Store.state.bookmarks.submissions.push(this.list.id);
-                }
-            },
-
-            points() {
-                let total = this.list.upvotes - this.list.downvotes;
-
-                if (total < 0) return 0;
-
-                return total;
-            },
-
-            /**
+        /**
              * Does the auth user own the submission
              *
              * @return Boolean
              */
-            owns() {
-                return auth.id == this.list.owner.id;
-            },
+        owns() {
+            return auth.id == this.list.owner.id;
+        },
 
-            /**
+        /**
              * Whether or not user wants to see NSFW content's image
              *
              * (Hint: The base idea is that we don't display NSFW content)
@@ -227,136 +250,155 @@
              *
              * @return boolean
              */
-            nsfw() {
-                return this.list.nsfw && !auth.nsfwMedia;
-            },
+        nsfw() {
+            return this.list.nsfw && !auth.nsfwMedia;
+        },
 
-            /**
+        /**
              * The current vote type. It's being used to optimize the voing request on the server-side.
              *
              * @return mixed
              */
-            currentVote () {
-                return this.upvoted ? "upvote" : this.downvoted ? "downvote" : null;
-            },
-
-            date () {
-                return moment(this.list.created_at).utc(moment().format("Z")).fromNow()
-            },
+        currentVote() {
+            return this.upvoted ? 'upvote' : this.downvoted ? 'downvote' : null;
         },
 
-        methods: {
-            removeThumbnail() {
-                this.list.data.thumbnail = null
-                this.list.data.img = null
+        date() {
+            return moment(this.list.created_at)
+                .utc(moment().format('Z'))
+                .fromNow();
+        }
+    },
 
-                axios.post('/remove-thumbnail', { id: this.list.id });
-            },
+    methods: {
+        removeThumbnail() {
+            this.list.data.thumbnail = null;
+            this.list.data.img = null;
 
-            /**
+            axios.post('/remove-thumbnail', { id: this.list.id });
+        },
+
+        /**
              * marks the submission as NSFW (not safe for work)
              *
              * @return void
              */
-            markAsNSFW() {
-                this.list.nsfw = true;
+        markAsNSFW() {
+            this.list.nsfw = true;
 
-                axios.post('/mark-submission-nsfw', {
+            axios
+                .post('/mark-submission-nsfw', {
                     id: this.list.id
-                }).catch(() => {
-                    this.list.nsfw = false;
                 })
-            },
+                .catch(() => {
+                    this.list.nsfw = false;
+                });
+        },
 
-            /**
+        /**
              * marks the submission as NSFW (not safe for work)
              *
              * @return void
              */
-            markAsSFW() {
-                this.list.nsfw = false;
+        markAsSFW() {
+            this.list.nsfw = false;
 
-                axios.post('/mark-submission-sfw', {
+            axios
+                .post('/mark-submission-sfw', {
                     id: this.list.id
-                }).catch(() => {
+                })
+                .catch(() => {
                     this.list.nsfw = true;
                 });
-            },
+        },
 
-            /**
+        /**
              * hide(block) submission
              *
              * @return void
              */
-            hide () {
-                if (this.isGuest) {this.mustBeLogin(); return;}
+        hide() {
+            if (this.isGuest) {
+                this.mustBeLogin();
+                return;
+            }
 
-                this.hidden = true;
+            this.hidden = true;
 
-                axios.post('/hide-submission', {
+            axios
+                .post('/hide-submission', {
                     submission_id: this.list.id
-                }).catch(() => {
+                })
+                .catch(() => {
                     this.hidden = false;
                 });
-            },
+        },
 
-            /**
+        /**
              * Deletes the submission. Only the owner is allowed to make such decision.
              *
              * @return void
              */
-            destroy () {
-                axios.post('/destroy-submission', { id: this.list.id });
+        destroy() {
+            axios.post('/destroy-submission', { id: this.list.id });
 
-                if (this.full) {
-                    this.$router.push('/');
-                } else {
-                    this.hidden = true;
-                }
-            },
+            if (this.full) {
+                this.$router.push('/');
+            } else {
+                this.hidden = true;
+            }
+        },
 
-            /**
+        /**
              * Approves the submission. Only the moderators of channel are allowed to do this.
              *
              * @return void
              */
-            approve() {
-                this.list.approved_at = this.now();
+        approve() {
+            this.list.approved_at = this.now();
 
-                axios.post('/approve-submission', {
+            axios
+                .post('/approve-submission', {
                     submission_id: this.list.id
-                }).catch(() => {
-                    this.list.approved_at = null;
                 })
-            },
+                .catch(() => {
+                    this.list.approved_at = null;
+                });
+        },
 
-            /**
+        /**
              * Disapproves the submission. Only the moderators of channel are allowed to do this.
              *
              * @return void
              */
-            disapprove() {
-                this.hidden = true;
+        disapprove() {
+            this.hidden = true;
 
-                axios.post('/disapprove-submission', {
+            axios
+                .post('/disapprove-submission', {
                     submission_id: this.list.id
-                }).catch(() => {
+                })
+                .catch(() => {
                     this.hidden = false;
                 });
-            },
+        },
 
-            /**
+        /**
              *  Report submission
              *
              *  @return void
              */
-            report() {
-                if (this.isGuest) {this.mustBeLogin(); return;}
+        report() {
+            if (this.isGuest) {
+                this.mustBeLogin();
+                return;
+            }
 
-                this.showReportModal = true;
-            },
+            this.showReportModal = true;
+        },
 
-            voteUp: _.debounce(function () {
+        voteUp: _.debounce(
+            function() {
                 if (this.isGuest) {
                     this.mustBeLogin();
                     return;
@@ -375,9 +417,13 @@
                 }
 
                 this.upvoted = true;
-            }, 200, { leading: true, trailing: false }),
+            },
+            200,
+            { leading: true, trailing: false }
+        ),
 
-            voteDown: _.debounce(function () {
+        voteDown: _.debounce(
+            function() {
                 if (this.isGuest) {
                     this.mustBeLogin();
                     return;
@@ -396,9 +442,13 @@
                 }
 
                 this.downvoted = true;
-            }, 200, { leading: true, trailing: false }),
+            },
+            200,
+            { leading: true, trailing: false }
+        ),
 
-            bookmark: _.debounce(function () {
+        bookmark: _.debounce(
+            function() {
                 if (this.isGuest) {
                     this.mustBeLogin();
                     return;
@@ -406,40 +456,34 @@
 
                 this.bookmarked = !this.bookmarked;
 
-                axios.post('/bookmark-submission', {
-                    id: this.list.id
-                }).catch(() => {
-                    this.bookmarked = !this.bookmarked;
-                });
-            }, 200, { leading: true, trailing: false }),
-
-            showPhotoViewer(index = null){
-                if (index !== null) {
-                    this.photoViewerIndex = index;
-                }
-
-                this.photoViewer = true;
+                axios
+                    .post('/bookmark-submission', {
+                        id: this.list.id
+                    })
+                    .catch(() => {
+                        this.bookmarked = !this.bookmarked;
+                    });
             },
+            200,
+            { leading: true, trailing: false }
+        ),
 
-            showEmbed() {
-                this.embedViewer = true
-            },
+        showPhotoViewer(image) {
+            Store.photoViewer.image = image;
+            Store.photoViewer.submission = this.list;
+            Store.photoViewer.show = true;
+        },
 
-            showGifPlayer() {
-                this.gifPlayer = true
-            },
+        showEmbed() {
+            Store.embedViewer.submission = this.list;
+            Store.embedViewer.show = true;
+        },
 
-            closeViwer() {
-                this.photoViewer = false
-            },
-
-            closeEmbed() {
-                this.embedViewer = false
-            },
-
-            closeGifPlayer() {
-                this.gifPlayer = false
-            }
+        showGifPlayer(gif) {
+            Store.gifPlayer.gif = gif;
+            Store.gifPlayer.submission = this.list;
+            Store.gifPlayer.show = true;
         }
     }
+};
 </script>

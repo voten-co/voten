@@ -70,7 +70,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/comment', 'CommentController@store');
     Route::post('/edit-comment', 'CommentController@patch');
     Route::get('/submission-comments', 'CommentController@index');
-    Route::get('/search-mentionables', 'SearchController@mentions');
 
     // Channel
     Route::post('/channel', 'ChannelController@store');

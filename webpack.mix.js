@@ -17,7 +17,6 @@ mix.js('resources/assets/js/app.js', 'public/js')
        'vue-router',
        'laravel-echo',
        'element-ui',
-       'vue-clickaway',
        'moment-timezone',
        'vue-template-compiler',
    ])

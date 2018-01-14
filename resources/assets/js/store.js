@@ -9,24 +9,24 @@ import subscribedChannels from './store/subscribedChannels';
 import bookmarkedUsers from './store/bookmarkedUsers'; 
 
 window.Store = {
-    // state: data stored in the Store.state gets synced via the LocalStorage; 
+    // state: data stored in the Store.state gets synced via the LocalStorage;
     // which means it's the same accross all the open windows.
     state: {
         submissions: {
             upVotes: [],
-            downVotes: [],
+            downVotes: []
         },
 
         comments: {
             upVotes: [],
-            downVotes: [],
+            downVotes: []
         },
 
         bookmarks: {
             submissions: [],
             comments: [],
             channels: [],
-            users: [],
+            users: []
         },
 
         blocks: {
@@ -45,38 +45,37 @@ window.Store = {
         messages: [],
         contacts: [],
 
-        subscribedChannels: [],
+        subscribedChannels: []
     },
 
     methods: {
-        /**
-         * Mark all notifications as seen. 
-         */
+        // Mark all notifications as seen.
         seenAllNotifications() {
             axios.post('/notifications/seen').then(() => {
                 Store.state.notifications.forEach((element, index) => {
-                    if (! element.read_at) {
-                        element.read_at = moment().utc().format('YYYY-MM-DD HH:mm:ss'); 
+                    if (!element.read_at) {
+                        element.read_at = moment()
+                            .utc()
+                            .format('YYYY-MM-DD HH:mm:ss');
                     }
                 });
-            }); 
+            });
         }
-    }, 
+    },
 
     page: {
-        channel, 
+        channel,
         submission,
         user,
-        home, 
+        home,
         bookmarkedSubmissions,
         bookmarkedComments,
         bookmarkedChannels,
-        bookmarkedUsers, 
+        bookmarkedUsers,
         subscribedChannels
     },
 
-
-    // client-side settings: There's not need to save these settings in the server-side. 
+    // client-side settings: There's not need to save these settings in the server-side.
     // However, we do sync them to the cloud.
     settings: {
         feed: {
@@ -84,30 +83,48 @@ window.Store = {
             excludeDownvotedSubmissions: true,
             excludeBookmarkedSubmissions: false,
             submissionsFilter: 'subscribed',
-            submissionsType: 'All', 
+            submissionsType: 'All'
         },
 
         rightSidebar: {
-            channelsFilter: 'subscribed', 
-            channelsLimit: 15, 
-            showChannelAvatars: true, 
+            channelsFilter: 'subscribed',
+            channelsLimit: 15,
+            showChannelAvatars: true,
             color: 'Gray'
         }
-    }, 
+    },
 
     contentRouter: 'content',
-    showPreferences: false, 
-    showNotifications: false, 
-    showNewChannelModal: false, 
-    showFeedbackModal: false, 
-    showNewSubmissionModal: false, 
-    showKeyboardShortcutsGuide: false, 
-    showMarkdownGuide: false, 
-    showAuthinticationModal: false, 
+    showPreferences: false,
+    showNotifications: false,
+    showNewChannelModal: false,
+    showFeedbackModal: false,
+    showNewSubmissionModal: false,
+    showKeyboardShortcutsGuide: false,
+    showMarkdownGuide: false,
+    showAuthinticationModal: false,
 
+    photoViewer: {
+        show: false,
+        image: [],
+        submission: []
+    },
+    gifPlayer: {
+        show: false,
+        gif: [],
+        submission: []
+    },
+    embedViewer: {
+        show: false,
+        submission: []
+    },
 
     // Open tab's unique ID:
-    pageUID: '_' + Math.random().toString(36).substr(2, 9),
+    pageUID:
+        '_' +
+        Math.random()
+            .toString(36)
+            .substr(2, 9),
 
-    initialFilled: false,
+    initialFilled: false
 };

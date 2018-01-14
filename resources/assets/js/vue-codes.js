@@ -61,6 +61,9 @@ import Helpers from './mixins/Helpers';
 import FontLoader from './mixins/FontLoader';
 import router from './routes';
 import Announcement from './components/Announcement.vue';
+import PhotoViewer from './components/PhotoViewer.vue';
+import GifPlayer from './components/GifPlayer.vue';
+import EmbedViewer from './components/Embed.vue';
 
 
 /**
@@ -95,10 +98,13 @@ window.app = new Vue({
         Announcement, 
         RightSidebar,
         GuestSidebar,
+        PhotoViewer, 
+        EmbedViewer, 
         LeftSidebar,
         SearchModal,
         LoginModal,
         NewChannel,
+        GifPlayer, 
         NotFound,
         Messages,
         Settings, 
