@@ -18,8 +18,7 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
     "laravel-mix": "^1.2.2",
-    "lodash": "^4.16.2",
-    "video.js": "^5.16.0"
+    "lodash": "^4.16.2"
   },
   "dependencies": {
     "axios": "^0.16.1",
@@ -33,7 +32,6 @@
     "push.js": "^1.0.5",
     "pusher-js": "^4.1.0",
     "vue": "^2.5.2",
-    "vue-crop": "^1.0.1",
     "vue-infinite-scroll": "^2.0.2",
     "vue-progressbar": "^0.7.3",
     "vue-recaptcha": "^1.1.0",
