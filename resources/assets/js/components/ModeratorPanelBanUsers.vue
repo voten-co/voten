@@ -107,8 +107,6 @@
             banUser() {
                 this.sending = true;
 
-                console.log(Store.page.channel.temp.name);
-
                 axios.post('/ban-user', {
                     username: this.username,
                     description: this.description,

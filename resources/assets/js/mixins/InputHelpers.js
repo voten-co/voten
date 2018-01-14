@@ -31,8 +31,6 @@ export default {
             let before = textArea.value.substring(0, start);
             let after = textArea.value.substring(end + 1, textArea.value.length);
 
-            console.log(after);
-
             textArea.value = before + replaceWith + after;
 
             // to make vue's reactivity work:
