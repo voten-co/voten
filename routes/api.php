@@ -119,7 +119,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     // Photo uploading
     Route::post('/user-avatar-crop', 'PhotoController@cropUserAvatar');
     Route::post('/upload-temp-avatar', 'PhotoController@uploadTempAvatar');
-    Route::post('/channel-avatar', 'PhotoController@channelAvatarAPI');
     Route::post('/channel-avatar-crop', 'PhotoController@cropChannelAvatar');
     Route::post('/photo', 'PhotoController@store');
     Route::post('/gif', 'GifController@store');

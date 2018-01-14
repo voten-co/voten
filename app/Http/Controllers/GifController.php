@@ -36,7 +36,7 @@ class GifController extends Controller
 
         $file = $request->file('file');
 
-        $filename = time() . str_random(7);
+        $filename = time() . str_random(16);
 
         $file->storeAs('submissions/gif', $filename . '.gif', 'local');
 

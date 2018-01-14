@@ -24,7 +24,7 @@ trait PhotoTools
      */
     protected function createThumbnail($url, $width, $height, $folder = 'submissions/img/thumbs')
     {
-        $filename = time().str_random(7).'.jpg';
+        $filename = time().str_random(16).'.jpg';
         $image = Image::make($url);
 
         if ($image->width() > 1200) {
@@ -57,7 +57,7 @@ trait PhotoTools
      */
     protected function cropImg($url, $width, $height, $x, $y, $folder = 'users/avatars')
     {
-        $filename = time().str_random(7).'.png';
+        $filename = time().str_random(16).'.png';
         $image = Image::make($url);
         $image = $image->crop($width, $height, $x, $y);
 
@@ -87,7 +87,7 @@ trait PhotoTools
      */
     protected function uploadImg($image, $folder = 'submissions/img')
     {
-        $filename = time().str_random(7).'.jpg';
+        $filename = time().str_random(16).'.jpg';
         $image = Image::make($image->getRealPath());
 
         if (!$image->filesize()) {
@@ -115,7 +115,7 @@ trait PhotoTools
      */
     protected function uploadImgPNG($image, $folder = 'submissions/img')
     {
-        $filename = time().str_random(7).'.png';
+        $filename = time().str_random(16).'.png';
         $image = Image::make($image->getRealPath());
 
         $image->encode('png');
@@ -135,7 +135,7 @@ trait PhotoTools
      */
     protected function downloadImg($url, $folder = 'submissions/link')
     {
-        $filename = time().str_random(7).'.jpg';
+        $filename = time().str_random(16).'.jpg';
         $image = Image::make($url);
 
         if ($image->filesize() > 300000) { // 300kb

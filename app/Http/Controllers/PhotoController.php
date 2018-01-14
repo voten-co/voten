@@ -141,7 +141,7 @@ class PhotoController extends Controller
 
     protected function createAvatar($image, $folder = 'channels/avatars')
     {
-        $filename = time().str_random(7).'.png';
+        $filename = time().str_random(16).'.png';
         $image = Image::make($image->getRealPath());
 
         $image = $image->resize(250, 250);
