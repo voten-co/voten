@@ -46,31 +46,4 @@ class SearchController extends Controller
             return [];
         }
     }
-
-    /**
-     * Searches for users to be mentioned.
-     *
-     * @param Request $request
-     * @retur \Illuminate\Support\Collection
-     */
-    public function mentions(Request $request)
-    {
-        if ($request->searched) {
-            return $this->UsersFilter(
-                    User::search($request->searched)
-                        ->take(5)
-                        ->get()
-            );
-        }
-
-        // latest contacts are probably to be mentioned so:
-        return $this->UsersFilter(
-                Auth::user()
-                    ->contacts()
-                    ->orderBy('created_at', 'desc')
-                    ->take(5)
-                    ->get()
-                    ->pluck('contact')
-        );
-    }
 }
