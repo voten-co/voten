@@ -33,6 +33,7 @@
 				<quick-emoji-picker v-if="quickEmojiPicker.show"
 				                    @close="quickEmojiPicker.show = false"
 				                    :message="message"
+                                    textareaid="comment-form-textarea"
 				                    :starter="quickEmojiPicker.starter"
 				                    @pick="pick"></quick-emoji-picker>
 			</transition>
@@ -41,6 +42,7 @@
 				<quick-mentioner v-if="quickMentioner.show"
 				                 @close="quickMentioner.show = false"
 				                 :message="message"
+                                 textareaid="comment-form-textarea"
 				                 @pick="pick"
 				                 :suggestions="commentors"
 				                 :starter="quickMentioner.starter"></quick-mentioner>
@@ -50,6 +52,7 @@
 				<quick-channel-picker v-if="quickChannelPicker.show"
 				                 @close="quickChannelPicker.show = false"
 				                 :message="message"
+                                 textareaid="comment-form-textarea"
 				                 @pick="pick"
 				                 :starter="quickChannelPicker.starter"></quick-channel-picker>
 			</transition>

@@ -45,7 +45,7 @@ export default {
 
     mixins: [InputHelpers],
 
-    props: ["message", "starter"],
+    props: ["message", "starter", "textareaid"],
 
     computed: {
         nothingFound() {
@@ -74,7 +74,7 @@ export default {
          * @return string 
          */
         searched() {
-            let cursorPosition = this.getCursorPositionById("comment-form-textarea");
+            let cursorPosition = this.getCursorPositionById(this.textareaid);
 
             return this.message.substr(this.starter + 1, cursorPosition - this.starter - 1);
         }
