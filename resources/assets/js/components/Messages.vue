@@ -183,6 +183,7 @@
 
 				<div class="overflow-auto"
 				     v-if="hasMessages"
+				     ref="scrollable"
 				     id="scrollable-wrapper">
 					<div class="flex-center"
 					     v-if="moreToLoad">
@@ -201,11 +202,14 @@
 					</message>
 				</div>
 
-				<div class="new-message-notify user-select"
-				     v-if="newMessagesNotifier"
-				     @click="downToNewMessages">
-					{{ newMessagesNotifier }} new messages
-				</div>
+				<el-button class="new-message-notify user-select"
+				           size="small"
+				           plain
+				           icon="el-icon-arrow-down"
+				           v-if="newMessagesNotifier"
+				           @click="downToNewMessages">
+					{{ newMessagesNotifier === 1 ? '1 new message' : (newMessagesNotifier + ' new messages') }}
+				</el-button>
 			</div>
 
 			<!-- Chat Textarea -->
@@ -715,31 +719,24 @@ export default {
         },
 
         /**
-             * Scrolls the chat page to the bottom of the chat window.
-             *
-             * @return void
-             */
+         * Scrolls the chat page to the bottom of the chat window.
+         *
+         * @return void
+         */
         downToNewMessages() {
             this.newMessagesNotifier = 0;
             this.chatScroll();
         },
 
         /**
-             * Scrolls the chat page to the bottom of the chat window.
-             *
-             * @return void
-             */
+         * Scrolls the chat page to the bottom of the chat window.
+         *
+         * @return void
+         */
         chatScroll() {
-            setTimeout(function() {
-                $('#scrollable-wrapper')
-                    .stop()
-                    .animate(
-                        {
-                            scrollTop: $('#scrollable-wrapper')[0].scrollHeight
-                        },
-                        500
-                    );
-            }, 200);
+            this.$nextTick(() => {
+                this.scrollToBottom('scrollable-wrapper');
+            });
         },
 
         /**
@@ -755,9 +752,9 @@ export default {
                     this.updateLastMessage(e.contact_id, e.message);
 
                     if (this.currentContactId == e.contact_id) {
-                        let chatBox = $('#scrollable-wrapper');
+                        let chatBox = this.$refs.scrollable;
 
-                        if (chatBox[0].scrollHeight - chatBox.scrollTop() < chatBox.outerHeight() + 500) {
+                        if (chatBox.scrollHeight - chatBox.scrollTop < chatBox.offsetHeight + 500) {
                             this.chatScroll();
                         } else {
                             this.newMessagesNotifier++;
@@ -851,8 +848,6 @@ export default {
 
             let msgText = this.message;
             this.message = '';
-
-            $(event.target).css('height', 43);
 
             if (this.isEmpty(msgText)) return;
 

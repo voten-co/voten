@@ -72,6 +72,4 @@ if (Laravel.env == 'local') {
 	});
 }
 
-
-require('./libs/Jcrop');
 window.emojione = require('./libs/emojione.min');

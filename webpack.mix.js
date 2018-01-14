@@ -10,7 +10,6 @@ mix.js('resources/assets/js/app.js', 'public/js')
        'vue',
        'axios',
        'lodash',
-       'jquery',
        'vue-ua',
        'pusher-js',
        'vue-router',
@@ -23,7 +22,6 @@ mix.js('resources/assets/js/app.js', 'public/js')
        vue: 'Vue',
        lodash: '_',
        'pusher-js': 'Pusher',
-       jquery: ['$', 'jQuery'],
    });
 
 // run versioning on production only

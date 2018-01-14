@@ -5,8 +5,8 @@ export default {
         return {
             Store,
             auth,
-            csrf: window.Laravel.csrfToken,
-        }
+            csrf: window.Laravel.csrfToken
+        };
     },
 
     computed: {
@@ -18,12 +18,12 @@ export default {
         isGuest() {
             return auth.isGuest;
         },
-        
+
         /**
-        * Is the user an authinticated user 
-        *
-        * @return bool
-        */
+         * Is the user an authinticated user
+         *
+         * @return bool
+         */
         isLoggedIn() {
             return !auth.isGuest;
         },
@@ -36,14 +36,14 @@ export default {
         isMobile() {
             return auth.isMobileDevice;
         },
-        
+
         /**
          * Is visitor browsing via a desktop device
          *
          * @return bool
          */
         isDesktop() {
-            return ! auth.isMobileDevice;
+            return !auth.isMobileDevice;
         },
 
         /**
@@ -53,7 +53,7 @@ export default {
          */
         isModerating() {
             return Store.state.moderatingAt.length > 0;
-        },
+        }
     },
 
     methods: {
@@ -106,8 +106,7 @@ export default {
          * @return string
          */
         str_limit(str, length) {
-            if (str.length > length)
-                return str = str.substring(0, length) + '...';
+            if (str.length > length) return (str = str.substring(0, length) + '...');
             return str;
         },
 
@@ -118,11 +117,14 @@ export default {
          * @return string
          */
         str_slug(str) {
-            return str.toString().toLowerCase().trim()
-                      .replace(/\s+/g, '-')
-                      .replace(/&/g, '-and-')
-                      .replace(/[^\w\-]+/g, '')
-                      .replace(/\-\-+/g, '-');
+            return str
+                .toString()
+                .toLowerCase()
+                .trim()
+                .replace(/\s+/g, '-')
+                .replace(/&/g, '-and-')
+                .replace(/[^\w\-]+/g, '')
+                .replace(/\-\-+/g, '-');
         },
 
         /**
@@ -130,7 +132,7 @@ export default {
          *
          * @return boolean
          */
-        whileTyping (event) {
+        whileTyping(event) {
             return event.target.tagName.toLowerCase() === 'textarea' || event.target.tagName.toLowerCase() === 'input';
         },
 
@@ -164,7 +166,9 @@ export default {
                 timezone = moment.tz.guess();
             }
 
-            return moment(timestamp).tz(timezone).format("LT");
+            return moment(timestamp)
+                .tz(timezone)
+                .format('LT');
         },
 
         /**
@@ -183,7 +187,9 @@ export default {
                 timezone = moment.tz.guess();
             }
 
-            return moment(timestamp).tz(timezone).format("MMM Do");
+            return moment(timestamp)
+                .tz(timezone)
+                .format('MMM Do');
         },
 
         /**
@@ -202,7 +208,9 @@ export default {
                 timezone = moment.tz.guess();
             }
 
-            return moment(timestamp).tz(timezone).format("LLL");
+            return moment(timestamp)
+                .tz(timezone)
+                .format('LLL');
         },
 
         /**
@@ -221,7 +229,9 @@ export default {
                 timezone = moment.tz.guess();
             }
 
-            return moment(timestamp).tz(timezone).fromNow();
+            return moment(timestamp)
+                .tz(timezone)
+                .fromNow();
         },
 
         /**
@@ -230,7 +240,9 @@ export default {
          * @return string
          */
         now() {
-            return moment().utc().format('YYYY-MM-DD HH:mm:ss');
+            return moment()
+                .utc()
+                .format('YYYY-MM-DD HH:mm:ss');
         },
 
         /**
@@ -242,37 +254,52 @@ export default {
         authUrl(route) {
             return !this.isGuest ? '/auth/' + route : '/' + route;
         },
-        
+
         /**
          * Catches the scroll event and fires the neccessary ones for componenets. (Such as Inifinite Scrolling)
          *
          * @return void
          */
-        scrolled: _.throttle(function (event) {
-            this.$eventHub.$emit('scrolled');
+        scrolled: _.throttle(
+            function(event) {
+                this.$eventHub.$emit('scrolled');
 
-            let box = event.target;
+                let box = event.target;
 
-            if ((box.scrollHeight - box.scrollTop) < (box.clientHeight + 100)) {
-                this.$eventHub.$emit('scrolled-to-bottom');
-            }
+                if (box.scrollHeight - box.scrollTop < box.clientHeight + 100) {
+                    this.$eventHub.$emit('scrolled-to-bottom');
+                }
 
-            if (box.scrollTop < 100) {
-                this.$eventHub.$emit('scrolled-to-top');
-            } else if (box.scrollTop < 1500) {
-                this.$eventHub.$emit('scrolled-a-bit');
-            } else {
-                this.$eventHub.$emit('scrolled-a-lot');
-            }
-        }, 200, { leading: true, trailing: true }),
+                if (box.scrollTop < 100) {
+                    this.$eventHub.$emit('scrolled-to-top');
+                } else if (box.scrollTop < 1500) {
+                    this.$eventHub.$emit('scrolled-a-bit');
+                } else {
+                    this.$eventHub.$emit('scrolled-a-lot');
+                }
+            },
+            200,
+            { leading: true, trailing: true }
+        ),
 
         /**
-         * Scroll the page to the top of the element with the passed ID. 
-         * 
-         * @param string scrollable 
+         * Scroll the page to the top of the element with the passed ID.
+         *
+         * @param string scrollable
          */
         scrollToTop(scrollable) {
             document.getElementById(scrollable).scrollTop = 0;
+        },
+
+        /**
+         * Scroll the page to the bottom of the element with the passed ID.
+         *
+         * @param string scrollable
+         */
+        scrollToBottom(scrollable) {
+            let el = document.getElementById(scrollable);
+
+            el.scrollTop = el.scrollHeight;
         }
     }
 };
