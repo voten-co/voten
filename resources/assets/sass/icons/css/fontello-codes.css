@@ -21,13 +21,11 @@
 .v-photo:before { content: '\e819'; } /* '' */
 .v-submit:before { content: '\e81a'; } /* '' */
 .v-more:before { content: '\e81b'; } /* '' */
-.v-ok-mark:before { content: '\e81d'; } /* '' */
 .v-video:before { content: '\e81e'; } /* '' */
 .v-atsign:before { content: '\e81f'; } /* '' */
 .v-submissions:before { content: '\e820'; } /* '' */
 .v-reply:before { content: '\e821'; } /* '' */
 .v-send:before { content: '\e822'; } /* '' */
-.v-refresh:before { content: '\e823'; } /* '' */
 .v-logout:before { content: '\e824'; } /* '' */
 .v-plus:before { content: '\e827'; } /* '' */
 .v-refetch:before { content: '\e82d'; } /* '' */
@@ -93,4 +91,5 @@
 .v-chart-pie:before { content: '\f200'; } /* '' */
 .v-toggle-off:before { content: '\f204'; } /* '' */
 .v-toggle-on:before { content: '\f205'; } /* '' */
+.v-profile:before { content: '\f2c0'; } /* '' */
 .v-blog:before { content: '\f314'; } /* '' */
