@@ -7,6 +7,7 @@ use App\Photo;
 use App\PhotoTools;
 use App\Traits\CachableChannel;
 use Auth;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -54,101 +55,92 @@ class PhotoController extends Controller
     }
 
     /**
-     * Uploads the photo temporary and sends it for croping. The uplaoded photo is about to get deleted.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Support\Collection
+     * upload and update channel's avatar. 
+     * 
+     * @return response 
      */
-    public function uploadTempAvatar(Request $request)
+    public function channelAvatar(Request $request)
     {
+        // validate 
         $this->validate($request, [
-            'photo' => 'required|image',
+            'channel_name' => 'required', 
+            'photo' => [
+                'required',
+                'image', 
+                Rule::dimensions()->minWidth(250)->minHeight(250)->ratio(1 / 1),
+            ],
         ]);
-
-        return $this->uploadImgPNG($request->file('photo'), 'temp');
-    }
-
-    /**
-     * Crops the uploaded photo with the sent coordinates and sets it as auth user's avatar.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return string
-     */
-    public function cropUserAvatar(Request $request)
-    {
-        $this->validate($request, [
-            'photo'  => 'required',
-            'width'  => 'required|integer',
-            'height' => 'required|integer',
-            'x'      => 'required|integer',
-            'y'      => 'required|integer',
-        ]);
-
-        $user = Auth::user();
-
-        $user->avatar = $this->cropImg(
-            $request->photo,
-            $request->width,
-            $request->height,
-            $request->x,
-            $request->y,
-            'users/avatars'
-        );
-
-        $user->update();
-
-        return $user->avatar;
-    }
-
-    /**
-     * Crops the uploaded photo with the sent coordinates and sets it as channel's avatar.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return string
-     */
-    public function cropChannelAvatar(Request $request)
-    {
-        $this->validate($request, [
-            'photo'  => 'required',
-            'width'  => 'required|integer',
-            'height' => 'required|integer',
-            'x'      => 'required|integer',
-            'y'      => 'required|integer',
-        ]);
-
-        $channel = Channel::where('name', $request->name)->firstOrFail();
-
+        $channel = Channel::where('name', $request->channel_name)->firstOrFail();
         abort_unless($this->mustBeAdministrator($channel->id), 403);
 
-        $channel->avatar = $this->cropImg(
-            $request->photo,
-            $request->width,
-            $request->height,
-            $request->x,
-            $request->y,
-            'channels/avatars'
-        );
+        // fill variables 
+        $filename = time().str_random(16).'.png';
+        $image = Image::make($request->file('photo')->getRealPath());
+        $folder = 'channels/avatars'; 
 
-        $channel->update();
+        // crop it 
+        $image = $image->resize(250, 250);
 
+        // optimize it 
+        if ($image->filesize() > 50000) { // 50kb
+            $image->encode('png', 60);
+        } else {
+            $image->encode('png', 90);
+        }
+
+        // upload it 
+        Storage::put($folder.'/'.$filename, $image);
+        $imageAddress = $this->ftpAddress().$folder.'/'.$filename; 
+        
+        // update channel's avatar 
+        $channel->update([
+            'avatar' => $imageAddress
+        ]);
         $this->putChannelInTheCache($channel);
 
-        return $channel->avatar;
+        return $imageAddress;
     }
-
-    protected function createAvatar($image, $folder = 'channels/avatars')
+    
+    /**
+     * upload and update channel's avatar. 
+     * 
+     * @return response 
+     */
+    public function userAvatar(Request $request)
     {
+        // validate 
+        $this->validate($request, [
+            'photo' => [
+                'required',
+                'image', 
+                Rule::dimensions()->minWidth(250)->minHeight(250)->ratio(1 / 1),
+            ],
+        ]);
+
+        // fill variables 
         $filename = time().str_random(16).'.png';
-        $image = Image::make($image->getRealPath());
+        $image = Image::make($request->file('photo')->getRealPath());
+        $folder = 'users/avatars'; 
 
+        // crop it 
         $image = $image->resize(250, 250);
-        $image->encode('png');
 
+        // optimize it 
+        if ($image->filesize() > 50000) { // 50kb
+            $image->encode('png', 60);
+        } else {
+            $image->encode('png', 90);
+        }
+
+        // upload it 
         Storage::put($folder.'/'.$filename, $image);
+        $imageAddress = $this->ftpAddress().$folder.'/'.$filename; 
+        
+        // update user's avatar 
+        Auth::user()->update([
+            'avatar' => $imageAddress
+        ]);
 
-        return $this->ftpAddress().$folder.'/'.$filename; // must return the exact url(maybe with the cdn url in it)
+        return $imageAddress;
     }
 }

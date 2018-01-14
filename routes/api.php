@@ -117,9 +117,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/conversation-read', 'MessagesController@broadcastConversaionAsRead');
 
     // Photo uploading
-    Route::post('/user-avatar-crop', 'PhotoController@cropUserAvatar');
-    Route::post('/upload-temp-avatar', 'PhotoController@uploadTempAvatar');
-    Route::post('/channel-avatar-crop', 'PhotoController@cropChannelAvatar');
+    Route::post('/channel/avatar', 'PhotoController@channelAvatar');
+    Route::post('/user/avatar', 'PhotoController@userAvatar');
     Route::post('/photo', 'PhotoController@store');
     Route::post('/gif', 'GifController@store');
 
