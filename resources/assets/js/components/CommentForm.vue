@@ -33,7 +33,7 @@
 				<quick-emoji-picker v-if="quickEmojiPicker.show"
 				                    @close="quickEmojiPicker.show = false"
 				                    :message="message"
-                                    textareaid="comment-form-textarea"
+				                    textareaid="comment-form-textarea"
 				                    :starter="quickEmojiPicker.starter"
 				                    @pick="pick"></quick-emoji-picker>
 			</transition>
@@ -42,19 +42,19 @@
 				<quick-mentioner v-if="quickMentioner.show"
 				                 @close="quickMentioner.show = false"
 				                 :message="message"
-                                 textareaid="comment-form-textarea"
+				                 textareaid="comment-form-textarea"
 				                 @pick="pick"
 				                 :suggestions="commentors"
 				                 :starter="quickMentioner.starter"></quick-mentioner>
 			</transition>
-			
-            <transition name="el-zoom-in-bottom">
+
+			<transition name="el-zoom-in-bottom">
 				<quick-channel-picker v-if="quickChannelPicker.show"
-				                 @close="quickChannelPicker.show = false"
-				                 :message="message"
-                                 textareaid="comment-form-textarea"
-				                 @pick="pick"
-				                 :starter="quickChannelPicker.starter"></quick-channel-picker>
+				                      @close="quickChannelPicker.show = false"
+				                      :message="message"
+				                      textareaid="comment-form-textarea"
+				                      @pick="pick"
+				                      :starter="quickChannelPicker.starter"></quick-channel-picker>
 			</transition>
 
 			<el-input type="textarea"
@@ -82,6 +82,7 @@
 
 					<transition name="el-zoom-in-bottom">
 						<emoji-picker v-if="emojiPicker"
+						              textareaid="comment-form-textarea"
 						              @pick="pick"></emoji-picker>
 					</transition>
 				</div>
@@ -145,7 +146,7 @@ import InputHelpers from '../mixins/InputHelpers';
 
 export default {
     components: {
-        QuickChannelPicker, 
+        QuickChannelPicker,
         QuickEmojiPicker,
         QuickMentioner,
         MoonLoader,
@@ -179,7 +180,7 @@ export default {
                 show: false,
                 starter: null
             },
-            
+
             quickChannelPicker: {
                 show: false,
                 starter: null
@@ -256,7 +257,7 @@ export default {
                 this.quickMentioner.starter = lastStrIndex;
 
                 this.quickEmojiPicker.show = false;
-                this.quickChannelPicker.show = false;                
+                this.quickChannelPicker.show = false;
             } else if (lastStr == ':') {
                 this.quickEmojiPicker.show = true;
                 this.quickEmojiPicker.starter = lastStrIndex;
@@ -265,10 +266,10 @@ export default {
                 this.quickChannelPicker.show = false;
             } else if (lastStr == '#') {
                 this.quickChannelPicker.show = true;
-                this.quickChannelPicker.starter = lastStrIndex; 
+                this.quickChannelPicker.starter = lastStrIndex;
 
                 this.quickEmojiPicker.show = false;
-                this.quickMentioner.show = false;                
+                this.quickMentioner.show = false;
             }
         },
 

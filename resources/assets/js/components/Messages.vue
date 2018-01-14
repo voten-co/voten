@@ -224,7 +224,7 @@
 						<quick-emoji-picker v-if="quickEmojiPicker.show"
 						                    @close="quickEmojiPicker.show = false"
 						                    :message="message"
-                                            textareaid="message-form-textarea"
+						                    textareaid="message-form-textarea"
 						                    :starter="quickEmojiPicker.starter"
 						                    @pick="pick"></quick-emoji-picker>
 					</transition>
@@ -233,7 +233,7 @@
 						<quick-channel-picker v-if="quickChannelPicker.show"
 						                      @close="quickChannelPicker.show = false"
 						                      :message="message"
-                                              textareaid="message-form-textarea"
+						                      textareaid="message-form-textarea"
 						                      @pick="pick"
 						                      :starter="quickChannelPicker.starter"></quick-channel-picker>
 					</transition>
@@ -260,6 +260,7 @@
 
 							<transition name="el-zoom-in-bottom">
 								<emoji-picker v-if="emojiPicker"
+								              textareaid="message-form-textarea"
 								              @pick="pick"></emoji-picker>
 							</transition>
 						</div>

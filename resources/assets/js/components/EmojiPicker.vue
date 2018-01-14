@@ -65,6 +65,8 @@ export default {
         };
     },
 
+    props: ['textareaid'], 
+
     computed: {
         filteredHistory() {
             let self = this;
@@ -123,9 +125,9 @@ export default {
         },
 
         pick(e) {
-            let cursorPosition = this.getCursorPositionById('comment-form-textarea');
+            let cursorPosition = this.getCursorPositionById(this.textareaid);
             
-            this.$emit('emoji', e.shortname, cursorPosition, 0);
+            this.$emit('pick', e.shortname, cursorPosition, 0);
 
             this.searched = '';
 
