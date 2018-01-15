@@ -254,7 +254,7 @@ export default {
             loadingChannels: false,
             selectedCat: null,
             suggestedCats: [],
-            submissionType: "text",
+            submissionType: "link",
             title: "",
             sfw: true,
 
