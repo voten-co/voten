@@ -175,6 +175,8 @@ export default {
     },
 
     beforeRouteUpdate(to, from, next) {
+        if (to.hash !== from.hash) return; 
+
         Store.page.submission.clearSubmission();
         this.$Progress.start();
 

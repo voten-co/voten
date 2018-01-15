@@ -106,6 +106,8 @@
         },
 
         beforeRouteUpdate (to, from, next) {
+            if (to.hash !== from.hash) return; 
+
             Store.page.home.clear();
 
             this.$Progress.start();

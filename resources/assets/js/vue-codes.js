@@ -1,55 +1,94 @@
 const GuestSidebar = resolve => {
-    require.ensure(['./components/GuestSidebar.vue'], () => {
-        resolve(require('./components/GuestSidebar.vue'));
-    }, 'guest');
-}; 
+    require.ensure(
+        ['./components/GuestSidebar.vue'],
+        () => {
+            resolve(require('./components/GuestSidebar.vue'));
+        },
+        'guest'
+    );
+};
 const LoginModal = resolve => {
-    require.ensure(['./components/LoginModal.vue'], () => {
-        resolve(require('./components/LoginModal.vue'));
-    }, 'guest');
-}; 
+    require.ensure(
+        ['./components/LoginModal.vue'],
+        () => {
+            resolve(require('./components/LoginModal.vue'));
+        },
+        'guest'
+    );
+};
 const GoogleLoginButton = resolve => {
-    require.ensure(['./components/GoogleLoginButton.vue'], () => {
-        resolve(require('./components/GoogleLoginButton.vue'));
-    }, 'guest');
-}; 
-
+    require.ensure(
+        ['./components/GoogleLoginButton.vue'],
+        () => {
+            resolve(require('./components/GoogleLoginButton.vue'));
+        },
+        'guest'
+    );
+};
 
 const Feedback = resolve => {
-    require.ensure(['./components/Feedback.vue'], () => {
-        resolve(require('./components/Feedback.vue'));
-    }, 'logged-in');
-}; 
+    require.ensure(
+        ['./components/Feedback.vue'],
+        () => {
+            resolve(require('./components/Feedback.vue'));
+        },
+        'logged-in'
+    );
+};
 const Notifications = resolve => {
-    require.ensure(['./components/Notifications.vue'], () => {
-        resolve(require('./components/Notifications.vue'));
-    }, 'logged-in');
-}; 
+    require.ensure(
+        ['./components/Notifications.vue'],
+        () => {
+            resolve(require('./components/Notifications.vue'));
+        },
+        'logged-in'
+    );
+};
 const Messages = resolve => {
-    require.ensure(['./components/Messages.vue'], () => {
-        resolve(require('./components/Messages.vue'));
-    }, 'logged-in');
-}; 
+    require.ensure(
+        ['./components/Messages.vue'],
+        () => {
+            resolve(require('./components/Messages.vue'));
+        },
+        'logged-in'
+    );
+};
 const Settings = resolve => {
-    require.ensure(['./components/Settings.vue'], () => {
-        resolve(require('./components/Settings.vue'));
-    }, 'logged-in');
-}; 
+    require.ensure(
+        ['./components/Settings.vue'],
+        () => {
+            resolve(require('./components/Settings.vue'));
+        },
+        'logged-in'
+    );
+};
 const RightSidebar = resolve => {
-    require.ensure(['./components/auth/RightSidebar.vue'], () => {
-        resolve(require('./components/auth/RightSidebar.vue'));
-    }, 'logged-in');
-}; 
+    require.ensure(
+        ['./components/auth/RightSidebar.vue'],
+        () => {
+            resolve(require('./components/auth/RightSidebar.vue'));
+        },
+        'logged-in'
+    );
+};
 const NewSubmission = resolve => {
-    require.ensure(['./components/NewSubmission.vue'], () => {
-        resolve(require('./components/NewSubmission.vue'));
-    }, 'logged-in');
-}; 
+    require.ensure(
+        ['./components/NewSubmission.vue'],
+        () => {
+            resolve(require('./components/NewSubmission.vue'));
+        },
+        'logged-in'
+    );
+};
 const NewChannel = resolve => {
-    require.ensure(['./components/NewChannel.vue'], () => {
-        resolve(require('./components/NewChannel.vue'));
-    }, 'logged-in');
-}; 
+    require.ensure(
+        ['./components/NewChannel.vue'],
+        () => {
+            resolve(require('./components/NewChannel.vue'));
+        },
+        'logged-in'
+    );
+};
 
 import KeyboardShortcutsGuide from './components/KeyboardShortcutsGuide.vue';
 import MarkdownGuide from './components/MarkdownGuide.vue';
@@ -65,7 +104,6 @@ import PhotoViewer from './components/PhotoViewer.vue';
 import GifPlayer from './components/GifPlayer.vue';
 import EmbedViewer from './components/Embed.vue';
 
-
 /**
  * This is our event bus, which is used for event dispatching. The base is that we create an empty
  * Vue instance. First we fire the event by: "this.$eventHub.$emit('eventName', 'data')"
@@ -77,7 +115,6 @@ import EmbedViewer from './components/Embed.vue';
  * it doesn't require to be actually written as argumans! ) Happy eventing in your awesome components.
  */
 Vue.prototype.$eventHub = new Vue();
-
 
 /**
  * The very serious and important vue instance!!! This is what gives power to voten's
@@ -91,29 +128,29 @@ window.app = new Vue({
 
     components: {
         KeyboardShortcutsGuide,
-        GoogleLoginButton, 
+        GoogleLoginButton,
         MarkdownGuide,
         Notifications,
         NewSubmission,
-        Announcement, 
+        Announcement,
         RightSidebar,
         GuestSidebar,
-        PhotoViewer, 
-        EmbedViewer, 
+        PhotoViewer,
+        EmbedViewer,
         LeftSidebar,
         SearchModal,
         LoginModal,
         NewChannel,
-        GifPlayer, 
+        GifPlayer,
         NotFound,
         Messages,
-        Settings, 
+        Settings,
         Feedback
     },
 
     data: {
         showSidebars: true,
-        pageTitle: document.title,
+        pageTitle: document.title
     },
 
     computed: {
@@ -122,7 +159,9 @@ window.app = new Vue({
         },
 
         unreadMessages() {
-            return Store.state.contacts.filter(item => item.last_message.owner.id != auth.id && item.last_message.read_at == null).length;
+            return Store.state.contacts.filter(
+                item => item.last_message.owner.id != auth.id && item.last_message.read_at == null
+            ).length;
         },
 
         showRightSidebarOnly() {
@@ -130,34 +169,37 @@ window.app = new Vue({
         },
 
         showRightSidebar() {
-            return this.showRightSidebarOnly & this.showSidebars; 
-        }, 
+            return this.showRightSidebarOnly & this.showSidebars;
+        },
 
         showLeftSidebar() {
-            return this.showSidebars; 
+            return this.showSidebars;
         }
     },
 
     watch: {
-        '$route' () {
+        $route() {
             this.closeModals();
-
-            this.setQueries(); 
         },
 
-        'unreadNotifications'() {
+        unreadNotifications() {
             this.updatePageTitle();
         },
 
-        'unreadMessages'() {
+        unreadMessages() {
             this.updatePageTitle();
         },
+
+        '$route.query'() {
+            this.setQueries();
+        }
     },
 
     created() {
         this.loadWebFont();
 
         window.addEventListener('keydown', this.keydown);
+        window.addEventListener('hashchange', this.setHashes);
 
         this.fillBasicStore();
 
@@ -169,33 +211,52 @@ window.app = new Vue({
         this.$eventHub.$on('login-modal', this.loginModal);
         this.$eventHub.$on('change-route', this.changeRoute);
         this.$eventHub.$on('markdown-guide', this.openMarkdownGuide);
-        this.$eventHub.$on('push-notification', this.pushNotification); 
+        this.$eventHub.$on('push-notification', this.pushNotification);
 
         if (this.$route.query.search) {
             this.changeRoute('search');
         }
 
-        this.setQueries(); 
+        this.setQueries();
+        // this.setHashes();
     },
 
     methods: {
-        loginModal() {
-            Store.showAuthinticationModal = true; 
-        }, 
+        setHashes() {
+            let hash = window.location.hash;
+
+            console.log(hash);
+
+            if (!hash) {
+                Store.contentRouter = 'content';
+                Store.showPreferences = false;
+                Store.showNotifications = false;
+                Store.showNewChannelModal = false;
+                Store.showFeedbackModal = false;
+                Store.showNewSubmissionModal = false;
+                Store.showKeyboardShortcutsGuide = false;
+                Store.showMarkdownGuide = false;
+                Store.showAuthinticationModal = false;
+            }
+        },
 
         setQueries() {
-            // sidebar 
+            // sidebar
             if (this.$route.query.sidebar == 1) {
                 this.showSidebars = true;
             } else if (this.$route.query.sidebar == 0) {
-                this.showSidebars = false;                 
+                this.showSidebars = false;
             }
 
-            // feedback 
+            // feedback
             if (this.$route.query.feedback == 1) {
-                Store.showFeedbackModal = true; 
+                Store.showFeedbackModal = true;
             }
-        }, 
+        },
+
+        loginModal() {
+            Store.showAuthinticationModal = true;
+        },
 
         openMarkdownGuide() {
             Store.showMarkdownGuide = true;
@@ -208,17 +269,17 @@ window.app = new Vue({
          * @return void
          */
         pushNotification(data) {
-            let self = this; 
-            
+            let self = this;
+
             Push.create(data.title, {
                 body: data.body,
                 icon: data.icon ? data.icon : '/imgs/v-logo.png',
                 timeout: 5000,
-                onClick: function () {
+                onClick: function() {
                     if (data.url == 'new-message') {
-                        Store.contentRouter = 'messages'; 
+                        Store.contentRouter = 'messages';
                     } else {
-                        self.$router.push(data.url); 
+                        self.$router.push(data.url);
                     }
 
                     window.focus();
@@ -237,10 +298,10 @@ window.app = new Vue({
             if (preload.user) {
                 this.submissions = preload.user;
 
-                Store.page.user = preload.user
+                Store.page.user = preload.user;
 
                 if (Store.page.user.id == auth.id) {
-                    auth.stats = Store.page.user.stats
+                    auth.stats = Store.page.user.stats;
                 }
 
                 // clear the preload
@@ -249,21 +310,24 @@ window.app = new Vue({
                 return;
             }
 
-            axios.get('/get-user-store', {
-                params: {
-                    username: this.$route.params.username
-                }
-            }).then((response) => {
-                Store.page.user = response.data
+            axios
+                .get('/get-user-store', {
+                    params: {
+                        username: this.$route.params.username
+                    }
+                })
+                .then(response => {
+                    Store.page.user = response.data;
 
-                if (Store.page.user.id == auth.id) {
-                    auth.stats = Store.page.user.stats
-                }
-            }).catch((error) => {
-                if (error.response.status === 404) {
-                    this.$router.push('/404')
-                }
-            });
+                    if (Store.page.user.id == auth.id) {
+                        auth.stats = Store.page.user.stats;
+                    }
+                })
+                .catch(error => {
+                    if (error.response.status === 404) {
+                        this.$router.push('/404');
+                    }
+                });
         },
 
         /**
@@ -271,7 +335,7 @@ window.app = new Vue({
          *
          * @param string name
          */
-        getChannelStore: _.throttle(function (name) {
+        getChannelStore: _.throttle(function(name) {
             // if landed on a submission page
             if (preload.channel && preload.channel.name == this.$route.params.name) {
                 Store.page.channel.temp = preload.channel;
@@ -280,39 +344,42 @@ window.app = new Vue({
             }
 
             if (Store.page.channel.temp.name == undefined || Store.page.channel.temp.name != this.$route.params.name) {
-                axios.get('/get-channel-store', {
-                    params: {
-                        name: name
-                    }
-                }).then((response) => {
-                    Store.page.channel.temp = response.data
+                axios
+                    .get('/get-channel-store', {
+                        params: {
+                            name: name
+                        }
+                    })
+                    .then(response => {
+                        Store.page.channel.temp = response.data;
 
-                    // update the channel in the user's subscriptions (avatar might have changed)
-                    let channel_id = Store.page.channel.temp.id
+                        // update the channel in the user's subscriptions (avatar might have changed)
+                        let channel_id = Store.page.channel.temp.id;
 
-                    function findObject(ob) {
-                        return ob.id === channel_id
-                    }
+                        function findObject(ob) {
+                            return ob.id === channel_id;
+                        }
 
-                    let i = Store.state.subscribedChannels.findIndex(findObject)
+                        let i = Store.state.subscribedChannels.findIndex(findObject);
 
-                    if (i != -1 && Store.state.subscribedChannels[i].avatar != response.data.avatar) {
-                        Store.state.subscribedChannels[i].avatar = response.data.avatar
-                        Vue.putLS('subscribedChannels', Store.state.subscribedChannels)
-                    }
+                        if (i != -1 && Store.state.subscribedChannels[i].avatar != response.data.avatar) {
+                            Store.state.subscribedChannels[i].avatar = response.data.avatar;
+                            Vue.putLS('subscribedChannels', Store.state.subscribedChannels);
+                        }
 
-                    // update the channel in the user's moderating (avatar might have changed)
-                    i = Store.state.moderatingChannels.findIndex(findObject)
+                        // update the channel in the user's moderating (avatar might have changed)
+                        i = Store.state.moderatingChannels.findIndex(findObject);
 
-                    if (i != -1 && Store.moderatingChannels[i].avatar != response.data.avatar) {
-                        Store.moderatingChannels[i].avatar = response.data.avatar
-                        Vue.putLS('moderatingChannels', Store.moderatingChannels)
-                    }
-                }).catch((error) => {
-                    if (error.response.status === 404) {
-                        this.$router.push('/404')
-                    }
-                });
+                        if (i != -1 && Store.moderatingChannels[i].avatar != response.data.avatar) {
+                            Store.moderatingChannels[i].avatar = response.data.avatar;
+                            Vue.putLS('moderatingChannels', Store.moderatingChannels);
+                        }
+                    })
+                    .catch(error => {
+                        if (error.response.status === 404) {
+                            this.$router.push('/404');
+                        }
+                    });
             }
         }, 600),
 
@@ -332,7 +399,7 @@ window.app = new Vue({
          * @return void
          */
         newRoute(route) {
-            Store.contentRouter = route
+            Store.contentRouter = route;
         },
 
         /**
@@ -379,7 +446,6 @@ window.app = new Vue({
 
             Store.contentRouter = newRoute;
         },
-        
 
         /**
          * Used for keyup.esc
@@ -388,8 +454,8 @@ window.app = new Vue({
          */
         closeModals() {
             Store.contentRouter = 'content';
-            Store.showNotifications = false; 
-            Store.showPreferences = false; 
+            Store.showNotifications = false;
+            Store.showPreferences = false;
         },
 
         /**
@@ -409,18 +475,21 @@ window.app = new Vue({
             if (this.whileTyping(event)) return;
 
             // alt + s == event.altKey && event.keyCode == 83
-            if (event.altKey && event.keyCode == 83) { // alt + s
+            if (event.altKey && event.keyCode == 83) {
+                // alt + s
                 this.showNewSubmission();
                 return;
             }
 
-            if (event.altKey && event.keyCode == 67) { // alt + c
+            if (event.altKey && event.keyCode == 67) {
+                // alt + c
                 this.showNewChannel();
                 return;
             }
 
-            if (event.shiftKey && event.keyCode == 191) { // shift + /
-                Store.showKeyboardShortcutsGuide = true; 
+            if (event.shiftKey && event.keyCode == 191) {
+                // shift + /
+                Store.showKeyboardShortcutsGuide = true;
                 return;
             }
 
@@ -428,7 +497,7 @@ window.app = new Vue({
                 case 78: // "n"
                     if (this.isGuest) break;
 
-                    Store.showNotifications = true; 
+                    Store.showNotifications = true;
                     break;
                 case 77: // "m"
                     if (this.isGuest) break;
@@ -463,6 +532,6 @@ window.app = new Vue({
                 default:
                     return;
             }
-        },
-    },
+        }
+    }
 }).$mount('#voten-app');

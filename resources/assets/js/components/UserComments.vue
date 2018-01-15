@@ -89,6 +89,8 @@
 		},
 	
 		beforeRouteUpdate(to, from, next) {
+			if (to.hash !== from.hash) return; 
+
 			Store.page.user.comments.clear();
 	
 			this.$Progress.start();

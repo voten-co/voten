@@ -83,6 +83,8 @@
 		},
 	
 		beforeRouteUpdate(to, from, next) {
+			if (to.hash !== from.hash) return; 
+
 			Store.page.user.downVotedSubmissions.clear();
 	
 			this.$Progress.start();

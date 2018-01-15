@@ -87,6 +87,8 @@
 		},
 	
 		beforeRouteUpdate(to, from, next) {
+			if (to.hash !== from.hash) return; 
+
 			Store.page.user.submissions.clear();
 	
 			this.$Progress.start();
