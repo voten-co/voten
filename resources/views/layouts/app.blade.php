@@ -50,16 +50,16 @@
         <right-sidebar v-show="showRightSidebar"></right-sidebar>
     </div>
 
-    <notifications :visible.sync="Store.showNotifications" v-show="Store.showNotifications"></notifications>
-    <new-submission v-show="Store.showNewSubmissionModal" :visible.sync="Store.showNewSubmissionModal"></new-submission>
-    <settings v-if="Store.showPreferences" :visible.sync="Store.showPreferences"></settings>
-    <new-channel v-show="Store.showNewChannelModal" :visible.sync="Store.showNewChannelModal"></new-channel>
-    <markdown-guide v-if="Store.showMarkdownGuide" :visible.sync="Store.showMarkdownGuide"></markdown-guide>
-    <feedback v-if="Store.showFeedbackModal" :visible.sync="Store.showFeedbackModal"></feedback>
+    <notifications :visible.sync="Store.modals.notifications.show" v-show="Store.modals.notifications.show"></notifications>
+    <new-submission v-show="Store.modals.newSubmission.show" :visible.sync="Store.modals.newSubmission.show"></new-submission>
+    <settings v-if="Store.modals.preferences.show" :visible.sync="Store.modals.preferences.show"></settings>
+    <new-channel v-show="Store.modals.newChannel.show" :visible.sync="Store.modals.newChannel.show"></new-channel>
+    <markdown-guide v-if="Store.modals.markdownGuide.show" :visible.sync="Store.modals.markdownGuide.show"></markdown-guide>
+    <feedback v-if="Store.modals.feedback.show" :visible.sync="Store.modals.feedback.show"></feedback>
     <photo-viewer v-if="Store.photoViewer.show" :visible.sync="Store.photoViewer.show"></photo-viewer>
     <gif-player v-if="Store.gifPlayer.show" :visible.sync="Store.gifPlayer.show"></gif-player>
     <embed-viewer v-if="Store.embedViewer.show" :visible.sync="Store.embedViewer.show"></embed-viewer>
-    <keyboard-shortcuts-guide v-if="Store.showKeyboardShortcutsGuide" :visible.sync="Store.showKeyboardShortcutsGuide"></keyboard-shortcuts-guide>
+    <keyboard-shortcuts-guide v-if="Store.modals.keyboardShortcutsGuide.show" :visible.sync="Store.modals.keyboardShortcutsGuide.show"></keyboard-shortcuts-guide>
 </div>
 
 @include('php-to-js-data')

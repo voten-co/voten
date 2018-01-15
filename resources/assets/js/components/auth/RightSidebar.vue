@@ -35,7 +35,7 @@
 						             :to="{name: 'subscriptions'}">Subscriptions</router-link>
 					</li>
 					<li class="item"
-					    @click="Store.showPreferences = true">Preferences</li>
+					    @click="Store.modals.preferences.show = true">Preferences</li>
 
 					<hr>
 
@@ -44,9 +44,9 @@
 						             class="item">Discover channels</router-link>
 					</li>
 					<li class="item"
-					    @click="Store.showNewChannelModal = true">Create a new channel</li>
+					    @click="Store.modals.newChannel.show = true">Create a new channel</li>
 					<li class="item"
-					    @click="Store.showKeyboardShortcutsGuide = true">Keyboard shortcuts</li>
+					    @click="Store.modals.keyboardShortcutsGuide.show = true">Keyboard shortcuts</li>
 					<li>
 						<a href="https://help.voten.co/"
 						   target="_blank"
@@ -100,7 +100,7 @@
 					<hr>
 
 					<li class="item go-green"
-					    @click="Store.showFeedbackModal = true">Give feedback</li>
+					    @click="Store.modals.feedback.show = true">Give feedback</li>
 					<li class="item go-red"
 					    @click="signOut">Sign Out</li>
 				</ul>

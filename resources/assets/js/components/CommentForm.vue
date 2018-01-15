@@ -123,7 +123,7 @@
 				</button>
 
 				<button class="comment-form-guide"
-				        @click="Store.showMarkdownGuide = true"
+				        @click="Store.modals.markdownGuide.show = true"
 				        type="button">
 					Formatting Guide
 				</button>

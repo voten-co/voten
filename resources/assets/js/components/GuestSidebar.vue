@@ -92,7 +92,7 @@
 
 			<el-button type="primary"
 			           size="mini"
-					   @click="Store.showAuthinticationModal = true"
+					   @click="Store.modals.authintication.show = true"
 			           class="full-width">
 				Sign up
 			</el-button>

@@ -38,7 +38,7 @@
 			            v-if="isLoggedIn">
 				<a class="item"
 				   :class="{'active' : activeRoute === 'notifications'}"
-				   @click="Store.showNotifications = true">
+				   @click="Store.modals.notifications.show = true">
 					<el-badge :value="unreadNotifications"
 					          :max="99">
 						<i class="el-icon-bell"
@@ -100,7 +100,7 @@
 			            :open-delay="500"
 			            v-if="isLoggedIn">
 				<a class="item"
-				   @click.prevent="Store.showPreferences = true"
+				   @click.prevent="Store.modals.preferences.show = true"
 				   :class="{'active' : activeRoute === 'settings'}">
 					<i class="el-icon-setting"
 					   aria-hidden="true"></i>

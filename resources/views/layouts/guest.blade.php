@@ -50,9 +50,9 @@
         <guest-sidebar v-show="showRightSidebar"></guest-sidebar>
     </div>
 
-    <login-modal v-if="Store.showAuthinticationModal" :visible.sync="Store.showAuthinticationModal"></login-modal>
-    <markdown-guide v-if="Store.showMarkdownGuide" :visible.sync="Store.showMarkdownGuide"></markdown-guide>
-    <keyboard-shortcuts-guide v-if="Store.showKeyboardShortcutsGuide" :visible.sync="Store.showKeyboardShortcutsGuide"></keyboard-shortcuts-guide>
+    <login-modal v-if="Store.modals.authintication.show" :visible.sync="Store.modals.authintication.show"></login-modal>
+    <markdown-guide v-if="Store.modals.markdownGuide.show" :visible.sync="Store.modals.markdownGuide.show"></markdown-guide>
+    <keyboard-shortcuts-guide v-if="Store.modals.keyboardShortcutsGuide.show" :visible.sync="Store.modals.keyboardShortcutsGuide.show"></keyboard-shortcuts-guide>
 </div>
 
 @include('php-to-js-data')

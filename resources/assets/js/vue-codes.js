@@ -229,14 +229,14 @@ window.app = new Vue({
 
             if (!hash) {
                 Store.contentRouter = 'content';
-                Store.showPreferences = false;
-                Store.showNotifications = false;
-                Store.showNewChannelModal = false;
-                Store.showFeedbackModal = false;
-                Store.showNewSubmissionModal = false;
-                Store.showKeyboardShortcutsGuide = false;
-                Store.showMarkdownGuide = false;
-                Store.showAuthinticationModal = false;
+                Store.modals.preferences.show = false;
+                Store.modals.notifications.show = false;
+                Store.modals.newChannel.show = false;
+                Store.modals.feedback.show = false;
+                Store.modals.newSubmission.show = false;
+                Store.modals.keyboardShortcutsGuide.show = false;
+                Store.modals.markdownGuide.show = false;
+                Store.modals.authintication.show = false;
             }
         },
 
@@ -250,16 +250,16 @@ window.app = new Vue({
 
             // feedback
             if (this.$route.query.feedback == 1) {
-                Store.showFeedbackModal = true;
+                Store.modals.feedback.show = true;
             }
         },
 
         loginModal() {
-            Store.showAuthinticationModal = true;
+            Store.modals.authintication.show = true;
         },
 
         openMarkdownGuide() {
-            Store.showMarkdownGuide = true;
+            Store.modals.markdownGuide.show = true;
         },
 
         /**
@@ -408,7 +408,7 @@ window.app = new Vue({
          * @return void
          */
         showNewSubmission() {
-            Store.showNewSubmissionModal = true;
+            Store.modals.newSubmission.show = true;
         },
 
         /**
@@ -417,7 +417,7 @@ window.app = new Vue({
          * @return void
          */
         showNewChannel() {
-            Store.showNewChannelModal = true;
+            Store.modals.newChannel.show = true;
         },
 
         /**
@@ -454,8 +454,8 @@ window.app = new Vue({
          */
         closeModals() {
             Store.contentRouter = 'content';
-            Store.showNotifications = false;
-            Store.showPreferences = false;
+            Store.modals.notifications.show = false;
+            Store.modals.preferences.show = false;
         },
 
         /**
@@ -489,7 +489,7 @@ window.app = new Vue({
 
             if (event.shiftKey && event.keyCode == 191) {
                 // shift + /
-                Store.showKeyboardShortcutsGuide = true;
+                Store.modals.keyboardShortcutsGuide.show = true;
                 return;
             }
 
@@ -497,7 +497,7 @@ window.app = new Vue({
                 case 78: // "n"
                     if (this.isGuest) break;
 
-                    Store.showNotifications = true;
+                    Store.modals.notifications.show = true;
                     break;
                 case 77: // "m"
                     if (this.isGuest) break;

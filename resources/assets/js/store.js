@@ -1,12 +1,12 @@
-import home from './store/home'; 
-import channel from './store/channel'; 
-import user from './store/user'; 
-import submission from './store/submission'; 
-import bookmarkedSubmissions from './store/bookmarkedSubmissions'; 
-import bookmarkedComments from './store/bookmarkedComments'; 
-import bookmarkedChannels from './store/bookmarkedChannels'; 
-import subscribedChannels from './store/subscribedChannels'; 
-import bookmarkedUsers from './store/bookmarkedUsers'; 
+import home from './store/home';
+import channel from './store/channel';
+import user from './store/user';
+import submission from './store/submission';
+import bookmarkedSubmissions from './store/bookmarkedSubmissions';
+import bookmarkedComments from './store/bookmarkedComments';
+import bookmarkedChannels from './store/bookmarkedChannels';
+import subscribedChannels from './store/subscribedChannels';
+import bookmarkedUsers from './store/bookmarkedUsers';
 
 window.Store = {
     // state: data stored in the Store.state gets synced via the LocalStorage;
@@ -95,14 +95,43 @@ window.Store = {
     },
 
     contentRouter: 'content',
-    showPreferences: false,
-    showNotifications: false,
-    showNewChannelModal: false,
-    showFeedbackModal: false,
-    showNewSubmissionModal: false,
-    showKeyboardShortcutsGuide: false,
-    showMarkdownGuide: false,
-    showAuthinticationModal: false,
+
+    // Set a hash for each modal to make it searchable to see which modal the
+    // window.location.hash is pointing to.
+    modals: {
+        preferences: {
+            show: false,
+            hash: 'preferences'
+        },
+        notifications: {
+            show: false,
+            hash: 'notifications'
+        },
+        newChannel: {
+            show: false,
+            hash: 'newChannel'
+        },
+        feedback: {
+            show: false,
+            hash: 'feedback'
+        },
+        newSubmission: {
+            show: false,
+            hash: 'newSubmission'
+        },
+        keyboardShortcutsGuide: {
+            show: false,
+            hash: 'keyboardShortcutsGuide'
+        },
+        markdownGuide: {
+            show: false,
+            hash: 'markdownGuide'
+        },
+        authintication: {
+            show: false,
+            hash: 'authintication'
+        }
+    },
 
     photoViewer: {
         show: false,
