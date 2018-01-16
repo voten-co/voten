@@ -105,17 +105,27 @@ return "welcome"
 </template>
 
 <script>
-    import Helpers from '../mixins/Helpers';
+import Helpers from '../mixins/Helpers';
 
-    export default {
-        mixins: [Helpers],
+export default {
+    mixins: [Helpers],
 
-        props: ['visible'],
+    props: ['visible'],
 
-        methods: {
-            close() {
-                this.$emit('update:visible', false);
-            },
-        },
+    beforeDestroy() {
+        if (window.location.hash == '#markdownGuide') {
+            history.go(-1);
+        }
+    },
+
+    created() {
+        window.location.hash = 'markdownGuide';
+    },
+
+    methods: {
+        close() {
+            this.$emit('update:visible', false);
+        }
     }
+};
 </script>

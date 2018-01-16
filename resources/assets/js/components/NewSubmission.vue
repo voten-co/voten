@@ -35,7 +35,8 @@
 			</el-form-item>
 
 			<!-- Text -->
-			<el-form-item v-if="submissionType === 'text'" label="Text(optional):">
+			<el-form-item v-if="submissionType === 'text'"
+			              label="Text(optional):">
 				<el-input type="textarea"
 				          placeholder="Text(optional)..."
 				          name="text"
@@ -73,7 +74,8 @@
 			</el-form-item>
 
 			<!-- Link -->
-			<el-form-item v-if="submissionType === 'link'" label="URL:">
+			<el-form-item v-if="submissionType === 'link'"
+			              label="URL:">
 				<el-input placeholder="URL ..."
 				          name="url"
 				          v-model="submitURL"></el-input>
@@ -84,7 +86,8 @@
 			</el-form-item>
 
 			<!-- GIF -->
-			<el-form-item v-if="submissionType === 'gif'" label="GIF file:">
+			<el-form-item v-if="submissionType === 'gif'"
+			              label="GIF file:">
 				<el-upload class="upload-demo"
 				           drag
 				           :limit="1"
@@ -120,7 +123,8 @@
 			</el-form-item>
 
 			<!-- Photo(s) -->
-			<el-form-item v-if="submissionType === 'img'" label="Photo(s):">
+			<el-form-item v-if="submissionType === 'img'"
+			              label="Photo(s):">
 				<el-upload class="upload-demo"
 				           drag
 				           :limit="20"
@@ -155,7 +159,7 @@
 			</el-form-item>
 
 			<!-- Select Channel -->
-			<el-form-item  label="Channel:">
+			<el-form-item label="Channel:">
 				<el-select v-model="selectedCat"
 				           filterable
 				           remote
@@ -236,42 +240,42 @@
 </template>
 
 <script>
-import Markdown from "../components/Markdown.vue";
-import Helpers from "../mixins/Helpers";
-import SubmitFormUpload from "../mixins/SubmitFormUpload";
+import Markdown from '../components/Markdown.vue';
+import Helpers from '../mixins/Helpers';
+import SubmitFormUpload from '../mixins/SubmitFormUpload';
 
 export default {
-    props: ["visible"],
+    props: ['visible'],
     mixins: [Helpers, SubmitFormUpload],
     components: { Markdown },
 
     data() {
         return {
             errors: [],
-            customError: "",
+            customError: '',
 
             loading: false,
             loadingChannels: false,
             selectedCat: null,
             suggestedCats: [],
-            submissionType: "link",
-            title: "",
+            submissionType: 'link',
+            title: '',
             sfw: true,
 
             // Link
-            submitURL: "",
+            submitURL: '',
             loadingTitle: false,
 
             // Text
             preview: false,
-            text: "",
+            text: '',
 
             // Photo
             photos: [],
             photosNumberLimit: 20,
             photosSizeLimit: 10,
-            previewPhotoImage: "",
-            previewPhotoFileName: "",
+            previewPhotoImage: '',
+            previewPhotoFileName: '',
             previewPhotoModal: false,
 
             // GIF
@@ -279,37 +283,23 @@ export default {
             gif_id: null,
             gifNumberLimit: 1,
             gifSizeLimit: 50,
-            previewGifImage: "",
-            previewGifFileName: "",
+            previewGifImage: '',
+            previewGifFileName: '',
             previewGifModal: false
         };
     },
 
     computed: {
         goodToGo() {
-            if (this.submissionType == "link") {
-                return (
-                    this.title.trim().length > 0 &&
-                    this.selectedCat &&
-                    this.submitURL &&
-                    !this.loading
-                );
+            if (this.submissionType == 'link') {
+                return this.title.trim().length > 0 && this.selectedCat && this.submitURL && !this.loading;
             }
 
-            if (this.submissionType == "img") {
-                return (
-                    this.title.trim().length > 0 &&
-                    this.selectedCat &&
-                    this.photos.length &&
-                    !this.loading
-                );
+            if (this.submissionType == 'img') {
+                return this.title.trim().length > 0 && this.selectedCat && this.photos.length && !this.loading;
             }
 
-            return (
-                this.title.trim().length > 0 &&
-                this.selectedCat &&
-                !this.loading
-            );
+            return this.title.trim().length > 0 && this.selectedCat && !this.loading;
         }
     },
 
@@ -323,6 +313,11 @@ export default {
             if (this.visible) {
                 this.setDefaultChannels();
                 this.submitApi();
+                window.location.hash = 'newSubmission';
+            } else {
+                if (window.location.hash == '#newSubmission') {
+                    history.go(-1);
+                }
             }
         }
     },
@@ -334,7 +329,7 @@ export default {
              * @return void
              */
         close() {
-            this.$emit("update:visible", false);
+            this.$emit('update:visible', false);
         },
 
         /**
@@ -378,13 +373,13 @@ export default {
             this.loading = true;
 
             axios
-                .post("/submission", {
+                .post('/submission', {
                     title: this.title,
                     url: this.submitURL,
                     text: this.text,
                     name: this.selectedCat,
                     type: this.submissionType,
-                    photos: _.map(this.photos, "id"),
+                    photos: _.map(this.photos, 'id'),
                     gif_id: this.gif_id,
                     nsfw: !this.sfw
                 })
@@ -394,9 +389,7 @@ export default {
 
                     Store.state.submissions.upVotes.push(response.data.id);
 
-                    this.$router.push(
-                        "/c/" + this.selectedCat + "/" + response.data.slug
-                    );
+                    this.$router.push('/c/' + this.selectedCat + '/' + response.data.slug);
 
                     this.loading = false;
 
@@ -429,7 +422,7 @@ export default {
             this.loadingTitle = true;
 
             axios
-                .get("/fetch-url-title", {
+                .get('/fetch-url-title', {
                     params: {
                         url: typed
                     }
@@ -464,7 +457,7 @@ export default {
             this.loadingChannels = true;
 
             axios
-                .get("/get-channels", {
+                .get('/get-channels', {
                     params: {
                         name: typed
                     }
@@ -490,35 +483,35 @@ export default {
 
         reset() {
             this.errors = [];
-            this.customError = "";
+            this.customError = '';
 
             this.loading = false;
             this.loadingChannels = false;
             this.selectedCat = null;
             this.suggestedCats = [];
-            this.submissionType = "text";
-            this.title = "";
+            this.submissionType = 'text';
+            this.title = '';
             this.sfw = true;
 
             // Link
-            this.submitURL = "";
+            this.submitURL = '';
             this.loadingTitle = false;
 
             // Text
             this.preview = false;
-            this.text = "";
+            this.text = '';
 
             // Photo
             this.photos = [];
-            this.previewPhotoImage = "";
-            this.previewPhotoFileName = "";
+            this.previewPhotoImage = '';
+            this.previewPhotoFileName = '';
             this.previewPhotoModal = false;
 
             // GIF
             this.gifTempArray = [];
             this.gif_id = null;
-            this.previewGifImage = "";
-            this.previewGifFileName = "";
+            this.previewGifImage = '';
+            this.previewGifFileName = '';
             this.previewGifModal = fals;
         }
     }

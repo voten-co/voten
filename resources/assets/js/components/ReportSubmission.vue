@@ -77,6 +77,16 @@
                 this.$refs.description.$refs.textarea.focus();
             });
         },
+       
+        beforeDestroy() {
+            if (window.location.hash == '#reportSubmission') {
+                history.go(-1);
+            }
+        },
+
+        created() {
+            window.location.hash = 'reportSubmission';
+        },
 
         methods: {
             send() {

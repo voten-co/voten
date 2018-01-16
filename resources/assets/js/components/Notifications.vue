@@ -64,6 +64,11 @@
             'visible'() {
                 if (this.visible) {
                     Store.methods.seenAllNotifications(); 
+                    window.location.hash = 'notifications';                    
+                } else {
+                    if (window.location.hash == '#notifications') {
+                        history.go(-1);
+                    }
                 }
             }
         },

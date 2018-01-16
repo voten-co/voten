@@ -218,25 +218,35 @@ window.app = new Vue({
         }
 
         this.setQueries();
-        // this.setHashes();
+        this.setHashes();
     },
 
     methods: {
         setHashes() {
+            console.log('setHashes');
             let hash = window.location.hash;
 
-            console.log(hash);
-
             if (!hash) {
+                console.log('clear'); 
+                
                 Store.contentRouter = 'content';
-                Store.modals.preferences.show = false;
-                Store.modals.notifications.show = false;
-                Store.modals.newChannel.show = false;
-                Store.modals.feedback.show = false;
-                Store.modals.newSubmission.show = false;
-                Store.modals.keyboardShortcutsGuide.show = false;
-                Store.modals.markdownGuide.show = false;
-                Store.modals.authintication.show = false;
+
+                _.forEach(Store.modals, item => {
+                    item.show = false;
+                });
+            } else {
+                let modal = _.find(Store.modals, item => {
+                    return item.hash == hash.substr(1);
+                });
+
+                console.log(modal.hash);
+
+                // if didn't found, means it's supposed to be closed. So leave it be and just unset window.location.hash
+                if (modal == undefined) {
+                    window.location.hash = '';
+                } else {
+                    modal.show = true;
+                }
             }
         },
 

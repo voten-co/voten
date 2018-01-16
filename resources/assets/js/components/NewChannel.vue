@@ -7,7 +7,7 @@
 	           class="user-select submit-form">
 		<el-alert v-if="customError"
 		          :title="customError"
-                  class="margin-bottom-1"
+		          class="margin-bottom-1"
 		          type="error">
 		</el-alert>
 
@@ -77,23 +77,35 @@
 </template>
 
 <script>
-import Helpers from "../mixins/Helpers";
+import Helpers from '../mixins/Helpers';
 
 export default {
-    props: ["visible"],
+    props: ['visible'],
 
     mixins: [Helpers],
 
     data() {
         return {
-            name: "",
-            description: "",
+            name: '',
+            description: '',
             sfw: true,
             errors: [],
-            customError: "",
+            customError: '',
             loading: false,
             warning: `At the current stage, we're trying to keep the channels number short, making it easier for new users. Thus, please do a little search before creating your channel to make sure a similar one doesn't already exist. `
         };
+    },
+
+    watch: {
+        'visible'() {
+            if (this.visible) {
+                window.location.hash = 'newChannel';
+            } else {
+                if (window.location.hash == '#newChannel') {
+                    history.go(-1);
+                }
+            }
+        }
     },
 
     computed: {
@@ -104,14 +116,14 @@ export default {
 
     methods: {
         close() {
-            this.$emit("update:visible", false);
+            this.$emit('update:visible', false);
         },
 
         submit() {
             this.loading = true;
 
             axios
-                .post("/channel", {
+                .post('/channel', {
                     name: this.name,
                     description: this.description,
                     nsfw: !this.sfw
@@ -127,9 +139,7 @@ export default {
                     Store.state.subscribedAt.push(response.data.id);
                     Store.page.channel.temp = response.data;
 
-                    this.$router.push(
-                        "/c/" + response.data.name + "/mod/settings?created=1"
-                    );
+                    this.$router.push('/c/' + response.data.name + '/mod/settings?created=1');
 
                     this.loading = false;
                     this.reset();
@@ -150,11 +160,11 @@ export default {
         },
 
         reset() {
-            this.name = "";
-            this.description = "";
+            this.name = '';
+            this.description = '';
             this.sfw = true;
             this.errors = [];
-            this.customError = "";
+            this.customError = '';
             this.loading = false;
         }
     }

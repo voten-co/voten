@@ -197,49 +197,59 @@
 
 <script>
 // @keyup.enter="register"
-import Helpers from "../mixins/Helpers";
-import VueRecaptcha from "vue-recaptcha";
-import GoogleLoginButton from "../components/GoogleLoginButton";
+import Helpers from '../mixins/Helpers';
+import VueRecaptcha from 'vue-recaptcha';
+import GoogleLoginButton from '../components/GoogleLoginButton';
 
 export default {
     mixins: [Helpers],
 
     components: { GoogleLoginButton, VueRecaptcha },
 
-    props: ["visible"],
+    props: ['visible'],
 
     data() {
         return {
-            type: "register",
+            type: 'register',
             loading: false,
-			showPassword: false,
-			recaptchaKey: window.Laravel.recaptchaKey, 
+            showPassword: false,
+            recaptchaKey: window.Laravel.recaptchaKey,
 
             registerForm: {
-                username: "",
-                password: "",
-                password_confirmation: "",
-                email: "",
+                username: '',
+                password: '',
+                password_confirmation: '',
+                email: '',
                 errors: [],
-                reCAPTCHA: ""
+                reCAPTCHA: ''
             },
 
             loginForm: {
-                username: "",
-                password: "",
+                username: '',
+                password: '',
                 errors: [],
                 remember: true
             }
         };
     },
 
+    beforeDestroy() {
+        if (window.location.hash == '#authintication') {
+            history.go(-1);
+        }
+    },
+
+    created() {
+        window.location.hash = 'authintication';
+    },
+
     computed: {
         isLogin() {
-            return this.type == "login";
+            return this.type == 'login';
         },
 
         isRegister() {
-            return this.type == "register";
+            return this.type == 'register';
         }
     },
 
@@ -250,13 +260,13 @@ export default {
 
         reCaptchaExpired() {
             this.registerForm.reCAPTCHA = '';
-		},
-		
+        },
+
         login() {
             this.loading = true;
 
             axios
-                .post("/login", {
+                .post('/login', {
                     username: this.loginForm.username,
                     password: this.loginForm.password,
                     remember: this.loginForm.remember
@@ -276,21 +286,21 @@ export default {
             this.loading = true;
 
             axios
-                .post("/register", {
+                .post('/register', {
                     username: this.registerForm.username,
                     email: this.registerForm.email,
                     password: this.registerForm.password,
-					password_confirmation: this.registerForm.password_confirmation, 
-					'g-recaptcha-response': this.registerForm.reCAPTCHA
+                    password_confirmation: this.registerForm.password_confirmation,
+                    'g-recaptcha-response': this.registerForm.reCAPTCHA
                 })
                 .then(response => {
                     this.loading = false;
                     this.registerForm.errors = [];
-                    window.location = "/discover-channels?newbie=1&sidebar=0";
+                    window.location = '/discover-channels?newbie=1&sidebar=0';
                 })
                 .catch(error => {
-					this.loading = false;
-					this.$refs.recaptcha.reset();
+                    this.loading = false;
+                    this.$refs.recaptcha.reset();
                     this.registerForm.errors = error.response.data.errors;
                 });
         },
@@ -302,7 +312,7 @@ export default {
         },
 
         close() {
-            this.$emit("update:visible", false);
+            this.$emit('update:visible', false);
         }
     }
 };

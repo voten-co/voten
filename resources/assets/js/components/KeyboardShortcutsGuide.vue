@@ -125,6 +125,16 @@
 
         props: ['visible'],
 
+        beforeDestroy() {
+            if (window.location.hash == '#keyboardShortcutsGuide') {
+                history.go(-1);
+            }
+        },
+
+        created() {
+            window.location.hash = 'keyboardShortcutsGuide';
+        },
+
         methods: {
             close() {
                 this.$emit('update:visible', false);
