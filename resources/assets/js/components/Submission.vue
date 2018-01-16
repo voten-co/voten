@@ -1,7 +1,7 @@
 <template>
 	<transition name="el-fade-in-linear">
-
 		<div class="submission-item submission-wrapper"
+            @dblclick="doubleClicked"
 		     v-show="!hidden"
 		     :id="'submission' + list.id">
 			<!-- side-voting -->
@@ -114,10 +114,6 @@
 					                 @downvote="voteDown"
 					                 :points="points"></link-submission>
 				</div>
-
-				<report-submission :submission="list"
-				                   :visible.sync="showReportModal"
-				                   v-if="showReportModal"></report-submission>
 			</article>
 		</div>
 	</transition>
@@ -128,7 +124,6 @@ import TextSubmission from '../components/submission/TextSubmission.vue';
 import LinkSubmission from '../components/submission/LinkSubmission.vue';
 import ImgSubmission from '../components/submission/ImgSubmission.vue';
 import GifSubmission from '../components/submission/GifSubmission.vue';
-import ReportSubmission from '../components/ReportSubmission.vue';
 import Helpers from '../mixins/Helpers';
 
 export default {
@@ -137,7 +132,6 @@ export default {
     mixins: [Helpers],
 
     components: {
-        ReportSubmission,
         TextSubmission,
         LinkSubmission,
         ImgSubmission,
@@ -150,8 +144,7 @@ export default {
             sendingQuickComment: false,
             quickComment: '',
             embedViewer: false,
-            gifPlayer: false,
-            showReportModal: false
+            gifPlayer: false
         };
     },
 
@@ -232,33 +225,33 @@ export default {
         },
 
         /**
-             * Does the auth user own the submission
-             *
-             * @return Boolean
-             */
+         * Does the auth user own the submission
+         *
+         * @return Boolean
+         */
         owns() {
             return auth.id == this.list.owner.id;
         },
 
         /**
-             * Whether or not user wants to see NSFW content's image
-             *
-             * (Hint: The base idea is that we don't display NSFW content)
-             * If the user wants to see NSFW media then return false, like it's not NSFW at all
-             * Otherwise return true which means the media must not be displayed.
-             * (false: the media will be displayed)
-             *
-             * @return boolean
-             */
+         * Whether or not user wants to see NSFW content's image
+         *
+         * (Hint: The base idea is that we don't display NSFW content)
+         * If the user wants to see NSFW media then return false, like it's not NSFW at all
+         * Otherwise return true which means the media must not be displayed.
+         * (false: the media will be displayed)
+         *
+         * @return boolean
+         */
         nsfw() {
             return this.list.nsfw && !auth.nsfwMedia;
         },
 
         /**
-             * The current vote type. It's being used to optimize the voing request on the server-side.
-             *
-             * @return mixed
-             */
+         * The current vote type. It's being used to optimize the voing request on the server-side.
+         *
+         * @return mixed
+         */
         currentVote() {
             return this.upvoted ? 'upvote' : this.downvoted ? 'downvote' : null;
         },
@@ -271,6 +264,12 @@ export default {
     },
 
     methods: {
+        doubleClicked() {
+            if (!this.currentVote) {
+                this.voteUp(); 
+            }
+        }, 
+        
         removeThumbnail() {
             this.list.data.thumbnail = null;
             this.list.data.img = null;
@@ -279,10 +278,10 @@ export default {
         },
 
         /**
-             * marks the submission as NSFW (not safe for work)
-             *
-             * @return void
-             */
+         * marks the submission as NSFW (not safe for work)
+         *
+         * @return void
+         */
         markAsNSFW() {
             this.list.nsfw = true;
 
@@ -296,10 +295,10 @@ export default {
         },
 
         /**
-             * marks the submission as NSFW (not safe for work)
-             *
-             * @return void
-             */
+         * marks the submission as NSFW (not safe for work)
+         *
+         * @return void
+         */
         markAsSFW() {
             this.list.nsfw = false;
 
@@ -313,10 +312,10 @@ export default {
         },
 
         /**
-             * hide(block) submission
-             *
-             * @return void
-             */
+         * hide(block) submission
+         *
+         * @return void
+         */
         hide() {
             if (this.isGuest) {
                 this.mustBeLogin();
@@ -335,10 +334,10 @@ export default {
         },
 
         /**
-             * Deletes the submission. Only the owner is allowed to make such decision.
-             *
-             * @return void
-             */
+         * Deletes the submission. Only the owner is allowed to make such decision.
+         *
+         * @return void
+         */
         destroy() {
             axios.post('/destroy-submission', { id: this.list.id });
 
@@ -350,10 +349,10 @@ export default {
         },
 
         /**
-             * Approves the submission. Only the moderators of channel are allowed to do this.
-             *
-             * @return void
-             */
+         * Approves the submission. Only the moderators of channel are allowed to do this.
+         *
+         * @return void
+         */
         approve() {
             this.list.approved_at = this.now();
 
@@ -367,10 +366,10 @@ export default {
         },
 
         /**
-             * Disapproves the submission. Only the moderators of channel are allowed to do this.
-             *
-             * @return void
-             */
+         * Disapproves the submission. Only the moderators of channel are allowed to do this.
+         *
+         * @return void
+         */
         disapprove() {
             this.hidden = true;
 
@@ -384,17 +383,18 @@ export default {
         },
 
         /**
-             *  Report submission
-             *
-             *  @return void
-             */
+         *  Report submission
+         *
+         *  @return void
+         */
         report() {
             if (this.isGuest) {
                 this.mustBeLogin();
                 return;
             }
 
-            this.showReportModal = true;
+            Store.modals.reportSubmission.show = true;
+            Store.modals.reportSubmission.submission = this.list;
         },
 
         voteUp: _.debounce(
