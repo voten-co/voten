@@ -20,6 +20,7 @@
 			<el-tooltip content="Profile (P)"
 			            placement="right"
 			            transition="false"
+						v-if="isLoggedIn"
 			            :open-delay="500">
 				<a @click.prevent="pushRouter('/@' + auth.username)"
 				   :href="'/@' + auth.username"
