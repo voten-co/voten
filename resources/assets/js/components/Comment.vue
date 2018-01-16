@@ -3,7 +3,7 @@
         <div class="comment v-comment-wrapper" v-show="visible" @mouseover="seen" :id="'comment' + list.id"
 	        :class="highlightClass"
         >
-            <div class="content">
+            <div class="content" @dblclick="doubleClicked">
                 <div class="v-comment-info">
                     <router-link :to="'/' + '@' + list.owner.username" class="avatar user-select">
                         <img v-bind:src="list.owner.avatar">
@@ -111,8 +111,6 @@
             <el-button type="text" v-if="hasMoreCommentsToLoad" @click="loadMoreComments">
 	        	Load More Comments ({{ list.children.length - childrenLimit }} more replies)
 	    	</el-button>
-
-            <report-comment :comment="list" :visible.sync="showReportModal" v-if="showReportModal"></report-comment>
         </div>
     </transition>
 </template>
@@ -120,7 +118,6 @@
 
 <script>
     import Markdown from '../components/Markdown.vue';
-    import ReportComment from '../components/ReportComment.vue';
     import Helpers from '../mixins/Helpers';
 
     export default {
@@ -129,8 +126,7 @@
         props: ['list', 'comments-order', 'full'],
 
         components: {
-            Markdown,
-            ReportComment
+            Markdown
         },
 
         mixins: [Helpers],
@@ -142,8 +138,7 @@
                 visible: true,
                 reply: false,
                 childrenLimit: 4,
-                highlighted: false,
-                showReportModal: false
+                highlighted: false
             }
         },
 
@@ -363,6 +358,15 @@
 
 
         methods: {
+            doubleClicked() {
+                if (this.owns) {
+                    this.edit(); 
+                    return; 
+                }
+
+                this.commentReply(); 
+            }, 
+
             /**
              * Sets the initial values for whether or not highlight the comment.
              *
@@ -453,9 +457,13 @@
              *  Report(and block) comment
              */
             report() {
-                if (this.isGuest) {this.mustBeLogin(); return;}
+                if (this.isGuest) {
+                    this.mustBeLogin();
+                    return;
+                }
 
-        		this.showReportModal = true;
+                Store.modals.reportComment.show = true;
+                Store.modals.reportComment.comment = this.list;
             },
 
         	/**
