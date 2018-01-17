@@ -202,26 +202,10 @@ window.app = new Vue({
             return Store.state.contacts.filter(
                 item => item.last_message.owner.id != auth.id && item.last_message.read_at == null
             ).length;
-        },
-
-        showRightSidebarOnly() {
-            return Store.contentRouter === 'messages' || Store.contentRouter === 'search' ? false : true;
-        },
-
-        showRightSidebar() {
-            return this.showRightSidebarOnly & this.showSidebars;
-        },
-
-        showLeftSidebar() {
-            return this.showSidebars;
         }
     },
 
     watch: {
-        $route() {
-            this.closeModals();
-        },
-
         unreadNotifications() {
             this.updatePageTitle();
         },
@@ -245,8 +229,6 @@ window.app = new Vue({
 
         // Let's hear it for the events, shall we?
         this.$eventHub.$on('start-conversation', this.startConversation);
-        this.$eventHub.$on('new-route', this.newRoute);
-        this.$eventHub.$on('close', this.closeModals);
         this.$eventHub.$on('submit', this.showNewSubmission);
         this.$eventHub.$on('login-modal', this.loginModal);
         this.$eventHub.$on('markdown-guide', this.openMarkdownGuide);
@@ -262,14 +244,9 @@ window.app = new Vue({
 
     methods: {
         setHashes() {
-            console.log('setHashes');
             let hash = window.location.hash;
 
             if (!hash) {
-                console.log('clear'); 
-                
-                Store.contentRouter = 'content';
-
                 _.forEach(Store.modals, item => {
                     item.show = false;
                 });
@@ -277,8 +254,6 @@ window.app = new Vue({
                 let modal = _.find(Store.modals, item => {
                     return item.hash == hash.substr(1);
                 });
-
-                console.log(modal.hash);
 
                 // if didn't found, means it's supposed to be closed. So leave it be and just unset window.location.hash
                 if (modal == undefined) {
@@ -326,7 +301,7 @@ window.app = new Vue({
                 timeout: 5000,
                 onClick: function() {
                     if (data.url == 'new-message') {
-                        Store.contentRouter = 'messages';
+                        Store.modals.messages.show = true;
                     } else {
                         self.$router.push(data.url);
                     }
@@ -441,16 +416,7 @@ window.app = new Vue({
             Store.modals.messages.show = true; 
             this.$eventHub.$emit('conversation', contact);
         },
-
-        /**
-         * Switches the to the dispatched route (without any checking)
-         *
-         * @return void
-         */
-        newRoute(route) {
-            Store.contentRouter = route;
-        },
-
+      
         /**
          * show the submit modal.
          *

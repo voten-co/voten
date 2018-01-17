@@ -17,99 +17,99 @@
 </template>
 
 <script>
-    import Loading from '../components/Loading.vue'
-    import Comment from '../components/Comment.vue'
-    import NoContent from '../components/NoContent.vue'
-	import NoMoreItems from '../components/NoMoreItems.vue'
-	import Helpers from '../mixins/Helpers';
+import Loading from '../components/Loading.vue';
+import Comment from '../components/Comment.vue';
+import NoContent from '../components/NoContent.vue';
+import NoMoreItems from '../components/NoMoreItems.vue';
+import Helpers from '../mixins/Helpers';
 
+export default {
+    mixins: [Helpers],
 
-    export default {
-		mixins: [Helpers],
+    components: {
+        Loading,
+        Comment,
+        NoContent,
+        NoMoreItems
+    },
 
-        components: {
-        	Loading,
-        	Comment,
-        	NoContent,
-        	NoMoreItems
+    data: function() {
+        return {
+            NoMoreItems: false,
+            loading: true,
+            nothingFound: false,
+            comments: [],
+            page: 0
+        };
+    },
+
+    created() {
+        this.$eventHub.$on('scrolled-to-bottom', this.loadMore);
+        this.getComments();
+    },
+
+    watch: {
+        $route: function() {
+            this.clearContent();
+            this.getComments();
+        }
+    },
+
+    computed: {
+        cantLoadMore() {
+            return this.loading || this.NoMoreItems || this.nothingFound;
         },
 
-        data: function () {
-            return {
-	            NoMoreItems: false,
-				loading: true,
-                nothingFound: false,
-                comments: [],
-				page: 0
+        uniqueList() {
+            let unique = [];
+            let temp = [];
+
+            this.comments.forEach(function(element, index, self) {
+                if (temp.indexOf(element.id) === -1) {
+                    unique.push(element);
+                    temp.push(element.id);
+                }
+            });
+
+            return unique;
+        }
+    },
+
+    methods: {
+        loadMore() {
+            if (!this.loading && !this.NoMoreItems) {
+                this.getComments();
             }
         },
 
-        created () {
-			this.$eventHub.$on('scrolled-to-bottom', this.loadMore);
-            this.getComments();
+        clearContent() {
+            this.nothingFound = false;
+            this.users = [];
+            this.loading = true;
         },
 
-	    watch: {
-			'$route': function () {
-				this.clearContent();
-				this.getComments();
-			}
-		},
+        getComments() {
+            this.loading = true;
+            this.page++;
 
-		computed: {
-			cantLoadMore() {
-				return this.loading || this.NoMoreItems || this.nothingFound;
-			},
-			
-			uniqueList() {
-				let unique = []
-				let temp = []
-
-				this.comments.forEach(function(element, index, self) {
-					if (temp.indexOf(element.id) === -1) {
-						unique.push(element)
-						temp.push(element.id)
-					}
-				})
-
-				return unique
-			}
-		},
-
-        methods: {
-        	loadMore () {
-				if ( Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems ) {
-					this.getComments()
-				}
-			},
-
-        	clearContent () {
-				this.nothingFound = false
-				this.users = []
-				this.loading = true
-        	},
-
-            getComments () {
-            	this.loading = true
-				this.page ++
-
-                axios.post('/admin/comments', {
-                	page: this.page
-                }).then((response) => {
-	            	this.comments = [...this.comments, ...response.data.data]
-
-					if (response.data.next_page_url == null) {
-						this.NoMoreItems = true
-					}
-
-					if(this.comments.length == 0){
-						this.nothingFound = true
-					}
-
-					this.loading = false
+            axios
+                .post('/admin/comments', {
+                    page: this.page
                 })
-            },
+                .then(response => {
+                    this.comments = [...this.comments, ...response.data.data];
 
+                    if (response.data.next_page_url == null) {
+                        this.NoMoreItems = true;
+                    }
+
+                    if (this.comments.length == 0) {
+                        this.nothingFound = true;
+                    }
+
+                    this.loading = false;
+                });
         }
     }
+};
 </script>

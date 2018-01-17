@@ -106,7 +106,12 @@
     
                     <message-button :id="userStore.id" v-if="$route.params.username != auth.username && !isGuest"></message-button>
     
-                    <el-button type="success" @click="$router.push({ name: 'user-settings-profile' })" v-if="$route.params.username == auth.username" plain size="medium">Edit Profile
+                    <el-button type="success" 
+                        @click="Store.modals.preferences.show = true" 
+                        v-if="$route.params.username == auth.username" 
+                        plain 
+                        size="medium">
+                        Edit Profile
                     </el-button>
                 </div>
             </div>
@@ -115,113 +120,122 @@
 </template>
 
 <script>
-    import MessageButton from '../components/MessageButton.vue';
-    import Helpers from '../mixins/Helpers';
-    
-    export default {
-        mixins: [Helpers],
-    
-        components: {
-            MessageButton
-        },
-    
-        data() {
-            return {
-                showFirstHeader: true
-            }
-        },
-    
-        created() {
-            this.$eventHub.$on('scrolled-to-top', () => {
-                this.showFirstHeader = true
-            });
-    
-            this.$eventHub.$on('scrolled-a-bit', () => {
-                this.showFirstHeader = false
-            });
-        },
+import MessageButton from '../components/MessageButton.vue';
+import Helpers from '../mixins/Helpers';
 
-        beforeDestroy() {
-            this.$eventHub.$off('scrolled-to-top', () => {
-                this.showFirstHeader = true
-            });
+export default {
+    mixins: [Helpers],
 
-            this.$eventHub.$off('scrolled-a-bit', () => {
-                this.showFirstHeader = false
-            });
-        }, 
-    
-        methods: {
-            bookmark: _.debounce(function() {
+    components: {
+        MessageButton
+    },
+
+    data() {
+        return {
+            showFirstHeader: true
+        };
+    },
+
+    created() {
+        this.$eventHub.$on('scrolled-to-top', () => {
+            this.showFirstHeader = true;
+        });
+
+        this.$eventHub.$on('scrolled-a-bit', () => {
+            this.showFirstHeader = false;
+        });
+    },
+
+    beforeDestroy() {
+        this.$eventHub.$off('scrolled-to-top', () => {
+            this.showFirstHeader = true;
+        });
+
+        this.$eventHub.$off('scrolled-a-bit', () => {
+            this.showFirstHeader = false;
+        });
+    },
+
+    methods: {
+        bookmark: _.debounce(
+            function() {
                 if (this.isGuest) {
                     this.mustBeLogin();
                     return;
                 }
-    
+
                 this.bookmarked = !this.bookmarked;
-    
-                axios.post('/bookmark-user', {
-                    id: Store.page.user.temp.id
-                }).catch(() => {
-                    this.bookmarked = !this.bookmarked;
-                });
-            }, 200, {
+
+                axios
+                    .post('/bookmark-user', {
+                        id: Store.page.user.temp.id
+                    })
+                    .catch(() => {
+                        this.bookmarked = !this.bookmarked;
+                    });
+            },
+            200,
+            {
                 leading: true,
                 trailing: false
-            }),
+            }
+        )
+    },
+
+    computed: {
+        bookmarked: {
+            get() {
+                return Store.state.bookmarks.users.indexOf(Store.page.user.temp.id) !== -1 ? true : false;
+            },
+
+            set() {
+                if (Store.state.bookmarks.users.indexOf(Store.page.user.temp.id) !== -1) {
+                    let index = Store.state.bookmarks.users.indexOf(Store.page.user.temp.id);
+                    Store.state.bookmarks.users.splice(index, 1);
+
+                    return;
+                }
+
+                Store.state.bookmarks.users.push(Store.page.user.temp.id);
+            }
         },
-    
-        computed: {
-            bookmarked: {
-                get() {
-                    return Store.state.bookmarks.users.indexOf(Store.page.user.temp.id) !== -1 ? true : false;
-                },
-    
-                set() {
-                    if (Store.state.bookmarks.users.indexOf(Store.page.user.temp.id) !== -1) {
-                        let index = Store.state.bookmarks.users.indexOf(Store.page.user.temp.id);
-                        Store.state.bookmarks.users.splice(index, 1);
-    
-                        return;
-                    }
-    
-                    Store.state.bookmarks.users.push(Store.page.user.temp.id);
-                }
-            },
-    
-            isAuth() {
-                return auth.username == this.$route.params.username;
-            },
-    
-            userStore() {
-                return Store.page.user.temp;
-            },
-    
-            date() {
-                return moment(this.userStore.created_at).utc(moment().format("MMM Do")).format("MMM Do")
-            },
-    
-            coverBackground() {
-                if (this.userStore.color == 'Red') {
-                    return '#9a4e4e'
-                } else if (this.userStore.color == 'Blue') {
-                    return '#5487d4'
-                } else if (this.userStore.color == 'Dark Blue') {
-                    return '#2f3b49'
-                } else if (this.userStore.color == 'Dark Green') {
-                    return '#507e75'
-                } else if (this.userStore.color == 'Bright Green') {
-                    return 'rgb(117, 148, 127)'
-                } else if (this.userStore.color == 'Purple') {
-                    return '#4d4261'
-                } else if (this.userStore.color == 'Orange') {
-                    return '#ffaf40'
-                } else if (this.userStore.color == 'Pink') {
-                    return '#ec7daa'
-                } else { // userStore.color == 'Black'
-                    return '#424242'
-                }
+
+        isAuth() {
+            return auth.username == this.$route.params.username;
+        },
+
+        userStore() {
+            return Store.page.user.temp;
+        },
+
+        date() {
+            return moment(this.userStore.created_at)
+                .utc(moment().format('MMM Do'))
+                .format('MMM Do');
+        },
+
+        coverBackground() {
+            if (this.userStore.color == 'Red') {
+                return '#9a4e4e';
+            } else if (this.userStore.color == 'Blue') {
+                return '#5487d4';
+            } else if (this.userStore.color == 'Dark Blue') {
+                return '#2f3b49';
+            } else if (this.userStore.color == 'Dark Green') {
+                return '#507e75';
+            } else if (this.userStore.color == 'Bright Green') {
+                return 'rgb(117, 148, 127)';
+            } else if (this.userStore.color == 'Purple') {
+                return '#4d4261';
+            } else if (this.userStore.color == 'Orange') {
+                return '#ffaf40';
+            } else if (this.userStore.color == 'Pink') {
+                return '#ec7daa';
+            } else {
+                // userStore.color == 'Black'
+                return '#424242';
             }
         }
     }
+};
 </script>

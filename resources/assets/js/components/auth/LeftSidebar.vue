@@ -195,19 +195,7 @@ export default {
     },
 
     computed: {
-        contentRoute() {
-            return Store.contentRouter;
-        },
-
         activeRoute() {
-            if (this.contentRoute === 'messages') {
-                return 'messages';
-            }
-
-            if (this.contentRoute === 'search') {
-                return 'search';
-            }
-
             if (this.$route.name === 'home') {
                 return 'home';
             }

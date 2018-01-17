@@ -41,141 +41,141 @@
 </template>
 
 <script>
-    import Loading from '../components/SimpleLoading.vue';
-    import ReportedSubmission from '../components/ReportedSubmission.vue';
+import Loading from '../components/SimpleLoading.vue';
+import ReportedSubmission from '../components/ReportedSubmission.vue';
 
-    export default {
-        components: {
-            Loading,
-            ReportedSubmission
+export default {
+    components: {
+        Loading,
+        ReportedSubmission
+    },
+
+    data() {
+        return {
+            NoMoreItems: false,
+            loading: true,
+            nothingFound: false,
+            items: [],
+            page: 0,
+            Store
+        };
+    },
+
+    computed: {
+        type() {
+            if (this.$route.query.type == 'solved') {
+                return 'solved';
+            }
+
+            if (this.$route.query.type == 'deleted') {
+                return 'deleted';
+            }
+
+            return 'unsolved';
+        }
+    },
+
+    created: function() {
+        this.getItems();
+        this.$eventHub.$on('scrolled-to-bottom', this.loadMore);
+    },
+
+    watch: {
+        type: function() {
+            this.clearContent();
+            this.getItems();
+        }
+    },
+
+    mounted() {
+        //
+    },
+
+    methods: {
+        disapproveSubmission(submission_id) {
+            axios.post('/disapprove-submission', { submission_id }).then(response => {
+                this.items = this.items.filter(function(item) {
+                    return item.submission.id != submission_id;
+                });
+
+                if (!this.items.length) {
+                    this.nothingFound = true;
+                }
+            });
         },
 
-        data() {
-            return {
-                NoMoreItems: false,
-                loading: true,
-                nothingFound: false,
-                items: [],
-                page: 0,
-                Store
+        approveSubmission(submission_id) {
+            axios.post('/approve-submission', { submission_id }).then(response => {
+                this.items = this.items.filter(function(item) {
+                    return item.submission.id != submission_id;
+                });
+
+                if (!this.items.length) {
+                    this.nothingFound = true;
+                }
+            });
+        },
+
+        loadMore() {
+            if (!this.loading && !this.NoMoreItems) {
+                this.getItems();
             }
         },
 
-        computed: {
-            type() {
-                if (this.$route.query.type == 'solved') {
-                    return 'solved'
-                }
-
-                if (this.$route.query.type == 'deleted') {
-                    return 'deleted'
-                }
-
-                return 'unsolved'
-            }
+        /**
+         * Resets all the basic data
+         *
+         * @return void
+         */
+        clearContent() {
+            this.nothingFound = false;
+            this.items = [];
+            this.loading = true;
+            this.page = 0;
         },
 
+        getItems() {
+            this.page++;
+            this.loading = true;
 
-        created: function () {
-            this.getItems()
-            this.$eventHub.$on('scrolled-to-bottom', this.loadMore)
-        },
-
-        watch: {
-            'type': function () {
-                this.clearContent()
-                this.getItems()
-            }
-        },
-
-        mounted() {
-            //
-        },
-
-        methods: {
-            disapproveSubmission(submission_id){
-                axios.post('/disapprove-submission', { submission_id }).then((response) => {
-                    this.items = this.items.filter(function (item) {
-                        return item.submission.id != submission_id
-                    })
-
-                    if (!this.items.length) {
-                        this.nothingFound = true
-                    }
-                })
-            },
-
-            approveSubmission(submission_id){
-                axios.post('/approve-submission', { submission_id }).then((response) => {
-                    this.items = this.items.filter(function (item) {
-                        return item.submission.id != submission_id
-                    })
-
-                    if (!this.items.length) {
-                        this.nothingFound = true
-                    }
-                })
-            },
-
-            loadMore() {
-                if (Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems) {
-                    this.getItems()
-                }
-            },
-
-            /**
-             * Resets all the basic data
-             *
-             * @return void
-             */
-            clearContent() {
-                this.nothingFound = false
-                this.items = []
-                this.loading = true
-                this.page = 0
-            },
-
-            getItems() {
-                this.page++;
-                this.loading = true
-
-                axios.post('/reported-submissions', {
+            axios
+                .post('/reported-submissions', {
                     type: this.type,
                     channel: this.$route.params.name,
                     page: this.page
-                }).then((response) => {
-                    this.items = [...this.items, ...response.data.data]
+                })
+                .then(response => {
+                    this.items = [...this.items, ...response.data.data];
 
                     if (!this.items.length) {
-                        this.nothingFound = true
+                        this.nothingFound = true;
                     }
 
                     if (response.data.next_page_url == null) {
-                        this.NoMoreItems = true
+                        this.NoMoreItems = true;
                     }
 
-                    this.loading = false
-                })
+                    this.loading = false;
+                });
+        }
+    },
 
+    beforeRouteEnter(to, from, next) {
+        if (Store.page.channel.temp.name == to.params.name) {
+            // loaded
+            if (Store.state.moderatingAt.indexOf(Store.page.channel.temp.id) != -1) {
+                next();
             }
-        },
-
-        beforeRouteEnter(to, from, next){
-            if (Store.page.channel.temp.name == to.params.name) {
-                // loaded
-                if (Store.state.moderatingAt.indexOf(Store.page.channel.temp.id) != -1) {
-                    next()
-                }
-            } else {
-                // not loaded but let's continue (the server-side is still protecting us!)
-                next()
-            }
-        },
-    };
+        } else {
+            // not loaded but let's continue (the server-side is still protecting us!)
+            next();
+        }
+    }
+};
 </script>
 
 <style>
-    #reported-items .fond {
-        padding-top: 7%;
-    }
+#reported-items .fond {
+    padding-top: 7%;
+}
 </style>

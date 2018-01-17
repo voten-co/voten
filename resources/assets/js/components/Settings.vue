@@ -70,7 +70,7 @@ export default {
 
     data() {
         return {
-            route: 'account'
+            route: 'profile'
         };
     },
 

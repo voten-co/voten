@@ -118,7 +118,7 @@
             },
 
             isChatting () {
-                return Store.contentRouter == "messages" && this.chatting
+                return Store.modals.messages.show && this.chatting
             }
         },
 

@@ -40,139 +40,139 @@
 </template>
 
 <script>
-    import Loading from '../components/SimpleLoading.vue';
-    import ReportedComment from '../components/ReportedComment.vue';
-    import NoContent from '../components/NoContent.vue';
+import Loading from '../components/SimpleLoading.vue';
+import ReportedComment from '../components/ReportedComment.vue';
+import NoContent from '../components/NoContent.vue';
 
-    export default {
-        components: {
-            Loading,
-            NoContent,
-            ReportedComment
-        },
+export default {
+    components: {
+        Loading,
+        NoContent,
+        ReportedComment
+    },
 
-        data() {
-            return {
-                NoMoreItems: false,
-                loading: true,
-                nothingFound: false,
-                items: [],
-                page: 0,
-                Store
+    data() {
+        return {
+            NoMoreItems: false,
+            loading: true,
+            nothingFound: false,
+            items: [],
+            page: 0,
+            Store
+        };
+    },
+
+    computed: {
+        type() {
+            if (this.$route.query.type == 'solved') {
+                return 'solved';
             }
-        },
 
-        computed: {
-            type() {
-                if (this.$route.query.type == 'solved') {
-                    return 'solved'
-                }
-
-                if (this.$route.query.type == 'deleted') {
-                    return 'deleted'
-                }
-
-                return 'unsolved'
+            if (this.$route.query.type == 'deleted') {
+                return 'deleted';
             }
-        },
 
-        created: function () {
-            this.getItems()
-            this.$eventHub.$on('scrolled-to-bottom', this.loadMore)
-        },
+            return 'unsolved';
+        }
+    },
 
-        watch: {
-            'type': function () {
-                this.clearContent()
-                this.getItems()
-            }
-        },
+    created: function() {
+        this.getItems();
+        this.$eventHub.$on('scrolled-to-bottom', this.loadMore);
+    },
 
-        methods: {
-            disapproveComment(comment_id){
-                axios.post('/disapprove-comment', { comment_id }).then(() => {
-                    this.items = this.items.filter(function (item) {
-                        return item.comment.id != comment_id;
-                    });
+    watch: {
+        type: function() {
+            this.clearContent();
+            this.getItems();
+        }
+    },
 
-                    if (!this.items.length) {
-                        this.nothingFound = true;
-                    }
+    methods: {
+        disapproveComment(comment_id) {
+            axios.post('/disapprove-comment', { comment_id }).then(() => {
+                this.items = this.items.filter(function(item) {
+                    return item.comment.id != comment_id;
                 });
-            },
 
-            approveComment(comment_id){
-                axios.post('/approve-comment', { comment_id }).then(() => {
-                    this.items = this.items.filter(function (item) {
-                        return item.comment.id != comment_id;
-                    });
-
-                    if (!this.items.length) {
-                        this.nothingFound = true;
-                    }
-                });
-            },
-
-            loadMore() {
-                if (Store.contentRouter == 'content' && !this.loading && !this.NoMoreItems) {
-                    this.getItems()
+                if (!this.items.length) {
+                    this.nothingFound = true;
                 }
-            },
+            });
+        },
 
-            /**
-             * Resets all the basic data
-             *
-             * @return void
-             */
-            clearContent() {
-                this.nothingFound = false
-                this.items = []
-                this.loading = true
-                this.page = 0
-            },
+        approveComment(comment_id) {
+            axios.post('/approve-comment', { comment_id }).then(() => {
+                this.items = this.items.filter(function(item) {
+                    return item.comment.id != comment_id;
+                });
 
-            getItems() {
-                this.page++;
-                this.loading = true
+                if (!this.items.length) {
+                    this.nothingFound = true;
+                }
+            });
+        },
 
-                axios.post('/reported-comments', {
+        loadMore() {
+            if (!this.loading && !this.NoMoreItems) {
+                this.getItems();
+            }
+        },
+
+        /**
+         * Resets all the basic data
+         *
+         * @return void
+         */
+        clearContent() {
+            this.nothingFound = false;
+            this.items = [];
+            this.loading = true;
+            this.page = 0;
+        },
+
+        getItems() {
+            this.page++;
+            this.loading = true;
+
+            axios
+                .post('/reported-comments', {
                     type: this.type,
                     channel: this.$route.params.name,
                     page: this.page
-                }).then((response) => {
-                    this.items = [...this.items, ...response.data.data]
+                })
+                .then(response => {
+                    this.items = [...this.items, ...response.data.data];
 
                     if (!this.items.length) {
-                        this.nothingFound = true
+                        this.nothingFound = true;
                     }
 
                     if (response.data.next_page_url == null) {
-                        this.NoMoreItems = true
+                        this.NoMoreItems = true;
                     }
 
-                    this.loading = false
-                })
+                    this.loading = false;
+                });
+        }
+    },
 
+    beforeRouteEnter(to, from, next) {
+        if (Store.page.channel.temp.name == to.params.name) {
+            // loaded
+            if (Store.state.moderatingAt.indexOf(Store.page.channel.temp.id) != -1) {
+                next();
             }
-        },
-
-
-        beforeRouteEnter(to, from, next){
-            if (Store.page.channel.temp.name == to.params.name) {
-                // loaded
-                if (Store.state.moderatingAt.indexOf(Store.page.channel.temp.id) != -1) {
-                    next()
-                }
-            } else {
-                // not loaded but let's continue (the server-side is still protecting us!)
-                next()
-            }
-        },
-    };
+        } else {
+            // not loaded but let's continue (the server-side is still protecting us!)
+            next();
+        }
+    }
+};
 </script>
 
 <style>
-    #reported-items .fond {
-        padding-top: 7%;
-    }
+#reported-items .fond {
+    padding-top: 7%;
+}
 </style>

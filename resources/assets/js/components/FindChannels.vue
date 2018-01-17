@@ -148,7 +148,6 @@
 
 			loadMore() {
 				if (
-					Store.contentRouter == "content" &&
 					!this.loading &&
 					!this.NoMoreItems &&
 					!this.searchFilter.trim()

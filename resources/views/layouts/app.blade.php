@@ -32,19 +32,19 @@
 
 @include('google-analytics')
 
-<div id="voten-app" :class="{ 'background-white': Store.contentRouter != 'content' }">
+<div id="voten-app">
     <vue-progress-bar></vue-progress-bar>
 
     <div class="v-content-wrapper">
-        <left-sidebar v-show="showLeftSidebar"></left-sidebar>
+        <left-sidebar v-show="showSidebars"></left-sidebar>
 
-        <div class="v-content" id="v-content" v-show="Store.contentRouter == 'content'" @scroll.passive="scrolled">
+        <div class="v-content" id="v-content" @scroll.passive="scrolled">
             <announcement></announcement>
             
             @yield('content')
         </div>
 
-        <right-sidebar v-show="showRightSidebar"></right-sidebar>
+        <right-sidebar v-show="showSidebars"></right-sidebar>
     </div>
 
     <messages v-show="Store.modals.messages.show"></messages>

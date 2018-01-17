@@ -35,21 +35,20 @@
 <body>
 @include('google-analytics')
 
-<div id="voten-app" :class="{ 'background-white': Store.contentRouter != 'content' }">
+<div id="voten-app">
     <vue-progress-bar></vue-progress-bar>
 
     <div class="v-content-wrapper">
 		<left-sidebar></left-sidebar>
 
-		<search-modal v-if="Store.contentRouter == 'search'"></search-modal>
-
-        <div class="v-content" id="v-content" v-show="Store.contentRouter == 'content'" @scroll.passive="scrolled">
+        <div class="v-content" id="v-content" @scroll.passive="scrolled">
             @yield('content')
         </div>
 
-        <guest-sidebar v-show="showRightSidebar"></guest-sidebar>
+        <guest-sidebar v-show="showSidebars"></guest-sidebar>
     </div>
 
+    <search-modal v-if="Store.modals.search.show"></search-modal>    
     <login-modal v-if="Store.modals.authintication.show" :visible.sync="Store.modals.authintication.show"></login-modal>
     <markdown-guide v-if="Store.modals.markdownGuide.show" :visible.sync="Store.modals.markdownGuide.show"></markdown-guide>
     <keyboard-shortcuts-guide v-if="Store.modals.keyboardShortcutsGuide.show" :visible.sync="Store.modals.keyboardShortcutsGuide.show"></keyboard-shortcuts-guide>

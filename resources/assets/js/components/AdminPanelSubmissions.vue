@@ -74,7 +74,6 @@ mixins: [Helpers],
   methods: {
     loadMore() {
       if (
-        Store.contentRouter == "content" &&
         !this.loading &&
         !this.NoMoreItems
       ) {
