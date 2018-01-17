@@ -24,15 +24,25 @@ import Helpers from '../mixins/Helpers';
 export default {
     props: ['visible'],
 
-    mixins: [Helpers], 
+    mixins: [Helpers],
+
+    beforeDestroy() {
+        if (window.location.hash == '#gifPlayer') {
+            history.go(-1);
+        }
+    },
+
+    created() {
+        window.location.hash = 'gifPlayer';
+    },
 
     computed: {
         submission() {
-            return Store.gifPlayer.submission; 
-        }, 
+            return Store.modals.gifPlayer.submission;
+        },
 
         gif() {
-            return Store.gifPlayer.gif; 
+            return Store.modals.gifPlayer.gif;
         }
     },
 

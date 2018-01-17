@@ -30,7 +30,7 @@
                     </el-tooltip>
 
                     <el-tooltip content="Customize Feed" placement="bottom" transition="false" :open-delay="500" v-if="isLoggedIn">
-                        <button class="feed-panel-button margin-right-half" @click="showSettings = true">
+                        <button class="feed-panel-button margin-right-half" @click="Store.modals.feedSettings.show = true">
                             <i class="el-icon-setting"></i>
                         </button>
                     </el-tooltip>
@@ -58,14 +58,11 @@
 
             <no-more-items :text="'No more items to load'" v-if="NoMoreItems && !nothingFound"></no-more-items>
         </section>
-
-        <settings :visible.sync="showSettings" v-if="showSettings && isLoggedIn"></settings>
     </div>
 </template>
 
 <script>
     import Helpers from '../mixins/Helpers';
-    import Settings from '../components/FeedSettings.vue';
     import Submission from '../components/Submission.vue';
     import SuggestedChannel from '../components/SuggestedChannel.vue';
     import Loading from '../components/Loading.vue';
@@ -76,7 +73,6 @@
         mixins: [Helpers],
 
         components: {
-            Settings,
             Submission,
             Loading, 
             SuggestedChannel,
@@ -86,7 +82,6 @@
 
         data() {
             return {
-                showSettings: false,
                 refreshing: false
             }
         },

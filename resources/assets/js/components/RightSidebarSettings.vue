@@ -73,6 +73,17 @@
         },
 
         props: ['visible'], 
+
+        beforeDestroy() {
+            if (window.location.hash == '#sidebarSettings') {
+                history.go(-1);
+            }
+        },
+
+        created() {
+            window.location.hash = 'sidebarSettings';
+        },
+
     
         computed: {
             changed() {

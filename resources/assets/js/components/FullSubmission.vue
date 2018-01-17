@@ -186,10 +186,6 @@
 				            @bookmark="bookmark"
 				            @upvote="voteUp"
 				            @downvote="voteDown"></gif-player> -->
-
-				<report-submission :submission="list"
-				                   :visible.sync="showReportModal"
-				                   v-if="showReportModal"></report-submission>
 			</article>
 		</div>
 	</transition>
@@ -219,7 +215,6 @@ export default {
     data() {
         return {
             hidden: false,
-            showReportModal: false,
             embedViewer: false
         };
     },
@@ -589,13 +584,14 @@ export default {
                 return;
             }
 
-            this.showReportModal = true;
+            Store.modals.reportSubmission.show = true;
+            Store.modals.reportSubmission.submission = this.list;
         },
 
         showPhotoViewer(image) {
-            Store.photoViewer.image = image;
-            Store.photoViewer.submission = this.list;
-            Store.photoViewer.show = true;
+            Store.modals.photoViewer.image = image;
+            Store.modals.photoViewer.submission = this.list;
+            Store.modals.photoViewer.show = true;
         },
 
         showEmbed() {
@@ -603,9 +599,9 @@ export default {
         },
 
         showGifPlayer(gif) {
-            Store.gifPlayer.gif = gif;
-            Store.gifPlayer.submission = list;
-            Store.gifPlayer.show = true;
+            Store.modals.gifPlayer.gif = gif;
+            Store.modals.gifPlayer.submission = list;
+            Store.modals.gifPlayer.show = true;
         },
 
         closeEmbed() {

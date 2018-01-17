@@ -55,7 +55,7 @@
     export default {
         mixins: [Helpers],
 
-        props: ['submission', 'visible'],
+        props: ['visible'],
 
         data () {
             return {
@@ -71,6 +71,12 @@
                 ]
             }
         },
+
+        computed: {
+            submission() {
+                return Store.modals.reportSubmission.submission; 
+            }
+        }, 
 
         mounted() {
             this.$nextTick(function () {

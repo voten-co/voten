@@ -99,6 +99,16 @@
             },
         },
 
+        beforeDestroy() {
+            if (window.location.hash == '#feedSettings') {
+                history.go(-1);
+            }
+        },
+
+        created() {
+            window.location.hash = 'feedSettings';
+        },
+
         methods: {
             save() {
                 Store.settings.feed.excludeUpvotedSubmissions = this.form.excludeUpvotedSubmissions;

@@ -57,7 +57,7 @@
 				<a class="item"
 				   id="messages-btn"
 				   :class="{'active' : activeRoute === 'messages'}"
-				   @click="changeRoute('messages')">
+				   @click="Store.modals.messages.show = true">
 					<el-badge :value="unreadMessages"
 					          :max="99">
 						<i class="v-icon v-inbox"
@@ -87,7 +87,7 @@
 			            transition="false"
 			            :open-delay="500">
 				<a class="item"
-				   @click="changeRoute('search')"
+				   @click="Store.modals.search.show = true"
 				   :class="{'active' : activeRoute === 'search'}">
 					<i class="el-icon-search"
 					   aria-hidden="true"></i>
@@ -242,10 +242,6 @@ export default {
     },
 
     methods: {
-        changeRoute(route) {
-            this.$eventHub.$emit('change-route', route);
-        },
-
         pushRouter(route) {
             this.$eventHub.$emit('close');
 

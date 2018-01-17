@@ -40,28 +40,38 @@ import Helpers from '../mixins/Helpers';
 export default {
     props: ['visible'],
 
-    mixins: [Helpers], 
+    mixins: [Helpers],
+
+    beforeDestroy() {
+        if (window.location.hash == '#photoViewer') {
+            history.go(-1);
+        }
+    },
+
+    created() {
+        window.location.hash = 'photoViewer';
+    },
 
     computed: {
         isAlbum() {
             return this.submission.data.album;
-        }, 
+        },
 
         imageToDisplay() {
             if (this.image) {
                 return this.image.path;
             }
 
-            return this.submission.data.path; 
-        }, 
+            return this.submission.data.path;
+        },
 
         image() {
-            return Store.photoViewer.image; 
-        }, 
+            return Store.modals.photoViewer.image;
+        },
 
         submission() {
-            return Store.photoViewer.submission; 
-        }, 
+            return Store.modals.photoViewer.submission;
+        }
     },
 
     methods: {
@@ -71,7 +81,7 @@ export default {
 
         openAlbum() {
             this.$router.push('/c/' + this.submission.channel_name + '/' + this.submission.slug);
-            this.close(); 
+            this.close();
         }
     }
 };

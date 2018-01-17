@@ -130,22 +130,50 @@ window.Store = {
         authintication: {
             show: false,
             hash: 'authintication'
+        },
+        reportSubmission: {
+            show: false,
+            hash: 'reportSubmission',
+            submission: []
+        },
+        reportComment: {
+            show: false,
+            hash: 'reportComment',
+            comment: []
+        },
+        feedSettings: {
+            show: false,
+            hash: 'feedSettings'
+        },
+        sidebarSettings: {
+            show: false,
+            hash: 'sidebarSettings'
+        },
+        photoViewer: {
+            show: false,
+            hash: 'photoViewer',
+            image: [],
+            submission: []
+        },
+        gifPlayer: {
+            show: false,
+            hash: 'gifPlayer',
+            gif: [],
+            submission: []
+        },
+        embedViewer: {
+            show: false,
+            hash: 'embedViewer',
+            submission: []
+        },
+        messages: {
+            show: false,
+            hash: 'messages'
+        }, 
+        search: {
+            show: false,
+            hash: 'search'
         }
-    },
-
-    photoViewer: {
-        show: false,
-        image: [],
-        submission: []
-    },
-    gifPlayer: {
-        show: false,
-        gif: [],
-        submission: []
-    },
-    embedViewer: {
-        show: false,
-        submission: []
     },
 
     // Open tab's unique ID:

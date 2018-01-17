@@ -90,3 +90,7 @@
         display: block;
     }
 }
+
+.el-message {
+    @include user-select();
+}

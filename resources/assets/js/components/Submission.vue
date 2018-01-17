@@ -469,20 +469,20 @@ export default {
         ),
 
         showPhotoViewer(image) {
-            Store.photoViewer.image = image;
-            Store.photoViewer.submission = this.list;
-            Store.photoViewer.show = true;
+            Store.modals.photoViewer.image = image;
+            Store.modals.photoViewer.submission = this.list;
+            Store.modals.photoViewer.show = true;
         },
 
         showEmbed() {
-            Store.embedViewer.submission = this.list;
-            Store.embedViewer.show = true;
+            Store.modals.embedViewer.submission = this.list;
+            Store.modals.embedViewer.show = true;
         },
 
         showGifPlayer(gif) {
-            Store.gifPlayer.gif = gif;
-            Store.gifPlayer.submission = this.list;
-            Store.gifPlayer.show = true;
+            Store.modals.gifPlayer.gif = gif;
+            Store.modals.gifPlayer.submission = this.list;
+            Store.modals.gifPlayer.show = true;
         }
     }
 };

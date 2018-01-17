@@ -7,7 +7,7 @@
             fullscreen
             class="user-select"
     >
-        <div class="vo-modal" id="notifications">
+        <div id="notifications">
             <div class="middle background-white"
                 :class="{'flex-center' : !Store.state.notifications || ! Store.state.notifications.length}">
                 <div class="col-7">

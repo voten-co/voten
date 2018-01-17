@@ -37,9 +37,6 @@
 
     <div class="v-content-wrapper">
         <left-sidebar v-show="showLeftSidebar"></left-sidebar>
-        
-        <messages v-show="Store.contentRouter == 'messages'"></messages>
-        <search-modal v-if="Store.contentRouter == 'search'"></search-modal>
 
         <div class="v-content" id="v-content" v-show="Store.contentRouter == 'content'" @scroll.passive="scrolled">
             <announcement></announcement>
@@ -50,15 +47,21 @@
         <right-sidebar v-show="showRightSidebar"></right-sidebar>
     </div>
 
+    <messages v-show="Store.modals.messages.show"></messages>
+    <search-modal v-if="Store.modals.search.show"></search-modal>    
+    <sidebar-settings :visible.sync="Store.modals.sidebarSettings.show" v-if="Store.modals.sidebarSettings.show"></sidebar-settings>
+    <feed-settings :visible.sync="Store.modals.feedSettings.show" v-if="Store.modals.feedSettings.show && isLoggedIn"></feed-settings>
+    <report-comment :visible.sync="Store.modals.reportComment.show" v-if="Store.modals.reportComment.show"></report-comment>
+    <report-submission :visible.sync="Store.modals.reportSubmission.show" v-if="Store.modals.reportSubmission.show"></report-submission>
     <notifications :visible.sync="Store.modals.notifications.show" v-show="Store.modals.notifications.show"></notifications>
     <new-submission v-show="Store.modals.newSubmission.show" :visible.sync="Store.modals.newSubmission.show"></new-submission>
     <settings v-if="Store.modals.preferences.show" :visible.sync="Store.modals.preferences.show"></settings>
     <new-channel v-show="Store.modals.newChannel.show" :visible.sync="Store.modals.newChannel.show"></new-channel>
     <markdown-guide v-if="Store.modals.markdownGuide.show" :visible.sync="Store.modals.markdownGuide.show"></markdown-guide>
     <feedback v-if="Store.modals.feedback.show" :visible.sync="Store.modals.feedback.show"></feedback>
-    <photo-viewer v-if="Store.photoViewer.show" :visible.sync="Store.photoViewer.show"></photo-viewer>
-    <gif-player v-if="Store.gifPlayer.show" :visible.sync="Store.gifPlayer.show"></gif-player>
-    <embed-viewer v-if="Store.embedViewer.show" :visible.sync="Store.embedViewer.show"></embed-viewer>
+    <photo-viewer v-if="Store.modals.photoViewer.show" :visible.sync="Store.modals.photoViewer.show"></photo-viewer>
+    <gif-player v-if="Store.modals.gifPlayer.show" :visible.sync="Store.modals.gifPlayer.show"></gif-player>
+    <embed-viewer v-if="Store.modals.embedViewer.show" :visible.sync="Store.modals.embedViewer.show"></embed-viewer>
     <keyboard-shortcuts-guide v-if="Store.modals.keyboardShortcutsGuide.show" :visible.sync="Store.modals.keyboardShortcutsGuide.show"></keyboard-shortcuts-guide>
 </div>
 

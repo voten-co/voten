@@ -374,21 +374,21 @@ export default {
     },
 
     watch: {
-        'Store.contentRouter'() {
-            if (Store.contentRouter === 'messages' && this.pageRoute === 'chat') {
-                // Because otherwise user has clicked on MessageButton (and there is no existing conversation)
-                if (this.hasMessages) {
-                    this.broadcastAsRead();
-                    this.markLastMessageAsRead(this.currentContactId);
+        'Store.modals.messages.show'() {
+            if (Store.modals.messages.show === true) {
+                window.location.hash = 'messages';
+
+                if (this.pageRoute === 'chat') {
+                    // Because otherwise user has clicked on MessageButton (and there is no existing conversation)
+                    if (this.hasMessages) {
+                        this.broadcastAsRead();
+                        this.markLastMessageAsRead(this.currentContactId);
+                    }
+
+                    this.$refs.messageForm.$refs.textarea.focus();                
+                } else if (this.pageRoute === 'contacts') {
+                    this.$refs.searchContacts.$refs.input.focus();                
                 }
-            }
-
-            if (Store.contentRouter === 'messages' && this.pageRoute === 'contacts') {
-                this.$refs.searchContacts.$refs.input.focus();
-            }
-
-            if (Store.contentRouter === 'messages' && this.pageRoute === 'chat') {
-                this.$refs.messageForm.$refs.textarea.focus();
             }
         }
     },
@@ -478,9 +478,7 @@ export default {
             } else if (this.quickChannelPicker.show) {
                 this.quickChannelPicker.show = false;
             } else {
-                if (!_.isEmpty(this.editingComment) || !_.isEmpty(this.replyingComment)) {
-                    this.clear();
-                }
+                this.close(); 
             }
         },
 
@@ -581,12 +579,12 @@ export default {
         },
 
         /**
-             * Gets a collection of users that the auth user is actually
-             * allowed to start a conversation with and adds it to the
-             * this.searchedUsers which leads to being displayed.
-             *
-             * @return void
-             */
+         * Gets a collection of users that the auth user is actually
+         * allowed to start a conversation with and adds it to the
+         * this.searchedUsers which leads to being displayed.
+         *
+         * @return void
+         */
         searchUsers: _.debounce(function(typed) {
             if (!typed.trim()) return;
 
@@ -607,7 +605,11 @@ export default {
         }, 600),
 
         close() {
-            this.$eventHub.$emit('close');
+            if (window.location.hash == '#messages') {
+                history.go(-1);
+            }
+            
+            Store.modals.messages.show = false; 
         },
 
         backToContacts() {

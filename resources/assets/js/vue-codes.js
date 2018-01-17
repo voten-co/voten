@@ -89,6 +89,42 @@ const NewChannel = resolve => {
         'logged-in'
     );
 };
+const ReportSubmission = resolve => {
+    require.ensure(
+        ['./components/ReportSubmission.vue'],
+        () => {
+            resolve(require('./components/ReportSubmission.vue'));
+        },
+        'logged-in'
+    );
+};
+const ReportComment = resolve => {
+    require.ensure(
+        ['./components/ReportComment.vue'],
+        () => {
+            resolve(require('./components/ReportComment.vue'));
+        },
+        'logged-in'
+    );
+};
+const FeedSettings = resolve => {
+    require.ensure(
+        ['./components/FeedSettings.vue'],
+        () => {
+            resolve(require('./components/FeedSettings.vue'));
+        },
+        'logged-in'
+    );
+};
+const SidebarSettings = resolve => {
+    require.ensure(
+        ['./components/RightSidebarSettings.vue'],
+        () => {
+            resolve(require('./components/RightSidebarSettings.vue'));
+        },
+        'logged-in'
+    );
+};
 
 import KeyboardShortcutsGuide from './components/KeyboardShortcutsGuide.vue';
 import MarkdownGuide from './components/MarkdownGuide.vue';
@@ -128,9 +164,13 @@ window.app = new Vue({
 
     components: {
         KeyboardShortcutsGuide,
+        SidebarSettings, 
         GoogleLoginButton,
+        ReportSubmission, 
         MarkdownGuide,
+        FeedSettings, 
         Notifications,
+        ReportComment, 
         NewSubmission,
         Announcement,
         RightSidebar,
@@ -209,12 +249,11 @@ window.app = new Vue({
         this.$eventHub.$on('close', this.closeModals);
         this.$eventHub.$on('submit', this.showNewSubmission);
         this.$eventHub.$on('login-modal', this.loginModal);
-        this.$eventHub.$on('change-route', this.changeRoute);
         this.$eventHub.$on('markdown-guide', this.openMarkdownGuide);
         this.$eventHub.$on('push-notification', this.pushNotification);
 
         if (this.$route.query.search) {
-            this.changeRoute('search');
+            Store.modals.search.show = true; 
         }
 
         this.setQueries();
@@ -399,7 +438,7 @@ window.app = new Vue({
          * @return void
          */
         startConversation(contact) {
-            this.changeRoute('messages');
+            Store.modals.messages.show = true; 
             this.$eventHub.$emit('conversation', contact);
         },
 
@@ -446,29 +485,6 @@ window.app = new Vue({
         },
 
         /**
-         * Switches the contentRouter.
-         *
-         * @param  string
-         * @return void
-         */
-        changeRoute(newRoute) {
-            this.$eventHub.$emit('close');
-
-            Store.contentRouter = newRoute;
-        },
-
-        /**
-         * Used for keyup.esc
-         *
-         * @return void
-         */
-        closeModals() {
-            Store.contentRouter = 'content';
-            Store.modals.notifications.show = false;
-            Store.modals.preferences.show = false;
-        },
-
-        /**
          * Catches the event fired for the pressed key, and runs the neccessary methods.
          *
          * @param {keydown} event
@@ -477,7 +493,6 @@ window.app = new Vue({
         keydown(event) {
             // esc
             if (event.keyCode == 27) {
-                this.closeModals();
                 this.$eventHub.$emit('pressed-esc');
             }
 
@@ -512,11 +527,12 @@ window.app = new Vue({
                 case 77: // "m"
                     if (this.isGuest) break;
 
-                    this.changeRoute('messages');
+                    event.preventDefault();                    
+                    Store.modals.messages.show = true; 
                     break;
                 case 191: // "/"
                     event.preventDefault();
-                    this.changeRoute('search');
+                    Store.modals.search.show = true; 
                     break;
                 case 66: // "b"
                     if (this.isGuest) break;

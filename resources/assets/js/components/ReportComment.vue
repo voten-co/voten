@@ -55,7 +55,7 @@
     export default {
         mixins: [Helpers],
 
-        props: ['comment', 'visible'],
+        props: ['visible'],
 
         data () {
             return {
@@ -76,6 +76,22 @@
             this.$nextTick(function () {
                 this.$refs.description.$refs.textarea.focus();
             });
+        },
+
+        beforeDestroy() {
+            if (window.location.hash == '#reportComment') {
+                history.go(-1);
+            }
+        },
+
+        created() {
+            window.location.hash = 'reportComment';
+        },
+
+        computed: {
+            comment() {
+                return Store.modals.reportComment.comment; 
+            }
         },
 
         methods: {

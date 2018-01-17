@@ -107,9 +107,6 @@
 			</el-collapse-transition>
 		</div>
 
-		<settings :visible.sync="showSettings"
-		          v-if="showSettings"></settings>
-
 		<div class="fixed-header">
 			<div class="flex-space">
 				<div class="menu-label">
@@ -123,7 +120,7 @@
 					            transition="false"
 					            :open-delay="500">
 						<i class="el-icon-setting"
-						   @click="showSettings = true"></i>
+						   @click="Store.modals.sidebarSettings.show = true"></i>
 					</el-tooltip>
 				</div>
 			</div>
@@ -186,19 +183,13 @@
 
 <script>
 import Helpers from '../../mixins/Helpers';
-import Settings from '../RightSidebarSettings.vue';
 
 export default {
     mixins: [Helpers],
 
-    components: {
-        Settings
-    },
-
     data() {
         return {
             subscribedFilter: '',
-            showSettings: false,
             showMenu: false,
             showSubMenu: false
         };

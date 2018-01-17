@@ -42,9 +42,19 @@ export default {
 
     props: ['visible'],
 
+    beforeDestroy() {
+        if (window.location.hash == '#embedViewer') {
+            history.go(-1);
+        }
+    },
+
+    created() {
+        window.location.hash = 'embedViewer';
+    },
+
     computed: {
         submission() {
-            return Store.embedViewer.submission;
+            return Store.modals.embedViewer.submission;
         }
     },
 

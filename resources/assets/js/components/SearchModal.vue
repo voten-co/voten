@@ -71,126 +71,145 @@
 </template>
 
 <script>
-    import ChannelSearchItem from '../components/ChannelSearchItem.vue';
-    import UserSearchItem from '../components/UserSearchItem.vue';
-    import Submission from '../components/Submission.vue';
-    import Helpers from '../mixins/Helpers';
+import ChannelSearchItem from '../components/ChannelSearchItem.vue';
+import UserSearchItem from '../components/UserSearchItem.vue';
+import Submission from '../components/Submission.vue';
+import Helpers from '../mixins/Helpers';
 
-    export default {
-        mixins: [Helpers],
+export default {
+    mixins: [Helpers],
 
-        components: {
-            ChannelSearchItem,
-            Submission,
-            UserSearchItem
-        },
+    components: {
+        ChannelSearchItem,
+        Submission,
+        UserSearchItem
+    },
 
-        data() {
-            return {
-                Store,
-                filter: '',
-                result: [],
-                loading: false,
-                channels: [],
-                users: [],
-                submissions: [],
-                type: 'Channels',
-                types: ['Channels', 'Submissions', 'Users']
-            }
-        },
+    data() {
+        return {
+            Store,
+            filter: '',
+            result: [],
+            loading: false,
+            channels: [],
+            users: [],
+            submissions: [],
+            type: 'Channels',
+            types: ['Channels', 'Submissions', 'Users']
+        };
+    },
 
-        mounted() {
-            this.$nextTick(function () {
-                this.$refs.searchFilter.$refs.input.focus();
+    mounted() {
+        this.$nextTick(function() {
+            this.$refs.searchFilter.$refs.input.focus();
 
-                if (this.$route.query.search) {
-                    this.filter = this.$route.query.search;
-                    this.type = 'Submissions';
-                    this.search();
-                }
-            })
-        },
-
-        computed: {
-            noSubmissions() {
-                return this.type == 'Submissions' && this.submissions.length == 0 && !this.loading;
-            },
-
-            noChannels() {
-                return this.type == 'Channels' && this.channels.length == 0 && !this.loading;
-            },
-
-            noUsers() {
-                return this.type == 'Users' && this.users.length == 0 && !this.loading;
-            },
-
-            placeholder() {
-                if (this.type == 'Channels') {
-                    return 'Search by #name or description...';
-                }
-                if (this.type == 'Users') {
-                    return 'Search by @username or name...';
-                }
-                if (this.type == 'Submissions') {
-                    return 'Search by title...';
-                }
-
-                return 'Search...';
-            }
-        },
-
-        watch: {
-            'type'() {
+            if (this.$route.query.search) {
+                this.filter = this.$route.query.search;
+                this.type = 'Submissions';
                 this.search();
-            },
+            }
+        });
+    },
+
+    beforeDestroy() {
+        if (window.location.hash == '#search') {
+            history.go(-1);
+        }
+        this.$eventHub.$off('pressed-esc', this.close);
+    },
+
+    created() {
+        window.location.hash = 'search';
+        this.$eventHub.$on('pressed-esc', this.close);
+    },
+
+    computed: {
+        noSubmissions() {
+            return this.type == 'Submissions' && this.submissions.length == 0 && !this.loading;
         },
 
-        methods: {
-            search: _.debounce(function () {
-                if (!this.filter.trim()) return
+        noChannels() {
+            return this.type == 'Channels' && this.channels.length == 0 && !this.loading;
+        },
+
+        noUsers() {
+            return this.type == 'Users' && this.users.length == 0 && !this.loading;
+        },
+
+        placeholder() {
+            if (this.type == 'Channels') {
+                return 'Search by #name or description...';
+            }
+            if (this.type == 'Users') {
+                return 'Search by @username or name...';
+            }
+            if (this.type == 'Submissions') {
+                return 'Search by title...';
+            }
+
+            return 'Search...';
+        }
+    },
+
+    watch: {
+        type() {
+            this.search();
+        }
+    },
+
+    methods: {
+        search: _.debounce(
+            function() {
+                if (!this.filter.trim()) return;
                 this.loading = true;
 
-                axios.get('/search', {
-                    params: {
-                        type: this.type,
-                        searched: this.filter,
-                    }
-                }).then((response) => {
-                    if (this.type == 'Channels') {
-                        this.channels = response.data;
-                    }
-                    if (this.type == 'Users') {
-                        this.users = response.data;
-                    }
-                    if (this.type == 'Submissions') {
-                        this.submissions = response.data;
-                    }
-                    this.loading = false;
-                }).catch(() => {
-                    this.loading = false;
-                });
-            }, 600, { leading: true, trailing: false }),
+                axios
+                    .get('/search', {
+                        params: {
+                            type: this.type,
+                            searched: this.filter
+                        }
+                    })
+                    .then(response => {
+                        if (this.type == 'Channels') {
+                            this.channels = response.data;
+                        }
+                        if (this.type == 'Users') {
+                            this.users = response.data;
+                        }
+                        if (this.type == 'Submissions') {
+                            this.submissions = response.data;
+                        }
+                        this.loading = false;
+                    })
+                    .catch(() => {
+                        this.loading = false;
+                    });
+            },
+            600,
+            { leading: true, trailing: false }
+        ),
 
-            close() {
-                this.$eventHub.$emit('close');
-            }
+        close() {
+            Store.modals.search.show = false; 
         }
     }
+};
 </script>
 
 <style>
-    .algolia {
-        opacity: .6;
-        position: fixed;
-        bottom: 1em;
-        right: 2em;
-    }
+.algolia {
+    opacity: 0.6;
+    position: fixed;
+    bottom: 1em;
+    right: 2em;
+}
 
-    .input-with-select .el-input {
-        width: 130px;
-    }
+.input-with-select .el-input {
+    width: 130px;
+}
 
-    .input-with-select .el-input-group__prepend {
-        background-color: #fff;
-    }
+.input-with-select .el-input-group__prepend {
+    background-color: #fff;
+}
 </style>
