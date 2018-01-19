@@ -48,6 +48,9 @@
         <guest-sidebar v-show="showSidebars"></guest-sidebar>
     </div>
 
+    <photo-viewer v-if="Store.modals.photoViewer.show" :visible.sync="Store.modals.photoViewer.show"></photo-viewer>
+    <gif-player v-if="Store.modals.gifPlayer.show" :visible.sync="Store.modals.gifPlayer.show"></gif-player>
+    <embed-viewer v-if="Store.modals.embedViewer.show" :visible.sync="Store.modals.embedViewer.show"></embed-viewer>
     <search-modal v-if="Store.modals.search.show"></search-modal>    
     <login-modal v-if="Store.modals.authintication.show" :visible.sync="Store.modals.authintication.show"></login-modal>
     <markdown-guide v-if="Store.modals.markdownGuide.show" :visible.sync="Store.modals.markdownGuide.show"></markdown-guide>

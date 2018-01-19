@@ -27,13 +27,6 @@
 					     :alt="submission.title">
 				</el-carousel-item>
 			</el-carousel>
-
-			<!-- <img :src="value.thumbnail_path"
-			     v-for="(value, index) in photos"
-			     :key="value.id"
-			     @click="$emit('zoom', index)"
-			     :alt="submission.title"
-			     class="margin-bottom-1" /> -->
 		</div>
 
 		<div class="link-list-info">
