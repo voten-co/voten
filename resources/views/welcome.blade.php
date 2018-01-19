@@ -7,21 +7,21 @@
 
 
 @section('head')
-	<title>Voten - Social Bookmarking For The 21st Century</title>
+	<title>{{ config('app.title') }}</title>
 	<meta property="og:type" content="article" />
-	<meta property="og:title" content="Voten - Social Bookmarking For The 21st Century" />
+	<meta property="og:title" content="{{ config('app.title') }}" />
 	<meta property="og:url" content="{{ config('app.url') }}" />
-	<meta property="og:site_name" content="Voten" />
+	<meta property="og:site_name" content="{{ config('app.name') }}" />
 
 	<meta name="twitter:card" content="summary" />
-	<meta name="twitter:site" content="@voten_co" />
-	<meta name="twitter:title" content="Voten - Social Bookmarking For The 21st Century" />
+	<meta name="twitter:site" content="{{ config('app.twitter_username') }}" />
+	<meta name="twitter:title" content="{{ config('app.title') }}" />
 
-	<meta name="description" content="A Modern, real-time, open-source, beautiful, deadly simple and warm community."/>
-	<meta property="og:description" content="A Modern, real-time, open-source, beautiful, deadly simple and warm community." />
-	<meta name="twitter:description" content="A Modern, real-time, open-source, beautiful, deadly simple and warm community." />
-	<meta property="og:image" content="{{ config('app.url') }}/imgs/voten-circle.png">
-	<meta name="twitter:image" content="{{ config('app.url') }}/imgs/voten-circle.png" />
+	<meta name="description" content="{{ config('app.description') }}"/>
+	<meta property="og:description" content="{{ config('app.description') }}" />
+	<meta name="twitter:description" content="{{ config('app.description') }}" />
+	<meta property="og:image" content="{{ config('app.url') }}/imgs/{{ config('app.logo') }}">
+	<meta name="twitter:image" content="{{ config('app.url') }}/imgs/{{ config('app.logo') }}" />
 
 	<script type="application/ld+json">
 	 {
