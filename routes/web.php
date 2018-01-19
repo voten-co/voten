@@ -4,6 +4,7 @@
 Route::group(['middleware' => ['maintenance', 'http2']], function () {
     // Authintication routes 
     Route::auth();
+    Route::get('/logout', 'Auth\LoginController@logout');
 
     // social logins
     Route::get('/login/google', 'Auth\LoginController@redirectToGoogle');
