@@ -83,7 +83,7 @@
 
 		<hr class="thik-light-hr">
 
-		<div class="sidebar-offer-wrapper">
+		<div class="sidebar-offer-wrapper bounceIn animated">
 			<h3>New to Voten?</h3>
 
 			<p>
@@ -177,7 +177,8 @@ export default {
                     remember: this.login.remember
                 })
                 .then(response => {
-                    this.login.loading = false;
+					this.login.loading = false;
+					Vue.clearLS(); 
                     location.reload();
                 })
                 .catch(error => {
