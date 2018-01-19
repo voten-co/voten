@@ -95,3 +95,8 @@
 .el-dropdown-menu {
     @include user-select();
 }
+
+// top progressbar 
+.__cov-progress {
+    box-shadow: rgba(119, 182, 255, 0.7) 0px 0px 10px; 
+}
