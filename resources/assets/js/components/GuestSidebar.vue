@@ -137,8 +137,8 @@
 </template>
 
 <script>
-import Helpers from "../mixins/Helpers";
-import GoogleLoginButton from "../components/GoogleLoginButton";
+import Helpers from '../mixins/Helpers';
+import GoogleLoginButton from '../components/GoogleLoginButton';
 
 export default {
     mixins: [Helpers],
@@ -148,8 +148,8 @@ export default {
     data() {
         return {
             login: {
-                username: "",
-                password: "",
+                username: '',
+                password: '',
                 remember: true,
                 loading: false,
                 errors: []
@@ -158,27 +158,19 @@ export default {
     },
 
     methods: {
-        signUp() {
-            if (this.isMobile) {
-                this.$eventHub.$emit("toggle-sidebar");
-            }
-
-            this.mustBeLogin();
-        },
-
         logMeIn() {
             this.login.loading = true;
             this.login.errors = [];
 
             axios
-                .post("/login", {
+                .post('/login', {
                     username: this.login.username,
                     password: this.login.password,
                     remember: this.login.remember
                 })
                 .then(response => {
-					this.login.loading = false;
-					Vue.clearLS(); 
+                    this.login.loading = false;
+                    Vue.clearLS();
                     location.reload();
                 })
                 .catch(error => {
