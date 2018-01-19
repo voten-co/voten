@@ -307,19 +307,37 @@ export default {
         },
 
         showApprove() {
-            return !this.list.approved_at && Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 && !this.owns;
+            return (
+                !this.list.approved_at &&
+                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 || auth.isVotenAdminstrator) &&
+                !this.owns
+            );
         },
 
         showDisapprove() {
-            return !this.list.deleted_at && Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 && !this.owns;
+            return (
+                !this.list.deleted_at &&
+                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 || auth.isVotenAdminstrator) &&
+                !this.owns
+            );
         },
 
         showNSFW() {
-            return (this.owns || Store.state.moderatingAt.indexOf(this.list.channel_id) != -1) && !this.list.nsfw;
+            return (
+                (this.owns ||
+                    Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
+                    auth.isVotenAdminstrator) &&
+                !this.list.nsfw
+            );
         },
 
         showSFW() {
-            return (this.owns || Store.state.moderatingAt.indexOf(this.list.channel_id) != -1) && this.list.nsfw;
+            return (
+                (this.owns ||
+                    Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
+                    auth.isVotenAdminstrator) &&
+                this.list.nsfw
+            );
         },
 
         showRemoveTumbnail() {
@@ -327,24 +345,24 @@ export default {
         },
 
         /**
-             * Whether or not user wants to see NSFW content's image.
-             *
-             * (Hint: The base idea is that we don't display NSFW content)
-             * If the user wants to see NSFW media then return false, like it's not NSFW at all
-             * Otherwise return true which means the media must not be displayed.
-             * (false: the media will be displayed)
-             *
-             * @return boolean
-             */
+         * Whether or not user wants to see NSFW content's image.
+         *
+         * (Hint: The base idea is that we don't display NSFW content)
+         * If the user wants to see NSFW media then return false, like it's not NSFW at all
+         * Otherwise return true which means the media must not be displayed.
+         * (false: the media will be displayed)
+         *
+         * @return boolean
+         */
         nsfw() {
             return this.list.nsfw && !auth.nsfwMedia;
         },
 
         /**
-             * The current vote type. It's being used to optimize the voing request on the server-side.
-             *
-             * @return mixed
-             */
+         * The current vote type. It's being used to optimize the voing request on the server-side.
+         *
+         * @return mixed
+         */
         currentVote() {
             return this.upvoted ? 'upvote' : this.downvoted ? 'downvote' : null;
         },
@@ -356,10 +374,10 @@ export default {
         },
 
         /**
-             * Calculates the long date to display for hover over date.
-             *
-             * @return String
-             */
+         * Calculates the long date to display for hover over date.
+         *
+         * @return String
+         */
         longDate() {
             return this.parseFullDate(this.list.created_at);
         }
@@ -438,19 +456,19 @@ export default {
         ),
 
         /**
-             * Fires the "submission-edit" event that gets picked up by the TextSubmission.vue component.
-             *
-             * @return void
-             */
+         * Fires the "submission-edit" event that gets picked up by the TextSubmission.vue component.
+         *
+         * @return void
+         */
         edit() {
             this.$eventHub.$emit('edit-submission');
         },
 
         /**
-             * Removes the thumbnail
-             *
-             * @return
-             */
+         * Removes the thumbnail
+         *
+         * @return
+         */
         removeThumbnail() {
             this.list.data.thumbnail = null;
             this.list.data.img = null;
@@ -459,10 +477,10 @@ export default {
         },
 
         /**
-             * marks the submission as NSFW (not safe for work)
-             *
-             * @return void
-             */
+         * marks the submission as NSFW (not safe for work)
+         *
+         * @return void
+         */
         markAsNSFW() {
             this.list.nsfw = true;
 
@@ -493,10 +511,10 @@ export default {
         },
 
         /**
-             * hide(block) submission
-             *
-             * @return void
-             */
+         * hide(block) submission
+         *
+         * @return void
+         */
         hide() {
             if (this.isGuest) {
                 this.mustBeLogin();

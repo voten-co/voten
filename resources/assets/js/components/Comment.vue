@@ -117,372 +117,380 @@
 
 
 <script>
-    import Markdown from '../components/Markdown.vue';
-    import Helpers from '../mixins/Helpers';
+import Markdown from '../components/Markdown.vue';
+import Helpers from '../mixins/Helpers';
 
-    export default {
-        name: 'comment',
+export default {
+    name: 'comment',
 
-        props: ['list', 'comments-order', 'full'],
+    props: ['list', 'comments-order', 'full'],
 
-        components: {
-            Markdown
-        },
+    components: {
+        Markdown
+    },
 
-        mixins: [Helpers],
+    mixins: [Helpers],
 
-        data() {
-            return {
-                editing: false,
-                body: this.list,
-                visible: true,
-                reply: false,
-                childrenLimit: 4,
-                highlighted: false
+    data() {
+        return {
+            editing: false,
+            body: this.list,
+            visible: true,
+            reply: false,
+            childrenLimit: 4,
+            highlighted: false
+        };
+    },
+
+    created() {
+        this.$eventHub.$on('newComment', this.newComment);
+        this.$eventHub.$on('patchedComment', this.patchedComment);
+        this.$eventHub.$on('deletedComment', this.deletedComment);
+    },
+
+    beforeDestroy() {
+        this.$eventHub.$off('newComment', this.newComment);
+        this.$eventHub.$off('patchedComment', this.patchedComment);
+        this.$eventHub.$off('deletedComment', this.deletedComment);
+    },
+
+    mounted() {
+        this.$nextTick(function() {
+            this.setHighlighted();
+            this.scrollToComment();
+        });
+    },
+
+    computed: {
+        upvoted: {
+            get() {
+                return Store.state.comments.upVotes.indexOf(this.list.id) !== -1 ? true : false;
+            },
+
+            set() {
+                if (this.currentVote === 'upvote') {
+                    this.list.upvotes--;
+                    let index = Store.state.comments.upVotes.indexOf(this.list.id);
+                    Store.state.comments.upVotes.splice(index, 1);
+
+                    return;
+                }
+
+                if (this.currentVote === 'downvote') {
+                    this.list.downvotes--;
+                    let index = Store.state.comments.downVotes.indexOf(this.list.id);
+                    Store.state.comments.downVotes.splice(index, 1);
+                }
+
+                this.list.upvotes++;
+                Store.state.comments.upVotes.push(this.list.id);
             }
         },
 
-        created() {
-            this.$eventHub.$on('newComment', this.newComment);
-            this.$eventHub.$on('patchedComment', this.patchedComment);
-            this.$eventHub.$on('deletedComment', this.deletedComment);
-        },
-        
-        beforeDestroy() {
-            this.$eventHub.$off('newComment', this.newComment);
-            this.$eventHub.$off('patchedComment', this.patchedComment);
-            this.$eventHub.$off('deletedComment', this.deletedComment);
+        downvoted: {
+            get() {
+                return Store.state.comments.downVotes.indexOf(this.list.id) !== -1 ? true : false;
+            },
+
+            set() {
+                if (this.currentVote === 'downvote') {
+                    this.list.downvotes--;
+                    let index = Store.state.comments.downVotes.indexOf(this.list.id);
+                    Store.state.comments.downVotes.splice(index, 1);
+
+                    return;
+                }
+
+                if (this.currentVote === 'upvote') {
+                    this.list.upvotes--;
+                    let index = Store.state.comments.upVotes.indexOf(this.list.id);
+                    Store.state.comments.upVotes.splice(index, 1);
+                }
+
+                this.list.downvotes++;
+                Store.state.comments.downVotes.push(this.list.id);
+            }
         },
 
-		mounted() {
-			this.$nextTick(function () {
-                this.setHighlighted();
-                this.scrollToComment();
+        bookmarked: {
+            get() {
+                return Store.state.bookmarks.comments.indexOf(this.list.id) !== -1 ? true : false;
+            },
+
+            set() {
+                if (Store.state.bookmarks.comments.indexOf(this.list.id) !== -1) {
+                    let index = Store.state.bookmarks.comments.indexOf(this.list.id);
+                    Store.state.bookmarks.comments.splice(index, 1);
+
+                    return;
+                }
+
+                Store.state.bookmarks.comments.push(this.list.id);
+            }
+        },
+
+        isParent() {
+            return this.list.parent_id == 0 ? true : false;
+        },
+
+        detailedPoints() {
+            return `+${this.list.upvotes} | -${this.list.downvotes}`;
+        },
+
+        highlightClass() {
+            if (this.highlighted && !this.isParent) {
+                return 'child-broadcasted-comment';
+            }
+
+            if (this.highlighted && this.isParent) {
+                return 'broadcasted-comment';
+            }
+
+            return '';
+        },
+
+        isEdited() {
+            return this.list.edited_at;
+        },
+
+        editedDate() {
+            return this.parseFullDate(this.list.edited_at);
+        },
+
+        points() {
+            let total = this.list.upvotes - this.list.downvotes;
+
+            if (total < 0) return 0;
+
+            return total;
+        },
+
+        /**
+         * Does the auth user own the submission
+         *
+         * @return Boolean
+         */
+        owns() {
+            return auth.id == this.list.user_id;
+        },
+
+        /**
+         * is there more children to load
+         *
+         * @return bool
+         */
+        hasMoreCommentsToLoad() {
+            return this.list.children.length > this.childrenLimit;
+        },
+
+        /**
+         * The sorted version of comments
+         *
+         * @return {Array} comments
+         */
+        sortedComments() {
+            return _.orderBy(this.uniqueList, this.commentsOrder, 'desc').slice(0, this.childrenLimit);
+        },
+
+        /**
+         * Due to the issue with duplicate notifiactions (cuz the present ones have diffrent
+         * timestamps) we need a different approch to make sure the list is always unique.
+         * This ugly coded methods does it! Maybe move this to the Helpers.js mixin?!
+         *
+         * @return object
+         */
+        uniqueList() {
+            let unique = [];
+            let temp = [];
+
+            this.list.children.forEach(function(element, index, self) {
+                if (temp.indexOf(element.id) === -1) {
+                    unique.push(element);
+                    temp.push(element.id);
+                }
             });
-		},
 
-        computed: {
-            upvoted: {
-                get() {
-                    return Store.state.comments.upVotes.indexOf(this.list.id) !== -1 ? true : false;
-                },
-
-                set() {
-                    if (this.currentVote === 'upvote') {
-                        this.list.upvotes--;
-                        let index = Store.state.comments.upVotes.indexOf(this.list.id);
-                        Store.state.comments.upVotes.splice(index, 1);
-
-                        return;
-                    }
-
-                    if (this.currentVote === 'downvote') {
-                        this.list.downvotes--;
-                        let index = Store.state.comments.downVotes.indexOf(this.list.id);
-                        Store.state.comments.downVotes.splice(index, 1);
-                    }
-
-                    this.list.upvotes++;
-                    Store.state.comments.upVotes.push(this.list.id);
-                }
-            },
-
-            downvoted: {
-                get() {
-                    return Store.state.comments.downVotes.indexOf(this.list.id) !== -1 ? true : false;
-                },
-
-                set() {
-                    if (this.currentVote === 'downvote') {
-                        this.list.downvotes--;
-                        let index = Store.state.comments.downVotes.indexOf(this.list.id);
-                        Store.state.comments.downVotes.splice(index, 1);
-
-                        return;
-                    }
-
-                    if (this.currentVote === 'upvote') {
-                        this.list.upvotes--;
-                        let index = Store.state.comments.upVotes.indexOf(this.list.id);
-                        Store.state.comments.upVotes.splice(index, 1);
-                    }
-
-                    this.list.downvotes++;
-                    Store.state.comments.downVotes.push(this.list.id);
-                }
-            },
-
-            bookmarked: {
-                get() {
-                    return Store.state.bookmarks.comments.indexOf(this.list.id) !== -1 ? true : false;
-                },
-
-                set() {
-                    if (Store.state.bookmarks.comments.indexOf(this.list.id) !== -1) {
-                        let index = Store.state.bookmarks.comments.indexOf(this.list.id);
-                        Store.state.bookmarks.comments.splice(index, 1);
-
-                        return;
-                    }
-
-                    Store.state.bookmarks.comments.push(this.list.id);
-                }
-            },
-
-            isParent() {
-                return this.list.parent_id == 0 ? true : false;
-            },
-
-            detailedPoints() {
-				return `+${this.list.upvotes} | -${this.list.downvotes}`; 
-			}, 
-
-            highlightClass() {
-                if (this.highlighted && !this.isParent) {
-                    return 'child-broadcasted-comment';
-                }
-
-                if (this.highlighted && this.isParent) {
-                    return 'broadcasted-comment';
-                }
-
-                return '';
-            },
-
-            isEdited() {
-                return this.list.edited_at;
-            },
-
-            editedDate() {
-                return this.parseFullDate(this.list.edited_at); 
-            }, 
-
-            points() {
-                let total = this.list.upvotes - this.list.downvotes;
-
-				if (total < 0 ) return 0;
-
-				return total;
-            },
-
-
-            /**
-        	 * Does the auth user own the submission
-        	 *
-        	 * @return Boolean
-        	 */
-        	owns() {
-        		return auth.id == this.list.user_id;
-        	},
-
-        	/**
-        	 * is there more children to load
-        	 *
-        	 * @return bool
-        	 */
-        	hasMoreCommentsToLoad() {
-        	    return this.list.children.length > this.childrenLimit;
-        	},
-
-        	/**
-        	 * The sorted version of comments
-        	 *
-        	 * @return {Array} comments
-        	 */
-        	sortedComments() {
-        		return _.orderBy(this.uniqueList, this.commentsOrder, 'desc')
-        			.slice(0, this.childrenLimit);
-        	},
-
-        	/**
-			 * Due to the issue with duplicate notifiactions (cuz the present ones have diffrent
-			 * timestamps) we need a different approch to make sure the list is always unique.
-			 * This ugly coded methods does it! Maybe move this to the Helpers.js mixin?!
-			 *
-			 * @return object
-			 */
-			uniqueList() {
-				let unique = []
-				let temp = []
-
-				this.list.children.forEach(function(element, index, self) {
-					if (temp.indexOf(element.id) === -1) {
-						unique.push(element)
-						temp.push(element.id)
-					}
-				});
-
-				return unique;
-			},
-
-            /**
-             * The current vote type. It's being used to optimize the voing request on the server-side.
-             *
-             * @return mixed
-             */
-            currentVote () {
-                return this.upvoted ? "upvote" : this.downvoted ? "downvote" : null;
-            },
-
-            date () {
-            	return moment(this.list.created_at).utc(moment().format("Z")).fromNow();
-            },
-
-            /**
-             * Calculates the long date to display for hover over date.
-             *
-             * @return String
-             */
-            longDate() {
-                return this.parseFullDate(this.list.created_at);
-            },
-
-            /**
-        	 * whether or not the approve button shoud be displayed
-        	 *
-        	 * @return boolean
-        	 */
-            showApprove() {
-				return !this.list.approved_at && Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 && !this.owns
-			},
-
-            /**
-        	 * whether or not the disapprove button shoud be displayed
-        	 *
-        	 * @return boolean
-        	 */
-			showDisapprove() {
-				return !this.list.deleted_at && Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 && !this.owns
-			},
+            return unique;
         },
 
+        /**
+         * The current vote type. It's being used to optimize the voing request on the server-side.
+         *
+         * @return mixed
+         */
+        currentVote() {
+            return this.upvoted ? 'upvote' : this.downvoted ? 'downvote' : null;
+        },
 
-        methods: {
-            doubleClicked() {
-                if (this.owns) {
-                    this.edit(); 
-                    return; 
-                }
+        date() {
+            return moment(this.list.created_at)
+                .utc(moment().format('Z'))
+                .fromNow();
+        },
 
-                this.commentReply(); 
-            }, 
+        /**
+         * Calculates the long date to display for hover over date.
+         *
+         * @return String
+         */
+        longDate() {
+            return this.parseFullDate(this.list.created_at);
+        },
 
-            /**
-             * Sets the initial values for whether or not highlight the comment.
-             *
-             * @return void
-             */
-            setHighlighted() {
-                if (this.list.broadcasted == true || this.$route.query.comment == (this.list.id)) {
-                    this.highlighted = true;
-                }
-            },
+        /**
+         * whether or not the approve button shoud be displayed
+         *
+         * @return boolean
+         */
+        showApprove() {
+            return (
+                !this.list.approved_at &&
+                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 || auth.isVotenAdminstrator) &&
+                !this.owns
+            );
+        },
 
-            /**
-             * Scrolls the page to the comment
-             *
-             * @return void
-             */
-            scrollToComment() {
-                if (this.$route.query.comment == (this.list.id)) {
-                    document.getElementById('comment' + this.list.id).scrollIntoView();
-                }
-            },
+        /**
+         * whether or not the disapprove button shoud be displayed
+         *
+         * @return boolean
+         */
+        showDisapprove() {
+            return (
+                !this.list.deleted_at &&
+                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 || auth.isVotenAdminstrator) &&
+                !this.owns
+            );
+        }
+    },
 
-        	/**
-        	 * renders more comments
-        	 *
-        	 * @return void
-        	 */
-        	loadMoreComments() {
-        	    this.childrenLimit += 4;
-        	},
+    methods: {
+        doubleClicked() {
+            if (this.owns) {
+                this.edit();
+                return;
+            }
 
-        	/**
-        	 * seen the comment
-        	 *
-        	 * @return void
-        	 */
-        	seen() {
-        	    this.highlighted = false;
-        	},
+            this.commentReply();
+        },
 
-            /**
-             * Send record to be fetched by CommentForm. 
-             * 
-             * @return void 
-             */
-            edit() {
-                this.editing = !this.editing;
+        /**
+         * Sets the initial values for whether or not highlight the comment.
+         *
+         * @return void
+         */
+        setHighlighted() {
+            if (this.list.broadcasted == true || this.$route.query.comment == this.list.id) {
+                this.highlighted = true;
+            }
+        },
 
-                this.$eventHub.$emit('edit-comment', this.list); 
-            },
+        /**
+         * Scrolls the page to the comment
+         *
+         * @return void
+         */
+        scrollToComment() {
+            if (this.$route.query.comment == this.list.id) {
+                document.getElementById('comment' + this.list.id).scrollIntoView();
+            }
+        },
 
-        	newComment(comment) {
-                if (this.list.id != comment.parent_id) return;
+        /**
+         * renders more comments
+         *
+         * @return void
+         */
+        loadMoreComments() {
+            this.childrenLimit += 4;
+        },
 
-                // owns the comment
-                if(comment.owner.id == auth.id) {
-                    this.reply = false;
-                    Store.state.comments.upVotes.push(comment.id);
-                    this.list.children.unshift(comment);
-                    
-                    this.$nextTick(function () {
-                        document.getElementById('comment' + comment.id).scrollIntoView();					
-                    });
-                    
-                    return;
-                }
+        /**
+         * seen the comment
+         *
+         * @return void
+         */
+        seen() {
+            this.highlighted = false;
+        },
 
-                // add broadcasted (used for styling)
-				comment.broadcasted = true;
+        /**
+         * Send record to be fetched by CommentForm.
+         *
+         * @return void
+         */
+        edit() {
+            this.editing = !this.editing;
 
+            this.$eventHub.$emit('edit-comment', this.list);
+        },
+
+        newComment(comment) {
+            if (this.list.id != comment.parent_id) return;
+
+            // owns the comment
+            if (comment.owner.id == auth.id) {
+                this.reply = false;
+                Store.state.comments.upVotes.push(comment.id);
                 this.list.children.unshift(comment);
-        	},
 
-        	/**
-	    	 * patches the broadcasted comment.
-	    	 *
-	    	 * @return void
-	    	 */
-            patchedComment(comment) {
-            	if (this.list.id != comment.id) return;
+                this.$nextTick(function() {
+                    document.getElementById('comment' + comment.id).scrollIntoView();
+                });
 
-                this.editing = false; 
-            	this.list.body = comment.body;
-                this.list.edited_at = this.now();
-            },
+                return;
+            }
 
-            /**
-             *  Report(and block) comment
-             */
-            report() {
-                if (this.isGuest) {
-                    this.mustBeLogin();
-                    return;
-                }
+            // add broadcasted (used for styling)
+            comment.broadcasted = true;
 
-                Store.modals.reportComment.show = true;
-                Store.modals.reportComment.comment = this.list;
-            },
+            this.list.children.unshift(comment);
+        },
 
-        	/**
-             *  Send comment to CommentForm to be replied to. 
-             * 
-             * @return void 
-             */
-            commentReply () {
-            	if (this.isGuest) {
-            		this.mustBeLogin();
-            		return;
-                }
+        /**
+         * patches the broadcasted comment.
+         *
+         * @return void
+         */
+        patchedComment(comment) {
+            if (this.list.id != comment.id) return;
 
-                this.reply = !this.reply;
-                
-                this.$eventHub.$emit('reply-comment', this.list); 
-        	},
+            this.editing = false;
+            this.list.body = comment.body;
+            this.list.edited_at = this.now();
+        },
 
-            bookmark: _.debounce(function () {
+        /**
+         *  Report(and block) comment
+         */
+        report() {
+            if (this.isGuest) {
+                this.mustBeLogin();
+                return;
+            }
+
+            Store.modals.reportComment.show = true;
+            Store.modals.reportComment.comment = this.list;
+        },
+
+        /**
+         *  Send comment to CommentForm to be replied to.
+         *
+         * @return void
+         */
+        commentReply() {
+            if (this.isGuest) {
+                this.mustBeLogin();
+                return;
+            }
+
+            this.reply = !this.reply;
+
+            this.$eventHub.$emit('reply-comment', this.list);
+        },
+
+        bookmark: _.debounce(
+            function() {
                 if (this.isGuest) {
                     this.mustBeLogin();
                     return;
@@ -490,14 +498,20 @@
 
                 this.bookmarked = !this.bookmarked;
 
-                axios.post('/bookmark-comment', {
-                    id: this.list.id
-                }).catch(() => {
-                    this.bookmarked = !this.bookmarked;
-                });
-            }, 200, { leading: true, trailing: false }),
+                axios
+                    .post('/bookmark-comment', {
+                        id: this.list.id
+                    })
+                    .catch(() => {
+                        this.bookmarked = !this.bookmarked;
+                    });
+            },
+            200,
+            { leading: true, trailing: false }
+        ),
 
-            voteUp: _.debounce(function () {
+        voteUp: _.debounce(
+            function() {
                 if (this.isGuest) {
                     this.mustBeLogin();
                     return;
@@ -516,9 +530,13 @@
                 }
 
                 this.upvoted = true;
-            }, 200, { leading: true, trailing: false }),
+            },
+            200,
+            { leading: true, trailing: false }
+        ),
 
-            voteDown: _.debounce(function () {
+        voteDown: _.debounce(
+            function() {
                 if (this.isGuest) {
                     this.mustBeLogin();
                     return;
@@ -537,55 +555,50 @@
                 }
 
                 this.downvoted = true;
-            }, 200, { leading: true, trailing: false }),
-
-            /**
-             * Deletes the comment. Only the owner is allowed to make such decision.
-             *
-             * @return void
-             */
-            destroy() {
-                this.visible = false;
-                
-                axios.post('/destroy-comment', { id: this.list.id });
             },
+            200,
+            { leading: true, trailing: false }
+        ),
 
-            /**
-             * deletes the broadcasted comment
-             *
-             * @return void
-             */
-            deletedComment(comment) {
-            	if (comment.id != this.list.id) return;
+        /**
+         * Deletes the comment. Only the owner is allowed to make such decision.
+         *
+         * @return void
+         */
+        destroy() {
+            this.visible = false;
+            axios.post('/destroy-comment', { id: this.list.id }).catch(() => (this.visible = true));
+        },
 
-                this.visible = false;
-            },
+        /**
+         * deletes the broadcasted comment
+         *
+         * @return void
+         */
+        deletedComment(comment) {
+            if (comment.id != this.list.id) return;
+            this.visible = false;
+        },
 
-            /**
-             * Approves the comment. Only the moderators of channel are allowed to do this.
-             *
-             * @return void
-             */
-			approve() {
-				axios.post('/approve-comment', {
-				    comment_id: this.list.id
-				}).then(() => {
-				    this.list.approved_at = this.now();
-				})
-			},
+        /**
+         * Approves the comment. Only the moderators of channel are allowed to do this.
+         *
+         * @return void
+         */
+        approve() {
+            this.list.approved_at = this.now();
+            axios.post('/approve-comment', { comment_id: this.list.id }).catch(() => (this.list.approved_at = null));
+        },
 
-			/**
-             * Disapproves the comment. Only the moderators of channel are allowed to do this.
-             *
-             * @return void
-             */
-			disapprove() {
-				axios.post('/disapprove-comment', {
-				    comment_id: this.list.id
-				}).then(() => {
-					this.visible = false;
-				})
-			},
+        /**
+         * Disapproves the comment. Only the moderators of channel are allowed to do this.
+         *
+         * @return void
+         */
+        disapprove() {
+            this.visible = false;
+            axios.post('/disapprove-comment', { comment_id: this.list.id }).catch(() => (this.visible = true));
         }
     }
+};
 </script>

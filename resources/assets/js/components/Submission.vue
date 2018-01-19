@@ -266,10 +266,10 @@ export default {
     methods: {
         doubleClicked() {
             if (!this.currentVote) {
-                this.voteUp(); 
+                this.voteUp();
             }
-        }, 
-        
+        },
+
         removeThumbnail() {
             this.list.data.thumbnail = null;
             this.list.data.img = null;
@@ -373,13 +373,7 @@ export default {
         disapprove() {
             this.hidden = true;
 
-            axios
-                .post('/disapprove-submission', {
-                    submission_id: this.list.id
-                })
-                .catch(() => {
-                    this.hidden = false;
-                });
+            axios.post('/disapprove-submission', { submission_id: this.list.id }).catch(() => (this.hidden = false));
         },
 
         /**

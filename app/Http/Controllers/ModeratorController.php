@@ -117,8 +117,7 @@ class ModeratorController extends Controller
             'reportable_type' => 'App\Submission',
         ])->delete();
 
-        return $request->ajax() ? response('Submission approved', 200)
-            : back();
+        return response('Submission approved', 200);
     }
 
     /**
@@ -145,8 +144,7 @@ class ModeratorController extends Controller
 
         event(new SubmissionWasDeleted($submission, false));
 
-        return $request->ajax() ? response('Submission deleted successfully', 200)
-            : back();
+        return response('Submission deleted successfully', 200); 
     }
 
     /**
@@ -175,8 +173,7 @@ class ModeratorController extends Controller
             'reportable_type' => 'App\Comment',
         ])->delete();
 
-        return $request->ajax() ? response('Comment approved successfully', 200)
-            : back();
+        return response('Comment approved successfully', 200); 
     }
 
     /**
@@ -204,8 +201,7 @@ class ModeratorController extends Controller
             'deleted_at'  => Carbon::now(),
         ]);
 
-        return $request->ajax() ? response('Comment deleted successfully', 200)
-            : back();
+        return response('Comment deleted successfully', 200); 
     }
 
     /**
