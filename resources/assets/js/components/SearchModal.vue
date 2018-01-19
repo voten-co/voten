@@ -152,6 +152,11 @@ export default {
     },
 
     watch: {
+        '$route'() {
+            if (window.location.hash) return; 
+            this.close(); 
+        }, 
+
         type() {
             this.search();
         }

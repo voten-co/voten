@@ -61,6 +61,11 @@
         },
 
         watch: {
+            '$route'() {
+                if (window.location.hash) return; 
+                this.close(); 
+            }, 
+
             'visible'() {
                 if (this.visible) {
                     Store.methods.seenAllNotifications(); 
