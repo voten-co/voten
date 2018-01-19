@@ -2,8 +2,8 @@
 	<div class="home-wrapper" id="channel">
 		<channel-header></channel-header>
 
-		<nsfw-warning v-if="nsfw"
-			:text="'This channel contains NSFW content which can not be displayed according to your personal settings.'">
+		<nsfw-warning v-if="allowNSFW"
+			:text="isLoggedIn ? 'This channel contains NSFW content which can not be displayed according to your personal settings.' : 'This channel contains NSFW content which can not be displayed to guests.'">
 		</nsfw-warning>
 
 		<router-view v-else></router-view>
@@ -27,7 +27,7 @@ export default {
     },
 
    	computed: {
-		nsfw() {
+		allowNSFW() {
 			return Store.page.channel.temp.nsfw && !auth.nsfw;
 		},
     }

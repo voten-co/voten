@@ -1,20 +1,20 @@
 <template>
-	<transition name="fade">
-		<div class="col-7 padding-bottom-10 no-content-wrapper user-select" v-show="visible">
-	    	<i class="v-icon v-sad oops-icon" aria-hidden="true"></i>
-	        <h1>{{ text }}</h1>
+	<section class="container margin-top-1 col-7 flex1" id="not-found">
+		<div class="no-content-wrapper user-select">
+			<i class="v-icon v-sad oops-icon" aria-hidden="true"></i>
+			<h1>{{ text }}</h1>
 		</div>
-	</transition>
+	</section>
 </template>
 
 <script>
     export default {
-		props: ['text'],
-
-		data () {
-			return {
-				visible: true
-			}
-		}
+		props: ['text']
     }
 </script>
+
+<style>
+	#not-found {
+		margin-top: 10%;
+	}
+</style>
