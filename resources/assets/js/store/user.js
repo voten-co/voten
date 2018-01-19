@@ -5,11 +5,10 @@ export default {
         return new Promise((resolve, reject) => {
             // If a guest has landed on the user page
             if (preload.user) {
-                this.submissions.submissions = preload.user;
-                this.temp = preload.user
-                if (this.temp.id == auth.id) auth.stats = this.temp.stats; 
+                this.setUser(preload.user);
                 delete preload.user;
                 resolve(); 
+                return; 
             }
 
             axios.get('/get-user-store', {
@@ -48,13 +47,13 @@ export default {
                 this.loading = true; 
 
                 // if a guest has landed on the user page
-                if (preload.submissions && this.$route.name == 'user-submissions' && this.page == 1) {
+                if (preload.submissions && this.page == 1) {
                     this.submissions = preload.submissions.data;
                     if (!this.submissions.length) this.nothingFound = true; 
                     if (preload.submissions.next_page_url == null) this.NoMoreItems = true; 
                     this.loading = false;
                     delete preload.submissions;
-
+                    resolve(); 
                     return;
                 }
 
@@ -186,13 +185,13 @@ export default {
                 this.loading = true; 
 
                 // if a guest has landed on the user page
-                if (preload.comments && this.$route.name == 'user-comments' && this.page == 1) {
+                if (preload.comments && this.page == 1) {
                     this.comments = preload.comments.data;
                     if (!this.comments.length) this.nothingFound = true; 
                     if (preload.comments.next_page_url == null) this.NoMoreItems = true; 
                     this.loading = false;
                     delete preload.comments;
-
+                    resolve(); 
                     return;
                 }
 

@@ -11,14 +11,15 @@ export default {
             this.loading = true;
 
             // if landed on the home page as guest
-            // if (preload.submissions && app.$route.name == 'home') {
-            //     this.submissions = preload.submissions.data;
-            //     if (!this.submissions.length) this.nothingFound = true;
-            //     if (preload.submissions.next_page_url == null) this.NoMoreItems = true;
-            //     this.loading = false;
-            //     delete preload.submissions;
-            //     return;
-            // }
+            if (preload.submissions) {
+                this.submissions = preload.submissions.data;
+                if (!this.submissions.length) this.nothingFound = true;
+                if (preload.submissions.next_page_url == null) this.NoMoreItems = true;
+                this.loading = false;
+                delete preload.submissions;
+                resolve();
+                return; 
+            }
 
             axios.get(auth.isGuest == false ? '/auth/home' : '/home', {
                 params: {

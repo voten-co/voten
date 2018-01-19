@@ -9,10 +9,11 @@ export default {
     getChannel(channel_name, set = true) {
         return new Promise((resolve, reject) => {
             // if a guest has landed on a submission page
-            if (preload.channel && preload.channel.name == app.$route.params.name) {
-                this.temp = preload.channel;
+            if (preload.channel) {
+                this.setChannel(preload.channel);
                 delete preload.channel;
-                resolve(this.temp);
+                resolve();
+                return; 
             }
 
             if (typeof this.temp.name == "undefined" || this.temp.name != channel_name) {
@@ -52,6 +53,7 @@ export default {
                 if (preload.submissions.next_page_url == null) this.NoMoreItems = true;
                 this.loading = false;
                 delete preload.submissions;
+                resolve();
                 return;
             }
 

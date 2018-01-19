@@ -157,12 +157,6 @@ export default {
         };
     },
 
-    created() {
-        axios.get(this.authUrl("sidebar-channels")).then(response => {
-            Store.state.subscribedChannels = response.data;
-        });
-    },
-
     methods: {
         signUp() {
             if (this.isMobile) {

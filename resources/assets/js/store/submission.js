@@ -10,6 +10,7 @@ export default {
                 Store.page.channel.temp = preload.submission.channel;
                 this.loadingSubmission = false;
                 delete preload.submission;
+                resolve();
                 return;
             }
 

@@ -26,18 +26,6 @@
                 Store
             }
 		},
-
-		created() {
-			this.updateChannelStore();
-		}, 
-
-		watch: {
-			'$route'() {
-				if (this.$route.name !== 'submission-page') return;
-	
-				this.updateChannelStore();
-			}
-		},
 		
 		components: {Subscribe}, 
 
@@ -74,16 +62,6 @@
 		},
 		
 		methods: {
-			/**
-	    	 * Checks wheather or not the Store.page.channel.temp needs to be filled or updated, and if yes simply does it
-	    	 *
-	    	 * @return void
-	    	 */
-			updateChannelStore() {
-				this.$root.getChannelStore(this.$route.params.name);
-				this.channel = this.$route.params.name;
-			},
-
 			goBack() {
 				history.go(-1); 
 			}
