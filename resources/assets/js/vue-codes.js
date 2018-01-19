@@ -221,11 +221,10 @@ window.app = new Vue({
 
     created() {
         this.loadWebFont();
+        this.fillBasicStore();
 
         window.addEventListener('keydown', this.keydown);
         window.addEventListener('hashchange', this.setHashes);
-
-        this.fillBasicStore();
 
         // Let's hear it for the events, shall we?
         this.$eventHub.$on('start-conversation', this.startConversation);

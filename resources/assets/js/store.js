@@ -15,7 +15,7 @@ import bookmarkedUsers from './store/bookmarkedUsers';
 window.Store = {
     // state: data stored in the Store.state gets synced via the LocalStorage;
     // which means it's the same accross all the open windows.
-    state, 
+    state,
 
     // general settings that aren't limited to one componenet
     methods,
@@ -34,7 +34,7 @@ window.Store = {
 
     // client-side settings: There's not need to save these settings in the server-side.
     // However, we do sync them to the cloud.
-    settings, 
+    settings: _.merge(settings, window.clientsideSettings),
 
     // Set a hash for each modal to make it searchable to see which modal the
     // window.location.hash is pointing to.

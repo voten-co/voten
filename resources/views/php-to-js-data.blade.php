@@ -32,27 +32,31 @@
         };
 
         var preload = {};
-            </script>
-        @else
-            <script>
-                var auth = {
-                    font: 'Lato',
-                    nsfw: {{ 'false' }},
-                    nsfwMedia: {{ 'false' }},
-                    sidebar_color: 'Gray',
-                    isMobileDevice: {{ isMobileDevice() ? 'true' : 'false' }},
-                    <?php
-                        if (isMobileDevice()) {
-                            $submission_small_thumbnail = 'false';
-                        } else {
-                            $submission_small_thumbnail = 'true';
-                        }
-                    ?>
-                    submission_small_thumbnail: {{ $submission_small_thumbnail }},
-                    isGuest: {{ 'true' }}, 
-                    isVotenAdminstrator: false 
-                 };
 
-             var preload = {};
-        </script>
+        var clientsideSettings = {!! Auth::user()->clientsideSettings('Web') ?? '{}' !!}
+    </script>
+@else
+    <script>
+        var auth = {
+            font: 'Lato',
+            nsfw: {{ 'false' }},
+            nsfwMedia: {{ 'false' }},
+            sidebar_color: 'Gray',
+            isMobileDevice: {{ isMobileDevice() ? 'true' : 'false' }},
+            <?php
+                if (isMobileDevice()) {
+                    $submission_small_thumbnail = 'false';
+                } else {
+                    $submission_small_thumbnail = 'true';
+                }
+            ?>
+            submission_small_thumbnail: {{ $submission_small_thumbnail }},
+            isGuest: {{ 'true' }}, 
+            isVotenAdminstrator: false 
+            };
+
+        var preload = {};
+
+        var clientsideSettings = {}; 
+</script>
 @endif

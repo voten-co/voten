@@ -357,6 +357,16 @@ class User extends Authenticatable
         return new \App\Settings($this->settings, $this);
     }
 
+    public function clientsideSettings($platform = 'Web')
+    {
+        $settings = \App\ClientsideSettings::where([
+            ['user_id', $this->id], 
+            ['platform', $platform]
+        ])->first();
+
+        return optional($settings)->json; 
+    }
+
     /**
      * Is the auth user shadow banned.
      *

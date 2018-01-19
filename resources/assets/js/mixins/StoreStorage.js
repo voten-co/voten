@@ -1,4 +1,8 @@
 export default {
+    data() {
+        return { clientsideSettings };
+    },
+
     methods: {
         /**
          * Preloads few Store data using the HTML5 local storage. This'll get more updates in the future.
@@ -6,9 +10,11 @@ export default {
          *
          * @return void
          */
-        // preloadStore() {
-        //     Store.state.subscribedChannels = Vue.getLS('subscribedChannels');
-        // },
+        preloadStore() {
+            if (Vue.isSetLS('store-state')) {
+                Store.state = Vue.getLS('store-state');
+            }
+        },
 
         /**
          * Filles the Store
@@ -21,7 +27,7 @@ export default {
             // preLoad few Store values. This is used to avoid need for loading. Sure it might be fast enough now,
             // but it's not instant! This makes it instant. Also, we need to make sure the preloaded data is
             // fresh, and that's why we're still doing the ajax request to update it. Performance baby!
-            // this.preloadStore();
+            this.preloadStore();
 
             axios.get('/fill-basic-store').then(response => {
                 Store.state.submissions.upVotes = response.data.submissionUpvotes;
@@ -46,15 +52,15 @@ export default {
                 });
 
                 response.data.moderatingChannelsRecords.forEach((element, index) => {
-                    if (element.role == "administrator") {
+                    if (element.role == 'administrator') {
                         Store.state.administratorAt.push(element.channel_id);
-                    } else if (element.role == "moderator") {
+                    } else if (element.role == 'moderator') {
                         Store.state.moderatorAt.push(element.channel_id);
                     }
                 });
 
                 Store.initialFilled = true;
-            })
+            });
         },
 
         /**
@@ -82,28 +88,34 @@ export default {
             this.optimizedPushStore();
         },
 
+        pushSettingsToServer() {
+            axios.post('/clientside-settings', { platform: 'Web', json: JSON.stringify(Store.settings) });
+            this.pushSettingsToLocalStorage();
+        },
+
         pushStoreNow() {
             Vue.putLS('store-state', Store.state);
         },
 
-        optimizedPushStore: _.debounce(function () {
+        optimizedPushStore: _.debounce(function() {
             Vue.putLS('store-state', Store.state);
-        }, 1000),
+        }, 1000)
     },
 
     created() {
-        if (this.isGuest) return; 
+        if (this.isGuest) return;
 
         this.$eventHub.$on('push-store', this.pushStore);
         this.$eventHub.$on('pull-store', this.pullStore);
+        this.$eventHub.$on('push-settings', this.pushSettingsToServer);
 
-        document.addEventListener("visibilitychange", function () {
+        document.addEventListener('visibilitychange', function() {
             // Just opened (or clicked on) the window
             if (document.visibilityState == 'visible') {
-                let tempStore = Vue.getLS('store-state', true);
+                let tempState = Vue.getLS('store-state', true);
 
-                if (tempStore != null) {
-                    Store.state = tempStore;
+                if (tempState != null) {
+                    Store.state = tempState;
                 }
             }
         });
@@ -119,6 +131,17 @@ export default {
             },
 
             deep: true
+        },
+
+        'Store.settings': {
+            handler() {
+                if (this.isGuest) return;
+                if (!Store.initialFilled) return;
+
+                this.$eventHub.$emit('push-settings');
+            },
+
+            deep: true
         }
-    },
+    }
 };

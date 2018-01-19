@@ -36,6 +36,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/update-home-feed', 'UserSettingsController@updateHomeFeed');
     Route::get('/downvoted-submissions', 'UserController@downVotedSubmissions');
     Route::post('/email/verify/resend', 'Auth\VerificationController@resendVerifyEmailAddress');
+    Route::post('/clientside-settings', 'ClientsideSettingsController@store');
+    Route::get('/clientside-settings', 'ClientsideSettingsController@get');
+
 
     // submission
     Route::post('/submission', 'SubmissionController@store');
