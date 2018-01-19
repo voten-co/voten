@@ -1,46 +1,46 @@
-@import "variables";
-@import "icons/css/fontello.css";
-@import "node_modules/element-ui/packages/theme-chalk/src/index";
-@import "inc/search";
-@import "inc/bookmarks";
-@import "bulma/nav";
-@import "bulma/table";
-@import "bulma/tabs";
-@import "components/animate";
-@import "inc/grid";
-@import "wrapper";
-@import "common";
-@import "submit";
-@import "temp";
-@import "messages";
-@import "inc/channel";
-@import "inc/user";
-@import "inc/submission";
-@import "inc/comment";
-@import "inc/emoji";
-@import "inc/buttons";
-@import "components/image-preview";
-@import "inc/notifications";
-@import "inc/forms";
-@import "inc/statistics";
-@import "inc/transitions";
-@import "inc/landing";
-@import "inc/emojione";
-@import "inc/mobile";
-@import "inc/photo-viewer";
-@import "inc/sidebar";
-@import "theme";
-@import "inc/about";
-@import "inc/warning";
-@import "element/dialog";
-@import "element/tooltip";
-@import "element/buttons";
-@import "element/form";
-@import "other";
+@import 'variables';
+@import 'icons/css/fontello.css';
+@import 'node_modules/element-ui/packages/theme-chalk/src/index';
+@import 'inc/search';
+@import 'inc/bookmarks';
+@import 'bulma/nav';
+@import 'bulma/table';
+@import 'bulma/tabs';
+@import 'components/animate';
+@import 'inc/grid';
+@import 'wrapper';
+@import 'common';
+@import 'submit';
+@import 'temp';
+@import 'messages';
+@import 'inc/channel';
+@import 'inc/user';
+@import 'inc/submission';
+@import 'inc/comment';
+@import 'inc/emoji';
+@import 'inc/buttons';
+@import 'components/image-preview';
+@import 'inc/notifications';
+@import 'inc/forms';
+@import 'inc/statistics';
+@import 'inc/transitions';
+@import 'inc/landing';
+@import 'inc/emojione';
+@import 'inc/mobile';
+@import 'inc/photo-viewer';
+@import 'inc/sidebar';
+@import 'theme';
+@import 'inc/about';
+@import 'inc/warning';
+@import 'element/dialog';
+@import 'element/tooltip';
+@import 'element/buttons';
+@import 'element/form';
+@import 'other';
 
 .logo {
-    width: 30px; 
-    height: 30px; 
+    width: 30px;
+    height: 30px;
     cursor: pointer;
     margin: auto;
 }
@@ -91,6 +91,7 @@
     }
 }
 
-.el-message {
+.el-message,
+.el-dropdown-menu {
     @include user-select();
 }
