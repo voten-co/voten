@@ -87,7 +87,7 @@
 			<h3>New to Voten?</h3>
 
 			<p>
-				Sign up now to get your own personalized timeline, customized design, and real-time experience!
+				More than 90% of Voten's impressive features are either disabled or hidden for guests. Registration takes only a few seconds and doesn't even require an email address!
 			</p>
 
 			<el-button type="primary"
