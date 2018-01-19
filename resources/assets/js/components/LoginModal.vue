@@ -273,7 +273,8 @@ export default {
                 })
                 .then(response => {
                     this.loading = false;
-                    this.loginForm.errors = [];
+					this.loginForm.errors = [];
+					Vue.clearLS(); 
                     location.reload();
                 })
                 .catch(error => {
