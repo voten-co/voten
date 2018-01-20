@@ -5,17 +5,19 @@
 	     @keydown.up="handleKey($event, 'up')"
 	     @keydown.enter="handleKey($event, 'enter')"
 	     id="comment-form">
-		<div v-if="preview && message"
-		     class="form-wrapper margin-bottom-1 preview">
-			<markdown :text="message.trim()"></markdown>
-		</div>
-
 		<div class="editing-comment-wrapper user-select"
 		     v-if="(editing || replying) && !loading">
-			<div class="close"
-			     @click="clear">
-				<i class="v-icon v-cancel-small"></i>
-			</div>
+             <el-tooltip content="Cancel (esc)"
+             placement="right"
+             transition="false"
+             :open-delay="500"
+             >
+                <div class="close"
+                    @click="clear">
+                    <i class="v-icon v-cancel-small"></i>
+                </div>
+            </el-tooltip>
+            
 
 			<div class="editing-comment-previous">
 				<h4 class="title">
@@ -27,6 +29,11 @@
 				</div>
 			</div>
 		</div>
+
+        <div v-if="preview && message"
+             class="form-wrapper margin-bottom-1 preview">
+            <markdown :text="message.trim()"></markdown>
+        </div>
 
 		<form class="chat-input-form relative">
 			<transition name="el-zoom-in-bottom">
@@ -360,9 +367,9 @@ export default {
         },
 
         /**
-         * Like it never happened! 
-         * 
-         * @return void  
+         * Like it never happened!
+         *
+         * @return void
          */
         clear() {
             this.editingComment = [];

@@ -35,14 +35,6 @@ export default {
 <style lang="scss">
 .markdown,
 .preview {
-    &:first-child {
-        margin-top: 0;
-    }
-
-    &:last-child {
-        margin-bottom: 0;
-    }
-
     a {
         color: rgb(85, 135, 215);
 
@@ -107,13 +99,15 @@ export default {
 
 .preview {
     border-radius: 4px;
-    border: 2px dashed #e7e7e7;
+    border: 1px solid #e7e7e7;
     padding: 1em;
     line-height: initial;
+    margin-bottom: 0;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 }
 
 #comment-form .preview {
-    max-height: 250px;
+    max-height: 500px;
     overflow: auto;
 }
 </style>
