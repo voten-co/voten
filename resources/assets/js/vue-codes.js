@@ -7,11 +7,11 @@ const GuestSidebar = resolve => {
         'guest'
     );
 };
-const AuthinticationModal = resolve => {
+const AuthenticationModal = resolve => {
     require.ensure(
-        ['./components/AuthinticationModal.vue'],
+        ['./components/AuthenticationModal.vue'],
         () => {
-            resolve(require('./components/AuthinticationModal.vue'));
+            resolve(require('./components/AuthenticationModal.vue'));
         },
         'guest'
     );
@@ -206,7 +206,7 @@ window.app = new Vue({
 
     components: {
         KeyboardShortcutsGuide,
-        AuthinticationModal,
+        AuthenticationModal,
         GoogleLoginButton,
         ReportSubmission, 
         SidebarSettings, 
