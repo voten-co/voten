@@ -7,11 +7,11 @@ const GuestSidebar = resolve => {
         'guest'
     );
 };
-const LoginModal = resolve => {
+const AuthinticationModal = resolve => {
     require.ensure(
-        ['./components/LoginModal.vue'],
+        ['./components/AuthinticationModal.vue'],
         () => {
-            resolve(require('./components/LoginModal.vue'));
+            resolve(require('./components/AuthinticationModal.vue'));
         },
         'guest'
     );
@@ -126,8 +126,53 @@ const SidebarSettings = resolve => {
     );
 };
 
-import KeyboardShortcutsGuide from './components/KeyboardShortcutsGuide.vue';
-import MarkdownGuide from './components/MarkdownGuide.vue';
+const EmbedViewer = resolve => {
+    require.ensure(
+        ['./components/Embed.vue'],
+        () => {
+            resolve(require('./components/Embed.vue'));
+        },
+        'viewer'
+    );
+};
+const GifPlayer = resolve => {
+    require.ensure(
+        ['./components/GifPlayer.vue'],
+        () => {
+            resolve(require('./components/GifPlayer.vue'));
+        },
+        'viewer'
+    );
+};
+const PhotoViewer = resolve => {
+    require.ensure(
+        ['./components/PhotoViewer.vue'],
+        () => {
+            resolve(require('./components/PhotoViewer.vue'));
+        },
+        'viewer'
+    );
+};
+
+const KeyboardShortcutsGuide = resolve => {
+    require.ensure(
+        ['./components/KeyboardShortcutsGuide.vue'],
+        () => {
+            resolve(require('./components/KeyboardShortcutsGuide.vue'));
+        },
+        'guide'
+    );
+};
+const MarkdownGuide = resolve => {
+    require.ensure(
+        ['./components/MarkdownGuide.vue'],
+        () => {
+            resolve(require('./components/MarkdownGuide.vue'));
+        },
+        'guide'
+    );
+};
+
 import SearchModal from './components/SearchModal.vue';
 import NotFound from './components/NotFound.vue';
 import StoreStorage from './mixins/StoreStorage';
@@ -136,9 +181,6 @@ import Helpers from './mixins/Helpers';
 import FontLoader from './mixins/FontLoader';
 import router from './routes';
 import Announcement from './components/Announcement.vue';
-import PhotoViewer from './components/PhotoViewer.vue';
-import GifPlayer from './components/GifPlayer.vue';
-import EmbedViewer from './components/Embed.vue';
 
 /**
  * This is our event bus, which is used for event dispatching. The base is that we create an empty
@@ -164,9 +206,10 @@ window.app = new Vue({
 
     components: {
         KeyboardShortcutsGuide,
-        SidebarSettings, 
+        AuthinticationModal,
         GoogleLoginButton,
         ReportSubmission, 
+        SidebarSettings, 
         MarkdownGuide,
         FeedSettings, 
         Notifications,
@@ -179,7 +222,6 @@ window.app = new Vue({
         EmbedViewer,
         LeftSidebar,
         SearchModal,
-        LoginModal,
         NewChannel,
         GifPlayer,
         NotFound,
