@@ -1,71 +1,48 @@
 <template>
-	<div v-html="compiled"
-	     class="markdown enable-user-select"></div>
+	<div class="markdown enable-user-select" v-html="compiled"></div>
 </template>
 
 <script>
+let md = require('markdown-it')({
+    html: true, 
+    breaks: true,
+    langPrefix: 'language-', 
+    linkify: true, 
+    typographer: true,
+    quotes: '“”‘’',
+});
+
 export default {
     props: ['text'],
 
     computed: {
         compiled() {
-            let text = this.text;
+            let text = this.text; 
 
-            text = text.replace(/(?:^| )(@[A-Za-z0-9\._]+)/gm, ' [$1](https://voten.co/$1)');
-            text = text.replace(/(?:^| )#([A-Za-z0-9_]+)/gm, ' [#$1](https://voten.co/c/$1)');
-            text = text.replace(/(?:^| )\/c\/([A-Za-z0-9_]+)/gm, ' [#$1](https://voten.co/c/$1)');
-            text = text.replace(/(?:^| )(https?:\/\/[^ \n]*[^. \n])/gm, ' [$1]($1)');
-            text = text.replace(/\\([*`_>()\[\]-])/gm, function(i) {
-                return '~' + i.charCodeAt(1);
-            });
             text = text
-                .split('&')
-                .join('&amp;')
-                .split('<')
-                .join('&lt;')
-                .split("'")
-                .join('&apos;')
-                .split('"')
-                .join('&quot;');
-            text = text.replace(/\*\*([^*]*)\*\*/gm, '<strong>$1</strong>');
+                .replace(/(?:^| )(@[A-Za-z0-9\._]+)/gm, ' [$1](https://voten.co/$1)')
+                .replace(/(?:^| )#([A-Za-z0-9_]+)/gm, ' [#$1](https://voten.co/c/$1)')
+                .replace(/(?:^| )\/c\/([A-Za-z0-9_]+)/gm, ' [#$1](https://voten.co/c/$1)');
 
-            text = text.replace(/\[([^\[\n]*)\]\(((https?):\/\/voten.co\/[^\)]*)\)/gim, "<a href='$2'>$1</a>");
-            text = text.replace(
-                /\[([^\[\n]*)\]\(((https?):\/\/[^\)]*)\)/gim,
-                "<a href='$2' target='_blank' rel='nofollow'>$1</a>"
-            );
-            text = text.replace(/^>([^\n]*)/gm, '<p>$1</p>');
-            for (var i = 1; i < 4; i++)
-                text = text.replace(
-                    new RegExp('<p>{' + i + '}([^\n]*(\n<p>{' + i + '}[^\n]*)*)', 'gm'),
-                    '<blockquote><p>$1</blockquote>'
-                );
-            text = text.replace(/\<p\>*/gm, '<p>');
-            text = text.replace(/```([^`]*)```/gm, '<pre>$1</pre>');
-            text = text.replace(/`([^`\n]*)`/gm, '<code>$1</code>');
-            text = text.replace(/^\-([^\n]*)/gm, '<li>$1</li>');
-            text = text.replace(/(\<li\>[^\n]*(\n\<li\>[^\n]*)*)/gm, '<ul>$1</ul>');
-            text = text.replace(/^(\d*\.[^\n]*)/gm, '<li>$1</li>');
-            text = text.replace(/(\<li\>\d[^\n]*(\n\<li\>\d[^\n]*)*)/gm, '<ol>$1</ol>').replace(/\<li\>\d*\./g, '<li>');
-            text = text
-                .replace(/\n^(?!<li>|<p>|<\/?blockquote>|<\/?ol>|<\/?ul>)/gm, '<br>')
-                .replace(/~(40|41|42|45|62|91|93|95|96)/gm, function(p, q) {
-                    return String.fromCharCode(q);
-                });
-
-            // Emoji
             text = emojione.shortnameToImage(text);
 
-            text = text.replace(/__([^]*)__/gm, '<i>$1</i>');
-
-            return text;
+            return md.render(text);
         }
     }
 };
 </script>
 
 <style lang="scss">
-.markdown {
+.markdown,
+.preview {
+    &:first-child {
+        margin-top: 0;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
     a {
         color: rgb(85, 135, 215);
 
@@ -76,7 +53,67 @@ export default {
 
     ul,
     ol {
-        margin-bottom: 0;
+        margin-top: 0;
+
+        li {
+            margin-top: 0.25em;
+        }
     }
+
+    p,
+    pre {
+        margin-top: 0;
+    }
+
+    code {
+        padding: 0.2em 0.4em;
+        margin: 0;
+        background-color: rgba(27, 31, 35, 0.05);
+        border-radius: 3px;
+        font-weight: bold;
+    }
+
+    pre {
+        padding: 16px;
+        overflow: auto;
+        line-height: 1.45;
+        background-color: #f6f8fa;
+        border-radius: 3px;
+        border: 2px solid #e7e7e7;
+
+        code {
+            display: inline;
+            max-width: auto;
+            padding: 0;
+            margin: 0;
+            overflow: visible;
+            line-height: inherit;
+            word-wrap: normal;
+            background-color: transparent;
+            border: 0;
+            font-weight: normal;
+        }
+    }
+
+    blockquote {
+        margin: 0;
+        padding: 0 1em;
+        color: #6a737d;
+        border-left: 0.25em solid #dfe2e5;
+        margin-top: 0;
+        margin-bottom: 16px;
+    }
+}
+
+.preview {
+    border-radius: 4px;
+    border: 2px dashed #e7e7e7;
+    padding: 1em;
+    line-height: initial;
+}
+
+#comment-form .preview {
+    max-height: 250px;
+    overflow: auto;
 }
 </style>

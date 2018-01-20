@@ -51,18 +51,6 @@
     opacity: 0.6;
 }
 
-.preview {
-    border-radius: 4px;
-    border: 2px dashed #e7e7e7;
-    padding: 1em;
-    line-height: initial;
-}
-
-#comment-form .preview {
-    max-height: 250px;
-    overflow: auto;
-}
-
 .form-loader {
     position: absolute;
     top: 50%;
