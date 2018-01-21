@@ -106,9 +106,11 @@
 
 
 @section('script')
-	<script>
-		var preload = {
-			submissions: {!! $submissions->toJson() !!}
-		};
-	</script>
+	@if (isset($submissions))
+		<script>
+			var preload = {
+				submissions: {!! $submissions->toJson() !!}
+			};
+		</script>
+	@endif
 @endsection
