@@ -4,7 +4,11 @@
 
     img {
         max-height: 500px;
-    }
+	}
+	
+	video {
+		max-height: 500px;
+	}
 }
 </style>
 

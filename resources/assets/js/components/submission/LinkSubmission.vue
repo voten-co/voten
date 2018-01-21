@@ -1,15 +1,17 @@
 <style lang="scss">
-iframe {
-    width: 70em;
-    max-width: 100%;
-    height: 36em;
-    max-height: 48%;
+.submission-page-preview {
+	iframe {
+		width: 70em;
+		max-width: 100%;
+		height: 36em;
+		max-height: 48%;
+	}
 }
 </style>
 
 <template>
 	<div>
-		<div v-if="showBigThumbnail && submission.data.thumbnail">
+		<div v-if="showBigThumbnail && submission.data.thumbnail" class="submission-page-preview">
 			<div v-html="submission.data.embed" class="video-player-wrapper" v-if="showEmbed"></div>
 
 			<div v-else>
@@ -21,11 +23,6 @@ iframe {
 									:alt="submission.title"
 									class="big-thumbnail" />
 				</a>
-
-				<span class="play-gif"
-									v-if="showEmbed">
-					<i class="v-icon v-play"></i>
-				</span>
 			</div>
 		</div>
 
@@ -144,11 +141,11 @@ export default {
 
         showEmbed() {
             return this.isValidSourceForEmbed && this.submission.data.embed;
-		}, 
-		
-		isVideo() {
-			return this.submission.data.type == 'video'; 
-		}
+        },
+
+        isVideo() {
+            return this.submission.data.type == 'video';
+        }
     },
 
     methods: {
