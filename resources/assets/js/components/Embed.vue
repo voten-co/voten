@@ -16,6 +16,18 @@
 	           append-to-body
 	           fullscreen
 	           class="user-select">
+               <div slot="title">
+                   <span class="v-bold margin-right-1">
+                       {{ submission.title }} 
+                   </span>
+
+                   <el-button type="success"
+                              size="mini"
+                              plain
+                              @click="goToSubmission"
+                              icon="margin-right-half v-comment"
+                              v-if="$route.name != 'submission-page'">{{ submission.comments_number > 0 ? submission.comments_number + ' Comments' : 'Comment' }}</el-button>
+               </div>
 		<!-- <div slot="title">
 			<a :href="submission.data.url"
 			   target="_blank">
@@ -61,6 +73,11 @@ export default {
     methods: {
         close() {
             this.$emit('update:visible', false);
+        }, 
+
+        goToSubmission() {
+            this.$router.push('/c/' + this.submission.channel_name + '/' + this.submission.slug);
+            this.close();
         }
     }
 };

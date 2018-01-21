@@ -21,9 +21,16 @@
 			<el-button type="primary"
 			           size="mini"
 			           plain
-			           @click="openAlbum"
+			           @click="goToSubmission"
 			           icon="el-icon-picture"
 			           v-if="isAlbum && $route.name != 'submission-page'">See full album</el-button>
+			
+            <el-button type="success"
+			           size="mini"
+			           plain
+			           @click="goToSubmission"
+			           icon="margin-right-half v-comment"
+			           v-if="$route.name != 'submission-page'">{{ submission.comments_number > 0 ? submission.comments_number + ' Comments' : 'Comment' }}</el-button>
 		</div>
 
 		<div class="photo-viewer">
@@ -79,7 +86,7 @@ export default {
             this.$emit('update:visible', false);
         },
 
-        openAlbum() {
+        goToSubmission() {
             this.$router.push('/c/' + this.submission.channel_name + '/' + this.submission.slug);
             this.close();
         }
