@@ -1,4 +1,4 @@
-@extends('layouts.guest')
+@extends('layouts.no-sidebar')
 
 @section('title')
 	<title>Sign up | Voten</title>
@@ -13,6 +13,12 @@
 			</h1>
 
 			<div class="flex-center">
+				<a href="/" class="margin-right-1">
+					<el-button size="small" type="text">
+						Home
+					</el-button>
+				</a>
+
 				<a href="/login" class="margin-right-1">
 					<el-button size="small" type="text">
 						Login 
