@@ -53,11 +53,11 @@ const Messages = resolve => {
         'logged-in'
     );
 };
-const Settings = resolve => {
+const Preferences = resolve => {
     require.ensure(
-        ['./components/Settings.vue'],
+        ['./components/Preferences.vue'],
         () => {
-            resolve(require('./components/Settings.vue'));
+            resolve(require('./components/Preferences.vue'));
         },
         'logged-in'
     );
@@ -208,12 +208,12 @@ window.app = new Vue({
         KeyboardShortcutsGuide,
         AuthenticationModal,
         GoogleLoginButton,
-        ReportSubmission, 
-        SidebarSettings, 
+        ReportSubmission,
+        SidebarSettings,
         MarkdownGuide,
-        FeedSettings, 
+        FeedSettings,
         Notifications,
-        ReportComment, 
+        ReportComment,
         NewSubmission,
         Announcement,
         RightSidebar,
@@ -222,11 +222,11 @@ window.app = new Vue({
         EmbedViewer,
         LeftSidebar,
         SearchModal,
+        Preferences,
         NewChannel,
         GifPlayer,
         NotFound,
         Messages,
-        Settings,
         Feedback
     },
 
@@ -276,7 +276,7 @@ window.app = new Vue({
         this.$eventHub.$on('push-notification', this.pushNotification);
 
         if (this.$route.query.search) {
-            Store.modals.search.show = true; 
+            Store.modals.search.show = true;
         }
 
         this.setQueries();
@@ -359,10 +359,10 @@ window.app = new Vue({
          * @return void
          */
         startConversation(contact) {
-            Store.modals.messages.show = true; 
+            Store.modals.messages.show = true;
             this.$eventHub.$emit('conversation', contact);
         },
-      
+
         /**
          * show the submit modal.
          *
@@ -439,12 +439,12 @@ window.app = new Vue({
                 case 77: // "m"
                     if (this.isGuest) break;
 
-                    event.preventDefault();                    
-                    Store.modals.messages.show = true; 
+                    event.preventDefault();
+                    Store.modals.messages.show = true;
                     break;
                 case 191: // "/"
                     event.preventDefault();
-                    Store.modals.search.show = true; 
+                    Store.modals.search.show = true;
                     break;
                 case 66: // "b"
                     if (this.isGuest) break;

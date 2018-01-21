@@ -55,7 +55,7 @@
     <report-submission :visible.sync="Store.modals.reportSubmission.show" v-if="Store.modals.reportSubmission.show"></report-submission>
     <notifications :visible.sync="Store.modals.notifications.show" v-show="Store.modals.notifications.show"></notifications>
     <new-submission v-show="Store.modals.newSubmission.show" :visible.sync="Store.modals.newSubmission.show"></new-submission>
-    <settings v-if="Store.modals.preferences.show" :visible.sync="Store.modals.preferences.show"></settings>
+    <preferences v-if="Store.modals.preferences.show" :visible.sync="Store.modals.preferences.show"></preferences>
     <new-channel v-show="Store.modals.newChannel.show" :visible.sync="Store.modals.newChannel.show"></new-channel>
     <markdown-guide v-if="Store.modals.markdownGuide.show" :visible.sync="Store.modals.markdownGuide.show"></markdown-guide>
     <feedback v-if="Store.modals.feedback.show" :visible.sync="Store.modals.feedback.show"></feedback>
