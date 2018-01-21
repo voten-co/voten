@@ -19,10 +19,10 @@
             </tr>
             </thead>
 
-            <tbody>
+            <tbody class="markdown">
             <tr>
                 <td>
-                    **bold**
+                    **bold** or __bold__ 
                 </td>
 
                 <td>
@@ -32,7 +32,7 @@
 
             <tr>
                 <td>
-                    __italic__
+                    *italic* or _italic_
                 </td>
 
                 <td>
@@ -52,7 +52,7 @@
 
             <tr>
                 <td>
-                    -unordered lists <br> -unordered lists <br> -unordered lists
+                    - unordered lists <br> - unordered lists <br> - unordered lists
                 </td>
 
                 <td>
@@ -66,7 +66,7 @@
 
             <tr>
                 <td>
-                    1.ordered list <br> 2.ordered list <br> 3.ordered list
+                    1. ordered list <br> 2. ordered list <br> 3. ordered list
                 </td>
 
                 <td>
