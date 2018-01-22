@@ -13,13 +13,13 @@ return [
     | to have a conventional place to find your various credentials.
     |
     */
-   
+
     'google' => [
          'client_id'     => env('GOOGLE_CLIENT_ID'),
          'client_secret' => env('GOOGLE_CLIENT_SECRET'),
          'redirect'      => env('GOOGLE_REDIRECT'),
      ],
-    
+
      'recaptcha' => [
          'key'     => env('GOOGLE_RECAPTCHA_KEY'),
          'secret'  => env('GOOGLE_RECAPTCHA_SECRET'),

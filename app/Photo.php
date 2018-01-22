@@ -12,7 +12,7 @@ class Photo extends Model
      * @var array
      */
     protected $fillable = [
-        'submission_id', 'user_id'
+        'submission_id', 'user_id',
     ];
 
     public function owner()

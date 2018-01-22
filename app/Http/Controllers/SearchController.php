@@ -7,7 +7,6 @@ use App\Filters;
 use App\Submission;
 use App\Traits\CachableUser;
 use App\User;
-use Auth;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller

@@ -2,16 +2,17 @@
 
 namespace App\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
 use GuzzleHttp\Client;
+use Illuminate\Contracts\Validation\Rule;
 
 class Recaptcha implements Rule
 {
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed  $value
+     *
      * @return bool
      */
     public function passes($attribute, $value)
@@ -21,15 +22,14 @@ class Recaptcha implements Rule
         $response = $client->post(
             'https://www.google.com/recaptcha/api/siteverify',
 
-            ['form_params'=>
-                [
-                    'secret' => config('services.recaptcha.secret'),
-                    'response' => $value
-                 ]
+            ['form_params'=> [
+                    'secret'   => config('services.recaptcha.secret'),
+                    'response' => $value,
+                 ],
             ]
         );
 
-        $body = json_decode((string)$response->getBody());
+        $body = json_decode((string) $response->getBody());
 
         return $body->success == true;
     }

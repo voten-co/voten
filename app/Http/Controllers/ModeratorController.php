@@ -53,7 +53,7 @@ class ModeratorController extends Controller
     {
         $this->validate($request, [
             'username' => 'required',
-            'channel' => 'required',
+            'channel'  => 'required',
         ]);
 
         $channel = $this->getChannelByName($request->channel);
@@ -144,7 +144,7 @@ class ModeratorController extends Controller
 
         event(new SubmissionWasDeleted($submission, false));
 
-        return response('Submission deleted successfully', 200); 
+        return response('Submission deleted successfully', 200);
     }
 
     /**
@@ -173,7 +173,7 @@ class ModeratorController extends Controller
             'reportable_type' => 'App\Comment',
         ])->delete();
 
-        return response('Comment approved successfully', 200); 
+        return response('Comment approved successfully', 200);
     }
 
     /**
@@ -201,7 +201,7 @@ class ModeratorController extends Controller
             'deleted_at'  => Carbon::now(),
         ]);
 
-        return response('Comment deleted successfully', 200); 
+        return response('Comment deleted successfully', 200);
     }
 
     /**
@@ -214,7 +214,7 @@ class ModeratorController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'channel_name' => 'required',
+            'channel_name'  => 'required',
             'username'      => 'required',
             'role'          => 'in:administrator,moderator',
         ]);
@@ -244,7 +244,7 @@ class ModeratorController extends Controller
     public function destroy(Request $request)
     {
         $this->validate($request, [
-            'channel_name' => 'required',
+            'channel_name'  => 'required',
             'username'      => 'required',
         ]);
 
