@@ -4,7 +4,7 @@ Voten.co is a real-time social bookmarking for the 21st century. It's real-time,
 
 ## Contributing
 
-Thank you for considering contributing to the Voten. To encourage active collaboration, Voten strongly encourages pull requests, not just bug reports. [Voten's Slack channel](https://join.slack.com/t/voten/shared_invite/MjMzMTQxMzM4MDM2LTE1MDM5OTQ0NjEtMWRiMDhiZTY2Yg) is created for developers to discuss Voten development concerns. If you have an idea(and not the code for it) you may contact us either with the info@voten.co email address or submit it to [#votendev](https://voten.co/c/votendev) channel.
+Thank you for considering contributing to the Voten. To encourage active collaboration, Voten strongly encourages pull requests, not just bug reports. [Voten's Slack channel](https://join.slack.com/t/voten/shared_invite/MjMzMTQxMzM4MDM2LTE1MDM5OTQ0NjEtMWRiMDhiZTY2Yg) is created for developers to discuss Voten development concerns. If you have an idea (and not the code for it) you may contact us either with the info@voten.co email address or submit it to [#votendev](https://voten.co/c/votendev) channel.
 
 ## Coding Style
 
@@ -16,7 +16,7 @@ Voten is a Laravel application that runs on the following software:
 
 - Ubuntu 16.04.2 LTS
 - Nginx 1.10+
-- MySQL 5.7+ (to use mariaDB, you must modify `json` type migration columns to `blob`)
+- MySQL 5.7+ (to use mariaDB, you must modify `json` type migration columns to `blob` by running `sed -i 's/json(/binary(/g' *` inside the database/migrations/ directory in Linux)
 - PHP 7.1+
 - Redis 3.0+
 - Git 2.8.4+
