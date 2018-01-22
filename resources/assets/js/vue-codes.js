@@ -181,6 +181,8 @@ import Helpers from './mixins/Helpers';
 import FontLoader from './mixins/FontLoader';
 import router from './routes';
 import Announcement from './components/Announcement.vue';
+import Tour from './components/Tour';
+
 
 /**
  * This is our event bus, which is used for event dispatching. The base is that we create an empty
@@ -227,7 +229,8 @@ window.app = new Vue({
         GifPlayer,
         NotFound,
         Messages,
-        Feedback
+        Feedback, 
+        Tour
     },
 
     data: {

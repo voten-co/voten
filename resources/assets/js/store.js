@@ -1,4 +1,5 @@
 import home from './store/home';
+import tour from './store/tour';
 import channel from './store/channel';
 import user from './store/user';
 import modals from './store/modals';
@@ -39,6 +40,9 @@ window.Store = {
     // Set a hash for each modal to make it searchable to see which modal the
     // window.location.hash is pointing to.
     modals,
+
+    // the tour for new new registered users 
+    tour, 
 
     // is the Store initial filled yet? (it gets filled right after a page reload)
     initialFilled: false

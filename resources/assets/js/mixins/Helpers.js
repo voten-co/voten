@@ -10,6 +10,14 @@ export default {
     },
 
     computed: {
+        activeTour() {
+            return Store.tour.items[Store.tour.step - 1];
+        },
+
+        showTour() {
+            return Store.tour.show;
+        },
+
         /**
          * Is the user a guest
          *

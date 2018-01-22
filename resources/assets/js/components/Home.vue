@@ -1,6 +1,8 @@
 <template>
     <div class="home-wrapper" id="home">
-        <nav class="nav has-shadow user-select">
+        <nav class="nav has-shadow user-select" :class="{'shade-item relative': showTour && activeTour.id === 'feed'}">
+            <tour v-if="showTour && activeTour.id == 'feed'" :position="{ top: '7em', left: '39%' }"></tour>
+
             <div class="container">
                 <div class="nav-left">
                     <router-link :to="{ path: '/' }" class="nav-item is-tab" :class="{ 'is-active': sort == 'hot' }">
@@ -68,6 +70,8 @@
     import Loading from '../components/Loading.vue';
     import NoContent from '../components/NoContent.vue';
     import NoMoreItems from '../components/NoMoreItems.vue';
+    import Tour from '../components/Tour';
+
 
     export default {
         mixins: [Helpers],
@@ -77,7 +81,8 @@
             Loading, 
             SuggestedChannel,
             NoContent,
-            NoMoreItems
+            NoMoreItems, 
+            Tour
         },
 
         data() {
@@ -115,7 +120,7 @@
 
         created() {
             this.setPageTitle('Voten: ' + config.title, true);
-            this.askNotificationPermission();
+            this.startTour();
             this.$eventHub.$on('refresh-home', this.refresh);
         },
 
@@ -172,22 +177,9 @@
                 this.$eventHub.$emit('submit');
             },
 
-            /**
-             * In case the user has just joined to the Voten community let's ask them for the awesome Desktop notifications permission.
-             *
-             * @return void
-             */
-            askNotificationPermission() {
-                if (this.$route.query.newbie == 1) {
-                    if ('Notification' in window) {
-                        Notification.requestPermission();
-                    } else {
-                        this.$notify({
-                          title: 'Too bad!',
-                          message: 'Your browser does not support desktop notifications.',
-                          type: 'warning'
-                        });
-                    }
+            startTour() {
+                if (this.$route.query.newbie == 1) { 
+                    Store.tour.show = true; 
                 }
             }
         },

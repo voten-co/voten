@@ -217,6 +217,12 @@
 // Gray 
 /////////////////////////////////////////////
 .theme-gray {
+    .side-menu-wrapper.shade-item, 
+    .fixed-header.shade-item,
+    .menu.shade-item {
+        background: inherit; 
+    }
+
     background: #f4f5f7;
     border-left: 2px solid #e7e7e7;
 

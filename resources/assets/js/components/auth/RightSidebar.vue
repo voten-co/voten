@@ -1,7 +1,9 @@
 <template>
 	<div class="sidebar-right user-select"
 	     :class="theme">
-		<div class="side-menu-wrapper">
+		<div class="side-menu-wrapper" :class="{'shade-item relative': showTour && activeTour.id === 'right-sidebar-menu'}">
+			<tour v-if="showTour && activeTour.id == 'right-sidebar-menu'" :position="{ top: '7em', right: '21em' }"></tour>
+
 			<div class="box"
 			     @click="showMenu =! showMenu">
 				<span>
@@ -107,7 +109,9 @@
 			</el-collapse-transition>
 		</div>
 
-		<div class="fixed-header">
+		<div class="fixed-header" :class="{'shade-item relative': showTour && activeTour.id === 'right-sidebar-channels'}">
+			<tour v-if="showTour && activeTour.id == 'right-sidebar-channels'" :position="{ top: '14em', right: '21em' }"></tour>
+
 			<div class="flex-space">
 				<div class="menu-label">
 					<span>
@@ -137,7 +141,7 @@
 			          spellcheck="false"></el-input>
 		</div>
 
-		<aside class="menu">
+		<aside class="menu" :class="{'shade-item relative': activeTour.id === 'right-sidebar-channels'}">
 			<div class="no-subscription"
 			     v-if="!sortedSubscribeds.length">
 				<i class="v-icon v-channel"
@@ -183,9 +187,12 @@
 
 <script>
 import Helpers from '../../mixins/Helpers';
+import Tour from '../../components/Tour';
 
 export default {
     mixins: [Helpers],
+
+    components: { Tour },
 
     data() {
         return {

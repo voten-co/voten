@@ -85,6 +85,7 @@
         padding-right: 0;
         overflow-y: auto;
         height: 100%;
+        background: initial;
 
         img {
             width: 28px;
@@ -97,6 +98,7 @@
         // box-shadow: 0 2px 0 hsla(200,9%,93%,.25);
         padding: 1em;
         padding-bottom: 0;
+        background: initial;
     }
 }
 
@@ -190,6 +192,8 @@
 }
 
 .side-menu-wrapper {
+    background: initial;
+
     .box {
         display: flex;
         justify-content: space-between;

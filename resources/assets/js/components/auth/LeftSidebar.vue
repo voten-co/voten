@@ -1,138 +1,141 @@
 
 <template>
-	<div class="sidebar-left user-select">
+	<div class="sidebar-left user-select" :class="{'shade-item relative': showTour && activeTour.id === 'left-sidebar'}">
+		<tour v-if="showTour && activeTour.id == 'left-sidebar'" :position="{ top: '15%', left: '6em' }"></tour>
+		
 		<div class="top">
 			<!-- Home -->
 			<el-tooltip content="Home Feed (H)"
-			            placement="right"
-			            transition="false"
-			            :open-delay="500">
+						placement="right"
+						transition="false"
+						:open-delay="500">
 				<a @click.prevent="goHome"
-				   href="/"
-				   :class="{ 'active': activeRoute === 'home' }"
-				   class="item">
+				href="/"
+				:class="{ 'active': activeRoute === 'home' }"
+				class="item">
 					<i class="v-icon v-home"
-					   aria-hidden="true"></i>
+					aria-hidden="true"></i>
 				</a>
 			</el-tooltip>
 
 			<!-- Profile -->
 			<el-tooltip content="Profile (P)"
-			            placement="right"
-			            transition="false"
+						placement="right"
+						transition="false"
 						v-if="isLoggedIn"
-			            :open-delay="500">
+						:open-delay="500">
 				<a @click.prevent="pushRouter('/@' + auth.username)"
-				   :href="'/@' + auth.username"
-				   :class="{ 'active': activeRoute === 'profile' }"
-				   class="item">
+				:href="'/@' + auth.username"
+				:class="{ 'active': activeRoute === 'profile' }"
+				class="item">
 					<i class="v-icon v-profile"
-					   aria-hidden="true"></i>
+					aria-hidden="true"></i>
 				</a>
 			</el-tooltip>
 
 			<!-- Notifications -->
 			<el-tooltip content="Notifications (N)"
-			            placement="right"
-			            transition="false"
-			            :open-delay="500"
-			            v-if="isLoggedIn">
+						placement="right"
+						transition="false"
+						:open-delay="500"
+						v-if="isLoggedIn">
 				<a class="item"
-				   :class="{'active' : activeRoute === 'notifications'}"
-				   @click="Store.modals.notifications.show = true">
+				:class="{'active' : activeRoute === 'notifications'}"
+				@click="Store.modals.notifications.show = true">
 					<el-badge :value="unreadNotifications"
-					          :max="99">
+							:max="99">
 						<i class="el-icon-bell"
-						   aria-hidden="true"></i>
+						aria-hidden="true"></i>
 					</el-badge>
 				</a>
 			</el-tooltip>
 
 			<!-- Messages Inbox -->
 			<el-tooltip content="Messages (M)"
-			            placement="right"
-			            transition="false"
-			            :open-delay="500"
-			            v-if="isLoggedIn">
+						placement="right"
+						transition="false"
+						:open-delay="500"
+						v-if="isLoggedIn">
 				<a class="item"
-				   id="messages-btn"
-				   :class="{'active' : activeRoute === 'messages'}"
-				   @click="Store.modals.messages.show = true">
+					id="messages-btn"
+					:class="{'active' : activeRoute === 'messages'}"
+					@click="Store.modals.messages.show = true"
+				>
 					<el-badge :value="unreadMessages"
-					          :max="99">
+							:max="99">
 						<i class="v-icon v-inbox"
-						   aria-hidden="true"></i>
+						aria-hidden="true"></i>
 					</el-badge>
 				</a>
 			</el-tooltip>
 
 			<!-- Bookmarks -->
 			<el-tooltip content="Bookmarks (B)"
-			            placement="right"
-			            transition="false"
-			            :open-delay="500"
-			            v-if="isLoggedIn">
+						placement="right"
+						transition="false"
+						:open-delay="500"
+						v-if="isLoggedIn">
 				<a @click.prevent="pushRouter('/bookmarks')"
-				   href="/bookmarks"
-				   class="item"
-				   :class="{'active' : activeRoute === 'bookmarks'}">
+				href="/bookmarks"
+				class="item"
+				:class="{'active' : activeRoute === 'bookmarks'}">
 					<i class="v-icon v-bookmark"
-					   aria-hidden="true"></i>
+					aria-hidden="true"></i>
 				</a>
 			</el-tooltip>
 
 			<!-- Search -->
 			<el-tooltip content="Search (/)"
-			            placement="right"
-			            transition="false"
-			            :open-delay="500">
+						placement="right"
+						transition="false"
+						:open-delay="500">
 				<a class="item"
-				   @click="Store.modals.search.show = true"
-				   :class="{'active' : activeRoute === 'search'}">
+				@click="Store.modals.search.show = true"
+				:class="{'active' : activeRoute === 'search'}">
 					<i class="el-icon-search"
-					   aria-hidden="true"></i>
+					aria-hidden="true"></i>
 				</a>
 			</el-tooltip>
 
 			<!-- Settings -->
 			<el-tooltip content="Preferences"
-			            placement="right"
-			            transition="false"
-			            :open-delay="500"
-			            v-if="isLoggedIn">
+						placement="right"
+						transition="false"
+						:open-delay="500"
+						v-if="isLoggedIn">
 				<a class="item"
-				   @click.prevent="Store.modals.preferences.show = true"
-				   :class="{'active' : activeRoute === 'settings'}">
+				@click.prevent="Store.modals.preferences.show = true"
+				:class="{'active' : activeRoute === 'settings'}">
 					<i class="el-icon-setting"
-					   aria-hidden="true"></i>
+					aria-hidden="true"></i>
 				</a>
 			</el-tooltip>
 
 			<!-- Submit -->
 			<el-tooltip content="Add Content"
-			            placement="right"
-			            transition="false"
-			            :open-delay="500"
-			            v-if="isLoggedIn">
+						placement="right"
+						transition="false"
+						:open-delay="500"
+						v-if="isLoggedIn">
 				<a class="item"
-				   @click="$eventHub.$emit('submit')"
-				   :class="{'active' : activeRoute === 'submit'}">
+				@click="$eventHub.$emit('submit')"
+				:class="{'active' : activeRoute === 'submit'}">
 					<i class="el-icon-plus"
-					   aria-hidden="true"></i>
+					aria-hidden="true"></i>
 				</a>
 			</el-tooltip>
 
 			<!-- Help Center for guests -->
 			<el-tooltip content="Help Center"
-			            placement="right"
-			            transition="false"
-			            :open-delay="500"
-			            v-if="isGuest">
+						placement="right"
+						transition="false"
+						:open-delay="500"
+						v-if="isGuest">
 				<a class="item"
-				   href="https://help.voten.co/"
-				   target="_blank">
+				href="https://help.voten.co/"
+				target="_blank">
 					<i class="el-icon-question"
-					   aria-hidden="true"></i>
+					aria-hidden="true"></i>
 				</a>
 			</el-tooltip>
 		</div>
@@ -184,9 +187,12 @@
 
 <script>
 import Helpers from '../../mixins/Helpers';
+import Tour from '../../components/Tour';
 
 export default {
     mixins: [Helpers],
+
+    components: { Tour },
 
     computed: {
         submitURL() {
@@ -210,7 +216,7 @@ export default {
             }
 
             if (this.$route.params.username == auth.username) {
-                return 'profile'; 
+                return 'profile';
             }
 
             if (this.$route.name === 'submit') {
@@ -246,4 +252,3 @@ export default {
     }
 };
 </script>
-
