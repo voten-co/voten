@@ -40,7 +40,7 @@ class RulesController extends Controller
     {
         $this->validate($request, [
             'title'         => 'required|max:300',
-            'channel_name' => 'required',
+            'channel_name'  => 'required',
         ]);
 
         $channel_id = Channel::where('name', $request->channel_name)->value('id');
@@ -53,7 +53,7 @@ class RulesController extends Controller
 
         $rule = new Rule([
             'title'       => $request->title,
-            'channel_id' => $channel_id,
+            'channel_id'  => $channel_id,
         ]);
         $rule->save();
 
@@ -71,7 +71,7 @@ class RulesController extends Controller
     {
         $this->validate($request, [
             'title'       => 'required',
-            'channel_id' => 'required',
+            'channel_id'  => 'required',
             'rule_id'     => 'required|integer',
         ]);
 
@@ -94,7 +94,7 @@ class RulesController extends Controller
     public function destroy(Request $request)
     {
         $this->validate($request, [
-            'channel_id' => 'required|integer',
+            'channel_id'  => 'required|integer',
             'rule_id'     => 'required|integer',
         ]);
 

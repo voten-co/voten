@@ -27,7 +27,7 @@ class BlockChannelsController extends Controller
         try {
             DB::table('hidden_channels')->insert([
                 'user_id'     => Auth::id(),
-                'channel_id' => $request->channel_id,
+                'channel_id'  => $request->channel_id,
             ]);
 
             // update the cach record for hiddenSubmissions:

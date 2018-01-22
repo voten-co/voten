@@ -64,7 +64,7 @@ class AnnouncementController extends Controller
         }
 
         $announcement = new Announcement([
-            'channel_name' => $request->channel_name,
+            'channel_name'  => $request->channel_name,
             'user_id'       => Auth::user()->id,
             'title'         => $request->title,
             'body'          => $request->body,
