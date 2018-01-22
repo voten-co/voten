@@ -439,7 +439,6 @@ export default {
             // get the last typed character (but not the last character of the string)
             let lastStrIndex = this.lastTypedCharacter('message-form-textarea');
             let lastStr = string[lastStrIndex];
-            // let previousStr = string[lastStrIndex - 1];
 
             // close on space
             if (lastStr == ' ') {
@@ -447,9 +446,6 @@ export default {
                 this.quickChannelPicker.show = false;
                 return;
             }
-
-            // previous must be empty space to continue
-            // if (previousStr != ' ' && string.length > 1) return;
 
             if (lastStr == ':') {
                 this.quickEmojiPicker.show = true;
