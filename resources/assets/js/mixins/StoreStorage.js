@@ -90,7 +90,6 @@ export default {
 
         pushSettingsToServer() {
             axios.post('/clientside-settings', { platform: 'Web', json: JSON.stringify(Store.settings) });
-            this.pushSettingsToLocalStorage();
         },
 
         pushStoreNow() {
