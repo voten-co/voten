@@ -26,14 +26,14 @@ trait CachableUser
             'commentXp'    => $user->comment_xp,
 
             'hiddenSubmissions' => $user->hiddenSubmissions(),
-            'hiddenChannels'  => $user->hiddenChannels(),
+            'hiddenChannels'    => $user->hiddenChannels(),
             'subscriptions'     => $user->subscriptions->pluck('id'),
 
             'blockedUsers' => $user->blockedUsers(),
 
             'bookmarkedSubmissions' => DB::table('bookmarks')->where(['user_id' => $user->id, 'bookmarkable_type' => 'App\Submission'])->pluck('bookmarkable_id'),
             'bookmarkedComments'    => DB::table('bookmarks')->where(['user_id' => $user->id, 'bookmarkable_type' => 'App\Comment'])->pluck('bookmarkable_id'),
-            'bookmarkedChannels'  => DB::table('bookmarks')->where(['user_id' => $user->id, 'bookmarkable_type' => 'App\Channel'])->pluck('bookmarkable_id'),
+            'bookmarkedChannels'    => DB::table('bookmarks')->where(['user_id' => $user->id, 'bookmarkable_type' => 'App\Channel'])->pluck('bookmarkable_id'),
             'bookmarkedUsers'       => DB::table('bookmarks')->where(['user_id' => $user->id, 'bookmarkable_type' => 'App\User'])->pluck('bookmarkable_id'),
 
             'submissionUpvotes'   => $user->submissionUpvotesIds(),
@@ -71,16 +71,16 @@ trait CachableUser
             return collect([
                 'submissionsCount' => $stats['submissionsCount'],
                 'commentsCount'    => $stats['commentsCount'],
-                'submission_xp' => $stats['submissionXp'],
-                'comment_xp'    => $stats['commentXp'],
+                'submission_xp'    => $stats['submissionXp'],
+                'comment_xp'       => $stats['commentXp'],
             ]);
         }
 
         return collect([
             'submissionsCount' => json_decode($stats[0]),
             'commentsCount'    => json_decode($stats[1]),
-            'submission_xp' => json_decode($stats[2]),
-            'comment_xp'    => json_decode($stats[3]),
+            'submission_xp'    => json_decode($stats[2]),
+            'comment_xp'       => json_decode($stats[3]),
         ]);
     }
 

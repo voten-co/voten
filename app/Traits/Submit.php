@@ -103,7 +103,7 @@ trait Submit
     }
 
     /**
-     * @param  Request $request
+     * @param Request $request
      *
      * @return array
      */
@@ -113,12 +113,12 @@ trait Submit
 
         return [
             'mp4_path'       => $gif->mp4_path,
-            'thumbnail_path' => $gif->thumbnail_path
+            'thumbnail_path' => $gif->thumbnail_path,
         ];
     }
 
     /**
-     * @param  Request $request $request
+     * @param Request $request $request
      *
      * @return array
      */

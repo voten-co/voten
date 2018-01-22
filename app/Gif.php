@@ -12,7 +12,7 @@ class Gif extends Model
      * @var array
      */
     protected $fillable = [
-        'submission_id', 'user_id', 'mp4_path', 'thumbnail_path'
+        'submission_id', 'user_id', 'mp4_path', 'thumbnail_path',
     ];
 
     public function owner()

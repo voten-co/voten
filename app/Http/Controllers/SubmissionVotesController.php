@@ -21,9 +21,9 @@ class SubmissionVotesController extends Controller
     /**
      * updates the vote rocords of the user in Redis.
      *
-     * @param int $voter_id
+     * @param int   $voter_id
      * @param mixed $previous_vote
-     * @param int $submission_id
+     * @param int   $submission_id
      *
      * @return void
      */
@@ -60,10 +60,10 @@ class SubmissionVotesController extends Controller
     /**
      * updates the vote rocords of the user in Redis.
      *
-     * @param int $voter_id
-     * @param int $author_id
+     * @param int   $voter_id
+     * @param int   $author_id
      * @param mixed $previous_vote
-     * @param int $submission_id
+     * @param int   $submission_id
      *
      * @return void
      */
@@ -149,9 +149,9 @@ class SubmissionVotesController extends Controller
         $submission->rate = rate($new_upvotes ?? $submission->upvotes, $new_downvotes ?? $submission->downvotes, $submission->created_at);
 
         DB::table('submissions')->where('id', $submission->id)->update([
-            'upvotes' => $submission->upvotes,
+            'upvotes'   => $submission->upvotes,
             'downvotes' => $submission->downvotes,
-            'rate' => $submission->rate,
+            'rate'      => $submission->rate,
         ]);
 
         $this->putSubmissionInTheCache($submission);
@@ -209,9 +209,9 @@ class SubmissionVotesController extends Controller
         $submission->rate = rate($new_upvotes ?? $submission->upvotes, $new_downvotes ?? $submission->downvotes, $submission->created_at);
 
         DB::table('submissions')->where('id', $submission->id)->update([
-            'upvotes' => $submission->upvotes,
+            'upvotes'   => $submission->upvotes,
             'downvotes' => $submission->downvotes,
-            'rate' => $submission->rate,
+            'rate'      => $submission->rate,
         ]);
 
         $this->putSubmissionInTheCache($submission);
@@ -228,8 +228,8 @@ class SubmissionVotesController extends Controller
      * already voted on the targetted submission. If there is any, return true which means
      * the user is cheating, otherwise return false which means we can update the rate.
      *
-     * @param int $submission_id
-     * @param int $user_id
+     * @param int    $submission_id
+     * @param int    $user_id
      * @param string $type
      *
      * @return bool

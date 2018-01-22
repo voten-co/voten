@@ -33,12 +33,12 @@ class StoreController extends Controller
             'commentDownvotes'            => $this->commentDownvotes(), // cached
             'bookmarkedSubmissions'       => $this->bookmarkedSubmissions(), // cached
             'bookmarkedComments'          => $this->bookmarkedComments(), // cached
-            'bookmarkedChannels'        => $this->bookmarkedChannels(), // cached
+            'bookmarkedChannels'          => $this->bookmarkedChannels(), // cached
             'bookmarkedUsers'             => $this->bookmarkedUsers(), // cached
-            'subscribedChannels'        => $this->subscribedChannels(),
-            'moderatingChannels'        => $this->moderatingChannels(),
-            'moderatingChannelsRecords' => $this->moderatingChannelsRecords(),
-            'bookmarkedChannelsRecords' => $this->bookmarkedChannelsRecords(),
+            'subscribedChannels'          => $this->subscribedChannels(),
+            'moderatingChannels'          => $this->moderatingChannels(),
+            'moderatingChannelsRecords'   => $this->moderatingChannelsRecords(),
+            'bookmarkedChannelsRecords'   => $this->bookmarkedChannelsRecords(),
             'blockedUsers'                => $this->blockedUsers(), // cached
         ]);
     }
@@ -87,11 +87,12 @@ class StoreController extends Controller
 
         return Auth::user()->subscriptions;
     }
-    
-    protected function bookmarkedChannelsRecords() {
+
+    protected function bookmarkedChannelsRecords()
+    {
         return Auth::user()->bookmarkedChannels;
     }
-    
+
     public function sidebarChannels()
     {
         return $this->subscribedChannels();

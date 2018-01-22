@@ -114,9 +114,9 @@ class SubmissionController extends Controller
 
         if ($request->type === 'gif') {
             $this->validate($request, [
-                'title' => 'required|between:7,150',
+                'title'    => 'required|between:7,150',
                 'gif_id'   => 'required|integer',
-                'name'  => 'required|exists:channels',
+                'name'     => 'required|exists:channels',
             ]);
 
             $data = $this->gifSubmission($request);
@@ -141,8 +141,8 @@ class SubmissionController extends Controller
                 'url'           => $request->type === 'link' ? $request->url : config('app.url').'/c/'.$channel->name.'/'.$slug,
                 'domain'        => $request->type === 'link' ? domain($request->url) : null,
                 'type'          => $request->type,
-                'channel_name' => $request->name,
-                'channel_id'   => $channel->id,
+                'channel_name'  => $request->name,
+                'channel_id'    => $channel->id,
                 'nsfw'          => $request->nsfw,
                 'rate'          => firstRate(),
                 'user_id'       => $user->id,
@@ -167,7 +167,7 @@ class SubmissionController extends Controller
      * Updates the 'submission_id' field in the uploaded file (photo/gif).
      *
      * @param Request $request
-     * @param integer $submission_id
+     * @param int     $submission_id
      */
     protected function updateSubmissionIdForUploadedFile($request, $submission_id)
     {

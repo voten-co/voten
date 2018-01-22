@@ -42,7 +42,7 @@ class ReportsController extends Controller
             'reportable_type' => "App\Submission",
             'reportable_id'   => $request->submission_id,
             'user_id'         => Auth::user()->id,
-            'channel_id'     => Submission::where('id', $request->submission_id)->value('channel_id'),
+            'channel_id'      => Submission::where('id', $request->submission_id)->value('channel_id'),
             'description'     => $request->description,
         ]);
         $report->save();
@@ -73,7 +73,7 @@ class ReportsController extends Controller
             'reportable_type' => "App\Comment",
             'reportable_id'   => $request->comment_id,
             'user_id'         => Auth::user()->id,
-            'channel_id'     => Comment::where('id', $request->comment_id)->value('channel_id'),
+            'channel_id'      => Comment::where('id', $request->comment_id)->value('channel_id'),
             'description'     => $request->description,
         ]);
         $report->save();
@@ -91,7 +91,7 @@ class ReportsController extends Controller
     public function reportedSubmissions(Request $request)
     {
         $this->validate($request, [
-            'channel' => 'required',
+            'channel'  => 'required',
             'type'     => 'required',
         ]);
 
@@ -101,14 +101,14 @@ class ReportsController extends Controller
 
         if ($request->type == 'solved') {
             return Report::onlyTrashed()->whereHas('submission')->whereHas('reporter')->where([
-                'channel_id'     => $channel_id,
+                'channel_id'      => $channel_id,
                 'reportable_type' => 'App\Submission',
             ])->with('reporter', 'submission')->orderBy('created_at', 'desc')->simplePaginate(50);
         }
 
         // default type which is "unsolved"
         return Report::whereHas('submission')->whereHas('reporter')->where([
-            'channel_id'     => $channel_id,
+            'channel_id'      => $channel_id,
             'reportable_type' => 'App\Submission',
         ])->with('reporter', 'submission')->orderBy('created_at', 'desc')->simplePaginate(50);
     }
@@ -123,7 +123,7 @@ class ReportsController extends Controller
     public function reportedComments(Request $request)
     {
         $this->validate($request, [
-            'channel' => 'required',
+            'channel'  => 'required',
             'type'     => 'required',
         ]);
 
@@ -133,14 +133,14 @@ class ReportsController extends Controller
 
         if ($request->type == 'solved') {
             return Report::onlyTrashed()->whereHas('comment')->whereHas('reporter')->where([
-                'channel_id'     => $channel_id,
+                'channel_id'      => $channel_id,
                 'reportable_type' => 'App\Comment',
             ])->with('reporter', 'comment.submission')->orderBy('created_at', 'desc')->simplePaginate(50);
         }
 
         // default type which is "unsolved"
         return Report::whereHas('comment')->whereHas('reporter')->where([
-            'channel_id'     => $channel_id,
+            'channel_id'      => $channel_id,
             'reportable_type' => 'App\Comment',
         ])->with('reporter', 'comment.submission')->orderBy('created_at', 'desc')->simplePaginate(50);
     }

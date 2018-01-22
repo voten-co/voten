@@ -54,10 +54,10 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'username' => ['required', 'min:3', 'max:25', 'unique:users', 'regex:/^[A-Za-z0-9\._]+$/', new \App\Rules\NotForbiddenUsername],
-            'email'    => 'sometimes|email|max:255|unique:users|nullable',
-            'password' => 'required|min:6|confirmed',
-            'g-recaptcha-response' => ['required', new \App\Rules\Recaptcha]
+            'username'             => ['required', 'min:3', 'max:25', 'unique:users', 'regex:/^[A-Za-z0-9\._]+$/', new \App\Rules\NotForbiddenUsername()],
+            'email'                => 'sometimes|email|max:255|unique:users|nullable',
+            'password'             => 'required|min:6|confirmed',
+            'g-recaptcha-response' => ['required', new \App\Rules\Recaptcha()],
         ]);
     }
 
@@ -93,7 +93,6 @@ class RegisterController extends Controller
             ],
         ]);
     }
-
 
     /**
      * Create a valid token and email it to user's email address.
@@ -185,7 +184,7 @@ class RegisterController extends Controller
 
             'bookmarkedSubmissions' => collect(),
             'bookmarkedComments'    => collect(),
-            'bookmarkedChannels'  => collect(),
+            'bookmarkedChannels'    => collect(),
             'bookmarkedUsers'       => collect(),
 
             'commentUpvotes'   => collect(),
