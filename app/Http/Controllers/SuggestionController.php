@@ -94,7 +94,7 @@ class SuggestionController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'channel_name' => 'required',
+            'channel_name'  => 'required',
             'z_index'       => 'required|integer',
         ]);
 
@@ -105,7 +105,7 @@ class SuggestionController extends Controller
         $suggested = new Suggested([
             'z_index'     => $request->z_index,
             'group'       => $request->group,
-            'channel_id' => $channel->id,
+            'channel_id'  => $channel->id,
         ]);
 
         $suggested->save();

@@ -27,7 +27,7 @@ class BlockDomainController extends Controller
     {
         $this->validate($request, [
             'domain'   => 'required|url',
-            'channel' => 'alpha_num|max:25',
+            'channel'  => 'alpha_num|max:25',
         ]);
 
         if (!($blockEverywhere = !$request->ajax() && $this->mustBeVotenAdministrator())) {
@@ -36,7 +36,7 @@ class BlockDomainController extends Controller
         }
 
         $blockedDomain = new BlockedDomain([
-            'channel'    => $blockEverywhere ? 'all' : $request->channel,
+            'channel'     => $blockEverywhere ? 'all' : $request->channel,
             'domain'      => domain($request->domain),
             'description' => $request->description,
         ]);
@@ -74,7 +74,7 @@ class BlockDomainController extends Controller
     {
         $this->validate($request, [
             'domain'   => 'required',
-            'channel' => 'required|alpha_num|min:3|max:50',
+            'channel'  => 'required|alpha_num|min:3|max:50',
         ]);
 
         if (!($blockEverywhere = !$request->ajax() && $this->mustBeVotenAdministrator())) {

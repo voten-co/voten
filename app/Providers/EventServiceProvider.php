@@ -39,16 +39,16 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         'Illuminate\Auth\Events\Registered' => [
-            'App\Listeners\UserRegistered'
-        ], 
+            'App\Listeners\UserRegistered',
+        ],
 
         'Illuminate\Auth\Events\Login' => [
             'App\Listeners\UserLoggedIn',
-        ], 
+        ],
 
         'Illuminate\Auth\Events\Logout' => [
             'App\Listeners\UserLoggedOut',
-        ]
+        ],
     ];
 
     /**

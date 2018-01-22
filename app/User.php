@@ -360,11 +360,11 @@ class User extends Authenticatable
     public function clientsideSettings($platform = 'Web')
     {
         $settings = \App\ClientsideSettings::where([
-            ['user_id', $this->id], 
-            ['platform', $platform]
+            ['user_id', $this->id],
+            ['platform', $platform],
         ])->first();
 
-        return optional($settings)->json; 
+        return optional($settings)->json;
     }
 
     /**

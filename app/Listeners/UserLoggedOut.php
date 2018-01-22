@@ -2,10 +2,8 @@
 
 namespace App\Listeners;
 
-use App\Activity; 
+use App\Activity;
 use Illuminate\Auth\Events\Logout;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class UserLoggedOut
 {
@@ -22,7 +20,8 @@ class UserLoggedOut
     /**
      * Handle the event.
      *
-     * @param  Logout  $event
+     * @param Logout $event
+     *
      * @return void
      */
     public function handle(Logout $event)

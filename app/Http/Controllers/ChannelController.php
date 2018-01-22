@@ -82,7 +82,7 @@ class ChannelController extends Controller
         $this->validate($request, [
             'sort'     => 'alpha_num|max:25',
             'page'     => 'Integer',
-            'channel' => 'required|alpha_num|max:25',
+            'channel'  => 'required|alpha_num|max:25',
         ]);
 
         return $this->getSubmissions($request->channel, $request->sort);
@@ -130,7 +130,7 @@ class ChannelController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name'        => ['required', 'alpha_num', 'min:3', 'max:50', 'unique:channels', new \App\Rules\NotForbiddenChannelName], 
+            'name'        => ['required', 'alpha_num', 'min:3', 'max:50', 'unique:channels', new \App\Rules\NotForbiddenChannelName()],
             'description' => 'required|min:10|max:250',
         ]);
 

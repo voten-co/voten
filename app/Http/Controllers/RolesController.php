@@ -19,7 +19,7 @@ class RolesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'channel_id' => 'required|String',
+            'channel_id'  => 'required|String',
             'user_id'     => 'required|String',
             'role'        => 'required|in:administrator,moderator',
         ]);
