@@ -113,7 +113,7 @@
             },
     
             uniqueList() {
-                return _.uniq(Store.page.channel.submissions);
+                return _.uniqBy(Store.page.channel.submissions, 'id');
             }
         },
     

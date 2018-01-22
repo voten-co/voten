@@ -153,7 +153,7 @@
             },
 
             uniqueList() {
-                return _.uniq(this.submissions);
+                return _.uniqBy(this.submissions, 'id');
             },
         },
 
