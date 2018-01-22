@@ -265,6 +265,8 @@ export default {
 
     methods: {
         doubleClicked() {
+            if (this.isGuest) return;
+            
             if (!this.currentVote) {
                 this.voteUp();
             }

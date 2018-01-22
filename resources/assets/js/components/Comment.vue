@@ -366,6 +366,8 @@ export default {
 
     methods: {
         doubleClicked() {
+            if (this.isGuest) return;
+
             if (this.owns) {
                 this.edit();
                 return;
