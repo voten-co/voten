@@ -39,7 +39,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/clientside-settings', 'ClientsideSettingsController@store');
     Route::get('/clientside-settings', 'ClientsideSettingsController@get');
 
-
     // submission
     Route::post('/submission', 'SubmissionController@store');
     Route::post('/patch-text-submission', 'SubmissionController@patchTextSubmission');

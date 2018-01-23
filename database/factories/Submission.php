@@ -13,8 +13,8 @@ $factory->define(\App\Submission::class, function (Faker $faker) {
         'title'         => $title,
         'data'          => ['text' => $faker->paragraph()],
         'type'          => 'text',
-        'channel_id'   => $channel->id,
-        'channel_name' => $channel->name,
+        'channel_id'    => $channel->id,
+        'channel_name'  => $channel->name,
         'slug'          => str_slug($title),
     ];
 });

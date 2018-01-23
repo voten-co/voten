@@ -7,9 +7,9 @@ use App\Photo;
 use App\PhotoTools;
 use App\Traits\CachableChannel;
 use Auth;
-use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Intervention\Image\ImageManagerStatic as Image;
 
 class PhotoController extends Controller
@@ -55,90 +55,90 @@ class PhotoController extends Controller
     }
 
     /**
-     * upload and update channel's avatar. 
-     * 
-     * @return response 
+     * upload and update channel's avatar.
+     *
+     * @return response
      */
     public function channelAvatar(Request $request)
     {
-        // validate 
+        // validate
         $this->validate($request, [
-            'channel_name' => 'required', 
-            'photo' => [
+            'channel_name' => 'required',
+            'photo'        => [
                 'required',
-                'image', 
+                'image',
                 Rule::dimensions()->minWidth(250)->minHeight(250)->ratio(1 / 1),
             ],
         ]);
         $channel = Channel::where('name', $request->channel_name)->firstOrFail();
         abort_unless($this->mustBeAdministrator($channel->id), 403);
 
-        // fill variables 
+        // fill variables
         $filename = time().str_random(16).'.png';
         $image = Image::make($request->file('photo')->getRealPath());
-        $folder = 'channels/avatars'; 
+        $folder = 'channels/avatars';
 
-        // crop it 
+        // crop it
         $image = $image->resize(250, 250);
 
-        // optimize it 
+        // optimize it
         if ($image->filesize() > 50000) { // 50kb
             $image->encode('png', 60);
         } else {
             $image->encode('png', 90);
         }
 
-        // upload it 
+        // upload it
         Storage::put($folder.'/'.$filename, $image);
-        $imageAddress = $this->ftpAddress().$folder.'/'.$filename; 
-        
-        // update channel's avatar 
+        $imageAddress = $this->ftpAddress().$folder.'/'.$filename;
+
+        // update channel's avatar
         $channel->update([
-            'avatar' => $imageAddress
+            'avatar' => $imageAddress,
         ]);
         $this->putChannelInTheCache($channel);
 
         return $imageAddress;
     }
-    
+
     /**
-     * upload and update channel's avatar. 
-     * 
-     * @return response 
+     * upload and update channel's avatar.
+     *
+     * @return response
      */
     public function userAvatar(Request $request)
     {
-        // validate 
+        // validate
         $this->validate($request, [
             'photo' => [
                 'required',
-                'image', 
+                'image',
                 Rule::dimensions()->minWidth(250)->minHeight(250)->ratio(1 / 1),
             ],
         ]);
 
-        // fill variables 
+        // fill variables
         $filename = time().str_random(16).'.png';
         $image = Image::make($request->file('photo')->getRealPath());
-        $folder = 'users/avatars'; 
+        $folder = 'users/avatars';
 
-        // crop it 
+        // crop it
         $image = $image->resize(250, 250);
 
-        // optimize it 
+        // optimize it
         if ($image->filesize() > 50000) { // 50kb
             $image->encode('png', 60);
         } else {
             $image->encode('png', 90);
         }
 
-        // upload it 
+        // upload it
         Storage::put($folder.'/'.$filename, $image);
-        $imageAddress = $this->ftpAddress().$folder.'/'.$filename; 
-        
-        // update user's avatar 
+        $imageAddress = $this->ftpAddress().$folder.'/'.$filename;
+
+        // update user's avatar
         Auth::user()->update([
-            'avatar' => $imageAddress
+            'avatar' => $imageAddress,
         ]);
 
         return $imageAddress;

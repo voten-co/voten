@@ -71,7 +71,7 @@ class BecameModerator extends Notification implements ShouldBroadcast
             'name'     => $this->channel->name,
             'avatar'   => $this->channel->avatar,
             'body'     => 'You are now moderating '.'#'.$this->channel->name,
-            'channel' => $this->channel,
+            'channel'  => $this->channel,
             'role'     => $this->role,
         ];
     }

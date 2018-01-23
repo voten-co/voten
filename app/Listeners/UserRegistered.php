@@ -2,10 +2,8 @@
 
 namespace App\Listeners;
 
-use App\Activity; 
+use App\Activity;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class UserRegistered
 {
@@ -22,7 +20,8 @@ class UserRegistered
     /**
      * Handle the event.
      *
-     * @param  Registered  $event
+     * @param Registered $event
+     *
      * @return void
      */
     public function handle(Registered $event)

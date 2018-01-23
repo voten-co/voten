@@ -23,7 +23,7 @@ class BanController extends Controller
     {
         $this->validate($request, [
             'username' => 'required',
-            'channel' => 'required|alpha_num|max:25',
+            'channel'  => 'required|alpha_num|max:25',
             'duration' => 'integer|min:0|max:999',
         ]);
 
@@ -61,7 +61,7 @@ class BanController extends Controller
 
         $blockedUser = new Ban([
             'user_id'     => $user->id,
-            'channel'    => $request->channel,
+            'channel'     => $request->channel,
             'description' => $request->description,
             'unban_at'    => $unban_at,
         ]);
@@ -121,7 +121,7 @@ class BanController extends Controller
     {
         $this->validate($request, [
             'user_id'  => 'required|integer',
-            'channel' => 'required|alpha_num|max:25',
+            'channel'  => 'required|alpha_num|max:25',
         ]);
 
         if ($request->channel != 'all') {

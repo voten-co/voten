@@ -2,7 +2,7 @@
 
 
 Route::group(['middleware' => ['maintenance', 'http2']], function () {
-    // Authintication routes 
+    // Authintication routes
     Route::auth();
     Route::get('/logout', 'Auth\LoginController@logout');
 
@@ -14,10 +14,10 @@ Route::group(['middleware' => ['maintenance', 'http2']], function () {
 
     // Public Pages
     Route::get('/', 'HomeController@homePage')->middleware('correct-view');
-    Route::get('/credits', 'PagesController@welcome'); 
-    Route::get('/tos', 'PagesController@welcome'); 
-    Route::get('/about', 'PagesController@welcome'); 
-    Route::get('/privacy-policy', 'PagesController@welcome'); 
+    Route::get('/credits', 'PagesController@welcome');
+    Route::get('/tos', 'PagesController@welcome');
+    Route::get('/about', 'PagesController@welcome');
+    Route::get('/privacy-policy', 'PagesController@welcome');
 
     // guest browsing routes
     Route::get('/c/{channel}', 'ChannelController@show')->middleware('correct-view');

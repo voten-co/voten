@@ -41,7 +41,7 @@ class HomeController extends Controller
             'page' => 'required|integer|min:1',
         ]);
 
-        if (! Auth::check()) {
+        if (!Auth::check()) {
             return $this->guestHome($request);
         }
 
@@ -52,17 +52,17 @@ class HomeController extends Controller
                 // guest what? we don't have to do anything :|
                 break;
 
-            case 'moderating': 
+            case 'moderating':
                 $submissions->whereIn('channel_id', Auth::user()->moderatingIds());
-                break; 
+                break;
 
-            case 'bookmarked': 
+            case 'bookmarked':
                 $submissions->whereIn('channel_id', $this->bookmarkedChannels());
-                break; 
+                break;
 
-            case 'by-bookmarked-users': 
+            case 'by-bookmarked-users':
                 $submissions->whereIn('user_id', $this->bookmarkedUsers());
-                break; 
+                break;
 
             default: // subscribed
                 $submissions->whereIn('channel_id', $this->subscriptions());
@@ -70,21 +70,21 @@ class HomeController extends Controller
         }
 
         switch ($request->type) {
-            case 'GIF': 
+            case 'GIF':
                 $submissions->where('type', 'gif');
-                break; 
-            
-            case 'Link': 
+                break;
+
+            case 'Link':
                 $submissions->where('type', 'link');
-                break; 
+                break;
 
-            case 'Image': 
+            case 'Image':
                 $submissions->where('type', 'img');
-                break; 
+                break;
 
-            case 'Text': 
+            case 'Text':
                 $submissions->where('type', 'text');
-                break; 
+                break;
 
             default: // subscribed
                 // guest what? we don't have to do anything :|
@@ -98,37 +98,37 @@ class HomeController extends Controller
         $submissions->whereNotIn('id', $this->hiddenSubmissions());
 
         // exclude NSFW if user doens't want to see them
-        if (! settings('nsfw')) {
+        if (!settings('nsfw')) {
             $submissions->where('nsfw', false);
         }
-      
+
         if ($request->exclude_upvoted_submissions == 'true') {
             $submissions->whereNotIn('id', $this->submissionUpvotesIds());
         }
-      
+
         if ($request->exclude_downvoted_submissions == 'true') {
             $submissions->whereNotIn('id', $this->submissionDownvotesIds());
         }
-        
+
         if ($request->exclude_bookmarked_submissions == 'true') {
             $submissions->whereNotIn('id', $this->bookmarkedSubmissions());
         }
-        
+
         switch ($request->sort) {
             case 'new':
                 $submissions->orderBy('created_at', 'desc');
                 break;
-            
+
             case 'rising':
                 $submissions->where('created_at', '>=', Carbon::now()->subHour())
                     ->orderBy('rate', 'desc');
-                break; 
-            
+                break;
+
             default: // 'hot'
                 $submissions->orderBy('rate', 'desc');
                 break;
         }
-        
+
         $submissions->groupBy('url');
 
         return $submissions->simplePaginate(15);
@@ -155,10 +155,10 @@ class HomeController extends Controller
             case 'new':
                 $submissions->orderBy('created_at', 'desc');
                 break;
-            
+
             case 'rising':
                 $submissions->where('created_at', '>=', Carbon::now()->subHour())->orderBy('rate', 'desc');
-                break; 
+                break;
 
             default: // hot
                 $submissions->orderBy('rate', 'desc');

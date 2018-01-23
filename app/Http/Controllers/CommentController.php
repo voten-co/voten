@@ -50,7 +50,7 @@ class CommentController extends Controller
         $comment = Comment::create([
             'body'          => $request->body,
             'user_id'       => $author->id,
-            'channel_id'   => $submission->channel_id,
+            'channel_id'    => $submission->channel_id,
             'parent_id'     => $request->parent_id,
             'level'         => $request->parent_id == 0 ? 0 : ($parentComment->level + 1),
             'submission_id' => $submission->id,
