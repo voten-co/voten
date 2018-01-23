@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Auth; 
 use App\ClientsideSettings;
+use Auth;
 use Illuminate\Http\Request;
 
 class ClientsideSettingsController extends Controller
@@ -14,49 +14,49 @@ class ClientsideSettingsController extends Controller
     }
 
     /**
-     * Store/update the user's clientside settings. 
-     * 
+     * Store/update the user's clientside settings.
+     *
      * @param \Illuminate\Http\Request $request
-     * 
-     * @return response 
+     *
+     * @return response
      */
     public function store(Request $request)
     {
         $request->validate([
-            'json' => 'required|json', 
-            'platform' => 'in:Web,Desktop,Android,iOS'
-        ]); 
-
-        $settings = ClientsideSettings::firstOrNew([
-            'user_id' => Auth::id(),
-            'platform' => $request->platform,   
+            'json'     => 'required|json',
+            'platform' => 'in:Web,Desktop,Android,iOS',
         ]);
 
-        $settings->json = $request->json; 
+        $settings = ClientsideSettings::firstOrNew([
+            'user_id'  => Auth::id(),
+            'platform' => $request->platform,
+        ]);
 
-        $settings->save(); 
+        $settings->json = $request->json;
 
-        return response('Settings saved successfully', 200); 
+        $settings->save();
+
+        return response('Settings saved successfully', 200);
     }
 
     /**
-     * Store/update the user's clientside settings. 
-     * 
+     * Store/update the user's clientside settings.
+     *
      * @param \Illuminate\Http\Request $request
-     * 
-     * @return json  
+     *
+     * @return json
      */
     public function get(Request $request)
     {
         $request->validate([
-            'platform' => 'in:Web,Desktop,Android,iOS'
+            'platform' => 'in:Web,Desktop,Android,iOS',
         ]);
 
         $settings = ClientsideSettings::where([
-            ['user_id', Auth::id()], 
-            ['platform', $request->platform]
+            ['user_id', Auth::id()],
+            ['platform', $request->platform],
         ])->first();
 
-        return optional($settings)->json; 
+        return optional($settings)->json;
     }
 }

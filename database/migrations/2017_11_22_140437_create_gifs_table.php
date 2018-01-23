@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateGifsTable extends Migration
 {
@@ -13,7 +13,7 @@ class CreateGifsTable extends Migration
      */
     public function up()
     {
-        Schema::create('gifs', function(Blueprint $table) {
+        Schema::create('gifs', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('submission_id')->unsigned()->index()->nullable();
             $table->integer('user_id')->unsigned()->index();
@@ -22,7 +22,6 @@ class CreateGifsTable extends Migration
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.

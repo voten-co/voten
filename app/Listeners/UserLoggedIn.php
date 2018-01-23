@@ -2,10 +2,8 @@
 
 namespace App\Listeners;
 
-use App\Activity; 
+use App\Activity;
 use Illuminate\Auth\Events\Login;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class UserLoggedIn
 {
@@ -22,7 +20,8 @@ class UserLoggedIn
     /**
      * Handle the event.
      *
-     * @param  Login  $event
+     * @param Login $event
+     *
      * @return void
      */
     public function handle(Login $event)
