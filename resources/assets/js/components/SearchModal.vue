@@ -152,10 +152,10 @@ export default {
     },
 
     watch: {
-        '$route'() {
-            if (window.location.hash) return; 
-            this.close(); 
-        }, 
+        $route() {
+            if (window.location.hash) return;
+            this.close();
+        },
 
         type() {
             this.search();
@@ -163,40 +163,36 @@ export default {
     },
 
     methods: {
-        search: _.debounce(
-            function() {
-                if (!this.filter.trim()) return;
-                this.loading = true;
+        search: _.debounce(function() {
+            if (!this.filter.trim()) return;
+            this.loading = true;
 
-                axios
-                    .get('/search', {
-                        params: {
-                            type: this.type,
-                            searched: this.filter
-                        }
-                    })
-                    .then(response => {
-                        if (this.type == 'Channels') {
-                            this.channels = response.data;
-                        }
-                        if (this.type == 'Users') {
-                            this.users = response.data;
-                        }
-                        if (this.type == 'Submissions') {
-                            this.submissions = response.data;
-                        }
-                        this.loading = false;
-                    })
-                    .catch(() => {
-                        this.loading = false;
-                    });
-            },
-            600,
-            { leading: true, trailing: false }
-        ),
+            axios
+                .get('/search', {
+                    params: {
+                        type: this.type,
+                        searched: this.filter
+                    }
+                })
+                .then(response => {
+                    if (this.type == 'Channels') {
+                        this.channels = response.data;
+                    }
+                    if (this.type == 'Users') {
+                        this.users = response.data;
+                    }
+                    if (this.type == 'Submissions') {
+                        this.submissions = response.data;
+                    }
+                    this.loading = false;
+                })
+                .catch(() => {
+                    this.loading = false;
+                });
+        }, 600),
 
         close() {
-            Store.modals.search.show = false; 
+            Store.modals.search.show = false;
         }
     }
 };
