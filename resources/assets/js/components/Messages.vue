@@ -136,7 +136,7 @@
 						<div class="v-contact">
 							<h3>
 								@{{ c.contact.username }}
-								<span class="v-contact-username">{{ c.contact.username }}</span>
+								<span class="v-contact-username">{{ c.contact.name }}</span>
 							</h3>
 
 							<p>
@@ -154,7 +154,7 @@
 
 						<div class="v-contact">
 							<h3>@{{ user.username }}
-								<span class="v-contact-username">{{ user.username }}</span>
+								<span class="v-contact-username">{{ user.name }}</span>
 							</h3>
 							<p></p>
 						</div>
