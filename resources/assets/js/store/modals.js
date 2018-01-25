@@ -75,5 +75,9 @@ export default {
     search: {
         show: false,
         hash: 'search'
+    },
+    mobileVisitorWarning: {
+        show: false,
+        hash: 'mobileVisitorWarning'
     }
 };

@@ -30,6 +30,7 @@ import FontLoader from './mixins/FontLoader';
 import router from './routes';
 import Announcement from './components/Announcement.vue';
 import Tour from './components/Tour';
+import MobileVisitorWarning from './components/MobileVisitorWarning';
 
 
 /**
@@ -55,6 +56,7 @@ window.app = new Vue({
 
     components: {
         KeyboardShortcutsGuide,
+        MobileVisitorWarning, 
         AuthenticationModal,
         GoogleLoginButton,
         ReportSubmission,
@@ -131,9 +133,16 @@ window.app = new Vue({
 
         this.setQueries();
         this.setHashes();
+        this.warnMobileUsers(); 
     },
 
     methods: {
+        warnMobileUsers() {
+            if (this.isMobile) {
+                Store.modals.mobileVisitorWarning.show = true; 
+            }
+        }, 
+
         setHashes() {
             let hash = window.location.hash;
 
