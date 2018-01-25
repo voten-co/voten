@@ -1,16 +1,5 @@
 const { mix } = require('laravel-mix');
 
-mix.webpackConfig({
-    output: {
-        path: path.resolve(Mix.isUsing('hmr') ? '/' : Config.publicPath),
-        filename: '[name].js',
-        chunkFilename: '[name].js',
-        publicPath: Mix.isUsing('hmr')
-            ? http + '://' + Config.hmrOptions.host + ':' + Config.hmrOptions.port + '/'
-            : '/'
-    }
-});
-
 mix
     .js('resources/assets/js/app.js', 'public/js')
     .js('resources/assets/js/backend.js', 'public/js')

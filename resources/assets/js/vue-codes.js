@@ -1,177 +1,25 @@
-const GuestSidebar = resolve => {
-    require.ensure(
-        ['./components/GuestSidebar.vue'],
-        () => {
-            resolve(require('./components/GuestSidebar.vue'));
-        },
-        'guest'
-    );
-};
-const AuthenticationModal = resolve => {
-    require.ensure(
-        ['./components/AuthenticationModal.vue'],
-        () => {
-            resolve(require('./components/AuthenticationModal.vue'));
-        },
-        'guest'
-    );
-};
-const GoogleLoginButton = resolve => {
-    require.ensure(
-        ['./components/GoogleLoginButton.vue'],
-        () => {
-            resolve(require('./components/GoogleLoginButton.vue'));
-        },
-        'guest'
-    );
-};
+import GuestSidebar from './components/GuestSidebar.vue'; 
+import AuthenticationModal from './components/AuthenticationModal.vue'; 
+import GoogleLoginButton from './components/GoogleLoginButton.vue'; 
 
-const Feedback = resolve => {
-    require.ensure(
-        ['./components/Feedback.vue'],
-        () => {
-            resolve(require('./components/Feedback.vue'));
-        },
-        'logged-in'
-    );
-};
-const Notifications = resolve => {
-    require.ensure(
-        ['./components/Notifications.vue'],
-        () => {
-            resolve(require('./components/Notifications.vue'));
-        },
-        'logged-in'
-    );
-};
-const Messages = resolve => {
-    require.ensure(
-        ['./components/Messages.vue'],
-        () => {
-            resolve(require('./components/Messages.vue'));
-        },
-        'logged-in'
-    );
-};
-const Preferences = resolve => {
-    require.ensure(
-        ['./components/Preferences.vue'],
-        () => {
-            resolve(require('./components/Preferences.vue'));
-        },
-        'logged-in'
-    );
-};
-const RightSidebar = resolve => {
-    require.ensure(
-        ['./components/auth/RightSidebar.vue'],
-        () => {
-            resolve(require('./components/auth/RightSidebar.vue'));
-        },
-        'logged-in'
-    );
-};
-const NewSubmission = resolve => {
-    require.ensure(
-        ['./components/NewSubmission.vue'],
-        () => {
-            resolve(require('./components/NewSubmission.vue'));
-        },
-        'logged-in'
-    );
-};
-const NewChannel = resolve => {
-    require.ensure(
-        ['./components/NewChannel.vue'],
-        () => {
-            resolve(require('./components/NewChannel.vue'));
-        },
-        'logged-in'
-    );
-};
-const ReportSubmission = resolve => {
-    require.ensure(
-        ['./components/ReportSubmission.vue'],
-        () => {
-            resolve(require('./components/ReportSubmission.vue'));
-        },
-        'logged-in'
-    );
-};
-const ReportComment = resolve => {
-    require.ensure(
-        ['./components/ReportComment.vue'],
-        () => {
-            resolve(require('./components/ReportComment.vue'));
-        },
-        'logged-in'
-    );
-};
-const FeedSettings = resolve => {
-    require.ensure(
-        ['./components/FeedSettings.vue'],
-        () => {
-            resolve(require('./components/FeedSettings.vue'));
-        },
-        'logged-in'
-    );
-};
-const SidebarSettings = resolve => {
-    require.ensure(
-        ['./components/RightSidebarSettings.vue'],
-        () => {
-            resolve(require('./components/RightSidebarSettings.vue'));
-        },
-        'logged-in'
-    );
-};
+import Feedback from './components/Feedback.vue'; 
+import Notifications from './components/Notifications.vue'; 
+import Messages from './components/Messages.vue'; 
+import Preferences from './components/Preferences.vue'; 
+import RightSidebar from './components/auth/RightSidebar.vue'; 
+import NewSubmission from './components/NewSubmission.vue'; 
+import NewChannel from './components/NewChannel.vue'; 
+import ReportSubmission from './components/ReportSubmission.vue'; 
+import ReportComment from './components/ReportComment.vue'; 
+import FeedSettings from './components/FeedSettings.vue'; 
+import SidebarSettings from './components/RightSidebarSettings.vue'; 
 
-const EmbedViewer = resolve => {
-    require.ensure(
-        ['./components/Embed.vue'],
-        () => {
-            resolve(require('./components/Embed.vue'));
-        },
-        'viewer'
-    );
-};
-const GifPlayer = resolve => {
-    require.ensure(
-        ['./components/GifPlayer.vue'],
-        () => {
-            resolve(require('./components/GifPlayer.vue'));
-        },
-        'viewer'
-    );
-};
-const PhotoViewer = resolve => {
-    require.ensure(
-        ['./components/PhotoViewer.vue'],
-        () => {
-            resolve(require('./components/PhotoViewer.vue'));
-        },
-        'viewer'
-    );
-};
+import EmbedViewer from './components/Embed.vue'; 
+import GifPlayer from './components/GifPlayer.vue'; 
+import PhotoViewer from './components/PhotoViewer.vue'; 
 
-const KeyboardShortcutsGuide = resolve => {
-    require.ensure(
-        ['./components/KeyboardShortcutsGuide.vue'],
-        () => {
-            resolve(require('./components/KeyboardShortcutsGuide.vue'));
-        },
-        'guide'
-    );
-};
-const MarkdownGuide = resolve => {
-    require.ensure(
-        ['./components/MarkdownGuide.vue'],
-        () => {
-            resolve(require('./components/MarkdownGuide.vue'));
-        },
-        'guide'
-    );
-};
+import KeyboardShortcutsGuide from './components/KeyboardShortcutsGuide.vue'; 
+import MarkdownGuide from './components/MarkdownGuide.vue'; 
 
 import SearchModal from './components/SearchModal.vue';
 import NotFound from './components/NotFound.vue';
