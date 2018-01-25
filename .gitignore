@@ -3,6 +3,10 @@
 /public/css
 /public/js
 /public/hot
+/public/*.map
+/public/*.js
+/public/*.css
+/chunk
 /public/mix-manifest.json
 /.idea
 Homestead.json
