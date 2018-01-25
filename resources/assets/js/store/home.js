@@ -1,56 +1,62 @@
 export default {
-    page: 0,
-    NoMoreItems: false,
-    nothingFound: false,
-    submissions: [],
-    loading: null,
+  page: 0,
+  NoMoreItems: false,
+  nothingFound: false,
+  submissions: [],
+  loading: null,
 
-    getSubmissions(sort = 'hot') {
-        return new Promise((resolve, reject) => {
-            this.page++;
-            this.loading = true;
+  getSubmissions(sort = "hot") {
+    return new Promise((resolve, reject) => {
+      this.page++;
+      this.loading = true;
 
-            // if landed on the home page as guest
-            if (preload.submissions) {
-                this.submissions = preload.submissions.data;
-                if (!this.submissions.length) this.nothingFound = true;
-                if (preload.submissions.next_page_url == null) this.NoMoreItems = true;
-                this.loading = false;
-                delete preload.submissions;
-                resolve();
-                return; 
-            }
+      // if landed on the home page as guest
+      if (preload.submissions) {
+        this.submissions = preload.submissions.data;
+        if (!this.submissions.length) this.nothingFound = true;
+        if (preload.submissions.next_page_url == null) this.NoMoreItems = true;
+        this.loading = false;
+        delete preload.submissions;
+        resolve();
+        return;
+      }
 
-            axios.get(auth.isGuest == false ? '/auth/home' : '/home', {
-                params: {
-                    sort,
-                    page: this.page,
-                    filter: Store.settings.feed.submissionsFilter, 
-                    exclude_upvoted_submissions: Store.settings.feed.excludeUpvotedSubmissions, 
-                    exclude_downvoted_submissions: Store.settings.feed.excludeDownvotedSubmissions, 
-                    exclude_bookmarked_submissions: Store.settings.feed.excludeBookmarkedSubmissions, 
-                    type: Store.settings.feed.submissionsType, 
-                }
-            }).then((response) => {
-                this.submissions = [...this.submissions, ...response.data.data];
+      axios
+        .get(auth.isGuest == false ? "/auth/home" : "/home", {
+          params: {
+            sort,
+            page: this.page,
+            filter: Store.settings.feed.submissionsFilter,
+            exclude_upvoted_submissions:
+              Store.settings.feed.excludeUpvotedSubmissions,
+            exclude_downvoted_submissions:
+              Store.settings.feed.excludeDownvotedSubmissions,
+            exclude_bookmarked_submissions:
+              Store.settings.feed.excludeBookmarkedSubmissions,
+            type: Store.settings.feed.submissionsType
+          }
+        })
+        .then(response => {
+          this.submissions = [...this.submissions, ...response.data.data];
 
-                if (!this.submissions.length) this.nothingFound = true;
-                if (response.data.next_page_url == null) this.NoMoreItems = true;
+          if (!this.submissions.length) this.nothingFound = true;
+          if (response.data.next_page_url == null) this.NoMoreItems = true;
 
-                this.loading = false;
+          this.loading = false;
 
-                resolve(response);
-            }).catch((error) => {
-                reject(error);
-            });
+          resolve(response);
+        })
+        .catch(error => {
+          reject(error);
         });
-    },
+    });
+  },
 
-    clear() {
-        this.page = 0;
-        this.nothingFound = false;
-        this.NoMoreItems = false;
-        this.submissions = [];
-        this.loading = true;
-    }, 
-}
+  clear() {
+    this.page = 0;
+    this.nothingFound = false;
+    this.NoMoreItems = false;
+    this.submissions = [];
+    this.loading = true;
+  }
+};

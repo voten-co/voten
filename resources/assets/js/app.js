@@ -1,13 +1,13 @@
 window.config = {
-    name: "Voten",
-    title: "Where your vote matters"
-}; 
+  name: "Voten",
+  title: "Where your vote matters"
+};
 
 // All the installation codes
-import './bootstrap';
+import "./bootstrap";
 
 // A general Store that holds all the global data (no, we're not using Vuex, because we're not sold on it!)
-import './store';
+import "./store";
 
 // Vue instance
-import './vue-codes';
+import "./vue-codes";
