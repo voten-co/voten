@@ -90,7 +90,7 @@ class PhotoController extends Controller
 
         // upload it
         Storage::put($folder.'/'.$filename, $image);
-        $imageAddress = $this->ftpAddress().$folder.'/'.$filename;
+        $imageAddress = $this->webAddress().$folder.'/'.$filename;
 
         // update channel's avatar
         $channel->update([
@@ -134,7 +134,7 @@ class PhotoController extends Controller
 
         // upload it
         Storage::put($folder.'/'.$filename, $image);
-        $imageAddress = $this->ftpAddress().$folder.'/'.$filename;
+        $imageAddress = $this->webAddress().$folder.'/'.$filename;
 
         // update user's avatar
         Auth::user()->update([

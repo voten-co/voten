@@ -78,8 +78,8 @@ class GifController extends Controller
 
         $gif = Gif::create([
             'user_id'        => Auth::id(),
-            'mp4_path'       => $this->ftpAddress().'submissions/gif/'.$filename.'.mp4',
-            'thumbnail_path' => $this->ftpAddress().'submissions/gif/'.$filename.'.jpg',
+            'mp4_path'       => $this->webAddress().'submissions/gif/'.$filename.'.mp4',
+            'thumbnail_path' => $this->webAddress().'submissions/gif/'.$filename.'.jpg',
         ]);
 
         return $gif->id;
