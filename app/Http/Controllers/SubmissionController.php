@@ -174,12 +174,14 @@ class SubmissionController extends Controller
         if ($request->type === 'img') {
             DB::table('photos')
                 ->whereIn('id', $request->input('photos'))
+                ->where('user_id', Auth::id())
                 ->update(['submission_id' => $submission_id]);
         }
 
         if ($request->type === 'gif') {
             DB::table('gifs')
                 ->where('id', $request->gif_id)
+                ->where('user_id', Auth::id())                
                 ->update(['submission_id' => $submission_id]);
         }
     }
