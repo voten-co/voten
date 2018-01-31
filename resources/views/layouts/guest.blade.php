@@ -20,13 +20,16 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <script>
-        window.Laravel = @json([
-            'csrfToken' => csrf_token(),
-            'env' => config('app.env'),
-            'pusherKey' => config('broadcasting.connections.pusher.key'),
-            'pusherCluster' => config('broadcasting.connections.pusher.options.cluster'),
-            'recaptchaKey' => config('services.recaptcha.key'),
-        ])
+        <?php
+            $settings = [
+                'csrfToken' => csrf_token(),
+                'env' => config('app.env'),
+                'pusherKey' => config('broadcasting.connections.pusher.key'),
+                'pusherCluster' => config('broadcasting.connections.pusher.options.cluster'),
+                'recaptchaKey' => config('services.recaptcha.key'),
+            ];
+        ?>
+        window.Laravel = @json($settings)
     </script>
 
     <link rel="shortcut icon" href="/imgs/favicon.png">
@@ -51,7 +54,7 @@
     <photo-viewer v-if="Store.modals.photoViewer.show" :visible.sync="Store.modals.photoViewer.show"></photo-viewer>
     <gif-player v-if="Store.modals.gifPlayer.show" :visible.sync="Store.modals.gifPlayer.show"></gif-player>
     <embed-viewer v-if="Store.modals.embedViewer.show" :visible.sync="Store.modals.embedViewer.show"></embed-viewer>
-    <search-modal v-if="Store.modals.search.show"></search-modal>    
+    <search-modal v-if="Store.modals.search.show"></search-modal>
     <authentication-modal v-if="Store.modals.authintication.show" :visible.sync="Store.modals.authintication.show"></authentication-modal>
     <markdown-guide v-if="Store.modals.markdownGuide.show" :visible.sync="Store.modals.markdownGuide.show"></markdown-guide>
     <keyboard-shortcuts-guide v-if="Store.modals.keyboardShortcutsGuide.show" :visible.sync="Store.modals.keyboardShortcutsGuide.show"></keyboard-shortcuts-guide>
