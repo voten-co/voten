@@ -1,14 +1,31 @@
-# Voten.co
+<p align="center">
+  <p align="center">
+    <img src="./public/imgs/voten.png" alt="Sentry" height="72"
+  </p>
+  <p align="center">
+    Where your vote matters
+  </p>
+</p>
 
-Voten.co is a real-time social bookmarking for the 21st century. It's real-time, beautiful, customizable yet simple. To get a quick taste of what Voten is written with please check our [credits page](https://voten.co/credits).
+# [Voten.co](https://voten.co)
+
+[Voten.co](https://voten.co) is an open-source, beautiful, highly customizable yet deadly simple, and warm community. To get a quick taste of what Voten is written with please check our [credits page](https://voten.co/credits).
+
+
+<p align="center">
+  <img src="./public/imgs/screenshots/screenshot-1.jpg" height="180">
+  <img src="./public/imgs/screenshots/screenshot-2.jpg" height="180">
+  <img src="./public/imgs/screenshots/screenshot-3.jpg" height="180">
+</p>
 
 ## Contributing
 
-Thank you for considering contributing to the Voten. To encourage active collaboration, Voten strongly encourages pull requests, not just bug reports. [Voten's Slack channel](https://join.slack.com/t/voten/shared_invite/MjMzMTQxMzM4MDM2LTE1MDM5OTQ0NjEtMWRiMDhiZTY2Yg) is created for developers to discuss Voten development concerns. If you have an idea (and not the code for it) you may contact us either with the info@voten.co email address or submit it to [#votendev](https://voten.co/c/votendev) channel.
+Thank you for considering contributing to the Voten. Here's a list of things you can do to support Voten:
 
-## Coding Style
-
-Voten follows the PSR-2 coding standard and the PSR-4 autoloading standard. Voten also uses [StyleCI](https://styleci.io) for automatically merging any style fixes. So you don't have to worry about your code style much.
+- **Discuss** Voten's development at  [#votendev](https://voten.co/c/votendev) channel. (Voten's editor supports markdown syntax just like Github's)
+- **Send PRs**. Voten uses Gitbook for [help center](https://help.voten.co) and [API documentation](https://api.voten.co), and Github to host our source code. All of which support PRs. 
+- **Follow** us on [Twitter](https://twitter.com/voten_co) 
+- If you're a blogger, write about Voten. If you're a user on Reddit, Twitter, etc, spread the word. 
 
 ## Software Stack
 
@@ -20,12 +37,14 @@ Voten is a Laravel application that runs on the following software:
 - PHP 7.1+
 - Redis 3.0+
 - Git 2.8.4+
-- [Pusher](https://pusher.com/) (we use [laravel-echo-server](https://github.com/tlaverdure/laravel-echo-server) on production server)
+- [Pusher](https://pusher.com/) (Voten.co uses [laravel-echo-server](https://github.com/tlaverdure/laravel-echo-server) on production server)
 - [Algolia Search](https://www.algolia.com/referrals/fb684d54/join/)
 
 To install all the required stack on a server, we recommend an auto-installation service such as [CodePier](https://codepier.io/?ref=voten).
 
 ## Installation Steps
+
+Voten's installation is just like any other Laravel project. In case you face any errors, googling it with a "Laravel" keyword will find you an asnwer faster than opening an issue. 
 
 After cloning the repository, first create a .env from the example file:
 
