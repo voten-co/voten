@@ -7,6 +7,7 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use App\Http\Resources\CommentResource;
 
 class CommentWasPatched implements ShouldBroadcast
 {
@@ -35,5 +36,17 @@ class CommentWasPatched implements ShouldBroadcast
     public function broadcastOn()
     {
         return ['submission.'.$this->comment->submission->slug];
+    }
+
+    /**
+     * Get the data to broadcast.
+     *
+     * @return array
+     */
+    public function broadcastWith()
+    {
+        return [
+            'data' => (new CommentResource($this->comment))->resolve()
+        ];
     }
 }

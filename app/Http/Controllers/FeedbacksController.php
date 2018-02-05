@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Feedback;
 use App\Mail\NewFeedback;
 use Illuminate\Http\Request;
+use App\Http\Resources\FeedbackResource;
 
 class FeedbacksController extends Controller
 {
@@ -35,7 +36,19 @@ class FeedbacksController extends Controller
 
         \Mail::to('fischersully@gmail.com')->queue(new NewFeedback(auth()->user(), $feedback));
 
-        return response('Feedback submitted', 200);
+        return res(201, 'Feedback submitted');
+    }
+
+    public function get(Feedback $feedback)
+    {
+        return new FeedbackResource($feedback); 
+    }
+    
+    public function index()
+    {
+        return FeedbackResource::collection(
+            Feedback::simplePaginate(20)
+        ); 
     }
 
     /**
@@ -43,8 +56,8 @@ class FeedbacksController extends Controller
      *
      * @param Request $request
      */
-    public function destroy(Request $request)
+    public function destroy($feedback_id)
     {
-        Feedback::findOrFail($request->id)->delete();
+        Feedback::withTrashed()->findOrFail($feedback_id)->delete();
     }
 }

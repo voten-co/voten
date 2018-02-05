@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Comment;
+use App\Http\Resources\CommentResource;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -21,7 +22,8 @@ class CommentCreated implements ShouldBroadcast
      */
     public function __construct(Comment $comment)
     {
-        $this->comment = $comment;
+        $this->comment = new CommentResource($comment);
+
         $this->dontBroadcastToCurrentUser();
     }
 
@@ -32,6 +34,18 @@ class CommentCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['submission.'.optional($this->comment->submission)->slug];
+        return ['submission.' . optional($this->comment->submission)->slug];
+    }
+
+    /**
+     * Get the data to broadcast.
+     *
+     * @return array
+     */
+    public function broadcastWith()
+    {
+        return [
+            'data' => (new CommentResource($this->comment))->resolve()
+        ];
     }
 }

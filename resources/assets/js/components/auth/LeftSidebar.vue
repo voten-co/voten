@@ -147,7 +147,7 @@
 			            placement="right"
 			            transition="false"
 			            :open-delay="500"
-			            v-if="auth.isVotenAdminstrator">
+			            v-if="meta.isVotenAdminstrator">
 				<a class="item"
 				   href="/backend"
 				   target="_blank">
@@ -160,7 +160,7 @@
 			            placement="right"
 			            transition="false"
 			            :open-delay="500"
-			            v-if="auth.isVotenAdminstrator">
+			            v-if="meta.isVotenAdminstrator">
 				<a class="item"
 				   @click.prevent="pushRouter('/big-daddy')"
 				   href="/big-daddy">
@@ -230,7 +230,7 @@ export default {
 
         unreadMessages() {
             return Store.state.contacts.filter(
-                item => item.last_message.owner.id != auth.id && item.last_message.read_at == null
+                item => item.last_message.author.id != auth.id && item.last_message.read_at == null
             ).length;
         }
     },

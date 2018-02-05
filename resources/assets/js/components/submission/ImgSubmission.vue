@@ -10,9 +10,9 @@
 <template>
 	<div>
 		<div v-if="!isAlbum && showBigThumbnail">
-			<img :src="submission.data.thumbnail_path"
+			<img :src="submission.content.thumbnail_path"
 			     :alt="submission.title"
-			     @click="$emit('zoom', submission.data)"
+			     @click="$emit('zoom', submission.content)"
 			     class="big-thumbnail" />
 		</div>
 
@@ -32,12 +32,12 @@
 		<div class="link-list-info">
 			<span class="submission-img-title">
 				<a class="submisison-small-thumbnail"
-				   v-if="submission.data.thumbnail_path && !full">
+				   v-if="submission.content.thumbnail_path && !full">
 					<!-- img -->
 					<div v-if="showSmallThumbnail"
 					     class="small-thumbnail zoom-in"
 					     :style="thumbnail"
-					     @click="$emit('zoom', submission.data)"></div>
+					     @click="$emit('zoom', submission.content)"></div>
 				</a>
 
 				<div class="flex1">
@@ -122,7 +122,7 @@ export default {
     computed: {
         thumbnail() {
             return {
-                backgroundImage: 'url(' + this.submission.data.thumbnail_path + ')'
+                backgroundImage: 'url(' + this.submission.content.thumbnail_path + ')'
             };
         },
 
@@ -135,7 +135,7 @@ export default {
 
             if (this.nsfw) return false;
 
-            return !auth.submission_small_thumbnail;
+            return false;
         },
 
         showSmallThumbnail() {
@@ -154,15 +154,11 @@ export default {
             this.currentImageIndex = index;
         },
 
-        getPhotos: function() {
+        getPhotos() {
             axios
-                .get('/submission-photos', {
-                    params: {
-                        id: this.submission.id
-                    }
-                })
+                .get(`/submissions/${this.submission.id}/photos`)
                 .then(response => {
-                    this.photos = response.data;
+                    this.photos = response.data.data;
                 });
         }
     }

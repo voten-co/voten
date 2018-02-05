@@ -1,4 +1,6 @@
 export default {
+  font: 'Lato', 
+  
   feed: {
     excludeUpvotedSubmissions: false,
     excludeDownvotedSubmissions: true,

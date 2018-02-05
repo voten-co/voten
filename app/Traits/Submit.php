@@ -8,6 +8,7 @@ use App\Submission;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 trait Submit
 {
@@ -46,8 +47,10 @@ trait Submit
      *
      * @return void
      */
-    protected function firstVote($user, $submission_id)
+    protected function firstVote($submission_id)
     {
+        $user = Auth::user(); 
+        
         try {
             $user->submissionUpvotes()->attach($submission_id, ['ip_address' => getRequestIpAddress()]);
 
@@ -68,22 +71,37 @@ trait Submit
      */
     protected function linkSubmission(Request $request)
     {
-        $apiURL = 'https://midd.voten.co/link-submission?url='.urlencode($request->url);
+        try {
+            $apiURL = 'https://midd.voten.co/link-submission?url='.urlencode($request->url);
 
-        $info = json_decode(file_get_contents($apiURL));
+            $info = json_decode(file_get_contents($apiURL));
 
-        return [
-            'url'           => $info->url,
-            'title'         => $info->title,
-            'description'   => $info->description,
-            'type'          => $info->type,
-            'embed'         => $info->embed,
-            'img'           => $info->img,
-            'thumbnail'     => $info->thumbnail,
-            'providerName'  => $info->providerName,
-            'publishedTime' => $info->publishedTime,
-            'domain'        => $info->domain,
-        ];
+            return [
+                'url'           => $info->url,
+                'title'         => $info->title,
+                'description'   => $info->description,
+                'type'          => $info->type,
+                'embed'         => $info->embed,
+                'img'           => $info->img,
+                'thumbnail'     => $info->thumbnail,
+                'providerName'  => $info->providerName,
+                'publishedTime' => $info->publishedTime,
+                'domain'        => $info->domain,
+            ];
+        } catch (\Exception $e) {
+            return [
+                'url' => $request->url,
+                'title' => $request->title,
+                'description' => null,
+                'type' => 'link',
+                'embed' => null,
+                'img' => null,
+                'thumbnail' => null,
+                'providerName' => null,
+                'publishedTime' => null,
+                'domain' => domain($request->url),
+            ];
+        }
     }
 
     /**
@@ -93,12 +111,12 @@ trait Submit
      */
     protected function imgSubmission(Request $request)
     {
-        $photo = Photo::where('id', $request->input('photos')[0])->firstOrFail();
+        $photo = Photo::where('id', $request->input('photos_id')[0])->firstOrFail();
 
         return [
             'path'           => $photo->path,
             'thumbnail_path' => $photo->thumbnail_path,
-            'album'          => (count($request->input('photos')) > 1),
+            'album'          => (count($request->input('photos_id')) > 1),
         ];
     }
 
@@ -141,7 +159,7 @@ trait Submit
         try {
             $title = file_get_contents($apiURL);
         } catch (\Exception $exception) {
-            return response('Invalid URL', 500);
+            return res(400, 'Invalid URL');
         }
 
         return $title;

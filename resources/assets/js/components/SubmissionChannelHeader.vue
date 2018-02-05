@@ -55,7 +55,7 @@
 	        		return '#ffaf40'
 	        	} else if (Store.page.channel.temp.color == 'Pink') {
 	        		return '#ec7daa'
-	        	} else { // userStore.color == 'Black'
+	        	} else { // userStore.cover_color == 'Black'
 	        		return '#424242'
 	        	}
 	        }

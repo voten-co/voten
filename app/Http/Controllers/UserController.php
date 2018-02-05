@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Filters;
+use App\Http\Resources\CommentResource;
+use App\Http\Resources\SubmissionResource;
+use App\Http\Resources\UserResource;
 use App\Traits\CachableUser;
 use App\User;
 use Auth;
@@ -15,7 +18,7 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['fillStore', 'submissions', 'comments', 'showSubmissions', 'showComments']]);
+        $this->middleware('auth', ['except' => ['get', 'submissions', 'comments', 'showSubmissions', 'showComments']]);
     }
 
     /**
@@ -30,11 +33,11 @@ class UserController extends Controller
         $user->stats = $this->userStats($user->id);
 
         $submissions = User::where('username', $username)
-                    ->firstOrFail()
-                    ->submissions()
-                    ->withTrashed()
-                    ->orderBy('created_at', 'desc')
-                    ->simplePaginate(15);
+            ->firstOrFail()
+            ->submissions()
+            ->withTrashed()
+            ->orderBy('created_at', 'desc')
+            ->simplePaginate(15);
 
         return view('user.submissions', compact('user', 'submissions'));
     }
@@ -50,12 +53,14 @@ class UserController extends Controller
 
         $user->stats = $this->userStats($user->id);
 
-        $comments = $this->withoutChildren(User::where('username', $username)
-                    ->firstOrFail()
-                    ->comments()
-                    ->withTrashed()
-                    ->orderBy('created_at', 'desc')
-                    ->simplePaginate(15));
+        $comments = CommentResource::collection(
+            User::where('username', $username)
+                ->firstOrFail()
+                ->comments()
+                ->withTrashed()
+                ->orderBy('created_at', 'desc')
+                ->simplePaginate(15)
+        );
 
         return view('user.comments', compact('user', 'comments'));
     }
@@ -73,12 +78,12 @@ class UserController extends Controller
             'username' => 'required',
         ]);
 
-        return User::where('username', $request->username)
-                    ->firstOrFail()
-                    ->submissions()
-                    ->withTrashed()
-                    ->orderBy('created_at', 'desc')
-                    ->simplePaginate(15);
+        return SubmissionResource::collection(User::where('username', $request->username)
+                ->firstOrFail()
+                ->submissions()
+                ->withTrashed()
+                ->orderBy('created_at', 'desc')
+                ->simplePaginate(15));
     }
 
     /**
@@ -90,7 +95,7 @@ class UserController extends Controller
      */
     public function upVotedSubmissions(Request $request)
     {
-        return Auth::user()->submissionUpvotes()->simplePaginate(15);
+        return SubmissionResource::collection(Auth::user()->submissionUpvotes()->simplePaginate(15));
     }
 
     /**
@@ -102,7 +107,7 @@ class UserController extends Controller
      */
     public function downVotedSubmissions(Request $request)
     {
-        return Auth::user()->submissionDownvotes()->simplePaginate(15);
+        return SubmissionResource::collection(Auth::user()->submissionDownvotes()->simplePaginate(15));
     }
 
     /**
@@ -115,15 +120,17 @@ class UserController extends Controller
     public function comments(Request $request)
     {
         $this->validate($request, [
-            'username' => 'required',
+            'username' => 'required|exists:users',
         ]);
 
-        return $this->withoutChildren(User::where('username', $request->username)
-                    ->firstOrFail()
-                    ->comments()
-                    ->withTrashed()
-                    ->orderBy('created_at', 'desc')
-                    ->simplePaginate(15));
+        return CommentResource::collection(
+            User::where('username', $request->username)
+                ->first()
+                ->comments()
+                ->withTrashed()
+                ->orderBy('created_at', 'desc')
+                ->simplePaginate(15)
+        );
     }
 
     /**
@@ -133,17 +140,24 @@ class UserController extends Controller
      *
      * @return JSON
      */
-    public function fillStore(Request $request)
+    public function get(Request $request)
     {
         $this->validate($request, [
-            'username' => 'required|max:25',
+            'username' => 'required_without:id|max:25|exists:users',
+            'id' => 'required_without:username|exists:users',
+            'with_info' => 'boolean',
+            'with_stats' => 'boolean',
         ]);
 
-        $user = User::withTrashed()->where('username', $request->username)->firstOrFail();
+        if ($request->filled('username')) {
+            return new UserResource(
+                User::withTrashed()->where('username', $request->username)->first()
+            );
+        }
 
-        $user->stats = $this->userStats($user->id);
-
-        return $user;
+        return new UserResource(
+            User::withTrashed()->where('id', $request->id)->first()
+        );
     }
 
     /**

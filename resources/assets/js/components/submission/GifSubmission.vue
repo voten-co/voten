@@ -20,9 +20,9 @@
 			<video loop
 			       controls
 			       autoplay
-			       :poster="submission.data.thumbnail_path"
+			       :poster="submission.content.thumbnail_path"
                    onclick="this.paused ? this.play() : this.pause();">
-				<source :src="submission.data.mp4_path"
+				<source :src="submission.content.mp4_path"
 				        type="video/mp4">
 			</video>
 		</div>
@@ -30,7 +30,7 @@
 		<div class="link-list-info">
 			<span class="submission-img-title">
 				<a class="submisison-small-thumbnail"
-				   v-if="submission.data.thumbnail_path && !full">
+				   v-if="submission.content.thumbnail_path && !full">
 					<!-- img -->
 					<div :style="thumbnail"
 					     v-if="showSmallThumbnail"
@@ -109,7 +109,7 @@ export default {
     computed: {
         thumbnail() {
             return {
-                backgroundImage: 'url(' + this.submission.data.thumbnail_path + ')'
+                backgroundImage: 'url(' + this.submission.content.thumbnail_path + ')'
             };
         },
 
@@ -118,7 +118,7 @@ export default {
 
             if (this.nsfw) return false;
 
-            return !auth.submission_small_thumbnail;
+            return false;
         },
 
         showSmallThumbnail() {

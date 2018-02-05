@@ -171,19 +171,22 @@ export default {
                 .get('/search', {
                     params: {
                         type: this.type,
-                        searched: this.filter
+                        keyword: this.filter
                     }
                 })
                 .then(response => {
                     if (this.type == 'Channels') {
-                        this.channels = response.data;
+                        this.channels = response.data.data;
                     }
+
                     if (this.type == 'Users') {
-                        this.users = response.data;
+                        this.users = response.data.data;
                     }
+
                     if (this.type == 'Submissions') {
-                        this.submissions = response.data;
+                        this.submissions = response.data.data;
                     }
+                    
                     this.loading = false;
                 })
                 .catch(() => {

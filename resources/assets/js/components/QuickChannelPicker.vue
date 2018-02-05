@@ -93,29 +93,30 @@ export default {
 
     watch: {
         searched() {
-            this.getUsers();
+            this.search();
         }
     },
 
     methods: {
-        getUsers() {
+        search: _.debounce(() => {
+            if (!this.searched.trim()) return;
             this.loading = true;
 
             axios
                 .get('/search', {
                     params: {
                         type: 'Channels', 
-                        searched: this.searched
+                        keyword: this.searched
                     }
                 })
                 .then(response => {
-                    this.list = response.data;
+                    this.list = response.data.data;
                     this.loading = false;
                 })
                 .catch(() => {
                     this.loading = true;
                 });
-        },
+        }, 600),
 
         keyupUp() {
             this.selectedIndex--;

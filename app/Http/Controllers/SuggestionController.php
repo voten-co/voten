@@ -7,6 +7,7 @@ use App\Filters;
 use App\Suggested;
 use App\Traits\CachableChannel;
 use App\Traits\CachableUser;
+use App\Http\Resources\ChannelResource; 
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -17,7 +18,7 @@ class SuggestionController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['channel']]);
+        $this->middleware('administrator', ['except' => ['channel', 'discover']]);
     }
 
     /**
@@ -26,15 +27,13 @@ class SuggestionController extends Controller
      * @return \Illuminate\Support\Collection $channel
      */
     public function channel()
-    {
+    {        
         try {
-            if (Auth::check()) {
-                return Suggested::whereNotIn('channel_id', $this->subscriptions())->inRandomOrder()->firstOrFail()->channel;
-            }
-
-            return Suggested::where('z_index', '>', 6)->inRandomOrder()->firstOrFail()->channel;
-        } catch (\Exception $e) {
-            return 'null';
+            return new ChannelResource(
+                Suggested::whereNotIn('channel_id', $this->subscriptions())->inRandomOrder()->firstOrFail()->channel
+            );
+        } catch(\Exception $e) {
+            return res(200, 'No channel to suggest at this time.');
         }
     }
 
@@ -45,7 +44,7 @@ class SuggestionController extends Controller
      *
      * @return \Illuminate\Support\Collection
      */
-    public function findChannels(Request $request)
+    public function discover(Request $request)
     {
         // default
         if (!$request->filter && !$request->order_by) {
@@ -54,14 +53,14 @@ class SuggestionController extends Controller
 
             $defaultChannels->setCollection($defaultChannels->pluck('channel'));
 
-            return $defaultChannels;
+            return ChannelResource::collection($defaultChannels);
         }
 
         // searched
         if ($request->filter) {
-            $channels = Channel::search($request->filter)->take(20)->get();
+            $channels = Channel::search($request->filter)->paginate(20);
 
-            return ($request->exclude_subscribeds == 'true') ? $this->noSubscribedFilter($channels) : $channels;
+            return ChannelResource::collection(($request->exclude_subscribeds == 'true') ? $this->noSubscribedFilter($channels) : $channels);
         }
 
         // sorted by an option
@@ -81,7 +80,7 @@ class SuggestionController extends Controller
             $channels->whereNotIn('id', $this->subscriptions());
         }
 
-        return $channels->simplePaginate(20);
+        return ChannelResource::collection($channels->simplePaginate(20));
     }
 
     /**
@@ -97,8 +96,6 @@ class SuggestionController extends Controller
             'channel_name'  => 'required',
             'z_index'       => 'required|integer',
         ]);
-
-        abort_unless($this->mustBeVotenAdministrator(), 403);
 
         $channel = $this->getChannelByName($request->channel_name);
 
@@ -122,8 +119,6 @@ class SuggestionController extends Controller
      */
     public function adminIndex()
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         return Suggested::all();
     }
 
@@ -138,12 +133,10 @@ class SuggestionController extends Controller
             'id' => 'required|integer',
         ]);
 
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
         Suggested::findOrFail($request->id)->delete();
 
         Cache::forget('default-channels-ids');
 
-        return response('Channel is no longer suggested', 200);
+        return res(200, 'Channel is no longer suggested');
     }
 }

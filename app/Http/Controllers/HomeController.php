@@ -9,6 +9,7 @@ use App\Traits\CachableUser;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Http\Resources\SubmissionResource; 
 
 class HomeController extends Controller
 {
@@ -22,7 +23,7 @@ class HomeController extends Controller
      * @return view
      */
     public function homePage(Request $request)
-    {
+    {        
         $submissions = $this->guestHome($request);
 
         return view('home', compact('submissions'));
@@ -36,7 +37,7 @@ class HomeController extends Controller
      * @return \Illuminate\Support\Collection
      */
     public function feed(Request $request)
-    {
+    {                
         $this->validate($request, [
             'page' => 'required|integer|min:1',
         ]);
@@ -131,7 +132,7 @@ class HomeController extends Controller
 
         $submissions->groupBy('url');
 
-        return $submissions->simplePaginate(15);
+        return SubmissionResource::collection($submissions->simplePaginate(15));
     }
 
     /**
@@ -167,6 +168,6 @@ class HomeController extends Controller
 
         $submissions->groupBy('url');
 
-        return $submissions->simplePaginate(15);
+        return SubmissionResource::collection($submissions->simplePaginate(15));
     }
 }

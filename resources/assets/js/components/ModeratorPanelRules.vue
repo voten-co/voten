@@ -74,28 +74,28 @@
             createRule() {
                 this.sending = true;
 
-                axios.post('/create-rule', {
-                    title: this.title,
-                    channel_name: this.$route.params.name
+                axios.post('/channels/rules', {
+                    body: this.title,
+                    channel_id: Store.page.channel.temp.id 
                 }).then((response) => {
-                    this.items.unshift(response.data)
-                    this.clear()
+                    this.items.unshift(response.data.data); 
+                    this.clear(); 
                     this.sending = false;
                 }).catch((error) => {
                     this.errors = error.response.data.errors;
                     this.sending = false;
-                })
+                }); 
             },
 
             getItems() {
                 this.loading = true;
 
-                axios.get('/rules', {
+                axios.get('/channels/rules', {
                     params: {
-                        name: this.$route.params.name
+                        channel_name: this.$route.params.name
                     }
                 }).then((response) => {
-                    this.items = response.data;
+                    this.items = response.data.data;
                     this.loading = false;
                 }).catch(() => {
                     this.loading = false;
@@ -103,9 +103,10 @@
             },
 
             destroy(rule_id, channel_id){
-                axios.post('/destroy-rule', {
-                    rule_id,
-                    channel_id
+                axios.delete('/channels/rules', {
+                    params: {
+                        id: rule_id
+                    }
                 }).then(() => {
                     this.items = this.items.filter(function (item) {
                         return item.id != rule_id
@@ -124,10 +125,9 @@
             patch() {
                 this.editing = true;
 
-                axios.post('/patch-rule', {
-                    title: this.title,
-                    channel_id: this.channel_id,
-                    rule_id: this.id,
+                axios.patch('/channels/rules', {
+                    body: this.title,
+                    id: this.id,
                 }).then(() => {
                     let id = this.id
 

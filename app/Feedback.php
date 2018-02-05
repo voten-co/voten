@@ -16,6 +16,10 @@ class Feedback extends Model
      */
     protected $table = 'feedbacks';
 
+    protected $with = [
+        'owner',
+    ];
+
     /**
      * A comment has an owner.
      *

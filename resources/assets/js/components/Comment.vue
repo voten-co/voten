@@ -5,12 +5,12 @@
         >
             <div class="content" @dblclick="doubleClicked">
                 <div class="v-comment-info">
-                    <router-link :to="'/' + '@' + list.owner.username" class="avatar user-select">
-                        <img v-bind:src="list.owner.avatar">
+                    <router-link :to="'/' + '@' + list.author.username" class="avatar user-select">
+                        <img v-bind:src="list.author.avatar">
                     </router-link>
 
-                    <router-link :to="'/' + '@' + list.owner.username" class="author user-select">
-                        @{{ list.owner.username }}
+                    <router-link :to="'/' + '@' + list.author.username" class="author user-select">
+                        @{{ list.author.username }}
                     </router-link>
 
                     <div class="metadata user-select">
@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="text">
-                    <markdown :text="list.body"></markdown>
+                    <markdown :text="list.content.text"></markdown>
                 </div>
 
                 <div class="actions user-select">
@@ -66,7 +66,7 @@
 
                     <el-tooltip content="Reply" placement="top" transition="false" :open-delay="500">
                         <i class="v-icon v-reply"
-                           @click="commentReply" v-if="list.level < 8 && full"></i>
+                           @click="commentReply" v-if="list.nested_level < 8 && full"></i>
                     </el-tooltip>
 
                     <el-tooltip :content="bookmarked ? 'Unbookmark' : 'Bookmark'" placement="top" transition="false" :open-delay="500">
@@ -134,7 +134,7 @@ export default {
     data() {
         return {
             editing: false,
-            body: this.list,
+            body: this.list.content.text,
             visible: true,
             reply: false,
             childrenLimit: 4,
@@ -143,6 +143,10 @@ export default {
     },
 
     created() {
+        if (_.isUndefined(this.list.children)) {
+            this.list.children = []; 
+        }
+
         this.$eventHub.$on('newComment', this.newComment);
         this.$eventHub.$on('patchedComment', this.patchedComment);
         this.$eventHub.$on('deletedComment', this.deletedComment);
@@ -169,7 +173,7 @@ export default {
 
             set() {
                 if (this.currentVote === 'upvote') {
-                    this.list.upvotes--;
+                    this.list.upvotes_count--;
                     let index = Store.state.comments.upVotes.indexOf(this.list.id);
                     Store.state.comments.upVotes.splice(index, 1);
 
@@ -177,12 +181,12 @@ export default {
                 }
 
                 if (this.currentVote === 'downvote') {
-                    this.list.downvotes--;
+                    this.list.downvotes_count--;
                     let index = Store.state.comments.downVotes.indexOf(this.list.id);
                     Store.state.comments.downVotes.splice(index, 1);
                 }
 
-                this.list.upvotes++;
+                this.list.upvotes_count++;
                 Store.state.comments.upVotes.push(this.list.id);
             }
         },
@@ -194,7 +198,7 @@ export default {
 
             set() {
                 if (this.currentVote === 'downvote') {
-                    this.list.downvotes--;
+                    this.list.downvotes_count--;
                     let index = Store.state.comments.downVotes.indexOf(this.list.id);
                     Store.state.comments.downVotes.splice(index, 1);
 
@@ -202,12 +206,12 @@ export default {
                 }
 
                 if (this.currentVote === 'upvote') {
-                    this.list.upvotes--;
+                    this.list.upvotes_count--;
                     let index = Store.state.comments.upVotes.indexOf(this.list.id);
                     Store.state.comments.upVotes.splice(index, 1);
                 }
 
-                this.list.downvotes++;
+                this.list.downvotes_count++;
                 Store.state.comments.downVotes.push(this.list.id);
             }
         },
@@ -230,11 +234,11 @@ export default {
         },
 
         isParent() {
-            return this.list.parent_id == 0 ? true : false;
+            return this.list.parent_id == null ? true : false;
         },
 
         detailedPoints() {
-            return `+${this.list.upvotes} | -${this.list.downvotes}`;
+            return `+${this.list.upvotes_count} | -${this.list.downvotes_count}`;
         },
 
         highlightClass() {
@@ -258,7 +262,7 @@ export default {
         },
 
         points() {
-            let total = this.list.upvotes - this.list.downvotes;
+            let total = this.list.upvotes_count - this.list.downvotes_count;
 
             if (total < 0) return 0;
 
@@ -345,7 +349,7 @@ export default {
         showApprove() {
             return (
                 !this.list.approved_at &&
-                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 || auth.isVotenAdminstrator) &&
+                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 || meta.isVotenAdminstrator) &&
                 !this.owns
             );
         },
@@ -358,7 +362,7 @@ export default {
         showDisapprove() {
             return (
                 !this.list.deleted_at &&
-                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 || auth.isVotenAdminstrator) &&
+                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 || meta.isVotenAdminstrator) &&
                 !this.owns
             );
         }
@@ -428,10 +432,11 @@ export default {
         },
 
         newComment(comment) {
+            if (comment.parent_id == null) return; 
             if (this.list.id != comment.parent_id) return;
 
             // owns the comment
-            if (comment.owner.id == auth.id) {
+            if (comment.author.id == auth.id) {
                 this.reply = false;
                 Store.state.comments.upVotes.push(comment.id);
                 this.list.children.unshift(comment);
@@ -458,7 +463,7 @@ export default {
             if (this.list.id != comment.id) return;
 
             this.editing = false;
-            this.list.body = comment.body;
+            this.list.content.text = comment.content.text;
             this.list.edited_at = this.now();
         },
 
@@ -563,13 +568,14 @@ export default {
         ),
 
         /**
-         * Deletes the comment. Only the owner is allowed to make such decision.
+         * Deletes the comment. Only the author is allowed to make such decision.
          *
          * @return void
          */
         destroy() {
             this.visible = false;
-            axios.post('/destroy-comment', { id: this.list.id }).catch(() => (this.visible = true));
+
+            axios.delete(`/comments/${this.list.id}`).catch(() => (this.visible = true));
         },
 
         /**

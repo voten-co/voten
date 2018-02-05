@@ -95,7 +95,7 @@ window.app = new Vue({
     unreadMessages() {
       return Store.state.contacts.filter(
         item =>
-          item.last_message.owner.id != auth.id &&
+          item.last_message.author.id != auth.id &&
           item.last_message.read_at == null
       ).length;
     }

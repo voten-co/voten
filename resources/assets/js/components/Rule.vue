@@ -2,7 +2,7 @@
     <section class="banned-user-wrapper">
         <div class="banned-user">
             <div class="left">
-                <markdown :text="list.title"></markdown>
+                <markdown :text="list.body"></markdown>
             </div>
 
             <div class="actions">

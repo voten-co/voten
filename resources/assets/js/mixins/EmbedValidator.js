@@ -13,7 +13,7 @@ export default {
 
   computed: {
     isValidSourceForEmbed() {
-      return this.allowedDomains.indexOf(this.submission.data.domain) != -1;
+      return this.allowedDomains.indexOf(this.submission.content.domain) != -1;
     }
   }
 };

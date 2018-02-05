@@ -24,7 +24,7 @@
     "axios": "^0.16.1",
     "cross-env": "^5.1.3",
     "element-theme-chalk": "^2.0.11",
-    "element-ui": "^2.0.11",
+    "element-ui": "^2.1.0",
     "eslint": "^4.16.0",
     "laravel-echo": "^1.3.4",
     "markdown-it": "^8.4.0",

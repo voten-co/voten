@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ChannelResource; 
+use App\Http\Resources\CommentResource; 
+use App\Http\Resources\UserResource; 
+use App\Http\Resources\SubmissionResource; 
 use App\Filters;
 use App\Traits\CachableChannel;
 use App\Traits\CachableComment;
@@ -27,7 +31,9 @@ class BookmarksController extends Controller
      */
     public function getBookmarkedSubmissions()
     {
-        return Auth::user()->bookmarkedSubmissions()->simplePaginate(20);
+        return SubmissionResource::collection(
+            Auth::user()->bookmarkedSubmissions()->simplePaginate(20)
+        );
     }
 
     /**
@@ -37,7 +43,9 @@ class BookmarksController extends Controller
      */
     public function getBookmarkedComments()
     {
-        return $this->withoutChildren(Auth::user()->bookmarkedComments()->simplePaginate(20));
+        return CommentResource::collection(
+            Auth::user()->bookmarkedComments()->simplePaginate(20)
+        );
     }
 
     /**
@@ -47,7 +55,9 @@ class BookmarksController extends Controller
      */
     public function getBookmarkedChannels()
     {
-        return Auth::user()->bookmarkedChannels()->simplePaginate(20);
+        return ChannelResource::collection(
+            Auth::user()->bookmarkedChannels()->simplePaginate(20)   
+        );
     }
 
     /**
@@ -57,7 +67,9 @@ class BookmarksController extends Controller
      */
     public function getBookmarkedUsers()
     {
-        return Auth::user()->bookmarkedUsers()->simplePaginate(20);
+        return UserResource::collection(
+            Auth::user()->bookmarkedUsers()->simplePaginate(20)
+        );
     }
 
     /**

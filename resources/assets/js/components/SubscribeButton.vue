@@ -35,7 +35,7 @@ export default {
 
             set() {
                 if (Store.state.subscribedAt.indexOf(Store.page.channel.temp.id) !== -1) {
-                    Store.page.channel.temp.subscribers --;
+                    Store.page.channel.temp.subscribers_count --;
 
                     let removeItem = Store.page.channel.temp.id;
                     Store.state.subscribedChannels = Store.state.subscribedChannels.filter(channel => channel.id != removeItem);
@@ -48,7 +48,7 @@ export default {
 
                 Store.state.subscribedChannels.push(Store.page.channel.temp);
                 Store.state.subscribedAt.push(Store.page.channel.temp.id);
-                Store.page.channel.temp.subscribers ++;
+                Store.page.channel.temp.subscribers_count ++;
             }
         },
     },

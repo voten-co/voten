@@ -99,7 +99,7 @@ export default {
                 .then(response => {
                     this.comments = [...this.comments, ...response.data.data];
 
-                    if (response.data.next_page_url == null) {
+                    if (response.data.links.next == null) {
                         this.NoMoreItems = true;
                     }
 

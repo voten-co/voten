@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use Validator;
+use App\Rules\Recaptcha;
+use App\Rules\NotForbiddenUsername;
 
 class RegisterController extends Controller
 {
@@ -54,10 +56,10 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'username'             => ['required', 'min:3', 'max:25', 'unique:users', 'regex:/^[A-Za-z0-9\._]+$/', new \App\Rules\NotForbiddenUsername()],
+            'username'             => ['required', 'min:3', 'max:25', 'unique:users', 'regex:/^[A-Za-z0-9\._]+$/', new NotForbiddenUsername],
             'email'                => 'sometimes|email|max:255|unique:users|nullable',
             'password'             => 'required|min:6|confirmed',
-            'g-recaptcha-response' => ['required', new \App\Rules\Recaptcha()],
+            'g-recaptcha-response' => ['required', new Recaptcha],
         ]);
     }
 

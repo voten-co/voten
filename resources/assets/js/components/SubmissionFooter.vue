@@ -1,7 +1,7 @@
 <template>
 	<div class="index-submission-footer user-select">
-		<div :class="auth.isMobileDevice ? 'flex-space' : 'display-inline'">
-			<div :class="auth.isMobileDevice ? '' : 'display-inline'">
+		<div class="display-inline">
+			<div class="display-inline">
 				<el-tooltip class="item" content="Comments" placement="top" transition="false" :open-delay="500">
 					<router-link :to="url" class="comments-icon h-green">
 						<i class="v-icon v-comment"></i><span v-if="comments" v-text="comments"></span>
@@ -66,16 +66,16 @@
 
 		<span class="desktop-only" v-if="! isMobile">
 			Submitted {{ date }} by
-			<router-link :to="'/' + '@' + submission.owner.username" class="h-underline desktop-only">
-				{{ '@' + submission.owner.username }}
+			<router-link :to="'/' + '@' + submission.author.username" class="h-underline desktop-only">
+				{{ '@' + submission.author.username }}
 			</router-link>
 			to <router-link :to="'/c/' + submission.channel_name" class="channel-label h-underline">#{{ submission.channel_name }}</router-link>
 		</span>
 
 		<div class="mobile-only mobile-submission-item-action" v-if="isMobile">
 			{{ date }} by
-			<router-link :to="'/' + '@' + submission.owner.username" class="h-underline">
-				{{ '@' + submission.owner.username }}
+			<router-link :to="'/' + '@' + submission.author.username" class="h-underline">
+				{{ '@' + submission.author.username }}
 			</router-link>
 			to <router-link :to="'/c/' + submission.channel_name" class="channel-label h-underline">#{{ submission.channel_name }}</router-link>
 		</div>
@@ -97,13 +97,13 @@ export default {
          * @return Boolean
          */
         owns() {
-            return auth.id == this.submission.owner.id;
+            return auth.id == this.submission.author.id;
         },
 
         showApprove() {
             return (
                 !this.submission.approved_at &&
-                (Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1 || auth.isVotenAdminstrator) &&
+                (Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1 || meta.isVotenAdminstrator) &&
                 !this.owns
             );
         },
@@ -111,7 +111,7 @@ export default {
         showDisapprove() {
             return (
                 !this.submission.deleted_at &&
-                (Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1 || auth.isVotenAdminstrator) &&
+                (Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1 || meta.isVotenAdminstrator) &&
                 !this.owns
             );
         },
@@ -120,7 +120,7 @@ export default {
             return (
                 (this.owns ||
                     Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1 ||
-                    auth.isVotenAdminstrator) &&
+                    meta.isVotenAdminstrator) &&
                 !this.submission.nsfw
             );
         },
@@ -129,13 +129,13 @@ export default {
             return (
                 (this.owns ||
                     Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1 ||
-                    auth.isVotenAdminstrator) &&
+                    meta.isVotenAdminstrator) &&
                 this.submission.nsfw
             );
         },
 
         showRemoveTumbnail() {
-            if (this.owns && this.submission.data.thumbnail) return true;
+            if (this.owns && this.submission.content.thumbnail) return true;
             return false;
         },
 

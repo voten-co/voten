@@ -99,7 +99,7 @@ export default {
             this.sending = true;
 
             axios
-                .post('/feedback', {
+                .post('/feedbacks', {
                     subject: this.subject,
                     description: this.description
                 })

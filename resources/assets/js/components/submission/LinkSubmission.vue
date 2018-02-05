@@ -11,15 +11,15 @@
 
 <template>
 	<div>
-		<div v-if="showBigThumbnail && submission.data.thumbnail" class="submission-page-preview">
-			<div v-html="submission.data.embed" class="video-player-wrapper" v-if="showEmbed"></div>
+		<div v-if="showBigThumbnail && submission.content.thumbnail" class="submission-page-preview">
+			<div v-html="submission.content.embed" class="video-player-wrapper" v-if="showEmbed"></div>
 
 			<div v-else>
-				<a :href="submission.data.url"
+				<a :href="submission.content.url"
 						target="_blank"
 						rel="nofollow"
-						v-if="submission.data.thumbnail">
-					<img :src="submission.data.thumbnail"
+						v-if="submission.content.thumbnail">
+					<img :src="submission.content.thumbnail"
 									:alt="submission.title"
 									class="big-thumbnail" />
 				</a>
@@ -28,13 +28,13 @@
 
 		<div class="link-list-info flex-space">
 			<span class="submission-img-title">
-				<a v-bind:href="submission.data.url"
+				<a v-bind:href="submission.content.url"
 				   target="_blank"
 				   rel="nofollow"
 				   class="submisison-small-thumbnail"
-				   v-if="submission.data.thumbnail && !full">
+				   v-if="submission.content.thumbnail && !full">
 					<div v-bind:style="thumbnail"
-					     v-if="submission.data.thumbnail && showSmallThumbnail"
+					     v-if="submission.content.thumbnail && showSmallThumbnail"
 					     class="small-thumbnail"
 					     @click="embedOrOpen"
 					     :class="showEmbed ? 'pointer' : ''">
@@ -43,7 +43,7 @@
 
 				<h1 class="submission-title"
 				    v-if="full">
-					<a v-bind:href="submission.data.url"
+					<a v-bind:href="submission.content.url"
 					   target="_blank"
 					   rel="nofollow">
 						<el-tooltip content="NSFW"
@@ -58,7 +58,7 @@
 						{{ submission.title }}
 
 						<small class="go-gray">
-							- {{ submission.data.domain }}
+							- {{ submission.content.domain }}
 						</small>
 					</a>
 				</h1>
@@ -66,13 +66,13 @@
 				<span v-else
 				      class="full-width">
 					<h3 class="v-ultra-bold no-margin">
-						<a v-bind:href="submission.data.url"
+						<a v-bind:href="submission.content.url"
 						   target="_blank"
 						   rel="nofollow">
 							{{ submission.title }}
 
 							<small class="go-gray">
-								- {{ submission.data.domain }}
+								- {{ submission.content.domain }}
 							</small>
 						</a>
 					</h3>
@@ -123,7 +123,7 @@ export default {
     computed: {
         thumbnail() {
             return {
-                backgroundImage: 'url(' + this.submission.data.thumbnail + ')'
+                backgroundImage: 'url(' + this.submission.content.thumbnail + ')'
             };
         },
 
@@ -132,7 +132,7 @@ export default {
 
             if (this.nsfw) return false;
 
-            return !auth.submission_small_thumbnail;
+            return false;
         },
 
         showSmallThumbnail() {
@@ -140,11 +140,11 @@ export default {
         },
 
         showEmbed() {
-            return this.isValidSourceForEmbed && this.submission.data.embed;
+            return this.isValidSourceForEmbed && this.submission.content.embed;
         },
 
         isVideo() {
-            return this.submission.data.type == 'video';
+            return this.submission.content.type == 'video';
         }
     },
 

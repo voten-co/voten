@@ -51,12 +51,12 @@
 
         methods: {
             getChannel() {
-            	axios.get(this.authUrl('suggested-channel')).then((response) => {
+            	axios.get('/suggested-channel').then(response => {
             	    // We got nothing to suggest.
-					if (response.data == null) return;
+					if (_.isUndefined(response.data.data)) return;
 
+                    this.channel = response.data.data;
                     this.visible = true;
-                    this.channel = response.data;
             	});
             },
 

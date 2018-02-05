@@ -121,18 +121,18 @@ class CommentVotesController extends Controller
                 $new_downvotes = ($comment->downvotes - 1);
                 $user->commentDownvotes()->detach($request->comment_id);
                 $user->commentUpvotes()->attach($request->comment_id, [
-                'ip_address' => getRequestIpAddress(),
-            ]);
+                    'ip_address' => getRequestIpAddress(),
+                ]);
             } else {
                 $new_upvotes = ($comment->upvotes + 1);
                 $user->commentUpvotes()->attach($request->comment_id, [
-                'ip_address' => getRequestIpAddress(),
-            ]);
+                    'ip_address' => getRequestIpAddress(),
+                ]);
             }
 
             $this->updateUserUpVotesRecords(
-            $user->id, $comment->owner->id, $request->previous_vote, $request->comment_id
-        );
+                $user->id, $comment->owner->id, $request->previous_vote, $request->comment_id
+            );
         } catch (\Exception $e) {
             return response('invalid request', 500);
         }
@@ -236,10 +236,6 @@ class CommentVotesController extends Controller
      */
     public function isCheating($user_id, $comment_id, $type = 'upvote')
     {
-        if (Auth::user()->isShadowBanned()) {
-            return true;
-        }
-
         // we don't want new registered users do downvotes and mess with the averate vote numbers, so:
         if ($type == 'downvote' && Auth::user()->created_at > Carbon::now()->subDays(3)) {
             return true;

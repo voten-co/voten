@@ -22,7 +22,7 @@ export default {
       }
 
       axios
-        .get(auth.isGuest == false ? "/auth/home" : "/home", {
+        .get(meta.isGuest == false ? "/auth/feed" : "/feed", {
           params: {
             sort,
             page: this.page,
@@ -40,7 +40,7 @@ export default {
           this.submissions = [...this.submissions, ...response.data.data];
 
           if (!this.submissions.length) this.nothingFound = true;
-          if (response.data.next_page_url == null) this.NoMoreItems = true;
+          if (response.data.links.next == null) this.NoMoreItems = true;
 
           this.loading = false;
 

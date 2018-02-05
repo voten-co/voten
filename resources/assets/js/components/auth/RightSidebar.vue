@@ -275,7 +275,7 @@ export default {
                 self.channels.filter(
                     channel => channel.name.toLowerCase().indexOf(self.subscribedFilter.toLowerCase()) !== -1
                 ),
-                'subscribers',
+                'subscribers_count',
                 'desc'
             ).slice(0, self.channelsLimit > 2 ? self.channelsLimit : 2);
         }

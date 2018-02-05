@@ -20,7 +20,7 @@
 
         <ol>
             <li v-for="rule in rules" :key="rule.id">
-                <markdown :text="rule.title"></markdown>
+                <markdown :text="rule.body"></markdown>
             </li>
         </ol>
 
@@ -58,12 +58,12 @@
             getRules() {
                 this.loading = true;
 
-                axios.get('/rules', {
+                axios.get('/channels/rules', {
                     params: {
-                        name: this.$route.params.name
+                        channel_name: this.$route.params.name
                     }
                 }).then((response) => {
-                    this.rules = response.data;
+                    this.rules = response.data.data;
 
                     if (!this.rules.length) {
                         this.nothingFound = true;

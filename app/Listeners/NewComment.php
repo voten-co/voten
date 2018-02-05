@@ -47,7 +47,7 @@ class NewComment
         // if the commenter is banned from submitting to this cateogry (or "everywhere") we
         // soft-delete the comment without letting him know. This should keep spammers
         // busy over nothing.
-        if ($this->isUserBanned($event->author->id, $event->submission->channel_name)) {
+        if ($this->isUserBannedFromChannel($event->author->id, $event->submission->channel_name)) {
             $event->comment->delete();
 
             return;

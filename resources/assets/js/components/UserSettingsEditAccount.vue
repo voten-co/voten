@@ -81,7 +81,6 @@
                 sending: false,
             	errors: [],
             	customError: '',
-                auth,
 				fonts: [
 					'Josefin Sans', 'Lato', 'Source Sans Pro', 'Ubuntu', 'Open Sans', 'Dosis', 'Reem Kufi', 'Athiti' ,
 					'Molengo', 'Catamaran', 'Roboto', 'Eczar', 'Titillium Web', 'Varela Round', 'Bree Serif', 'Alegreya Sans',
@@ -90,14 +89,14 @@
 				],
 
                 form: {
-                    nsfw: auth.nsfw,
-                    nsfwMedia: auth.nsfwMedia,
+                    nsfw: auth.server_side_settings.nsfw,
+                    nsfwMedia: auth.server_side_settings.show_nsfw_media,
                     
                     username: auth.username,
-                    font: auth.font,
-                    notify_submissions_replied: auth.notify_submissions_replied,
-                    notify_comments_replied: auth.notify_comments_replied,
-                    notify_mentions: auth.notify_mentions,
+                    font: Store.settings.font,
+                    notify_submissions_replied: auth.server_side_settings.notify_submissions_replied,
+                    notify_comments_replied: auth.server_side_settings.notify_comments_replied,
+                    notify_mentions: auth.server_side_settings.notify_mentions,
                 }
             }
         },
@@ -105,13 +104,13 @@
 	    computed: {
 	    	changed () {
 	    		if (
-                    auth.nsfw != this.form.nsfw ||
-                    auth.nsfwMedia != this.form.nsfwMedia || 
-	                auth.font != this.form.font ||
-	                auth.notify_submissions_replied != this.form.notify_submissions_replied ||
-	                auth.notify_mentions != this.form.notify_mentions ||
+                    auth.server_side_settings.nsfw != this.form.nsfw ||
+                    auth.server_side_settings.show_nsfw_media != this.form.nsfwMedia || 
+	                Store.settings.font != this.form.font ||
+	                auth.server_side_settings.notify_submissions_replied != this.form.notify_submissions_replied ||
+	                auth.server_side_settings.notify_mentions != this.form.notify_mentions ||
 	                auth.username != this.form.username ||
-	                auth.notify_comments_replied != this.form.notify_comments_replied
+	                auth.server_side_settings.notify_comments_replied != this.form.notify_comments_replied
 	                ) {
 		    			return true; 
 		    		}
@@ -129,7 +128,7 @@
             save () {
                 this.sending = true;
 
-                let changedFont = (auth.font !== this.form.font);
+                let changedFont = (Store.settings.font !== this.form.font);
                 let changedUsername = (auth.username !== this.form.username);
 
             	axios.post( '/update-account', {
@@ -144,11 +143,11 @@
 	                this.errors = []; 
 	                this.customError = ''; 
 
-	                auth.font = this.form.font;
+	                Store.settings.font = this.form.font;
 	                auth.username = this.form.username;
-	                auth.notify_submissions_replied = this.form.notify_submissions_replied;
-	                auth.notify_comments_replied = this.form.notify_comments_replied;
-                    auth.notify_mentions = this.form.notify_mentions;
+	                auth.server_side_settings.notify_submissions_replied = this.form.notify_submissions_replied;
+	                auth.server_side_settings.notify_comments_replied = this.form.notify_comments_replied;
+                    auth.server_side_settings.notify_mentions = this.form.notify_mentions;
                     
                     if (changedFont) {
                         this.loadWebFont();
@@ -160,13 +159,6 @@
 
                     this.sending = false; 
 	            }).catch((error) => {
-	                if(error.response.status == 500) {
-	                	this.sending = false;
-	                    this.customError = error.response.data;
-	                    this.errors = [];
-	                    return;
-	                }
-
                     this.sending = false;
 
 	                this.errors = error.response.data.errors;

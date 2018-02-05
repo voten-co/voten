@@ -21,11 +21,11 @@
 
 			<div class="editing-comment-previous">
 				<h4 class="title">
-					{{ editing ? 'Edit Comment' : replyingComment.owner.username }}
+					{{ editing ? 'Edit Comment' : replyingComment.author.username }}
 				</h4>
 
 				<div class="text"
-				     v-text="editing ? str_limit(editingComment.body, 60) : str_limit(replyingComment.body, 60)">
+				     v-text="editing ? str_limit(editingComment.content.text, 60) : str_limit(replyingComment.content.text, 60)">
 				</div>
 			</div>
 		</div>
@@ -117,10 +117,6 @@
 		<div class="flex-space user-select comment-form-guide-wrapper">
 			<typing></typing>
 
-			<small class="go-red"
-			       v-if="error"
-			       v-text="error"></small>
-
 			<div>
 				<button class="comment-form-guide"
 				        @click="preview =! preview"
@@ -195,8 +191,7 @@ export default {
 
             editingComment: [],
             replyingComment: [],
-            parent: 0,
-            error: null
+            parent: 0
         };
     },
 
@@ -337,7 +332,7 @@ export default {
             this.clear();
 
             this.editingComment = comment;
-            this.message = this.editingComment.body;
+            this.message = this.editingComment.content.text;
             this.parent = this.editingComment.parent_id;
 
             this.$refs.input.focus();
@@ -378,7 +373,6 @@ export default {
             this.loading = false;
             this.preview = false;
             this.parent = 0;
-            this.error = null;
         },
 
         pick(pickedStr, starterIndex, typedLength) {
@@ -400,10 +394,13 @@ export default {
             event.preventDefault();
 
             // ignore if any quick pciking box is open
-            if (this.quickEmojiPicker.show || this.quickMentioner.show || this.quickChannelPicker.show) return;
-
-            // make sure there's actually something to submit
-            if (!this.message.trim()) return;
+            if (
+                this.quickEmojiPicker.show ||
+                this.quickMentioner.show ||
+                this.quickChannelPicker.show ||
+                !this.message.trim()
+            )
+                return;
 
             this.closeEmojiPicker();
 
@@ -417,7 +414,7 @@ export default {
 
             this.loading = true;
 
-            // edit
+            // we're editing, not posting a new comment
             if (this.editing) {
                 if (this.temp == this.before) {
                     this.message = this.temp;
@@ -427,43 +424,49 @@ export default {
                     return;
                 }
 
-                axios
-                    .post('/edit-comment', {
-                        comment_id: this.editingComment.id,
-                        body: this.temp
-                    })
-                    .then(() => {
-                        this.editingComment.body = this.temp;
-                        this.$eventHub.$emit('patchedComment', this.editingComment);
-
-                        this.clear();
-                    })
-                    .catch(error => {
-                        this.clear();
-                        this.error = error.response.data;
-                    });
-
+                this.patchComment();
                 return;
             }
 
             // new comment
+            this.postComment();
+        },
+
+        patchComment() {
             axios
-                .post('/comment', {
+                .patch(`/comments/${this.editingComment.id}`, {
+                    body: this.temp
+                })
+                .then(() => {
+                    this.editingComment.content.text = this.temp;
+                    this.$eventHub.$emit('patchedComment', this.editingComment);
+
+                    this.clear();
+                })
+                .catch(error => {
+                    this.loading = false;
+                    this.message = this.temp; 
+                });
+        },
+
+        postComment() {
+            axios
+                .post('/comments', {
                     parent_id: this.parent,
                     submission_id: this.submission,
                     body: this.temp
                 })
                 .then(response => {
-                    Store.state.comments.upVotes.push(response.data.id);
-                    this.$eventHub.$emit('newComment', response.data);
+                    Store.state.comments.upVotes.push(response.data.data.id);
+                    this.$eventHub.$emit('newComment', response.data.data);
 
                     this.clear();
                 })
                 .catch(error => {
-                    this.clear();
-                    this.error = error.response.data;
+                    this.loading = false;
+                    this.message = this.temp; 
                 });
-        }
+        },
     }
 };
 </script>

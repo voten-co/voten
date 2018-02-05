@@ -27,12 +27,12 @@
         	 * @return void
         	 */
         	getUser() {
-        		axios.get('/contact-info', {
+        		axios.get('/users', {
 	                params: {
-	                	user_id: this.id
+	                	id: this.id
 	                }
 	            }).then((response) => {
-	            	this.contact = response.data;
+	            	this.contact = response.data.data;
 	            });
         	},
 

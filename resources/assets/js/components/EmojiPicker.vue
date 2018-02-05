@@ -101,7 +101,7 @@ export default {
                 return;
             }
 
-            axios.get('/emoji-list').then(response => {
+            axios.get('/emojis').then(response => {
                 let temp = [];
                 response.data.forEach((element, index, self) => {
                     temp.push(element);

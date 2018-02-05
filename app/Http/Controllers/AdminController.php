@@ -16,7 +16,7 @@ class AdminController extends Controller
 
     public function __construct()
     {
-        $this->middleware('administrator');
+        $this->middleware('administrator', ['except' => ['isAdministrator']]);
     }
 
     /**
@@ -36,7 +36,7 @@ class AdminController extends Controller
      */
     public function submissions(Request $request)
     {
-        return Submission::orderBy('id', 'desc')->simplePaginate(10);
+        return SubmissionResource::collection(Submission::orderBy('id', 'desc')->simplePaginate(10));
     }
 
     /**
@@ -46,7 +46,9 @@ class AdminController extends Controller
      */
     public function comments()
     {
-        return $this->withoutChildren(Comment::orderBy('id', 'desc')->simplePaginate(30));
+        return CommentResource::collection(
+            Comment::orderBy('id', 'desc')->simplePaginate(30)
+        );
     }
 
     /**
@@ -67,17 +69,6 @@ class AdminController extends Controller
     public function indexUsers()
     {
         return User::orderBy('id', 'desc')->simplePaginate(30);
-    }
-
-    /**
-     * searches through users by username.
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function searchUsers(Request $request)
-    {
-        return User::where('username', 'like', '%'.$request->username.'%')
-                    ->select('username')->take(100)->get()->pluck('username');
     }
 
     /**

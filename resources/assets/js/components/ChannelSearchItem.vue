@@ -6,7 +6,7 @@
 		    </div>
 
 		    <div class="v-contact">
-		        <h3>#{{ list.name }}<span class="v-contact-username"> ({{ list.subscribers }} Subscribers)</span></h3>
+		        <h3>#{{ list.name }}<span class="v-contact-username"> ({{ list.subscribers_count }} Subscribers)</span></h3>
 
 		        <p>
 		            {{ list.description }}

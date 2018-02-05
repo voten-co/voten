@@ -98,8 +98,8 @@
             send() {
                 this.sending = true;
 
-                axios.post('/report-comment', {
-                    comment_id: this.comment.id,
+                axios.post('/comments/reports', {
+                    id: this.comment.id,
                     subject: this.subject,
                     description: this.description
                 }).then(() => {
@@ -109,6 +109,9 @@
                     });
 
                     this.close();
+                    this.sending = false;                     
+                }).catch(() => {
+                    this.sending = false; 
                 });
             },
 

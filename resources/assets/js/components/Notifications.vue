@@ -121,8 +121,8 @@
              */
             getNotifications() {
                 axios.get('/notifications/unseen').then((response) => {
-                    if (response.data.length > 0) {
-                        Store.state.notifications = response.data;
+                    if (response.data.data.length > 0) {
+                        Store.state.notifications = response.data.data;
                     }
 
                     this.loadReadNotifications();
@@ -146,7 +146,7 @@
 
                     this.page++;
 
-                    if (response.data.next_page_url) {
+                    if (response.data.links.next) {
                         this.loadMoreButton = true;
                     }
                 })

@@ -123,7 +123,7 @@ export default {
             this.loading = true;
 
             axios
-                .post('/channel', {
+                .post('/channels', {
                     name: this.name,
                     description: this.description,
                     nsfw: !this.sfw
@@ -146,13 +146,6 @@ export default {
                     this.close();
                 })
                 .catch(error => {
-                    if (error.response.status == 500) {
-                        this.customError = error.response.data;
-                        this.errors = [];
-                        this.loading = false;
-                        return;
-                    }
-
                     this.errors = error.response.data.errors;
 
                     this.loading = false;
