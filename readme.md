@@ -1,9 +1,9 @@
 <p align="center">
   <p align="center">
-    <img src="./public/imgs/voten.png" alt="Sentry" height="72"
+    <img src="./public/imgs/voten.png" alt="Voten" height="72"
   </p>
   <p align="center">
-    Where your vote matters
+    Where your <strong>vote</strong> matters
   </p>
 </p>
 
@@ -26,6 +26,7 @@ Thank you for considering contributing to the Voten. Here's a list of things you
 - **Send PRs**. Voten uses Gitbook for [help center](https://help.voten.co) and [API documentation](https://api.voten.co), and Github to host our source code. All of which support PRs. 
 - **Follow** us on [Twitter](https://twitter.com/voten_co) 
 - If you're a blogger, write about Voten. If you're a user on Reddit, Twitter, etc, spread the word. 
+- Help us write unit tests! That's where the code needs help the most. 
 
 ## Software Stack
 
@@ -82,4 +83,4 @@ If you discover any security vulnerability within Voten's source code, please se
 
 ## API
 
-A public API is the next step of Voten's development. In the meanwhile, if you're interested in developing applications on top of our API please contact us at info@voten.co.
+Voten's public API is under development and will be out in February. The Voten API will be organized around REST. It can be used to build non-automated, high-quality apps and services that interact with the platform.
