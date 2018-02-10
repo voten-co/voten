@@ -37,8 +37,8 @@
                         <tr>
                             <td>Created By</td>
                             <td class="align-right">
-                                <a href="/{{ '@' . $channel->creator()->username }}">
-                                    {{ '@' . $channel->creator()->username }}
+                                <a href="/{{ '@' . optional($channel->creator())->username }}">
+                                    {{ '@' . optional($channel->creator())->username }}
                                 </a>
                             </td>
                         </tr>

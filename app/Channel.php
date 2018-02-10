@@ -79,11 +79,11 @@ class Channel extends Model
      */
     public function creator()
     {
-        return \App\Activity::where([
+        return optional(\App\Activity::where([
             ['subject_type', 'App\Channel'],
             ['subject_id', $this->id],
             ['name', 'created_channel'],
-        ])->first()->owner;
+        ])->first())->owner;
     }
 
     /**
