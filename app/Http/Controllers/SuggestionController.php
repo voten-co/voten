@@ -18,7 +18,7 @@ class SuggestionController extends Controller
 
     public function __construct()
     {
-        $this->middleware('administrator', ['except' => ['channel', 'discover']]);
+        $this->middleware('voten-administrator', ['except' => ['channel', 'discover']]);
     }
 
     /**

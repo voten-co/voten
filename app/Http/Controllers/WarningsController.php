@@ -10,7 +10,7 @@ class WarningsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('administrator');
+        $this->middleware('voten-administrator');
     }
 
     /**

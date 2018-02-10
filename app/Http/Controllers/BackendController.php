@@ -29,7 +29,7 @@ class BackendController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['administrator']);
+        $this->middleware(['voten-administrator']);
     }
 
     /**

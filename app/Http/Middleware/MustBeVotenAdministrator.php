@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use App\Permissions;
 use Closure;
 
-class MustBeAdministrator
+class MustBeVotenAdministrator
 {
     use Permissions;
 
