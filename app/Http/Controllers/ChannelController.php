@@ -87,11 +87,11 @@ class ChannelController extends Controller
         $this->validate($request, [
             'sort' => 'in:hot,new,rising|nullable|max:25',
             'page' => 'integer|min:1',
-            'channel' => 'required|alpha_num|max:25',
+            'channel_name' => 'required|exists:channels,name',
         ]);
 
         return SubmissionResource::collection(
-            $this->getSubmissions($request->channel, $request->sort)
+            $this->getSubmissions($request->channel_name, $request->sort)
         );
     }
 

@@ -9,11 +9,6 @@ use App\Http\Resources\FeedbackResource;
 
 class FeedbacksController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Store a newly created feedback in storage.
      *

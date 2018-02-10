@@ -156,7 +156,11 @@ export default {
 
         getPhotos() {
             axios
-                .get(`/submissions/${this.submission.id}/photos`)
+                .get('/submissions/photos', {
+					params: {
+						submission_id: this.submission.id
+					}
+				})
                 .then(response => {
                     this.photos = response.data.data;
                 });

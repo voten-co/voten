@@ -158,7 +158,7 @@ if (\Request::header('Authorization') || \Request::header('Cookie')) {
 Route::group(['middleware' => $middleware], function () {
     Route::get('/users', 'UserController@get');
     Route::get('/feed', 'HomeController@feed');
-    Route::get('/channel-submissions', 'ChannelController@submissions');
+    Route::get('/channels/submissions', 'ChannelController@submissions');
     Route::get('/announcement', 'AnnouncementController@get');
 });
 
@@ -167,9 +167,9 @@ Route::get('/submission-comments', 'CommentController@index');
 Route::get('/moderators', 'ModeratorController@index');
 Route::get('/channels/rules', 'RulesController@index');
 Route::get('/emojis', 'EmojiController@index');
-Route::get('/submissions/{submission}/photos', 'SubmissionController@getPhotos');
+Route::get('/submissions/photos', 'SubmissionController@getPhotos');
 Route::get('/search', 'SearchController@index');
 Route::get('/channels', 'ChannelController@get');
 Route::get('/users/submissions', 'UserController@submissions');
 Route::get('/users/comments', 'UserController@comments');
-Route::get('/submissions/{submission}/comments', 'CommentController@index');
+Route::get('/submissions/comments', 'CommentController@index');

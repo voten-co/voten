@@ -195,10 +195,14 @@ class SubmissionController extends Controller
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getPhotos($submission_id)
+    public function getPhotos()
     {
+        request()->validate([
+            'submission_id' => 'required|exists:submissions,id',
+        ]);
+
         return PhotoResource::collection(
-            Photo::where('submission_id', $submission_id)->get()
+            Photo::where('submission_id', request('submission_id'))->get()
         );
     }
 

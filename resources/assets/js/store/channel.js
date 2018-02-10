@@ -61,11 +61,11 @@ export default {
             }
 
             axios
-                .get('/channel-submissions', {
+                .get('/channels/submissions', {
                     params: {
                         sort: sort,
                         page: this.page,
-                        channel: channelName
+                        channel_name: channelName
                     }
                 })
                 .then(response => {

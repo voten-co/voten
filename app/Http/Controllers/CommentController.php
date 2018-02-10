@@ -78,17 +78,18 @@ class CommentController extends Controller
      *
      * @return mixed
      */
-    public function index($submission_id, Request $request)
+    public function index(Request $request)
     {
         $this->validate($request, [
             'sort' => 'nullable|in:hot,new', 
-            'page' => 'integer|min:1'
+            'page' => 'integer|min:1', 
+            'submission_id' => 'exists:submissions,id'
         ]);
         
         if ($request->sort == 'new') {
             return CommentResource::collection(
                 Comment::where([
-                    ['submission_id', $submission_id],
+                    ['submission_id', request('submission_id')],
                     ['parent_id', 0],
                 ])->orderBy('created_at', 'desc')->simplePaginate(20)
             );
@@ -97,7 +98,7 @@ class CommentController extends Controller
         // Sort by default which is 'hot'
         return CommentResource::collection(
             Comment::where([
-                ['submission_id', $submission_id],
+                ['submission_id', request('submission_id')],
                 ['parent_id', 0],
             ])->orderBy('rate', 'desc')->simplePaginate(20)
         );
