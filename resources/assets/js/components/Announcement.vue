@@ -55,7 +55,7 @@
              * @return void
              */
             fetch() {
-                axios.get(this.authUrl('announcement')).then((response) => {
+                axios.get('/announcement').then((response) => {
                 	this.announcements = response.data;
                 });
             },

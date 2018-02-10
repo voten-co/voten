@@ -51,9 +51,9 @@ class ChannelController extends Controller
             $submissions->whereNotIn('id', $this->hiddenSubmissions());
         }
 
-        // exclude NSFW if user doens't want to see them or if the user is not authinticated
-        if (!Auth::check() || !settings('nsfw')) {
-            $submissions->where('nsfw', false);
+        // exclude NSFW for guests 
+        if (! Auth::check()) {
+            $submissions->where('nsfw', false);                        
         }
 
         switch ($sort) {
@@ -231,24 +231,25 @@ class ChannelController extends Controller
     public function patch(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|alpha_num|max:25',
-            'description' => 'required|max:230',
-            'color' => 'required|in:Dark Blue,Blue,Red,Dark,Pink,Dark Green,Bright Green,Purple,Gray,Orange',
+            'id' => 'required|exists:channels',
+            'description' => 'required|max:230|string',
+            'cover_color' => 'required|in:Dark Blue,Blue,Red,Dark,Pink,Dark Green,Bright Green,Purple,Gray,Orange',
+            'nsfw' => 'required|boolean',
         ]);
 
-        $channel = $this->getChannelByName($request->name);
+        $channel = $this->getChannelById(request('id'));
 
         abort_unless($this->mustBeAdministrator($channel->id), 403);
 
         $channel->update([
             'description' => $request->description,
-            'color' => $request->color,
-            'nsfw' => ($request->nsfw ? true : false),
+            'color' => $request->cover_color,
+            'nsfw' => $request->nsfw
         ]);
 
         event(new ChannelWasUpdated($channel));
 
-        return response('The channel has been successfully updated', 200);
+        return res(200, 'The channel has been successfully updated');
     }
 
     /**
@@ -268,17 +269,7 @@ class ChannelController extends Controller
             ->orderBy('subscribers', 'desc')
             ->select('name')->take(100)->get()->pluck('name');
     }
-
-    /**
-     * @param \App\Channel $channel
-     *
-     * @return bool
-     */
-    protected function isNSWF($channel)
-    {
-        return $channel->nsfw == 1 && Auth::user()->settings['nsfw'] == 0;
-    }
-
+  
     /**
      * redirects old channel URLs (/c/channel/hot) to the new one (/c/channel). This is just to
      * to prevent dead URLS and also to respect our old users who shared their channels on

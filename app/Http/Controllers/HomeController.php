@@ -97,21 +97,22 @@ class HomeController extends Controller
 
         // exclude user's hidden submissions
         $submissions->whereNotIn('id', $this->hiddenSubmissions());
-
-        // exclude NSFW if user doens't want to see them
-        if (!settings('nsfw')) {
-            $submissions->where('nsfw', false);
+        
+        if ($request->include_nsfw_submissions == true) {
+            // 
+        } else { // exclude it by default 
+            $submissions->where('nsfw', false);            
         }
 
-        if ($request->exclude_upvoted_submissions == 'true') {
+        if ($request->exclude_upvoted_submissions == true) {
             $submissions->whereNotIn('id', $this->submissionUpvotesIds());
         }
 
-        if ($request->exclude_downvoted_submissions == 'true') {
+        if ($request->exclude_downvoted_submissions == true) {
             $submissions->whereNotIn('id', $this->submissionDownvotesIds());
         }
 
-        if ($request->exclude_bookmarked_submissions == 'true') {
+        if ($request->exclude_bookmarked_submissions == true) {
             $submissions->whereNotIn('id', $this->bookmarkedSubmissions());
         }
 
@@ -132,7 +133,9 @@ class HomeController extends Controller
 
         $submissions->groupBy('url');
 
-        return SubmissionResource::collection($submissions->simplePaginate(15));
+        return SubmissionResource::collection(
+            $submissions->simplePaginate(15)
+        );
     }
 
     /**
@@ -168,6 +171,8 @@ class HomeController extends Controller
 
         $submissions->groupBy('url');
 
-        return SubmissionResource::collection($submissions->simplePaginate(15));
+        return SubmissionResource::collection(
+            $submissions->simplePaginate(15)
+        );
     }
 }

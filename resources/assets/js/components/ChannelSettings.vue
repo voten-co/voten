@@ -71,7 +71,7 @@
 			</el-form-item>
 
 			<el-form-item label="Cover Color">
-				<el-select v-model="color"
+				<el-select v-model="cover_color"
 				           placeholder="Cover Color..."
 				           filterable>
 					<el-option v-for="item in colors"
@@ -110,7 +110,7 @@ export default {
             sending: false,
             description: Store.page.channel.temp.description,
             nsfw: Store.page.channel.temp.nsfw,
-            color: Store.page.channel.temp.color,
+            cover_color: Store.page.channel.temp.cover_color,
             colors: ['Blue', 'Dark Blue', 'Red', 'Dark', 'Dark Green', 'Bright Green', 'Purple', 'Orange', 'Pink'],
             avatar: {
                 fileUploadFormData: new FormData(),
@@ -124,14 +124,14 @@ export default {
         'Store.page.channel.temp': function() {
             this.description = Store.page.channel.temp.description;
             this.nsfw = Store.page.channel.temp.nsfw;
-            this.color = Store.page.channel.temp.color;
+            this.cover_color = Store.page.channel.temp.cover_color;
         }
     },
 
     computed: {
         changed() {
             if (
-                Store.page.channel.temp.color != this.color ||
+                Store.page.channel.temp.cover_color != this.cover_color ||
                 Store.page.channel.temp.nsfw != this.nsfw ||
                 Store.page.channel.temp.description != this.description
             ) {
@@ -168,18 +168,18 @@ export default {
             this.sending = true;
 
             axios
-                .post('/channel-patch', {
-                    name: Store.page.channel.temp.name,
+                .patch('/channels', {
+                    id: Store.page.channel.temp.id,
                     description: this.description,
                     nsfw: this.nsfw,
-                    color: this.color
+                    cover_color: this.cover_color
                 })
                 .then(() => {
                     this.errors = [];
                     this.customError = '';
 
                     Store.page.channel.temp.nsfw = this.nsfw;
-                    Store.page.channel.temp.color = this.color;
+                    Store.page.channel.temp.cover_color = this.cover_color;
                     Store.page.channel.temp.description = this.description;
                     this.sending = false;
                 })

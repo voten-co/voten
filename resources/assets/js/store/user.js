@@ -14,9 +14,9 @@ export default {
             axios
                 .get('/users', {
                     params: {
-                        username, 
-                        with_info: 1, 
-                        with_stats: 1 
+                        username,
+                        with_info: 1,
+                        with_stats: 1
                     }
                 })
                 .then(response => {
@@ -63,7 +63,7 @@ export default {
                 }
 
                 axios
-                    .get('/user-submissions', {
+                    .get('/users/submissions', {
                         params: {
                             page: this.page,
                             username: username
@@ -109,11 +109,7 @@ export default {
                 this.loading = true;
 
                 axios
-                    .get('/upvoted-submissions', {
-                        params: {
-                            page: this.page
-                        }
-                    })
+                    .get('/users/submissions/upvoted', { params: { page: this.page } })
                     .then(response => {
                         this.submissions = [...this.submissions, ...response.data.data];
 
@@ -154,11 +150,7 @@ export default {
                 this.loading = true;
 
                 axios
-                    .get('/downvoted-submissions', {
-                        params: {
-                            page: this.page
-                        }
-                    })
+                    .get('/users/submissions/downvoted', { params: { page: this.page } })
                     .then(response => {
                         this.submissions = [...this.submissions, ...response.data.data];
 
@@ -210,12 +202,7 @@ export default {
                 }
 
                 axios
-                    .get('/user-comments', {
-                        params: {
-                            page: this.page,
-                            username: username
-                        }
-                    })
+                    .get('/users/comments', { params: { page: this.page, username: username } })
                     .then(response => {
                         this.comments = [...this.comments, ...response.data.data];
 

@@ -61,7 +61,7 @@ export default {
             }
 
             axios
-                .get(meta.isGuest == false ? '/auth/channel-submissions' : '/channel-submissions', {
+                .get('/channel-submissions', {
                     params: {
                         sort: sort,
                         page: this.page,

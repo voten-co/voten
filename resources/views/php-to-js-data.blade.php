@@ -14,26 +14,14 @@
     </script>
 @else
     <script>
-        var auth = {
-            font: 'Lato',
-            nsfw: {{ 'false' }},
-            nsfwMedia: {{ 'false' }},
-            sidebar_color: 'Gray',
-            isMobileDevice: {{ isMobileDevice() ? 'true' : 'false' }},
-            <?php
-                if (isMobileDevice()) {
-                    $submission_small_thumbnail = 'false';
-                } else {
-                    $submission_small_thumbnail = 'true';
-                }
-            ?>
-            submission_small_thumbnail: {{ $submission_small_thumbnail }},
-            isGuest: {{ 'true' }}, 
-            isVotenAdminstrator: false 
-        };
-
         var preload = {};
 
         var clientsideSettings = {}; 
+        
+        var meta = {
+            isGuest: true, 
+            isMobileDevice: {{ isMobileDevice() ? 'true' : 'false' }},
+            isVotenAdminstrator: false 
+        };
     </script>
 @endif

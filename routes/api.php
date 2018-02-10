@@ -24,16 +24,15 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/channels/discover', 'SuggestionController@store');
 
     // User
-    Route::post('/auth', 'UserController@getAuth');
     Route::get('/fill-basic-store', 'StoreController@index');
-    Route::post('/delete-my-account', 'UserController@destroy');
-    Route::post('/update-profile', 'UserSettingsController@updateProfile');
-    Route::post('/update-account', 'UserSettingsController@updateAccount');
-    Route::post('/update-email', 'UserSettingsController@updateEmail');
-    Route::post('/update-password', 'UserSettingsController@updatePassword');
-    Route::get('/upvoted-submissions', 'UserController@upVotedSubmissions');
-    Route::post('/update-home-feed', 'UserSettingsController@updateHomeFeed');
-    Route::get('/downvoted-submissions', 'UserController@downVotedSubmissions');
+    Route::delete('/users', 'UserController@destroyAsAuth');
+    Route::delete('/admin/users', 'UserController@destroyAsVotenAdministrator')->middleware('administrator');
+    Route::patch('/users/profile', 'UserSettingsController@profile');
+    Route::patch('/users/account', 'UserSettingsController@account');
+    Route::patch('/users/email', 'UserSettingsController@email');
+    Route::patch('/users/password', 'UserSettingsController@password');
+    Route::get('/users/submissions/upvoted', 'UserController@upVotedSubmissions');
+    Route::get('/users/submissions/downvoted', 'UserController@downVotedSubmissions');
     Route::post('/email/verify/resend', 'Auth\VerificationController@resendVerifyEmailAddress');
     Route::post('/clientside-settings', 'ClientsideSettingsController@store');
     Route::get('/clientside-settings', 'ClientsideSettingsController@get');
@@ -75,7 +74,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     // Channel
     Route::post('/channels', 'ChannelController@store')->middleware('shaddow-ban');
-    Route::post('/channel-patch', 'ChannelController@patch');
+    Route::patch('/channels', 'ChannelController@patch');
     Route::post('/channel-block', 'BlockChannelsController@store');
     Route::delete('/channel-unblock', 'BlockChannelsController@destroy');
     Route::get('/get-channels', 'ChannelController@getChannels');
@@ -148,17 +147,21 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/announcement/seen', 'AnnouncementController@seen');
 
     Route::get('/suggested-channel', 'SuggestionController@channel');
-
-    Route::prefix('auth')->group(function () {
-        Route::get('/feed', 'HomeController@feed');
-        Route::get('/channel-submissions', 'ChannelController@submissions');
-        Route::get('/sidebar-channels', 'StoreController@sidebarChannels');
-        Route::get('/announcement', 'AnnouncementController@get');
-    });
 });
 
+// a dirty fix for now to do the job:
+$middleware = [];
+if (\Request::header('Authorization') || \Request::header('Cookie')) {
+    $middleware = ['auth:api'];
+}
 // For both logged in users and guests
-Route::get('/feed', 'HomeController@feed');
+Route::group(['middleware' => $middleware], function () {
+    Route::get('/users', 'UserController@get');
+    Route::get('/feed', 'HomeController@feed');
+    Route::get('/channel-submissions', 'ChannelController@submissions');
+    Route::get('/announcement', 'AnnouncementController@get');
+});
+
 Route::get('/submissions', 'SubmissionController@get');
 Route::get('/submission-comments', 'CommentController@index');
 Route::get('/moderators', 'ModeratorController@index');
@@ -166,19 +169,7 @@ Route::get('/channels/rules', 'RulesController@index');
 Route::get('/emojis', 'EmojiController@index');
 Route::get('/submissions/{submission}/photos', 'SubmissionController@getPhotos');
 Route::get('/search', 'SearchController@index');
-Route::get('/channel-submissions', 'ChannelController@submissions');
 Route::get('/channels', 'ChannelController@get');
-// Route::get('/users', 'UserController@get');
-Route::get('/user-submissions', 'UserController@submissions');
-Route::get('/user-comments', 'UserController@comments');
-Route::get('/sidebar-channels', 'StoreController@sidebarChannels');
-Route::get('/announcement', 'AnnouncementController@get');
+Route::get('/users/submissions', 'UserController@submissions');
+Route::get('/users/comments', 'UserController@comments');
 Route::get('/submissions/{submission}/comments', 'CommentController@index');
-
-$middleware = [];
-if (\Request::header('Authorization')) {
-    $middleware = array_merge(['auth:api']);
-}
-Route::group(['middleware' => $middleware], function () {
-    Route::get('/users', 'UserController@get');
-});

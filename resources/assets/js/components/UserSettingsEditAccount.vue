@@ -6,18 +6,7 @@
             </span>
         </h3>
 
-        <el-alert
-                v-if="customError"
-                :title="customError"
-                type="error"
-        ></el-alert>
-
         <el-form label-position="top" label-width="10px" :model="form">
-            <el-form-item label="Username">
-                <el-input placeholder="Username..." v-model="form.username"></el-input>
-                <el-alert v-for="e in errors.username" :title="e" type="error" :key="e"></el-alert>
-            </el-form-item>
-
             <el-form-item label="Font">
                 <el-select v-model="form.font" placeholder="Font..." filterable>
                     <el-option
@@ -28,18 +17,6 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-
-            <div class="form-toggle">
-                <span>Display NSFW submissions: <small>(You must be 18 or older)</small></span>
-                <el-switch v-model="form.nsfw"></el-switch>
-            </div>
-
-            <transition name="el-zoom-in-top">
-                <div class="form-toggle" v-if="form.nsfw">
-                    <span>Display preview for NSFW submissions:</span>
-                    <el-switch v-model="form.nsfwMedia"></el-switch>
-                </div>
-            </transition>
 
             <h3 class="dotted-title">
                 <span>
@@ -79,8 +56,8 @@
         data() {
             return {
                 sending: false,
-            	errors: [],
-            	customError: '',
+                errors: [],
+                
 				fonts: [
 					'Josefin Sans', 'Lato', 'Source Sans Pro', 'Ubuntu', 'Open Sans', 'Dosis', 'Reem Kufi', 'Athiti' ,
 					'Molengo', 'Catamaran', 'Roboto', 'Eczar', 'Titillium Web', 'Varela Round', 'Bree Serif', 'Alegreya Sans',
@@ -89,14 +66,10 @@
 				],
 
                 form: {
-                    nsfw: auth.server_side_settings.nsfw,
-                    nsfwMedia: auth.server_side_settings.show_nsfw_media,
-                    
-                    username: auth.username,
-                    font: Store.settings.font,
-                    notify_submissions_replied: auth.server_side_settings.notify_submissions_replied,
-                    notify_comments_replied: auth.server_side_settings.notify_comments_replied,
-                    notify_mentions: auth.server_side_settings.notify_mentions,
+                    font: clientsideSettings.font,
+                    notify_submissions_replied: auth.server_side_settings.notifications.notify_submissions_replied,
+                    notify_comments_replied: auth.server_side_settings.notifications.notify_comments_replied,
+                    notify_mentions: auth.server_side_settings.notifications.notify_mentions,
                 }
             }
         },
@@ -104,13 +77,10 @@
 	    computed: {
 	    	changed () {
 	    		if (
-                    auth.server_side_settings.nsfw != this.form.nsfw ||
-                    auth.server_side_settings.show_nsfw_media != this.form.nsfwMedia || 
 	                Store.settings.font != this.form.font ||
-	                auth.server_side_settings.notify_submissions_replied != this.form.notify_submissions_replied ||
-	                auth.server_side_settings.notify_mentions != this.form.notify_mentions ||
-	                auth.username != this.form.username ||
-	                auth.server_side_settings.notify_comments_replied != this.form.notify_comments_replied
+	                auth.server_side_settings.notifications.notify_submissions_replied != this.form.notify_submissions_replied ||
+	                auth.server_side_settings.notifications.notify_mentions != this.form.notify_mentions ||
+	                auth.server_side_settings.notifications.notify_comments_replied != this.form.notify_comments_replied
 	                ) {
 		    			return true; 
 		    		}
@@ -129,32 +99,21 @@
                 this.sending = true;
 
                 let changedFont = (Store.settings.font !== this.form.font);
-                let changedUsername = (auth.username !== this.form.username);
 
-            	axios.post( '/update-account', {
-                    nsfw: this.form.nsfw,
-                    nsfw_media: this.form.nsfwMedia,
-                    username: this.form.username,
-                    font: this.form.font,
+            	axios.patch( '/users/account', {
                     notify_submissions_replied: this.form.notify_submissions_replied,
                     notify_comments_replied: this.form.notify_comments_replied,
                     notify_mentions: this.form.notify_mentions,
                 }).then(() => {
 	                this.errors = []; 
-	                this.customError = ''; 
 
 	                Store.settings.font = this.form.font;
-	                auth.username = this.form.username;
-	                auth.server_side_settings.notify_submissions_replied = this.form.notify_submissions_replied;
-	                auth.server_side_settings.notify_comments_replied = this.form.notify_comments_replied;
-                    auth.server_side_settings.notify_mentions = this.form.notify_mentions;
+	                auth.server_side_settings.notifications.notify_submissions_replied = this.form.notify_submissions_replied;
+	                auth.server_side_settings.notifications.notify_comments_replied = this.form.notify_comments_replied;
+                    auth.server_side_settings.notifications.notify_mentions = this.form.notify_mentions;
                     
                     if (changedFont) {
                         this.loadWebFont();
-                    }
-
-                    if (changedUsername) {
-                        window.location = `/@${this.form.username}/settings/account`;
                     }
 
                     this.sending = false; 
