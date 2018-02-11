@@ -11,7 +11,7 @@ export default {
             this.loading = true;
 
             // if landed on the home page as guest
-            if (preload.submissions) {
+            if (typeof preload != 'undefined' && preload.submissions) {
                 this.submissions = preload.submissions.data;
                 if (!this.submissions.length) this.nothingFound = true;
                 if (preload.submissions.next_page_url == null) this.NoMoreItems = true;
