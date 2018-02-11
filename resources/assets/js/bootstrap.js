@@ -36,9 +36,7 @@ axios.interceptors.response.use(
         return response;
     },
     function(error) {
-        if (error.response.status === 401) {
-            location.reload();
-        }
+        app.$Progress.fail();
 
         if (error.response.status !== 422) {
             let errorMessage =
