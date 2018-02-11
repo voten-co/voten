@@ -6,10 +6,6 @@
 			</span>
 		</h3>
 
-		<el-alert v-if="customError"
-		          :title="customError"
-		          type="error"></el-alert>
-
 		<div class="form-group">
 			<div class="flex-space">
 				<div>
@@ -106,7 +102,6 @@ export default {
     data() {
         return {
             errors: [],
-            customError: '',
             sending: false,
             description: Store.page.channel.temp.description,
             nsfw: Store.page.channel.temp.nsfw,
@@ -176,7 +171,6 @@ export default {
                 })
                 .then(() => {
                     this.errors = [];
-                    this.customError = '';
 
                     Store.page.channel.temp.nsfw = this.nsfw;
                     Store.page.channel.temp.cover_color = this.cover_color;
