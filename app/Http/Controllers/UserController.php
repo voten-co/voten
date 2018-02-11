@@ -12,6 +12,8 @@ use App\User;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
+use App\Submission;
+use App\Comment;
 
 class UserController extends Controller
 {
@@ -30,15 +32,16 @@ class UserController extends Controller
     public function showSubmissions($username)
     {
         $user = new UserResource(
-            User::withTrashed()->where('username', $username)->firstOrFail()
+            User::withTrashed()->where('username', $username)->firstOrFail(), 
+            true
         );
 
-        $submissions = User::where('username', $username)
-            ->firstOrFail()
-            ->submissions()
+        $submissions = SubmissionResource::collection(
+            Submission::whereUserId($user->id)
             ->withTrashed()
             ->orderBy('created_at', 'desc')
-            ->simplePaginate(15);
+            ->simplePaginate(15)
+        );
 
         return view('user.submissions', compact('user', 'submissions'));
     }
@@ -51,13 +54,12 @@ class UserController extends Controller
     public function showComments($username)
     {
         $user = new UserResource(
-            User::withTrashed()->where('username', $username)->firstOrFail()
+            User::withTrashed()->where('username', $username)->firstOrFail(), 
+            true
         );
 
         $comments = CommentResource::collection(
-            User::where('username', $username)
-                ->firstOrFail()
-                ->comments()
+            Comment::whereUserId($user->id)
                 ->withTrashed()
                 ->orderBy('created_at', 'desc')
                 ->simplePaginate(15)

@@ -5,11 +5,12 @@ export default {
     getSubmission(slug) {
         return new Promise((resolve, reject) => {
             // if landed on a submission page
-            if (preload.submission) {
+            if (preload.submission && preload.channel) {
                 this.submission = preload.submission;
-                Store.page.channel.temp = preload.submission.channel;
+                Store.page.channel.temp = preload.channel;
                 this.loadingSubmission = false;
                 delete preload.submission;
+                delete preload.channel;
                 resolve();
                 return;
             }

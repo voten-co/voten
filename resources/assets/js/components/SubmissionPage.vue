@@ -119,8 +119,7 @@ export default {
             loadingComments: true,
             comments: [],
             sort: 'hot',
-            onlineUsers: [],
-            preload
+            onlineUsers: []
         };
     },
 

@@ -169,8 +169,14 @@
 
             refresh: _.debounce(function () {
                 this.refreshing = true;
+                
                 Store.page.home.clear();
-                Store.page.home.getSubmissions(this.sort).then(() => this.refreshing = false);
+
+                Store.page.home.getSubmissions(this.sort).then(() => {
+                    this.refreshing = false
+                }).catch(() => {
+                    this.refreshing = false
+                });
             }, 200, { leading: true, trailing: false }),
             
             submit() {

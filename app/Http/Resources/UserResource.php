@@ -9,6 +9,14 @@ class UserResource extends Resource
 {
     use CachableUser;
 
+    protected $withStats = false; 
+
+    public function __construct($resource, $withStats = false)
+    {
+        $this->resource = $resource;
+        $this->withStats = $withStats;
+    }
+
     /**
      * Transform the resource into an array.
      *
@@ -35,7 +43,7 @@ class UserResource extends Resource
             ],
 
             'stats' => $this->when(
-                (bool) $request->with_stats == true,
+                (bool) $request->with_stats == true || $this->withStats,
                 [
                     'submissions_count' => $this->userStats($this->id)['submissionsCount'],
                     'comments_count' => $this->userStats($this->id)['commentsCount'],

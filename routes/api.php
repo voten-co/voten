@@ -157,10 +157,12 @@ if (\Request::header('Authorization') || \Request::header('Cookie')) {
 // For both logged in users and guests
 Route::group(['middleware' => $middleware], function () {
     Route::get('/users', 'UserController@get');
-    Route::get('/feed', 'HomeController@feed');
+    // Route::get('/feed', 'HomeController@feed');
     Route::get('/channels/submissions', 'ChannelController@submissions');
     Route::get('/announcement', 'AnnouncementController@get');
 });
+Route::get('/feed', 'HomeController@feed');
+
 
 Route::get('/submissions', 'SubmissionController@get');
 Route::get('/submission-comments', 'CommentController@index');

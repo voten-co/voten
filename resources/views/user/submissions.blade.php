@@ -30,9 +30,9 @@
 
 @section('script')
 	<script>
-		var preload = <?php echo json_encode([
-            'user' => $user,
-            'submissions' => $submissions
-        ]); ?>
+		var preload = {
+			user: {!! json_encode($user->resolve()) !!},
+			submissions: {!! $submissions->toJson() !!}
+		}; 
 	</script>
 @endsection

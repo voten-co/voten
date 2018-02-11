@@ -1,7 +1,5 @@
 @if(Auth::check())
     <script>
-        var preload = {};
-
         var clientsideSettings = {!! Auth::user()->clientsideSettings('Web') ?? '{}' !!}; 
 
         var meta = {
@@ -14,8 +12,6 @@
     </script>
 @else
     <script>
-        var preload = {};
-
         var clientsideSettings = {}; 
         
         var meta = {
@@ -23,5 +19,7 @@
             isMobileDevice: {{ isMobileDevice() ? 'true' : 'false' }},
             isVotenAdminstrator: false 
         };
+
+        var auth = {}; 
     </script>
 @endif

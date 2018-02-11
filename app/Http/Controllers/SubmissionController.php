@@ -9,6 +9,7 @@ use App\Events\SubmissionWasDeleted;
 use App\Filters;
 use App\Http\Resources\PhotoResource;
 use App\Http\Resources\SubmissionResource;
+use App\Http\Resources\ChannelResource;
 use App\Photo;
 use App\PhotoTools;
 use App\Rules\NotBannedFromChannel;
@@ -40,14 +41,17 @@ class SubmissionController extends Controller
      *
      * @return view
      */
-    public function show($channel, $slug)
+    public function show($channel_name, $submission_slug)
     {
-        $submission = $this->getSubmissionBySlug($slug);
-        $channel = $this->getChannelByName($submission->channel_name);
-        $channel->stats = $this->channelStats($channel->id);
-        $submission->channel = $channel;
+        $submission = new SubmissionResource(
+            $this->getSubmissionBySlug($submission_slug)
+        );
 
-        return view('submission.show', compact('submission'));
+        $channel = new ChannelResource(
+            $this->getChannelByName($channel_name)
+        );
+
+        return view('submission.show', compact('submission', 'channel'));
     }
 
     /**

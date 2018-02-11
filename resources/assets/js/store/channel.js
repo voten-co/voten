@@ -8,7 +8,7 @@ export default {
 
     getChannel(channel_name, set = true) {
         return new Promise((resolve, reject) => {
-            // if a guest has landed on a submission page
+            // if a guest has landed on a submission page            
             if (preload.channel) {
                 this.setChannel(preload.channel);
                 delete preload.channel;
@@ -53,7 +53,7 @@ export default {
             if (preload.submissions && this.page == 1) {
                 this.submissions = preload.submissions.data;
                 if (!this.submissions.length) this.nothingFound = true;
-                if (preload.submissions.links.next == null) this.NoMoreItems = true;
+                if (preload.submissions.next_page_url == null) this.NoMoreItems = true;
                 this.loading = false;
                 delete preload.submissions;
                 resolve();

@@ -16,15 +16,17 @@ class HomeController extends Controller
     use CachableUser, CachableSubmission, CachableChannel;
 
     /**
-     * Displays the home page.
+     * Displays the home page.h
      *
      * @param \Illuminate\Http\Request $request
      *
      * @return view
      */
-    public function homePage(Request $request)
+    public function homePage()
     {        
-        $submissions = $this->guestHome($request);
+        $submissions = SubmissionResource::collection(
+            $this->guestHome(request())
+        );
 
         return view('home', compact('submissions'));
     }
@@ -37,13 +39,15 @@ class HomeController extends Controller
      * @return \Illuminate\Support\Collection
      */
     public function feed(Request $request)
-    {                
+    {              
         $this->validate($request, [
             'page' => 'required|integer|min:1',
         ]);
 
         if (!Auth::check()) {
-            return $this->guestHome($request);
+            return SubmissionResource::collection(
+                $this->guestHome($request)
+            );
         }
 
         $submissions = (new Submission())->newQuery();
@@ -171,8 +175,6 @@ class HomeController extends Controller
 
         $submissions->groupBy('url');
 
-        return SubmissionResource::collection(
-            $submissions->simplePaginate(15)
-        );
+        return $submissions->simplePaginate(15); 
     }
 }

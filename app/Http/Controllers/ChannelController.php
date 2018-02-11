@@ -103,10 +103,15 @@ class ChannelController extends Controller
      *
      * @return view
      */
-    public function show($channel, Request $request)
+    public function show($channel_name, Request $request)
     {
-        $submissions = $this->getSubmissions($channel, $request->sort ?? 'hot');
-        $channel = $this->getChannelByName($channel);
+        $submissions = SubmissionResource::collection(
+            $this->getSubmissions($channel_name, $request->sort ?? 'hot')
+        );
+
+        $channel = new ChannelResource(
+            $this->getChannelByName($channel_name)
+        );
 
         return view('channel.show', compact('submissions', 'channel'));
     }
