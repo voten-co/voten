@@ -26,6 +26,10 @@ class UserLoggedOut
      */
     public function handle(Logout $event)
     {
+        if (! isset($event->user)) {
+            return; 
+        }
+
         Activity::create([
             'subject_id'   => $event->user->id,
             'ip_address'   => getRequestIpAddress(),
