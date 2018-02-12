@@ -55,9 +55,9 @@ class Channel extends Model
     public function bannedUsers()
     {
         return DB::table('bans')->where('channel', $this->name)
-                    ->where('unban_at', '>=', Carbon::now())
-                    ->orderBy('created_at', 'desc')
-                    ->get()->pluck('user_id');
+            ->where('unban_at', '>=', Carbon::now())
+            ->orderBy('created_at', 'desc')
+            ->get()->pluck('user_id');
     }
 
     // IDs only
@@ -79,11 +79,13 @@ class Channel extends Model
      */
     public function creator()
     {
-        return \App\Activity::where([
-            ['subject_type', 'App\Channel'],
-            ['subject_id', $this->id],
-            ['name', 'created_channel'],
-        ])->first()->owner;
+        return optional(
+            \App\Activity::where([
+                ['subject_type', 'App\Channel'],
+                ['subject_id', $this->id],
+                ['name', 'created_channel'],
+            ])->first()
+        )->owner;
     }
 
     /**
@@ -131,8 +133,8 @@ class Channel extends Model
     public function toSearchableArray()
     {
         return [
-            'id'          => $this->id,
-            'name'        => $this->name,
+            'id' => $this->id,
+            'name' => $this->name,
             'description' => $this->description,
             'subscribers' => $this->subscribers,
         ];
