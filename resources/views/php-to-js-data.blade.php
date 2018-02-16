@@ -8,6 +8,8 @@
             isVotenAdminstrator: {{ Auth::user()->isVotenAdministrator() ? 'true' : 'false' }},
         };
 
+        var preload = {};
+
         var auth = {!! json_encode((new \App\Http\Resources\UserResource(auth()->user()))->resolve()) !!}; 
     </script>
 @else
@@ -19,6 +21,8 @@
             isMobileDevice: {{ isMobileDevice() ? 'true' : 'false' }},
             isVotenAdminstrator: false 
         };
+
+        var preload = {};
 
         var auth = {}; 
     </script>

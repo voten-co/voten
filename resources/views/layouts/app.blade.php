@@ -17,12 +17,15 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <script>
-        window.Laravel = @json([
-            'csrfToken' => csrf_token(),
-            'env' => config('app.env'),
-            'pusherKey' => config('broadcasting.connections.pusher.key'),
-            'pusherCluster' => config('broadcasting.connections.pusher.options.cluster'),
-        ])
+        <?php
+            $settings = [
+                'csrfToken' => csrf_token(),
+                'env' => config('app.env'),
+                'pusherKey' => config('broadcasting.connections.pusher.key'),
+                'pusherCluster' => config('broadcasting.connections.pusher.options.cluster'),
+            ];
+        ?>
+        window.Laravel = @json($settings)
     </script>
 
     <link rel="shortcut icon" href="/imgs/favicon.png">
