@@ -46,6 +46,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['maintenance']], function () {
     // Authintication routes
     Route::auth();
     Route::get('/logout', 'Auth\LoginController@logout');
+    Route::post('/guest/login', 'Auth\LoginController@login');
 });
 
 // backend-admin
@@ -95,7 +96,7 @@ Route::post('/ssh/cache-clear', 'SshController@clearCache');
 Route::post('/ssh/stop-maintenance', 'SshController@stopMaintenanceMode');
 Route::post('/ssh/start-maintenance', 'SshController@startMaintenanceMode');
 
-// Passport 
+// Passport
 Route::get('/apps', 'OAuthController@show');
 
 // catch wild routes
