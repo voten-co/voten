@@ -3,9 +3,9 @@
 namespace App;
 
 use App\Traits\CachableUser;
+use Auth;
 use Carbon\Carbon;
 use DB;
-use Auth; 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -30,8 +30,8 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
-        'settings'  => 'json',
-        'info'      => 'json',
+        'settings' => 'json',
+        'info' => 'json',
         'confirmed' => 'boolean',
     ];
 
@@ -117,8 +117,8 @@ class User extends Authenticatable
     public function subscriptions()
     {
         return $this->belongsToMany(Channel::class, 'subscriptions')
-                    ->withTimestamps()
-                    ->orderBy('subscriptions.created_at', 'desc');
+            ->withTimestamps()
+            ->orderBy('subscriptions.created_at', 'desc');
     }
 
     /* --------------------------------------------------------------------- */
@@ -154,8 +154,8 @@ class User extends Authenticatable
     public function submissionUpvotes()
     {
         return $this->belongsToMany(Submission::class, 'submission_upvotes')
-                    ->withTimestamps()
-                    ->orderBy('submission_upvotes.created_at', 'desc');
+            ->withTimestamps()
+            ->orderBy('submission_upvotes.created_at', 'desc');
     }
 
     public function submissionUpvotesIds()
@@ -166,8 +166,8 @@ class User extends Authenticatable
     public function submissionDownvotes()
     {
         return $this->belongsToMany(Submission::class, 'submission_downvotes')
-                    ->withTimestamps()
-                    ->orderBy('submission_downvotes.created_at', 'desc');
+            ->withTimestamps()
+            ->orderBy('submission_downvotes.created_at', 'desc');
     }
 
     public function submissionDownvotesIds()
@@ -182,8 +182,8 @@ class User extends Authenticatable
     public function commentUpvotes()
     {
         return $this->belongsToMany(Comment::class, 'comment_upvotes')
-                    ->withTimestamps()
-                    ->orderBy('comment_upvotes.created_at', 'desc');
+            ->withTimestamps()
+            ->orderBy('comment_upvotes.created_at', 'desc');
     }
 
     public function commentUpvotesIds()
@@ -194,8 +194,8 @@ class User extends Authenticatable
     public function commentDownvotes()
     {
         return $this->belongsToMany(Comment::class, 'comment_downvotes')
-                    ->withTimestamps()
-                    ->orderBy('comment_downvotes.created_at', 'desc');
+            ->withTimestamps()
+            ->orderBy('comment_downvotes.created_at', 'desc');
     }
 
     public function commentDownvotesIds()
@@ -215,15 +215,15 @@ class User extends Authenticatable
     public function conversations()
     {
         return $this->belongsToMany(Message::class, 'conversations')
-                    ->withTimestamps()
-                    ->orderBy('conversations.created_at', 'desc');
+            ->withTimestamps()
+            ->orderBy('conversations.created_at', 'desc');
     }
 
     public function contacts()
     {
         return $this->hasMany(Conversation::class)
-                    ->groupBy('contact_id')
-                    ->select(DB::raw('*, max(id) as id, max(message_id) as message_id, max(created_at) as created_at'));
+            ->groupBy('contact_id')
+            ->select(DB::raw('*, max(id) as id, max(message_id) as message_id, max(created_at) as created_at'));
     }
 
     public function myContactIds()
@@ -243,33 +243,33 @@ class User extends Authenticatable
     public function bookmarkedSubmissions()
     {
         return $this->belongsToMany(Submission::class, 'bookmarks', 'user_id', 'bookmarkable_id')
-                        ->where('bookmarkable_type', 'App\Submission')
-                        ->withTimestamps()
-                        ->orderBy('bookmarks.created_at', 'desc');
+            ->where('bookmarkable_type', 'App\Submission')
+            ->withTimestamps()
+            ->orderBy('bookmarks.created_at', 'desc');
     }
 
     public function bookmarkedComments()
     {
         return $this->belongsToMany('App\Comment', 'bookmarks', 'user_id', 'bookmarkable_id')
-                    ->where('bookmarkable_type', 'App\Comment')
-                    ->withTimestamps()
-                    ->orderBy('bookmarks.created_at', 'desc');
+            ->where('bookmarkable_type', 'App\Comment')
+            ->withTimestamps()
+            ->orderBy('bookmarks.created_at', 'desc');
     }
 
     public function bookmarkedChannels()
     {
         return $this->belongsToMany('App\Channel', 'bookmarks', 'user_id', 'bookmarkable_id')
-                    ->where('bookmarkable_type', 'App\Channel')
-                    ->withTimestamps()
-                    ->orderBy('bookmarks.created_at', 'desc');
+            ->where('bookmarkable_type', 'App\Channel')
+            ->withTimestamps()
+            ->orderBy('bookmarks.created_at', 'desc');
     }
 
     public function bookmarkedUsers()
     {
         return $this->belongsToMany('App\User', 'bookmarks', 'user_id', 'bookmarkable_id')
-                    ->where('bookmarkable_type', 'App\User')
-                    ->withTimestamps()
-                    ->orderBy('bookmarks.created_at', 'desc');
+            ->where('bookmarkable_type', 'App\User')
+            ->withTimestamps()
+            ->orderBy('bookmarks.created_at', 'desc');
     }
 
     /**
@@ -280,9 +280,9 @@ class User extends Authenticatable
     public function toSearchableArray()
     {
         return [
-            'id'       => $this->id,
+            'id' => $this->id,
             'username' => $this->username,
-            'name'     => $this->name,
+            'name' => $this->name,
         ];
     }
 
@@ -309,7 +309,7 @@ class User extends Authenticatable
     {
         return Activity::where([
             'user_id' => $this->id,
-            'name'    => 'created_user',
+            'name' => 'created_user',
         ])->first()->country ?? Activity::where([
             'user_id' => $this->id,
         ])->orderBy('created_at', 'desc')->first()->country ?? 'unknown';
@@ -324,7 +324,7 @@ class User extends Authenticatable
     {
         return Activity::where([
             'user_id' => $this->id,
-            'name'    => 'created_user',
+            'name' => 'created_user',
         ])->first()->ip_address ?? Activity::where([
             'user_id' => $this->id,
         ])->orderBy('created_at', 'desc')->first()->ip_address ?? 'unknown';
@@ -380,10 +380,18 @@ class User extends Authenticatable
 
     public function isSelf()
     {
-        if (! Auth::check()) {
-            return false; 
+        if (!Auth::check()) {
+            return false;
         }
 
         return $this->id === Auth::id();
+    }
+
+    /**
+     * Rewrite for Passport's findForPassport() to allow for login via both "username" and "email". 
+     */
+    public function findForPassport($identifier)
+    {
+        return $this->orWhere('email', $identifier)->orWhere('username', $identifier)->first();
     }
 }
