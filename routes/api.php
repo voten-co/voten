@@ -147,31 +147,46 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/announcement/seen', 'AnnouncementController@seen');
 
     Route::get('/suggested-channel', 'SuggestionController@channel');
-});
 
-// a dirty fix for now to do the job:
-$middleware = [];
-if (\Request::header('Authorization') || \Request::header('Cookie')) {
-    $middleware = ['auth:api'];
-}
-// For both logged in users and guests
-Route::group(['middleware' => $middleware], function () {
+    ////////////////////////////////////////////////////////////////////////
+    // Below routes have a twin route prefixed with "guest" 
+    ////////////////////////////////////////////////////////////////////////
     Route::get('/users', 'UserController@get');
-    // Route::get('/feed', 'HomeController@feed');
+    Route::get('/feed', 'HomeController@feed');
     Route::get('/channels/submissions', 'ChannelController@submissions');
     Route::get('/announcement', 'AnnouncementController@get');
+
+    Route::get('/submissions', 'SubmissionController@get');
+    Route::get('/submission-comments', 'CommentController@index');
+    Route::get('/moderators', 'ModeratorController@index');
+    Route::get('/channels/rules', 'RulesController@index');
+    Route::get('/emojis', 'EmojiController@index');
+    Route::get('/submissions/photos', 'SubmissionController@getPhotos');
+    Route::get('/search', 'SearchController@index');
+    Route::get('/channels', 'ChannelController@get');
+    Route::get('/users/submissions', 'UserController@submissions');
+    Route::get('/users/comments', 'UserController@comments');
+    Route::get('/submissions/comments', 'CommentController@index');
 });
-Route::get('/feed', 'HomeController@feed');
 
+////////////////////////////////////////////////////////////////////////
+// Below routes are the twin routes for guests  
+////////////////////////////////////////////////////////////////////////
+Route::prefix('guest')->group(function () {
+    Route::get('/users', 'UserController@get');
+    Route::get('/feed', 'HomeController@feed');
+    Route::get('/channels/submissions', 'ChannelController@submissions');
+    Route::get('/announcement', 'AnnouncementController@get');
 
-Route::get('/submissions', 'SubmissionController@get');
-Route::get('/submission-comments', 'CommentController@index');
-Route::get('/moderators', 'ModeratorController@index');
-Route::get('/channels/rules', 'RulesController@index');
-Route::get('/emojis', 'EmojiController@index');
-Route::get('/submissions/photos', 'SubmissionController@getPhotos');
-Route::get('/search', 'SearchController@index');
-Route::get('/channels', 'ChannelController@get');
-Route::get('/users/submissions', 'UserController@submissions');
-Route::get('/users/comments', 'UserController@comments');
-Route::get('/submissions/comments', 'CommentController@index');
+    Route::get('/submissions', 'SubmissionController@get');
+    Route::get('/submission-comments', 'CommentController@index');
+    Route::get('/moderators', 'ModeratorController@index');
+    Route::get('/channels/rules', 'RulesController@index');
+    Route::get('/emojis', 'EmojiController@index');
+    Route::get('/submissions/photos', 'SubmissionController@getPhotos');
+    Route::get('/search', 'SearchController@index');
+    Route::get('/channels', 'ChannelController@get');
+    Route::get('/users/submissions', 'UserController@submissions');
+    Route::get('/users/comments', 'UserController@comments');
+    Route::get('/submissions/comments', 'CommentController@index');
+});

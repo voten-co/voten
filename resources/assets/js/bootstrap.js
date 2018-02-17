@@ -29,7 +29,12 @@ window.Push = require('push.js');
 window.axios = require('axios');
 window.axios.defaults.headers.common['X-CSRF-TOKEN'] = window.Laravel.csrfToken;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-window.axios.defaults.baseURL = 'http://voten.localhost/api/';
+
+if (meta.isGuest === true) {
+    window.axios.defaults.baseURL = 'http://voten.localhost/api/guest/';
+} else {
+    window.axios.defaults.baseURL = 'http://voten.localhost/api/';    
+}
 
 axios.interceptors.response.use(
     function(response) {
