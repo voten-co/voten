@@ -10,7 +10,7 @@
 			   :href="imageToDisplay"
 			   :title="submission.title"
 			   class="margin-right-half">
-				<el-button plain
+				<el-button round plain
 				           type="info"
 				           size="mini"
 				           icon="el-icon-download">
@@ -18,14 +18,14 @@
 				</el-button>
 			</a>
 
-			<el-button type="primary"
+			<el-button round type="primary"
 			           size="mini"
 			           plain
 			           @click="goToSubmission"
 			           icon="el-icon-picture"
 			           v-if="isAlbum && $route.name != 'submission-page'">See full album</el-button>
 			
-            <el-button type="success"
+            <el-button round type="success"
 			           size="mini"
 			           plain
 			           @click="goToSubmission"

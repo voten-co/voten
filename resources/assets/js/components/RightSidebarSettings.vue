@@ -38,7 +38,7 @@
         </div>
 
         <span slot="footer" class="dialog-footer" v-if="changed">
-            <el-button type="success" @click="save" size="medium">
+            <el-button round type="success" @click="save" size="medium">
                 Save
             </el-button>
         </span>

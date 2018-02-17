@@ -65,7 +65,7 @@
 
 		<span slot="footer"
 		      class="dialog-footer">
-			<el-button type="success"
+			<el-button round type="success"
 			           @click="submit"
 			           :disabled="!validates"
 			           :loading="loading"

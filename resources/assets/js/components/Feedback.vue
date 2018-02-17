@@ -46,7 +46,7 @@
 				Cancel
 			</el-button>
 
-			<el-button type="success"
+			<el-button round type="success"
 			           @click="send"
 			           :loading="sending"
 			           :disabled="!description.trim()"

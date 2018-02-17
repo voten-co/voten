@@ -33,7 +33,7 @@
             </el-form-item>
 
             <el-form-item>
-                <el-button type="success" size="medium" v-if="role && username" @click="addModerator" :loading="sending">
+                <el-button round type="success" size="medium" v-if="role && username" @click="addModerator" :loading="sending">
                     Add
                 </el-button>
             </el-form-item>

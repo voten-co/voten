@@ -104,11 +104,10 @@
     
                     <message-button :id="userStore.id" v-if="$route.params.username != auth.username && !isGuest"></message-button>
     
-                    <el-button type="success" 
+                    <el-button round type="success" 
                         @click="Store.modals.preferences.show = true" 
-                        v-if="$route.params.username == auth.username" 
-                        plain 
-                        size="medium">
+                        v-if="$route.params.username == auth.username"  
+                        size="mini">
                         Edit Profile
                     </el-button>
                 </div>

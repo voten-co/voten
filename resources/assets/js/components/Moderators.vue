@@ -23,7 +23,7 @@
             </div>
 
             <div>
-                <el-button type="success" plain size="mini" @click="sendMessage(item.user)"
+                <el-button round type="success" plain size="mini" @click="sendMessage(item.user)"
                            v-if="item.user.username !== auth.username">
                     Send a message
                 </el-button>

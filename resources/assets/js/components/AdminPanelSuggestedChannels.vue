@@ -5,7 +5,7 @@
                 Suggested Channels({{ list.length }}):
             </h2>
 
-            <el-button type="primary" @click="form = !form" size="medium">
+            <el-button round type="primary" @click="form = !form" size="medium">
                 New
             </el-button>
         </div>

@@ -26,13 +26,13 @@
             </el-form-item>
 
             <el-form-item v-if="type == 'create' && items.length < 5">
-                <el-button size="medium" type="success" v-if="title" @click="createRule" :loading="sending">
+                <el-button round size="medium" type="success" v-if="title" @click="createRule" :loading="sending">
                     Submit
                 </el-button>
             </el-form-item>
 
             <el-form-item v-if="type == 'edit'">
-                <el-button size="medium" type="success" :v-if="title" @click="patch" :loading="editing">Edit</el-button>
+                <el-button round size="medium" type="success" :v-if="title" @click="patch" :loading="editing">Edit</el-button>
             </el-form-item>
         </el-form>
 

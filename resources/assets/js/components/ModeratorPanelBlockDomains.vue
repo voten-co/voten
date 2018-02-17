@@ -32,7 +32,7 @@
             </el-form-item>
 
             <el-form-item>
-                <el-button size="medium" type="danger" v-if="domain" @click="blockDomain" :loading="sending">Block
+                <el-button round size="medium" type="danger" v-if="domain" @click="blockDomain" :loading="sending">Block
                 </el-button>
             </el-form-item>
         </el-form>

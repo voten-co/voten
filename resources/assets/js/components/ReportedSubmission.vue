@@ -18,7 +18,7 @@
                 </p>
 
                 <div class="flex-right">
-                    <el-button @click="$router.push('/c/' + list.submission.channel_name + '/' + list.submission.slug)" size="mini">
+                    <el-button round @click="$router.push('/c/' + list.submission.channel_name + '/' + list.submission.slug)" size="mini">
                         Open
                     </el-button>
                 </div>

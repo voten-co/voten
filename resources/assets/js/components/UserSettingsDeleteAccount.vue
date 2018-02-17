@@ -18,7 +18,7 @@
 		<el-form label-position="top"
 		         label-width="10px">
 			<el-form-item>
-				<el-button type="danger"
+				<el-button round type="danger"
 				           plain
 				           size="medium"
 				           @click="showConfirmPassword = true"
@@ -41,7 +41,7 @@
 				</el-form-item>
 
 				<el-form-item>
-					<el-button type="success"
+					<el-button round type="success"
 					           size="small"
 					           @click="destroyAccount"
 					           :disabled="!password"

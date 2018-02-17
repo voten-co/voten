@@ -18,7 +18,7 @@
                 </p>
 
                 <div class="flex-right">
-                    <el-button @click="$router.push(list.comment.submission != undefined ? '/c/' + list.comment.submission.channel_name + '/' + list.comment.submission.slug : '/deleted-submission')" size="mini">
+                    <el-button round @click="$router.push(list.comment.submission != undefined ? '/c/' + list.comment.submission.channel_name + '/' + list.comment.submission.slug : '/deleted-submission')" size="mini">
                         Open
                     </el-button>
                 </div>

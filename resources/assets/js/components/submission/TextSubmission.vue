@@ -24,7 +24,7 @@
 
 			<div class="flex-space margin-top-1" v-show="editing">
 				<div>
-					<el-button type="success" @click="patch" :loading="loading" size=mini>
+					<el-button round type="success" @click="patch" :loading="loading" size=mini>
 						Edit
 					</el-button>
 					<el-button type="text" @click="cancelEditing" size="mini">

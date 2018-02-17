@@ -10,7 +10,7 @@
                        {{ submission.title }} 
                    </span>
 
-                   <el-button type="success"
+                   <el-button round type="success"
                               size="mini"
                               plain
                               @click="goToSubmission"

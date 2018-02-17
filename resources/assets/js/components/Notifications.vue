@@ -28,8 +28,8 @@
                     </ul>
 
                     <div class="align-center">
-                        <el-button type="primary"
-                                class="v-button-big margin-top-bottom-3"
+                        <el-button round type="primary"
+                                class="margin-top-bottom-3"
                                 @click="loadReadNotifications" v-show="loadMoreButton">
                             Load More
                         </el-button>

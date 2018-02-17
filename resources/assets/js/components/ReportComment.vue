@@ -42,7 +42,7 @@
                 Cancel
             </el-button>
 
-            <el-button type="success" @click="send" :loading="sending" size="medium">
+            <el-button round type="success" @click="send" :loading="sending" size="medium">
                 Submit
             </el-button>
         </span>

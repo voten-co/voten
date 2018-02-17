@@ -9,7 +9,7 @@
 		<div class="form-group">
 			<div class="flex-space">
 				<div>
-					<el-button class="el-button v-button--upload"
+					<el-button round class="el-button v-button--upload"
 					           plain
                                :icon="avatar.uploading ? 'el-icon-loading' : 'el-icon-upload'">
 						{{ avatar.uploading ? 'Uploading...' : 'Click To Browse'}}
@@ -113,7 +113,7 @@
 
 			<!-- submit -->
 			<el-form-item v-if="changed">
-				<el-button type="success"
+				<el-button round type="success"
 				           @click="save"
 				           :loading="sending"
 				           size="medium">Save</el-button>

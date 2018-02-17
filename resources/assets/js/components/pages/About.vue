@@ -8,13 +8,13 @@
 
                 <div class="flex-center">
                     <router-link to="/tos" class="margin-right-1">
-                        <el-button size="small" type="text">Terms of Service</el-button>
+                        <el-button round size="small" type="text">Terms of Service</el-button>
                     </router-link>
                     <router-link to="/privacy-policy" class="margin-right-1">
-                        <el-button size="small" type="text">Privacy Policy</el-button>
+                        <el-button round size="small" type="text">Privacy Policy</el-button>
                     </router-link>
                     <router-link to="/credits">
-                        <el-button size="small" type="text">Credits</el-button>
+                        <el-button round size="small" type="text">Credits</el-button>
                     </router-link>
                 </div>
             </div>

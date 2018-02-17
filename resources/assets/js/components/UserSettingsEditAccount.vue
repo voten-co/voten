@@ -41,7 +41,7 @@
 
             <!-- submit -->
             <el-form-item v-if="changed">
-                <el-button type="success" @click="save" :loading="sending" size="medium">Save</el-button>
+                <el-button round type="success" @click="save" :loading="sending" size="medium">Save</el-button>
             </el-form-item>
         </el-form>
     </section>

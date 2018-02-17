@@ -14,13 +14,13 @@
 
 			<div class="flex-center">
 				<a href="/" class="margin-right-1">
-					<el-button size="small" type="text">
+					<el-button round size="small" type="text">
 						Home
 					</el-button>
 				</a>
 				
 				<a href="/register" class="margin-right-1">
-					<el-button size="small" type="text">
+					<el-button round size="small" type="text">
 						Sign up
 					</el-button>
 				</a>
@@ -71,7 +71,7 @@
 			</el-form-item>
 
 			<div class="margin-top-1">
-				<el-button type="success" size="medium" native-type="submit">
+				<el-button round type="success" size="medium" native-type="submit">
 					Login
 				</el-button> 
 

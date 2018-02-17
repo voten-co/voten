@@ -28,7 +28,7 @@
 					{{ emailForm.email }} is not verified yet.
 				</p>
 
-				<el-button type="primary"
+				<el-button round type="primary"
 				           size="small"
 				           plain
 				           @click="resendVerificationEmail"
@@ -37,7 +37,7 @@
 				</el-button>
 			</div>
 
-			<el-button type="success"
+			<el-button round type="success"
 			           @click="emailForm.showConfirmPassword = true"
 			           :loading="emailForm.loading"
 			           size="medium"
@@ -57,7 +57,7 @@
 					          :key="e"></el-alert>
 				</el-form-item>
 
-				<el-button type="success"
+				<el-button round type="success"
 				           @click="updateEmail"
 				           :disabled="!emailForm.password"
 				           :loading="emailForm.loading"
@@ -114,7 +114,7 @@
 			</el-form-item>
 
 			<el-form-item v-if="changedPassword">
-				<el-button type="success"
+				<el-button round type="success"
 				           @click="updatePassword"
 				           :loading="passwordForm.loading"
 				           size="medium">

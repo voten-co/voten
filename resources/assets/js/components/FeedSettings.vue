@@ -62,7 +62,7 @@
 		<span slot="footer"
 		      class="dialog-footer"
 		      v-if="changed">
-			<el-button type="success"
+			<el-button round type="success"
 			           @click="save"
 			           size="medium">
 				Save

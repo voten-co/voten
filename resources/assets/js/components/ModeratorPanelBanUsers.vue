@@ -44,7 +44,7 @@
             </el-form-item>
 
             <el-form-item>
-                <el-button size="medium" type="danger" v-if="username" @click="banUser" :loading="sending">Ban</el-button>
+                <el-button round size="medium" type="danger" v-if="username" @click="banUser" :loading="sending">Ban</el-button>
             </el-form-item>
         </el-form>
 

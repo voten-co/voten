@@ -8,7 +8,7 @@
 
 			<transition name="fade">
 				<div class="text-or-button padding-1" v-if="isNewbie && reachedMinimum">
-					<el-button 
+					<el-button round 
 						@click="$router.push({name: 'home', query: { sidebar: 1, newbie: 1 }})"
 						type="primary"
 					>

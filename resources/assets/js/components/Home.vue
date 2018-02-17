@@ -37,7 +37,7 @@
                         </button>
                     </el-tooltip>
 
-                    <el-button type="primary" icon="el-icon-plus" plain size="medium" @click="submit" v-if="isLoggedIn">
+                    <el-button round type="primary" size="mini" @click="submit" v-if="isLoggedIn">
                         Submit
                     </el-button>
                 </div>

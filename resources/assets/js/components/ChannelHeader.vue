@@ -88,13 +88,13 @@
                            :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark go-gray'" @click="bookmark"></i>
                     </el-tooltip>
 
-                    <el-button type="primary" @click="$eventHub.$emit('submit')"
-                               v-if="!isGuest" plain size="medium">
+                    <el-button round type="primary" @click="$eventHub.$emit('submit')"
+                               v-if="!isGuest" size="mini">
                         Submit
                     </el-button>
 
-                    <el-button type="success" @click="$router.push('/c/' + $route.params.name + '/mod')"
-                               v-if="isModerator" plain size="medium">
+                    <el-button round type="success" @click="$router.push('/c/' + $route.params.name + '/mod')"
+                               v-if="isModerator" size="mini">
                         Moderation
                     </el-button>
                 </div>

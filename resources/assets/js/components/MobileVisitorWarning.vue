@@ -20,12 +20,12 @@
 
         <div class="align-center margin-top-3">
             <a href="/register">
-                <el-button type="primary">
+                <el-button round type="primary">
                         Take me to the register page
                 </el-button>
             </a>
             
-            <el-button type="text margin-top-1" @click="close">
+            <el-button round type="text margin-top-1" @click="close">
                 I understand but still want to continue
             </el-button>
         </div>

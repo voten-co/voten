@@ -16,7 +16,7 @@
 				          :maxlength="150"
 				          :minlength="7"
 				          v-model="title">
-					<el-button slot="append"
+					<el-button round slot="append"
 					           type="primary"
 					           v-if="submitURL && submissionType === 'link'"
 					           @click="getTitle(submitURL)"
@@ -224,7 +224,7 @@
 					</el-tooltip>
 				</div>
 
-				<el-button type="success"
+				<el-button round type="success"
 				           size="mini"
 				           @click="submit"
 				           :disabled="!goodToGo"

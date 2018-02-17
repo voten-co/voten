@@ -187,7 +187,7 @@
 				     id="scrollable-wrapper">
 					<div class="flex-center"
 					     v-if="moreToLoad">
-						<el-button @click="loadMore"
+						<el-button round @click="loadMore"
 						           :loading="loadingMessages">Load More</el-button>
 					</div>
 
@@ -202,7 +202,7 @@
 					</message>
 				</div>
 
-				<el-button class="new-message-notify user-select"
+				<el-button round class="new-message-notify user-select"
 				           size="small"
 				           plain
 				           icon="el-icon-arrow-down"

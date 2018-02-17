@@ -72,7 +72,7 @@
 
 					<div class="align-center margin-bottom-1"
 					     v-if="moreComments">
-						<el-button type="success"
+						<el-button round type="success"
 						           plain
 						           class="half-width"
 						           @click="loadMoreComments"

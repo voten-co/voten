@@ -4,7 +4,7 @@
 			<div class="flex-space">
 				<h3 class="channel-suggestion-wrapper-title">Recommended:</h3>
 
-				<el-button type="success" plain size="mini" @click="subscribe">
+				<el-button round type="success" plain size="mini" @click="subscribe">
 					Subscribe
 				</el-button>
 			</div>
