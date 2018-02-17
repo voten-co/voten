@@ -32,6 +32,10 @@ import Announcement from './components/Announcement.vue';
 import Tour from './components/Tour';
 import MobileVisitorWarning from './components/MobileVisitorWarning';
 
+import PassportClients from './components/passport/Clients.vue';
+import PassportAuthorizedClients from './components/passport/AuthorizedClients.vue';
+import PassportPersonalAccessTokens from './components/passport/PersonalAccessTokens.vue';
+
 /**
  * This is our event bus, which is used for event dispatching. The base is that we create an empty
  * Vue instance. First we fire the event by: "this.$eventHub.$emit('eventName', 'data')"
@@ -54,6 +58,10 @@ window.app = new Vue({
     mixins: [Helpers, StoreStorage, FontLoader],
 
     components: {
+        PassportClients, 
+        PassportAuthorizedClients, 
+        PassportPersonalAccessTokens, 
+        
         KeyboardShortcutsGuide,
         MobileVisitorWarning,
         AuthenticationModal,

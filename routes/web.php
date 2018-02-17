@@ -95,6 +95,9 @@ Route::post('/ssh/cache-clear', 'SshController@clearCache');
 Route::post('/ssh/stop-maintenance', 'SshController@stopMaintenanceMode');
 Route::post('/ssh/start-maintenance', 'SshController@startMaintenanceMode');
 
+// Passport 
+Route::get('/apps', 'OAuthController@show');
+
 // catch wild routes
 Route::group(['middleware' => ['maintenance', 'http2', 'auth']], function () {
     Route::get('/{any}', 'PagesController@welcome')->where('any', '.*');
