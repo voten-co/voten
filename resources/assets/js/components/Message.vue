@@ -131,9 +131,7 @@
              * @return void
              */
             markAsRead () {
-                if (this.isChatting && !this.owns && this.list.read_at === null) {
-                    console.log(this.list)
-                    
+                if (this.isChatting && !this.owns && this.list.read_at === null) {                    
                     this.$emit('last-was-read'); 
 
                     axios.post('/messages/read', {
