@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Feedback;
+use App\Http\Resources\FeedbackResource;
 use App\Mail\NewFeedback;
 use Illuminate\Http\Request;
-use App\Http\Resources\FeedbackResource;
 
 class FeedbacksController extends Controller
 {
@@ -36,14 +36,14 @@ class FeedbacksController extends Controller
 
     public function get(Feedback $feedback)
     {
-        return new FeedbackResource($feedback); 
+        return new FeedbackResource($feedback);
     }
-    
+
     public function index()
     {
         return FeedbackResource::collection(
             Feedback::simplePaginate(20)
-        ); 
+        );
     }
 
     /**

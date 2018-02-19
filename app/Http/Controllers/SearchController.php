@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Channel;
 use App\Filters;
+use App\Http\Resources\ChannelResource;
+use App\Http\Resources\SubmissionResource;
+use App\Http\Resources\UserResource;
 use App\Submission;
 use App\Traits\CachableUser;
 use App\User;
 use Illuminate\Http\Request;
-use App\Http\Resources\UserResource;
-use App\Http\Resources\ChannelResource;
-use App\Http\Resources\SubmissionResource;
 
 class SearchController extends Controller
 {
@@ -27,14 +27,14 @@ class SearchController extends Controller
     {
         $this->validate($request, [
             'type'     => 'required|in:Channels,Submissions,Users',
-            'keyword' => 'required|string',
+            'keyword'  => 'required|string',
         ]);
 
         try {
             if ($request->type == 'Channels') {
                 return ChannelResource::collection(
                     Channel::search($request->keyword)->paginate(20)
-                ); 
+                );
             }
 
             if ($request->type == 'Submissions') {
@@ -42,13 +42,13 @@ class SearchController extends Controller
                     $this->sugarFilter(
                         Submission::search($request->keyword)->paginate(20)
                     )
-                ); 
+                );
             }
 
             if ($request->type == 'Users') {
                 return UserResource::collection(
                     User::search($request->keyword)->paginate(20)
-                ); 
+                );
             }
         } catch (\Exception $exception) {
             app('sentry')->captureException($exception);

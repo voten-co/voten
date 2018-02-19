@@ -49,8 +49,8 @@ trait Submit
      */
     protected function firstVote($submission_id)
     {
-        $user = Auth::user(); 
-        
+        $user = Auth::user();
+
         try {
             $user->submissionUpvotes()->attach($submission_id, ['ip_address' => getRequestIpAddress()]);
 
@@ -90,16 +90,16 @@ trait Submit
             ];
         } catch (\Exception $e) {
             return [
-                'url' => $request->url,
-                'title' => $request->title,
-                'description' => null,
-                'type' => 'link',
-                'embed' => null,
-                'img' => null,
-                'thumbnail' => null,
-                'providerName' => null,
+                'url'           => $request->url,
+                'title'         => $request->title,
+                'description'   => null,
+                'type'          => 'link',
+                'embed'         => null,
+                'img'           => null,
+                'thumbnail'     => null,
+                'providerName'  => null,
                 'publishedTime' => null,
-                'domain' => domain($request->url),
+                'domain'        => domain($request->url),
             ];
         }
     }

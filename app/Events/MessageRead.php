@@ -48,9 +48,9 @@ class MessageRead implements ShouldBroadcast
     {
         return [
             'data' => [
-                'user_id' => $this->contact_id, 
-                'message_id' => $this->message_id, 
-            ]
+                'user_id'    => $this->contact_id,
+                'message_id' => $this->message_id,
+            ],
         ];
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ChannelResource;
 use App\Traits\CachableChannel;
 use App\Traits\CachableUser;
 use Auth;
 use Illuminate\Http\Request;
-use App\Http\Resources\ChannelResource; 
 
 class SubscribeController extends Controller
 {

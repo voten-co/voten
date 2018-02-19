@@ -23,16 +23,16 @@ class BlockDomainController extends Controller
     public function storeAsChannelModerator(Request $request)
     {
         $this->validate($request, [
-            'domain' => 'required|url',
-            'channel_id' => 'required|exists:channels,id',
+            'domain'      => 'required|url',
+            'channel_id'  => 'required|exists:channels,id',
             'description' => 'nullable|string|max:5000',
         ]);
 
         $channel = $this->getChannelById(request('channel_id'));
 
         $blockedDomain = BlockedDomain::create([
-            'channel' => $channel->name,
-            'domain' => domain($request->domain),
+            'channel'     => $channel->name,
+            'domain'      => domain($request->domain),
             'description' => $request->description,
         ]);
 
@@ -50,13 +50,13 @@ class BlockDomainController extends Controller
     public function storeAsVotenAdministrator(Request $request)
     {
         $this->validate($request, [
-            'domain' => 'required|url',
+            'domain'      => 'required|url',
             'description' => 'nullable|string|max:5000',
         ]);
 
         $blockedDomain = BlockedDomain::create([
-            'channel' => 'all',
-            'domain' => domain($request->domain),
+            'channel'     => 'all',
+            'domain'      => domain($request->domain),
             'description' => $request->description,
         ]);
 
@@ -111,10 +111,10 @@ class BlockDomainController extends Controller
     public function destroyAsChannelModerator(Request $request)
     {
         $this->validate($request, [
-            'domain' => 'required',
+            'domain'     => 'required',
             'channel_id' => 'required|exists:channels,id',
         ]);
-            
+
         $channel = $this->getChannelById(request('channel_id'));
 
         BlockedDomain::where('domain', $request->domain)
@@ -123,7 +123,7 @@ class BlockDomainController extends Controller
 
         return res(200, 'Domain unblocked successfully. ');
     }
-    
+
     /**
      * Unblock.
      *

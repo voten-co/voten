@@ -9,6 +9,7 @@ use App\Events\SubmissionWasDeleted;
 use App\Http\Resources\ModeratorResource;
 use App\Notifications\BecameModerator;
 use App\Report;
+use App\Rules\NotSelfUsername;
 use App\Submission;
 use App\Traits\CachableChannel;
 use App\Traits\CachableComment;
@@ -18,7 +19,6 @@ use Auth;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
-use App\Rules\NotSelfUsername;
 
 class ModeratorController extends Controller
 {
@@ -40,7 +40,7 @@ class ModeratorController extends Controller
     {
         $this->validate($request, [
             'channel_name' => 'required_without:channel_id|exists:channels,name',
-            'channel_id' => 'required_without:channel_name|exists:channels,id',
+            'channel_id'   => 'required_without:channel_name|exists:channels,id',
         ]);
 
         if ($request->filled('channel_name')) {
@@ -73,14 +73,14 @@ class ModeratorController extends Controller
 
         $submission->update([
             'approved_at' => Carbon::now(),
-            'deleted_at' => null,
+            'deleted_at'  => null,
         ]);
 
         $this->putSubmissionInTheCache($submission);
 
         // remove all the reports related to this model
         Report::where([
-            'reportable_id' => $request->submission_id,
+            'reportable_id'   => $request->submission_id,
             'reportable_type' => 'App\Submission',
         ])->delete();
 
@@ -106,7 +106,7 @@ class ModeratorController extends Controller
 
         $submission->update([
             'approved_at' => null,
-            'deleted_at' => Carbon::now(),
+            'deleted_at'  => Carbon::now(),
         ]);
 
         event(new SubmissionWasDeleted($submission, false));
@@ -131,12 +131,12 @@ class ModeratorController extends Controller
 
         DB::table('comments')->where('id', $request->comment_id)->update([
             'approved_at' => Carbon::now(),
-            'deleted_at' => null,
+            'deleted_at'  => null,
         ]);
 
         // remove all the reports related to this model
         Report::where([
-            'reportable_id' => $request->comment_id,
+            'reportable_id'   => $request->comment_id,
             'reportable_type' => 'App\Comment',
         ])->delete();
 
@@ -165,7 +165,7 @@ class ModeratorController extends Controller
 
         DB::table('comments')->where('id', $request->comment_id)->update([
             'approved_at' => null,
-            'deleted_at' => Carbon::now(),
+            'deleted_at'  => Carbon::now(),
         ]);
 
         return response('Comment deleted successfully', 200);
@@ -182,8 +182,8 @@ class ModeratorController extends Controller
     {
         $this->validate($request, [
             'channel_id' => 'required|exists:channels,id',
-            'username' => ['required', 'exists:users', new NotSelfUsername],
-            'role' => 'in:administrator,moderator',
+            'username'   => ['required', 'exists:users', new NotSelfUsername()],
+            'role'       => 'in:administrator,moderator',
         ]);
 
         $channel = $this->getChannelById(request('channel_id'));
@@ -212,7 +212,7 @@ class ModeratorController extends Controller
     {
         $this->validate($request, [
             'channel_name' => 'required',
-            'username' => 'required',
+            'username'     => 'required',
         ]);
 
         $channel = Channel::where('name', $request->channel_name)->firstOrFail();
@@ -225,6 +225,6 @@ class ModeratorController extends Controller
 
         $this->updateChannelMods($channel->id, $user_id);
 
-        return response($request->username . ' is no longer a moderator at #' . $request->channel_name, 200);
+        return response($request->username.' is no longer a moderator at #'.$request->channel_name, 200);
     }
 }
