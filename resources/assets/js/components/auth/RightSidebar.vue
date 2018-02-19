@@ -123,7 +123,7 @@
 					            placement="left"
 					            transition="false"
 					            :open-delay="500">
-						<i class="el-icon-setting"
+						<i class="el-icon-setting darker-on-hover"
 						   @click="Store.modals.sidebarSettings.show = true"></i>
 					</el-tooltip>
 				</div>
