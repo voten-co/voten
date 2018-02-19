@@ -14,7 +14,6 @@ use App\User;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Http\Resources\UserResource;
 
 class MessagesController extends Controller
 {
@@ -35,8 +34,8 @@ class MessagesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'body' => 'required|max:5000',
-            'user_id' => ['required', 'integer', new NotSelfId, 'exists:users,id'],
+            'body'    => 'required|max:5000',
+            'user_id' => ['required', 'integer', new NotSelfId(), 'exists:users,id'],
         ]);
 
         $message = Auth::user()->messages()->create([
@@ -87,7 +86,7 @@ class MessagesController extends Controller
     {
         $this->validate($request, [
             'contact_id' => 'required|integer',
-            'page' => 'required|integer',
+            'page'       => 'required|integer',
         ]);
 
         $messages = Auth::user()->conversations()
@@ -120,7 +119,7 @@ class MessagesController extends Controller
 
         Auth::user()->conversations()->detach($request->input('messages'));
 
-        return res(200, count($request->input('messages')) . ' messages were deleted.');
+        return res(200, count($request->input('messages')).' messages were deleted.');
     }
 
     /**
@@ -148,7 +147,7 @@ class MessagesController extends Controller
     {
         $this->validate($request, [
             'message_id' => 'required|integer',
-            'user_id' => 'required|integer',
+            'user_id'    => 'required|integer',
         ]);
 
         event(new MessageRead($request->message_id, $request->user_id, Auth::user()->id));

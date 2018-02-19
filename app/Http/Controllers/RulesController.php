@@ -25,7 +25,7 @@ class RulesController extends Controller
     {
         $this->validate($request, [
             'channel_name' => 'required_without:channel_id|exists:channels,name',
-            'channel_id' => 'required_without:channel_name|exists:channels,id',
+            'channel_id'   => 'required_without:channel_name|exists:channels,id',
         ]);
 
         if (request()->filled('channel_name')) {
@@ -49,7 +49,7 @@ class RulesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'body' => 'required|string|max:300',
+            'body'       => 'required|string|max:300',
             'channel_id' => 'required',
         ]);
 
@@ -61,7 +61,7 @@ class RulesController extends Controller
 
         return new RuleResource(
             Rule::create([
-                'title' => $request->body,
+                'title'      => $request->body,
                 'channel_id' => $request->channel_id,
             ])
         );
@@ -78,7 +78,7 @@ class RulesController extends Controller
     {
         $this->validate($request, [
             'body' => 'required',
-            'id' => 'required|exists:rules',
+            'id'   => 'required|exists:rules',
         ]);
 
         $rule = Rule::find($request->id);

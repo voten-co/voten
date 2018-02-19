@@ -204,13 +204,13 @@ if (!function_exists('rssForHumans')) {
         $Gi = 2 ** 30;
 
         if ($bytes < $Ki) {
-            return $bytes . ' B';
+            return $bytes.' B';
         } elseif ($bytes < $Mi) {
-            return round($bytes / $Ki, 3) . ' KiB';
+            return round($bytes / $Ki, 3).' KiB';
         } elseif ($bytes < $Gi) {
-            return round($bytes / $Mi, 3) . ' MiB';
+            return round($bytes / $Mi, 3).' MiB';
         } else {
-            return round($bytes / $Gi, 3) . ' GiB';
+            return round($bytes / $Gi, 3).' GiB';
         }
     }
 }
@@ -241,18 +241,18 @@ if (!function_exists('activeClass')) {
     function activeClass($uri, $active_class = 'is-active')
     {
         if (!starts_with($uri, '/')) {
-            $uri = '/' . $uri;
+            $uri = '/'.$uri;
         }
 
         $current_uri = str_after(url()->current(), config('app.url'));
 
         if (starts_with($current_uri, $uri)) {
-            return ' ' . $active_class;
+            return ' '.$active_class;
         }
     }
 }
 
-/**
+/*
  * Returns a response json formatted for Voten's public API. Note that all errors have the same format;
  * making it easy for fornt-end developers writing code on top of Voten's API. Happy API coding!
  *
@@ -358,7 +358,7 @@ if (!function_exists('res')) {
         // error
         return response([
             'message' => $message,
-            'errors' => [
+            'errors'  => [
                 'more_info' => $description,
             ],
         ], $status);

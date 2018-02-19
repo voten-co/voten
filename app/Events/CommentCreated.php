@@ -34,7 +34,7 @@ class CommentCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['submission.' . optional($this->comment->submission)->slug];
+        return ['submission.'.optional($this->comment->submission)->slug];
     }
 
     /**
@@ -45,7 +45,7 @@ class CommentCreated implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'data' => (new CommentResource($this->comment))->resolve()
+            'data' => (new CommentResource($this->comment))->resolve(),
         ];
     }
 }

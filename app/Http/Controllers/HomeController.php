@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SubmissionResource;
 use App\Submission;
 use App\Traits\CachableChannel;
 use App\Traits\CachableSubmission;
@@ -9,21 +10,20 @@ use App\Traits\CachableUser;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Http\Resources\SubmissionResource; 
 
 class HomeController extends Controller
 {
     use CachableUser, CachableSubmission, CachableChannel;
 
     /**
-     * Displays the home page.h
+     * Displays the home page.h.
      *
      * @param \Illuminate\Http\Request $request
      *
      * @return view
      */
     public function homePage()
-    {        
+    {
         $submissions = SubmissionResource::collection(
             $this->guestHome(request())
         );
@@ -39,7 +39,7 @@ class HomeController extends Controller
      * @return \Illuminate\Support\Collection
      */
     public function feed(Request $request)
-    {              
+    {
         $this->validate($request, [
             'page' => 'required|integer|min:1',
         ]);
@@ -101,11 +101,11 @@ class HomeController extends Controller
 
         // exclude user's hidden submissions
         $submissions->whereNotIn('id', $this->hiddenSubmissions());
-        
+
         if ($request->include_nsfw_submissions == true) {
-            // 
-        } else { // exclude it by default 
-            $submissions->where('nsfw', false);            
+            //
+        } else { // exclude it by default
+            $submissions->where('nsfw', false);
         }
 
         if ($request->exclude_upvoted_submissions == true) {
@@ -175,6 +175,6 @@ class HomeController extends Controller
 
         $submissions->groupBy('url');
 
-        return $submissions->simplePaginate(15); 
+        return $submissions->simplePaginate(15);
     }
 }

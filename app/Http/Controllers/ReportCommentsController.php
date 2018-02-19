@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Channel;
 use App\Comment;
+use App\Http\Resources\ReportedCommentResource;
 use App\Report;
 use App\Submission;
 use App\Traits\CachableChannel;
 use Auth;
 use Illuminate\Http\Request;
-use App\Http\Resources\ReportedCommentResource;
 
 class ReportCommentsController extends Controller
 {
@@ -30,12 +29,12 @@ class ReportCommentsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'id' => 'required|exists:comments,id', 
+            'id'         => 'required|exists:comments,id',
             'subject'    => 'required|string',
         ]);
 
         if (Comment::where('id', $request->id)->where('approved_at', '!=', null)->exists()) {
-            return res(200, "The comment has already been approved by a moderator. That means it can not be reported.");
+            return res(200, 'The comment has already been approved by a moderator. That means it can not be reported.');
         }
 
         $report = Report::create([
@@ -61,7 +60,7 @@ class ReportCommentsController extends Controller
     {
         $this->validate($request, [
             'channel_id'  => 'required|exists:channels,id',
-            'type'     => 'nullable|in:solved,unsolved',
+            'type'        => 'nullable|in:solved,unsolved',
         ]);
 
         abort_unless($this->mustBeModerator($request->channel_id), 403);
