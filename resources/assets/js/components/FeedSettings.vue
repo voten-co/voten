@@ -24,7 +24,7 @@
 					<el-switch v-model="form.excludeUpvotedSubmissions"></el-switch>
 				</div>
 
-				<div class="form-toggle no-border">
+				<div class="form-toggle">
 					<span>Exclude my downvoted submissions:</span>
 					<el-switch v-model="form.excludeDownvotedSubmissions"></el-switch>
 				</div>
