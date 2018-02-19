@@ -26,18 +26,18 @@ class SearchController extends Controller
     public function index(Request $request)
     {
         $this->validate($request, [
-            'type'     => 'required|in:Channels,Submissions,Users',
+            'type'     => 'required|in:Channels,Submissions,Users,channels,submissions,users',
             'keyword' => 'required|string',
         ]);
 
         try {
-            if ($request->type == 'Channels') {
+            if (strtolower($request->type) == 'channels') {
                 return ChannelResource::collection(
                     Channel::search($request->keyword)->paginate(20)
                 ); 
             }
 
-            if ($request->type == 'Submissions') {
+            if (strtolower($request->type) == 'submissions') {
                 return SubmissionResource::collection(
                     $this->sugarFilter(
                         Submission::search($request->keyword)->paginate(20)
@@ -45,7 +45,7 @@ class SearchController extends Controller
                 ); 
             }
 
-            if ($request->type == 'Users') {
+            if (strtolower($request->type) == 'users') {
                 return UserResource::collection(
                     User::search($request->keyword)->paginate(20)
                 ); 
