@@ -71,7 +71,8 @@
 			          @keydown.native="whisperTyping"
 			          @keyup.native="whisperFinishedTyping"
 			          :id="'comment-form-textarea'"
-			          @keydown.enter.native="submit($event)"
+			          @keydown.meta.enter.exact.native="submit($event)"
+			          @keydown.ctrl.enter.exact.native="submit($event)"
 			          :disabled="loading"
 			          name="comment"
 			          :maxlength="5000"
@@ -102,7 +103,7 @@
 				            transition="false"
 				            v-show="!loading">
 					<div slot="content">
-						Press Enter to send<br/> Press Shift+Enter to add a new paragraph
+						Press Command/Ctrl + Enter to send
 					</div>
 					<i class="v-icon v-send"
 					   aria-hidden="true"></i>
@@ -388,9 +389,6 @@ export default {
         },
 
         submit(event) {
-            // ignore shift + enter
-            if (event.shiftKey) return;
-
             event.preventDefault();
 
             // ignore if any quick pciking box is open

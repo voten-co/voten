@@ -9,15 +9,6 @@ export default {
       return input.trim().length == 0;
     },
 
-    /**
-     * wether or not user hit the Shift + Enter on keyboard.
-     *
-     * @return boolean
-     **/
-    shiftPlusEnter(event) {
-      return event.shiftKey;
-    },
-
     insertPickedItem(textAreaId, pickedStr, starterIndex, typedLength) {
       let textArea = document.getElementById(textAreaId);
       let cursorPosition = this.getCursorPosition(textArea);

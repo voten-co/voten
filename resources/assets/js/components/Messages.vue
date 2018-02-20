@@ -246,7 +246,8 @@
 					          autosize
 					          placeholder="Type your message here..."
 					          v-model="message"
-					          @keydown.enter.native="submit"
+                              @keydown.meta.enter.exact.native="submit"
+                              @keydown.ctrl.enter.exact.native="submit"
 					          :disabled="disableTextArea"
 					          name="message"
 					          :maxlength="5000"
@@ -276,7 +277,7 @@
 						<el-tooltip placement="bottom-end"
 						            transition="false">
 							<div slot="content">
-								Press Enter to send<br/> Press Shift+Enter to add a new paragraph
+								Press Command/Ctrl + Enter to send
 							</div>
 							<i class="v-icon v-send"
 							   aria-hidden="true"></i>
@@ -846,8 +847,6 @@ export default {
          * @return void
          */
         submit(event) {
-            if (this.shiftPlusEnter(event)) return;
-
             event.preventDefault();
 
             if (!this.message.trim()) return;
