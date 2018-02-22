@@ -10,11 +10,12 @@ class MustBeModerator
     use Permissions;
 
     /**
-     * Handle an incoming request. 
+     * Handle an incoming request.
      * Note that routes using this middleware MUST have request('channel_id') filled.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)

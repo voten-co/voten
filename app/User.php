@@ -30,8 +30,8 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
-        'settings' => 'json',
-        'info' => 'json',
+        'settings'  => 'json',
+        'info'      => 'json',
         'confirmed' => 'boolean',
     ];
 
@@ -280,9 +280,9 @@ class User extends Authenticatable
     public function toSearchableArray()
     {
         return [
-            'id' => $this->id,
+            'id'       => $this->id,
             'username' => $this->username,
-            'name' => $this->name,
+            'name'     => $this->name,
         ];
     }
 
@@ -309,7 +309,7 @@ class User extends Authenticatable
     {
         return Activity::where([
             'user_id' => $this->id,
-            'name' => 'created_user',
+            'name'    => 'created_user',
         ])->first()->country ?? Activity::where([
             'user_id' => $this->id,
         ])->orderBy('created_at', 'desc')->first()->country ?? 'unknown';
@@ -324,7 +324,7 @@ class User extends Authenticatable
     {
         return Activity::where([
             'user_id' => $this->id,
-            'name' => 'created_user',
+            'name'    => 'created_user',
         ])->first()->ip_address ?? Activity::where([
             'user_id' => $this->id,
         ])->orderBy('created_at', 'desc')->first()->ip_address ?? 'unknown';
@@ -388,7 +388,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Rewrite for Passport's findForPassport() to allow for login via both "username" and "email". 
+     * Rewrite for Passport's findForPassport() to allow for login via both "username" and "email".
      */
     public function findForPassport($identifier)
     {
