@@ -97,12 +97,10 @@ export default {
 
         pushStoreNow() {
             Vue.putLS('store-state', Store.state);
-            console.log('push now');
         },
 
         optimizedPushStore: _.debounce(function() {
             Vue.putLS('store-state', Store.state);
-            console.log('push later');
         }, 1000)
     },
 
