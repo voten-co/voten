@@ -35,8 +35,8 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'body' => 'required|string|max:5000',
-            'parent_id' => 'nullable|integer',
+            'body'          => 'required|string|max:5000',
+            'parent_id'     => 'nullable|integer',
             'submission_id' => 'required|integer|exists:submissions,id',
         ]);
 
@@ -49,16 +49,16 @@ class CommentController extends Controller
         $parentComment = (!is_null($request->parent_id) && $request->parent_id > 0) ? $this->getCommentById($request->parent_id) : null;
 
         $comment = Comment::create([
-            'body' => $request->body,
-            'user_id' => $author->id,
-            'channel_id' => $submission->channel_id,
-            'parent_id' => $request->parent_id,
-            'level' => $request->parent_id == null ? 0 : ($parentComment->level + 1),
+            'body'          => $request->body,
+            'user_id'       => $author->id,
+            'channel_id'    => $submission->channel_id,
+            'parent_id'     => $request->parent_id,
+            'level'         => $request->parent_id == null ? 0 : ($parentComment->level + 1),
             'submission_id' => $submission->id,
-            'rate' => firstRate(),
-            'upvotes' => 1,
-            'downvotes' => 0,
-            'edited_at' => null,
+            'rate'          => firstRate(),
+            'upvotes'       => 1,
+            'downvotes'     => 0,
+            'edited_at'     => null,
         ]);
 
         event(new CommentWasCreated($comment, $submission, $author, $parentComment));
@@ -81,11 +81,11 @@ class CommentController extends Controller
     public function index(Request $request)
     {
         $this->validate($request, [
-            'sort' => 'nullable|in:hot,new', 
-            'page' => 'integer|min:1', 
-            'submission_id' => 'exists:submissions,id'
+            'sort'          => 'nullable|in:hot,new',
+            'page'          => 'integer|min:1',
+            'submission_id' => 'exists:submissions,id',
         ]);
-        
+
         if ($request->sort == 'new') {
             return CommentResource::collection(
                 Comment::where([
@@ -132,7 +132,7 @@ class CommentController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function patch($comment_id)
-    {        
+    {
         $this->validate(request(), [
             'body' => 'required|string|max:5000',
         ]);
@@ -140,7 +140,7 @@ class CommentController extends Controller
         try {
             $comment = $this->getCommentById($comment_id);
         } catch (\Exception $e) {
-            return res(400, 'Oops, something went wrong.'); 
+            return res(400, 'Oops, something went wrong.');
         }
 
         abort_unless($this->mustBeOwner($comment), 403);
@@ -151,7 +151,7 @@ class CommentController extends Controller
         }
 
         $comment->update([
-            'body' => request('body'),
+            'body'      => request('body'),
             'edited_at' => Carbon::now(),
         ]);
 
@@ -172,12 +172,12 @@ class CommentController extends Controller
         try {
             $comment = $this->getCommentById($comment_id);
         } catch (\Exception $e) {
-            return res(400, 'Oops, something went wrong.'); 
+            return res(400, 'Oops, something went wrong.');
         }
 
         abort_unless($this->mustBeOwner($comment), 403);
 
-        $submission = $this->getSubmissionById($comment->submission_id);        
+        $submission = $this->getSubmissionById($comment->submission_id);
 
         event(new CommentWasDeleted($comment, $submission, true));
 
@@ -195,7 +195,7 @@ class CommentController extends Controller
      */
     protected function tooEarlyToCreate($limit_number)
     {
-        // white-listed users are fine 
+        // white-listed users are fine
         if ($this->mustBeWhitelisted()) {
             return false;
         }

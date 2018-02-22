@@ -133,8 +133,8 @@ class Channel extends Model
     public function toSearchableArray()
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
+            'id'          => $this->id,
+            'name'        => $this->name,
             'description' => $this->description,
             'subscribers' => $this->subscribers,
         ];

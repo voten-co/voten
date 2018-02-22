@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Channel;
 use App\Filters;
+use App\Http\Resources\ChannelResource;
 use App\Suggested;
 use App\Traits\CachableChannel;
 use App\Traits\CachableUser;
-use App\Http\Resources\ChannelResource; 
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -27,12 +27,12 @@ class SuggestionController extends Controller
      * @return \Illuminate\Support\Collection $channel
      */
     public function channel()
-    {        
+    {
         try {
             return new ChannelResource(
                 Suggested::whereNotIn('channel_id', $this->subscriptions())->inRandomOrder()->firstOrFail()->channel
             );
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return res(200, 'No channel to suggest at this time.');
         }
     }

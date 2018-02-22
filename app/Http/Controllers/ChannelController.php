@@ -42,7 +42,7 @@ class ChannelController extends Controller
      */
     protected function getSubmissions($channel, $sort)
     {
-        $submissions = (new Submission())->newQuery();  
+        $submissions = (new Submission())->newQuery();
 
         $submissions->where('channel_name', $channel);
 
@@ -51,9 +51,9 @@ class ChannelController extends Controller
             $submissions->whereNotIn('id', $this->hiddenSubmissions());
         }
 
-        // exclude NSFW for guests 
-        if (! Auth::check()) {
-            $submissions->where('nsfw', false);                        
+        // exclude NSFW for guests
+        if (!Auth::check()) {
+            $submissions->where('nsfw', false);
         }
 
         switch ($sort) {
@@ -72,7 +72,7 @@ class ChannelController extends Controller
                 break;
         }
 
-        return $submissions->simplePaginate(15); 
+        return $submissions->simplePaginate(15);
     }
 
     /**
@@ -85,8 +85,8 @@ class ChannelController extends Controller
     public function submissions(Request $request)
     {
         $this->validate($request, [
-            'sort' => 'in:hot,new,rising|nullable|max:25',
-            'page' => 'integer|min:1',
+            'sort'         => 'in:hot,new,rising|nullable|max:25',
+            'page'         => 'integer|min:1',
             'channel_name' => 'required|exists:channels,name',
         ]);
 
@@ -125,7 +125,7 @@ class ChannelController extends Controller
     {
         $this->validate($request, [
             'name' => 'required_without:id|exists:channels',
-            'id' => 'required_without:name|exists:channels',
+            'id'   => 'required_without:name|exists:channels',
         ]);
 
         if (request()->filled('name')) {
@@ -149,7 +149,7 @@ class ChannelController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => ['required', 'alpha_num', 'min:3', 'max:50', 'unique:channels', new \App\Rules\NotForbiddenChannelName()],
+            'name'        => ['required', 'alpha_num', 'min:3', 'max:50', 'unique:channels', new \App\Rules\NotForbiddenChannelName()],
             'description' => 'required|min:10|max:250',
         ]);
 
@@ -161,15 +161,15 @@ class ChannelController extends Controller
         $tooEarly = $this->tooEarlyToCreate();
 
         if ($tooEarly != false) {
-            return response("Looks like you're over doing it. You can create another channel in " . $tooEarly . ' seconds. Thank you for being patient.', 500);
+            return response("Looks like you're over doing it. You can create another channel in ".$tooEarly.' seconds. Thank you for being patient.', 500);
         }
 
         $channel = Channel::create([
-            'name' => $request->name,
+            'name'        => $request->name,
             'description' => $request->description,
-            'nsfw' => $request->nsfw,
-            'avatar' => '/imgs/channel-avatar.png',
-            'color' => 'Blue',
+            'nsfw'        => $request->nsfw,
+            'avatar'      => '/imgs/channel-avatar.png',
+            'color'       => 'Blue',
         ]);
 
         $this->setInitialUserToChannelRoles(Auth::user(), $channel);
@@ -236,10 +236,10 @@ class ChannelController extends Controller
     public function patch(Request $request)
     {
         $this->validate($request, [
-            'id' => 'required|exists:channels',
+            'id'          => 'required|exists:channels',
             'description' => 'required|max:230|string',
             'cover_color' => 'required|in:Dark Blue,Blue,Red,Dark,Pink,Dark Green,Bright Green,Purple,Gray,Orange',
-            'nsfw' => 'required|boolean',
+            'nsfw'        => 'required|boolean',
         ]);
 
         $channel = $this->getChannelById(request('id'));
@@ -248,8 +248,8 @@ class ChannelController extends Controller
 
         $channel->update([
             'description' => $request->description,
-            'color' => $request->cover_color,
-            'nsfw' => $request->nsfw
+            'color'       => $request->cover_color,
+            'nsfw'        => $request->nsfw,
         ]);
 
         event(new ChannelWasUpdated($channel));
@@ -270,11 +270,11 @@ class ChannelController extends Controller
             'name' => 'required|alpha_num|max:25',
         ]);
 
-        return Channel::where('name', 'like', '%' . $request->name . '%')
+        return Channel::where('name', 'like', '%'.$request->name.'%')
             ->orderBy('subscribers', 'desc')
             ->select('name')->take(100)->get()->pluck('name');
     }
-  
+
     /**
      * redirects old channel URLs (/c/channel/hot) to the new one (/c/channel). This is just to
      * to prevent dead URLS and also to respect our old users who shared their channels on
@@ -284,7 +284,7 @@ class ChannelController extends Controller
      */
     public function redirect($channel)
     {
-        return redirect('/c/' . $channel);
+        return redirect('/c/'.$channel);
     }
 
     /**
