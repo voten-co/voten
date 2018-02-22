@@ -45,8 +45,8 @@ return [
 
     'connections' => [
         'echo' => [
-            'host'  => env('ECHO_HOST', 'https://echo.voten.co'),
-            'port'  => env('ECHO_PORT', 6001),
+            'host'         => env('ECHO_HOST', 'https://echo.voten.co'),
+            'port'         => env('ECHO_PORT', 6001),
             'bearerToken'  => env('ECHO_BEARER_TOKEN', 'nb35mdq2ca9928qgl4sgjf3imil5811sn41qsmcaph0p3h6sa5ht8hoktdeg'),
             'app_id'       => env('ECHO_APP_ID'),
             'auth_key'     => env('ECHO_AUTH_KEY'),

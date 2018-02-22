@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'dsn' => env('SENTRY_DSN'),
+    'dsn'    => env('SENTRY_DSN'),
     'dsn-js' => env('SENTRY_DSN_JS'),
 
     // capture release as git sha
