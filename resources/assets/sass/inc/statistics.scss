@@ -1,22 +1,22 @@
 .admin-statistics {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    text-align: center;
-    flex: 1;
-    border: 3px dashed #cdcdcd;
-    margin: .5em;
-    border-radius: 10px;
-    padding: 1em;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	text-align: center;
+	flex: 1;
+	border: 3px dashed #cdcdcd;
+	margin: 0.5em;
+	border-radius: 10px;
+	padding: 1em;
 }
 
 .admin-statistics img {
-    width: 7em;
+	width: 7em;
 }
 
 .admin-statistics h2 {
-    font-size: 1em;
-    font-weight: 700;
-    margin-bottom: 0;
+	font-size: 1em;
+	font-weight: 700;
+	margin-bottom: 0;
 }

@@ -39,64 +39,64 @@
 @import 'other';
 
 .logo {
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    margin: auto;
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+	margin: auto;
 }
 
 #page {
-    padding: 2em 3em;
+	padding: 2em 3em;
 }
 
 .container-grid {
-    display: grid;
-    grid-template-columns: auto auto auto;
-    grid-gap: 1em;
+	display: grid;
+	grid-template-columns: auto auto auto;
+	grid-gap: 1em;
 }
 
 .credits {
-    .item {
-        background: #fff;
-        padding: 1em;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
+	.item {
+		background: #fff;
+		padding: 1em;
+		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
 
-        h3 a {
-            font-weight: 600;
-            color: #333;
-        }
+		h3 a {
+			font-weight: 600;
+			color: #333;
+		}
 
-        p {
-            font-size: 14px;
-        }
-    }
+		p {
+			font-size: 14px;
+		}
+	}
 
-    @media (max-width: 768px) {
-        .item {
-            margin-bottom: 1em;
-        }
-    }
+	@media (max-width: 768px) {
+		.item {
+			margin-bottom: 1em;
+		}
+	}
 }
 
 @media (max-width: 768px) {
-    #page {
-        padding: 2em 1em;
-    }
+	#page {
+		padding: 2em 1em;
+	}
 
-    .container-grid {
-        display: block;
-    }
+	.container-grid {
+		display: block;
+	}
 }
 
 .el-message,
 .el-dropdown-menu {
-    @include user-select();
+	@include user-select();
 }
 
-// top progressbar 
+// top progressbar
 .__cov-progress {
-    box-shadow: rgba(119, 182, 255, 0.7) 0px 0px 10px; 
+	box-shadow: rgba(119, 182, 255, 0.7) 0px 0px 10px;
 }

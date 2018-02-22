@@ -33,48 +33,48 @@
 </template>
 
 <script>
-	import Helpers from '../mixins/Helpers';
+import Helpers from '../mixins/Helpers';
 
-    export default {
-    	mixins: [Helpers],
+export default {
+	mixins: [Helpers],
 
-        data() {
-            return {
-            	visible: false,
-                channel: [],
-            }
-        },
+	data() {
+		return {
+			visible: false,
+			channel: []
+		};
+	},
 
-        created () {
-            this.getChannel();
-        },
+	created() {
+		this.getChannel();
+	},
 
-        methods: {
-            getChannel() {
-            	axios.get('/suggested-channel').then(response => {
-            	    // We got nothing to suggest.
-					if (_.isUndefined(response.data.data)) return;
+	methods: {
+		getChannel() {
+			axios.get('/suggested-channel').then((response) => {
+				// We got nothing to suggest.
+				if (_.isUndefined(response.data.data)) return;
 
-                    this.channel = response.data.data;
-                    this.visible = true;
-            	});
-            },
+				this.channel = response.data.data;
+				this.visible = true;
+			});
+		},
 
-            subscribe() {
-            	if (this.isGuest) {
-            		this.mustBeLogin();
-            		return;
-            	}
+		subscribe() {
+			if (this.isGuest) {
+				this.mustBeLogin();
+				return;
+			}
 
-            	Store.state.subscribedChannels.push(this.channel);
-                Store.state.subscribedAt.push(this.channel.id);
+			Store.state.subscribedChannels.push(this.channel);
+			Store.state.subscribedAt.push(this.channel.id);
 
-            	axios.post('/subscribe', {
-	            	channel_id: this.channel.id
-	            });
+			axios.post('/subscribe', {
+				channel_id: this.channel.id
+			});
 
-	            this.visible = false;
-            }
-        }
-    };
+			this.visible = false;
+		}
+	}
+};
 </script>

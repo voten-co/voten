@@ -1,8 +1,8 @@
 <style lang="scss">
 .img .profile-post-content img {
-    cursor: zoom-in;
-    height: 100%;
-    width: auto;
+	cursor: zoom-in;
+	height: 100%;
+	width: auto;
 }
 </style>
 
@@ -91,80 +91,81 @@ import SubmissionFooter from '../../components/SubmissionFooter.vue';
 import Helpers from '../../mixins/Helpers';
 
 export default {
-    components: {
-        SubmissionFooter, 
-    },
+	components: {
+		SubmissionFooter
+	},
 
-    mixins: [Helpers],
+	mixins: [Helpers],
 
-    props: {
-        nsfw: {},
-        submission: {},
-        bookmarked: {},
-        url: {},
-        comments: {},
-        upvoted: {},
-        downvoted: {},
-        points: {},
-        full: {
-            type: Boolean,
-            default: false
-        }
-    },
+	props: {
+		nsfw: {},
+		submission: {},
+		bookmarked: {},
+		url: {},
+		comments: {},
+		upvoted: {},
+		downvoted: {},
+		points: {},
+		full: {
+			type: Boolean,
+			default: false
+		}
+	},
 
-    data() {
-        return {
-            photos: [],
-            currentImageIndex: 0
-        };
-    },
+	data() {
+		return {
+			photos: [],
+			currentImageIndex: 0
+		};
+	},
 
-    computed: {
-        thumbnail() {
-            return {
-                backgroundImage: 'url(' + this.submission.content.thumbnail_path + ')'
-            };
-        },
+	computed: {
+		thumbnail() {
+			return {
+				backgroundImage:
+					'url(' + this.submission.content.thumbnail_path + ')'
+			};
+		},
 
-        isAlbum() {
-            return this.photos.length > 1;
-        },
+		isAlbum() {
+			return this.photos.length > 1;
+		},
 
-        showBigThumbnail() {
-            if (this.full) return true;
+		showBigThumbnail() {
+			if (this.full) return true;
 
-            if (this.nsfw) return false;
+			if (this.nsfw) return false;
 
-            return false;
-        },
+			return false;
+		},
 
-        showSmallThumbnail() {
-            return !this.showBigThumbnail && !this.nsfw;
-        }
-    },
+		showSmallThumbnail() {
+			return !this.showBigThumbnail && !this.nsfw;
+		}
+	},
 
-    created: function() {
-        if (this.full) {
-            this.getPhotos();
-        }
-    },
+	created: function() {
+		if (this.full) {
+			this.getPhotos();
+		}
+	},
 
-    methods: {
-        setCurrentImage(index) {
-            this.currentImageIndex = index;
-        },
+	methods: {
+		setCurrentImage(index) {
+			this.currentImageIndex = index;
+		},
 
-        getPhotos() {
-            axios
-                .get('/submissions/photos', {
+		getPhotos() {
+			axios
+				.get('/submissions/photos', {
 					params: {
 						submission_id: this.submission.id
 					}
 				})
-                .then(response => {
-                    this.photos = response.data.data;
-                });
-        }
-    }
+				.then((response) => {
+					this.photos = response.data.data;
+				});
+		}
+	}
 };
 </script>

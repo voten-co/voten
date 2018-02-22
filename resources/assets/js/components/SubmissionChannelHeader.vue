@@ -18,53 +18,54 @@
 
 
 <script>
-	import Subscribe from '../components/SubscribeButton.vue';
+import Subscribe from '../components/SubscribeButton.vue';
 
-    export default {
-        data () {
-            return {
-                Store
-            }
+export default {
+	data() {
+		return {
+			Store
+		};
+	},
+
+	components: { Subscribe },
+
+	computed: {
+		name() {
+			return Store.page.channel.temp.name;
 		},
-		
-		components: {Subscribe}, 
 
-        computed: {
-			name() {
-				return Store.page.channel.temp.name;
-			}, 
-
-			avatar() {
-				return Store.page.channel.temp.avatar;
-			}, 
-
-			coverBackground () {
-	        	if (Store.page.channel.temp.color == 'Red') {
-	        		return '#9a4e4e'
-	        	} else if (Store.page.channel.temp.color == 'Blue') {
-	        		return '#5487d4'
-	        	} else if (Store.page.channel.temp.color == 'Dark Blue') {
-	        		return '#2f3b49'
-	        	} else if (Store.page.channel.temp.color == 'Dark Green') {
-	        		return '#507e75'
-	        	} else if (Store.page.channel.temp.color == 'Bright Green') {
-	        		return 'rgb(117, 148, 127)'
-	        	} else if (Store.page.channel.temp.color == 'Purple') {
-	        		return '#4d4261'
-	        	} else if (Store.page.channel.temp.color == 'Orange') {
-	        		return '#ffaf40'
-	        	} else if (Store.page.channel.temp.color == 'Pink') {
-	        		return '#ec7daa'
-	        	} else { // userStore.cover_color == 'Black'
-	        		return '#424242'
-	        	}
-	        }
+		avatar() {
+			return Store.page.channel.temp.avatar;
 		},
-		
-		methods: {
-			goBack() {
-				history.go(-1); 
+
+		coverBackground() {
+			if (Store.page.channel.temp.color == 'Red') {
+				return '#9a4e4e';
+			} else if (Store.page.channel.temp.color == 'Blue') {
+				return '#5487d4';
+			} else if (Store.page.channel.temp.color == 'Dark Blue') {
+				return '#2f3b49';
+			} else if (Store.page.channel.temp.color == 'Dark Green') {
+				return '#507e75';
+			} else if (Store.page.channel.temp.color == 'Bright Green') {
+				return 'rgb(117, 148, 127)';
+			} else if (Store.page.channel.temp.color == 'Purple') {
+				return '#4d4261';
+			} else if (Store.page.channel.temp.color == 'Orange') {
+				return '#ffaf40';
+			} else if (Store.page.channel.temp.color == 'Pink') {
+				return '#ec7daa';
+			} else {
+				// userStore.cover_color == 'Black'
+				return '#424242';
 			}
 		}
-    };
+	},
+
+	methods: {
+		goBack() {
+			history.go(-1);
+		}
+	}
+};
 </script>

@@ -24,92 +24,92 @@ import NoMoreItems from '../components/NoMoreItems.vue';
 import Helpers from '../mixins/Helpers';
 
 export default {
-    mixins: [Helpers],
+	mixins: [Helpers],
 
-    components: {
-        Loading,
-        Comment,
-        NoContent,
-        NoMoreItems
-    },
+	components: {
+		Loading,
+		Comment,
+		NoContent,
+		NoMoreItems
+	},
 
-    data: function() {
-        return {
-            NoMoreItems: false,
-            loading: true,
-            nothingFound: false,
-            comments: [],
-            page: 0
-        };
-    },
+	data: function() {
+		return {
+			NoMoreItems: false,
+			loading: true,
+			nothingFound: false,
+			comments: [],
+			page: 0
+		};
+	},
 
-    created() {
-        this.$eventHub.$on('scrolled-to-bottom', this.loadMore);
-        this.getComments();
-    },
+	created() {
+		this.$eventHub.$on('scrolled-to-bottom', this.loadMore);
+		this.getComments();
+	},
 
-    watch: {
-        $route: function() {
-            this.clearContent();
-            this.getComments();
-        }
-    },
+	watch: {
+		$route: function() {
+			this.clearContent();
+			this.getComments();
+		}
+	},
 
-    computed: {
-        cantLoadMore() {
-            return this.loading || this.NoMoreItems || this.nothingFound;
-        },
+	computed: {
+		cantLoadMore() {
+			return this.loading || this.NoMoreItems || this.nothingFound;
+		},
 
-        uniqueList() {
-            let unique = [];
-            let temp = [];
+		uniqueList() {
+			let unique = [];
+			let temp = [];
 
-            this.comments.forEach(function(element, index, self) {
-                if (temp.indexOf(element.id) === -1) {
-                    unique.push(element);
-                    temp.push(element.id);
-                }
-            });
+			this.comments.forEach(function(element, index, self) {
+				if (temp.indexOf(element.id) === -1) {
+					unique.push(element);
+					temp.push(element.id);
+				}
+			});
 
-            return unique;
-        }
-    },
+			return unique;
+		}
+	},
 
-    methods: {
-        loadMore() {
-            if (!this.loading && !this.NoMoreItems) {
-                this.getComments();
-            }
-        },
+	methods: {
+		loadMore() {
+			if (!this.loading && !this.NoMoreItems) {
+				this.getComments();
+			}
+		},
 
-        clearContent() {
-            this.nothingFound = false;
-            this.users = [];
-            this.loading = true;
-        },
+		clearContent() {
+			this.nothingFound = false;
+			this.users = [];
+			this.loading = true;
+		},
 
-        getComments() {
-            this.loading = true;
-            this.page++;
+		getComments() {
+			this.loading = true;
+			this.page++;
 
-            axios
-                .post('/admin/comments', {
-                    page: this.page
-                })
-                .then(response => {
-                    this.comments = [...this.comments, ...response.data.data];
+			axios
+				.post('/admin/comments', {
+					page: this.page
+				})
+				.then((response) => {
+					this.comments = [...this.comments, ...response.data.data];
 
-                    if (response.data.links.next == null) {
-                        this.NoMoreItems = true;
-                    }
+					if (response.data.links.next == null) {
+						this.NoMoreItems = true;
+					}
 
-                    if (this.comments.length == 0) {
-                        this.nothingFound = true;
-                    }
+					if (this.comments.length == 0) {
+						this.nothingFound = true;
+					}
 
-                    this.loading = false;
-                });
-        }
-    }
+					this.loading = false;
+				});
+		}
+	}
 };
 </script>

@@ -7,27 +7,27 @@
 </template>
 
 <script>
-	import AdminPanelHeader from '../components/AdminPanelHeader.vue';
+import AdminPanelHeader from '../components/AdminPanelHeader.vue';
 
-    export default {
-        components: {
-        	AdminPanelHeader
-        },
+export default {
+	components: {
+		AdminPanelHeader
+	},
 
-        data() {
-            return {
-                statistics: []
-            }
-        },
+	data() {
+		return {
+			statistics: []
+		};
+	},
 
-        beforeRouteEnter(to, from, next) {
-        	axios.post('/big-daddy').then((response) => {
-                if (response.data == true) {
-                	next();
-                }
+	beforeRouteEnter(to, from, next) {
+		axios.post('/big-daddy').then((response) => {
+			if (response.data == true) {
+				next();
+			}
 
-                next(false);
-            })
-        },
-    };
+			next(false);
+		});
+	}
+};
 </script>

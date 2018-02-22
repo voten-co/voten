@@ -31,18 +31,18 @@
 </template>
 
 <script>
-	import Helpers from '../mixins/Helpers';
+import Helpers from '../mixins/Helpers';
 
-    export default {
-		mixins: [Helpers],
+export default {
+	mixins: [Helpers],
 
-        beforeRouteEnter (to, from, next) {
-			Store.page.bookmarkedSubmissions.clear(); 
-			Store.page.bookmarkedComments.clear(); 
-			Store.page.bookmarkedChannels.clear(); 
-			Store.page.bookmarkedUsers.clear(); 
-			
-			next();
-        },
-    };
+	beforeRouteEnter(to, from, next) {
+		Store.page.bookmarkedSubmissions.clear();
+		Store.page.bookmarkedComments.clear();
+		Store.page.bookmarkedChannels.clear();
+		Store.page.bookmarkedUsers.clear();
+
+		next();
+	}
+};
 </script>

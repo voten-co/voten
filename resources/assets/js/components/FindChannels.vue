@@ -63,167 +63,173 @@
 
 
 <script>
-	import BookmarkedChannel from "../components/BookmarkedChannel.vue";
-	import NoContent from "../components/NoContent.vue";
-	import NoMoreItems from "../components/NoMoreItems.vue";
-	import Loading from "../components/Loading.vue";
+import BookmarkedChannel from '../components/BookmarkedChannel.vue';
+import NoContent from '../components/NoContent.vue';
+import NoMoreItems from '../components/NoMoreItems.vue';
+import Loading from '../components/Loading.vue';
 
-	export default {
-		components: {
-			BookmarkedChannel,
-			NoContent,
-			NoMoreItems,
-			Loading
+export default {
+	components: {
+		BookmarkedChannel,
+		NoContent,
+		NoMoreItems,
+		Loading
+	},
+
+	data() {
+		return {
+			Store,
+			auth,
+			NoMoreItems: false,
+			loading: true,
+			items: [],
+			page: 0,
+			searchFilter: '',
+			excludeSubscribeds: true,
+			orderBy: 'None'
+		};
+	},
+
+	computed: {
+		cantLoadMore() {
+			return this.loading || this.NoMoreItems || this.nothingFound;
 		},
 
-		data() {
-			return {
-				Store,
-				auth,
-				NoMoreItems: false,
-				loading: true,
-				items: [],
-				page: 0,
-				searchFilter: "",
-				excludeSubscribeds: true,
-				orderBy: "None"
-			};
+		noContent() {
+			return !this.items.length && !this.loading ? true : false;
 		},
 
-		computed: {
-			cantLoadMore() {
-				return this.loading || this.NoMoreItems || this.nothingFound;
-			},
+		reachedMinimum() {
+			return Store.state.subscribedChannels.length > 2;
+		},
 
-			noContent() {
-				return !this.items.length && !this.loading ? true : false;
-			},
+		subscribedChannelsCount() {
+			return Store.state.subscribedChannels.length;
+		},
 
-			reachedMinimum() {
-				return Store.state.subscribedChannels.length > 2;
-			},
+		/**
+		 * Has the user just registered?
+		 *
+		 * @return Boolean
+		 */
+		isNewbie() {
+			return this.$route.query.newbie == 1;
+		},
 
-			subscribedChannelsCount() {
-				return Store.state.subscribedChannels.length;
-			},
-
-			/**
-			 * Has the user just registered?
-			 *
-			 * @return Boolean
-			 */
-			isNewbie() {
-				 return this.$route.query.newbie == 1;
-			},
-
-			/**
-			 * Is user allowed to leave this route?
-			 *
-			 * @return Boolean
-			 */
-			canLeave() {
-				if (this.isNewbie) {
-					return this.reachedMinimum;
-				}
-
-				return true;
+		/**
+		 * Is user allowed to leave this route?
+		 *
+		 * @return Boolean
+		 */
+		canLeave() {
+			if (this.isNewbie) {
+				return this.reachedMinimum;
 			}
+
+			return true;
+		}
+	},
+
+	created() {
+		this.getChannels();
+	},
+
+	methods: {
+		excludeSubscribedsChanged() {
+			this.clear();
+			this.searchFilter ? this.search() : this.getChannels();
 		},
 
-		created() {
+		changeOrder(order) {
+			this.clear();
+			this.searchFilter = '';
 			this.getChannels();
 		},
 
-		methods: {
-			excludeSubscribedsChanged() {
-				this.clear();
-				this.searchFilter ? this.search() : this.getChannels();
-			}, 
-
-			changeOrder(order) {
-				this.clear();
-				this.searchFilter = "";
+		loadMore() {
+			if (
+				!this.loading &&
+				!this.NoMoreItems &&
+				!this.searchFilter.trim()
+			) {
 				this.getChannels();
-			},
+			}
+		},
 
-			loadMore() {
-				if (
-					!this.loading &&
-					!this.NoMoreItems &&
-					!this.searchFilter.trim()
-				) {
-					this.getChannels();
-				}
-			},
+		getChannels() {
+			this.loading = true;
+			this.page++;
 
-			getChannels() {
-				this.loading = true;
-				this.page++;
-
-				axios.get("/channels/discover", {
+			axios
+				.get('/channels/discover', {
 					params: {
 						page: this.page,
 						order_by: this.orderBy,
 						exclude_subscribeds: this.excludeSubscribeds
 					}
-				}).then(response => {
+				})
+				.then((response) => {
 					this.items = [...this.items, ...response.data.data];
 
-					if (response.data.links.next == null) this.NoMoreItems = true;
+					if (response.data.links.next == null)
+						this.NoMoreItems = true;
 
 					this.loading = false;
-				}).catch(error => {
+				})
+				.catch((error) => {
 					this.loading = false;
-				}); 
-			},
-
-			clear() {
-				this.items = [];
-				this.page = 0;
-				this.NoMoreItems = false;
-			},
-
-			search: _.debounce(function () {
-				if (!this.searchFilter.trim()) {
-					this.clear();
-					this.getChannels();
-
-					return;
-				}
-
-				this.clear();
-				this.orderBy = "";
-				this.loading = true;
-
-				axios.get("/channels/discover", {
-						params: {
-							filter: this.searchFilter,
-							exclude_subscribeds: this.excludeSubscribeds
-						}
-					})
-					.then(response => {
-						this.items = response.data.data;
-
-						if (response.data.links.next == null) this.NoMoreItems = true;
-
-						this.loading = false;
-					});
-			}, 600)
+				});
 		},
 
-		beforeRouteLeave(to, from, next) {
-			if (!this.canLeave) {
-				next(false);
-			} else {
-				next();
+		clear() {
+			this.items = [];
+			this.page = 0;
+			this.NoMoreItems = false;
+		},
+
+		search: _.debounce(function() {
+			if (!this.searchFilter.trim()) {
+				this.clear();
+				this.getChannels();
+
+				return;
 			}
+
+			this.clear();
+			this.orderBy = '';
+			this.loading = true;
+
+			axios
+				.get('/channels/discover', {
+					params: {
+						filter: this.searchFilter,
+						exclude_subscribeds: this.excludeSubscribeds
+					}
+				})
+				.then((response) => {
+					this.items = response.data.data;
+
+					if (response.data.links.next == null)
+						this.NoMoreItems = true;
+
+					this.loading = false;
+				});
+		}, 600)
+	},
+
+	beforeRouteLeave(to, from, next) {
+		if (!this.canLeave) {
+			next(false);
+		} else {
+			next();
 		}
-	};
+	}
+};
 </script>
 
 <style>
-	.find-channels-filters-wrapper {
-		padding: 1em;
-		border-bottom: 2px solid #5587d7;
-	}
+.find-channels-filters-wrapper {
+	padding: 1em;
+	border-bottom: 2px solid #5587d7;
+}
 </style>

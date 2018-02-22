@@ -202,119 +202,120 @@ import VueRecaptcha from 'vue-recaptcha';
 import GoogleLoginButton from '../components/GoogleLoginButton';
 
 export default {
-    mixins: [Helpers],
+	mixins: [Helpers],
 
-    components: { GoogleLoginButton, VueRecaptcha },
+	components: { GoogleLoginButton, VueRecaptcha },
 
-    props: ['visible'],
+	props: ['visible'],
 
-    data() {
-        return {
-            type: 'register',
-            loading: false,
-            showPassword: false,
-            recaptchaKey: window.Laravel.recaptchaKey,
+	data() {
+		return {
+			type: 'register',
+			loading: false,
+			showPassword: false,
+			recaptchaKey: window.Laravel.recaptchaKey,
 
-            registerForm: {
-                username: '',
-                password: '',
-                password_confirmation: '',
-                email: '',
-                errors: [],
-                reCAPTCHA: ''
-            },
+			registerForm: {
+				username: '',
+				password: '',
+				password_confirmation: '',
+				email: '',
+				errors: [],
+				reCAPTCHA: ''
+			},
 
-            loginForm: {
-                username: '',
-                password: '',
-                errors: [],
-                remember: true
-            }
-        };
-    },
+			loginForm: {
+				username: '',
+				password: '',
+				errors: [],
+				remember: true
+			}
+		};
+	},
 
-    beforeDestroy() {
-        if (window.location.hash == '#authintication') {
-            history.go(-1);
-        }
-    },
+	beforeDestroy() {
+		if (window.location.hash == '#authintication') {
+			history.go(-1);
+		}
+	},
 
-    created() {
-        window.location.hash = 'authintication';
-    },
+	created() {
+		window.location.hash = 'authintication';
+	},
 
-    computed: {
-        isLogin() {
-            return this.type == 'login';
-        },
+	computed: {
+		isLogin() {
+			return this.type == 'login';
+		},
 
-        isRegister() {
-            return this.type == 'register';
-        }
-    },
+		isRegister() {
+			return this.type == 'register';
+		}
+	},
 
-    methods: {
-        reCaptchaVerified(response) {
-            this.registerForm.reCAPTCHA = response;
-        },
+	methods: {
+		reCaptchaVerified(response) {
+			this.registerForm.reCAPTCHA = response;
+		},
 
-        reCaptchaExpired() {
-            this.registerForm.reCAPTCHA = '';
-        },
+		reCaptchaExpired() {
+			this.registerForm.reCAPTCHA = '';
+		},
 
-        login() {
-            this.loading = true;
+		login() {
+			this.loading = true;
 
-            axios
-                .post('/login', {
-                    username: this.loginForm.username,
-                    password: this.loginForm.password,
-                    remember: this.loginForm.remember
-                })
-                .then(response => {
-                    this.loading = false;
+			axios
+				.post('/login', {
+					username: this.loginForm.username,
+					password: this.loginForm.password,
+					remember: this.loginForm.remember
+				})
+				.then((response) => {
+					this.loading = false;
 					this.loginForm.errors = [];
-					Vue.clearLS(); 
-                    location.reload();
-                })
-                .catch(error => {
-                    this.loading = false;
-                    this.loginForm.errors = error.response.data.errors;
-                });
-        },
+					Vue.clearLS();
+					location.reload();
+				})
+				.catch((error) => {
+					this.loading = false;
+					this.loginForm.errors = error.response.data.errors;
+				});
+		},
 
-        register() {
-            this.loading = true;
+		register() {
+			this.loading = true;
 
-            axios
-                .post('/register', {
-                    username: this.registerForm.username,
-                    email: this.registerForm.email,
-                    password: this.registerForm.password,
-                    password_confirmation: this.registerForm.password_confirmation,
-                    'g-recaptcha-response': this.registerForm.reCAPTCHA
-                })
-                .then(response => {
-                    this.loading = false;
-                    this.registerForm.errors = [];
-                    window.location = '/discover-channels?newbie=1&sidebar=0';
-                })
-                .catch(error => {
-                    this.loading = false;
-                    this.$refs.recaptcha.reset();
-                    this.registerForm.errors = error.response.data.errors;
-                });
-        },
+			axios
+				.post('/register', {
+					username: this.registerForm.username,
+					email: this.registerForm.email,
+					password: this.registerForm.password,
+					password_confirmation: this.registerForm
+						.password_confirmation,
+					'g-recaptcha-response': this.registerForm.reCAPTCHA
+				})
+				.then((response) => {
+					this.loading = false;
+					this.registerForm.errors = [];
+					window.location = '/discover-channels?newbie=1&sidebar=0';
+				})
+				.catch((error) => {
+					this.loading = false;
+					this.$refs.recaptcha.reset();
+					this.registerForm.errors = error.response.data.errors;
+				});
+		},
 
-        switchType(type) {
-            this.loginForm.errors = [];
-            this.registerForm.errors = [];
-            this.type = type;
-        },
+		switchType(type) {
+			this.loginForm.errors = [];
+			this.registerForm.errors = [];
+			this.type = type;
+		},
 
-        close() {
-            this.$emit('update:visible', false);
-        }
-    }
+		close() {
+			this.$emit('update:visible', false);
+		}
+	}
 };
 </script>

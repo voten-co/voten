@@ -80,86 +80,88 @@
 import Helpers from '../mixins/Helpers';
 
 export default {
-    props: ['visible'],
+	props: ['visible'],
 
-    mixins: [Helpers],
+	mixins: [Helpers],
 
-    data() {
-        return {
-            name: '',
-            description: '',
-            sfw: true,
-            errors: [],
-            customError: '',
-            loading: false,
-            warning: `At the current stage, we're trying to keep the channels number short, making it easier for new users. Thus, please do a little search before creating your channel to make sure a similar one doesn't already exist. `
-        };
-    },
+	data() {
+		return {
+			name: '',
+			description: '',
+			sfw: true,
+			errors: [],
+			customError: '',
+			loading: false,
+			warning: `At the current stage, we're trying to keep the channels number short, making it easier for new users. Thus, please do a little search before creating your channel to make sure a similar one doesn't already exist. `
+		};
+	},
 
-    watch: {
-        'visible'() {
-            if (this.visible) {
-                window.location.hash = 'newChannel';
-            } else {
-                if (window.location.hash == '#newChannel') {
-                    history.go(-1);
-                }
-            }
-        }
-    },
+	watch: {
+		visible() {
+			if (this.visible) {
+				window.location.hash = 'newChannel';
+			} else {
+				if (window.location.hash == '#newChannel') {
+					history.go(-1);
+				}
+			}
+		}
+	},
 
-    computed: {
-        validates() {
-            return this.name.trim() && this.description.trim();
-        }
-    },
+	computed: {
+		validates() {
+			return this.name.trim() && this.description.trim();
+		}
+	},
 
-    methods: {
-        close() {
-            this.$emit('update:visible', false);
-        },
+	methods: {
+		close() {
+			this.$emit('update:visible', false);
+		},
 
-        submit() {
-            this.loading = true;
+		submit() {
+			this.loading = true;
 
-            axios
-                .post('/channels', {
-                    name: this.name,
-                    description: this.description,
-                    nsfw: !this.sfw
-                })
-                .then(response => {
-                    this.errors = [];
+			axios
+				.post('/channels', {
+					name: this.name,
+					description: this.description,
+					nsfw: !this.sfw
+				})
+				.then((response) => {
+					this.errors = [];
 
-                    // let's add the categoriy_id to the user's moderatingAt and administratorAt
-                    Store.state.moderatingAt.push(response.data.id);
-                    Store.state.administratorAt.push(response.data.id);
-                    Store.state.moderatingChannels.push(response.data);
-                    Store.state.subscribedChannels.push(response.data);
-                    Store.state.subscribedAt.push(response.data.id);
-                    Store.page.channel.temp = response.data;
+					// let's add the categoriy_id to the user's moderatingAt and administratorAt
+					Store.state.moderatingAt.push(response.data.id);
+					Store.state.administratorAt.push(response.data.id);
+					Store.state.moderatingChannels.push(response.data);
+					Store.state.subscribedChannels.push(response.data);
+					Store.state.subscribedAt.push(response.data.id);
+					Store.page.channel.temp = response.data;
 
-                    this.$router.push('/c/' + response.data.name + '/mod/settings?created=1');
+					this.$router.push(
+						'/c/' + response.data.name + '/mod/settings?created=1'
+					);
 
-                    this.loading = false;
-                    this.reset();
-                    this.close();
-                })
-                .catch(error => {
-                    this.errors = error.response.data.errors;
+					this.loading = false;
+					this.reset();
+					this.close();
+				})
+				.catch((error) => {
+					this.errors = error.response.data.errors;
 
-                    this.loading = false;
-                });
-        },
+					this.loading = false;
+				});
+		},
 
-        reset() {
-            this.name = '';
-            this.description = '';
-            this.sfw = true;
-            this.errors = [];
-            this.customError = '';
-            this.loading = false;
-        }
-    }
+		reset() {
+			this.name = '';
+			this.description = '';
+			this.sfw = true;
+			this.errors = [];
+			this.customError = '';
+			this.loading = false;
+		}
+	}
 };
 </script>

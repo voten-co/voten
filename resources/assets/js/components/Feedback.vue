@@ -61,62 +61,67 @@
 import Helpers from '../mixins/Helpers';
 
 export default {
-    mixins: [Helpers],
+	mixins: [Helpers],
 
-    props: ['visible'],
+	props: ['visible'],
 
-    data() {
-        return {
-            sending: false,
-            subject: 'Report a bug',
-            description: '',
-            subjects: ['Report a bug', 'Thumbs-up about a feature', 'Suggestion', 'Other']
-        };
-    },
+	data() {
+		return {
+			sending: false,
+			subject: 'Report a bug',
+			description: '',
+			subjects: [
+				'Report a bug',
+				'Thumbs-up about a feature',
+				'Suggestion',
+				'Other'
+			]
+		};
+	},
 
-    mounted() {
-        this.$nextTick(function() {
-            this.$refs.description.$refs.textarea.focus();
-        });
-    },
+	mounted() {
+		this.$nextTick(function() {
+			this.$refs.description.$refs.textarea.focus();
+		});
+	},
 
-    beforeDestroy() {
-        if (window.location.hash == '#feedback') {
-            history.go(-1);
-        }
-    },
+	beforeDestroy() {
+		if (window.location.hash == '#feedback') {
+			history.go(-1);
+		}
+	},
 
-    created() {
-        window.location.hash = 'feedback';
-    },
+	created() {
+		window.location.hash = 'feedback';
+	},
 
-    methods: {
-        close() {
-            this.$emit('update:visible', false);
-        },
+	methods: {
+		close() {
+			this.$emit('update:visible', false);
+		},
 
-        send() {
-            this.sending = true;
+		send() {
+			this.sending = true;
 
-            axios
-                .post('/feedbacks', {
-                    subject: this.subject,
-                    description: this.description
-                })
-                .then(() => {
-                    this.sending = false;
+			axios
+				.post('/feedbacks', {
+					subject: this.subject,
+					description: this.description
+				})
+				.then(() => {
+					this.sending = false;
 
-                    this.$message({
-                        message: 'Feedback recieved. Thanks for caring!',
-                        type: 'success'
-                    });
+					this.$message({
+						message: 'Feedback recieved. Thanks for caring!',
+						type: 'success'
+					});
 
-                    this.close();
-                })
-                .catch(error => {
-                    this.sending = false;
-                });
-        }
-    }
+					this.close();
+				})
+				.catch((error) => {
+					this.sending = false;
+				});
+		}
+	}
 };
 </script>
