@@ -9,6 +9,8 @@ use App\Report;
 use App\Submission;
 use App\User;
 use Illuminate\Http\Request;
+use App\Http\Resources\SubmissionResource;
+use App\Http\Resources\CommentResource;
 
 class AdminController extends Controller
 {
