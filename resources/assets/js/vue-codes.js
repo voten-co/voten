@@ -96,12 +96,14 @@ window.app = new Vue({
 
     computed: {
         unreadNotifications() {
-            return Store.state.notifications.filter(item => item.read_at == null).length;
+            return Store.state.notifications.filter(
+                (item) => item.read_at == null
+            ).length;
         },
 
         unreadMessages() {
             return Store.state.contacts.filter(
-                item =>
+                (item) =>
                     !_.isUndefined(item.last_message.author) &&
                     item.last_message.author.id != auth.id &&
                     item.last_message.read_at == null
@@ -157,11 +159,11 @@ window.app = new Vue({
             let hash = window.location.hash;
 
             if (!hash) {
-                _.forEach(Store.modals, item => {
+                _.forEach(Store.modals, (item) => {
                     item.show = false;
                 });
             } else {
-                let modal = _.find(Store.modals, item => {
+                let modal = _.find(Store.modals, (item) => {
                     return item.hash == hash.substr(1);
                 });
 

@@ -93,87 +93,93 @@
 </template>
 
 <script>
-    export default {
-        data () {
-            return {
-                form: false,
-                loading: false,
-                channel_name: null,
-                group: '',
-                z_index: 0,
-                list: [],
-                Store,
-                channels: [],
-            }
-        },
+export default {
+    data() {
+        return {
+            form: false,
+            loading: false,
+            channel_name: null,
+            group: '',
+            z_index: 0,
+            list: [],
+            Store,
+            channels: []
+        };
+    },
 
-        created () {
-            this.setDefaultChannels()
-            this.getSuggesteds()
-        },
+    created() {
+        this.setDefaultChannels();
+        this.getSuggesteds();
+    },
 
-        methods: {
-            destroy(id) {
-                axios.post('/admin/suggested/destroy', {
+    methods: {
+        destroy(id) {
+            axios
+                .post('/admin/suggested/destroy', {
                     id
-                }).then((response) => {
-                    this.list = this.list.filter(function (item) {
-                        return item.id != id
-                    })
                 })
-            },
+                .then((response) => {
+                    this.list = this.list.filter(function(item) {
+                        return item.id != id;
+                    });
+                });
+        },
 
-            getSuggesteds() {
-                axios.post('/admin/suggesteds').then((response) => {
-                    this.list = response.data
-                })
-            },
+        getSuggesteds() {
+            axios.post('/admin/suggesteds').then((response) => {
+                this.list = response.data;
+            });
+        },
 
-            getChannels: _.debounce(function (query) {
-                if (!query) return
+        getChannels: _.debounce(function(query) {
+            if (!query) return;
 
-                this.loading = true
+            this.loading = true;
 
-                axios.get('/admin/get-channels', {
+            axios
+                .get('/admin/get-channels', {
                     params: {
                         name: query
                     }
-                }).then((response) => {
-                    this.channels = response.data
-                    this.loading = false
                 })
-            }, 600),
+                .then((response) => {
+                    this.channels = response.data;
+                    this.loading = false;
+                });
+        }, 600),
 
-            /**
-             * Sets the default value for suggestCats (uses user's already subscriber channels)
-             *
-             * @return void
-             */
-            setDefaultChannels(){
-                let array = []
+        /**
+         * Sets the default value for suggestCats (uses user's already subscriber channels)
+         *
+         * @return void
+         */
+        setDefaultChannels() {
+            let array = [];
 
-                Store.state.subscribedChannels.forEach(function (element, index) {
-                    array.push(element.name)
-                })
+            Store.state.subscribedChannels.forEach(function(element, index) {
+                array.push(element.name);
+            });
 
-                this.channels = array
-            },
+            this.channels = array;
+        },
 
-            updateSelected (newSelected) {
-                this.channel_name = newSelected
-            },
+        updateSelected(newSelected) {
+            this.channel_name = newSelected;
+        },
 
-            submit() {
-                axios.post('/channels/discover', {
+        submit() {
+            axios
+                .post('/channels/discover', {
                     channel_name: this.channel_name,
                     group: this.group,
-                    z_index: this.z_index,
-                }).then((response) => {
-                    this.channel_name = null
-                    this.group = ''
-                    this.list.unshift(response.data)
+                    z_index: this.z_index
                 })
-            }
+                .then((response) => {
+                    this.channel_name = null;
+                    this.group = '';
+                    this.list.unshift(response.data);
+                });
         }
-    };
+    }
+};
 </script>

@@ -34,14 +34,14 @@
 // only desktop
 @media (min-width: 768px) {
     .col-7 {
-	    max-width: 700px;
-	    margin: 0 auto;
-	    padding: 0 1em;
-	}
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 0 1em;
+    }
 }
 
 .col-full {
-	width: 100%;
+    width: 100%;
     margin: 0 auto;
 }
 
@@ -153,11 +153,11 @@
             font-size: 80%;
             width: 100%;
             color: #333;
-            padding: .7em 1em;
+            padding: 0.7em 1em;
             background: #fff;
             border-radius: 4px;
             font-weight: bold;
-            margin-bottom: .1em;
+            margin-bottom: 0.1em;
 
             &:hover {
                 background: #f2f2f2;
@@ -224,7 +224,7 @@
     -ms-flex-align: center;
     height: 100%;
 
-    .home-submissions, 
+    .home-submissions,
     .bookmarked-items {
         flex-grow: 1;
         -ms-flex-negative: 1;
@@ -263,30 +263,29 @@
     }
 }
 
-#submissions, 
-#channels, 
-#comments-index, 
+#submissions,
+#channels,
+#comments-index,
 #settings {
     overflow-y: scroll;
 }
 
 #comments-submission-page {
-    overflow-y: auto; 
+    overflow-y: auto;
 }
 
-// only desktop 
+// only desktop
 @media (min-width: 768px) {
-    #submissions, 
-    #comments-index, 
+    #submissions,
+    #comments-index,
     #settings {
         padding: 2em 1em;
     }
 }
 
-
 // only mobile
 @media (max-width: 768px) {
-	.home-wrapper {
+    .home-wrapper {
         height: inherit;
     }
 }

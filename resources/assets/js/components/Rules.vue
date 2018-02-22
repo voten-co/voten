@@ -31,38 +31,40 @@
 </template>
 
 <script>
-    import Markdown from '../components/Markdown.vue'
-    import Helpers from '../mixins/Helpers';
-    import Loading from '../components/SimpleLoading.vue';
+import Markdown from '../components/Markdown.vue';
+import Helpers from '../mixins/Helpers';
+import Loading from '../components/SimpleLoading.vue';
 
-    export default {
-        components: { Markdown, Loading },
+export default {
+    components: { Markdown, Loading },
 
-        mixins: [Helpers],
+    mixins: [Helpers],
 
-        props: ['visible'],
+    props: ['visible'],
 
-        data() {
-            return {
-                nothingFound: false,
-                loading: true,
-                rules: [],
-            }
-        },
+    data() {
+        return {
+            nothingFound: false,
+            loading: true,
+            rules: []
+        };
+    },
 
-        created() {
-            this.getRules();
-        },
+    created() {
+        this.getRules();
+    },
 
-        methods: {
-            getRules() {
-                this.loading = true;
+    methods: {
+        getRules() {
+            this.loading = true;
 
-                axios.get('/channels/rules', {
+            axios
+                .get('/channels/rules', {
                     params: {
                         channel_name: this.$route.params.name
                     }
-                }).then((response) => {
+                })
+                .then((response) => {
                     this.rules = response.data.data;
 
                     if (!this.rules.length) {
@@ -70,14 +72,15 @@
                     }
 
                     this.loading = false;
-                }).catch(() => {
+                })
+                .catch(() => {
                     this.loading = false;
                 });
-            },
-
-            close() {
-                this.$emit('update:visible', false);
-            },
         },
+
+        close() {
+            this.$emit('update:visible', false);
+        }
     }
+};
 </script>

@@ -48,123 +48,138 @@
 </template>
 
 <script>
-    import Rule from '../components/Rule.vue';
+import Rule from '../components/Rule.vue';
 
-    export default {
-        components: { Rule },
+export default {
+    components: { Rule },
 
-        data() {
-            return {
-                sending: false,
-                editing: false,
-                errors: [],
-                title: null,
-                id: null,
-                channel_id: null,
-                items: [],
-                type: 'create',
-            }
-        },
+    data() {
+        return {
+            sending: false,
+            editing: false,
+            errors: [],
+            title: null,
+            id: null,
+            channel_id: null,
+            items: [],
+            type: 'create'
+        };
+    },
 
-        created () {
-            this.getItems()
-        },
+    created() {
+        this.getItems();
+    },
 
-        methods: {
-            createRule() {
-                this.sending = true;
+    methods: {
+        createRule() {
+            this.sending = true;
 
-                axios.post('/channels/rules', {
+            axios
+                .post('/channels/rules', {
                     body: this.title,
-                    channel_id: Store.page.channel.temp.id 
-                }).then((response) => {
-                    this.items.unshift(response.data.data); 
-                    this.clear(); 
+                    channel_id: Store.page.channel.temp.id
+                })
+                .then((response) => {
+                    this.items.unshift(response.data.data);
+                    this.clear();
                     this.sending = false;
-                }).catch((error) => {
+                })
+                .catch((error) => {
                     this.errors = error.response.data.errors;
                     this.sending = false;
-                }); 
-            },
+                });
+        },
 
-            getItems() {
-                this.loading = true;
+        getItems() {
+            this.loading = true;
 
-                axios.get('/channels/rules', {
+            axios
+                .get('/channels/rules', {
                     params: {
                         channel_name: this.$route.params.name
                     }
-                }).then((response) => {
+                })
+                .then((response) => {
                     this.items = response.data.data;
                     this.loading = false;
-                }).catch(() => {
+                })
+                .catch(() => {
                     this.loading = false;
                 });
-            },
+        },
 
-            destroy(rule_id, channel_id){
-                axios.delete('/channels/rules', {
+        destroy(rule_id, channel_id) {
+            axios
+                .delete('/channels/rules', {
                     params: {
                         id: rule_id
                     }
-                }).then(() => {
-                    this.items = this.items.filter(function (item) {
-                        return item.id != rule_id
+                })
+                .then(() => {
+                    this.items = this.items.filter(function(item) {
+                        return item.id != rule_id;
                     });
                 });
-            },
+        },
 
-            editRule(rule) {
-                this.title = rule.title;
-                this.id = rule.id;
-                this.channel_id = rule.channel_id;
+        editRule(rule) {
+            this.title = rule.title;
+            this.id = rule.id;
+            this.channel_id = rule.channel_id;
 
-                this.type = 'edit';
-            },
+            this.type = 'edit';
+        },
 
-            patch() {
-                this.editing = true;
+        patch() {
+            this.editing = true;
 
-                axios.patch('/channels/rules', {
+            axios
+                .patch('/channels/rules', {
                     body: this.title,
-                    id: this.id,
-                }).then(() => {
-                    let id = this.id
+                    id: this.id
+                })
+                .then(() => {
+                    let id = this.id;
 
                     function findObject(ob) {
-                        return ob.id === id
+                        return ob.id === id;
                     }
 
-                    this.items.find(findObject).title = this.title
+                    this.items.find(findObject).title = this.title;
 
                     this.clear();
                     this.editing = false;
-                }).catch((error) => {
+                })
+                .catch((error) => {
                     this.errors = error.response.data.errors;
                     this.editing = false;
                 });
-            },
-
-            clear() {
-                this.title = null;
-                this.id = null;
-                this.channel_id = null;
-                this.type = 'create';
-                this.errors = [];
-            }
         },
 
-        // only administrators can access this route
-        beforeRouteEnter(to, from, next){
-            if (Store.page.channel.temp.name == to.params.name) {
-                // loaded
-                if (Store.state.administratorAt.indexOf(Store.page.channel.temp.id) != -1) {
-                    next()
-                }
-            } else {
-                // not loaded but let's continue (the server-side is still protecting us!)
-                next()
+        clear() {
+            this.title = null;
+            this.id = null;
+            this.channel_id = null;
+            this.type = 'create';
+            this.errors = [];
+        }
+    },
+
+    // only administrators can access this route
+    beforeRouteEnter(to, from, next) {
+        if (Store.page.channel.temp.name == to.params.name) {
+            // loaded
+            if (
+                Store.state.administratorAt.indexOf(
+                    Store.page.channel.temp.id
+                ) != -1
+            ) {
+                next();
             }
-        },
-    };
+        } else {
+            // not loaded but let's continue (the server-side is still protecting us!)
+            next();
+        }
+    }
+};
 </script>

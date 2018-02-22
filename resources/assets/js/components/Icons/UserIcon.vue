@@ -8,16 +8,23 @@
 </template>
 
 <style>
-    .heroicon-user .heroicon-outline { fill: #303034; }
-    .heroicon-user .heroicon-component-fill { fill: #FFF; }
-    .heroicon-user .heroicon-component-accent { fill: #919495; }
-    .heroicon-user .heroicon-shadows { fill: #303034; opacity: 0.4;}
+.heroicon-user .heroicon-outline {
+    fill: #303034;
+}
+.heroicon-user .heroicon-component-fill {
+    fill: #fff;
+}
+.heroicon-user .heroicon-component-accent {
+    fill: #919495;
+}
+.heroicon-user .heroicon-shadows {
+    fill: #303034;
+    opacity: 0.4;
+}
 </style>
 
 <script>
-    export default {
-        props: [
-            'width', 'height',
-        ],
-    };
+export default {
+    props: ['width', 'height']
+};
 </script>

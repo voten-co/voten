@@ -67,7 +67,7 @@
     cursor: not-allowed;
     background-color: transparent;
     background-image: none;
-    filter: "progid:DXImageTransform.Microsoft.gradient(enabled = false)";
+    filter: 'progid:DXImageTransform.Microsoft.gradient(enabled = false)';
 }
 
 .open > .dropdown-menu {
@@ -107,7 +107,7 @@
 
 .dropup .caret,
 .navbar-fixed-bottom .dropdown .caret {
-    content: "";
+    content: '';
     border-top: 0;
     border-bottom: 0.3em solid;
 }

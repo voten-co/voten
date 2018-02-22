@@ -24,11 +24,16 @@ export default {
         getSubmission() {
             axios
                 .get(`/submissions/${this.$route.params.id}`)
-                .then(response => {
+                .then((response) => {
                     this.loading = false;
-                    this.$router.push('/c/' + response.data.channel_name + '/' + response.data.slug);
+                    this.$router.push(
+                        '/c/' +
+                            response.data.channel_name +
+                            '/' +
+                            response.data.slug
+                    );
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.loading = false;
 
                     if (error.response.status === 404) {

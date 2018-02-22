@@ -10,16 +10,23 @@
 </template>
 
 <style>
-    .heroicon-chat .heroicon-outline { fill: #303034; }
-    .heroicon-chat .heroicon-component-fill { fill: #FFF; }
-    .heroicon-chat .heroicon-component-accent { fill: #919495; }
-    .heroicon-chat .heroicon-shadows { fill: #303034; opacity: 0.4;}
+.heroicon-chat .heroicon-outline {
+    fill: #303034;
+}
+.heroicon-chat .heroicon-component-fill {
+    fill: #fff;
+}
+.heroicon-chat .heroicon-component-accent {
+    fill: #919495;
+}
+.heroicon-chat .heroicon-shadows {
+    fill: #303034;
+    opacity: 0.4;
+}
 </style>
 
 <script>
-    export default {
-        props: [
-            'width', 'height',
-        ],
-    };
+export default {
+    props: ['width', 'height']
+};
 </script>

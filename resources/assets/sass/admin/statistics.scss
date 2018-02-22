@@ -1,21 +1,21 @@
 .statistics {
-  .statistic {
-    display: flex;
-    justify-content: space-between;
-    align-items:center;
-    border-radius: 4px;
-    padding: 2em;
-    margin-bottom: 1em;
+    .statistic {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 4px;
+        padding: 2em;
+        margin-bottom: 1em;
 
-    .panel-number-big {
-      font-size: 3em;
-      display: flex;
-      flex-direction: column;
-      align-items:center;
+        .panel-number-big {
+            font-size: 3em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
 
-      .des {
-        font-size: 15px;
-      }
+            .des {
+                font-size: 15px;
+            }
+        }
     }
-  }
 }

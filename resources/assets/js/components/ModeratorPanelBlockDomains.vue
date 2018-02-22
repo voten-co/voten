@@ -50,100 +50,111 @@
 </template>
 
 <script>
-    import BlockedDomain from '../components/BlockedDomain.vue'
+import BlockedDomain from '../components/BlockedDomain.vue';
 
-    export default {
-        components: { BlockedDomain },
+export default {
+    components: { BlockedDomain },
 
-        data: function () {
-            return {
-                loading: false,
-                sending: false,
-                errors: [],
-                domain: null,
-                description: '',
-                blockedDomains: []
-            }
-        },
+    data: function() {
+        return {
+            loading: false,
+            sending: false,
+            errors: [],
+            domain: null,
+            description: '',
+            blockedDomains: []
+        };
+    },
 
-        created () {
-            this.getBlockedDomains()
-        },
+    created() {
+        this.getBlockedDomains();
+    },
 
-        methods: {
-            blockDomain() {
-                if (!this.domain) return
+    methods: {
+        blockDomain() {
+            if (!this.domain) return;
 
-                this.sending = true
-                this.blockErrors = [];
+            this.sending = true;
+            this.blockErrors = [];
 
-                axios.post('/channels/domains/block', {
+            axios
+                .post('/channels/domains/block', {
                     domain: this.domain,
                     description: this.description,
-                    channel_id: Store.page.channel.temp.id, 
-                }).then((response) => {
+                    channel_id: Store.page.channel.temp.id
+                })
+                .then((response) => {
                     this.domain = '';
                     this.description = '';
                     this.errors = [];
                     this.blockedDomains.unshift(response.data.data);
                     this.sending = false;
-                }).catch((error) => {
+                })
+                .catch((error) => {
                     this.errors = error.response.data.errors;
                     this.sending = false;
                 });
-            },
+        },
 
+        /**
+         * Fetches the list of already blocked domains on this channel.
+         *
+         * @return void
+         */
+        getBlockedDomains() {
+            this.loading = true;
 
-            /**
-             * Fetches the list of already blocked domains on this channel.
-             *
-             * @return void
-             */
-            getBlockedDomains () {
-                this.loading = true;
-
-                axios.get('/channels/domains/block', {
+            axios
+                .get('/channels/domains/block', {
                     params: {
-                        channel_id: Store.page.channel.temp.id, 
+                        channel_id: Store.page.channel.temp.id
                     }
-                }).then((response) => {
+                })
+                .then((response) => {
                     this.blockedDomains = response.data.data;
                     this.loading = false;
-                }).catch(() => {
+                })
+                .catch(() => {
                     this.loading = false;
                 });
-            },
+        },
 
-            /**
-             * Unblock the domain (destroy the blockedDomain record).
-             *
-             * @return void
-             */
-            unblock(domain) {
-                axios.delete('/channels/domains/block', {
+        /**
+         * Unblock the domain (destroy the blockedDomain record).
+         *
+         * @return void
+         */
+        unblock(domain) {
+            axios
+                .delete('/channels/domains/block', {
                     params: {
                         domain: domain,
-                        channel_id: Store.page.channel.temp.id, 
+                        channel_id: Store.page.channel.temp.id
                     }
-                }).then(() => {
-                    this.blockedDomains = this.blockedDomains.filter(function (item) {
-                        return item.domain != domain;
-                    })
                 })
-            },
-        },
+                .then(() => {
+                    this.blockedDomains = this.blockedDomains.filter(function(
+                        item
+                    ) {
+                        return item.domain != domain;
+                    });
+                });
+        }
+    },
 
-
-        beforeRouteEnter(to, from, next){
-            if (Store.page.channel.temp.name == to.params.name) {
-                // loaded
-                if (Store.state.moderatingAt.indexOf(Store.page.channel.temp.id) != -1) {
-                    next()
-                }
-            } else {
-                // not loaded but let's continue (the server-side is still protecting us!)
-                next()
+    beforeRouteEnter(to, from, next) {
+        if (Store.page.channel.temp.name == to.params.name) {
+            // loaded
+            if (
+                Store.state.moderatingAt.indexOf(Store.page.channel.temp.id) !=
+                -1
+            ) {
+                next();
             }
-        },
-    };
+        } else {
+            // not loaded but let's continue (the server-side is still protecting us!)
+            next();
+        }
+    }
+};
 </script>

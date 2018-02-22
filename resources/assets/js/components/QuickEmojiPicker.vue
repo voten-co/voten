@@ -60,7 +60,12 @@ export default {
             }
 
             return this.list
-                .filter(item => item.shortname.indexOf(self.searched.toLowerCase().trim()) !== -1)
+                .filter(
+                    (item) =>
+                        item.shortname.indexOf(
+                            self.searched.toLowerCase().trim()
+                        ) !== -1
+                )
                 .slice(0, 5);
         },
 
@@ -72,7 +77,10 @@ export default {
         searched() {
             let cursorPosition = this.getCursorPositionById(this.textareaid);
 
-            return this.message.substr(this.starter + 1, cursorPosition - this.starter - 1);
+            return this.message.substr(
+                this.starter + 1,
+                cursorPosition - this.starter - 1
+            );
         }
     },
 
@@ -98,7 +106,7 @@ export default {
                 return;
             }
 
-            axios.get('/emojis').then(response => {
+            axios.get('/emojis').then((response) => {
                 let temp = [];
 
                 response.data.forEach((element, index, self) => {
@@ -146,7 +154,9 @@ export default {
 
             // if the history exists in the localStorage then update it
             if (this.history.length) {
-                this.history = this.history.filter(item => item.shortname !== e.shortname);
+                this.history = this.history.filter(
+                    (item) => item.shortname !== e.shortname
+                );
 
                 this.history.unshift(e);
 

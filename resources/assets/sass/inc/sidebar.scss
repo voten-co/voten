@@ -42,7 +42,7 @@
         position: relative;
         cursor: pointer;
 
-        @include darker-on-hover()
+        @include darker-on-hover();
     }
 
     .active {
@@ -57,7 +57,7 @@
             margin-top 0.25s ease-in-out;
         transition: height 0.25s ease-in-out, margin-top 0.25s ease-in-out;
         border-radius: 2px;
-        content: " ";
+        content: ' ';
         left: -6px;
         position: absolute;
         top: 50%;
@@ -144,7 +144,7 @@
 
     h3 {
         font-weight: bold;
-        margin: 0 0 .5em 0;
+        margin: 0 0 0.5em 0;
     }
 }
 

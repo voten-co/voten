@@ -18,11 +18,11 @@ export default {
             axios
                 .get('/submissions', {
                     params: {
-                        slug, 
-                        with_channel: 1 
+                        slug,
+                        with_channel: 1
                     }
                 })
-                .then(response => {
+                .then((response) => {
                     this.submission = response.data.data;
 
                     Store.page.channel.temp = response.data.data.channel;
@@ -31,7 +31,7 @@ export default {
 
                     resolve(response.data);
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.loadingSubmission = false;
 
                     reject(error);

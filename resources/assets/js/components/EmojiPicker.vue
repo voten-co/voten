@@ -55,7 +55,7 @@
 import InputHelpers from '../mixins/InputHelpers';
 
 export default {
-    mixins: [InputHelpers], 
+    mixins: [InputHelpers],
 
     data() {
         return {
@@ -65,14 +65,14 @@ export default {
         };
     },
 
-    props: ['textareaid'], 
+    props: ['textareaid'],
 
     computed: {
         filteredHistory() {
             let self = this;
 
             return this.history.filter(
-                item =>
+                (item) =>
                     item.name.indexOf(self.searched.toLowerCase()) !== -1 ||
                     item.shortname.indexOf(self.searched.toLowerCase()) !== -1
             );
@@ -82,7 +82,7 @@ export default {
             let self = this;
 
             return this.list.filter(
-                item =>
+                (item) =>
                     item.name.indexOf(self.searched.toLowerCase()) !== -1 ||
                     item.shortname.indexOf(self.searched.toLowerCase()) !== -1
             );
@@ -101,7 +101,7 @@ export default {
                 return;
             }
 
-            axios.get('/emojis').then(response => {
+            axios.get('/emojis').then((response) => {
                 let temp = [];
                 response.data.forEach((element, index, self) => {
                     temp.push(element);
@@ -126,14 +126,16 @@ export default {
 
         pick(e) {
             let cursorPosition = this.getCursorPositionById(this.textareaid);
-            
+
             this.$emit('pick', e.shortname, cursorPosition, 0);
 
             this.searched = '';
 
             // if the history exists in the localStorage then update it
             if (this.history.length) {
-                this.history = this.history.filter(item => item.shortname !== e.shortname);
+                this.history = this.history.filter(
+                    (item) => item.shortname !== e.shortname
+                );
 
                 this.history.unshift(e);
 

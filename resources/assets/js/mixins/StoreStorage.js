@@ -29,18 +29,26 @@ export default {
             // fresh, and that's why we're still doing the ajax request to update it. Performance baby!
             // this.preloadStore();
 
-            axios.get('/fill-basic-store').then(response => {
-                Store.state.submissions.upVotes = response.data.submissionUpvotes;
-                Store.state.submissions.downVotes = response.data.submissionDownvotes;
+            axios.get('/fill-basic-store').then((response) => {
+                Store.state.submissions.upVotes =
+                    response.data.submissionUpvotes;
+                Store.state.submissions.downVotes =
+                    response.data.submissionDownvotes;
                 Store.state.comments.upVotes = response.data.commentUpvotes;
                 Store.state.comments.downVotes = response.data.commentDownvotes;
-                Store.state.bookmarks.submissions = response.data.bookmarkedSubmissions;
-                Store.state.bookmarks.comments = response.data.bookmarkedComments;
-                Store.state.bookmarks.channels = response.data.bookmarkedChannels;
+                Store.state.bookmarks.submissions =
+                    response.data.bookmarkedSubmissions;
+                Store.state.bookmarks.comments =
+                    response.data.bookmarkedComments;
+                Store.state.bookmarks.channels =
+                    response.data.bookmarkedChannels;
                 Store.state.bookmarks.users = response.data.bookmarkedUsers;
-                Store.state.subscribedChannels = response.data.subscribedChannels;
-                Store.state.moderatingChannels = response.data.moderatingChannels;
-                Store.state.bookmarkedChannels = response.data.bookmarkedChannelsRecords;
+                Store.state.subscribedChannels =
+                    response.data.subscribedChannels;
+                Store.state.moderatingChannels =
+                    response.data.moderatingChannels;
+                Store.state.bookmarkedChannels =
+                    response.data.bookmarkedChannelsRecords;
                 Store.state.blocks.users = response.data.blockedUsers;
 
                 response.data.moderatingChannels.forEach((element, index) => {
@@ -51,13 +59,17 @@ export default {
                     Store.state.subscribedAt.push(element.id);
                 });
 
-                response.data.moderatingChannelsRecords.forEach((element, index) => {
-                    if (element.role == 'administrator') {
-                        Store.state.administratorAt.push(element.channel_id);
-                    } else if (element.role == 'moderator') {
-                        Store.state.moderatorAt.push(element.channel_id);
+                response.data.moderatingChannelsRecords.forEach(
+                    (element, index) => {
+                        if (element.role == 'administrator') {
+                            Store.state.administratorAt.push(
+                                element.channel_id
+                            );
+                        } else if (element.role == 'moderator') {
+                            Store.state.moderatorAt.push(element.channel_id);
+                        }
                     }
-                });
+                );
 
                 Store.initialFilled = true;
             });

@@ -69,95 +69,97 @@
 </template>
 
 <script>
-    import Markdown from '../../components/Markdown.vue';
-	import SubmissionFooter from '../../components/SubmissionFooter.vue';
+import Markdown from '../../components/Markdown.vue';
+import SubmissionFooter from '../../components/SubmissionFooter.vue';
 
-    export default {
-        data() {
-            return {
-                editing: false,
-                body: this.submission.content.text,
-				editedBody: this.submission.content.text, 
-				preview: false,
-                loading: false
-            }
+export default {
+    data() {
+        return {
+            editing: false,
+            body: this.submission.content.text,
+            editedBody: this.submission.content.text,
+            preview: false,
+            loading: false
+        };
+    },
+
+    props: {
+        nsfw: {},
+        submission: {},
+        url: {},
+        comments: {},
+        bookmarked: {},
+        upvoted: {},
+        downvoted: {},
+        points: {},
+        full: {
+            type: Boolean,
+            default: false
+        }
+    },
+
+    components: {
+        Markdown,
+        SubmissionFooter
+    },
+
+    watch: {
+        submission() {
+            this.body = this.submission.content.text;
+            this.editedBody = this.submission.content.text;
+        }
+    },
+
+    created() {
+        this.$eventHub.$on('edit-submission', this.editSubmission);
+    },
+
+    beforeDestroy() {
+        this.$eventHub.$off('edit-submission', this.editSubmission);
+    },
+
+    methods: {
+        /**
+         * opens the edit form
+         *
+         * @return void
+         */
+        editSubmission() {
+            this.editing = !this.editing;
         },
 
-        props: {
-        	nsfw: {},
-        	submission: {},
-        	url: {},
-        	comments: {},
-        	bookmarked: {},
-        	upvoted: {},
-        	downvoted: {},
-        	points: {},
-            full: {
-                type: Boolean,
-                default: false,
-            },
+        /**
+         * patches the TextSubmission
+         *
+         * @return void
+         */
+        patch() {
+            this.loading = true;
+
+            axios
+                .patch(`/submissions/${this.submission.id}`, {
+                    text: this.editedBody
+                })
+                .then(() => {
+                    this.body = this.editedBody;
+                    this.editing = false;
+                    this.loading = false;
+                })
+                .catch(() => {
+                    this.editing = true;
+                    this.loading = false;
+                });
         },
 
-        components: {
-            Markdown,
-            SubmissionFooter
-        },
-
-        watch: {
-            'submission' () {
-                this.body = this.submission.content.text;
-				this.editedBody = this.submission.content.text;
-            }
-        },
-
-        created() {
-        	this.$eventHub.$on('edit-submission', this.editSubmission);
-		},
-		
-		beforeDestroy() {
-   			this.$eventHub.$off('edit-submission', this.editSubmission);			
-		}, 
-
-		methods: {
-			/**
-			 * opens the edit form
-			 *
-			 * @return void
-			 */
-			editSubmission() {
-			    this.editing = !this.editing;
-			},
-
-			/**
-			 * patches the TextSubmission
-			 *
-			 * @return void
-			 */
-			patch() {
-			    this.loading = true;
-
-				axios.patch(`/submissions/${this.submission.id}`, {
-					text: this.editedBody
-				})
-				.then(() => {
-					this.body = this.editedBody;
-					this.editing = false;
-					this.loading = false;
-				}).catch(() => {
-					this.editing = true;
-					this.loading = false;
-				});
-			},
-
-			/**
-			 * cancels editing the TextSubmission
-			 *
-			 * @return void
-			 */
-			cancelEditing() {
-				this.editedBody = this.body;
-			    this.editing = false;
-			},
-		}
+        /**
+         * cancels editing the TextSubmission
+         *
+         * @return void
+         */
+        cancelEditing() {
+            this.editedBody = this.body;
+            this.editing = false;
+        }
     }
+};
 </script>

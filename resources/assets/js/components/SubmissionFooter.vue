@@ -88,7 +88,15 @@ import Helpers from '../mixins/Helpers';
 export default {
     mixins: [Helpers],
 
-    props: ['url', 'comments', 'bookmarked', 'submission', 'upvoted', 'downvoted', 'points'],
+    props: [
+        'url',
+        'comments',
+        'bookmarked',
+        'submission',
+        'upvoted',
+        'downvoted',
+        'points'
+    ],
 
     computed: {
         /**
@@ -103,7 +111,9 @@ export default {
         showApprove() {
             return (
                 !this.submission.approved_at &&
-                (Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1 || meta.isVotenAdminstrator) &&
+                (Store.state.moderatingAt.indexOf(this.submission.channel_id) !=
+                    -1 ||
+                    meta.isVotenAdminstrator) &&
                 !this.owns
             );
         },
@@ -111,7 +121,9 @@ export default {
         showDisapprove() {
             return (
                 !this.submission.deleted_at &&
-                (Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1 || meta.isVotenAdminstrator) &&
+                (Store.state.moderatingAt.indexOf(this.submission.channel_id) !=
+                    -1 ||
+                    meta.isVotenAdminstrator) &&
                 !this.owns
             );
         },
@@ -119,7 +131,9 @@ export default {
         showNSFW() {
             return (
                 (this.owns ||
-                    Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1 ||
+                    Store.state.moderatingAt.indexOf(
+                        this.submission.channel_id
+                    ) != -1 ||
                     meta.isVotenAdminstrator) &&
                 !this.submission.nsfw
             );
@@ -128,7 +142,9 @@ export default {
         showSFW() {
             return (
                 (this.owns ||
-                    Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1 ||
+                    Store.state.moderatingAt.indexOf(
+                        this.submission.channel_id
+                    ) != -1 ||
                     meta.isVotenAdminstrator) &&
                 this.submission.nsfw
             );

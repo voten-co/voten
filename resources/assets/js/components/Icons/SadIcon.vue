@@ -41,9 +41,7 @@
 
 
 <script>
-    export default {
-        props: [
-            'width', 'height',
-        ],
-    };
+export default {
+    props: ['width', 'height']
+};
 </script>

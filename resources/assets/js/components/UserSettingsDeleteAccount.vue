@@ -95,7 +95,7 @@ export default {
 
                     window.location = '/logout';
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.loading = false;
                     this.errors = error.response.data.errors;
                 });

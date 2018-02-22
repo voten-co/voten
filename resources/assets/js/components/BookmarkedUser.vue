@@ -38,49 +38,59 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                Store,
-                visible: true
-            }
-        },
+export default {
+    data() {
+        return {
+            Store,
+            visible: true
+        };
+    },
 
-        props: ['list'],
+    props: ['list'],
 
-        computed: {
-            bookmarked: {
-                get() {
-                    return Store.state.bookmarks.users.indexOf(this.list.id) !== -1 ? true : false;
-                },
-
-                set() {
-                    if (Store.state.bookmarks.users.indexOf(this.list.id) !== -1) {
-                        let index = Store.state.bookmarks.users.indexOf(this.list.id);
-                        Store.state.bookmarks.users.splice(index, 1);
-
-                        return;
-                    }
-
-                    Store.state.bookmarks.users.push(this.list.id);
-                }
+    computed: {
+        bookmarked: {
+            get() {
+                return Store.state.bookmarks.users.indexOf(this.list.id) !== -1
+                    ? true
+                    : false;
             },
-        },
 
-        methods: {
-            bookmark: _.debounce(function () {
+            set() {
+                if (Store.state.bookmarks.users.indexOf(this.list.id) !== -1) {
+                    let index = Store.state.bookmarks.users.indexOf(
+                        this.list.id
+                    );
+                    Store.state.bookmarks.users.splice(index, 1);
+
+                    return;
+                }
+
+                Store.state.bookmarks.users.push(this.list.id);
+            }
+        }
+    },
+
+    methods: {
+        bookmark: _.debounce(
+            function() {
                 this.bookmarked = !this.bookmarked;
 
-                axios.post('/bookmark-user', {
-                    id: this.list.id
-                }).catch(() => {
-                    this.bookmarked = !this.bookmarked;
-                });
-            }, 200, { leading: true, trailing: false }),
+                axios
+                    .post('/bookmark-user', {
+                        id: this.list.id
+                    })
+                    .catch(() => {
+                        this.bookmarked = !this.bookmarked;
+                    });
+            },
+            200,
+            { leading: true, trailing: false }
+        ),
 
-            sendMessage(user) {
-                this.$eventHub.$emit('start-conversation', user);
-            }
-        },
-    };
+        sendMessage(user) {
+            this.$eventHub.$emit('start-conversation', user);
+        }
+    }
+};
 </script>
