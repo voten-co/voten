@@ -26,8 +26,8 @@ class UserLoggedOut
      */
     public function handle(Logout $event)
     {
-        if (! isset($event->user)) {
-            return; 
+        if (!isset($event->user)) {
+            return;
         }
 
         Activity::create([

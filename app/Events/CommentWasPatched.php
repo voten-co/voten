@@ -2,12 +2,12 @@
 
 namespace App\Events;
 
+use App\Http\Resources\CommentResource;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use App\Http\Resources\CommentResource;
 
 class CommentWasPatched implements ShouldBroadcast
 {
@@ -46,7 +46,7 @@ class CommentWasPatched implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'data' => (new CommentResource($this->comment))->resolve()
+            'data' => (new CommentResource($this->comment))->resolve(),
         ];
     }
 }

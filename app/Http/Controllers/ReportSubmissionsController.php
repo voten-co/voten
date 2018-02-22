@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Traits\CachableChannel;
 use App\Http\Resources\ReportedSubmissionResource;
-use App\Submission;
 use App\Report;
-use Auth; 
+use App\Submission;
+use App\Traits\CachableChannel;
+use Auth;
+use Illuminate\Http\Request;
 
 class ReportSubmissionsController extends Controller
 {
@@ -28,12 +28,12 @@ class ReportSubmissionsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'id' => 'required|exists:submissions,id',
+            'id'            => 'required|exists:submissions,id',
             'subject'       => 'required|string',
         ]);
 
         if (Submission::where('id', $request->id)->where('approved_at', '!=', null)->exists()) {
-            return res(200,  "The submission has already been approved by a moderator. That means it can not be reported.");
+            return res(200, 'The submission has already been approved by a moderator. That means it can not be reported.');
         }
 
         $report = Report::create([
@@ -59,7 +59,7 @@ class ReportSubmissionsController extends Controller
     {
         $this->validate($request, [
             'channel_id'  => 'required|exists:channels,id',
-            'type'     => 'nullable|in:solved,unsolved',
+            'type'        => 'nullable|in:solved,unsolved',
         ]);
 
         abort_unless($this->mustBeModerator($request->channel_id), 403);

@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Events\ConversationRead;
-use Illuminate\Http\Request;
 use App\Http\Resources\ConversationResource;
+use App\Rules\NotSelfId;
 use Auth;
 use DB;
-use App\Rules\NotSelfId;
+use Illuminate\Http\Request;
 
 class ConversationsController extends Controller
 {
@@ -33,17 +33,17 @@ class ConversationsController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return Response 
+     * @return Response
      */
     public function broadcastConversaionAsRead(Request $request)
     {
         $this->validate($request, [
-            'user_id' => ['required', 'integer', new NotSelfId, 'exists:users,id'],
+            'user_id' => ['required', 'integer', new NotSelfId(), 'exists:users,id'],
         ]);
-        
+
         event(new ConversationRead($request->user_id, Auth::id()));
 
-        return res(200, '"seen" event broadcasted successfully. '); 
+        return res(200, '"seen" event broadcasted successfully. ');
     }
 
     /**
@@ -54,7 +54,7 @@ class ConversationsController extends Controller
     public function destroy(Request $request)
     {
         $this->validate($request, [
-            'user_id' => ['required', 'integer', new NotSelfId, 'exists:users,id'],
+            'user_id' => ['required', 'integer', new NotSelfId(), 'exists:users,id'],
         ]);
 
         DB::table('conversations')->where([
@@ -73,7 +73,7 @@ class ConversationsController extends Controller
     public function block(Request $request)
     {
         $this->validate($request, [
-            'user_id' => ['required', 'integer', new NotSelfId],
+            'user_id' => ['required', 'integer', new NotSelfId()],
         ]);
 
         $user = Auth::user();
