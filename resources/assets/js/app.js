@@ -1,9 +1,3 @@
-window.config = {
-  url: 'http://voten.localhost', 
-  name: "Voten",
-  title: "Where your vote matters"
-};
-
 // All the installation codes
 import "./bootstrap";
 

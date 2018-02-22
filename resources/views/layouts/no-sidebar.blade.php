@@ -21,18 +21,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <script>
-        <?php
-            $settings = [
-                'csrfToken' => csrf_token(),
-                'env' => config('app.env'),
-                'pusherKey' => config('broadcasting.connections.pusher.key'),
-                'pusherCluster' => config('broadcasting.connections.pusher.options.cluster'),
-                'recaptchaKey' => config('services.recaptcha.key'),
-            ];
-        ?>
-        window.Laravel = @json($settings)
-    </script>
+    @include('env-to-js-data')
 
     <link rel="shortcut icon" href="/imgs/favicon.png">
 </head>

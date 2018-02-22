@@ -119,7 +119,7 @@
         },
 
         created() {
-            this.setPageTitle('Voten: ' + config.title, true);
+            this.setPageTitle('Voten: ' + Laravel.title, true);
             this.startTour();
             this.$eventHub.$on('refresh-home', this.refresh);
         },

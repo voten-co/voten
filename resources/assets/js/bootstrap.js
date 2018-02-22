@@ -31,9 +31,9 @@ window.axios.defaults.headers.common['X-CSRF-TOKEN'] = window.Laravel.csrfToken;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 if (meta.isGuest === true) {
-    window.axios.defaults.baseURL = 'https://voten.co/api/guest/';
+    window.axios.defaults.baseURL = Laravel.url + '/api/guest/';
 } else {
-    window.axios.defaults.baseURL = 'https://voten.co/api/';    
+    window.axios.defaults.baseURL = Laravel.url + '/api/';    
 }
 
 axios.interceptors.response.use(
@@ -69,16 +69,16 @@ import Echo from 'laravel-echo';
 if (Laravel.env == 'local') {
     window.Echo = new Echo({
         broadcaster: 'pusher',
-        key: Laravel.pusherKey,
-        cluster: Laravel.pusherCluster
+        key: Laravel.pusher.key,
+        cluster: Laravel.pusher.cluster
     });
 } else {
     window.Echo = new Echo({
         broadcaster: 'socket.io',
-        host: 'https://echo.voten.co:6001',
+        host: Laravel.echo.host + ':' + Laravel.echo.port,
         auth: {
             headers: {
-                Authorization: 'Bearer ' + 'nb35mdq2ca9928qgl4sgjf3imil5811sn41qsmcaph0p3h6sa5ht8hoktdeg'
+                Authorization: 'Bearer ' + Laravel.echo.bearerToken
             }
         }
     });

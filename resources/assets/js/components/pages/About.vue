@@ -3,7 +3,7 @@
         <nav class="nav has-shadow user-select">
             <div class="container">
                 <h1 class="title">
-                    {{ config.title }}
+                    {{ Laravel.title }}
                 </h1>
 
                 <div class="flex-center">
@@ -51,7 +51,7 @@
     export default {
         data() {
             return {
-                config 
+                Laravel 
             }
         }
     }
