@@ -6,7 +6,7 @@ trait EchoServer
 {
     protected function echoAddress()
     {
-        return config('broadcasting.connections.echo.host') . ':' . config('broadcasting.connections.echo.port');
+        return config('broadcasting.connections.echo.host').':'.config('broadcasting.connections.echo.port');
     }
 
     protected function echoAppId()
