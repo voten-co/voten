@@ -129,113 +129,119 @@
 import Helpers from '../mixins/Helpers';
 
 export default {
-    mixins: [Helpers],
+	mixins: [Helpers],
 
-    data() {
-        return {
-            emailForm: {
-                errors: [],
-                email: auth.email,
-                loading: false,
-                showConfirmPassword: false,
-                verificationEmailResent: false
-            },
+	data() {
+		return {
+			emailForm: {
+				errors: [],
+				email: auth.email,
+				loading: false,
+				showConfirmPassword: false,
+				verificationEmailResent: false
+			},
 
-            passwordForm: {
-                errors: [],
-                loading: false,
-                password: '',
-                new_password: '',
-                new_password_confirmation: ''
-            }
-        };
-    },
+			passwordForm: {
+				errors: [],
+				loading: false,
+				password: '',
+				new_password: '',
+				new_password_confirmation: ''
+			}
+		};
+	},
 
-    computed: {
-        showVerificationWarning() {
-            return !auth.verified_email && auth.email && !this.emailForm.showConfirmPassword;
-        },
+	computed: {
+		showVerificationWarning() {
+			return (
+				!auth.verified_email &&
+				auth.email &&
+				!this.emailForm.showConfirmPassword
+			);
+		},
 
-        changedEmail() {
-            return auth.email != this.emailForm.email;
-        },
+		changedEmail() {
+			return auth.email != this.emailForm.email;
+		},
 
-        changedPassword() {
-            return (
-                this.passwordForm.new_password == this.passwordForm.new_password_confirmation &&
-                this.passwordForm.new_password &&
-                this.passwordForm.password
-            );
-        }
-    },
+		changedPassword() {
+			return (
+				this.passwordForm.new_password ==
+					this.passwordForm.new_password_confirmation &&
+				this.passwordForm.new_password &&
+				this.passwordForm.password
+			);
+		}
+	},
 
-    methods: {
-        /**
-         * saves email address into the database
-         *
-         * @return void
-         */
-        updateEmail() {
-            this.emailForm.loading = true;
+	methods: {
+		/**
+		 * saves email address into the database
+		 *
+		 * @return void
+		 */
+		updateEmail() {
+			this.emailForm.loading = true;
 
-            axios
-                .patch('/users/email', {
-                    password: this.emailForm.password,
-                    email: this.emailForm.email
-                })
-                .then(() => {
-                    this.emailForm.errors = [];
-                    this.emailForm.loading = false;
-                    this.emailForm.showConfirmPassword = false;
-                    auth.email = this.emailForm.email;
-                    auth.verified_email = false;
-                })
-                .catch(error => {
-                    this.emailForm.errors = error.response.data.errors;
-                    this.emailForm.loading = false;
-                });
-        },
+			axios
+				.patch('/users/email', {
+					password: this.emailForm.password,
+					email: this.emailForm.email
+				})
+				.then(() => {
+					this.emailForm.errors = [];
+					this.emailForm.loading = false;
+					this.emailForm.showConfirmPassword = false;
+					auth.email = this.emailForm.email;
+					auth.verified_email = false;
+				})
+				.catch((error) => {
+					this.emailForm.errors = error.response.data.errors;
+					this.emailForm.loading = false;
+				});
+		},
 
-        resendVerificationEmail() {
-            this.emailForm.verificationEmailResent = true;
+		resendVerificationEmail() {
+			this.emailForm.verificationEmailResent = true;
 
-            axios.post('/email/verify/resend').catch(() => {
-                this.emailForm.verificationEmailResent = false;
-            });
-        },
+			axios.post('/email/verify/resend').catch(() => {
+				this.emailForm.verificationEmailResent = false;
+			});
+		},
 
-        /**
-         * updates users' password. old-password is required
-         *
-         * @return void
-         */
-        updatePassword() {
-            this.passwordForm.loading = true;
+		/**
+		 * updates users' password. old-password is required
+		 *
+		 * @return void
+		 */
+		updatePassword() {
+			this.passwordForm.loading = true;
 
-            axios
-                .patch('/users/password', {
-                    password: this.passwordForm.password,
-                    new_password: this.passwordForm.new_password,
-                    new_password_confirmation: this.passwordForm.new_password_confirmation
-                })
-                .then(() => {
-                    this.passwordForm.password = '';
-                    this.passwordForm.new_password = '';
-                    this.passwordForm.new_password_confirmation = '';
-                    this.passwordForm.loading = false;
+			axios
+				.patch('/users/password', {
+					password: this.passwordForm.password,
+					new_password: this.passwordForm.new_password,
+					new_password_confirmation: this.passwordForm
+						.new_password_confirmation
+				})
+				.then(() => {
+					this.passwordForm.password = '';
+					this.passwordForm.new_password = '';
+					this.passwordForm.new_password_confirmation = '';
+					this.passwordForm.loading = false;
 
-                    this.passwordForm.errors = [];
+					this.passwordForm.errors = [];
 
-                    this.$message({
-                        type: 'success',
-                        message: 'Password updated successfully.'
-                    });
-                })
-                .catch(error => {
-                    this.passwordForm.errors = error.response.data.errors;
-                    this.passwordForm.loading = false;
-                });
-        }
-    }
+					this.$message({
+						type: 'success',
+						message: 'Password updated successfully.'
+					});
+				})
+				.catch((error) => {
+					this.passwordForm.errors = error.response.data.errors;
+					this.passwordForm.loading = false;
+				});
+		}
+	}
 };
 </script>

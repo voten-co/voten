@@ -1,37 +1,37 @@
 <style lang="scss">
 .shade {
-    background: #333;
-    opacity: 0.85;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1000;
+	background: #333;
+	opacity: 0.85;
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 1000;
 }
 
 .shade-item {
-    z-index: 1001;
+	z-index: 1001;
 }
 
 .tour {
-    position: absolute;
-    background: #fff;
-    width: 400px;
-    // min-height: 100px;
-    border-radius: 4px;
-    border: 2px solid #afb5c2;
-    padding: 12px;
-    color: #606266;
-    line-height: 1.4;
-    font-size: 14px;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    text-align: left;
+	position: absolute;
+	background: #fff;
+	width: 400px;
+	// min-height: 100px;
+	border-radius: 4px;
+	border: 2px solid #afb5c2;
+	padding: 12px;
+	color: #606266;
+	line-height: 1.4;
+	font-size: 14px;
+	box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+	text-align: left;
 
-    .title {
-        font-weight: bold;
-        margin: 0;
-    }
+	.title {
+		font-weight: bold;
+		margin: 0;
+	}
 }
 </style>
 
@@ -78,65 +78,66 @@
 import Helpers from '../mixins/Helpers';
 
 export default {
-    mixins: [Helpers],
+	mixins: [Helpers],
 
-    props: ['position'],
+	props: ['position'],
 
-    computed: {
-        step() {
-            return Store.tour.step;
-        },
+	computed: {
+		step() {
+			return Store.tour.step;
+		},
 
-        body() {
-            return this.activeTour.body;
-        },
+		body() {
+			return this.activeTour.body;
+		},
 
-        title() {
-            return this.activeTour.title;
-        },
+		title() {
+			return this.activeTour.title;
+		},
 
-        items() {
-            return Store.tour.items;
-        }, 
+		items() {
+			return Store.tour.items;
+		},
 
-        areWeDoneYet() {
-            return this.step == this.items.length; 
-        }
-    },
+		areWeDoneYet() {
+			return this.step == this.items.length;
+		}
+	},
 
-    methods: {
-        skip() {
-            Store.tour.show = false;
-            this.$router.push('/');
-        },
+	methods: {
+		skip() {
+			Store.tour.show = false;
+			this.$router.push('/');
+		},
 
-        next() {
-            if (this.step < this.items.length) {
-                Store.tour.step++;
+		next() {
+			if (this.step < this.items.length) {
+				Store.tour.step++;
 
-                if (this.activeTour.id == 'os-notifications') {
-                    this.askNotificationPermission(); 
-                }
+				if (this.activeTour.id == 'os-notifications') {
+					this.askNotificationPermission();
+				}
 
-                return;
-            }
+				return;
+			}
 
-            this.skip();
-        }, 
+			this.skip();
+		},
 
-        askNotificationPermission() {
-            if (this.$route.query.newbie == 1) {
-                if ('Notification' in window) {
-                    Notification.requestPermission();
-                } else {
-                    this.$notify({
-                      title: 'Too bad!',
-                      message: 'Your browser does not support desktop notifications.',
-                      type: 'warning'
-                    });
-                }
-            }
-        },
-    }
+		askNotificationPermission() {
+			if (this.$route.query.newbie == 1) {
+				if ('Notification' in window) {
+					Notification.requestPermission();
+				} else {
+					this.$notify({
+						title: 'Too bad!',
+						message:
+							'Your browser does not support desktop notifications.',
+						type: 'warning'
+					});
+				}
+			}
+		}
+	}
 };
 </script>

@@ -9,23 +9,24 @@
 
 
 <script>
-	import MapIcon from '../components/Icons/MapIcon.vue';
-	
-	export default {
-		components: {
-			MapIcon
-		}, 
+import MapIcon from '../components/Icons/MapIcon.vue';
 
-		data() {
-			return {
-				message: "I hate to be the one breaking it to you, but you've been given a wrong address!"
-			}
-		}	
-	};
+export default {
+	components: {
+		MapIcon
+	},
+
+	data() {
+		return {
+			message:
+				"I hate to be the one breaking it to you, but you've been given a wrong address!"
+		};
+	}
+};
 </script>
 
 <style>
-	#not-found {
-		margin-top: 10%;
-	}
+#not-found {
+	margin-top: 10%;
+}
 </style>

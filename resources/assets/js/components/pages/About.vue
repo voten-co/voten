@@ -48,11 +48,11 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                Laravel 
-            }
-        }
-    }
+export default {
+	data() {
+		return {
+			Laravel
+		};
+	}
+};
 </script>

@@ -20,17 +20,17 @@
 </template>
 
 <script>
-    import Markdown from '../components/Markdown.vue';
+import Markdown from '../components/Markdown.vue';
 
-    export default {
-        components: { Markdown },
+export default {
+	components: { Markdown },
 
-        data () {
-            return {
-                showDescription: false
-            }
-        },
+	data() {
+		return {
+			showDescription: false
+		};
+	},
 
-        props: ['list'],
-    };
+	props: ['list']
+};
 </script>

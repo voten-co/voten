@@ -141,43 +141,43 @@ import Helpers from '../mixins/Helpers';
 import GoogleLoginButton from '../components/GoogleLoginButton';
 
 export default {
-    mixins: [Helpers],
+	mixins: [Helpers],
 
-    components: { GoogleLoginButton },
+	components: { GoogleLoginButton },
 
-    data() {
-        return {
-            login: {
-                username: '',
-                password: '',
-                remember: true,
-                loading: false,
-                errors: []
-            }
-        };
-    },
+	data() {
+		return {
+			login: {
+				username: '',
+				password: '',
+				remember: true,
+				loading: false,
+				errors: []
+			}
+		};
+	},
 
-    methods: {
-        logMeIn() {
-            this.login.loading = true;
-            this.login.errors = [];
+	methods: {
+		logMeIn() {
+			this.login.loading = true;
+			this.login.errors = [];
 
-            axios
-                .post('/login', {
-                    username: this.login.username,
-                    password: this.login.password,
-                    remember: this.login.remember
-                })
-                .then(response => {
-                    this.login.loading = false;
-                    Vue.clearLS();
-                    location.reload();
-                })
-                .catch(error => {
-                    this.login.errors = error.response.data.errors;
-                    this.login.loading = false;
-                });
-        }
-    }
+			axios
+				.post('/login', {
+					username: this.login.username,
+					password: this.login.password,
+					remember: this.login.remember
+				})
+				.then((response) => {
+					this.login.loading = false;
+					Vue.clearLS();
+					location.reload();
+				})
+				.catch((error) => {
+					this.login.errors = error.response.data.errors;
+					this.login.loading = false;
+				});
+		}
+	}
 };
 </script>

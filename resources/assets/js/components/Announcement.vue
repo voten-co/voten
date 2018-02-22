@@ -11,88 +11,88 @@
 </template>
 
 <script>
-    import Markdown from '../components/Markdown.vue';
-    import Helpers from '../mixins/Helpers';
+import Markdown from '../components/Markdown.vue';
+import Helpers from '../mixins/Helpers';
 
-    export default {
-        components: {
-        	Markdown
-        },
+export default {
+	components: {
+		Markdown
+	},
 
-        mixins: [Helpers],
+	mixins: [Helpers],
 
-        data () {
-            return {
-                announcements: []
-            }
-        },
+	data() {
+		return {
+			announcements: []
+		};
+	},
 
-        created () {
-            this.fetch();
-        },
+	created() {
+		this.fetch();
+	},
 
-        methods: {
-        	/**
-        	 * Close the announcement and send a ajax request so we won't show current user the same announmcent twice.
-        	 * Also set a flag for it in LocalStorage to do some checkings (this won't be needed for authinticated
-        	 * users since we're doing the checking in server-side but for non-authinticated users we need it.)
-        	 *
-        	 * @return void
-        	 */
-            close(id) {
-                this.announcements = this.announcements.filter(function (item) {
-                  	return item.id != id;
-                });
+	methods: {
+		/**
+		 * Close the announcement and send a ajax request so we won't show current user the same announmcent twice.
+		 * Also set a flag for it in LocalStorage to do some checkings (this won't be needed for authinticated
+		 * users since we're doing the checking in server-side but for non-authinticated users we need it.)
+		 *
+		 * @return void
+		 */
+		close(id) {
+			this.announcements = this.announcements.filter(function(item) {
+				return item.id != id;
+			});
 
-                axios.post('/announcement/seen', {
-                	announcement_id: id
-                });
-            },
+			axios.post('/announcement/seen', {
+				announcement_id: id
+			});
+		},
 
-            /**
-             * Fetches the announcement
-             *
-             * @return void
-             */
-            fetch() {
-                axios.get('/announcement').then((response) => {
-                	this.announcements = response.data;
-                });
-            },
-        }
-    };
+		/**
+		 * Fetches the announcement
+		 *
+		 * @return void
+		 */
+		fetch() {
+			axios.get('/announcement').then((response) => {
+				this.announcements = response.data;
+			});
+		}
+	}
+};
 </script>
 
 
 <style lang="scss">
-	.announcement {
-		display: flex; 
-		align-items: center; 
-		justify-content: space-between; 
-	    padding: 1em 1em;
-	    border-bottom: 1px solid #d8e2e7;
-	    position: fixed;
-		bottom: 1em;
-		z-index: 100;
-		width: 70%;
-		left: 8%;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-		background: #fafbff;
+.announcement {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 1em 1em;
+	border-bottom: 1px solid #d8e2e7;
+	position: fixed;
+	bottom: 1em;
+	z-index: 100;
+	width: 70%;
+	left: 8%;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+	background: #fafbff;
+	color: #333;
+	border-radius: 2px;
+	border: 1px solid #f7f7f7;
+	border-top: 2px solid #5586d7;
+	border-top-right-radius: 2px;
+	border-bottom-right-radius: 2px;
+
+	a {
 		color: #333;
-		border-radius: 2px;
-		border: 1px solid #f7f7f7;
-		border-top: 2px solid #5586d7;
-		border-top-right-radius: 2px;
-		border-bottom-right-radius: 2px;
-
-		a {
-			color: #333;
-		}
 	}
+}
 
-	.announcement .v-cancel {
-		flex-basis: 65px;
-	    display: flex;
-	    justify-content: center;
-	}
+.announcement .v-cancel {
+	flex-basis: 65px;
+	display: flex;
+	justify-content: center;
+}
 </style>

@@ -15,24 +15,27 @@ import ChannelSubmissions from '../components/ChannelSubmissions.vue';
 import Helpers from '../mixins/Helpers';
 
 export default {
-    mixins: [Helpers],
+	mixins: [Helpers],
 
-    components: {
-        ChannelSubmissions,
-        ChannelHeader,
-        NsfwWarning
-    },
+	components: {
+		ChannelSubmissions,
+		ChannelHeader,
+		NsfwWarning
+	},
 
-    computed: {
-        notSafeForWorkWarning() {
-            return Store.page.channel.temp.nsfw && !Store.settings.feed.include_nsfw_submissions;
-        },
+	computed: {
+		notSafeForWorkWarning() {
+			return (
+				Store.page.channel.temp.nsfw &&
+				!Store.settings.feed.include_nsfw_submissions
+			);
+		},
 
-        text() {
-            return this.isLoggedIn
-                ? 'This channel contains NSFW content which can not be displayed according to your personal settings.'
-                : 'This channel contains NSFW content which can not be displayed to guests.';
-        }
-    }
+		text() {
+			return this.isLoggedIn
+				? 'This channel contains NSFW content which can not be displayed according to your personal settings.'
+				: 'This channel contains NSFW content which can not be displayed to guests.';
+		}
+	}
 };
 </script>

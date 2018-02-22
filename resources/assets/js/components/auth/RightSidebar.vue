@@ -190,141 +190,151 @@ import Helpers from '../../mixins/Helpers';
 import Tour from '../../components/Tour';
 
 export default {
-    mixins: [Helpers],
+	mixins: [Helpers],
 
-    components: { Tour },
+	components: { Tour },
 
-    data() {
-        return {
-            subscribedFilter: '',
-            showMenu: false,
-            showSubMenu: false
-        };
-    },
+	data() {
+		return {
+			subscribedFilter: '',
+			showMenu: false,
+			showSubMenu: false
+		};
+	},
 
-    watch: {
-        $route: function() {
-            this.subscribedFilter = '';
-        },
+	watch: {
+		$route: function() {
+			this.subscribedFilter = '';
+		},
 
-        showMenu() {
-            if (this.showMenu === false) {
-                this.showSubMenu = false;
-            }
-        }
-    },
+		showMenu() {
+			if (this.showMenu === false) {
+				this.showSubMenu = false;
+			}
+		}
+	},
 
-    computed: {
-        showLoadMoreChannels() {
-            return this.channels.length > this.channelsLimit && !this.subscribedFilter;
-        },
+	computed: {
+		showLoadMoreChannels() {
+			return (
+				this.channels.length > this.channelsLimit &&
+				!this.subscribedFilter
+			);
+		},
 
-        showDiscoverChannels() {
-            return (
-                this.channels.length < this.channelsLimit &&
-                !this.subscribedFilter &&
-                Store.settings.rightSidebar.channelsFilter == 'subscribed'
-            );
-        },
+		showDiscoverChannels() {
+			return (
+				this.channels.length < this.channelsLimit &&
+				!this.subscribedFilter &&
+				Store.settings.rightSidebar.channelsFilter == 'subscribed'
+			);
+		},
 
-        channels() {
-            if (this.filter == 'bookmarked') {
-                return Store.state.bookmarkedChannels;
-            }
+		channels() {
+			if (this.filter == 'bookmarked') {
+				return Store.state.bookmarkedChannels;
+			}
 
-            if (this.filter == 'moderating') {
-                return Store.state.moderatingChannels;
-            }
+			if (this.filter == 'moderating') {
+				return Store.state.moderatingChannels;
+			}
 
-            // subscribed
-            return Store.state.subscribedChannels;
-        },
+			// subscribed
+			return Store.state.subscribedChannels;
+		},
 
-        channelsCount() {
-            return this.channels.length;
-        },
+		channelsCount() {
+			return this.channels.length;
+		},
 
-        showChannelAvatars() {
-            return Store.settings.rightSidebar.showChannelAvatars;
-        },
+		showChannelAvatars() {
+			return Store.settings.rightSidebar.showChannelAvatars;
+		},
 
-        channelsLimit() {
-            return Store.settings.rightSidebar.channelsLimit;
-        },
+		channelsLimit() {
+			return Store.settings.rightSidebar.channelsLimit;
+		},
 
-        theme() {
-            return 'theme-' + this.str_slug(Store.settings.rightSidebar.color);
-        },
+		theme() {
+			return 'theme-' + this.str_slug(Store.settings.rightSidebar.color);
+		},
 
-        filter() {
-            return Store.settings.rightSidebar.channelsFilter;
-        },
+		filter() {
+			return Store.settings.rightSidebar.channelsFilter;
+		},
 
-        filterForHumans() {
-            if (this.filter == 'subscribed') return 'Subscribed Channels';
+		filterForHumans() {
+			if (this.filter == 'subscribed') return 'Subscribed Channels';
 
-            if (this.filter == 'bookmarked') return 'Bookmarked Channels';
+			if (this.filter == 'bookmarked') return 'Bookmarked Channels';
 
-            if (this.filter == 'moderating') return 'Moderating Channels';
-        },
+			if (this.filter == 'moderating') return 'Moderating Channels';
+		},
 
-        sortedSubscribeds() {
-            let self = this;
+		sortedSubscribeds() {
+			let self = this;
 
-            return _.orderBy(
-                self.channels.filter(
-                    channel => channel.name.toLowerCase().indexOf(self.subscribedFilter.toLowerCase()) !== -1
-                ),
-                'subscribers_count',
-                'desc'
-            ).slice(0, self.channelsLimit > 2 ? self.channelsLimit : 2);
-        }
-    },
+			return _.orderBy(
+				self.channels.filter(
+					(channel) =>
+						channel.name
+							.toLowerCase()
+							.indexOf(self.subscribedFilter.toLowerCase()) !== -1
+				),
+				'subscribers_count',
+				'desc'
+			).slice(0, self.channelsLimit > 2 ? self.channelsLimit : 2);
+		}
+	},
 
-    created() {
-        this.$eventHub.$on('pressed-esc', this.closeMenu);
-    },
+	created() {
+		this.$eventHub.$on('pressed-esc', this.closeMenu);
+	},
 
-    methods: {
-        closeMenu() {
-            this.showMenu = false;
-        },
+	methods: {
+		closeMenu() {
+			this.showMenu = false;
+		},
 
-        moreChannels() {
-            Store.settings.rightSidebar.channelsLimit += 15;
-        },
+		moreChannels() {
+			Store.settings.rightSidebar.channelsLimit += 15;
+		},
 
-        pushToDiscoverChannels() {
-            this.$router.push({ name: 'discover-channels' });
-        },
+		pushToDiscoverChannels() {
+			this.$router.push({ name: 'discover-channels' });
+		},
 
-        lessChannels() {
-            Store.settings.rightSidebar.channelsLimit -= 15;
-        },
+		lessChannels() {
+			Store.settings.rightSidebar.channelsLimit -= 15;
+		},
 
-        signOut() {
-            this.$confirm(`Are you sure about signing out of your account?`, 'Confirm', {
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'Never mind',
-                type: 'warning'
-            })
-                .then(() => {
-                    Vue.clearLS();
+		signOut() {
+			this.$confirm(
+				`Are you sure about signing out of your account?`,
+				'Confirm',
+				{
+					confirmButtonText: 'Yes',
+					cancelButtonText: 'Never mind',
+					type: 'warning'
+				}
+			)
+				.then(() => {
+					Vue.clearLS();
 
-                    axios
-                        .post('/logout')
-                        .then(() => {
-                            window.location = '/';
-                        })
-                        .catch(() => {
-                            this.$message({
-                                message: 'Something went wrong.',
-                                type: 'error'
-                            });
-                        });
-                })
-                .catch(() => {});
-        }
-    }
+					axios
+						.post('/logout')
+						.then(() => {
+							window.location = '/';
+						})
+						.catch(() => {
+							this.$message({
+								message: 'Something went wrong.',
+								type: 'error'
+							});
+						});
+				})
+				.catch(() => {});
+		}
+	}
 };
 </script>

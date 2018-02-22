@@ -86,64 +86,80 @@
 import Helpers from '../mixins/Helpers';
 
 export default {
-    mixins: [Helpers],
+	mixins: [Helpers],
 
-    props: ['url', 'comments', 'bookmarked', 'submission', 'upvoted', 'downvoted', 'points'],
+	props: [
+		'url',
+		'comments',
+		'bookmarked',
+		'submission',
+		'upvoted',
+		'downvoted',
+		'points'
+	],
 
-    computed: {
-        /**
-         * Does the auth user own the submission
-         *
-         * @return Boolean
-         */
-        owns() {
-            return auth.id == this.submission.author.id;
-        },
+	computed: {
+		/**
+		 * Does the auth user own the submission
+		 *
+		 * @return Boolean
+		 */
+		owns() {
+			return auth.id == this.submission.author.id;
+		},
 
-        showApprove() {
-            return (
-                !this.submission.approved_at &&
-                (Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1 || meta.isVotenAdminstrator) &&
-                !this.owns
-            );
-        },
+		showApprove() {
+			return (
+				!this.submission.approved_at &&
+				(Store.state.moderatingAt.indexOf(this.submission.channel_id) !=
+					-1 ||
+					meta.isVotenAdminstrator) &&
+				!this.owns
+			);
+		},
 
-        showDisapprove() {
-            return (
-                !this.submission.deleted_at &&
-                (Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1 || meta.isVotenAdminstrator) &&
-                !this.owns
-            );
-        },
+		showDisapprove() {
+			return (
+				!this.submission.deleted_at &&
+				(Store.state.moderatingAt.indexOf(this.submission.channel_id) !=
+					-1 ||
+					meta.isVotenAdminstrator) &&
+				!this.owns
+			);
+		},
 
-        showNSFW() {
-            return (
-                (this.owns ||
-                    Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1 ||
-                    meta.isVotenAdminstrator) &&
-                !this.submission.nsfw
-            );
-        },
+		showNSFW() {
+			return (
+				(this.owns ||
+					Store.state.moderatingAt.indexOf(
+						this.submission.channel_id
+					) != -1 ||
+					meta.isVotenAdminstrator) &&
+				!this.submission.nsfw
+			);
+		},
 
-        showSFW() {
-            return (
-                (this.owns ||
-                    Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1 ||
-                    meta.isVotenAdminstrator) &&
-                this.submission.nsfw
-            );
-        },
+		showSFW() {
+			return (
+				(this.owns ||
+					Store.state.moderatingAt.indexOf(
+						this.submission.channel_id
+					) != -1 ||
+					meta.isVotenAdminstrator) &&
+				this.submission.nsfw
+			);
+		},
 
-        showRemoveTumbnail() {
-            if (this.owns && this.submission.content.thumbnail) return true;
-            return false;
-        },
+		showRemoveTumbnail() {
+			if (this.owns && this.submission.content.thumbnail) return true;
+			return false;
+		},
 
-        date() {
-            return moment(this.submission.created_at)
-                .utc(moment().format('Z'))
-                .fromNow();
-        }
-    }
+		date() {
+			return moment(this.submission.created_at)
+				.utc(moment().format('Z'))
+				.fromNow();
+		}
+	}
 };
 </script>
