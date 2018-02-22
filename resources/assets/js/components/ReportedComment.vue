@@ -63,28 +63,30 @@
 
 
 <script>
-import Markdown from '../components/Markdown.vue'
-import Helpers from '../mixins/Helpers'
+import Markdown from '../components/Markdown.vue';
+import Helpers from '../mixins/Helpers';
 
 export default {
-    components: {
-        Markdown
-    },
+	components: {
+		Markdown
+	},
 
-    mixins: [Helpers],
+	mixins: [Helpers],
 
-    data: function() {
-        return {
-            showDescription: false
-        }
-    },
+	data: function() {
+		return {
+			showDescription: false
+		};
+	},
 
-    props: ['list'],
+	props: ['list'],
 
-    computed: {
-        date () {
-            return moment(this.list.created_at).utc(moment().format("Z")).fromNow()
-        },
-    }
+	computed: {
+		date() {
+			return moment(this.list.created_at)
+				.utc(moment().format('Z'))
+				.fromNow();
+		}
+	}
 };
 </script>

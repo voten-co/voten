@@ -17,66 +17,66 @@
 </template>
 
 <script>
-    import Comment from '../components/Comment.vue';
-    import NoContent from '../components/NoContent.vue';
-    import NoMoreItems from '../components/NoMoreItems.vue';
-    import Loading from '../components/Loading.vue';
-    import Helpers from '../mixins/Helpers';
+import Comment from '../components/Comment.vue';
+import NoContent from '../components/NoContent.vue';
+import NoMoreItems from '../components/NoMoreItems.vue';
+import Loading from '../components/Loading.vue';
+import Helpers from '../mixins/Helpers';
 
-    export default {
-        mixins: [Helpers],
+export default {
+	mixins: [Helpers],
 
-        components: {
-            Comment,
-            NoContent,
-            Loading, 
-            NoMoreItems
-        },
+	components: {
+		Comment,
+		NoContent,
+		Loading,
+		NoMoreItems
+	},
 
-        computed: {
-            cantLoadMore() {
-                return this.loading || this.NoMoreItems || this.nothingFound;
-            },
+	computed: {
+		cantLoadMore() {
+			return this.loading || this.NoMoreItems || this.nothingFound;
+		},
 
-            NoMoreItems() {
-                return Store.page.bookmarkedComments.NoMoreItems;
-            },
+		NoMoreItems() {
+			return Store.page.bookmarkedComments.NoMoreItems;
+		},
 
-            nothingFound() {
-                return Store.page.bookmarkedComments.nothingFound;
-            },
+		nothingFound() {
+			return Store.page.bookmarkedComments.nothingFound;
+		},
 
-            comments() {
-                return Store.page.bookmarkedComments.comments;
-            },
+		comments() {
+			return Store.page.bookmarkedComments.comments;
+		},
 
-            loading() {
-                return Store.page.bookmarkedComments.loading;
-            },
+		loading() {
+			return Store.page.bookmarkedComments.loading;
+		},
 
-            page() {
-                return Store.page.bookmarkedComments.page;
-            }
-        },
+		page() {
+			return Store.page.bookmarkedComments.page;
+		}
+	},
 
-        methods: {
-            loadMore () {
-                Store.page.bookmarkedComments.getComments();
-            },
-        }, 
+	methods: {
+		loadMore() {
+			Store.page.bookmarkedComments.getComments();
+		}
+	},
 
-        beforeRouteEnter (to, from, next) {
-            if (! Store.page.bookmarkedComments.page > 0) {
-                if (typeof app != "undefined") {
-                    app.$Progress.start();
-                }
+	beforeRouteEnter(to, from, next) {
+		if (!Store.page.bookmarkedComments.page > 0) {
+			if (typeof app != 'undefined') {
+				app.$Progress.start();
+			}
 
-                Store.page.bookmarkedComments.getComments().then(() => {
-                    next(vm => vm.$Progress.finish());
-                });
-            } else {
-                next();
-            }
-        },
-    };
+			Store.page.bookmarkedComments.getComments().then(() => {
+				next((vm) => vm.$Progress.finish());
+			});
+		} else {
+			next();
+		}
+	}
+};
 </script>

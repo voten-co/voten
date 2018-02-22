@@ -36,14 +36,14 @@
 import Helpers from '../mixins/Helpers';
 
 export default {
-    mixins: [Helpers],
+	mixins: [Helpers],
 
-    props: ['visible'],
+	props: ['visible'],
 
-    methods: {
-        close() {
-            this.$emit('update:visible', false);
-        }
-    }
+	methods: {
+		close() {
+			this.$emit('update:visible', false);
+		}
+	}
 };
 </script>

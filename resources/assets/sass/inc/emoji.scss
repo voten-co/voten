@@ -1,64 +1,64 @@
 .emojiPicker-wrapper {
-    position: absolute;
-    bottom: 2.5em;
-    background: #fff;
-    padding: 0.5em;
-    right: 0;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-    width: 19em;
-    height: 16em;
-    cursor: initial;
-    color: #5f6165;
-    border-radius: 2px;
-    z-index: 10;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+	position: absolute;
+	bottom: 2.5em;
+	background: #fff;
+	padding: 0.5em;
+	right: 0;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+	width: 19em;
+	height: 16em;
+	cursor: initial;
+	color: #5f6165;
+	border-radius: 2px;
+	z-index: 10;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 
-    hr {
-        margin-top: 0.2em;
-        border-top: 2px solid #f3f3f3;
-    }
+	hr {
+		margin-top: 0.2em;
+		border-top: 2px solid #f3f3f3;
+	}
 }
 
 .emoji-list {
-    overflow: auto;
-    height: 81%;
-    text-align: left;
-    .item {
-        cursor: pointer;
-        font-size: 14px;
-        border-radius: 4px;
-        width: 35px;
-        height: 35px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        &:hover {
-            background: #f0f0f0;
-            transition: 0.2s;
-        }
-    }
-    section {
-        display: grid;
-        grid-template-columns: repeat(8, 34px);
-    }
+	overflow: auto;
+	height: 81%;
+	text-align: left;
+	.item {
+		cursor: pointer;
+		font-size: 14px;
+		border-radius: 4px;
+		width: 35px;
+		height: 35px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		&:hover {
+			background: #f0f0f0;
+			transition: 0.2s;
+		}
+	}
+	section {
+		display: grid;
+		grid-template-columns: repeat(8, 34px);
+	}
 }
 
 .emoji-list-title {
-    text-align: left;
-    margin: 0 0.2em;
-    font-size: 1em;
-    font-weight: 600;
+	text-align: left;
+	margin: 0 0.2em;
+	font-size: 1em;
+	font-weight: 600;
 }
 
 .emoji-list-clear {
-    font-size: 80%;
-    margin: 0 0.5em 0 0;
-    cursor: pointer;
+	font-size: 80%;
+	margin: 0 0.5em 0 0;
+	cursor: pointer;
 }
 
 .emoji-list-clear:hover {
-    text-decoration: underline;
+	text-decoration: underline;
 }

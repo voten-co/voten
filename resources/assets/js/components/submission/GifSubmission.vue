@@ -1,11 +1,11 @@
 <style lang="scss">
 .gif-submission {
-    max-height: 500px;
+	max-height: 500px;
 
-    img {
-        max-height: 500px;
+	img {
+		max-height: 500px;
 	}
-	
+
 	video {
 		max-height: 500px;
 	}
@@ -83,47 +83,48 @@
 import SubmissionFooter from '../../components/SubmissionFooter.vue';
 
 export default {
-    components: { SubmissionFooter },
+	components: { SubmissionFooter },
 
-    data() {
-        return {
-            auth
-        };
-    },
+	data() {
+		return {
+			auth
+		};
+	},
 
-    props: {
-        nsfw: {},
-        submission: {},
-        bookmarked: {},
-        url: {},
-        comments: {},
-        upvoted: {},
-        downvoted: {},
-        points: {},
-        full: {
-            type: Boolean,
-            default: false
-        }
-    },
+	props: {
+		nsfw: {},
+		submission: {},
+		bookmarked: {},
+		url: {},
+		comments: {},
+		upvoted: {},
+		downvoted: {},
+		points: {},
+		full: {
+			type: Boolean,
+			default: false
+		}
+	},
 
-    computed: {
-        thumbnail() {
-            return {
-                backgroundImage: 'url(' + this.submission.content.thumbnail_path + ')'
-            };
-        },
+	computed: {
+		thumbnail() {
+			return {
+				backgroundImage:
+					'url(' + this.submission.content.thumbnail_path + ')'
+			};
+		},
 
-        showBigThumbnail() {
-            if (this.full) return true;
+		showBigThumbnail() {
+			if (this.full) return true;
 
-            if (this.nsfw) return false;
+			if (this.nsfw) return false;
 
-            return false;
-        },
+			return false;
+		},
 
-        showSmallThumbnail() {
-            return !this.showBigThumbnail && !this.nsfw;
-        }
-    }
+		showSmallThumbnail() {
+			return !this.showBigThumbnail && !this.nsfw;
+		}
+	}
 };
 </script>

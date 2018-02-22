@@ -242,268 +242,284 @@ import Helpers from '../mixins/Helpers';
 import SubmitFormUpload from '../mixins/SubmitFormUpload';
 
 export default {
-    props: ['visible'],
-    mixins: [Helpers, SubmitFormUpload],
-    components: { Markdown },
+	props: ['visible'],
+	mixins: [Helpers, SubmitFormUpload],
+	components: { Markdown },
 
-    data() {
-        return {
-            errors: [],
+	data() {
+		return {
+			errors: [],
 
-            loading: false,
-            loadingChannels: false,
-            selectedCat: null,
-            suggestedCats: [],
-            submissionType: 'link',
-            title: '',
-            sfw: true,
+			loading: false,
+			loadingChannels: false,
+			selectedCat: null,
+			suggestedCats: [],
+			submissionType: 'link',
+			title: '',
+			sfw: true,
 
-            // Link
-            submitURL: '',
-            loadingTitle: false,
+			// Link
+			submitURL: '',
+			loadingTitle: false,
 
-            // Text
-            preview: false,
-            text: '',
+			// Text
+			preview: false,
+			text: '',
 
-            // Photo
-            photos: [],
-            photosNumberLimit: 20,
-            photosSizeLimit: 10,
-            previewPhotoImage: '',
-            previewPhotoFileName: '',
-            previewPhotoModal: false,
+			// Photo
+			photos: [],
+			photosNumberLimit: 20,
+			photosSizeLimit: 10,
+			previewPhotoImage: '',
+			previewPhotoFileName: '',
+			previewPhotoModal: false,
 
-            // GIF
-            gifTempArray: [],
-            gif_id: null,
-            gifNumberLimit: 1,
-            gifSizeLimit: 50,
-            previewGifImage: '',
-            previewGifFileName: '',
-            previewGifModal: false
-        };
-    },
+			// GIF
+			gifTempArray: [],
+			gif_id: null,
+			gifNumberLimit: 1,
+			gifSizeLimit: 50,
+			previewGifImage: '',
+			previewGifFileName: '',
+			previewGifModal: false
+		};
+	},
 
-    computed: {
-        goodToGo() {
-            if (this.submissionType == 'link') {
-                return this.title.trim().length > 0 && this.selectedCat && this.submitURL && !this.loading;
-            }
+	computed: {
+		goodToGo() {
+			if (this.submissionType == 'link') {
+				return (
+					this.title.trim().length > 0 &&
+					this.selectedCat &&
+					this.submitURL &&
+					!this.loading
+				);
+			}
 
-            if (this.submissionType == 'img') {
-                return this.title.trim().length > 0 && this.selectedCat && this.photos.length && !this.loading;
-            }
+			if (this.submissionType == 'img') {
+				return (
+					this.title.trim().length > 0 &&
+					this.selectedCat &&
+					this.photos.length &&
+					!this.loading
+				);
+			}
 
-            return this.title.trim().length > 0 && this.selectedCat && !this.loading;
-        }
-    },
+			return (
+				this.title.trim().length > 0 &&
+				this.selectedCat &&
+				!this.loading
+			);
+		}
+	},
 
-    created() {
-        this.setDefaultChannels();
-        this.submitApi();
-    },
+	created() {
+		this.setDefaultChannels();
+		this.submitApi();
+	},
 
-    watch: {
-        visible() {
-            if (this.visible) {
-                this.setDefaultChannels();
-                this.submitApi();
-                window.location.hash = 'newSubmission';
-            } else {
-                if (window.location.hash == '#newSubmission') {
-                    history.go(-1);
-                }
-            }
-        }
-    },
+	watch: {
+		visible() {
+			if (this.visible) {
+				this.setDefaultChannels();
+				this.submitApi();
+				window.location.hash = 'newSubmission';
+			} else {
+				if (window.location.hash == '#newSubmission') {
+					history.go(-1);
+				}
+			}
+		}
+	},
 
-    methods: {
-        close() {
-            this.$emit('update:visible', false);
-        },
+	methods: {
+		close() {
+			this.$emit('update:visible', false);
+		},
 
-        /**
-         * Used for setting the values using API. This will get extended in the future to support
-         * voten sharing buttons! But for now we are just going to use it for setting the default
-         * channel so when clicked on submit in the channels, users won't have to set channel.
-         *
-         * @return
-         */
-        submitApi() {
-            if (this.$route.params.name) {
-                this.selectedCat = this.$route.params.name;
-            } else {
-                this.selectedCat = null;
-            }
+		/**
+		 * Used for setting the values using API. This will get extended in the future to support
+		 * voten sharing buttons! But for now we are just going to use it for setting the default
+		 * channel so when clicked on submit in the channels, users won't have to set channel.
+		 *
+		 * @return
+		 */
+		submitApi() {
+			if (this.$route.params.name) {
+				this.selectedCat = this.$route.params.name;
+			} else {
+				this.selectedCat = null;
+			}
 
-            this.sfw = !Store.page.channel.temp.nsfw;
-        },
+			this.sfw = !Store.page.channel.temp.nsfw;
+		},
 
-        /**
-         * Sets the default value for suggestCats (uses user's already subscriber channels)
-         *
-         * @return void
-         */
-        setDefaultChannels() {
-            let array = [];
+		/**
+		 * Sets the default value for suggestCats (uses user's already subscriber channels)
+		 *
+		 * @return void
+		 */
+		setDefaultChannels() {
+			let array = [];
 
-            Store.state.subscribedChannels.forEach((element, index) => {
-                array.push(element.name);
-            });
+			Store.state.subscribedChannels.forEach((element, index) => {
+				array.push(element.name);
+			});
 
-            this.suggestedCats = array;
-        },
+			this.suggestedCats = array;
+		},
 
-        /**
-         * Submits the form.
-         *
-         * @return void
-         */
-        submit() {
-            this.loading = true;
+		/**
+		 * Submits the form.
+		 *
+		 * @return void
+		 */
+		submit() {
+			this.loading = true;
 
-            let formData = this.prepareFormData(); 
+			let formData = this.prepareFormData();
 
-            axios
-                .post('/submissions', formData)
-                .then(response => {
-                    this.loading = false;
+			axios
+				.post('/submissions', formData)
+				.then((response) => {
+					this.loading = false;
 
-                    Store.state.submissions.upVotes.push(response.data.data.id);
-                    this.$router.push('/c/' + this.selectedCat + '/' + response.data.data.slug);
+					Store.state.submissions.upVotes.push(response.data.data.id);
+					this.$router.push(
+						'/c/' + this.selectedCat + '/' + response.data.data.slug
+					);
 
-                    this.close();
-                    this.reset();
-                })
-                .catch(error => {
-                    this.loading = false;
-                    this.errors = error.response.data.errors;
-                });
-        },
+					this.close();
+					this.reset();
+				})
+				.catch((error) => {
+					this.loading = false;
+					this.errors = error.response.data.errors;
+				});
+		},
 
-        prepareFormData() {
-            let formData = new FormData();
+		prepareFormData() {
+			let formData = new FormData();
 
-            formData.append('title', this.title);
-            formData.append('channel_name', this.selectedCat);
-            formData.append('nsfw', !this.sfw);
-            formData.append('type', this.submissionType);
+			formData.append('title', this.title);
+			formData.append('channel_name', this.selectedCat);
+			formData.append('nsfw', !this.sfw);
+			formData.append('type', this.submissionType);
 
-            switch (this.submissionType) {
-                case 'text':
-                    formData.append('text', this.text);
-                    break;
+			switch (this.submissionType) {
+				case 'text':
+					formData.append('text', this.text);
+					break;
 
-                case 'link':
-                    formData.append('url', this.submitURL);
-                    break;
+				case 'link':
+					formData.append('url', this.submitURL);
+					break;
 
-                case 'gif':
-                    formData.append('gif_id', this.gif_id);
-                    break;
+				case 'gif':
+					formData.append('gif_id', this.gif_id);
+					break;
 
-                case 'img':
-                    let arr = _.map(this.photos, 'id'); 
-                    for (let i = 0; i < arr.length; i++) {
-                        formData.append('photos_id[]', arr[i]);
-                    }
-                    break; 
-            }
+				case 'img':
+					let arr = _.map(this.photos, 'id');
+					for (let i = 0; i < arr.length; i++) {
+						formData.append('photos_id[]', arr[i]);
+					}
+					break;
+			}
 
-            return formData; 
-        }, 
+			return formData;
+		},
 
-        /**
-         * Fetches the title from the external URL (through Voten's proxy server which we contact via API)
-         *
-         * @param string typed
-         * @return void
-         */
-        getTitle(typed) {
-            if (!typed.trim()) return;
+		/**
+		 * Fetches the title from the external URL (through Voten's proxy server which we contact via API)
+		 *
+		 * @param string typed
+		 * @return void
+		 */
+		getTitle(typed) {
+			if (!typed.trim()) return;
 
-            this.loadingTitle = true;
+			this.loadingTitle = true;
 
-            axios
-                .get('/submissions/title', {
-                    params: {
-                        url: typed
-                    }
-                })
-                .then(response => {
-                    this.title = response.data.data.title;
-                    this.loadingTitle = false;
-                    this.errors.url = [];
-                })
-                .catch(error => {
-                    this.errors = error.response.data.errors;
-                    this.loadingTitle = false;
-                });
-        },
+			axios
+				.get('/submissions/title', {
+					params: {
+						url: typed
+					}
+				})
+				.then((response) => {
+					this.title = response.data.data.title;
+					this.loadingTitle = false;
+					this.errors.url = [];
+				})
+				.catch((error) => {
+					this.errors = error.response.data.errors;
+					this.loadingTitle = false;
+				});
+		},
 
-        /**
-         * Searches through channels.
-         *
-         * @param string typed
-         * @return void
-         */
-        getSuggestedChannels: _.debounce(function(typed) {
-            if (!typed) return;
+		/**
+		 * Searches through channels.
+		 *
+		 * @param string typed
+		 * @return void
+		 */
+		getSuggestedChannels: _.debounce(function(typed) {
+			if (!typed) return;
 
-            this.loadingChannels = true;
+			this.loadingChannels = true;
 
-            axios
-                .get('/get-channels', {
-                    params: {
-                        name: typed
-                    }
-                })
-                .then(response => {
-                    this.suggestedCats = response.data;
-                    this.loadingChannels = false;
-                })
-                .catch(() => {
-                    this.loadingChannels = false;
-                });
-        }, 600),
-        
-        changeSubmissionType(newType) {
-            this.submissionType = newType;
-        },
+			axios
+				.get('/get-channels', {
+					params: {
+						name: typed
+					}
+				})
+				.then((response) => {
+					this.suggestedCats = response.data;
+					this.loadingChannels = false;
+				})
+				.catch(() => {
+					this.loadingChannels = false;
+				});
+		}, 600),
 
-        reset() {
-            this.errors = [];
+		changeSubmissionType(newType) {
+			this.submissionType = newType;
+		},
 
-            this.loading = false;
-            this.loadingChannels = false;
-            this.selectedCat = null;
-            this.suggestedCats = [];
-            this.submissionType = 'text';
-            this.title = '';
-            this.sfw = true;
+		reset() {
+			this.errors = [];
 
-            // Link
-            this.submitURL = '';
-            this.loadingTitle = false;
+			this.loading = false;
+			this.loadingChannels = false;
+			this.selectedCat = null;
+			this.suggestedCats = [];
+			this.submissionType = 'text';
+			this.title = '';
+			this.sfw = true;
 
-            // Text
-            this.preview = false;
-            this.text = '';
+			// Link
+			this.submitURL = '';
+			this.loadingTitle = false;
 
-            // Photo
-            this.photos = [];
-            this.previewPhotoImage = '';
-            this.previewPhotoFileName = '';
-            this.previewPhotoModal = false;
+			// Text
+			this.preview = false;
+			this.text = '';
 
-            // GIF
-            this.gifTempArray = [];
-            this.gif_id = null;
-            this.previewGifImage = '';
-            this.previewGifFileName = '';
-            this.previewGifModal = fals;
-        }
-    }
+			// Photo
+			this.photos = [];
+			this.previewPhotoImage = '';
+			this.previewPhotoFileName = '';
+			this.previewPhotoModal = false;
+
+			// GIF
+			this.gifTempArray = [];
+			this.gif_id = null;
+			this.previewGifImage = '';
+			this.previewGifFileName = '';
+			this.previewGifModal = fals;
+		}
+	}
 };
 </script>

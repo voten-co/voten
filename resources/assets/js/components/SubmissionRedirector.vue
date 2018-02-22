@@ -8,34 +8,39 @@
 import Loading from '../components/Loading.vue';
 
 export default {
-    components: { Loading },
+	components: { Loading },
 
-    data() {
-        return {
-            loading: true
-        };
-    },
+	data() {
+		return {
+			loading: true
+		};
+	},
 
-    created() {
-        this.getSubmission();
-    },
+	created() {
+		this.getSubmission();
+	},
 
-    methods: {
-        getSubmission() {
-            axios
-                .get(`/submissions/${this.$route.params.id}`)
-                .then(response => {
-                    this.loading = false;
-                    this.$router.push('/c/' + response.data.channel_name + '/' + response.data.slug);
-                })
-                .catch(error => {
-                    this.loading = false;
+	methods: {
+		getSubmission() {
+			axios
+				.get(`/submissions/${this.$route.params.id}`)
+				.then((response) => {
+					this.loading = false;
+					this.$router.push(
+						'/c/' +
+							response.data.channel_name +
+							'/' +
+							response.data.slug
+					);
+				})
+				.catch((error) => {
+					this.loading = false;
 
-                    if (error.response.status === 404) {
-                        this.$router.push('/deleted-submission');
-                    }
-                });
-        }
-    }
+					if (error.response.status === 404) {
+						this.$router.push('/deleted-submission');
+					}
+				});
+		}
+	}
 };
 </script>

@@ -64,130 +64,136 @@
 </template>
 
 <script>
-    import Helpers from '../mixins/Helpers';
-    import Submission from '../components/Submission.vue';
-    import SuggestedChannel from '../components/SuggestedChannel.vue';
-    import Loading from '../components/Loading.vue';
-    import NoContent from '../components/NoContent.vue';
-    import NoMoreItems from '../components/NoMoreItems.vue';
-    import Tour from '../components/Tour';
+import Helpers from '../mixins/Helpers';
+import Submission from '../components/Submission.vue';
+import SuggestedChannel from '../components/SuggestedChannel.vue';
+import Loading from '../components/Loading.vue';
+import NoContent from '../components/NoContent.vue';
+import NoMoreItems from '../components/NoMoreItems.vue';
+import Tour from '../components/Tour';
 
+export default {
+	mixins: [Helpers],
 
-    export default {
-        mixins: [Helpers],
+	components: {
+		Submission,
+		Loading,
+		SuggestedChannel,
+		NoContent,
+		NoMoreItems,
+		Tour
+	},
 
-        components: {
-            Submission,
-            Loading, 
-            SuggestedChannel,
-            NoContent,
-            NoMoreItems, 
-            Tour
-        },
+	data() {
+		return {
+			refreshing: false
+		};
+	},
 
-        data() {
-            return {
-                refreshing: false
-            }
-        },
+	beforeRouteEnter(to, from, next) {
+		if (Store.page.home.page === 0) {
+			if (typeof app != 'undefined') {
+				app.$Progress.start();
+			}
 
-        beforeRouteEnter (to, from, next) {
-            if (Store.page.home.page === 0) {
-                if (typeof app != "undefined") {
-                    app.$Progress.start();
-                }
+			Store.page.home.getSubmissions(to.query.sort).then(() => {
+				next((vm) => vm.$Progress.finish());
+			});
+		} else {
+			next();
+		}
+	},
 
-                Store.page.home.getSubmissions(to.query.sort).then(() => {
-                    next(vm => vm.$Progress.finish());
-                });
-            } else {
-                next();
-            }
-        },
+	beforeRouteUpdate(to, from, next) {
+		if (to.hash !== from.hash) return;
 
-        beforeRouteUpdate (to, from, next) {
-            if (to.hash !== from.hash) return; 
+		Store.page.home.clear();
 
-            Store.page.home.clear();
+		this.$Progress.start();
 
-            this.$Progress.start();
+		Store.page.home.getSubmissions(to.query.sort).then(() => {
+			this.$Progress.finish();
+			next();
+		});
+	},
 
-            Store.page.home.getSubmissions(to.query.sort).then(() => {
-                this.$Progress.finish();
-                next();
-            });
-        },
+	created() {
+		this.setPageTitle('Voten: ' + Laravel.title, true);
+		this.startTour();
+		this.$eventHub.$on('refresh-home', this.refresh);
+	},
 
-        created() {
-            this.setPageTitle('Voten: ' + Laravel.title, true);
-            this.startTour();
-            this.$eventHub.$on('refresh-home', this.refresh);
-        },
+	beforeDestroy() {
+		this.$eventHub.$off('refresh-home', this.refresh);
+	},
 
-        beforeDestroy() {
-            this.$eventHub.$off('refresh-home', this.refresh);                
-        }, 
+	computed: {
+		cantLoadMore() {
+			return this.loading || this.NoMoreItems || this.nothingFound;
+		},
 
-        computed: {
-            cantLoadMore() {
-                return this.loading || this.NoMoreItems || this.nothingFound;
-            },
+		NoMoreItems() {
+			return Store.page.home.NoMoreItems;
+		},
 
-            NoMoreItems() {
-                return Store.page.home.NoMoreItems;
-            },
+		nothingFound() {
+			return Store.page.home.nothingFound;
+		},
 
-            nothingFound() {
-                return Store.page.home.nothingFound;
-            },
+		submissions() {
+			return Store.page.home.submissions;
+		},
 
-            submissions() {
-                return Store.page.home.submissions;
-            },
+		loading() {
+			return Store.page.home.loading;
+		},
 
-            loading() {
-                return Store.page.home.loading;
-            },
+		sort() {
+			return this.$route.query.sort ? this.$route.query.sort : 'hot';
+		},
 
-            sort() {
-                return this.$route.query.sort ? this.$route.query.sort : 'hot';
-            },
+		page() {
+			return Store.page.home.page;
+		},
 
-            page() {
-                return Store.page.home.page;
-            },
+		uniqueList() {
+			return _.uniqBy(this.submissions, 'id');
+		}
+	},
 
-            uniqueList() {
-                return _.uniqBy(this.submissions, 'id');
-            },
-        },
+	methods: {
+		loadMore() {
+			Store.page.home.getSubmissions(this.sort);
+		},
 
-        methods: {
-            loadMore() {
-                Store.page.home.getSubmissions(this.sort);
-            },
+		refresh: _.debounce(
+			function() {
+				this.refreshing = true;
 
-            refresh: _.debounce(function () {
-                this.refreshing = true;
-                
-                Store.page.home.clear();
+				Store.page.home.clear();
 
-                Store.page.home.getSubmissions(this.sort).then(() => {
-                    this.refreshing = false
-                }).catch(() => {
-                    this.refreshing = false
-                });
-            }, 200, { leading: true, trailing: false }),
-            
-            submit() {
-                this.$eventHub.$emit('submit');
-            },
+				Store.page.home
+					.getSubmissions(this.sort)
+					.then(() => {
+						this.refreshing = false;
+					})
+					.catch(() => {
+						this.refreshing = false;
+					});
+			},
+			200,
+			{ leading: true, trailing: false }
+		),
 
-            startTour() {
-                if (this.$route.query.newbie == 1) { 
-                    Store.tour.show = true; 
-                }
-            }
-        },
-    }
+		submit() {
+			this.$eventHub.$emit('submit');
+		},
+
+		startTour() {
+			if (this.$route.query.newbie == 1) {
+				Store.tour.show = true;
+			}
+		}
+	}
+};
 </script>

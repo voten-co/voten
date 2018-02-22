@@ -1,36 +1,36 @@
 export default {
-  submissions: {
-    upVotes: [],
-    downVotes: []
-  },
+	submissions: {
+		upVotes: [],
+		downVotes: []
+	},
 
-  comments: {
-    upVotes: [],
-    downVotes: []
-  },
+	comments: {
+		upVotes: [],
+		downVotes: []
+	},
 
-  bookmarks: {
-    submissions: [],
-    comments: [],
-    channels: [],
-    users: []
-  },
+	bookmarks: {
+		submissions: [],
+		comments: [],
+		channels: [],
+		users: []
+	},
 
-  blocks: {
-    users: [],
-    channels: []
-  },
+	blocks: {
+		users: [],
+		channels: []
+	},
 
-  moderatingChannels: [],
-  bookmarkedChannels: [],
-  moderatorAt: [],
-  administratorAt: [],
-  moderatingAt: [], // contains both moderator and administrator
-  subscribedAt: [],
+	moderatingChannels: [],
+	bookmarkedChannels: [],
+	moderatorAt: [],
+	administratorAt: [],
+	moderatingAt: [], // contains both moderator and administrator
+	subscribedAt: [],
 
-  notifications: [],
-  messages: [],
-  contacts: [],
+	notifications: [],
+	messages: [],
+	contacts: [],
 
-  subscribedChannels: []
+	subscribedChannels: []
 };

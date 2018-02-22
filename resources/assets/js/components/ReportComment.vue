@@ -50,74 +50,77 @@
 </template>
 
 <script>
-    import Helpers from '../mixins/Helpers';
+import Helpers from '../mixins/Helpers';
 
-    export default {
-        mixins: [Helpers],
+export default {
+	mixins: [Helpers],
 
-        props: ['visible'],
+	props: ['visible'],
 
-        data () {
-            return {
-                subject: "It's spam",
-                description: "",
-                sending: false,
-                subjects: [
-                    "It's spam",
-                    "It doesn't follow channel's exclusive rules",
-                    "It doesn't follow Voten's general rules",
-                    "It's abusive or harmful",
-                    "Other"
-                ]
-            }
-        },
+	data() {
+		return {
+			subject: "It's spam",
+			description: '',
+			sending: false,
+			subjects: [
+				"It's spam",
+				"It doesn't follow channel's exclusive rules",
+				"It doesn't follow Voten's general rules",
+				"It's abusive or harmful",
+				'Other'
+			]
+		};
+	},
 
-        mounted() {
-            this.$nextTick(function () {
-                this.$refs.description.$refs.textarea.focus();
-            });
-        },
+	mounted() {
+		this.$nextTick(function() {
+			this.$refs.description.$refs.textarea.focus();
+		});
+	},
 
-        beforeDestroy() {
-            if (window.location.hash == '#reportComment') {
-                history.go(-1);
-            }
-        },
+	beforeDestroy() {
+		if (window.location.hash == '#reportComment') {
+			history.go(-1);
+		}
+	},
 
-        created() {
-            window.location.hash = 'reportComment';
-        },
+	created() {
+		window.location.hash = 'reportComment';
+	},
 
-        computed: {
-            comment() {
-                return Store.modals.reportComment.comment; 
-            }
-        },
+	computed: {
+		comment() {
+			return Store.modals.reportComment.comment;
+		}
+	},
 
-        methods: {
-            send() {
-                this.sending = true;
+	methods: {
+		send() {
+			this.sending = true;
 
-                axios.post('/comments/reports', {
-                    id: this.comment.id,
-                    subject: this.subject,
-                    description: this.description
-                }).then(() => {
-                    this.$message({
-                        message: 'Report submitted. Thanks for caring!',
-                        type: 'success'
-                    });
+			axios
+				.post('/comments/reports', {
+					id: this.comment.id,
+					subject: this.subject,
+					description: this.description
+				})
+				.then(() => {
+					this.$message({
+						message: 'Report submitted. Thanks for caring!',
+						type: 'success'
+					});
 
-                    this.close();
-                    this.sending = false;                     
-                }).catch(() => {
-                    this.sending = false; 
-                });
-            },
+					this.close();
+					this.sending = false;
+				})
+				.catch(() => {
+					this.sending = false;
+				});
+		},
 
-            close() {
-                this.$emit('update:visible', false);
-            },
-        },
-    }
+		close() {
+			this.$emit('update:visible', false);
+		}
+	}
+};
 </script>

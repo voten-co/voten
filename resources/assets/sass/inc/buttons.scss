@@ -1,40 +1,40 @@
 // VUI
 .v-button {
-    -webkit-font-smoothing: antialiased;
+	-webkit-font-smoothing: antialiased;
 }
 
 .v-button.v-button--primary {
-    background-color: #6181c1;
+	background-color: #6181c1;
 }
 .v-button.v-button-outline--primary {
-    background-color: inherit;
-    color: $primary-color;
-    border: 2px solid $primary-color;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+	background-color: inherit;
+	color: $primary-color;
+	border: 2px solid $primary-color;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .v-button.v-button--green {
-    background-color: $green-color;
-    color: #fff;
-    border-color: transparent;
+	background-color: $green-color;
+	color: #fff;
+	border-color: transparent;
 }
 .v-button.v-button-outline--green {
-    background-color: inherit;
-    color: $green-color;
-    border: 2px solid $green-color;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+	background-color: inherit;
+	color: $green-color;
+	border: 2px solid $green-color;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .v-button.v-button--link {
-    background: none;
-    border: none;
-    margin: 1em 0;
-    color: #000000;
-    text-decoration: underline;
+	background: none;
+	border: none;
+	margin: 1em 0;
+	color: #000000;
+	text-decoration: underline;
 }
 
 .v-button.v-button--link:hover {
@@ -42,102 +42,100 @@
 }
 
 .v-button.v-button--upload {
-    position: relative;
-    margin: 0;
+	position: relative;
+	margin: 0;
 
-    input {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        opacity: 0;
-        width: 100%;
-    }    
+	input {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		left: 0;
+		opacity: 0;
+		width: 100%;
+	}
 }
 
 .v-button.v-button--red {
-    background-color: #db6e6e;
-    color: #fff;
-    border-color: transparent;
+	background-color: #db6e6e;
+	color: #fff;
+	border-color: transparent;
 }
 .v-button.v-button-outline--red {
-    background-color: inherit;
-    color: $red-color;
-    border: 2px solid $red-color;
-    display: flex;
-    align-items: center;
+	background-color: inherit;
+	color: $red-color;
+	border: 2px solid $red-color;
+	display: flex;
+	align-items: center;
 }
 
-
 .v-button--white-inverted {
-    background: transparent none !important;
-    color: #fff !important;
-    border: 2px solid #fff !important;
-    border-radius: 2px !important;
+	background: transparent none !important;
+	color: #fff !important;
+	border: 2px solid #fff !important;
+	border-radius: 2px !important;
 }
 
 .v-button.v-button--purple {
-    background-color: $purple-color;
-    color: #fff;
-    border-color: transparent;
+	background-color: $purple-color;
+	color: #fff;
+	border-color: transparent;
 }
 
 .v-button.v-button--purple:hover {
-    background-color: #rgb(154, 135, 230);
+	background-color: #rgb(154, 135, 230);
 }
 
 .v-button.v-button-sm {
-    padding: 3px 12px;
+	padding: 3px 12px;
 }
 
 label.v-toggle--checked.v-toggle {
-    background: #5587d7;
-    border-color: #407bd9;
+	background: #5587d7;
+	border-color: #407bd9;
 }
 
 .btn-nth {
-    background: none;
-    border: 0;
-    cursor: pointer;
+	background: none;
+	border: 0;
+	cursor: pointer;
 }
 
 .feed-panel-button {
-    background: none;
-    border: 0;
-    cursor: pointer;
-    width: 42px;
-    height: 42px;
-    display: inline-flex !important;
-    align-items: center;
-    border-radius: 2px;
-    color: #75797b;
+	background: none;
+	border: 0;
+	cursor: pointer;
+	width: 42px;
+	height: 42px;
+	display: inline-flex !important;
+	align-items: center;
+	border-radius: 2px;
+	color: #75797b;
 
-    i {
-        font-size: 25px;
-    }
-     
-    &:hover, 
-    & i:hover {
-        color: #000000;
-    }
+	i {
+		font-size: 25px;
+	}
+
+	&:hover,
+	& i:hover {
+		color: #000000;
+	}
 }
-
 
 .sidebar-panel-button {
 	background: none;
-    border: 0;
-    cursor: pointer;
-    width: 42px;
-    height: 42px;
-    display: inline-flex !important;
-    align-items: center;
-    border-radius: 2px;
-    color: #75797b;
+	border: 0;
+	cursor: pointer;
+	width: 42px;
+	height: 42px;
+	display: inline-flex !important;
+	align-items: center;
+	border-radius: 2px;
+	color: #75797b;
 }
 
 .sidebar-panel-button i:hover {
-    color: #000;
+	color: #000;
 }
 
 .Gray .sidebar-panel-button i:hover {
@@ -145,57 +143,57 @@ label.v-toggle--checked.v-toggle {
 }
 
 .btn-no-back {
-    background: none;
-    border: 0;
-    cursor: pointer;
+	background: none;
+	border: 0;
+	cursor: pointer;
 }
 
 .btn-no-back i {
-    color: #919fa9;
-    padding: 3px 6px;
-    font-size: 29px;
+	color: #919fa9;
+	padding: 3px 6px;
+	font-size: 29px;
 }
 
 .btn-no-back i:hover {
-    background: #efefef;
-    border-radius: 2px;
+	background: #efefef;
+	border-radius: 2px;
 }
 
 .v-button,
 a.v-button,
 button.v-button {
-    font-family: inherit;
-    //border-bottom: 2px solid #d1d1d1;
+	font-family: inherit;
+	//border-bottom: 2px solid #d1d1d1;
 }
 
 .ui.button {
-    font-family: inherit;
+	font-family: inherit;
 }
 
 .link-list-info {
-    padding: 1em;
-    background: #fff;
-    text-align: left;
+	padding: 1em;
+	background: #fff;
+	text-align: left;
 }
 
 .v-button-small {
-    padding: 2px 6px !important;
-    font-size: 70% !important;
+	padding: 2px 6px !important;
+	font-size: 70% !important;
 }
 
 .v-button-big {
-    padding: 17px 59px !important;
-    font-size: 127% !important;
+	padding: 17px 59px !important;
+	font-size: 127% !important;
 }
 
 .v-button-icon {
-    background: inherit !important;
-    text-transform: uppercase;
-    font-size: 9px !important;
-    border: 1px solid rgba(0, 0, 0, 0.3) !important;
-    padding: 3px !important;
-    border-radius: 2px !important;
-    padding-left: 5px !important;
-    padding-right: 5px !important;
-    line-height: 11px !important;
+	background: inherit !important;
+	text-transform: uppercase;
+	font-size: 9px !important;
+	border: 1px solid rgba(0, 0, 0, 0.3) !important;
+	padding: 3px !important;
+	border-radius: 2px !important;
+	padding-left: 5px !important;
+	padding-right: 5px !important;
+	line-height: 11px !important;
 }

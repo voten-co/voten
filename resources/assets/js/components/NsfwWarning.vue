@@ -8,13 +8,13 @@
 </template>
 
 <script>
-    export default {
-		props: ['text']
-    }
+export default {
+	props: ['text']
+};
 </script>
 
 <style>
-	#not-found {
-		margin-top: 10%;
-	}
+#not-found {
+	margin-top: 10%;
+}
 </style>

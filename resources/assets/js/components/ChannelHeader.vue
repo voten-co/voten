@@ -107,151 +107,184 @@
 </template>
 
 <script>
-    import Subscribe from '../components/SubscribeButton.vue';
-    import Moderators from '../components/Moderators.vue';
-    import Rules from '../components/Rules.vue';
-    import Helpers from '../mixins/Helpers';
+import Subscribe from '../components/SubscribeButton.vue';
+import Moderators from '../components/Moderators.vue';
+import Rules from '../components/Rules.vue';
+import Helpers from '../mixins/Helpers';
 
-    export default {
-        mixins: [Helpers],
+export default {
+	mixins: [Helpers],
 
-        components: {
-            Subscribe,
-            Moderators,
-            Rules
-        },
+	components: {
+		Subscribe,
+		Moderators,
+		Rules
+	},
 
-        data() {
-            return {
-                showModeratorsModal: false,
-                showRulesModal: false,
-                showFirstHeader: true
-            }
-        },
+	data() {
+		return {
+			showModeratorsModal: false,
+			showRulesModal: false,
+			showFirstHeader: true
+		};
+	},
 
-        created () {
-            this.$eventHub.$on('scrolled-to-top', () => {
-                this.showFirstHeader = true
-            });
+	created() {
+		this.$eventHub.$on('scrolled-to-top', () => {
+			this.showFirstHeader = true;
+		});
 
-            this.$eventHub.$on('scrolled-a-bit', () => {
-                this.showFirstHeader = false
-            });
-        },
+		this.$eventHub.$on('scrolled-a-bit', () => {
+			this.showFirstHeader = false;
+		});
+	},
 
-        beforeDestroy() {
-            this.$eventHub.$off('scrolled-to-top', () => {
-                this.showFirstHeader = true
-            });
+	beforeDestroy() {
+		this.$eventHub.$off('scrolled-to-top', () => {
+			this.showFirstHeader = true;
+		});
 
-            this.$eventHub.$off('scrolled-a-bit', () => {
-                this.showFirstHeader = false
-            });
-        }, 
+		this.$eventHub.$off('scrolled-a-bit', () => {
+			this.showFirstHeader = false;
+		});
+	},
 
-        methods: {
-            block() {
-                if (this.isGuest) {this.mustBeLogin(); return;}
+	methods: {
+		block() {
+			if (this.isGuest) {
+				this.mustBeLogin();
+				return;
+			}
 
-                this.$confirm(`Blocking a channel will exclude it form your feed. Are you sure about this?`, 'Warning', {
-                    confirmButtonText: 'Yes',
-                    cancelButtonText: 'Never mind',
-                    type: 'warning'
-                }).then(() => {
-                    axios.post('/channel-block', {
-                        channel_id: Store.page.channel.temp.id
-                    }).then(() => {
-                        this.$router.push('/');
+			this.$confirm(
+				`Blocking a channel will exclude it form your feed. Are you sure about this?`,
+				'Warning',
+				{
+					confirmButtonText: 'Yes',
+					cancelButtonText: 'Never mind',
+					type: 'warning'
+				}
+			)
+				.then(() => {
+					axios
+						.post('/channel-block', {
+							channel_id: Store.page.channel.temp.id
+						})
+						.then(() => {
+							this.$router.push('/');
 
-                        this.$message({
-                            type: 'success',
-                            message: `You no longer will see submissions from #${Store.page.channel.temp.name} in your feed. `
-                        });
-                    });
-                }).catch(() => {
-                });
-            },
+							this.$message({
+								type: 'success',
+								message: `You no longer will see submissions from #${
+									Store.page.channel.temp.name
+								} in your feed. `
+							});
+						});
+				})
+				.catch(() => {});
+		},
 
-            bookmark: _.debounce(function () {
-                if (this.isGuest) {
-                    this.mustBeLogin();
-                    return;
-                }
+		bookmark: _.debounce(
+			function() {
+				if (this.isGuest) {
+					this.mustBeLogin();
+					return;
+				}
 
-                this.bookmarked = !this.bookmarked;
+				this.bookmarked = !this.bookmarked;
 
-                axios.post('/bookmark-channel', {
-                    id: Store.page.channel.temp.id
-                }).catch(() => {
-                    this.bookmarked = !this.bookmarked;
-                });
-            }, 200, { leading: true, trailing: false }),
-        },
+				axios
+					.post('/bookmark-channel', {
+						id: Store.page.channel.temp.id
+					})
+					.catch(() => {
+						this.bookmarked = !this.bookmarked;
+					});
+			},
+			200,
+			{ leading: true, trailing: false }
+		)
+	},
 
-        computed: {
-            sort() {
-                if (this.$route.name != 'channel-submissions')
-                    return null;
+	computed: {
+		sort() {
+			if (this.$route.name != 'channel-submissions') return null;
 
-                if (this.$route.query.sort == 'new')
-                    return 'new';
+			if (this.$route.query.sort == 'new') return 'new';
 
-                if (this.$route.query.sort == 'rising')
-                    return 'rising';
+			if (this.$route.query.sort == 'rising') return 'rising';
 
-                return 'hot';
-            },
+			return 'hot';
+		},
 
-            bookmarked: {
-                get() {
-                    return Store.state.bookmarks.channels.indexOf(Store.page.channel.temp.id) !== -1 ? true : false;
-                },
+		bookmarked: {
+			get() {
+				return Store.state.bookmarks.channels.indexOf(
+					Store.page.channel.temp.id
+				) !== -1
+					? true
+					: false;
+			},
 
-                set() {
-                    if (Store.state.bookmarks.channels.indexOf(Store.page.channel.temp.id) !== -1) {
-                        let index = Store.state.bookmarks.channels.indexOf(Store.page.channel.temp.id);
-                        Store.state.bookmarks.channels.splice(index, 1);
+			set() {
+				if (
+					Store.state.bookmarks.channels.indexOf(
+						Store.page.channel.temp.id
+					) !== -1
+				) {
+					let index = Store.state.bookmarks.channels.indexOf(
+						Store.page.channel.temp.id
+					);
+					Store.state.bookmarks.channels.splice(index, 1);
 
-                        let removeItem = Store.page.channel.temp.id; 
-                        Store.state.bookmarkedChannels = Store.state.bookmarkedChannels.filter(channel => channel.id != removeItem);
+					let removeItem = Store.page.channel.temp.id;
+					Store.state.bookmarkedChannels = Store.state.bookmarkedChannels.filter(
+						(channel) => channel.id != removeItem
+					);
 
-                        return;
-                    }
+					return;
+				}
 
-                    Store.state.bookmarks.channels.push(Store.page.channel.temp.id);
-                    Store.state.bookmarkedChannels.push(Store.page.channel.temp); 
-                }
-            },
+				Store.state.bookmarks.channels.push(Store.page.channel.temp.id);
+				Store.state.bookmarkedChannels.push(Store.page.channel.temp);
+			}
+		},
 
-            date () {
-                return moment(Store.page.channel.temp.created_at).utc(moment().format("MMM Do")).format("MMM Do")
-            },
+		date() {
+			return moment(Store.page.channel.temp.created_at)
+				.utc(moment().format('MMM Do'))
+				.format('MMM Do');
+		},
 
-            isModerator () {
-                return Store.state.moderatingAt.indexOf(Store.page.channel.temp.id) != -1
-            },
+		isModerator() {
+			return (
+				Store.state.moderatingAt.indexOf(Store.page.channel.temp.id) !=
+				-1
+			);
+		},
 
-            coverBackground () {
-                if (Store.page.channel.temp.cover_color == 'Red') {
-                    return '#9a4e4e'
-                } else if (Store.page.channel.temp.cover_color == 'Blue') {
-                    return '#5487d4'
-                } else if (Store.page.channel.temp.cover_color == 'Dark Blue') {
-                    return '#2f3b49'
-                } else if (Store.page.channel.temp.cover_color == 'Dark Green') {
-                    return '#507e75'
-                } else if (Store.page.channel.temp.cover_color == 'Bright Green') {
-                    return 'rgb(117, 148, 127)'
-                } else if (Store.page.channel.temp.cover_color == 'Purple') {
-                    return '#4d4261'
-                } else if (Store.page.channel.temp.cover_color == 'Orange') {
-                    return '#ffaf40'
-                } else if (Store.page.channel.temp.cover_color == 'Pink') {
-                    return '#ec7daa'
-                } else { // userStore.cover_color == 'Black'
-                    return '#424242'
-                }
-            }
-        }
-    }
+		coverBackground() {
+			if (Store.page.channel.temp.cover_color == 'Red') {
+				return '#9a4e4e';
+			} else if (Store.page.channel.temp.cover_color == 'Blue') {
+				return '#5487d4';
+			} else if (Store.page.channel.temp.cover_color == 'Dark Blue') {
+				return '#2f3b49';
+			} else if (Store.page.channel.temp.cover_color == 'Dark Green') {
+				return '#507e75';
+			} else if (Store.page.channel.temp.cover_color == 'Bright Green') {
+				return 'rgb(117, 148, 127)';
+			} else if (Store.page.channel.temp.cover_color == 'Purple') {
+				return '#4d4261';
+			} else if (Store.page.channel.temp.cover_color == 'Orange') {
+				return '#ffaf40';
+			} else if (Store.page.channel.temp.cover_color == 'Pink') {
+				return '#ec7daa';
+			} else {
+				// userStore.cover_color == 'Black'
+				return '#424242';
+			}
+		}
+	}
+};
 </script>

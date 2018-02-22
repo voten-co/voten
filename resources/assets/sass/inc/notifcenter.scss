@@ -2,9 +2,10 @@
 	*zoom: 1;
 }
 
-.clearfix:before, .clearfix:after {
+.clearfix:before,
+.clearfix:after {
 	display: table;
-	content: "";
+	content: '';
 	line-height: 0;
 }
 
@@ -29,7 +30,8 @@
 	box-sizing: border-box;
 }
 
-a, a:hover {
+a,
+a:hover {
 	text-decoration: none;
 }
 
@@ -120,8 +122,8 @@ body {
 	min-height: 64px;
 	width: 300px;
 	background-color: #333;
-    color: #fefefe;
-    font-size: 13px;
+	color: #fefefe;
+	font-size: 13px;
 	border-radius: 2px;
 	box-shadow: 0px 1px 1px #777;
 	display: table;
@@ -131,14 +133,15 @@ body {
 	-webkit-opacity: 0.95;
 	-khtml-opacity: 0.95;
 	filter: alpha(opacity=95);
-	-ms-filter: literal("progid:DXImageTransform.Microsoft.Alpha(Opacity=95)");
+	-ms-filter: literal('progid:DXImageTransform.Microsoft.Alpha(Opacity=95)');
 	-webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
-.notification a, .notification a:hover {
+.notification a,
+.notification a:hover {
 	text-decoration: none;
 	color: #4aaafc;
 }
@@ -283,36 +286,49 @@ body {
 	text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
 	background-color: #f5f5f5;
 	background-image: -moz-linear-gradient(top, #fff, #e6e6e6);
-	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#e6e6e6));
+	background-image: -webkit-gradient(
+		linear,
+		0 0,
+		0 100%,
+		from(#fff),
+		to(#e6e6e6)
+	);
 	background-image: -webkit-linear-gradient(top, #fff, #e6e6e6);
 	background-image: -o-linear-gradient(top, #fff, #e6e6e6);
 	background-image: linear-gradient(to bottom, #fff, #e6e6e6);
 	background-repeat: repeat-x;
-	filter: literal("progid: DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe6e6e6', GradientType=0)");
+	filter: literal(
+		"progid: DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe6e6e6', GradientType=0)"
+	);
 	border-color: #e6e6e6 #e6e6e6 #bfbfbf;
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 	*background-color: #e6e6e6;
-	filter: literal("progid: DXImageTransform.Microsoft.gradient(enabled = false)");
+	filter: literal(
+		'progid: DXImageTransform.Microsoft.gradient(enabled = false)'
+	);
 	border: 1px solid #ccc;
 	*border: 0;
 	border-bottom-color: #b3b3b3;
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
 	border-radius: 4px;
-	*margin-left: .3em;
-	-webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
-	-moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
+	*margin-left: 0.3em;
+	-webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),
+		0 1px 2px rgba(0, 0, 0, 0.05);
+	-moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),
+		0 1px 2px rgba(0, 0, 0, 0.05);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),
+		0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .notification .buttonnotif .btn:hover {
 	color: #333;
 	text-decoration: none;
 	background-position: 0 -15px;
-	-webkit-transition: background-position .1s linear;
-	-moz-transition: background-position .1s linear;
-	-o-transition: background-position .1s linear;
-	transition: background-position .1s linear;
+	-webkit-transition: background-position 0.1s linear;
+	-moz-transition: background-position 0.1s linear;
+	-o-transition: background-position 0.1s linear;
+	transition: background-position 0.1s linear;
 }
 
 .centerlist ul li h3,
@@ -386,9 +402,11 @@ body {
 	background: linear-gradient(top, #ff0000 0, #a11e1e 100%);
 	background: -webkit-linear-gradient(top, #ff0000 0, #a11e1e 100%);
 	background: -moz-linear-gradient(top, #ff0000 0, #a11e1e 100%);
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.4), 0 0 1px rgba(0, 0, 0, 0.7) inset, 0 10px 0 rgba(255, 255, 255, 0.11) inset;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.4),
+		0 0 1px rgba(0, 0, 0, 0.7) inset,
+		0 10px 0 rgba(255, 255, 255, 0.11) inset;
 	background-clip: padding-box;
-	font: bold 12px/18px"Helvetica Neue", sans-serif;
+	font: bold 12px/18px'Helvetica Neue', sans-serif;
 	color: white;
 	text-decoration: none;
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.6);

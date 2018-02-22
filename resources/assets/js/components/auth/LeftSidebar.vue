@@ -190,65 +190,71 @@ import Helpers from '../../mixins/Helpers';
 import Tour from '../../components/Tour';
 
 export default {
-    mixins: [Helpers],
+	mixins: [Helpers],
 
-    components: { Tour },
+	components: { Tour },
 
-    computed: {
-        submitURL() {
-            return this.$route.params.name ? '/submit?channel=' + this.$route.params.name : '/submit';
-        }
-    },
+	computed: {
+		submitURL() {
+			return this.$route.params.name
+				? '/submit?channel=' + this.$route.params.name
+				: '/submit';
+		}
+	},
 
-    computed: {
-        activeRoute() {
-            if (this.$route.name === 'home') {
-                return 'home';
-            }
+	computed: {
+		activeRoute() {
+			if (this.$route.name === 'home') {
+				return 'home';
+			}
 
-            if (
-                this.$route.name === 'bookmarked-submissions' ||
-                this.$route.name === 'bookmarked-comments' ||
-                this.$route.name === 'bookmarked-users' ||
-                this.$route.name === 'bookmarked-channels'
-            ) {
-                return 'bookmarks';
-            }
+			if (
+				this.$route.name === 'bookmarked-submissions' ||
+				this.$route.name === 'bookmarked-comments' ||
+				this.$route.name === 'bookmarked-users' ||
+				this.$route.name === 'bookmarked-channels'
+			) {
+				return 'bookmarks';
+			}
 
-            if (this.$route.params.username == auth.username) {
-                return 'profile';
-            }
+			if (this.$route.params.username == auth.username) {
+				return 'profile';
+			}
 
-            if (this.$route.name === 'submit') {
-                return 'submit';
-            }
-        },
+			if (this.$route.name === 'submit') {
+				return 'submit';
+			}
+		},
 
-        unreadNotifications() {
-            return Store.state.notifications.filter(item => item.read_at == null).length;
-        },
+		unreadNotifications() {
+			return Store.state.notifications.filter(
+				(item) => item.read_at == null
+			).length;
+		},
 
-        unreadMessages() {
-            return Store.state.contacts.filter(
-                item => item.last_message.author.id != auth.id && item.last_message.read_at == null
-            ).length;
-        }
-    },
+		unreadMessages() {
+			return Store.state.contacts.filter(
+				(item) =>
+					item.last_message.author.id != auth.id &&
+					item.last_message.read_at == null
+			).length;
+		}
+	},
 
-    methods: {
-        pushRouter(route) {
-            this.$eventHub.$emit('close');
+	methods: {
+		pushRouter(route) {
+			this.$eventHub.$emit('close');
 
-            this.$router.push(route);
-        },
+			this.$router.push(route);
+		},
 
-        goHome() {
-            if (this.$route.name != 'home') {
-                Store.page.home.clear();
-            }
+		goHome() {
+			if (this.$route.name != 'home') {
+				Store.page.home.clear();
+			}
 
-            this.pushRouter('/');
-        }
-    }
+			this.pushRouter('/');
+		}
+	}
 };
 </script>

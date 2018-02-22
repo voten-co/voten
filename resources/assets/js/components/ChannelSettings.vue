@@ -97,103 +97,120 @@
 import Helpers from '../mixins/Helpers';
 
 export default {
-    mixins: [Helpers],
+	mixins: [Helpers],
 
-    data() {
-        return {
-            errors: [],
-            sending: false,
-            description: Store.page.channel.temp.description,
-            nsfw: Store.page.channel.temp.nsfw,
-            cover_color: Store.page.channel.temp.cover_color,
-            colors: ['Blue', 'Dark Blue', 'Red', 'Dark', 'Dark Green', 'Bright Green', 'Purple', 'Orange', 'Pink'],
-            avatar: {
-                fileUploadFormData: new FormData(),
-                uploading: false,
-                errors: []
-            }
-        };
-    },
+	data() {
+		return {
+			errors: [],
+			sending: false,
+			description: Store.page.channel.temp.description,
+			nsfw: Store.page.channel.temp.nsfw,
+			cover_color: Store.page.channel.temp.cover_color,
+			colors: [
+				'Blue',
+				'Dark Blue',
+				'Red',
+				'Dark',
+				'Dark Green',
+				'Bright Green',
+				'Purple',
+				'Orange',
+				'Pink'
+			],
+			avatar: {
+				fileUploadFormData: new FormData(),
+				uploading: false,
+				errors: []
+			}
+		};
+	},
 
-    watch: {
-        'Store.page.channel.temp': function() {
-            this.description = Store.page.channel.temp.description;
-            this.nsfw = Store.page.channel.temp.nsfw;
-            this.cover_color = Store.page.channel.temp.cover_color;
-        }
-    },
+	watch: {
+		'Store.page.channel.temp': function() {
+			this.description = Store.page.channel.temp.description;
+			this.nsfw = Store.page.channel.temp.nsfw;
+			this.cover_color = Store.page.channel.temp.cover_color;
+		}
+	},
 
-    computed: {
-        changed() {
-            if (
-                Store.page.channel.temp.cover_color != this.cover_color ||
-                Store.page.channel.temp.nsfw != this.nsfw ||
-                Store.page.channel.temp.description != this.description
-            ) {
-                return true;
-            }
+	computed: {
+		changed() {
+			if (
+				Store.page.channel.temp.cover_color != this.cover_color ||
+				Store.page.channel.temp.nsfw != this.nsfw ||
+				Store.page.channel.temp.description != this.description
+			) {
+				return true;
+			}
 
-            return false;
-        }
-    },
+			return false;
+		}
+	},
 
-    methods: {
-        uploadAvatar(e) {
-            this.avatar.uploading = true;
-            this.avatar.errors = [];
-            this.avatar.fileUploadFormData = new FormData();
+	methods: {
+		uploadAvatar(e) {
+			this.avatar.uploading = true;
+			this.avatar.errors = [];
+			this.avatar.fileUploadFormData = new FormData();
 
-            this.avatar.fileUploadFormData.append('photo', e.target.files[0]);
-            this.avatar.fileUploadFormData.append('channel_name', Store.page.channel.temp.name);
+			this.avatar.fileUploadFormData.append('photo', e.target.files[0]);
+			this.avatar.fileUploadFormData.append(
+				'channel_name',
+				Store.page.channel.temp.name
+			);
 
-            axios
-                .post('/channel/avatar', this.avatar.fileUploadFormData)
-                .then(response => {
-                    location.reload();
+			axios
+				.post('/channel/avatar', this.avatar.fileUploadFormData)
+				.then((response) => {
+					location.reload();
 
-                    this.avatar.uploading = false;
-                })
-                .catch(error => {
-                    this.avatar.errors = error.response.data.errors;
-                    this.avatar.uploading = false;
-                });
-        },
+					this.avatar.uploading = false;
+				})
+				.catch((error) => {
+					this.avatar.errors = error.response.data.errors;
+					this.avatar.uploading = false;
+				});
+		},
 
-        save() {
-            this.sending = true;
+		save() {
+			this.sending = true;
 
-            axios
-                .patch('/channels', {
-                    id: Store.page.channel.temp.id,
-                    description: this.description,
-                    nsfw: this.nsfw,
-                    cover_color: this.cover_color
-                })
-                .then(() => {
-                    this.errors = [];
+			axios
+				.patch('/channels', {
+					id: Store.page.channel.temp.id,
+					description: this.description,
+					nsfw: this.nsfw,
+					cover_color: this.cover_color
+				})
+				.then(() => {
+					this.errors = [];
 
-                    Store.page.channel.temp.nsfw = this.nsfw;
-                    Store.page.channel.temp.cover_color = this.cover_color;
-                    Store.page.channel.temp.description = this.description;
-                    this.sending = false;
-                })
-                .catch(error => {
-                    this.errors = error.response.data.errors;
-                    this.sending = false;
-                });
-        }
-    },
+					Store.page.channel.temp.nsfw = this.nsfw;
+					Store.page.channel.temp.cover_color = this.cover_color;
+					Store.page.channel.temp.description = this.description;
+					this.sending = false;
+				})
+				.catch((error) => {
+					this.errors = error.response.data.errors;
+					this.sending = false;
+				});
+		}
+	},
 
-    beforeRouteEnter(to, from, next) {
-        if (Store.page.channel.temp.name == to.params.name) {
-            // loaded
-            if (Store.state.administratorAt.indexOf(Store.page.channel.temp.id) != -1) {
-                next();
-            }
-        } else {
-            // not loaded but let's continue (the server-side is still protecting us!)
-            next();
-        }
-    }
+	beforeRouteEnter(to, from, next) {
+		if (Store.page.channel.temp.name == to.params.name) {
+			// loaded
+			if (
+				Store.state.administratorAt.indexOf(
+					Store.page.channel.temp.id
+				) != -1
+			) {
+				next();
+			}
+		} else {
+			// not loaded but let's continue (the server-side is still protecting us!)
+			next();
+		}
+	}
 };
 </script>

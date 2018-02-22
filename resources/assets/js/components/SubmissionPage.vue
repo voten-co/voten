@@ -100,262 +100,272 @@ import NsfwWarning from '../components/NsfwWarning.vue';
 import Helpers from '../mixins/Helpers';
 
 export default {
-    mixins: [Helpers],
+	mixins: [Helpers],
 
-    components: {
-        FullSubmission,
-        Comment,
-        CommentForm,
-        Loading,
-        ChannelHeader,
-        SubmissionChannelHeader,
-        NsfwWarning
-    },
+	components: {
+		FullSubmission,
+		Comment,
+		CommentForm,
+		Loading,
+		ChannelHeader,
+		SubmissionChannelHeader,
+		NsfwWarning
+	},
 
-    data() {
-        return {
-            page: 1,
-            moreComments: false,
-            loadingComments: true,
-            comments: [],
-            sort: 'hot',
-            onlineUsers: []
-        };
-    },
+	data() {
+		return {
+			page: 1,
+			moreComments: false,
+			loadingComments: true,
+			comments: [],
+			sort: 'hot',
+			onlineUsers: []
+		};
+	},
 
-    created() {
-        this.getComments();
-        this.listen();
-        this.$eventHub.$on('newComment', this.newComment);
-        this.setPageTitle(this.submission.title);
-    },
+	created() {
+		this.getComments();
+		this.listen();
+		this.$eventHub.$on('newComment', this.newComment);
+		this.setPageTitle(this.submission.title);
+	},
 
-    beforeDestroy() {
-        this.$eventHub.$off('newComment', this.newComment);
-    },
+	beforeDestroy() {
+		this.$eventHub.$off('newComment', this.newComment);
+	},
 
-    watch: {
-        $route() {
-            this.clear();
-            this.getComments();
-            this.listen();
-            this.$eventHub.$on('newComment', this.newComment);
-            this.setPageTitle(this.submission.title);
-        }
-    },
+	watch: {
+		$route() {
+			this.clear();
+			this.getComments();
+			this.listen();
+			this.$eventHub.$on('newComment', this.newComment);
+			this.setPageTitle(this.submission.title);
+		}
+	},
 
-    beforeRouteEnter(to, from, next) {
-        if (typeof Store.page.channel.temp.name != 'undefined' && Store.page.channel.temp.name != to.params.name) {
-            Store.page.submission.clearSubmission();
-        }
+	beforeRouteEnter(to, from, next) {
+		if (
+			typeof Store.page.channel.temp.name != 'undefined' &&
+			Store.page.channel.temp.name != to.params.name
+		) {
+			Store.page.submission.clearSubmission();
+		}
 
-        if (typeof app != 'undefined') {
-            app.$Progress.start();
-        }
+		if (typeof app != 'undefined') {
+			app.$Progress.start();
+		}
 
-        Store.page.submission
-            .getSubmission(to.params.slug)
-            .then(() => {
-                next(vm => {
-                    vm.$Progress.finish();
-                });
-            })
-            .catch(error => {
-                // if (error.response.status === 404) {
-                // 	this.$router.push('/404')
-                // }
-            });
-    },
+		Store.page.submission
+			.getSubmission(to.params.slug)
+			.then(() => {
+				next((vm) => {
+					vm.$Progress.finish();
+				});
+			})
+			.catch((error) => {
+				// if (error.response.status === 404) {
+				// 	this.$router.push('/404')
+				// }
+			});
+	},
 
-    beforeRouteLeave(to, from, next) {
-        Echo.leave('submission.' + from.params.slug);
+	beforeRouteLeave(to, from, next) {
+		Echo.leave('submission.' + from.params.slug);
 
-        next();
-    },
+		next();
+	},
 
-    beforeRouteUpdate(to, from, next) {
-        if (to.hash !== from.hash) return; 
+	beforeRouteUpdate(to, from, next) {
+		if (to.hash !== from.hash) return;
 
-        Store.page.submission.clearSubmission();
-        this.$Progress.start();
+		Store.page.submission.clearSubmission();
+		this.$Progress.start();
 
-        Store.page.submission
-            .getSubmission(to.params.slug)
-            .then(() => {
-                Echo.leave('submission.' + from.params.slug);
-                this.$Progress.finish();
+		Store.page.submission
+			.getSubmission(to.params.slug)
+			.then(() => {
+				Echo.leave('submission.' + from.params.slug);
+				this.$Progress.finish();
 
-                next();
-            })
-            .catch(error => {
-                // if (error.response.status === 404) {
-                // 	this.$router.push('/404')
-                // }
+				next();
+			})
+			.catch((error) => {
+				// if (error.response.status === 404) {
+				// 	this.$router.push('/404')
+				// }
 
-                this.$Progress.fail();
-            });
-    },
+				this.$Progress.fail();
+			});
+	},
 
-    computed: {
-        commentors() {
-            return _.map(this.comments, 'author');
-        },
+	computed: {
+		commentors() {
+			return _.map(this.comments, 'author');
+		},
 
-        submission() {
-            return Store.page.submission.submission;
-        },
+		submission() {
+			return Store.page.submission.submission;
+		},
 
-        loadingSubmission() {
-            return Store.page.submission.loadingSubmission;
-        },
+		loadingSubmission() {
+			return Store.page.submission.loadingSubmission;
+		},
 
-        onlineUsersCount() {
-            return this.onlineUsers.length;
-        },
+		onlineUsersCount() {
+			return this.onlineUsers.length;
+		},
 
-        uniqueList() {
-            let unique = [];
-            let temp = [];
+		uniqueList() {
+			let unique = [];
+			let temp = [];
 
-            this.comments.forEach(function(element, index, self) {
-                if (temp.indexOf(element.id) === -1) {
-                    unique.push(element);
-                    temp.push(element.id);
-                }
-            });
+			this.comments.forEach(function(element, index, self) {
+				if (temp.indexOf(element.id) === -1) {
+					unique.push(element);
+					temp.push(element.id);
+				}
+			});
 
-            return unique;
-        },
+			return unique;
+		},
 
-        /**
+		/**
 		 * The order that comments should be printed with
 		 *
 		 * @return string
 		 */
-        commentsOrder() {
-            return this.sort == 'hot' ? 'rate' : 'created_at';
-        }
-    },
+		commentsOrder() {
+			return this.sort == 'hot' ? 'rate' : 'created_at';
+		}
+	},
 
-    methods: {
-        clear() {
-            this.moreComments = false;
-            this.page = 1;
-            this.comments = [];
-        },
+	methods: {
+		clear() {
+			this.moreComments = false;
+			this.page = 1;
+			this.comments = [];
+		},
 
-        loadMoreComments() {
-            this.page++;
-            this.getComments();
-        },
+		loadMoreComments() {
+			this.page++;
+			this.getComments();
+		},
 
-        /**
+		/**
 		 * receives the broadcasted comment.
 		 *
 		 * @return void
 		 */
-        newComment(comment) {
-            if (comment.parent_id != null || comment.submission_id != this.submission.id) return;
+		newComment(comment) {
+			if (
+				comment.parent_id != null ||
+				comment.submission_id != this.submission.id
+			)
+				return;
 
-            // add broadcasted (used for styling)
-            if (comment.user_id != auth.id) {
-                comment.broadcasted = true;
-            }
+			// add broadcasted (used for styling)
+			if (comment.user_id != auth.id) {
+				comment.broadcasted = true;
+			}
 
-            this.comments.unshift(comment);
-            this.submission.comments_count++;
+			this.comments.unshift(comment);
+			this.submission.comments_count++;
 
-            if (comment.user_id == auth.id) {
-                this.$nextTick(function() {
-                    document.getElementById('comment' + comment.id).scrollIntoView();
-                });
-            }
-        },
+			if (comment.user_id == auth.id) {
+				this.$nextTick(function() {
+					document
+						.getElementById('comment' + comment.id)
+						.scrollIntoView();
+				});
+			}
+		},
 
-        /**
+		/**
 		 * listen for broadcasted comments
 		 *
 		 * @return void
 		 */
-        listen() {
-            const channelAddress = 'submission.' + this.$route.params.slug;
+		listen() {
+			const channelAddress = 'submission.' + this.$route.params.slug;
 
-            Echo.channel(channelAddress)
-                .listen('CommentCreated', event => {
-                    this.$eventHub.$emit('newComment', event.data);
-                })
-                .listen('CommentWasPatched', event => {
-                    this.$eventHub.$emit('patchedComment', event.data);
-                })
-                .listen('CommentWasDeleted', event => {
-                    this.$eventHub.$emit('deletedComment', event.data);
-                });
+			Echo.channel(channelAddress)
+				.listen('CommentCreated', (event) => {
+					this.$eventHub.$emit('newComment', event.data);
+				})
+				.listen('CommentWasPatched', (event) => {
+					this.$eventHub.$emit('patchedComment', event.data);
+				})
+				.listen('CommentWasDeleted', (event) => {
+					this.$eventHub.$emit('deletedComment', event.data);
+				});
 
-            // we can't do presence channel or/and listen for private channels, if the user is a guest
-            if (this.isGuest) return;
+			// we can't do presence channel or/and listen for private channels, if the user is a guest
+			if (this.isGuest) return;
 
-            Echo.join(channelAddress)
-                .here(users => {
-                    this.onlineUsers = users;
-                })
-                .joining(user => {
-                    this.onlineUsers.push(user);
-                })
-                .leaving(user => {
-                    let index = this.onlineUsers.indexOf(user.username);
-                    this.onlineUsers.splice(index, 1);
+			Echo.join(channelAddress)
+				.here((users) => {
+					this.onlineUsers = users;
+				})
+				.joining((user) => {
+					this.onlineUsers.push(user);
+				})
+				.leaving((user) => {
+					let index = this.onlineUsers.indexOf(user.username);
+					this.onlineUsers.splice(index, 1);
 
-                    // if typer loses his connection for any reason, we $emit "finished-typing" because
-                    // after all, we must make sure other users won't see "@user is typing" forever!
-                    this.$eventHub.$emit('finished-typing', user.username);
-                });
-        },
+					// if typer loses his connection for any reason, we $emit "finished-typing" because
+					// after all, we must make sure other users won't see "@user is typing" forever!
+					this.$eventHub.$emit('finished-typing', user.username);
+				});
+		},
 
-        /**
+		/**
 		 * get comments
 		 *
 		 * @return void
 		 */
-        getComments() {
-            this.loadingComments = true;
+		getComments() {
+			this.loadingComments = true;
 
-            axios
-                .get('/submissions/comments', {
-                    params: {
-                        page: this.page,
-                        sort: this.sort, 
-                        submission_id: this.submission.id, 
-                        with_children: true, 
-                        with_parent: true, 
-                    }
-                })
-                .then(response => {
-                    this.loadingComments = false;
+			axios
+				.get('/submissions/comments', {
+					params: {
+						page: this.page,
+						sort: this.sort,
+						submission_id: this.submission.id,
+						with_children: true,
+						with_parent: true
+					}
+				})
+				.then((response) => {
+					this.loadingComments = false;
 
-                    this.comments.push(...response.data.data);
+					this.comments.push(...response.data.data);
 
-                    if (response.data.links.next != null) {
-                        this.moreComments = true;
-                    } else {
-                        this.moreComments = false;
-                    }
-                }).catch(error => {
-                    this.loadingComments = false;
+					if (response.data.links.next != null) {
+						this.moreComments = true;
+					} else {
+						this.moreComments = false;
+					}
+				})
+				.catch((error) => {
+					this.loadingComments = false;
 
-                    this.$message({
-                        message: `Something went wrong and we couldn't load comments. Try refreshing the page. `, 
-                        type: 'error'
-                    }); 
-                }); 
-        },
+					this.$message({
+						message: `Something went wrong and we couldn't load comments. Try refreshing the page. `,
+						type: 'error'
+					});
+				});
+		},
 
-        newSort(sort) {
-            if (sort == this.sort) return;
+		newSort(sort) {
+			if (sort == this.sort) return;
 
-            this.clear();
-            this.getComments();
-            this.sort = sort;
-        }
-    }
+			this.clear();
+			this.getComments();
+			this.sort = sort;
+		}
+	}
 };
 </script>

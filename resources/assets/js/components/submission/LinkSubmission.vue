@@ -106,64 +106,75 @@ import EmbedValidator from '../../mixins/EmbedValidator';
 import SubmissionFooter from '../../components/SubmissionFooter.vue';
 
 export default {
-    mixins: [EmbedValidator],
+	mixins: [EmbedValidator],
 
-    components: {
-        SubmissionFooter
-    },
+	components: {
+		SubmissionFooter
+	},
 
-    props: ['nsfw', 'submission', 'full', 'url', 'comments', 'bookmarked', 'points', 'downvoted', 'upvoted'],
+	props: [
+		'nsfw',
+		'submission',
+		'full',
+		'url',
+		'comments',
+		'bookmarked',
+		'points',
+		'downvoted',
+		'upvoted'
+	],
 
-    data() {
-        return {
-            auth
-        };
-    },
+	data() {
+		return {
+			auth
+		};
+	},
 
-    computed: {
-        thumbnail() {
-            return {
-                backgroundImage: 'url(' + this.submission.content.thumbnail + ')'
-            };
-        },
+	computed: {
+		thumbnail() {
+			return {
+				backgroundImage:
+					'url(' + this.submission.content.thumbnail + ')'
+			};
+		},
 
-        showBigThumbnail() {
-            if (this.full) return true;
+		showBigThumbnail() {
+			if (this.full) return true;
 
-            if (this.nsfw) return false;
+			if (this.nsfw) return false;
 
-            return false;
-        },
+			return false;
+		},
 
-        showSmallThumbnail() {
-            return !this.showBigThumbnail && !this.nsfw;
-        },
+		showSmallThumbnail() {
+			return !this.showBigThumbnail && !this.nsfw;
+		},
 
-        showEmbed() {
-            return this.isValidSourceForEmbed && this.submission.content.embed;
-        },
+		showEmbed() {
+			return this.isValidSourceForEmbed && this.submission.content.embed;
+		},
 
-        isVideo() {
-            return this.submission.content.type == 'video';
-        }
-    },
+		isVideo() {
+			return this.submission.content.type == 'video';
+		}
+	},
 
-    methods: {
-        /**
-         * It emits the event to open the EmbedViewer if is allowed to. And other
-         * wise it opens the url in a new tab.
-         *
-         * @return void
-         */
-        embedOrOpen(event) {
-            if (this.showEmbed) {
-                // prevent the browser from opening the URL
-                event.preventDefault();
+	methods: {
+		/**
+		 * It emits the event to open the EmbedViewer if is allowed to. And other
+		 * wise it opens the url in a new tab.
+		 *
+		 * @return void
+		 */
+		embedOrOpen(event) {
+			if (this.showEmbed) {
+				// prevent the browser from opening the URL
+				event.preventDefault();
 
-                // Emit the embed event
-                this.$emit('embed');
-            }
-        }
-    }
+				// Emit the embed event
+				this.$emit('embed');
+			}
+		}
+	}
 };
 </script>

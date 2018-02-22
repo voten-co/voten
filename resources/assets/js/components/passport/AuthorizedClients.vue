@@ -1,7 +1,7 @@
 <style scoped>
-    .action-link {
-        cursor: pointer;
-    }
+.action-link {
+	cursor: pointer;
+}
 </style>
 
 <template>
@@ -51,57 +51,55 @@
 </template>
 
 <script>
-    export default {
-        /*
+export default {
+	/*
          * The component's data.
          */
-        data() {
-            return {
-                tokens: []
-            };
-        },
+	data() {
+		return {
+			tokens: []
+		};
+	},
 
-        /**
-         * Prepare the component (Vue 1.x).
-         */
-        ready() {
-            this.prepareComponent();
-        },
+	/**
+	 * Prepare the component (Vue 1.x).
+	 */
+	ready() {
+		this.prepareComponent();
+	},
 
-        /**
-         * Prepare the component (Vue 2.x).
-         */
-        mounted() {
-            this.prepareComponent();
-        },
+	/**
+	 * Prepare the component (Vue 2.x).
+	 */
+	mounted() {
+		this.prepareComponent();
+	},
 
-        methods: {
-            /**
-             * Prepare the component (Vue 2.x).
-             */
-            prepareComponent() {
-                this.getTokens();
-            },
+	methods: {
+		/**
+		 * Prepare the component (Vue 2.x).
+		 */
+		prepareComponent() {
+			this.getTokens();
+		},
 
-            /**
-             * Get all of the authorized tokens for the user.
-             */
-            getTokens() {
-                axios.get('/oauth/tokens')
-                        .then(response => {
-                            this.tokens = response.data;
-                        });
-            },
+		/**
+		 * Get all of the authorized tokens for the user.
+		 */
+		getTokens() {
+			axios.get('/oauth/tokens').then((response) => {
+				this.tokens = response.data;
+			});
+		},
 
-            /**
-             * Revoke the given token.
-             */
-            revoke(token) {
-                axios.delete('/oauth/tokens/' + token.id)
-                        .then(response => {
-                            this.getTokens();
-                        });
-            }
-        }
-    }
+		/**
+		 * Revoke the given token.
+		 */
+		revoke(token) {
+			axios.delete('/oauth/tokens/' + token.id).then((response) => {
+				this.getTokens();
+			});
+		}
+	}
+};
 </script>

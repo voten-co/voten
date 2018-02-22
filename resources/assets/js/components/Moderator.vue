@@ -22,30 +22,32 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                auth
-            }
-        },
+export default {
+	data() {
+		return {
+			auth
+		};
+	},
 
-        props: ['list', 'role'],
+	props: ['list', 'role'],
 
-        computed: {
-            owns() {
-                return this.list.id == auth.id;
-            }
-        },
+	computed: {
+		owns() {
+			return this.list.id == auth.id;
+		}
+	},
 
-        methods: {
-            destroy(){
-                axios.post('/destroy-moderator', {
-                    username: this.list.username,
-                    channel_name: this.$route.params.name
-                }).then(() => {
-                    this.$emit('delete-moderator');
-                })
-            }
-        }
-    };
+	methods: {
+		destroy() {
+			axios
+				.post('/destroy-moderator', {
+					username: this.list.username,
+					channel_name: this.$route.params.name
+				})
+				.then(() => {
+					this.$emit('delete-moderator');
+				});
+		}
+	}
+};
 </script>

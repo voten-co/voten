@@ -54,90 +54,94 @@
 import Moderator from '../components/Moderator.vue';
 
 export default {
-    components: { Moderator },
+	components: { Moderator },
 
-    data() {
-        return {
-            username: null,
-            users: [],
-            loading: false,
-            sending: false,
-            role: 'moderator',
-            mods: []
-        };
-    },
+	data() {
+		return {
+			username: null,
+			users: [],
+			loading: false,
+			sending: false,
+			role: 'moderator',
+			mods: []
+		};
+	},
 
-    created() {
-        this.getMods();
-    },
+	created() {
+		this.getMods();
+	},
 
-    methods: {
-        getMods() {
-            this.users = [];
+	methods: {
+		getMods() {
+			this.users = [];
 
-            axios
-                .get('/moderators', {
-                    params: {
-                        channel_name: this.$route.params.name
-                    }
-                })
-                .then(response => {
-                    this.mods = response.data.data;
-                });
-        },
+			axios
+				.get('/moderators', {
+					params: {
+						channel_name: this.$route.params.name
+					}
+				})
+				.then((response) => {
+					this.mods = response.data.data;
+				});
+		},
 
-        search: _.debounce(function(query) {
-            if (!query.trim()) return;
-            this.loading = true;
+		search: _.debounce(function(query) {
+			if (!query.trim()) return;
+			this.loading = true;
 
-            axios
-                .get('/search', {
-                    params: {
-                        type: 'Users',
-                        keyword: query
-                    }
-                })
-                .then(response => {
-                    this.users = _.map(response.data.data, 'username');
-                    this.loading = false;
-                })
-                .catch(error => {
-                    this.loading = false;
-                });
-        }, 600),
+			axios
+				.get('/search', {
+					params: {
+						type: 'Users',
+						keyword: query
+					}
+				})
+				.then((response) => {
+					this.users = _.map(response.data.data, 'username');
+					this.loading = false;
+				})
+				.catch((error) => {
+					this.loading = false;
+				});
+		}, 600),
 
-        addModerator() {
-            this.sending = true;
+		addModerator() {
+			this.sending = true;
 
-            axios
-                .post('/moderators', {
-                    channel_id: Store.page.channel.temp.id, 
-                    username: this.username,
-                    role: this.role
-                })
-                .then(() => {
-                    this.username = null;
-                    this.role = 'moderator';
+			axios
+				.post('/moderators', {
+					channel_id: Store.page.channel.temp.id,
+					username: this.username,
+					role: this.role
+				})
+				.then(() => {
+					this.username = null;
+					this.role = 'moderator';
 
-                    this.getMods();
-                    this.sending = false;
-                })
-                .catch(() => {
-                    this.sending = false;
-                });
-        }
-    },
+					this.getMods();
+					this.sending = false;
+				})
+				.catch(() => {
+					this.sending = false;
+				});
+		}
+	},
 
-    beforeRouteEnter(to, from, next) {
-        if (Store.page.channel.temp.name == to.params.name) {
-            // loaded
-            if (Store.state.administratorAt.indexOf(Store.page.channel.temp.id) != -1) {
-                next();
-            }
-        } else {
-            // not loaded but let's continue (the server-side is still protecting us!)
-            next();
-        }
-    }
+	beforeRouteEnter(to, from, next) {
+		if (Store.page.channel.temp.name == to.params.name) {
+			// loaded
+			if (
+				Store.state.administratorAt.indexOf(
+					Store.page.channel.temp.id
+				) != -1
+			) {
+				next();
+			}
+		} else {
+			// not loaded but let's continue (the server-side is still protecting us!)
+			next();
+		}
+	}
 };
 </script>

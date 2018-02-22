@@ -63,43 +63,43 @@
 import Helpers from '../mixins/Helpers';
 
 export default {
-    mixins: [Helpers],
+	mixins: [Helpers],
 
-    data() {
-        return {
-            loading: false,
-            showConfirmPassword: false,
-            password: '',
-            errors: [],
-            username: auth.username
-        };
-    },
+	data() {
+		return {
+			loading: false,
+			showConfirmPassword: false,
+			password: '',
+			errors: [],
+			username: auth.username
+		};
+	},
 
-    methods: {
-        destroyAccount() {
-            this.loading = true;
+	methods: {
+		destroyAccount() {
+			this.loading = true;
 
-            axios
-                .delete('/users', {
-                    params: {
-                        password: this.password
-                    }
-                })
-                .then(() => {
-                    this.loading = false;
+			axios
+				.delete('/users', {
+					params: {
+						password: this.password
+					}
+				})
+				.then(() => {
+					this.loading = false;
 
-                    this.$message({
-                        type: 'success',
-                        message: "Account deleted. We'll miss you!"
-                    });
+					this.$message({
+						type: 'success',
+						message: "Account deleted. We'll miss you!"
+					});
 
-                    window.location = '/logout';
-                })
-                .catch(error => {
-                    this.loading = false;
-                    this.errors = error.response.data.errors;
-                });
-        }
-    }
+					window.location = '/logout';
+				})
+				.catch((error) => {
+					this.loading = false;
+					this.errors = error.response.data.errors;
+				});
+		}
+	}
 };
 </script>

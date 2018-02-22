@@ -121,118 +121,128 @@ import MessageButton from '../components/MessageButton.vue';
 import Helpers from '../mixins/Helpers';
 
 export default {
-    mixins: [Helpers],
+	mixins: [Helpers],
 
-    components: {
-        MessageButton
-    },
+	components: {
+		MessageButton
+	},
 
-    data() {
-        return {
-            showFirstHeader: true
-        };
-    },
+	data() {
+		return {
+			showFirstHeader: true
+		};
+	},
 
-    created() {
-        this.$eventHub.$on('scrolled-to-top', () => {
-            this.showFirstHeader = true;
-        });
+	created() {
+		this.$eventHub.$on('scrolled-to-top', () => {
+			this.showFirstHeader = true;
+		});
 
-        this.$eventHub.$on('scrolled-a-bit', () => {
-            this.showFirstHeader = false;
-        });
-    },
+		this.$eventHub.$on('scrolled-a-bit', () => {
+			this.showFirstHeader = false;
+		});
+	},
 
-    beforeDestroy() {
-        this.$eventHub.$off('scrolled-to-top', () => {
-            this.showFirstHeader = true;
-        });
+	beforeDestroy() {
+		this.$eventHub.$off('scrolled-to-top', () => {
+			this.showFirstHeader = true;
+		});
 
-        this.$eventHub.$off('scrolled-a-bit', () => {
-            this.showFirstHeader = false;
-        });
-    },
+		this.$eventHub.$off('scrolled-a-bit', () => {
+			this.showFirstHeader = false;
+		});
+	},
 
-    methods: {
-        bookmark: _.debounce(
-            function() {
-                if (this.isGuest) {
-                    this.mustBeLogin();
-                    return;
-                }
+	methods: {
+		bookmark: _.debounce(
+			function() {
+				if (this.isGuest) {
+					this.mustBeLogin();
+					return;
+				}
 
-                this.bookmarked = !this.bookmarked;
+				this.bookmarked = !this.bookmarked;
 
-                axios
-                    .post('/bookmark-user', {
-                        id: Store.page.user.temp.id
-                    })
-                    .catch(() => {
-                        this.bookmarked = !this.bookmarked;
-                    });
-            },
-            200,
-            {
-                leading: true,
-                trailing: false
-            }
-        )
-    },
+				axios
+					.post('/bookmark-user', {
+						id: Store.page.user.temp.id
+					})
+					.catch(() => {
+						this.bookmarked = !this.bookmarked;
+					});
+			},
+			200,
+			{
+				leading: true,
+				trailing: false
+			}
+		)
+	},
 
-    computed: {
-        bookmarked: {
-            get() {
-                return Store.state.bookmarks.users.indexOf(Store.page.user.temp.id) !== -1 ? true : false;
-            },
+	computed: {
+		bookmarked: {
+			get() {
+				return Store.state.bookmarks.users.indexOf(
+					Store.page.user.temp.id
+				) !== -1
+					? true
+					: false;
+			},
 
-            set() {
-                if (Store.state.bookmarks.users.indexOf(Store.page.user.temp.id) !== -1) {
-                    let index = Store.state.bookmarks.users.indexOf(Store.page.user.temp.id);
-                    Store.state.bookmarks.users.splice(index, 1);
+			set() {
+				if (
+					Store.state.bookmarks.users.indexOf(
+						Store.page.user.temp.id
+					) !== -1
+				) {
+					let index = Store.state.bookmarks.users.indexOf(
+						Store.page.user.temp.id
+					);
+					Store.state.bookmarks.users.splice(index, 1);
 
-                    return;
-                }
+					return;
+				}
 
-                Store.state.bookmarks.users.push(Store.page.user.temp.id);
-            }
-        },
+				Store.state.bookmarks.users.push(Store.page.user.temp.id);
+			}
+		},
 
-        isAuth() {
-            return auth.username == this.$route.params.username;
-        },
+		isAuth() {
+			return auth.username == this.$route.params.username;
+		},
 
-        userStore() {
-            return Store.page.user.temp;
-        },
+		userStore() {
+			return Store.page.user.temp;
+		},
 
-        date() {
-            return moment(this.userStore.created_at)
-                .utc(moment().format('MMM Do'))
-                .format('MMM Do');
-        },
+		date() {
+			return moment(this.userStore.created_at)
+				.utc(moment().format('MMM Do'))
+				.format('MMM Do');
+		},
 
-        coverBackground() {
-            if (this.userStore.cover_color == 'Red') {
-                return '#9a4e4e';
-            } else if (this.userStore.cover_color == 'Blue') {
-                return '#5487d4';
-            } else if (this.userStore.cover_color == 'Dark Blue') {
-                return '#2f3b49';
-            } else if (this.userStore.cover_color == 'Dark Green') {
-                return '#507e75';
-            } else if (this.userStore.cover_color == 'Bright Green') {
-                return 'rgb(117, 148, 127)';
-            } else if (this.userStore.cover_color == 'Purple') {
-                return '#4d4261';
-            } else if (this.userStore.cover_color == 'Orange') {
-                return '#ffaf40';
-            } else if (this.userStore.cover_color == 'Pink') {
-                return '#ec7daa';
-            } else {
-                // userStore.cover_color == 'Black'
-                return '#424242';
-            }
-        }
-    }
+		coverBackground() {
+			if (this.userStore.cover_color == 'Red') {
+				return '#9a4e4e';
+			} else if (this.userStore.cover_color == 'Blue') {
+				return '#5487d4';
+			} else if (this.userStore.cover_color == 'Dark Blue') {
+				return '#2f3b49';
+			} else if (this.userStore.cover_color == 'Dark Green') {
+				return '#507e75';
+			} else if (this.userStore.cover_color == 'Bright Green') {
+				return 'rgb(117, 148, 127)';
+			} else if (this.userStore.cover_color == 'Purple') {
+				return '#4d4261';
+			} else if (this.userStore.cover_color == 'Orange') {
+				return '#ffaf40';
+			} else if (this.userStore.cover_color == 'Pink') {
+				return '#ec7daa';
+			} else {
+				// userStore.cover_color == 'Black'
+				return '#424242';
+			}
+		}
+	}
 };
 </script>

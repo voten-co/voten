@@ -45,51 +45,56 @@
 import Helpers from '../mixins/Helpers';
 
 export default {
-    props: ['visible'],
+	props: ['visible'],
 
-    mixins: [Helpers],
+	mixins: [Helpers],
 
-    beforeDestroy() {
-        if (window.location.hash == '#photoViewer') {
-            history.go(-1);
-        }
-    },
+	beforeDestroy() {
+		if (window.location.hash == '#photoViewer') {
+			history.go(-1);
+		}
+	},
 
-    created() {
-        window.location.hash = 'photoViewer';
-    },
+	created() {
+		window.location.hash = 'photoViewer';
+	},
 
-    computed: {
-        isAlbum() {
-            return this.submission.content.album;
-        },
+	computed: {
+		isAlbum() {
+			return this.submission.content.album;
+		},
 
-        imageToDisplay() {
-            if (this.image) {
-                return this.image.path;
-            }
+		imageToDisplay() {
+			if (this.image) {
+				return this.image.path;
+			}
 
-            return this.submission.content.path;
-        },
+			return this.submission.content.path;
+		},
 
-        image() {
-            return Store.modals.photoViewer.image;
-        },
+		image() {
+			return Store.modals.photoViewer.image;
+		},
 
-        submission() {
-            return Store.modals.photoViewer.submission;
-        }
-    },
+		submission() {
+			return Store.modals.photoViewer.submission;
+		}
+	},
 
-    methods: {
-        close() {
-            this.$emit('update:visible', false);
-        },
+	methods: {
+		close() {
+			this.$emit('update:visible', false);
+		},
 
-        goToSubmission() {
-            this.$router.push('/c/' + this.submission.channel_name + '/' + this.submission.slug);
-            this.close();
-        }
-    }
+		goToSubmission() {
+			this.$router.push(
+				'/c/' +
+					this.submission.channel_name +
+					'/' +
+					this.submission.slug
+			);
+			this.close();
+		}
+	}
 };
 </script>

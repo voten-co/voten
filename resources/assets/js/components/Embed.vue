@@ -1,11 +1,11 @@
 <style lang="scss">
 .photo-viewer {
-    iframe {
-        width: 70em;
-        max-width: 100%;
-        height: 36em;
-        max-height: 48%;
-    }
+	iframe {
+		width: 70em;
+		max-width: 100%;
+		height: 36em;
+		max-height: 48%;
+	}
 }
 </style>
 
@@ -40,35 +40,40 @@
 import Helpers from '../mixins/Helpers';
 
 export default {
-    mixins: [Helpers],
+	mixins: [Helpers],
 
-    props: ['visible'],
+	props: ['visible'],
 
-    beforeDestroy() {
-        if (window.location.hash == '#embedViewer') {
-            history.go(-1);
-        }
-    },
+	beforeDestroy() {
+		if (window.location.hash == '#embedViewer') {
+			history.go(-1);
+		}
+	},
 
-    created() {
-        window.location.hash = 'embedViewer';
-    },
+	created() {
+		window.location.hash = 'embedViewer';
+	},
 
-    computed: {
-        submission() {
-            return Store.modals.embedViewer.submission;
-        }
-    },
+	computed: {
+		submission() {
+			return Store.modals.embedViewer.submission;
+		}
+	},
 
-    methods: {
-        close() {
-            this.$emit('update:visible', false);
-        }, 
+	methods: {
+		close() {
+			this.$emit('update:visible', false);
+		},
 
-        goToSubmission() {
-            this.$router.push('/c/' + this.submission.channel_name + '/' + this.submission.slug);
-            this.close();
-        }
-    }
+		goToSubmission() {
+			this.$router.push(
+				'/c/' +
+					this.submission.channel_name +
+					'/' +
+					this.submission.slug
+			);
+			this.close();
+		}
+	}
 };
 </script>

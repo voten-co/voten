@@ -1,294 +1,294 @@
 .channel-cover {
-    background: #333;
-    height: 150px;
-    width: 100%;
-    margin-bottom: 40px;
-    border-bottom: 2px solid #000;
-    color: #f8f8f8;
+	background: #333;
+	height: 150px;
+	width: 100%;
+	margin-bottom: 40px;
+	border-bottom: 2px solid #000;
+	color: #f8f8f8;
 }
 
 .subscribers-number {
-    color: #f8f8f8;
+	color: #f8f8f8;
 }
 
 .channel-cover a {
-    color: #f8f8f8;
-    text-decoration: none;
-    -webkit-font-smoothing: antialiased;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
-    word-break: break-word;
+	color: #f8f8f8;
+	text-decoration: none;
+	-webkit-font-smoothing: antialiased;
+	text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+	word-break: break-word;
 }
 
 .channel-cover a:hover {
-    color: #ebebeb;
-    transition: 0.2s;
+	color: #ebebeb;
+	transition: 0.2s;
 }
 
 .channel-cover a h1 i {
-    font-size: 34px;
+	font-size: 34px;
 }
 
 .channel-cover .pull-right {
-    margin-left: 10px;
+	margin-left: 10px;
 }
 
 .channel-cover .container {
-    position: relative;
-    height: 150px;
-    padding-top: 48px;
-    padding-left: 170px;
+	position: relative;
+	height: 150px;
+	padding-top: 48px;
+	padding-left: 170px;
 }
 
 .channel-profile {
-    position: absolute;
-    left: 0;
-    bottom: -25px;
-    width: 150px;
-    height: 150px;
+	position: absolute;
+	left: 0;
+	bottom: -25px;
+	width: 150px;
+	height: 150px;
 }
 
 .channel-profile img {
-    border-radius: 4px;
-    width: 100%;
-    height: auto;
-    border: 2px solid #e7e7e7;
+	border-radius: 4px;
+	width: 100%;
+	height: auto;
+	border: 2px solid #e7e7e7;
 }
 
 .card-title a,
 .card-title a:focus,
 .card-title a:hover {
-    color: #555;
+	color: #555;
 }
 
 .channel-header-left,
 .user-header-left {
-    flex-basis: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+	flex-basis: 150px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .channel-header-middle,
 .user-header-middle {
-    flex: 3;
+	flex: 3;
 }
 
 .channel-header-middle,
 .user-header-middle {
-    h1,
-    h2 {
-        display: inline;
-        font-size: 1.7em;
-    }
+	h1,
+	h2 {
+		display: inline;
+		font-size: 1.7em;
+	}
 
-    h1 {
-        font-size: 2em;
-    }
+	h1 {
+		font-size: 2em;
+	}
 }
 
 .user-header-right,
 .channel-header-right {
-    text-align: center;
-    flex-basis: 120px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
+	text-align: center;
+	flex-basis: 120px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
 }
 
 .xp-text {
-    font-size: 14px;
-    opacity: 0.65;
+	font-size: 14px;
+	opacity: 0.65;
 }
 
 .xp-number {
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: 0.015em;
-    line-height: 22px;
+	font-size: 18px;
+	font-weight: 600;
+	letter-spacing: 0.015em;
+	line-height: 22px;
 }
 @media screen and (max-width: 768px) {
-    .cols-flex {
-        flex-direction: column;
-    }
+	.cols-flex {
+		flex-direction: column;
+	}
 
-    .channel-header-right {
-        flex-basis: 0;
-        margin-top: 3em;
-        flex-direction: row;
-    }
+	.channel-header-right {
+		flex-basis: 0;
+		margin-top: 3em;
+		flex-direction: row;
+	}
 }
 
 .channel-admin-btn {
-    display: flex;
-    align-items: center;
+	display: flex;
+	align-items: center;
 }
 
 .channel-admin-btn > a,
 .channel-admin-btn > button {
-    margin-left: 0.7em;
+	margin-left: 0.7em;
 }
 
 .v-content-box.rules ol li {
-    line-height: 2;
-    font-weight: 600;
+	line-height: 2;
+	font-weight: 600;
 }
 
 .oops-icon:before {
-    font-size: 6em;
-    margin-top: 42px;
+	font-size: 6em;
+	margin-top: 42px;
 }
 
 .no-content-wrapper {
-    padding: 1em;
-    color: #555;
-    text-align: center;
-    margin-bottom: 2em;
-    opacity: 0.6;
+	padding: 1em;
+	color: #555;
+	text-align: center;
+	margin-bottom: 2em;
+	opacity: 0.6;
 
-    p {
-        margin-top: 2em;
-        font-weight: bold;
-        font-size: 23px;
-    }
+	p {
+		margin-top: 2em;
+		font-weight: bold;
+		font-size: 23px;
+	}
 }
 
 .channel-suggestion-wrapper {
-    margin-bottom: 1em;
-    margin-top: 1em;
-    padding: 1em;
-    background: #f6f6f6;
-    border-radius: 2px;
-    margin: 1em;
-    border: 2px solid #e7e7e7;
+	margin-bottom: 1em;
+	margin-top: 1em;
+	padding: 1em;
+	background: #f6f6f6;
+	border-radius: 2px;
+	margin: 1em;
+	border: 2px solid #e7e7e7;
 }
 
 @media screen and (max-width: 768px) {
-    .channel-suggestion-wrapper {
-        padding: 1em;
-        background: #f9f9f9;
-        border-radius: 4px;
-        margin: 1em;
-    }
+	.channel-suggestion-wrapper {
+		padding: 1em;
+		background: #f9f9f9;
+		border-radius: 4px;
+		margin: 1em;
+	}
 }
 
 .channel-suggestion-wrapper a {
-    color: #333;
+	color: #333;
 }
 
 .channel-suggestion-wrapper-title {
-    margin: 0;
-    font-weight: 400;
+	margin: 0;
+	font-weight: 400;
 }
 
 .channel-suggestion-wrapper h2 {
-    margin: 0;
-    font-weight: 400;
+	margin: 0;
+	font-weight: 400;
 }
 
 .channel-suggestion {
-    display: flex;
-    align-items: center;
-    padding: 0.9em 1em;
+	display: flex;
+	align-items: center;
+	padding: 0.9em 1em;
 }
 
 .channel-suggestion p {
-    padding: 0;
-    margin: 0;
-    color: #333;
+	padding: 0;
+	margin: 0;
+	color: #333;
 }
 
 .channel-suggestion .avatar {
-    flex-basis: 65px;
-    margin-right: 2em;
+	flex-basis: 65px;
+	margin-right: 2em;
 }
 
 .channel-suggestion .avatar img {
-    border-radius: 2px;
+	border-radius: 2px;
 }
 
 .channel-header-small {
-    width: 100%;
-    border-bottom: 2px solid;
-    border-color: rgba(117, 148, 127, 0.24);
-    padding: 1em 0.5em;
-    color: #f8f8f8;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+	width: 100%;
+	border-bottom: 2px solid;
+	border-color: rgba(117, 148, 127, 0.24);
+	padding: 1em 0.5em;
+	color: #f8f8f8;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 
-    a {
-        color: #f8f8f8;
-        display: flex;
-        align-items: center;
-    }
+	a {
+		color: #f8f8f8;
+		display: flex;
+		align-items: center;
+	}
 
-    h2 {
-        margin: 0;
-    }
+	h2 {
+		margin: 0;
+	}
 
-    img {
-        width: 40px;
-        height: 40px;
-        border-radius: 2px;
-        margin-right: 0.5em;
-    }
+	img {
+		width: 40px;
+		height: 40px;
+		border-radius: 2px;
+		margin-right: 0.5em;
+	}
 
-    .v-left {
-        font-size: 20px;
-        padding: 0;
-    }
+	.v-left {
+		font-size: 20px;
+		padding: 0;
+	}
 
-    button {
-        background: none;
-        border: none;
-        color: #fff;
-        cursor: pointer;
-    }
+	button {
+		background: none;
+		border: none;
+		color: #fff;
+		cursor: pointer;
+	}
 }
 
 .channel-header-small,
 .channel-header-big {
-    .subscribe {
-        background: none;
-        border: none;
-        color: #fff;
-        cursor: pointer;
-        font-size: 13px;
-        border: 1.5px solid #fff;
-        border-radius: 2px;
-        font-weight: bold;
-        display: flex;
-        height: 29px;
-        width: 91px;
-        align-content: center;
-        justify-content: center;
-        border-radius: 20px;
-    }
+	.subscribe {
+		background: none;
+		border: none;
+		color: #fff;
+		cursor: pointer;
+		font-size: 13px;
+		border: 1.5px solid #fff;
+		border-radius: 2px;
+		font-weight: bold;
+		display: flex;
+		height: 29px;
+		width: 91px;
+		align-content: center;
+		justify-content: center;
+		border-radius: 20px;
+	}
 
-    .unsubscribe {
-        background: none;
-        border: none;
-        color: #fff;
-        cursor: pointer;
-        font-size: 13px;
-        border: 1.5px solid #fff;
-        border-radius: 2px;
-        font-weight: bold;
-        display: flex;
-        height: 29px;
-        width: 91px;
-        align-content: center;
-        justify-content: center;
-        background: #fff;
-        color: #000;
-        border-radius: 20px;
-    }
+	.unsubscribe {
+		background: none;
+		border: none;
+		color: #fff;
+		cursor: pointer;
+		font-size: 13px;
+		border: 1.5px solid #fff;
+		border-radius: 2px;
+		font-weight: bold;
+		display: flex;
+		height: 29px;
+		width: 91px;
+		align-content: center;
+		justify-content: center;
+		background: #fff;
+		color: #000;
+		border-radius: 20px;
+	}
 }
 
 .channel-header-big {
-    .nav,
-    .nav .container {
-        min-height: 50px !important;
-    }
+	.nav,
+	.nav .container {
+		min-height: 50px !important;
+	}
 }

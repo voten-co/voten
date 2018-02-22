@@ -108,24 +108,24 @@ return "welcome"
 import Helpers from '../mixins/Helpers';
 
 export default {
-    mixins: [Helpers],
+	mixins: [Helpers],
 
-    props: ['visible'],
+	props: ['visible'],
 
-    beforeDestroy() {
-        if (window.location.hash == '#markdownGuide') {
-            history.go(-1);
-        }
-    },
+	beforeDestroy() {
+		if (window.location.hash == '#markdownGuide') {
+			history.go(-1);
+		}
+	},
 
-    created() {
-        window.location.hash = 'markdownGuide';
-    },
+	created() {
+		window.location.hash = 'markdownGuide';
+	},
 
-    methods: {
-        close() {
-            this.$emit('update:visible', false);
-        }
-    }
+	methods: {
+		close() {
+			this.$emit('update:visible', false);
+		}
+	}
 };
 </script>
