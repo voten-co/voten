@@ -58,10 +58,10 @@ window.app = new Vue({
     mixins: [Helpers, StoreStorage, FontLoader],
 
     components: {
-        PassportClients, 
-        PassportAuthorizedClients, 
-        PassportPersonalAccessTokens, 
-        
+        PassportClients,
+        PassportAuthorizedClients,
+        PassportPersonalAccessTokens,
+
         KeyboardShortcutsGuide,
         MobileVisitorWarning,
         AuthenticationModal,
@@ -101,7 +101,10 @@ window.app = new Vue({
 
         unreadMessages() {
             return Store.state.contacts.filter(
-                item => item.last_message.author.id != auth.id && item.last_message.read_at == null
+                item =>
+                    !_.isUndefined(item.last_message.author) &&
+                    item.last_message.author.id != auth.id &&
+                    item.last_message.read_at == null
             ).length;
         }
     },
