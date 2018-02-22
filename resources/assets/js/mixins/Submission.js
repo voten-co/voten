@@ -16,17 +16,22 @@ export default {
     },
 
     props: ['list', 'full'],
-    
+
     computed: {
         upvoted: {
             get() {
-                return Store.state.submissions.upVotes.indexOf(this.list.id) !== -1 ? true : false;
+                return Store.state.submissions.upVotes.indexOf(this.list.id) !==
+                    -1
+                    ? true
+                    : false;
             },
 
             set() {
                 if (this.currentVote === 'upvote') {
                     this.list.upvotes_count--;
-                    let index = Store.state.submissions.upVotes.indexOf(this.list.id);
+                    let index = Store.state.submissions.upVotes.indexOf(
+                        this.list.id
+                    );
                     Store.state.submissions.upVotes.splice(index, 1);
 
                     return;
@@ -34,7 +39,9 @@ export default {
 
                 if (this.currentVote === 'downvote') {
                     this.list.downvotes_count--;
-                    let index = Store.state.submissions.downVotes.indexOf(this.list.id);
+                    let index = Store.state.submissions.downVotes.indexOf(
+                        this.list.id
+                    );
                     Store.state.submissions.downVotes.splice(index, 1);
                 }
 
@@ -45,13 +52,19 @@ export default {
 
         downvoted: {
             get() {
-                return Store.state.submissions.downVotes.indexOf(this.list.id) !== -1 ? true : false;
+                return Store.state.submissions.downVotes.indexOf(
+                    this.list.id
+                ) !== -1
+                    ? true
+                    : false;
             },
 
             set() {
                 if (this.currentVote === 'downvote') {
                     this.list.downvotes_count--;
-                    let index = Store.state.submissions.downVotes.indexOf(this.list.id);
+                    let index = Store.state.submissions.downVotes.indexOf(
+                        this.list.id
+                    );
                     Store.state.submissions.downVotes.splice(index, 1);
 
                     return;
@@ -59,7 +72,9 @@ export default {
 
                 if (this.currentVote === 'upvote') {
                     this.list.upvotes_count--;
-                    let index = Store.state.submissions.upVotes.indexOf(this.list.id);
+                    let index = Store.state.submissions.upVotes.indexOf(
+                        this.list.id
+                    );
                     Store.state.submissions.upVotes.splice(index, 1);
                 }
 
@@ -70,12 +85,21 @@ export default {
 
         bookmarked: {
             get() {
-                return Store.state.bookmarks.submissions.indexOf(this.list.id) !== -1 ? true : false;
+                return Store.state.bookmarks.submissions.indexOf(
+                    this.list.id
+                ) !== -1
+                    ? true
+                    : false;
             },
 
             set() {
-                if (Store.state.bookmarks.submissions.indexOf(this.list.id) !== -1) {
-                    let index = Store.state.bookmarks.submissions.indexOf(this.list.id);
+                if (
+                    Store.state.bookmarks.submissions.indexOf(this.list.id) !==
+                    -1
+                ) {
+                    let index = Store.state.bookmarks.submissions.indexOf(
+                        this.list.id
+                    );
                     Store.state.bookmarks.submissions.splice(index, 1);
 
                     return;

@@ -5,11 +5,11 @@
 </template>
 
 <script>
-	import NoContent from '../components/NoContent.vue'
+import NoContent from '../components/NoContent.vue';
 
-	export default {
-	    components: {
-	    	NoContent
-	    }
-	};
+export default {
+    components: {
+        NoContent
+    }
+};
 </script>

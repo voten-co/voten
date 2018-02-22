@@ -13,16 +13,23 @@
 </template>
 
 <style>
-    .heroicon-contacts-book .heroicon-outline { fill: #303034; }
-    .heroicon-contacts-book .heroicon-component-fill { fill: #f7f7f8; }
-    .heroicon-contacts-book .heroicon-component-accent { fill: #8b9397; }
-    .heroicon-contacts-book .heroicon-shadows { fill: #303034; opacity: 0.4;}
+.heroicon-contacts-book .heroicon-outline {
+    fill: #303034;
+}
+.heroicon-contacts-book .heroicon-component-fill {
+    fill: #f7f7f8;
+}
+.heroicon-contacts-book .heroicon-component-accent {
+    fill: #8b9397;
+}
+.heroicon-contacts-book .heroicon-shadows {
+    fill: #303034;
+    opacity: 0.4;
+}
 </style>
 
 <script>
-    export default {
-        props: [
-            'width', 'height',
-        ],
-    };
+export default {
+    props: ['width', 'height']
+};
 </script>

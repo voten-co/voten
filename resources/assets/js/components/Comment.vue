@@ -144,7 +144,7 @@ export default {
 
     created() {
         if (_.isUndefined(this.list.children)) {
-            this.list.children = []; 
+            this.list.children = [];
         }
 
         this.$eventHub.$on('newComment', this.newComment);
@@ -168,13 +168,17 @@ export default {
     computed: {
         upvoted: {
             get() {
-                return Store.state.comments.upVotes.indexOf(this.list.id) !== -1 ? true : false;
+                return Store.state.comments.upVotes.indexOf(this.list.id) !== -1
+                    ? true
+                    : false;
             },
 
             set() {
                 if (this.currentVote === 'upvote') {
                     this.list.upvotes_count--;
-                    let index = Store.state.comments.upVotes.indexOf(this.list.id);
+                    let index = Store.state.comments.upVotes.indexOf(
+                        this.list.id
+                    );
                     Store.state.comments.upVotes.splice(index, 1);
 
                     return;
@@ -182,7 +186,9 @@ export default {
 
                 if (this.currentVote === 'downvote') {
                     this.list.downvotes_count--;
-                    let index = Store.state.comments.downVotes.indexOf(this.list.id);
+                    let index = Store.state.comments.downVotes.indexOf(
+                        this.list.id
+                    );
                     Store.state.comments.downVotes.splice(index, 1);
                 }
 
@@ -193,13 +199,18 @@ export default {
 
         downvoted: {
             get() {
-                return Store.state.comments.downVotes.indexOf(this.list.id) !== -1 ? true : false;
+                return Store.state.comments.downVotes.indexOf(this.list.id) !==
+                    -1
+                    ? true
+                    : false;
             },
 
             set() {
                 if (this.currentVote === 'downvote') {
                     this.list.downvotes_count--;
-                    let index = Store.state.comments.downVotes.indexOf(this.list.id);
+                    let index = Store.state.comments.downVotes.indexOf(
+                        this.list.id
+                    );
                     Store.state.comments.downVotes.splice(index, 1);
 
                     return;
@@ -207,7 +218,9 @@ export default {
 
                 if (this.currentVote === 'upvote') {
                     this.list.upvotes_count--;
-                    let index = Store.state.comments.upVotes.indexOf(this.list.id);
+                    let index = Store.state.comments.upVotes.indexOf(
+                        this.list.id
+                    );
                     Store.state.comments.upVotes.splice(index, 1);
                 }
 
@@ -218,12 +231,19 @@ export default {
 
         bookmarked: {
             get() {
-                return Store.state.bookmarks.comments.indexOf(this.list.id) !== -1 ? true : false;
+                return Store.state.bookmarks.comments.indexOf(this.list.id) !==
+                    -1
+                    ? true
+                    : false;
             },
 
             set() {
-                if (Store.state.bookmarks.comments.indexOf(this.list.id) !== -1) {
-                    let index = Store.state.bookmarks.comments.indexOf(this.list.id);
+                if (
+                    Store.state.bookmarks.comments.indexOf(this.list.id) !== -1
+                ) {
+                    let index = Store.state.bookmarks.comments.indexOf(
+                        this.list.id
+                    );
                     Store.state.bookmarks.comments.splice(index, 1);
 
                     return;
@@ -238,7 +258,9 @@ export default {
         },
 
         detailedPoints() {
-            return `+${this.list.upvotes_count} | -${this.list.downvotes_count}`;
+            return `+${this.list.upvotes_count} | -${
+                this.list.downvotes_count
+            }`;
         },
 
         highlightClass() {
@@ -293,7 +315,10 @@ export default {
          * @return {Array} comments
          */
         sortedComments() {
-            return _.orderBy(this.uniqueList, this.commentsOrder, 'desc').slice(0, this.childrenLimit);
+            return _.orderBy(this.uniqueList, this.commentsOrder, 'desc').slice(
+                0,
+                this.childrenLimit
+            );
         },
 
         /**
@@ -349,7 +374,8 @@ export default {
         showApprove() {
             return (
                 !this.list.approved_at &&
-                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 || meta.isVotenAdminstrator) &&
+                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
+                    meta.isVotenAdminstrator) &&
                 !this.owns
             );
         },
@@ -362,7 +388,8 @@ export default {
         showDisapprove() {
             return (
                 !this.list.deleted_at &&
-                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 || meta.isVotenAdminstrator) &&
+                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
+                    meta.isVotenAdminstrator) &&
                 !this.owns
             );
         }
@@ -386,7 +413,10 @@ export default {
          * @return void
          */
         setHighlighted() {
-            if (this.list.broadcasted == true || this.$route.query.comment == this.list.id) {
+            if (
+                this.list.broadcasted == true ||
+                this.$route.query.comment == this.list.id
+            ) {
                 this.highlighted = true;
             }
         },
@@ -398,7 +428,9 @@ export default {
          */
         scrollToComment() {
             if (this.$route.query.comment == this.list.id) {
-                document.getElementById('comment' + this.list.id).scrollIntoView();
+                document
+                    .getElementById('comment' + this.list.id)
+                    .scrollIntoView();
             }
         },
 
@@ -432,7 +464,7 @@ export default {
         },
 
         newComment(comment) {
-            if (comment.parent_id == null) return; 
+            if (comment.parent_id == null) return;
             if (this.list.id != comment.parent_id) return;
 
             // owns the comment
@@ -442,7 +474,9 @@ export default {
                 this.list.children.unshift(comment);
 
                 this.$nextTick(function() {
-                    document.getElementById('comment' + comment.id).scrollIntoView();
+                    document
+                        .getElementById('comment' + comment.id)
+                        .scrollIntoView();
                 });
 
                 return;
@@ -575,7 +609,9 @@ export default {
         destroy() {
             this.visible = false;
 
-            axios.delete(`/comments/${this.list.id}`).catch(() => (this.visible = true));
+            axios
+                .delete(`/comments/${this.list.id}`)
+                .catch(() => (this.visible = true));
         },
 
         /**
@@ -595,7 +631,9 @@ export default {
          */
         approve() {
             this.list.approved_at = this.now();
-            axios.post('/approve-comment', { comment_id: this.list.id }).catch(() => (this.list.approved_at = null));
+            axios
+                .post('/approve-comment', { comment_id: this.list.id })
+                .catch(() => (this.list.approved_at = null));
         },
 
         /**
@@ -605,7 +643,9 @@ export default {
          */
         disapprove() {
             this.visible = false;
-            axios.post('/disapprove-comment', { comment_id: this.list.id }).catch(() => (this.visible = true));
+            axios
+                .post('/disapprove-comment', { comment_id: this.list.id })
+                .catch(() => (this.visible = true));
         }
     }
 };

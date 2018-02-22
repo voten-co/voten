@@ -172,17 +172,17 @@ table th {
     color: #333;
 }
 
-.table thead tr:hover{
-	background-color: inherit;
+.table thead tr:hover {
+    background-color: inherit;
 }
 
-.report-subject{
-	border: 1px solid #cbcbcb;
-	padding: 4px;
-	border-radius: 2px;
-	background: #fafafa;
-	font-size: 90%;
-	color: #505050;
+.report-subject {
+    border: 1px solid #cbcbcb;
+    padding: 4px;
+    border-radius: 2px;
+    background: #fafafa;
+    font-size: 90%;
+    color: #505050;
 }
 
 // admin actions table
@@ -194,8 +194,8 @@ table th {
 
 .banned-user-wrapper {
     border-bottom: 1px dashed #dcdcdc;
-    padding-bottom: .3em;
-    margin-bottom: .3em;
+    padding-bottom: 0.3em;
+    margin-bottom: 0.3em;
 }
 
 .banned-user a {
@@ -206,18 +206,18 @@ table th {
     width: 25px;
     height: auto;
     border-radius: 50%;
-    margin-right: .2em;
+    margin-right: 0.2em;
 }
 
 .banned-user-description {
     background: #fdfdfd;
     color: #333;
     border: 1px solid #e7e7e7;
-    padding: .5em;
+    padding: 0.5em;
     border-radius: 2px;
     line-height: 2;
     overflow: auto;
-    margin: .3em;
+    margin: 0.3em;
 }
 
 #moderator-panel-rules .banned-user-wrapper .actions {
@@ -230,5 +230,5 @@ table th {
     text-align: center;
     color: #777;
     padding-bottom: 1em;
-    opacity: .4;
+    opacity: 0.4;
 }

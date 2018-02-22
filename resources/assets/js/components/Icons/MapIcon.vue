@@ -9,16 +9,23 @@
 </template>
 
 <style>
-    .heroicon-map .heroicon-outline { fill: #303034; }
-    .heroicon-map .heroicon-component-fill { fill: #FFF; }
-    .heroicon-map .heroicon-component-accent { fill: #919495; }
-    .heroicon-map .heroicon-shadows { fill: #303034; opacity: 0.4;}
+.heroicon-map .heroicon-outline {
+    fill: #303034;
+}
+.heroicon-map .heroicon-component-fill {
+    fill: #fff;
+}
+.heroicon-map .heroicon-component-accent {
+    fill: #919495;
+}
+.heroicon-map .heroicon-shadows {
+    fill: #303034;
+    opacity: 0.4;
+}
 </style>
 
 <script>
-    export default {
-        props: [
-            'width', 'height',
-        ],
-    };
+export default {
+    props: ['width', 'height']
+};
 </script>

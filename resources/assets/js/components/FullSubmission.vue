@@ -178,13 +178,16 @@ export default {
 
     computed: {
         detailedPoints() {
-            return `+${this.list.upvotes_count} | -${this.list.downvotes_count}`;
+            return `+${this.list.upvotes_count} | -${
+                this.list.downvotes_count
+            }`;
         },
 
         showApprove() {
             return (
                 !this.list.approved_at &&
-                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 || meta.isVotenAdminstrator) &&
+                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
+                    meta.isVotenAdminstrator) &&
                 !this.owns
             );
         },
@@ -192,7 +195,8 @@ export default {
         showDisapprove() {
             return (
                 !this.list.deleted_at &&
-                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 || meta.isVotenAdminstrator) &&
+                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
+                    meta.isVotenAdminstrator) &&
                 !this.owns
             );
         },
@@ -200,7 +204,8 @@ export default {
         showNSFW() {
             return (
                 (this.owns ||
-                    Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
+                    Store.state.moderatingAt.indexOf(this.list.channel_id) !=
+                        -1 ||
                     meta.isVotenAdminstrator) &&
                 !this.list.nsfw
             );
@@ -209,7 +214,8 @@ export default {
         showSFW() {
             return (
                 (this.owns ||
-                    Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
+                    Store.state.moderatingAt.indexOf(this.list.channel_id) !=
+                        -1 ||
                     meta.isVotenAdminstrator) &&
                 this.list.nsfw
             );
@@ -256,7 +262,8 @@ export default {
                 })
                 .then(() => {
                     this.$message({
-                        message: 'You will no longer see this post in your feed.',
+                        message:
+                            'You will no longer see this post in your feed.',
                         type: 'success'
                     });
                 });
@@ -302,7 +309,7 @@ export default {
             } else {
                 this.hidden = true;
             }
-        },
+        }
     }
 };
 </script>

@@ -1,8 +1,7 @@
 import Raven from 'raven-js';
 import RavenVue from 'raven-js/plugins/vue';
 if (Laravel.env !== 'local') {
-    Raven
-        .config(Laravel.sentry)
+    Raven.config(Laravel.sentry)
         .addPlugin(RavenVue, Vue)
         .install();
 }
@@ -42,7 +41,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 if (meta.isGuest === true) {
     window.axios.defaults.baseURL = Laravel.url + '/api/guest/';
 } else {
-    window.axios.defaults.baseURL = Laravel.url + '/api/';    
+    window.axios.defaults.baseURL = Laravel.url + '/api/';
 }
 
 axios.interceptors.response.use(

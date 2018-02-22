@@ -11,18 +11,18 @@
 </template>
 
 <script>
-    export default {
-        props: {
-            size: {
-                type: String,
-                default: 'medium',
-            },
-        }, 
-
-        methods: {
-            openGoogle() {
-                window.location = '/login/google'; 
-            }
+export default {
+    props: {
+        size: {
+            type: String,
+            default: 'medium'
         }
-    };
+    },
+
+    methods: {
+        openGoogle() {
+            window.location = '/login/google';
+        }
+    }
+};
 </script>

@@ -48,99 +48,124 @@
 </template>
 
 <style lang="scss">
-    .subscribe-icon {
-        font-weight: 600;
-        margin-left: .5em;
-        cursor: pointer;
-    }
+.subscribe-icon {
+    font-weight: 600;
+    margin-left: 0.5em;
+    cursor: pointer;
+}
 </style>
 
 <script>
-    export default {
-        data() {
-            return {
-                Store,
-                visible: true
+export default {
+    data() {
+        return {
+            Store,
+            visible: true
+        };
+    },
+
+    props: ['list'],
+
+    computed: {
+        bookmarked: {
+            get() {
+                return Store.state.bookmarks.channels.indexOf(this.list.id) !==
+                    -1
+                    ? true
+                    : false;
+            },
+
+            set() {
+                if (
+                    Store.state.bookmarks.channels.indexOf(this.list.id) !== -1
+                ) {
+                    let index = Store.state.bookmarks.channels.indexOf(
+                        this.list.id
+                    );
+                    Store.state.bookmarks.channels.splice(index, 1);
+
+                    let removeItem = this.list.id;
+                    Store.state.bookmarkedChannels = Store.state.bookmarkedChannels.filter(
+                        (channel) => channel.id != removeItem
+                    );
+
+                    return;
+                }
+
+                Store.state.bookmarks.channels.push(this.list.id);
+                Store.state.bookmarkedChannels.push(this.list);
             }
         },
 
-        props: ['list'],
+        subscribed: {
+            get() {
+                return Store.state.subscribedAt.indexOf(this.list.id) !== -1
+                    ? true
+                    : false;
+            },
 
-        computed: {
-            bookmarked: {
-                get() {
-                    return Store.state.bookmarks.channels.indexOf(this.list.id) !== -1 ? true : false;
-                },
+            set() {
+                if (Store.state.subscribedAt.indexOf(this.list.id) !== -1) {
+                    let removeItem = this.list.id;
+                    Store.state.subscribedChannels = Store.state.subscribedChannels.filter(
+                        (channel) => channel.id != removeItem
+                    );
 
-                set() {
-                    if (Store.state.bookmarks.channels.indexOf(this.list.id) !== -1) {
-                        let index = Store.state.bookmarks.channels.indexOf(this.list.id);
-                        Store.state.bookmarks.channels.splice(index, 1);
+                    let index = Store.state.subscribedAt.indexOf(this.list.id);
+                    Store.state.subscribedAt.splice(index, 1);
 
-                        let removeItem = this.list.id; 
-                        Store.state.bookmarkedChannels = Store.state.bookmarkedChannels.filter(channel => channel.id != removeItem);
-
-                        return;
-                    }
-
-                    Store.state.bookmarks.channels.push(this.list.id);
-                    Store.state.bookmarkedChannels.push(this.list);
+                    return;
                 }
-            },
 
-            subscribed: {
-                get() {
-                    return Store.state.subscribedAt.indexOf(this.list.id) !== -1 ? true : false;
-                },
-
-                set() {
-                    if (Store.state.subscribedAt.indexOf(this.list.id) !== -1) {
-                        let removeItem = this.list.id;
-                        Store.state.subscribedChannels = Store.state.subscribedChannels.filter(channel => channel.id != removeItem);
-
-                        let index = Store.state.subscribedAt.indexOf(this.list.id);
-                        Store.state.subscribedAt.splice(index, 1);
-
-                        return;
-                    }
-
-                    Store.state.subscribedChannels.push(this.list);
-                    Store.state.subscribedAt.push(this.list.id);
-                }
-            },
-
-            /**
-             * Has the user just registered?
-             *
-             * @return boolean
-             */
-            isNewbie() {
-                return this.$route.query.newbie == 1;
-            },
+                Store.state.subscribedChannels.push(this.list);
+                Store.state.subscribedAt.push(this.list.id);
+            }
         },
 
-        methods: {
-            bookmark: _.debounce(function () {
+        /**
+         * Has the user just registered?
+         *
+         * @return boolean
+         */
+        isNewbie() {
+            return this.$route.query.newbie == 1;
+        }
+    },
+
+    methods: {
+        bookmark: _.debounce(
+            function() {
                 this.bookmarked = !this.bookmarked;
 
-                axios.post('/bookmark-channel', {
-                    id: this.list.id
-                }).catch(() => {
-                    this.bookmarked = !this.bookmarked;
-                });
-            }, 200, { leading: true, trailing: false }),
+                axios
+                    .post('/bookmark-channel', {
+                        id: this.list.id
+                    })
+                    .catch(() => {
+                        this.bookmarked = !this.bookmarked;
+                    });
+            },
+            200,
+            { leading: true, trailing: false }
+        ),
 
-            subscribe: _.debounce(function () {
+        subscribe: _.debounce(
+            function() {
                 this.subscribed = !this.subscribed;
 
-                axios.post('/subscribe', {
-                    channel_id: this.list.id
-                }).catch(() => {
-                    this.subscribed = !this.subscribed;
-                });
+                axios
+                    .post('/subscribe', {
+                        channel_id: this.list.id
+                    })
+                    .catch(() => {
+                        this.subscribed = !this.subscribed;
+                    });
 
                 this.$emit('subscribed');
-            }, 200, { leading: true, trailing: false }),
-        },
-    };
+            },
+            200,
+            { leading: true, trailing: false }
+        )
+    }
+};
 </script>

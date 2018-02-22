@@ -56,26 +56,36 @@ export default {
         },
 
         suggestions() {
-            return Store.state.subscribedChannels.concat(Store.state.bookmarkedChannels); 
+            return Store.state.subscribedChannels.concat(
+                Store.state.bookmarkedChannels
+            );
         },
 
         filteredList() {
             let self = this;
 
             return _.uniqBy(this.suggestions, 'name')
-                .filter(item => item.name.toLowerCase().indexOf(self.searched.toLowerCase().trim()) !== -1)
+                .filter(
+                    (item) =>
+                        item.name
+                            .toLowerCase()
+                            .indexOf(self.searched.toLowerCase().trim()) !== -1
+                )
                 .slice(0, 5);
         },
 
         /**
-         * The string written after the starter character (#). This is used for filtering items. 
-         * 
-         * @return string 
+         * The string written after the starter character (#). This is used for filtering items.
+         *
+         * @return string
          */
         searched() {
             let cursorPosition = this.getCursorPositionById(this.textareaid);
 
-            return this.message.substr(this.starter + 1, cursorPosition - this.starter - 1);
+            return this.message.substr(
+                this.starter + 1,
+                cursorPosition - this.starter - 1
+            );
         }
     },
 
@@ -105,11 +115,11 @@ export default {
             axios
                 .get('/search', {
                     params: {
-                        type: 'Channels', 
+                        type: 'Channels',
                         keyword: this.searched
                     }
                 })
-                .then(response => {
+                .then((response) => {
                     this.list = response.data.data;
                     this.loading = false;
                 })
@@ -143,7 +153,12 @@ export default {
         },
 
         pick(channel) {
-            this.$emit('pick', '#' + channel.name, this.starter, this.searched.length);
+            this.$emit(
+                'pick',
+                '#' + channel.name,
+                this.starter,
+                this.searched.length
+            );
 
             this.close();
         }

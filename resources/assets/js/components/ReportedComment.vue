@@ -63,8 +63,8 @@
 
 
 <script>
-import Markdown from '../components/Markdown.vue'
-import Helpers from '../mixins/Helpers'
+import Markdown from '../components/Markdown.vue';
+import Helpers from '../mixins/Helpers';
 
 export default {
     components: {
@@ -76,15 +76,17 @@ export default {
     data: function() {
         return {
             showDescription: false
-        }
+        };
     },
 
     props: ['list'],
 
     computed: {
-        date () {
-            return moment(this.list.created_at).utc(moment().format("Z")).fromNow()
-        },
+        date() {
+            return moment(this.list.created_at)
+                .utc(moment().format('Z'))
+                .fromNow();
+        }
     }
 };
 </script>

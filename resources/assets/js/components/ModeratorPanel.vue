@@ -67,7 +67,7 @@ import Helpers from '../mixins/Helpers';
 
 export default {
     mixins: [Helpers],
-    
+
     data() {
         return {
             newCreatedMessage: `Congratulations on creating your new channel.
@@ -87,36 +87,46 @@ export default {
         },
 
         isAdministrator() {
-            return Store.state.administratorAt.indexOf(Store.page.channel.temp.id) != -1;
+            return (
+                Store.state.administratorAt.indexOf(
+                    Store.page.channel.temp.id
+                ) != -1
+            );
         }
     },
 
     beforeRouteEnter(to, from, next) {
-        if (typeof Store.page.channel.temp.name != 'undefined' && Store.page.channel.temp.name == to.params.name) {
+        if (
+            typeof Store.page.channel.temp.name != 'undefined' &&
+            Store.page.channel.temp.name == to.params.name
+        ) {
             next();
         }
 
-        if (typeof Store.page.channel.temp.name != 'undefined' && Store.page.channel.temp.name != to.params.name) {
+        if (
+            typeof Store.page.channel.temp.name != 'undefined' &&
+            Store.page.channel.temp.name != to.params.name
+        ) {
             Store.page.channel.clear();
         }
 
-        if (typeof app != "undefined") {
+        if (typeof app != 'undefined') {
             app.$Progress.start();
         }
 
         Store.page.channel.getChannel(to.params.name).then(() => {
-            next(vm => {
+            next((vm) => {
                 vm.$Progress.finish();
             });
         });
     },
 
     beforeRouteUpdate(to, from, next) {
-        if (to.hash !== from.hash) return; 
+        if (to.hash !== from.hash) return;
 
         if (Store.page.channel.temp.name == to.params.name) {
-            next(); 
-            return; 
+            next();
+            return;
         }
 
         Store.page.channel.clear();
@@ -127,6 +137,6 @@ export default {
             this.$Progress.finish();
             next();
         });
-    },
+    }
 };
 </script>

@@ -271,13 +271,13 @@ export default {
                     password: this.loginForm.password,
                     remember: this.loginForm.remember
                 })
-                .then(response => {
+                .then((response) => {
                     this.loading = false;
-					this.loginForm.errors = [];
-					Vue.clearLS(); 
+                    this.loginForm.errors = [];
+                    Vue.clearLS();
                     location.reload();
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.loading = false;
                     this.loginForm.errors = error.response.data.errors;
                 });
@@ -291,15 +291,16 @@ export default {
                     username: this.registerForm.username,
                     email: this.registerForm.email,
                     password: this.registerForm.password,
-                    password_confirmation: this.registerForm.password_confirmation,
+                    password_confirmation: this.registerForm
+                        .password_confirmation,
                     'g-recaptcha-response': this.registerForm.reCAPTCHA
                 })
-                .then(response => {
+                .then((response) => {
                     this.loading = false;
                     this.registerForm.errors = [];
                     window.location = '/discover-channels?newbie=1&sidebar=0';
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.loading = false;
                     this.$refs.recaptcha.reset();
                     this.registerForm.errors = error.response.data.errors;

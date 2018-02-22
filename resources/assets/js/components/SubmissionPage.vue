@@ -145,7 +145,10 @@ export default {
     },
 
     beforeRouteEnter(to, from, next) {
-        if (typeof Store.page.channel.temp.name != 'undefined' && Store.page.channel.temp.name != to.params.name) {
+        if (
+            typeof Store.page.channel.temp.name != 'undefined' &&
+            Store.page.channel.temp.name != to.params.name
+        ) {
             Store.page.submission.clearSubmission();
         }
 
@@ -156,11 +159,11 @@ export default {
         Store.page.submission
             .getSubmission(to.params.slug)
             .then(() => {
-                next(vm => {
+                next((vm) => {
                     vm.$Progress.finish();
                 });
             })
-            .catch(error => {
+            .catch((error) => {
                 // if (error.response.status === 404) {
                 // 	this.$router.push('/404')
                 // }
@@ -174,7 +177,7 @@ export default {
     },
 
     beforeRouteUpdate(to, from, next) {
-        if (to.hash !== from.hash) return; 
+        if (to.hash !== from.hash) return;
 
         Store.page.submission.clearSubmission();
         this.$Progress.start();
@@ -187,7 +190,7 @@ export default {
 
                 next();
             })
-            .catch(error => {
+            .catch((error) => {
                 // if (error.response.status === 404) {
                 // 	this.$router.push('/404')
                 // }
@@ -228,10 +231,10 @@ export default {
         },
 
         /**
-		 * The order that comments should be printed with
-		 *
-		 * @return string
-		 */
+         * The order that comments should be printed with
+         *
+         * @return string
+         */
         commentsOrder() {
             return this.sort == 'hot' ? 'rate' : 'created_at';
         }
@@ -250,12 +253,16 @@ export default {
         },
 
         /**
-		 * receives the broadcasted comment.
-		 *
-		 * @return void
-		 */
+         * receives the broadcasted comment.
+         *
+         * @return void
+         */
         newComment(comment) {
-            if (comment.parent_id != null || comment.submission_id != this.submission.id) return;
+            if (
+                comment.parent_id != null ||
+                comment.submission_id != this.submission.id
+            )
+                return;
 
             // add broadcasted (used for styling)
             if (comment.user_id != auth.id) {
@@ -267,27 +274,29 @@ export default {
 
             if (comment.user_id == auth.id) {
                 this.$nextTick(function() {
-                    document.getElementById('comment' + comment.id).scrollIntoView();
+                    document
+                        .getElementById('comment' + comment.id)
+                        .scrollIntoView();
                 });
             }
         },
 
         /**
-		 * listen for broadcasted comments
-		 *
-		 * @return void
-		 */
+         * listen for broadcasted comments
+         *
+         * @return void
+         */
         listen() {
             const channelAddress = 'submission.' + this.$route.params.slug;
 
             Echo.channel(channelAddress)
-                .listen('CommentCreated', event => {
+                .listen('CommentCreated', (event) => {
                     this.$eventHub.$emit('newComment', event.data);
                 })
-                .listen('CommentWasPatched', event => {
+                .listen('CommentWasPatched', (event) => {
                     this.$eventHub.$emit('patchedComment', event.data);
                 })
-                .listen('CommentWasDeleted', event => {
+                .listen('CommentWasDeleted', (event) => {
                     this.$eventHub.$emit('deletedComment', event.data);
                 });
 
@@ -295,13 +304,13 @@ export default {
             if (this.isGuest) return;
 
             Echo.join(channelAddress)
-                .here(users => {
+                .here((users) => {
                     this.onlineUsers = users;
                 })
-                .joining(user => {
+                .joining((user) => {
                     this.onlineUsers.push(user);
                 })
-                .leaving(user => {
+                .leaving((user) => {
                     let index = this.onlineUsers.indexOf(user.username);
                     this.onlineUsers.splice(index, 1);
 
@@ -312,10 +321,10 @@ export default {
         },
 
         /**
-		 * get comments
-		 *
-		 * @return void
-		 */
+         * get comments
+         *
+         * @return void
+         */
         getComments() {
             this.loadingComments = true;
 
@@ -323,13 +332,13 @@ export default {
                 .get('/submissions/comments', {
                     params: {
                         page: this.page,
-                        sort: this.sort, 
-                        submission_id: this.submission.id, 
-                        with_children: true, 
-                        with_parent: true, 
+                        sort: this.sort,
+                        submission_id: this.submission.id,
+                        with_children: true,
+                        with_parent: true
                     }
                 })
-                .then(response => {
+                .then((response) => {
                     this.loadingComments = false;
 
                     this.comments.push(...response.data.data);
@@ -339,14 +348,15 @@ export default {
                     } else {
                         this.moreComments = false;
                     }
-                }).catch(error => {
+                })
+                .catch((error) => {
                     this.loadingComments = false;
 
                     this.$message({
-                        message: `Something went wrong and we couldn't load comments. Try refreshing the page. `, 
+                        message: `Something went wrong and we couldn't load comments. Try refreshing the page. `,
                         type: 'error'
-                    }); 
-                }); 
+                    });
+                });
         },
 
         newSort(sort) {

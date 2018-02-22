@@ -1,7 +1,7 @@
 .profile-cover {
     min-height: 100px;
     width: 100%;
-	border-bottom: 2px solid;
+    border-bottom: 2px solid;
     border-color: rgba(117, 148, 127, 0.24);
     color: #f8f8f8;
     position: relative;
@@ -15,7 +15,7 @@
 
 .profile-cover a:hover {
     color: #ebebeb;
-    transition: .2s;
+    transition: 0.2s;
 }
 
 .profile-cover a h1 i {
@@ -78,7 +78,7 @@
         width: 180px;
         border: 2px solid #3c3c3c;
     }
-    
+
     padding: 1em;
     padding-right: 0;
 }
@@ -124,5 +124,13 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(to bottom, transparent 0, rgba(0, 0, 0, 0.03) 8%, rgba(0, 0, 0, 0.11) 21%, rgba(0, 0, 0, 0.61) 78%, rgba(0, 0, 0, 0.7) 95%, rgba(0, 0, 0, 0.7) 100%);
+    background: linear-gradient(
+        to bottom,
+        transparent 0,
+        rgba(0, 0, 0, 0.03) 8%,
+        rgba(0, 0, 0, 0.11) 21%,
+        rgba(0, 0, 0, 0.61) 78%,
+        rgba(0, 0, 0, 0.7) 95%,
+        rgba(0, 0, 0, 0.7) 100%
+    );
 }

@@ -63,10 +63,15 @@ export default {
     methods: {
         close() {
             this.$emit('update:visible', false);
-        }, 
+        },
 
         goToSubmission() {
-            this.$router.push('/c/' + this.submission.channel_name + '/' + this.submission.slug);
+            this.$router.push(
+                '/c/' +
+                    this.submission.channel_name +
+                    '/' +
+                    this.submission.slug
+            );
             this.close();
         }
     }

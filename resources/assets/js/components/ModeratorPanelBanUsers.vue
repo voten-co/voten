@@ -96,11 +96,11 @@ export default {
                         keyword: query
                     }
                 })
-                .then(response => {
+                .then((response) => {
                     this.users = _.map(response.data.data, 'username');
                     this.loading = false;
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.loading = false;
                 });
         }, 600),
@@ -115,7 +115,7 @@ export default {
                     channel_id: Store.page.channel.temp.id,
                     duration: this.duration
                 })
-                .then(response => {
+                .then((response) => {
                     // add the banned user to the this.bannedUsers array
                     this.username = '';
                     this.description = '';
@@ -162,7 +162,7 @@ export default {
                         channel_id: Store.page.channel.temp.id
                     }
                 })
-                .then(response => {
+                .then((response) => {
                     this.bannedUsers = response.data.data;
                 });
         }
@@ -171,7 +171,10 @@ export default {
     beforeRouteEnter(to, from, next) {
         if (Store.page.channel.temp.name == to.params.name) {
             // loaded
-            if (Store.state.moderatingAt.indexOf(Store.page.channel.temp.id) != -1) {
+            if (
+                Store.state.moderatingAt.indexOf(Store.page.channel.temp.id) !=
+                -1
+            ) {
                 next();
             }
         } else {

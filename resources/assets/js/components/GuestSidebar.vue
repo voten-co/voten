@@ -168,12 +168,12 @@ export default {
                     password: this.login.password,
                     remember: this.login.remember
                 })
-                .then(response => {
+                .then((response) => {
                     this.login.loading = false;
                     Vue.clearLS();
                     location.reload();
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.login.errors = error.response.data.errors;
                     this.login.loading = false;
                 });

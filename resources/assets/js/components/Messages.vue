@@ -408,7 +408,9 @@ export default {
         },
 
         isBlocked() {
-            return Store.state.blocks.users.indexOf(this.currentContactId) !== -1;
+            return (
+                Store.state.blocks.users.indexOf(this.currentContactId) !== -1
+            );
         },
 
         disableTextArea() {
@@ -420,7 +422,10 @@ export default {
 
             if (Store.state.contacts) {
                 return _.orderBy(
-                    Store.state.contacts.filter(item => item.contact.username.indexOf(self.filter) !== -1),
+                    Store.state.contacts.filter(
+                        (item) =>
+                            item.contact.username.indexOf(self.filter) !== -1
+                    ),
                     'last_message.created_at',
                     'desc'
                 );
@@ -462,7 +467,8 @@ export default {
         },
 
         handleKey(event, key) {
-            if (!this.quickEmojiPicker.show && !this.quickChannelPicker.show) return;
+            if (!this.quickEmojiPicker.show && !this.quickChannelPicker.show)
+                return;
 
             event.preventDefault();
 
@@ -480,7 +486,12 @@ export default {
         },
 
         pick(pickedStr, starterIndex, typedLength) {
-            this.insertPickedItem('message-form-textarea', pickedStr + ' ', starterIndex, typedLength);
+            this.insertPickedItem(
+                'message-form-textarea',
+                pickedStr + ' ',
+                starterIndex,
+                typedLength
+            );
         },
 
         openEmojiPicker() {
@@ -509,7 +520,9 @@ export default {
                     this.backToContacts();
 
                     // remove the contact
-                    Store.state.contacts = Store.state.contacts.filter(contact => contact.user_id != contactID);
+                    Store.state.contacts = Store.state.contacts.filter(
+                        (contact) => contact.user_id != contactID
+                    );
                 });
         },
 
@@ -528,7 +541,9 @@ export default {
                 })
                 .then(() => {
                     if (wasBlocked) {
-                        let index = Store.state.blocks.users.indexOf(this.currentContactId);
+                        let index = Store.state.blocks.users.indexOf(
+                            this.currentContactId
+                        );
                         Store.state.blocks.users.splice(index, 1);
                     } else {
                         Store.state.blocks.users.push(this.currentContactId);
@@ -561,8 +576,12 @@ export default {
         deleteMessages() {
             for (let i = 0; i < this.selectedMessages.length; i++) {
                 for (let j = 0; j < Store.state.messages.length; j++) {
-                    if (Store.state.messages[j].id === this.selectedMessages[i]) {
-                        let index = Store.state.messages.indexOf(Store.state.messages[j]);
+                    if (
+                        Store.state.messages[j].id === this.selectedMessages[i]
+                    ) {
+                        let index = Store.state.messages.indexOf(
+                            Store.state.messages[j]
+                        );
                         Store.state.messages.splice(index, 1);
                     }
                 }
@@ -597,7 +616,7 @@ export default {
                         keyword: typed
                     }
                 })
-                .then(response => {
+                .then((response) => {
                     this.searchedUsers = response.data.data;
 
                     this.loadingContacts = false;
@@ -630,7 +649,7 @@ export default {
                         with_contact: 1
                     }
                 })
-                .then(response => {
+                .then((response) => {
                     Store.state.contacts = response.data.data;
 
                     this.loadingContacts = false;
@@ -671,7 +690,7 @@ export default {
                         page: this.page
                     }
                 })
-                .then(response => {
+                .then((response) => {
                     this.loadingMessages = false;
 
                     Store.state.messages = response.data.data.reverse();
@@ -714,8 +733,10 @@ export default {
                         page: this.page
                     }
                 })
-                .then(response => {
-                    Store.state.messages.unshift(...response.data.data.reverse());
+                .then((response) => {
+                    Store.state.messages.unshift(
+                        ...response.data.data.reverse()
+                    );
 
                     this.loadingMessages = false;
 
@@ -758,13 +779,16 @@ export default {
          */
         listen() {
             Echo.private('App.User.' + auth.id)
-                .listen('MessageCreated', event => {
+                .listen('MessageCreated', (event) => {
                     this.updateLastMessage(event.data.author.id, event.data);
 
                     if (this.currentContactId == event.data.author.id) {
                         let chatBox = this.$refs.scrollable;
 
-                        if (chatBox.scrollHeight - chatBox.scrollTop < chatBox.offsetHeight + 500) {
+                        if (
+                            chatBox.scrollHeight - chatBox.scrollTop <
+                            chatBox.offsetHeight + 500
+                        ) {
                             this.$nextTick(() => {
                                 this.chatScroll();
                             });
@@ -793,10 +817,13 @@ export default {
                         this.$eventHub.$emit('push-notification', data);
                     }
                 })
-                .listen('MessageRead', event => {
-                    this.markMessageAsRead(event.data.message_id, event.data.user_id);
+                .listen('MessageRead', (event) => {
+                    this.markMessageAsRead(
+                        event.data.message_id,
+                        event.data.user_id
+                    );
                 })
-                .listen('ConversationRead', event => {
+                .listen('ConversationRead', (event) => {
                     this.markConversationAsRead(event.data.user_id);
                 });
         },
@@ -812,7 +839,9 @@ export default {
          * @return void
          */
         updateLastMessage(contact_id, message) {
-            let i = Store.state.contacts.findIndex(c => c.contact.id === contact_id);
+            let i = Store.state.contacts.findIndex(
+                (c) => c.contact.id === contact_id
+            );
 
             if (i !== -1) {
                 Store.state.contacts[i].last_message = message;
@@ -836,7 +865,9 @@ export default {
          * @return void
          */
         markLastMessageAsRead(contact_id) {
-            let i = Store.state.contacts.findIndex(c => c.contact.id === contact_id);
+            let i = Store.state.contacts.findIndex(
+                (c) => c.contact.id === contact_id
+            );
 
             Store.state.contacts[i].last_message.read_at = this.now();
         },
@@ -852,7 +883,8 @@ export default {
             if (!this.message.trim()) return;
 
             // ignore if any quick pciking box is open
-            if (this.quickEmojiPicker.show || this.quickChannelPicker.show) return;
+            if (this.quickEmojiPicker.show || this.quickChannelPicker.show)
+                return;
 
             this.closeEmojiPicker();
 
@@ -866,18 +898,24 @@ export default {
                     user_id: this.currentContactId,
                     body: msgText
                 })
-                .then(response => {
+                .then((response) => {
                     Store.state.messages.push(response.data.data);
 
                     if (Store.state.messages.length === 1) {
-                        this.turnUserToContact(this.currentContactId, response.data.data);
+                        this.turnUserToContact(
+                            this.currentContactId,
+                            response.data.data
+                        );
                     } else {
-                        this.updateLastMessage(this.currentContactId, response.data.data);
+                        this.updateLastMessage(
+                            this.currentContactId,
+                            response.data.data
+                        );
                     }
 
                     this.chatScroll();
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.message = msgText;
                 });
         },
@@ -926,7 +964,9 @@ export default {
         markMessageAsRead(messageId, contactId) {
             if (this.currentContactId != contactId) return;
 
-            Store.state.messages.find(m => m.id === messageId).read_at = this.now();
+            Store.state.messages.find(
+                (m) => m.id === messageId
+            ).read_at = this.now();
         }
     }
 };

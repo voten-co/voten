@@ -1,4 +1,4 @@
-[data-name="null"] {
+[data-name='null'] {
     display: none;
 }
 
@@ -98,7 +98,7 @@
     resize: none;
 }
 
-.ui.action.input:not([class*="left action"]) > .button:hover {
+.ui.action.input:not([class*='left action']) > .button:hover {
     border: 2px solid #5587d7;
     background: $primary-color;
     color: #fff;
@@ -238,8 +238,8 @@
 
 .comment {
     .v-icon,
-    [class^="el-icon-"],
-    [class*=" el-icon-"] {
+    [class^='el-icon-'],
+    [class*=' el-icon-'] {
         font-size: 16px;
         color: $gray-color;
         cursor: pointer;

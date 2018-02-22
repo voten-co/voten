@@ -196,7 +196,9 @@ export default {
 
     computed: {
         submitURL() {
-            return this.$route.params.name ? '/submit?channel=' + this.$route.params.name : '/submit';
+            return this.$route.params.name
+                ? '/submit?channel=' + this.$route.params.name
+                : '/submit';
         }
     },
 
@@ -225,12 +227,16 @@ export default {
         },
 
         unreadNotifications() {
-            return Store.state.notifications.filter(item => item.read_at == null).length;
+            return Store.state.notifications.filter(
+                (item) => item.read_at == null
+            ).length;
         },
 
         unreadMessages() {
             return Store.state.contacts.filter(
-                item => item.last_message.author.id != auth.id && item.last_message.read_at == null
+                (item) =>
+                    item.last_message.author.id != auth.id &&
+                    item.last_message.read_at == null
             ).length;
         }
     },

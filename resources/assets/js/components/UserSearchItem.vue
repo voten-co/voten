@@ -20,6 +20,6 @@
 
 <script>
 export default {
-	props: ['list'],
-}
+    props: ['list']
+};
 </script>

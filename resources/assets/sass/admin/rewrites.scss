@@ -1,32 +1,33 @@
-
 // Bulma rewrites
 a {
-  color: $primary-color;
+    color: $primary-color;
 }
 
 .pagination-link.is-current {
-  background-color: $primary-color;
-  border-color: $primary-color;
+    background-color: $primary-color;
+    border-color: $primary-color;
 }
 
-.nav-item a:not(.button).is-tab.is-active, a.nav-item:not(.button).is-tab.is-active {
-  border-bottom: 3px solid $primary-color;
-  color: $primary-color;
+.nav-item a:not(.button).is-tab.is-active,
+a.nav-item:not(.button).is-tab.is-active {
+    border-bottom: 3px solid $primary-color;
+    color: $primary-color;
 }
 
-.nav-item a:not(.button).is-tab:hover, a.nav-item:not(.button).is-tab:hover {
-  border-bottom-color: $primary-color;
+.nav-item a:not(.button).is-tab:hover,
+a.nav-item:not(.button).is-tab:hover {
+    border-bottom-color: $primary-color;
 }
 
 .button.is-danger,
 .tag.is-danger {
-  background-image: linear-gradient(112deg, #ff4f81, #ff6c5f);
+    background-image: linear-gradient(112deg, #ff4f81, #ff6c5f);
 }
 
 .button.is-primary {
-  background-image: linear-gradient(284deg, #1cc7d0, #2dde98);
+    background-image: linear-gradient(284deg, #1cc7d0, #2dde98);
 }
 
 .button.is-info {
-  background-image: linear-gradient(284deg, #3369e7, #00aeff);
+    background-image: linear-gradient(284deg, #3369e7, #00aeff);
 }

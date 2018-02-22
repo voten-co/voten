@@ -38,7 +38,7 @@
 }
 
 .v-button.v-button--link:hover {
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 .v-button.v-button--upload {
@@ -53,7 +53,7 @@
         left: 0;
         opacity: 0;
         width: 100%;
-    }    
+    }
 }
 
 .v-button.v-button--red {
@@ -68,7 +68,6 @@
     display: flex;
     align-items: center;
 }
-
 
 .v-button--white-inverted {
     background: transparent none !important;
@@ -116,16 +115,15 @@ label.v-toggle--checked.v-toggle {
     i {
         font-size: 25px;
     }
-     
-    &:hover, 
+
+    &:hover,
     & i:hover {
         color: #000000;
     }
 }
 
-
 .sidebar-panel-button {
-	background: none;
+    background: none;
     border: 0;
     cursor: pointer;
     width: 42px;
@@ -141,7 +139,7 @@ label.v-toggle--checked.v-toggle {
 }
 
 .Gray .sidebar-panel-button i:hover {
-	color: #000;
+    color: #000;
 }
 
 .btn-no-back {

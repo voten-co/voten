@@ -4,11 +4,11 @@
 
     img {
         max-height: 500px;
-	}
-	
-	video {
-		max-height: 500px;
-	}
+    }
+
+    video {
+        max-height: 500px;
+    }
 }
 </style>
 
@@ -109,7 +109,8 @@ export default {
     computed: {
         thumbnail() {
             return {
-                backgroundImage: 'url(' + this.submission.content.thumbnail_path + ')'
+                backgroundImage:
+                    'url(' + this.submission.content.thumbnail_path + ')'
             };
         },
 

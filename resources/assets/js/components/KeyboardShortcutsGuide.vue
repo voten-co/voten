@@ -118,27 +118,27 @@
 </template>
 
 <script>
-    import Helpers from '../mixins/Helpers';
+import Helpers from '../mixins/Helpers';
 
-    export default {
-        mixins: [Helpers],
+export default {
+    mixins: [Helpers],
 
-        props: ['visible'],
+    props: ['visible'],
 
-        beforeDestroy() {
-            if (window.location.hash == '#keyboardShortcutsGuide') {
-                history.go(-1);
-            }
-        },
+    beforeDestroy() {
+        if (window.location.hash == '#keyboardShortcutsGuide') {
+            history.go(-1);
+        }
+    },
 
-        created() {
-            window.location.hash = 'keyboardShortcutsGuide';
-        },
+    created() {
+        window.location.hash = 'keyboardShortcutsGuide';
+    },
 
-        methods: {
-            close() {
-                this.$emit('update:visible', false);
-            },
-        },
+    methods: {
+        close() {
+            this.$emit('update:visible', false);
+        }
     }
+};
 </script>

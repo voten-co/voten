@@ -288,14 +288,28 @@ export default {
     computed: {
         goodToGo() {
             if (this.submissionType == 'link') {
-                return this.title.trim().length > 0 && this.selectedCat && this.submitURL && !this.loading;
+                return (
+                    this.title.trim().length > 0 &&
+                    this.selectedCat &&
+                    this.submitURL &&
+                    !this.loading
+                );
             }
 
             if (this.submissionType == 'img') {
-                return this.title.trim().length > 0 && this.selectedCat && this.photos.length && !this.loading;
+                return (
+                    this.title.trim().length > 0 &&
+                    this.selectedCat &&
+                    this.photos.length &&
+                    !this.loading
+                );
             }
 
-            return this.title.trim().length > 0 && this.selectedCat && !this.loading;
+            return (
+                this.title.trim().length > 0 &&
+                this.selectedCat &&
+                !this.loading
+            );
         }
     },
 
@@ -363,20 +377,22 @@ export default {
         submit() {
             this.loading = true;
 
-            let formData = this.prepareFormData(); 
+            let formData = this.prepareFormData();
 
             axios
                 .post('/submissions', formData)
-                .then(response => {
+                .then((response) => {
                     this.loading = false;
 
                     Store.state.submissions.upVotes.push(response.data.data.id);
-                    this.$router.push('/c/' + this.selectedCat + '/' + response.data.data.slug);
+                    this.$router.push(
+                        '/c/' + this.selectedCat + '/' + response.data.data.slug
+                    );
 
                     this.close();
                     this.reset();
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.loading = false;
                     this.errors = error.response.data.errors;
                 });
@@ -404,15 +420,15 @@ export default {
                     break;
 
                 case 'img':
-                    let arr = _.map(this.photos, 'id'); 
+                    let arr = _.map(this.photos, 'id');
                     for (let i = 0; i < arr.length; i++) {
                         formData.append('photos_id[]', arr[i]);
                     }
-                    break; 
+                    break;
             }
 
-            return formData; 
-        }, 
+            return formData;
+        },
 
         /**
          * Fetches the title from the external URL (through Voten's proxy server which we contact via API)
@@ -431,12 +447,12 @@ export default {
                         url: typed
                     }
                 })
-                .then(response => {
+                .then((response) => {
                     this.title = response.data.data.title;
                     this.loadingTitle = false;
                     this.errors.url = [];
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.errors = error.response.data.errors;
                     this.loadingTitle = false;
                 });
@@ -459,7 +475,7 @@ export default {
                         name: typed
                     }
                 })
-                .then(response => {
+                .then((response) => {
                     this.suggestedCats = response.data;
                     this.loadingChannels = false;
                 })
@@ -467,7 +483,7 @@ export default {
                     this.loadingChannels = false;
                 });
         }, 600),
-        
+
         changeSubmissionType(newType) {
             this.submissionType = newType;
         },

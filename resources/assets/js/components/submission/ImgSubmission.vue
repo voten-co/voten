@@ -92,7 +92,7 @@ import Helpers from '../../mixins/Helpers';
 
 export default {
     components: {
-        SubmissionFooter, 
+        SubmissionFooter
     },
 
     mixins: [Helpers],
@@ -122,7 +122,8 @@ export default {
     computed: {
         thumbnail() {
             return {
-                backgroundImage: 'url(' + this.submission.content.thumbnail_path + ')'
+                backgroundImage:
+                    'url(' + this.submission.content.thumbnail_path + ')'
             };
         },
 
@@ -157,11 +158,11 @@ export default {
         getPhotos() {
             axios
                 .get('/submissions/photos', {
-					params: {
-						submission_id: this.submission.id
-					}
-				})
-                .then(response => {
+                    params: {
+                        submission_id: this.submission.id
+                    }
+                })
+                .then((response) => {
                     this.photos = response.data.data;
                 });
         }
