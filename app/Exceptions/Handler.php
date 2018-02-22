@@ -7,12 +7,11 @@ use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Session\TokenMismatchException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
-use \Symfony\Component\HttpKernel\Exception\HttpException; 
 use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
-
+use Illuminate\Session\TokenMismatchException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -79,19 +78,19 @@ class Handler extends ExceptionHandler
 
             // 404 not found
             if ($exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException) {
-                return res(404); 
+                return res(404);
             }
 
-            // not allowed method 
+            // not allowed method
             if ($exception instanceof MethodNotAllowedHttpException) {
                 return res(405);
             }
 
-            // service unavailable 
+            // service unavailable
             if ($exception instanceof MaintenanceModeException) {
                 return res(503);
             }
-            
+
             if ($exception instanceof HttpException) {
                 return res(500);
             }
@@ -103,7 +102,7 @@ class Handler extends ExceptionHandler
 
         return parent::render($request, $exception);
     }
-  
+
     /**
      * Convert an authentication exception into an unauthenticated response.
      *

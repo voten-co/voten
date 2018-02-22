@@ -2,23 +2,24 @@
 
 namespace App\Rules;
 
-use App\Permissions; 
+use App\Permissions;
 use Illuminate\Contracts\Validation\Rule;
 
 class NotBlockedDomain implements Rule
 {
-    use Permissions; 
+    use Permissions;
 
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed  $value
+     *
      * @return bool
      */
     public function passes($attribute, $value)
     {
-        return $this->isDomainBlocked($value, request('channel_name')) === false; 
+        return $this->isDomainBlocked($value, request('channel_name')) === false;
     }
 
     /**
