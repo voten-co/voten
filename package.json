@@ -31,6 +31,7 @@
     "moment-timezone": "^0.5.14",
     "push.js": "^1.0.5",
     "pusher-js": "^4.2.2",
+    "raven-js": "^3.22.3",
     "vue": "^2.5.13",
     "vue-infinite-scroll": "^2.0.2",
     "vue-progressbar": "^0.7.3",

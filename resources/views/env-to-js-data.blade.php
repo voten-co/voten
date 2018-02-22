@@ -7,6 +7,7 @@
             'csrfToken' => csrf_token(),
             'env' => config('app.env'),
             'recaptchaKey' => config('services.recaptcha.key'),
+            'sentry' => config('sentry.dsn-js'), 
 
             'pusher' => [
                 'key' => config('broadcasting.connections.pusher.key'),
@@ -17,7 +18,7 @@
                 'host' => config('broadcasting.connections.echo.host'), 
                 'port' => config('broadcasting.connections.echo.port'), 
                 'bearerToken' => config('broadcasting.connections.echo.bearerToken'), 
-            ]
+            ], 
         ];
     ?>
 
