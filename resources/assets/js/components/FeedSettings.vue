@@ -75,74 +75,99 @@
 import Helpers from '../mixins/Helpers';
 
 export default {
-    mixins: [Helpers],
+	mixins: [Helpers],
 
-    props: ['visible'],
+	props: ['visible'],
 
-    data() {
-        return {
-            form: {
-                include_nsfw_submissions: Store.settings.feed.include_nsfw_submissions,
-                excludeUpvotedSubmissions: Store.settings.feed.excludeUpvotedSubmissions,
-                excludeDownvotedSubmissions: Store.settings.feed.excludeDownvotedSubmissions,
-                submissionsFilter: Store.settings.feed.submissionsFilter,
-                submissionsType: Store.settings.feed.submissionsType,
-                excludeBookmarkedSubmissions: Store.settings.feed.excludeBookmarkedSubmissions
-            },
+	data() {
+		return {
+			form: {
+				include_nsfw_submissions:
+					Store.settings.feed.include_nsfw_submissions,
+				excludeUpvotedSubmissions:
+					Store.settings.feed.excludeUpvotedSubmissions,
+				excludeDownvotedSubmissions:
+					Store.settings.feed.excludeDownvotedSubmissions,
+				submissionsFilter: Store.settings.feed.submissionsFilter,
+				submissionsType: Store.settings.feed.submissionsType,
+				excludeBookmarkedSubmissions:
+					Store.settings.feed.excludeBookmarkedSubmissions
+			},
 
-            filters: [
-                { value: 'all', description: 'Submissions from all channels' },
-                { value: 'subscribed', description: 'Only submissions from channels I am subscribed to' },
-                { value: 'moderating', description: 'Only submissions from channels I am moderating' },
-                { value: 'bookmarked', description: 'Only submissions from channels I have bookmarked' },
-                { value: 'by-bookmarked-users', description: 'Only submissions from users I have bookmarked' }
-            ]
-        };
-    },
+			filters: [
+				{ value: 'all', description: 'Submissions from all channels' },
+				{
+					value: 'subscribed',
+					description:
+						'Only submissions from channels I am subscribed to'
+				},
+				{
+					value: 'moderating',
+					description:
+						'Only submissions from channels I am moderating'
+				},
+				{
+					value: 'bookmarked',
+					description:
+						'Only submissions from channels I have bookmarked'
+				},
+				{
+					value: 'by-bookmarked-users',
+					description: 'Only submissions from users I have bookmarked'
+				}
+			]
+		};
+	},
 
-    computed: {
-        changed() {
-            if (
-                Store.settings.feed.include_nsfw_submissions != this.form.include_nsfw_submissions ||
-                Store.settings.feed.excludeUpvotedSubmissions != this.form.excludeUpvotedSubmissions ||
-                Store.settings.feed.excludeDownvotedSubmissions != this.form.excludeDownvotedSubmissions ||
-                Store.settings.feed.submissionsFilter != this.form.submissionsFilter ||
-                Store.settings.feed.submissionsType != this.form.submissionsType ||
-                Store.settings.feed.excludeBookmarkedSubmissions != this.form.excludeBookmarkedSubmissions
-            ) {
-                return true;
-            }
+	computed: {
+		changed() {
+			if (
+				Store.settings.feed.include_nsfw_submissions !=
+					this.form.include_nsfw_submissions ||
+				Store.settings.feed.excludeUpvotedSubmissions !=
+					this.form.excludeUpvotedSubmissions ||
+				Store.settings.feed.excludeDownvotedSubmissions !=
+					this.form.excludeDownvotedSubmissions ||
+				Store.settings.feed.submissionsFilter !=
+					this.form.submissionsFilter ||
+				Store.settings.feed.submissionsType !=
+					this.form.submissionsType ||
+				Store.settings.feed.excludeBookmarkedSubmissions !=
+					this.form.excludeBookmarkedSubmissions
+			) {
+				return true;
+			}
 
-            return false;
-        }
-    },
+			return false;
+		}
+	},
 
-    beforeDestroy() {
-        if (window.location.hash == '#feedSettings') {
-            history.go(-1);
-        }
-    },
+	beforeDestroy() {
+		if (window.location.hash == '#feedSettings') {
+			history.go(-1);
+		}
+	},
 
-    created() {
-        window.location.hash = 'feedSettings';
-    },
+	created() {
+		window.location.hash = 'feedSettings';
+	},
 
-    methods: {
-        save() {
-            Store.settings.feed.include_nsfw_submissions = this.form.include_nsfw_submissions;
-            Store.settings.feed.excludeUpvotedSubmissions = this.form.excludeUpvotedSubmissions;
-            Store.settings.feed.excludeDownvotedSubmissions = this.form.excludeDownvotedSubmissions;
-            Store.settings.feed.submissionsFilter = this.form.submissionsFilter;
-            Store.settings.feed.submissionsType = this.form.submissionsType;
-            Store.settings.feed.excludeBookmarkedSubmissions = this.form.excludeBookmarkedSubmissions;
+	methods: {
+		save() {
+			Store.settings.feed.include_nsfw_submissions = this.form.include_nsfw_submissions;
+			Store.settings.feed.excludeUpvotedSubmissions = this.form.excludeUpvotedSubmissions;
+			Store.settings.feed.excludeDownvotedSubmissions = this.form.excludeDownvotedSubmissions;
+			Store.settings.feed.submissionsFilter = this.form.submissionsFilter;
+			Store.settings.feed.submissionsType = this.form.submissionsType;
+			Store.settings.feed.excludeBookmarkedSubmissions = this.form.excludeBookmarkedSubmissions;
 
-            this.$eventHub.$emit('refresh-home');
-            this.close();
-        },
+			this.$eventHub.$emit('refresh-home');
+			this.close();
+		},
 
-        close() {
-            this.$emit('update:visible', false);
-        }
-    }
+		close() {
+			this.$emit('update:visible', false);
+		}
+	}
 };
 </script>

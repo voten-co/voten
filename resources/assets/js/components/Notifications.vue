@@ -41,173 +41,184 @@
 </template>
 
 <script>
-    import Notification from '../components/Notification.vue';
-    import Helpers from '../mixins/Helpers';
-    import NotificationIcon from './Icons/NotificationIcon.vue';
+import Notification from '../components/Notification.vue';
+import Helpers from '../mixins/Helpers';
+import NotificationIcon from './Icons/NotificationIcon.vue';
 
+export default {
+	mixins: [Helpers],
 
-    export default {
-        mixins: [Helpers],
+	components: { Notification, NotificationIcon },
 
-        components: { Notification, NotificationIcon },
+	props: ['visible'],
 
-        props: ['visible'],
+	data() {
+		return {
+			page: 1,
+			loadMoreButton: false
+		};
+	},
 
-        data() {
-            return {
-                page: 1,
-                loadMoreButton: false,
-            }
-        },
+	watch: {
+		$route() {
+			if (window.location.hash) return;
+			this.close();
+		},
 
-        watch: {
-            '$route'() {
-                if (window.location.hash) return; 
-                this.close(); 
-            }, 
+		visible() {
+			if (this.visible) {
+				Store.methods.seenAllNotifications();
+				window.location.hash = 'notifications';
+			} else {
+				if (window.location.hash == '#notifications') {
+					history.go(-1);
+				}
+			}
+		}
+	},
 
-            'visible'() {
-                if (this.visible) {
-                    Store.methods.seenAllNotifications(); 
-                    window.location.hash = 'notifications';                    
-                } else {
-                    if (window.location.hash == '#notifications') {
-                        history.go(-1);
-                    }
-                }
-            }
-        },
+	created() {
+		this.getNotifications();
+		this.listen();
+	},
 
-        created() {
-            this.getNotifications();
-            this.listen();
-        },
+	computed: {
+		/**
+		 * Due to the issue with duplicate notifiactions (cuz the present ones have diffrent
+		 * timestamps) we need a different approch to make sure the list is always unique.
+		 * This ugly coded methods does it! Maybe move this to the Helpers.js mixin?!
+		 *
+		 * @return array
+		 */
+		uniqueList() {
+			let unique = [];
+			let temp = [];
 
-        computed: {
-            /**
-             * Due to the issue with duplicate notifiactions (cuz the present ones have diffrent
-             * timestamps) we need a different approch to make sure the list is always unique.
-             * This ugly coded methods does it! Maybe move this to the Helpers.js mixin?!
-             *
-             * @return array
-             */
-            uniqueList() {
-                let unique = [];
-                let temp = [];
+			if (Store.state.notifications) {
+				Store.state.notifications.forEach(function(
+					element,
+					index,
+					self
+				) {
+					if (temp.indexOf(element.id) === -1) {
+						unique.push(element);
+						temp.push(element.id);
+					}
+				});
+			}
 
-                if (Store.state.notifications) {
-                    Store.state.notifications.forEach(function (element, index, self) {
-                        if (temp.indexOf(element.id) === -1) {
-                            unique.push(element);
-                            temp.push(element.id);
-                        }
-                    })
-                }
+			return unique;
+		}
+	},
 
-                return unique;
-            }
-        },
+	methods: {
+		close() {
+			this.$emit('update:visible', false);
+		},
 
+		/**
+		 * Loads all the unread notifications of the Auth user.
+		 *
+		 * @return void
+		 */
+		getNotifications() {
+			axios.get('/notifications/unseen').then((response) => {
+				if (response.data.data.length > 0) {
+					Store.state.notifications = response.data.data;
+				}
 
-        methods: {
-            close() {
-                this.$emit('update:visible', false);
-            },
+				this.loadReadNotifications();
+			});
+		},
 
-            /**
-             * Loads all the unread notifications of the Auth user.
-             *
-             * @return void
-             */
-            getNotifications() {
-                axios.get('/notifications/unseen').then((response) => {
-                    if (response.data.data.length > 0) {
-                        Store.state.notifications = response.data.data;
-                    }
+		/**
+		 * loads read notifications of the Auth user.
+		 *
+		 * @return void
+		 */
+		loadReadNotifications() {
+			this.loadMoreButton = false;
 
-                    this.loadReadNotifications();
-                });
-            },
+			axios
+				.get('/notifications', {
+					params: {
+						page: this.page
+					}
+				})
+				.then((response) => {
+					Store.state.notifications.push(...response.data.data);
 
-            /**
-             * loads read notifications of the Auth user.
-             *
-             * @return void
-             */
-            loadReadNotifications() {
-                this.loadMoreButton = false
+					this.page++;
 
-                axios.get('/notifications', { 
-                    params: {
-                        page: this.page
-                    } 
-                }).then((response) => {
-                    Store.state.notifications.push(...response.data.data);
+					if (response.data.links.next) {
+						this.loadMoreButton = true;
+					}
+				});
+		},
 
-                    this.page++;
+		/**
+		 * listen for broadcasted notifications
+		 *
+		 * @return void
+		 */
+		listen() {
+			Echo.private('App.User.' + auth.id).notification((n) => {
+				// lable it
+				n.broadcasted = true;
 
-                    if (response.data.links.next) {
-                        this.loadMoreButton = true;
-                    }
-                })
-            },
+				Store.state.notifications.unshift(n);
 
-            /**
-             * listen for broadcasted notifications
-             *
-             * @return void
-             */
-            listen() {
-                Echo.private('App.User.' + auth.id)
-                    .notification((n) => {
-                        // lable it
-                        n.broadcasted = true;
+				// give user the new recieved access (so a refresh won't be needed)
+				if (n.type == 'App\\Notifications\\BecameModerator') {
+					if (n.data.role == 'moderator') {
+						Store.state.moderatorAt.push(n.data.channel.id);
+					} else if (n.data.role == 'administrator') {
+						Store.state.administratorAt.push(n.data.channel.id);
+					}
 
-                        Store.state.notifications.unshift(n); 
+					Store.state.moderatingAt.push(n.data.channel.id);
+					Store.state.moderatingChannels.push(n.data.channel);
+				}
 
-                        // give user the new recieved access (so a refresh won't be needed)
-                        if (n.type == 'App\\Notifications\\BecameModerator') {
-                            if (n.data.role == "moderator") {
-                                Store.state.moderatorAt.push(n.data.channel.id); 
-                            } else if (n.data.role == "administrator") {
-                                Store.state.administratorAt.push(n.data.channel.id); 
-                            }
+				// Sending web notifications to user's OS (only if browser tab is not active)
+				if (document.hidden == true) {
+					let body = n.data.body;
+					let link = n.data.url;
+					let avatar = n.data.avatar;
 
-                            Store.state.moderatingAt.push(n.data.channel.id); 
-                            Store.state.moderatingChannels.push(n.data.channel); 
-                        }
+					let title = 'Now Notification';
 
-                        // Sending web notifications to user's OS (only if browser tab is not active)
-                        if (document.hidden == true) {
-                            let body = n.data.body ;
-                            let link = n.data.url ;
-                            let avatar = n.data.avatar ;
+					if (n.type == 'App\\Notifications\\CommentReplied') {
+						title = 'New Reply';
+					} else if (
+						n.type == 'App\\Notifications\\SubmissionReplied'
+					) {
+						title = 'New Comment';
+					} else if (
+						n.type == 'App\\Notifications\\BecameModerator'
+					) {
+						title = 'Now Moderating';
+					} else if (
+						n.type == 'App\\Notifications\\CommentReported'
+					) {
+						title = 'New Report';
+					} else if (
+						n.type == 'App\\Notifications\\SubmissionReported'
+					) {
+						title = 'New Report';
+					}
 
-                            let title = 'Now Notification'
+					const data = {
+						title: title,
+						body: body,
+						url: link,
+						icon: avatar
+					};
 
-                            if (n.type == 'App\\Notifications\\CommentReplied') {
-                                title = 'New Reply'; 
-                            } else if (n.type == 'App\\Notifications\\SubmissionReplied') {
-                                title = 'New Comment'; 
-                            } else if (n.type == 'App\\Notifications\\BecameModerator') {
-                                title = 'Now Moderating'; 
-                            } else if (n.type == 'App\\Notifications\\CommentReported') {
-                                title = 'New Report'; 
-                            } else if (n.type == 'App\\Notifications\\SubmissionReported') {
-                                title = 'New Report'; 
-                            }
-
-                            const data = {
-                                title: title,
-                                body: body,
-                                url: link,
-                                icon: avatar
-                            }; 
-
-                            this.$eventHub.$emit('push-notification', data); 
-                        }
-                    })
-            },
-        },
-    }
+					this.$eventHub.$emit('push-notification', data);
+				}
+			});
+		}
+	}
+};
 </script>

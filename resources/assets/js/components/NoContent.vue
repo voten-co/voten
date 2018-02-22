@@ -19,42 +19,42 @@ import ChannelIcon from './Icons/ChannelIcon.vue';
 import UserIcon from './Icons/UserIcon.vue';
 
 export default {
-    props: ['text', 'icon'],
+	props: ['text', 'icon'],
 
-    components: {
-        SubmissionIcon,
-        CommentIcon,
-        ChannelIcon,
-        UserIcon
-    },
+	components: {
+		SubmissionIcon,
+		CommentIcon,
+		ChannelIcon,
+		UserIcon
+	},
 
-    data() {
-        return {
-            visible: true
-        };
-    },
+	data() {
+		return {
+			visible: true
+		};
+	},
 
-    computed: {
-        currentView() {
-            switch (this.icon) {
-                case 'comment':
-                    return 'CommentIcon';
-                    break;
+	computed: {
+		currentView() {
+			switch (this.icon) {
+				case 'comment':
+					return 'CommentIcon';
+					break;
 
-                case 'channel':
-                    return 'ChannelIcon';
-                    break;
+				case 'channel':
+					return 'ChannelIcon';
+					break;
 
-                case 'user':
-                    return 'UserIcon';
-                    break;
+				case 'user':
+					return 'UserIcon';
+					break;
 
-                default:
-                    // 'submission'
-                    return 'SubmissionIcon';
-                    break;
-            }
-        }
-    }
+				default:
+					// 'submission'
+					return 'SubmissionIcon';
+					break;
+			}
+		}
+	}
 };
 </script>

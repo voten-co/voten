@@ -11,16 +11,23 @@
 </template>
 
 <style>
-    .heroicon-outline { fill: #303034; }
-    .heroicon-component-fill { fill: #f7f7f8; }
-    .heroicon-component-accent { fill: #8b9397; }
-    .heroicon-shadows { fill: #303034; opacity: 0.4;}
+.heroicon-outline {
+	fill: #303034;
+}
+.heroicon-component-fill {
+	fill: #f7f7f8;
+}
+.heroicon-component-accent {
+	fill: #8b9397;
+}
+.heroicon-shadows {
+	fill: #303034;
+	opacity: 0.4;
+}
 </style>
 
 <script>
-    export default {
-        props: [
-            'width', 'height',
-        ],
-    };
+export default {
+	props: ['width', 'height']
+};
 </script>

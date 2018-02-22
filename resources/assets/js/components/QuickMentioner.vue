@@ -38,111 +38,124 @@ import InputHelpers from '../mixins/InputHelpers';
 import Helpers from '../mixins/Helpers';
 
 export default {
-    data() {
-        return {
-            list: [],
-            selectedIndex: 0,
-            loading: false
-        };
-    },
+	data() {
+		return {
+			list: [],
+			selectedIndex: 0,
+			loading: false
+		};
+	},
 
-    mixins: [InputHelpers, Helpers],
+	mixins: [InputHelpers, Helpers],
 
-    props: ['message', 'starter', 'suggestions', 'textareaid'],
+	props: ['message', 'starter', 'suggestions', 'textareaid'],
 
-    computed: {
-        nothingFound() {
-            return this.filteredList.length === 0;
-        },
+	computed: {
+		nothingFound() {
+			return this.filteredList.length === 0;
+		},
 
-        filteredList() {
-            let self = this;
+		filteredList() {
+			let self = this;
 
-            return _.uniqBy(this.suggestions.concat(this.list), 'username')
-                .filter(item => item.username.toLowerCase().indexOf(self.searched.toLowerCase().trim()) !== -1)
-                .slice(0, 5);
-        },
+			return _.uniqBy(this.suggestions.concat(this.list), 'username')
+				.filter(
+					(item) =>
+						item.username
+							.toLowerCase()
+							.indexOf(self.searched.toLowerCase().trim()) !== -1
+				)
+				.slice(0, 5);
+		},
 
-        /**
-         * The string written after the starter character (@). This is used for filtering items. 
-         * 
-         * @return string 
-         */
-        searched() {
-            let cursorPosition = this.getCursorPositionById(this.textareaid);
+		/**
+		 * The string written after the starter character (@). This is used for filtering items.
+		 *
+		 * @return string
+		 */
+		searched() {
+			let cursorPosition = this.getCursorPositionById(this.textareaid);
 
-            return this.message.substr(this.starter + 1, cursorPosition - this.starter - 1);
-        }
-    },
+			return this.message.substr(
+				this.starter + 1,
+				cursorPosition - this.starter - 1
+			);
+		}
+	},
 
-    created() {
-        this.$eventHub.$on('keyup:up', this.keyupUp);
-        this.$eventHub.$on('keyup:down', this.keyupDown);
-        this.$eventHub.$on('keyup:enter', this.keyupEnter);
-    },
+	created() {
+		this.$eventHub.$on('keyup:up', this.keyupUp);
+		this.$eventHub.$on('keyup:down', this.keyupDown);
+		this.$eventHub.$on('keyup:enter', this.keyupEnter);
+	},
 
-    beforeDestroy() {
-        this.$eventHub.$off('keyup:up', this.keyupUp);
-        this.$eventHub.$off('keyup:down', this.keyupDown);
-        this.$eventHub.$off('keyup:enter', this.keyupEnter);
-    },
+	beforeDestroy() {
+		this.$eventHub.$off('keyup:up', this.keyupUp);
+		this.$eventHub.$off('keyup:down', this.keyupDown);
+		this.$eventHub.$off('keyup:enter', this.keyupEnter);
+	},
 
-    watch: {
-        searched() {
-            this.search();
-        }
-    },
+	watch: {
+		searched() {
+			this.search();
+		}
+	},
 
-    methods: {
-        search: _.debounce(function() {
-            if (!this.searched.trim()) return;
-            this.loading = true;
+	methods: {
+		search: _.debounce(function() {
+			if (!this.searched.trim()) return;
+			this.loading = true;
 
-            axios
-                .get('/search', {
-                    params: {
-                        type: 'Users', 
-                        keyword: this.searched
-                    }
-                })
-                .then(response => {
-                    this.list = response.data.data;
-                    this.loading = false;
-                })
-                .catch(() => {
-                    this.loading = true;
-                });
-        }, 600),
+			axios
+				.get('/search', {
+					params: {
+						type: 'Users',
+						keyword: this.searched
+					}
+				})
+				.then((response) => {
+					this.list = response.data.data;
+					this.loading = false;
+				})
+				.catch(() => {
+					this.loading = true;
+				});
+		}, 600),
 
-        keyupUp() {
-            this.selectedIndex--;
+		keyupUp() {
+			this.selectedIndex--;
 
-            if (this.selectedIndex < 0) {
-                this.selectedIndex = this.filteredList.length - 1;
-            }
-        },
+			if (this.selectedIndex < 0) {
+				this.selectedIndex = this.filteredList.length - 1;
+			}
+		},
 
-        keyupDown() {
-            this.selectedIndex++;
+		keyupDown() {
+			this.selectedIndex++;
 
-            if (this.selectedIndex > this.filteredList.length - 1) {
-                this.selectedIndex = 0;
-            }
-        },
+			if (this.selectedIndex > this.filteredList.length - 1) {
+				this.selectedIndex = 0;
+			}
+		},
 
-        keyupEnter() {
-            this.pick(this.filteredList[this.selectedIndex]);
-        },
+		keyupEnter() {
+			this.pick(this.filteredList[this.selectedIndex]);
+		},
 
-        close() {
-            this.$emit('close');
-        },
+		close() {
+			this.$emit('close');
+		},
 
-        pick(user) {
-            this.$emit('pick', '@' + user.username, this.starter, this.searched.length);
+		pick(user) {
+			this.$emit(
+				'pick',
+				'@' + user.username,
+				this.starter,
+				this.searched.length
+			);
 
-            this.close();
-        }
-    }
+			this.close();
+		}
+	}
 };
 </script>

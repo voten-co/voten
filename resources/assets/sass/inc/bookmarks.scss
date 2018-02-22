@@ -1,74 +1,74 @@
 .bookmarked-item {
-    border: 1px solid #ededed;
-    padding: 1em;
-    border-radius: 4px;
-    display: -webkit-box;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    margin-bottom: 1em;
-    background: #f9f9f9;
+	border: 1px solid #ededed;
+	padding: 1em;
+	border-radius: 4px;
+	display: -webkit-box;
+	display: flex;
+	-webkit-box-align: center;
+	align-items: center;
+	margin-bottom: 1em;
+	background: #f9f9f9;
 
-    small {
-        margin-left: .5em;
-        font-size: 52%;
-    }
+	small {
+		margin-left: 0.5em;
+		font-size: 52%;
+	}
 }
 
 @media screen and (max-width: 768px) {
 	.bookmarked-item {
-	    margin: .5em 1em;
+		margin: 0.5em 1em;
 	}
 }
 
 @media screen and (min-width: 768px) {
 	.bookmarked-item {
-	    width: 100%;
+		width: 100%;
 	}
 }
 
 .bookmarked-item .v-bookmark,
 .bookmarked-item .v-unbookmark {
-    font-size: 15px;
-    margin-left: .2em;
+	font-size: 15px;
+	margin-left: 0.2em;
 }
 
 .bookmarked-item a {
-    color: #333;
+	color: #333;
 }
 
 .bookmarked-item p,
 .bookmarked-item h2 {
-    margin: 0;
-    display: flex;
-    align-items: center;
-    color: #595959;
+	margin: 0;
+	display: flex;
+	align-items: center;
+	color: #595959;
 }
 
 .bookmarked-item h2 {
-    font-size: 18px;
-    font-weight: 600;
+	font-size: 18px;
+	font-weight: 600;
 }
 
 .bookmarked-item p {
-    font-size: 14px;
+	font-size: 14px;
 }
 
 .bookmarked-item .avatar {
-    flex-basis: 65px;
-    margin-right: 1em;
+	flex-basis: 65px;
+	margin-right: 1em;
 }
 @media screen and (max-width: 768px) {
-  .bookmarked-item .avatar {
-    flex-basis: 48px;
-  }
+	.bookmarked-item .avatar {
+		flex-basis: 48px;
+	}
 }
 
 .bookmarked-item img {
-    border-radius: 2px;
+	border-radius: 2px;
 }
 
 .find-channels .action {
-    flex-basis: 5.4em;
-    text-align: right;
+	flex-basis: 5.4em;
+	text-align: right;
 }

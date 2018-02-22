@@ -1,53 +1,53 @@
 // dialog
 .el-dialog__body {
-  padding: 1em 20px;
+	padding: 1em 20px;
 }
 
 .el-dialog__footer {
-  padding-top: 0;
+	padding-top: 0;
 }
 
 .el-dialog__header {
-    box-shadow: 0 2px 0 rgba(236, 238, 239, 0.45);
-    padding-bottom: 15px;
+	box-shadow: 0 2px 0 rgba(236, 238, 239, 0.45);
+	padding-bottom: 15px;
 
-    .el-dialog__title {
-        font-size: 21px;
-        font-weight: bold;
-    }
+	.el-dialog__title {
+		font-size: 21px;
+		font-weight: bold;
+	}
 
-    .el-dialog__headerbtn {
-        font-size: 24px;
-    }
+	.el-dialog__headerbtn {
+		font-size: 24px;
+	}
 
-    @include user-select();
+	@include user-select();
 }
 
 .el-dialog.is-fullscreen {
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    -webkit-box-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
-    background: #fff;
-    overflow: hidden;
-        
-    .el-dialog__body {
-        overflow: auto;
-        width: 100%;
-        -webkit-overflow-scrolling: touch;
-        -webkit-box-flex: 1;
-        -ms-flex-positive: 1;
-        flex-grow: 1;
-        -ms-flex-negative: 1;
-        flex-shrink: 1;
-        margin-top: .3em;
-    }
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	-webkit-box-flex: 1;
+	-ms-flex: 1;
+	flex: 1;
+	background: #fff;
+	overflow: hidden;
+
+	.el-dialog__body {
+		overflow: auto;
+		width: 100%;
+		-webkit-overflow-scrolling: touch;
+		-webkit-box-flex: 1;
+		-ms-flex-positive: 1;
+		flex-grow: 1;
+		-ms-flex-negative: 1;
+		flex-shrink: 1;
+		margin-top: 0.3em;
+	}
 }
 
 .el-message-box {
-    @include user-select(); 
+	@include user-select();
 }

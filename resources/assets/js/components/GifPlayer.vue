@@ -35,39 +35,44 @@
 import Helpers from '../mixins/Helpers';
 
 export default {
-    props: ['visible'],
+	props: ['visible'],
 
-    mixins: [Helpers],
+	mixins: [Helpers],
 
-    beforeDestroy() {
-        if (window.location.hash == '#gifPlayer') {
-            history.go(-1);
-        }
-    },
+	beforeDestroy() {
+		if (window.location.hash == '#gifPlayer') {
+			history.go(-1);
+		}
+	},
 
-    created() {
-        window.location.hash = 'gifPlayer';
-    },
+	created() {
+		window.location.hash = 'gifPlayer';
+	},
 
-    computed: {
-        submission() {
-            return Store.modals.gifPlayer.submission;
-        },
+	computed: {
+		submission() {
+			return Store.modals.gifPlayer.submission;
+		},
 
-        gif() {
-            return Store.modals.gifPlayer.gif;
-        }
-    },
+		gif() {
+			return Store.modals.gifPlayer.gif;
+		}
+	},
 
-    methods: {
-        close() {
-            this.$emit('update:visible', false);
-        }, 
+	methods: {
+		close() {
+			this.$emit('update:visible', false);
+		},
 
-        goToSubmission() {
-            this.$router.push('/c/' + this.submission.channel_name + '/' + this.submission.slug);
-            this.close();
-        }
-    }
+		goToSubmission() {
+			this.$router.push(
+				'/c/' +
+					this.submission.channel_name +
+					'/' +
+					this.submission.slug
+			);
+			this.close();
+		}
+	}
 };
 </script>

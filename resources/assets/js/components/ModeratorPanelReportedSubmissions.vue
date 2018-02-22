@@ -45,137 +45,144 @@ import Loading from '../components/SimpleLoading.vue';
 import ReportedSubmission from '../components/ReportedSubmission.vue';
 
 export default {
-    components: {
-        Loading,
-        ReportedSubmission
-    },
+	components: {
+		Loading,
+		ReportedSubmission
+	},
 
-    data() {
-        return {
-            NoMoreItems: false,
-            loading: true,
-            nothingFound: false,
-            items: [],
-            page: 0,
-            Store
-        };
-    },
+	data() {
+		return {
+			NoMoreItems: false,
+			loading: true,
+			nothingFound: false,
+			items: [],
+			page: 0,
+			Store
+		};
+	},
 
-    computed: {
-        type() {
-            if (this.$route.query.type == 'solved') {
-                return 'solved';
-            }
+	computed: {
+		type() {
+			if (this.$route.query.type == 'solved') {
+				return 'solved';
+			}
 
-            if (this.$route.query.type == 'deleted') {
-                return 'deleted';
-            }
+			if (this.$route.query.type == 'deleted') {
+				return 'deleted';
+			}
 
-            return 'unsolved';
-        }
-    },
+			return 'unsolved';
+		}
+	},
 
-    created: function() {
-        this.getItems();
-        this.$eventHub.$on('scrolled-to-bottom', this.loadMore);
-    },
+	created: function() {
+		this.getItems();
+		this.$eventHub.$on('scrolled-to-bottom', this.loadMore);
+	},
 
-    watch: {
-        type: function() {
-            this.clearContent();
-            this.getItems();
-        }
-    },
+	watch: {
+		type: function() {
+			this.clearContent();
+			this.getItems();
+		}
+	},
 
-    methods: {
-        disapproveSubmission(submission_id) {
-            axios.post('/disapprove-submission', { submission_id }).then(response => {
-                this.items = this.items.filter(function(item) {
-                    return item.submission.id != submission_id;
-                });
+	methods: {
+		disapproveSubmission(submission_id) {
+			axios
+				.post('/disapprove-submission', { submission_id })
+				.then((response) => {
+					this.items = this.items.filter(function(item) {
+						return item.submission.id != submission_id;
+					});
 
-                if (!this.items.length) {
-                    this.nothingFound = true;
-                }
-            });
-        },
+					if (!this.items.length) {
+						this.nothingFound = true;
+					}
+				});
+		},
 
-        approveSubmission(submission_id) {
-            axios.post('/approve-submission', { submission_id }).then(response => {
-                this.items = this.items.filter(function(item) {
-                    return item.submission.id != submission_id;
-                });
+		approveSubmission(submission_id) {
+			axios
+				.post('/approve-submission', { submission_id })
+				.then((response) => {
+					this.items = this.items.filter(function(item) {
+						return item.submission.id != submission_id;
+					});
 
-                if (!this.items.length) {
-                    this.nothingFound = true;
-                }
-            });
-        },
+					if (!this.items.length) {
+						this.nothingFound = true;
+					}
+				});
+		},
 
-        loadMore() {
-            if (!this.loading && !this.NoMoreItems) {
-                this.getItems();
-            }
-        },
+		loadMore() {
+			if (!this.loading && !this.NoMoreItems) {
+				this.getItems();
+			}
+		},
 
-        /**
-         * Resets all the basic data
-         *
-         * @return void
-         */
-        clearContent() {
-            this.nothingFound = false;
-            this.items = [];
-            this.loading = true;
-            this.page = 0;
-        },
+		/**
+		 * Resets all the basic data
+		 *
+		 * @return void
+		 */
+		clearContent() {
+			this.nothingFound = false;
+			this.items = [];
+			this.loading = true;
+			this.page = 0;
+		},
 
-        getItems() {
-            this.page++;
-            this.loading = true;
+		getItems() {
+			this.page++;
+			this.loading = true;
 
-            axios
-                .get('/submissions/reports', {
-                    params: {
-                        type: this.type,
-                        channel_id: Store.page.channel.temp.id, 
-                        page: this.page, 
-                        with_reporter: 1, 
-                        with_submission: 1
-                    }
-                })
-                .then(response => {
-                    this.items = [...this.items, ...response.data.data];
+			axios
+				.get('/submissions/reports', {
+					params: {
+						type: this.type,
+						channel_id: Store.page.channel.temp.id,
+						page: this.page,
+						with_reporter: 1,
+						with_submission: 1
+					}
+				})
+				.then((response) => {
+					this.items = [...this.items, ...response.data.data];
 
-                    if (!this.items.length) {
-                        this.nothingFound = true;
-                    }
+					if (!this.items.length) {
+						this.nothingFound = true;
+					}
 
-                    if (response.data.links.next == null) {
-                        this.NoMoreItems = true;
-                    }
+					if (response.data.links.next == null) {
+						this.NoMoreItems = true;
+					}
 
-                    this.loading = false;
-                });
-        }
-    },
+					this.loading = false;
+				});
+		}
+	},
 
-    beforeRouteEnter(to, from, next) {
-        if (Store.page.channel.temp.name == to.params.name) {
-            // loaded
-            if (Store.state.moderatingAt.indexOf(Store.page.channel.temp.id) != -1) {
-                next();
-            }
-        } else {
-            // not loaded but let's continue (the server-side is still protecting us!)
-            next();
-        }
-    }
+	beforeRouteEnter(to, from, next) {
+		if (Store.page.channel.temp.name == to.params.name) {
+			// loaded
+			if (
+				Store.state.moderatingAt.indexOf(Store.page.channel.temp.id) !=
+				-1
+			) {
+				next();
+			}
+		} else {
+			// not loaded but let's continue (the server-side is still protecting us!)
+			next();
+		}
+	}
 };
 </script>
 
 <style>
 #reported-items .fond {
-    padding-top: 7%;
+	padding-top: 7%;
 }
 </style>

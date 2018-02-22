@@ -66,67 +66,77 @@
 import Helpers from '../mixins/Helpers';
 
 export default {
-    mixins: [Helpers],
-    
-    data() {
-        return {
-            newCreatedMessage: `Congratulations on creating your new channel.
+	mixins: [Helpers],
+
+	data() {
+		return {
+			newCreatedMessage: `Congratulations on creating your new channel.
                 We're gonna have a party later but for now let's set a few settings to make sure your 
                 channel looks as awesome as you are.`
-        };
-    },
+		};
+	},
 
-    computed: {
-        /**
-         * Has the user just created this channel?
-         *
-         * @return boolean
-         */
-        justCreated() {
-            return this.$route.query.created == 1;
-        },
+	computed: {
+		/**
+		 * Has the user just created this channel?
+		 *
+		 * @return boolean
+		 */
+		justCreated() {
+			return this.$route.query.created == 1;
+		},
 
-        isAdministrator() {
-            return Store.state.administratorAt.indexOf(Store.page.channel.temp.id) != -1;
-        }
-    },
+		isAdministrator() {
+			return (
+				Store.state.administratorAt.indexOf(
+					Store.page.channel.temp.id
+				) != -1
+			);
+		}
+	},
 
-    beforeRouteEnter(to, from, next) {
-        if (typeof Store.page.channel.temp.name != 'undefined' && Store.page.channel.temp.name == to.params.name) {
-            next();
-        }
+	beforeRouteEnter(to, from, next) {
+		if (
+			typeof Store.page.channel.temp.name != 'undefined' &&
+			Store.page.channel.temp.name == to.params.name
+		) {
+			next();
+		}
 
-        if (typeof Store.page.channel.temp.name != 'undefined' && Store.page.channel.temp.name != to.params.name) {
-            Store.page.channel.clear();
-        }
+		if (
+			typeof Store.page.channel.temp.name != 'undefined' &&
+			Store.page.channel.temp.name != to.params.name
+		) {
+			Store.page.channel.clear();
+		}
 
-        if (typeof app != "undefined") {
-            app.$Progress.start();
-        }
+		if (typeof app != 'undefined') {
+			app.$Progress.start();
+		}
 
-        Store.page.channel.getChannel(to.params.name).then(() => {
-            next(vm => {
-                vm.$Progress.finish();
-            });
-        });
-    },
+		Store.page.channel.getChannel(to.params.name).then(() => {
+			next((vm) => {
+				vm.$Progress.finish();
+			});
+		});
+	},
 
-    beforeRouteUpdate(to, from, next) {
-        if (to.hash !== from.hash) return; 
+	beforeRouteUpdate(to, from, next) {
+		if (to.hash !== from.hash) return;
 
-        if (Store.page.channel.temp.name == to.params.name) {
-            next(); 
-            return; 
-        }
+		if (Store.page.channel.temp.name == to.params.name) {
+			next();
+			return;
+		}
 
-        Store.page.channel.clear();
+		Store.page.channel.clear();
 
-        this.$Progress.start();
+		this.$Progress.start();
 
-        Store.page.channel.getChannel(to.params.name).then(() => {
-            this.$Progress.finish();
-            next();
-        });
-    },
+		Store.page.channel.getChannel(to.params.name).then(() => {
+			this.$Progress.finish();
+			next();
+		});
+	}
 };
 </script>

@@ -1,284 +1,281 @@
 .v-content-wrapper {
-    display: flex;
-    height: 100%;
+	display: flex;
+	height: 100%;
 }
 
 .v-content {
-    flex: 1;
-    max-width: 100%;
-    // overflow-y: scroll;
+	flex: 1;
+	max-width: 100%;
+	// overflow-y: scroll;
 }
 
 .vo-modal {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    background: #fff;
-    overflow: hidden;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 2001;
-    // overflow: auto;
-    margin: 0;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	background: #fff;
+	overflow: hidden;
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 2001;
+	// overflow: auto;
+	margin: 0;
 
-    .tabs ul {
-        margin: 0;
-    }
+	.tabs ul {
+		margin: 0;
+	}
 
-    header {
-        width: 100%;
-        background: #fff;
-        padding: 0 1em;
-    }
+	header {
+		width: 100%;
+		background: #fff;
+		padding: 0 1em;
+	}
 
-    // only mobile
-    @media (max-width: 768px) {
-        header {
-            width: 100%;
-            background: #fff;
-            padding: 0 .2em;
-        }
-    }
+	// only mobile
+	@media (max-width: 768px) {
+		header {
+			width: 100%;
+			background: #fff;
+			padding: 0 0.2em;
+		}
+	}
 
-    .middle {
-        overflow: auto;
-        width: 100%;
-        -webkit-overflow-scrolling: touch;
-        background: #333;
-        flex-grow: 1;
-        flex-shrink: 1;
-    }
+	.middle {
+		overflow: auto;
+		width: 100%;
+		-webkit-overflow-scrolling: touch;
+		background: #333;
+		flex-grow: 1;
+		flex-shrink: 1;
+	}
 
-    .v-close {
-        font-size: 33px;
-        color: #777;
-        cursor: pointer;
-        border-radius: 4px;
-        width: 50px;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 101;
-    }
+	.v-close {
+		font-size: 33px;
+		color: #777;
+		cursor: pointer;
+		border-radius: 4px;
+		width: 50px;
+		height: 50px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 101;
+	}
 
-    .v-close:hover {
-        color: #333;
-        background: #d6d6d6;
-    }
+	.v-close:hover {
+		color: #333;
+		background: #d6d6d6;
+	}
 
-    .vo-modal-title {
-        z-index: 100;
-    }
+	.vo-modal-title {
+		z-index: 100;
+	}
 
-    .title {
-        font-weight: 600;
-        color: #404040;
+	.title {
+		font-weight: 600;
+		color: #404040;
 
-        a {
-            color: #404040;
-        }
-    }
+		a {
+			color: #404040;
+		}
+	}
 
-    .sub-title {
-        color: #777;
-        font-weight: 400;
-    }
+	.sub-title {
+		color: #777;
+		font-weight: 400;
+	}
 
-    .buttons {
-        display: flex;
-        flex-direction: row-reverse;
-    }
+	.buttons {
+		display: flex;
+		flex-direction: row-reverse;
+	}
 }
 
 .vo-modal .v-back {
-    font-size: 25px;
-    color: #777;
-    cursor: pointer;
-    border-radius: 4px;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 101;
+	font-size: 25px;
+	color: #777;
+	cursor: pointer;
+	border-radius: 4px;
+	width: 50px;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 101;
 }
 
 .vo-modal .v-back:hover {
-    color: #333;
-    background: #d6d6d6;
+	color: #333;
+	background: #d6d6d6;
 }
 
 .vo-modal .v-more-actions {
-    font-size: 33px;
-    color: #777;
-    cursor: pointer;
-    border-radius: 4px;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 101;
+	font-size: 33px;
+	color: #777;
+	cursor: pointer;
+	border-radius: 4px;
+	width: 50px;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 101;
 }
 
 .vo-modal .v-more-actions:hover {
-    color: #333;
-    background: #d6d6d6;
+	color: #333;
+	background: #d6d6d6;
 }
 
 .vo-modal .v-delete-button {
-    font-size: 33px;
-    color: $red-color;
-    cursor: pointer;
-    border-radius: 4px;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 101;
+	font-size: 33px;
+	color: $red-color;
+	cursor: pointer;
+	border-radius: 4px;
+	width: 50px;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 101;
 }
 
 .vo-modal .v-delete-button:hover {
-    color: #fff;
-    background: $red-color;
+	color: #fff;
+	background: $red-color;
 }
 
 .vo-modal .ui.top.right.pointing.dropdown > .menu {
-    right: -17px;
-    top: 62%;
-    padding: 0.3em 4px;
+	right: -17px;
+	top: 62%;
+	padding: 0.3em 4px;
 }
 
 .vo-modal .form-control {
-    border: 2px solid #ddd;
+	border: 2px solid #ddd;
 }
 
 .vo-modal .container {
-    min-height: 100%;
+	min-height: 100%;
 }
-
 
 // bulma menu
 .menu-nav a {
-    display: block;
-    padding: 5px 10px;
+	display: block;
+	padding: 5px 10px;
 }
 
 .menu-list a {
-    color: inherit;
-    display: block;
-    padding: 5px 10px;
+	color: inherit;
+	display: block;
+	padding: 5px 10px;
 }
 
 .menu-list .active {
-    font-weight: bold;
+	font-weight: bold;
 }
 
 .menu-list a:hover {
-    background-color: rgba(204, 204, 204, 0.12);
-    color: #fff;
+	background-color: rgba(204, 204, 204, 0.12);
+	color: #fff;
 }
 
 .menu-list a.is-active {
-    background-color: #1fc8db;
-    color: white;
+	background-color: #1fc8db;
+	color: white;
 }
 
 .menu-list li ul {
-    border-left: 1px solid #d3d6db;
-    margin: 10px;
-    padding-left: 10px;
+	border-left: 1px solid #d3d6db;
+	margin: 10px;
+	padding-left: 10px;
 }
 
 .menu-label {
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    font-size: 79%;
-    display: flex;
-    align-items: center;
-    width: 100%; 
-    justify-content: space-between;
-    margin-bottom: 1em;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	font-size: 79%;
+	display: flex;
+	align-items: center;
+	width: 100%;
+	justify-content: space-between;
+	margin-bottom: 1em;
 
-    i {
-        font-size: 25px;
-        cursor: pointer; 
-    }
+	i {
+		font-size: 25px;
+		cursor: pointer;
+	}
 }
 
 .menu-label:not(:first-child) {
-    margin-top: 20px;
+	margin-top: 20px;
 }
 // end bulma menu
 
-
 .menu-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+	list-style: none;
+	padding: 0;
+	margin: 0;
 }
 
 .v-channels-text {
-    display: inline-block;
-    margin-left: 0.3em;
+	display: inline-block;
+	margin-left: 0.3em;
 }
 
 .v-title-number {
-    border-radius: 2px;
-    background: #db6e6e;
-    color: #fff;
-    display: inline-flex;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    font-size: 0.6em;
-    padding: 0.2em 0.4em;
-    margin-left: 0.6em;
+	border-radius: 2px;
+	background: #db6e6e;
+	color: #fff;
+	display: inline-flex;
+	-webkit-box-align: center;
+	align-items: center;
+	-webkit-box-pack: center;
+	justify-content: center;
+	font-size: 0.6em;
+	padding: 0.2em 0.4em;
+	margin-left: 0.6em;
 }
 
 .v-nth-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: white;
-    color: #333;
-    opacity: .2;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background-color: white;
+	color: #333;
+	opacity: 0.2;
 }
 
 .side-fixed hr {
-    border-top: 1px solid rgba(192, 192, 192, 0.14);
+	border-top: 1px solid rgba(192, 192, 192, 0.14);
 }
-
 
 .side-fixed a,
 .side-fixed a:focus,
 .side-fixed a:hover {
-    color: #fff;
+	color: #fff;
 }
 
 .side-fixed a:hover {
-    font-weight: 600;
+	font-weight: 600;
 }
 
 .no-subscription {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    opacity: .5;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	opacity: 0.5;
 }
 
 .no-subscription i {
-    font-size: 43px;
+	font-size: 43px;
 }
 
 .background-white {
-    background: #fff;
+	background: #fff;
 }

@@ -1,10 +1,9 @@
 import Raven from 'raven-js';
 import RavenVue from 'raven-js/plugins/vue';
 if (Laravel.env !== 'local') {
-    Raven
-        .config(Laravel.sentry)
-        .addPlugin(RavenVue, Vue)
-        .install();
+	Raven.config(Laravel.sentry)
+		.addPlugin(RavenVue, Vue)
+		.install();
 }
 
 window.moment = require('moment-timezone');
@@ -19,9 +18,9 @@ Vue.use(LocalStorage);
 
 import VueProgressBar from 'vue-progressbar';
 const VueProgressBarOptions = {
-    color: '#5587d7',
-    failedColor: '#db6e6e',
-    thickness: '3px'
+	color: '#5587d7',
+	failedColor: '#db6e6e',
+	thickness: '3px'
 };
 Vue.use(VueProgressBar, VueProgressBarOptions);
 
@@ -40,32 +39,32 @@ window.axios.defaults.headers.common['X-CSRF-TOKEN'] = window.Laravel.csrfToken;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 if (meta.isGuest === true) {
-    window.axios.defaults.baseURL = Laravel.url + '/api/guest/';
+	window.axios.defaults.baseURL = Laravel.url + '/api/guest/';
 } else {
-    window.axios.defaults.baseURL = Laravel.url + '/api/';    
+	window.axios.defaults.baseURL = Laravel.url + '/api/';
 }
 
 axios.interceptors.response.use(
-    function(response) {
-        return response;
-    },
-    function(error) {
-        app.$Progress.fail();
+	function(response) {
+		return response;
+	},
+	function(error) {
+		app.$Progress.fail();
 
-        if (error.response.status !== 422) {
-            let errorMessage =
-                typeof error.response.data.errors.more_info == 'undefined'
-                    ? error.response.data.message
-                    : error.response.data.errors.more_info;
+		if (error.response.status !== 422) {
+			let errorMessage =
+				typeof error.response.data.errors.more_info == 'undefined'
+					? error.response.data.message
+					: error.response.data.errors.more_info;
 
-            app.$message({
-                message: errorMessage,
-                type: 'error'
-            });
-        }
+			app.$message({
+				message: errorMessage,
+				type: 'error'
+			});
+		}
 
-        return Promise.reject(error);
-    }
+		return Promise.reject(error);
+	}
 );
 
 /**
@@ -76,21 +75,21 @@ axios.interceptors.response.use(
 import Echo from 'laravel-echo';
 
 if (Laravel.env == 'local') {
-    window.Echo = new Echo({
-        broadcaster: 'pusher',
-        key: Laravel.pusher.key,
-        cluster: Laravel.pusher.cluster
-    });
+	window.Echo = new Echo({
+		broadcaster: 'pusher',
+		key: Laravel.pusher.key,
+		cluster: Laravel.pusher.cluster
+	});
 } else {
-    window.Echo = new Echo({
-        broadcaster: 'socket.io',
-        host: Laravel.echo.host + ':' + Laravel.echo.port,
-        auth: {
-            headers: {
-                Authorization: 'Bearer ' + Laravel.echo.bearerToken
-            }
-        }
-    });
+	window.Echo = new Echo({
+		broadcaster: 'socket.io',
+		host: Laravel.echo.host + ':' + Laravel.echo.port,
+		auth: {
+			headers: {
+				Authorization: 'Bearer ' + Laravel.echo.bearerToken
+			}
+		}
+	});
 }
 
 window.emojione = require('./libs/emojione.min');

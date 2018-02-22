@@ -20,112 +20,113 @@
 
 
 <script>
-    import Helpers from '../mixins/Helpers';
+import Helpers from '../mixins/Helpers';
 
-    export default {
-        components: {},
+export default {
+	components: {},
 
-        mixins: [Helpers],
+	mixins: [Helpers],
 
-        data () {
-            return {
-                EchoChannelAddress: 'submission.' + this.$route.params.slug,
-                typers: []
-            }
-        },
+	data() {
+		return {
+			EchoChannelAddress: 'submission.' + this.$route.params.slug,
+			typers: []
+		};
+	},
 
-        created () {
-            this.listen();
-            this.$eventHub.$on('finished-typing', this.finishedTyping);
-        },
+	created() {
+		this.listen();
+		this.$eventHub.$on('finished-typing', this.finishedTyping);
+	},
 
-        beforeDestroy() {
-            this.$eventHub.$off('finished-typing', this.finishedTyping);
-        }, 
+	beforeDestroy() {
+		this.$eventHub.$off('finished-typing', this.finishedTyping);
+	},
 
-        methods: {
-            listen() {
-                // we can't do presence channel or/and listen for private channels, if the user is a guest
-                if (this.isGuest) return;
+	methods: {
+		listen() {
+			// we can't do presence channel or/and listen for private channels, if the user is a guest
+			if (this.isGuest) return;
 
-                Echo.private(this.EchoChannelAddress)
-                    .listenForWhisper('typing', (user) => {
-                        this.startedTyping(user.username);
-                    }).listenForWhisper('finished-typing', (user) => {
-                        this.finishedTyping(user.username);
-                    });
-            },
+			Echo.private(this.EchoChannelAddress)
+				.listenForWhisper('typing', (user) => {
+					this.startedTyping(user.username);
+				})
+				.listenForWhisper('finished-typing', (user) => {
+					this.finishedTyping(user.username);
+				});
+		},
 
-            startedTyping(username) {
-                let index = this.typers.indexOf(username);
+		startedTyping(username) {
+			let index = this.typers.indexOf(username);
 
-                if (index === -1) {
-                    this.typers.push(username);
-                }
-            },
+			if (index === -1) {
+				this.typers.push(username);
+			}
+		},
 
-            finishedTyping(username) {
-                let index = this.typers.indexOf(username);
+		finishedTyping(username) {
+			let index = this.typers.indexOf(username);
 
-                if (index !== -1) {
-                    this.typers.splice(index, 1);
-                }
-            }
-        }
-    };
+			if (index !== -1) {
+				this.typers.splice(index, 1);
+			}
+		}
+	}
+};
 </script>
 
 
 <style>
-    @keyframes blink {
-        0% {
-            opacity: .2;
-        }
+@keyframes blink {
+	0% {
+		opacity: 0.2;
+	}
 
-        20% {
-            opacity: 1;
-        }
+	20% {
+		opacity: 1;
+	}
 
-        100% {
-            opacity: .2;
-        }
-    }
+	100% {
+		opacity: 0.2;
+	}
+}
 
-    .typing {
-        margin-top: -18px;
-        color: #717577;
-    }
+.typing {
+	margin-top: -18px;
+	color: #717577;
+}
 
-    .typing a {
-        color: #717577;
-        font-weight: bold;
-    }
+.typing a {
+	color: #717577;
+	font-weight: bold;
+}
 
-    .typing a:hover,
-    .typing a:focus {
-        text-decoration: underline;
-    }
+.typing a:hover,
+.typing a:focus {
+	text-decoration: underline;
+}
 
-    .dots {
-        font-size: 30px;
-    }
+.dots {
+	font-size: 30px;
+}
 
-    .typing span {
-        animation-name: blink;
-        animation-duration: 1.4s;
-        animation-iteration-count: infinite;
-        animation-fill-mode: both;
-    }
+.typing span {
+	animation-name: blink;
+	animation-duration: 1.4s;
+	animation-iteration-count: infinite;
+	animation-fill-mode: both;
+}
 
-    .typing span:nth-child(2) {
-        animation-delay: .2s;
-    }
+.typing span:nth-child(2) {
+	animation-delay: 0.2s;
+}
 
-    .typing span:nth-child(3) {
-        animation-delay: .4s;
-    }
+.typing span:nth-child(3) {
+	animation-delay: 0.4s;
+}
 
-    .typing .text {
-        font-size: 12px;
-    }
+.typing .text {
+	font-size: 12px;
+}
 </style>

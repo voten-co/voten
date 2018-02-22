@@ -174,135 +174,142 @@ import Helpers from '../mixins/Helpers';
 import Submission from '../mixins/Submission';
 
 export default {
-    mixins: [Helpers, Submission],
+	mixins: [Helpers, Submission],
 
-    computed: {
-        detailedPoints() {
-            return `+${this.list.upvotes_count} | -${this.list.downvotes_count}`;
-        },
+	computed: {
+		detailedPoints() {
+			return `+${this.list.upvotes_count} | -${
+				this.list.downvotes_count
+			}`;
+		},
 
-        showApprove() {
-            return (
-                !this.list.approved_at &&
-                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 || meta.isVotenAdminstrator) &&
-                !this.owns
-            );
-        },
+		showApprove() {
+			return (
+				!this.list.approved_at &&
+				(Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
+					meta.isVotenAdminstrator) &&
+				!this.owns
+			);
+		},
 
-        showDisapprove() {
-            return (
-                !this.list.deleted_at &&
-                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 || meta.isVotenAdminstrator) &&
-                !this.owns
-            );
-        },
+		showDisapprove() {
+			return (
+				!this.list.deleted_at &&
+				(Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
+					meta.isVotenAdminstrator) &&
+				!this.owns
+			);
+		},
 
-        showNSFW() {
-            return (
-                (this.owns ||
-                    Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
-                    meta.isVotenAdminstrator) &&
-                !this.list.nsfw
-            );
-        },
+		showNSFW() {
+			return (
+				(this.owns ||
+					Store.state.moderatingAt.indexOf(this.list.channel_id) !=
+						-1 ||
+					meta.isVotenAdminstrator) &&
+				!this.list.nsfw
+			);
+		},
 
-        showSFW() {
-            return (
-                (this.owns ||
-                    Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
-                    meta.isVotenAdminstrator) &&
-                this.list.nsfw
-            );
-        },
+		showSFW() {
+			return (
+				(this.owns ||
+					Store.state.moderatingAt.indexOf(this.list.channel_id) !=
+						-1 ||
+					meta.isVotenAdminstrator) &&
+				this.list.nsfw
+			);
+		},
 
-        showRemoveTumbnail() {
-            return this.owns && this.list.content.thumbnail ? true : false;
-        },
+		showRemoveTumbnail() {
+			return this.owns && this.list.content.thumbnail ? true : false;
+		},
 
-        /**
-         * Calculates the long date to display for hover over date.
-         *
-         * @return String
-         */
-        longDate() {
-            return this.parseFullDate(this.list.created_at);
-        }
-    },
+		/**
+		 * Calculates the long date to display for hover over date.
+		 *
+		 * @return String
+		 */
+		longDate() {
+			return this.parseFullDate(this.list.created_at);
+		}
+	},
 
-    methods: {
-        /**
-         * Fires the "submission-edit" event that gets picked up by the TextSubmission.vue component.
-         *
-         * @return void
-         */
-        edit() {
-            this.$eventHub.$emit('edit-submission');
-        },
+	methods: {
+		/**
+		 * Fires the "submission-edit" event that gets picked up by the TextSubmission.vue component.
+		 *
+		 * @return void
+		 */
+		edit() {
+			this.$eventHub.$emit('edit-submission');
+		},
 
-        /**
-         * hide(block) submission
-         *
-         * @return void
-         */
-        hide() {
-            if (this.isGuest) {
-                this.mustBeLogin();
-                return;
-            }
+		/**
+		 * hide(block) submission
+		 *
+		 * @return void
+		 */
+		hide() {
+			if (this.isGuest) {
+				this.mustBeLogin();
+				return;
+			}
 
-            axios
-                .post('/hide-submission', {
-                    submission_id: this.list.id
-                })
-                .then(() => {
-                    this.$message({
-                        message: 'You will no longer see this post in your feed.',
-                        type: 'success'
-                    });
-                });
+			axios
+				.post('/hide-submission', {
+					submission_id: this.list.id
+				})
+				.then(() => {
+					this.$message({
+						message:
+							'You will no longer see this post in your feed.',
+						type: 'success'
+					});
+				});
 
-            history.go(-1);
-        },
+			history.go(-1);
+		},
 
-        /**
-         * Deletes the submission. Only the author is allowed to make such decision.
-         *
-         * @return void
-         */
-        destroy() {
-            axios.delete(`/submissions/${this.list.id}`).then(() => {
-                this.$message({
-                    message: 'Post was successfully deleted.',
-                    type: 'success'
-                });
-            });
+		/**
+		 * Deletes the submission. Only the author is allowed to make such decision.
+		 *
+		 * @return void
+		 */
+		destroy() {
+			axios.delete(`/submissions/${this.list.id}`).then(() => {
+				this.$message({
+					message: 'Post was successfully deleted.',
+					type: 'success'
+				});
+			});
 
-            history.go(-1);
-        },
+			history.go(-1);
+		},
 
-        /**
-         * Disapproves the submission. Only the moderators of channel are allowed to do this.
-         *
-         * @return void
-         */
-        disapprove() {
-            axios
-                .post('/disapprove-submission', {
-                    submission_id: this.list.id
-                })
-                .then(() => {
-                    this.$message({
-                        message: 'Post was successfully deleted.',
-                        type: 'success'
-                    });
-                });
+		/**
+		 * Disapproves the submission. Only the moderators of channel are allowed to do this.
+		 *
+		 * @return void
+		 */
+		disapprove() {
+			axios
+				.post('/disapprove-submission', {
+					submission_id: this.list.id
+				})
+				.then(() => {
+					this.$message({
+						message: 'Post was successfully deleted.',
+						type: 'success'
+					});
+				});
 
-            if (this.full) {
-                history.go(-1);
-            } else {
-                this.hidden = true;
-            }
-        },
-    }
+			if (this.full) {
+				history.go(-1);
+			} else {
+				this.hidden = true;
+			}
+		}
+	}
 };
 </script>

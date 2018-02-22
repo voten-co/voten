@@ -126,108 +126,121 @@
 import Helpers from '../mixins/Helpers';
 
 export default {
-    mixins: [Helpers],
+	mixins: [Helpers],
 
-    data() {
-        return {
-            sending: false,
-            errors: [],
+	data() {
+		return {
+			sending: false,
+			errors: [],
 
-            form: {
-                name: auth.name,
-                bio: auth.bio,
-                website: auth.info.website,
-                cover_color: auth.cover_color,
-                location: auth.location,
-                twitter: auth.info.twitter
-            },
+			form: {
+				name: auth.name,
+				bio: auth.bio,
+				website: auth.info.website,
+				cover_color: auth.cover_color,
+				location: auth.location,
+				twitter: auth.info.twitter
+			},
 
-            coverColors: ['Blue', 'Dark Blue', 'Red', 'Dark', 'Dark Green', 'Bright Green', 'Purple', 'Pink', 'Orange'],
+			coverColors: [
+				'Blue',
+				'Dark Blue',
+				'Red',
+				'Dark',
+				'Dark Green',
+				'Bright Green',
+				'Purple',
+				'Pink',
+				'Orange'
+			],
 
-            avatar: {
-                fileUploadFormData: new FormData(),
-                uploading: false,
-                errors: []
-            }
-        };
-    },
+			avatar: {
+				fileUploadFormData: new FormData(),
+				uploading: false,
+				errors: []
+			}
+		};
+	},
 
-    computed: {
-        changed() {
-            if (
-                auth.name != this.form.name ||
-                auth.bio != this.form.bio ||
-                auth.info.website != this.form.website ||
-                auth.location != this.form.location ||
-                auth.cover_color != this.form.cover_color ||
-                auth.info.twitter != this.form.twitter
-            ) {
-                return true;
-            }
+	computed: {
+		changed() {
+			if (
+				auth.name != this.form.name ||
+				auth.bio != this.form.bio ||
+				auth.info.website != this.form.website ||
+				auth.location != this.form.location ||
+				auth.cover_color != this.form.cover_color ||
+				auth.info.twitter != this.form.twitter
+			) {
+				return true;
+			}
 
-            return false;
-        }
-    },
+			return false;
+		}
+	},
 
-    methods: {
-        uploadAvatar(e) {
-            this.avatar.uploading = true;
-            this.avatar.errors = [];
-            this.avatar.fileUploadFormData = new FormData();
+	methods: {
+		uploadAvatar(e) {
+			this.avatar.uploading = true;
+			this.avatar.errors = [];
+			this.avatar.fileUploadFormData = new FormData();
 
-            this.avatar.fileUploadFormData.append('photo', e.target.files[0]);
+			this.avatar.fileUploadFormData.append('photo', e.target.files[0]);
 
-            axios
-                .post('/user/avatar', this.avatar.fileUploadFormData)
-                .then(response => {
-                    location.reload();
+			axios
+				.post('/user/avatar', this.avatar.fileUploadFormData)
+				.then((response) => {
+					location.reload();
 
-                    this.avatar.uploading = false;
-                })
-                .catch(error => {
-                    this.avatar.errors = error.response.data.errors;
-                    this.avatar.uploading = false;
-                });
-        },
+					this.avatar.uploading = false;
+				})
+				.catch((error) => {
+					this.avatar.errors = error.response.data.errors;
+					this.avatar.uploading = false;
+				});
+		},
 
-        save() {
-            this.sending = true;
+		save() {
+			this.sending = true;
 
-            axios
-                .patch('/users/profile', {
-                    name: this.form.name,
-                    bio: this.form.bio,
-                    website: this.form.website,
-                    location: this.form.location,
-                    cover_color: this.form.cover_color,
-                    twitter: this.form.twitter
-                })
-                .then(() => {
-                    this.errors = [];
+			axios
+				.patch('/users/profile', {
+					name: this.form.name,
+					bio: this.form.bio,
+					website: this.form.website,
+					location: this.form.location,
+					cover_color: this.form.cover_color,
+					twitter: this.form.twitter
+				})
+				.then(() => {
+					this.errors = [];
 
-                    auth.name = this.form.name;
-                    auth.bio = this.form.bio;
-                    auth.location = this.form.location;
-                    auth.cover_color = this.form.cover_color;
-                    auth.info.website = this.form.website;
-                    auth.info.twitter = this.form.twitter;
+					auth.name = this.form.name;
+					auth.bio = this.form.bio;
+					auth.location = this.form.location;
+					auth.cover_color = this.form.cover_color;
+					auth.info.website = this.form.website;
+					auth.info.twitter = this.form.twitter;
 
-                    if (typeof Store.page.user.temp.username != 'undefined' && Store.page.user.temp.id == auth.id) {
-                        Store.page.user.temp.name = auth.name;
-                        Store.page.user.temp.bio = auth.bio;
-                        Store.page.user.temp.cover_color = auth.cover_color;
-                        Store.page.user.temp.location = auth.location;
-                        Store.page.user.temp.info.website = auth.info.website;
-                        Store.page.user.temp.info.twitter = auth.info.twitter;
-                    }
+					if (
+						typeof Store.page.user.temp.username != 'undefined' &&
+						Store.page.user.temp.id == auth.id
+					) {
+						Store.page.user.temp.name = auth.name;
+						Store.page.user.temp.bio = auth.bio;
+						Store.page.user.temp.cover_color = auth.cover_color;
+						Store.page.user.temp.location = auth.location;
+						Store.page.user.temp.info.website = auth.info.website;
+						Store.page.user.temp.info.twitter = auth.info.twitter;
+					}
 
-                    this.sending = false;
-                })
-                .catch(error => {
-                    this.sending = false;
-                    this.errors = error.response.data.errors;
-                });
-        }
-    }
+					this.sending = false;
+				})
+				.catch((error) => {
+					this.sending = false;
+					this.errors = error.response.data.errors;
+				});
+		}
+	}
 };
 </script>

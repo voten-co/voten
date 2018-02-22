@@ -124,62 +124,64 @@ import Helpers from '../mixins/Helpers';
 import Submission from '../mixins/Submission';
 
 export default {
-    mixins: [Helpers, Submission],
+	mixins: [Helpers, Submission],
 
-    methods: {
-        doubleClicked() {
-            if (this.isGuest) return;
+	methods: {
+		doubleClicked() {
+			if (this.isGuest) return;
 
-            if (!this.currentVote) {
-                this.voteUp();
-            }
-        },
+			if (!this.currentVote) {
+				this.voteUp();
+			}
+		},
 
-        /**
-         * hide(block) submission
-         *
-         * @return void
-         */
-        hide() {
-            if (this.isGuest) {
-                this.mustBeLogin();
-                return;
-            }
+		/**
+		 * hide(block) submission
+		 *
+		 * @return void
+		 */
+		hide() {
+			if (this.isGuest) {
+				this.mustBeLogin();
+				return;
+			}
 
-            this.hidden = true;
+			this.hidden = true;
 
-            axios
-                .post('/hide-submission', {
-                    submission_id: this.list.id
-                })
-                .catch(() => {
-                    this.hidden = false;
-                });
-        },
+			axios
+				.post('/hide-submission', {
+					submission_id: this.list.id
+				})
+				.catch(() => {
+					this.hidden = false;
+				});
+		},
 
-        /**
-         * Deletes the submission. Only the author is allowed to make such decision.
-         *
-         * @return void
-         */
-        destroy() {
-            this.hidden = true;
-            
-            axios.delete(`/submissions/${this.list.id}`).catch(() => {
-                this.hidden = false; 
-            });
-        },
+		/**
+		 * Deletes the submission. Only the author is allowed to make such decision.
+		 *
+		 * @return void
+		 */
+		destroy() {
+			this.hidden = true;
 
-        /**
-         * Disapproves the submission. Only the moderators of channel are allowed to do this.
-         *
-         * @return void
-         */
-        disapprove() {
-            this.hidden = true;
+			axios.delete(`/submissions/${this.list.id}`).catch(() => {
+				this.hidden = false;
+			});
+		},
 
-            axios.post('/disapprove-submission', { submission_id: this.list.id }).catch(() => (this.hidden = false));
-        },
-    }
+		/**
+		 * Disapproves the submission. Only the moderators of channel are allowed to do this.
+		 *
+		 * @return void
+		 */
+		disapprove() {
+			this.hidden = true;
+
+			axios
+				.post('/disapprove-submission', { submission_id: this.list.id })
+				.catch(() => (this.hidden = false));
+		}
+	}
 };
 </script>

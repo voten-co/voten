@@ -53,296 +53,298 @@ Vue.prototype.$eventHub = new Vue();
  * also plays a role in switching states and maintaining the Store.
  */
 window.app = new Vue({
-    router,
+	router,
 
-    mixins: [Helpers, StoreStorage, FontLoader],
+	mixins: [Helpers, StoreStorage, FontLoader],
 
-    components: {
-        PassportClients,
-        PassportAuthorizedClients,
-        PassportPersonalAccessTokens,
+	components: {
+		PassportClients,
+		PassportAuthorizedClients,
+		PassportPersonalAccessTokens,
 
-        KeyboardShortcutsGuide,
-        MobileVisitorWarning,
-        AuthenticationModal,
-        GoogleLoginButton,
-        ReportSubmission,
-        SidebarSettings,
-        MarkdownGuide,
-        FeedSettings,
-        Notifications,
-        ReportComment,
-        NewSubmission,
-        Announcement,
-        RightSidebar,
-        GuestSidebar,
-        PhotoViewer,
-        EmbedViewer,
-        LeftSidebar,
-        SearchModal,
-        Preferences,
-        NewChannel,
-        GifPlayer,
-        NotFound,
-        Messages,
-        Feedback,
-        Tour
-    },
+		KeyboardShortcutsGuide,
+		MobileVisitorWarning,
+		AuthenticationModal,
+		GoogleLoginButton,
+		ReportSubmission,
+		SidebarSettings,
+		MarkdownGuide,
+		FeedSettings,
+		Notifications,
+		ReportComment,
+		NewSubmission,
+		Announcement,
+		RightSidebar,
+		GuestSidebar,
+		PhotoViewer,
+		EmbedViewer,
+		LeftSidebar,
+		SearchModal,
+		Preferences,
+		NewChannel,
+		GifPlayer,
+		NotFound,
+		Messages,
+		Feedback,
+		Tour
+	},
 
-    data: {
-        showSidebars: true,
-        pageTitle: document.title
-    },
+	data: {
+		showSidebars: true,
+		pageTitle: document.title
+	},
 
-    computed: {
-        unreadNotifications() {
-            return Store.state.notifications.filter(item => item.read_at == null).length;
-        },
+	computed: {
+		unreadNotifications() {
+			return Store.state.notifications.filter(
+				(item) => item.read_at == null
+			).length;
+		},
 
-        unreadMessages() {
-            return Store.state.contacts.filter(
-                item =>
-                    !_.isUndefined(item.last_message.author) &&
-                    item.last_message.author.id != auth.id &&
-                    item.last_message.read_at == null
-            ).length;
-        }
-    },
+		unreadMessages() {
+			return Store.state.contacts.filter(
+				(item) =>
+					!_.isUndefined(item.last_message.author) &&
+					item.last_message.author.id != auth.id &&
+					item.last_message.read_at == null
+			).length;
+		}
+	},
 
-    watch: {
-        unreadNotifications() {
-            this.updatePageTitle();
-        },
+	watch: {
+		unreadNotifications() {
+			this.updatePageTitle();
+		},
 
-        unreadMessages() {
-            this.updatePageTitle();
-        },
+		unreadMessages() {
+			this.updatePageTitle();
+		},
 
-        '$route.query'() {
-            this.setQueries();
-        }
-    },
+		'$route.query'() {
+			this.setQueries();
+		}
+	},
 
-    created() {
-        this.loadWebFont();
-        this.fillBasicStore();
+	created() {
+		this.loadWebFont();
+		this.fillBasicStore();
 
-        window.addEventListener('keydown', this.keydown);
-        window.addEventListener('hashchange', this.setHashes);
+		window.addEventListener('keydown', this.keydown);
+		window.addEventListener('hashchange', this.setHashes);
 
-        // Let's hear it for the events, shall we?
-        this.$eventHub.$on('start-conversation', this.startConversation);
-        this.$eventHub.$on('submit', this.showNewSubmission);
-        this.$eventHub.$on('login-modal', this.loginModal);
-        this.$eventHub.$on('markdown-guide', this.openMarkdownGuide);
-        this.$eventHub.$on('push-notification', this.pushNotification);
+		// Let's hear it for the events, shall we?
+		this.$eventHub.$on('start-conversation', this.startConversation);
+		this.$eventHub.$on('submit', this.showNewSubmission);
+		this.$eventHub.$on('login-modal', this.loginModal);
+		this.$eventHub.$on('markdown-guide', this.openMarkdownGuide);
+		this.$eventHub.$on('push-notification', this.pushNotification);
 
-        if (this.$route.query.search) {
-            Store.modals.search.show = true;
-        }
+		if (this.$route.query.search) {
+			Store.modals.search.show = true;
+		}
 
-        this.setQueries();
-        this.setHashes();
-        this.warnMobileUsers();
-    },
+		this.setQueries();
+		this.setHashes();
+		this.warnMobileUsers();
+	},
 
-    methods: {
-        warnMobileUsers() {
-            if (this.isMobile) {
-                Store.modals.mobileVisitorWarning.show = true;
-            }
-        },
+	methods: {
+		warnMobileUsers() {
+			if (this.isMobile) {
+				Store.modals.mobileVisitorWarning.show = true;
+			}
+		},
 
-        setHashes() {
-            let hash = window.location.hash;
+		setHashes() {
+			let hash = window.location.hash;
 
-            if (!hash) {
-                _.forEach(Store.modals, item => {
-                    item.show = false;
-                });
-            } else {
-                let modal = _.find(Store.modals, item => {
-                    return item.hash == hash.substr(1);
-                });
+			if (!hash) {
+				_.forEach(Store.modals, (item) => {
+					item.show = false;
+				});
+			} else {
+				let modal = _.find(Store.modals, (item) => {
+					return item.hash == hash.substr(1);
+				});
 
-                // if didn't found, means it's supposed to be closed. So leave it be and just unset window.location.hash
-                if (modal == undefined) {
-                    window.location.hash = '';
-                } else {
-                    modal.show = true;
-                }
-            }
-        },
+				// if didn't found, means it's supposed to be closed. So leave it be and just unset window.location.hash
+				if (modal == undefined) {
+					window.location.hash = '';
+				} else {
+					modal.show = true;
+				}
+			}
+		},
 
-        setQueries() {
-            // sidebar
-            if (this.$route.query.sidebar == 1) {
-                this.showSidebars = true;
-            } else if (this.$route.query.sidebar == 0) {
-                this.showSidebars = false;
-            }
+		setQueries() {
+			// sidebar
+			if (this.$route.query.sidebar == 1) {
+				this.showSidebars = true;
+			} else if (this.$route.query.sidebar == 0) {
+				this.showSidebars = false;
+			}
 
-            // feedback
-            if (this.$route.query.feedback == 1) {
-                Store.modals.feedback.show = true;
-            }
-        },
+			// feedback
+			if (this.$route.query.feedback == 1) {
+				Store.modals.feedback.show = true;
+			}
+		},
 
-        loginModal() {
-            Store.modals.authintication.show = true;
-        },
+		loginModal() {
+			Store.modals.authintication.show = true;
+		},
 
-        openMarkdownGuide() {
-            Store.modals.markdownGuide.show = true;
-        },
+		openMarkdownGuide() {
+			Store.modals.markdownGuide.show = true;
+		},
 
-        /**
-         * Catches the notification event and passes it in case it should.
-         *
-         * @param {Object} data
-         * @return void
-         */
-        pushNotification(data) {
-            let self = this;
+		/**
+		 * Catches the notification event and passes it in case it should.
+		 *
+		 * @param {Object} data
+		 * @return void
+		 */
+		pushNotification(data) {
+			let self = this;
 
-            Push.create(data.title, {
-                body: data.body,
-                icon: data.icon ? data.icon : '/imgs/v-logo.png',
-                timeout: 5000,
-                onClick: function() {
-                    if (data.url == 'new-message') {
-                        Store.modals.messages.show = true;
-                    } else {
-                        self.$router.push(data.url);
-                    }
+			Push.create(data.title, {
+				body: data.body,
+				icon: data.icon ? data.icon : '/imgs/v-logo.png',
+				timeout: 5000,
+				onClick: function() {
+					if (data.url == 'new-message') {
+						Store.modals.messages.show = true;
+					} else {
+						self.$router.push(data.url);
+					}
 
-                    window.focus();
-                    this.close();
-                }
-            });
-        },
+					window.focus();
+					this.close();
+				}
+			});
+		},
 
-        /**
-         * Opens the messages component and starts the conversation with the sent user.
-         *
-         * @return void
-         */
-        startConversation(contact) {
-            Store.modals.messages.show = true;
-            this.$eventHub.$emit('conversation', contact);
-        },
+		/**
+		 * Opens the messages component and starts the conversation with the sent user.
+		 *
+		 * @return void
+		 */
+		startConversation(contact) {
+			Store.modals.messages.show = true;
+			this.$eventHub.$emit('conversation', contact);
+		},
 
-        /**
-         * show the submit modal.
-         *
-         * @return void
-         */
-        showNewSubmission() {
-            Store.modals.newSubmission.show = true;
-        },
+		/**
+		 * show the submit modal.
+		 *
+		 * @return void
+		 */
+		showNewSubmission() {
+			Store.modals.newSubmission.show = true;
+		},
 
-        /**
-         * show the submit modal.
-         *
-         * @return void
-         */
-        showNewChannel() {
-            Store.modals.newChannel.show = true;
-        },
+		/**
+		 * show the submit modal.
+		 *
+		 * @return void
+		 */
+		showNewChannel() {
+			Store.modals.newChannel.show = true;
+		},
 
-        /**
-         * Updates the <title> by adding the number of notifications and messages
-         *
-         * @return void
-         */
-        updatePageTitle() {
-            let total = this.unreadMessages + this.unreadNotifications;
+		/**
+		 * Updates the <title> by adding the number of notifications and messages
+		 *
+		 * @return void
+		 */
+		updatePageTitle() {
+			let total = this.unreadMessages + this.unreadNotifications;
 
-            if (total > 0) {
-                document.title = '(' + total + ') ' + this.pageTitle;
-            } else {
-                document.title = this.pageTitle;
-            }
-        },
+			if (total > 0) {
+				document.title = '(' + total + ') ' + this.pageTitle;
+			} else {
+				document.title = this.pageTitle;
+			}
+		},
 
-        /**
-         * Catches the event fired for the pressed key, and runs the neccessary methods.
-         *
-         * @param {keydown} event
-         * @return void
-         */
-        keydown(event) {
-            // esc
-            if (event.keyCode == 27) {
-                this.$eventHub.$emit('pressed-esc');
-            }
+		/**
+		 * Catches the event fired for the pressed key, and runs the neccessary methods.
+		 *
+		 * @param {keydown} event
+		 * @return void
+		 */
+		keydown(event) {
+			// esc
+			if (event.keyCode == 27) {
+				this.$eventHub.$emit('pressed-esc');
+			}
 
-            // all shortcuts after this one need to be prevented if user is typing
-            if (this.whileTyping(event)) return;
+			// all shortcuts after this one need to be prevented if user is typing
+			if (this.whileTyping(event)) return;
 
-            // alt + s == event.altKey && event.keyCode == 83
-            if (event.altKey && event.keyCode == 83) {
-                // alt + s
-                this.showNewSubmission();
-                return;
-            }
+			// alt + s == event.altKey && event.keyCode == 83
+			if (event.altKey && event.keyCode == 83) {
+				// alt + s
+				this.showNewSubmission();
+				return;
+			}
 
-            if (event.altKey && event.keyCode == 67) {
-                // alt + c
-                this.showNewChannel();
-                return;
-            }
+			if (event.altKey && event.keyCode == 67) {
+				// alt + c
+				this.showNewChannel();
+				return;
+			}
 
-            if (event.shiftKey && event.keyCode == 191) {
-                // shift + /
-                Store.modals.keyboardShortcutsGuide.show = true;
-                return;
-            }
+			if (event.shiftKey && event.keyCode == 191) {
+				// shift + /
+				Store.modals.keyboardShortcutsGuide.show = true;
+				return;
+			}
 
-            if (event.metaKey && event.keyCode == 82) {
-                return;
-            }
+			if (event.metaKey && event.keyCode == 82) {
+				return;
+			}
 
-            switch (event.keyCode) {
-                case 78: // "n"
-                    if (this.isGuest) break;
+			switch (event.keyCode) {
+				case 78: // "n"
+					if (this.isGuest) break;
 
-                    Store.modals.notifications.show = true;
-                    break;
-                case 77: // "m"
-                    if (this.isGuest) break;
+					Store.modals.notifications.show = true;
+					break;
+				case 77: // "m"
+					if (this.isGuest) break;
 
-                    event.preventDefault();
-                    Store.modals.messages.show = true;
-                    break;
-                case 191: // "/"
-                    event.preventDefault();
-                    Store.modals.search.show = true;
-                    break;
-                case 66: // "b"
-                    if (this.isGuest) break;
+					event.preventDefault();
+					Store.modals.messages.show = true;
+					break;
+				case 191: // "/"
+					event.preventDefault();
+					Store.modals.search.show = true;
+					break;
+				case 66: // "b"
+					if (this.isGuest) break;
 
-                    this.$router.push('/bookmarks');
-                    break;
-                case 72: // "h"
-                    this.$router.push('/');
-                    break;
-                case 80: // "p"
-                    if (this.isGuest) break;
+					this.$router.push('/bookmarks');
+					break;
+				case 72: // "h"
+					this.$router.push('/');
+					break;
+				case 80: // "p"
+					if (this.isGuest) break;
 
-                    this.$router.push('/@' + this.auth.username);
-                    break;
-                case 82: // "r"
-                    if (this.$route.name === 'home') {
-                        this.$eventHub.$emit('refresh-home');
-                    } else if (this.$route.name === 'channel-submissions') {
-                        this.$eventHub.$emit('refresh-channel-submissions');
-                    }
+					this.$router.push('/@' + this.auth.username);
+					break;
+				case 82: // "r"
+					if (this.$route.name === 'home') {
+						this.$eventHub.$emit('refresh-home');
+					} else if (this.$route.name === 'channel-submissions') {
+						this.$eventHub.$emit('refresh-channel-submissions');
+					}
 
-                    break;
-                default:
-                    return;
-            }
-        }
-    }
+					break;
+				default:
+					return;
+			}
+		}
+	}
 }).$mount('#voten-app');
