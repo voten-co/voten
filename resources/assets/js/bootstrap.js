@@ -31,9 +31,9 @@ window.axios.defaults.headers.common['X-CSRF-TOKEN'] = window.Laravel.csrfToken;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 if (meta.isGuest === true) {
-    window.axios.defaults.baseURL = 'http://voten.localhost/api/guest/';
+    window.axios.defaults.baseURL = 'https://voten.co/api/guest/';
 } else {
-    window.axios.defaults.baseURL = 'http://voten.localhost/api/';    
+    window.axios.defaults.baseURL = 'https://voten.co/api/';    
 }
 
 axios.interceptors.response.use(
