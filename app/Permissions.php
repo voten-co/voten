@@ -146,7 +146,7 @@ trait Permissions
      *
      * @return bool
      */
-    protected function isUserBanned($user_id, $channel)
+    protected function isUserBannedFromChannel($user_id, $channel)
     {
         if ($user_id === 0) {
             $user_id = Auth::user()->id;

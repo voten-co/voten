@@ -99,7 +99,7 @@ mixins: [Helpers],
         .then(response => {
           this.submissions = [...this.submissions, ...response.data.data];
 
-          if (response.data.next_page_url == null) {
+          if (response.data.links.next == null) {
             this.NoMoreItems = true;
           }
 

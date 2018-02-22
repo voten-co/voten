@@ -1,5 +1,13 @@
 <?php
 
+// redirect a few commonly used pages to their correct address.
+Route::redirect('/api', 'https://api.voten.co', 301);
+Route::redirect('/help', 'https://help.voten.co', 301);
+Route::redirect('/help-center', 'https://help.voten.co', 301);
+Route::redirect('/source-code', 'https://github.com/voten-co/voten', 301);
+Route::redirect('/blog', 'https://medium.com/voten', 301);
+Route::redirect('/dev', '/c/votendev', 301);
+Route::redirect('/developers', '/c/votendev', 301);
 
 Route::group(['middleware' => ['maintenance', 'http2']], function () {
     // Authintication routes
@@ -32,6 +40,13 @@ Route::group(['middleware' => ['maintenance', 'http2']], function () {
     Route::get('/submissions.xml', 'SitemapsController@submissions');
     Route::get('/users.xml', 'SitemapsController@users');
     Route::get('/channels.xml', 'SitemapsController@channels');
+});
+
+Route::group(['prefix' => 'api', 'middleware' => ['maintenance']], function () {
+    // Authintication routes
+    Route::auth();
+    Route::get('/logout', 'Auth\LoginController@logout');
+    Route::post('/guest/login', 'Auth\LoginController@login');
 });
 
 // backend-admin
@@ -80,6 +95,9 @@ Route::post('/ssh/flush-all', 'SshController@flushAll');
 Route::post('/ssh/cache-clear', 'SshController@clearCache');
 Route::post('/ssh/stop-maintenance', 'SshController@stopMaintenanceMode');
 Route::post('/ssh/start-maintenance', 'SshController@startMaintenanceMode');
+
+// Passport
+Route::get('/apps', 'OAuthController@show');
 
 // catch wild routes
 Route::group(['middleware' => ['maintenance', 'http2', 'auth']], function () {

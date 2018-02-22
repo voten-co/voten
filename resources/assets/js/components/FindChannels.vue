@@ -8,7 +8,7 @@
 
 			<transition name="fade">
 				<div class="text-or-button padding-1" v-if="isNewbie && reachedMinimum">
-					<el-button 
+					<el-button round 
 						@click="$router.push({name: 'home', query: { sidebar: 1, newbie: 1 }})"
 						type="primary"
 					>
@@ -160,7 +160,7 @@
 				this.loading = true;
 				this.page++;
 
-				axios.get("/find-channels", {
+				axios.get("/channels/discover", {
 					params: {
 						page: this.page,
 						order_by: this.orderBy,
@@ -169,7 +169,7 @@
 				}).then(response => {
 					this.items = [...this.items, ...response.data.data];
 
-					if (response.data.next_page_url == null) this.NoMoreItems = true;
+					if (response.data.links.next == null) this.NoMoreItems = true;
 
 					this.loading = false;
 				}).catch(error => {
@@ -195,15 +195,16 @@
 				this.orderBy = "";
 				this.loading = true;
 
-				axios
-					.get("/find-channels", {
+				axios.get("/channels/discover", {
 						params: {
 							filter: this.searchFilter,
 							exclude_subscribeds: this.excludeSubscribeds
 						}
 					})
 					.then(response => {
-						this.items = response.data;
+						this.items = response.data.data;
+
+						if (response.data.links.next == null) this.NoMoreItems = true;
 
 						this.loading = false;
 					});

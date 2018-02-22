@@ -11,43 +11,26 @@
             <loading></loading>
         </div>
 
-        <div class="small-modal-user" v-for="user in list" :key="user.id">
+        <div class="small-modal-user" v-for="item in list" :key="item.user.id">
             <div>
-                <router-link :to="'/@' + user.username">
-                    <img :src="user.avatar" :alt="user.username">
+                <router-link :to="'/@' + item.user.username">
+                    <img :src="item.user.avatar" :alt="item.user.username">
                 </router-link>
 
-                <router-link :to="'/@' + user.username">
-                    {{ '@' + user.username }}
+                <router-link :to="'/@' + item.user.username">
+                    {{ '@' + item.user.username }}
                 </router-link>
             </div>
 
             <div>
-                <el-button type="success" plain size="mini" @click="sendMessage(user)"
-                           v-if="user.username !== auth.username">
+                <el-button round type="success" plain size="mini" @click="sendMessage(item.user)"
+                           v-if="item.user.username !== auth.username">
                     Send a message
                 </el-button>
             </div>
         </div>
     </el-dialog>
 </template>
-
-<style>
-    .small-modal-user {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .small-modal-user img {
-        width: 4em;
-        height: auto;
-        margin: 1em;
-        margin-left: 0;
-        border-radius: 50%;
-        border: 1px solid #635d5d;
-    }
-</style>
 
 <script>
     import Loading from '../components/SimpleLoading.vue';
@@ -75,14 +58,16 @@
 
         methods: {
             getModerators() {
-                axios.get('/channel-moderators', {
+                axios.get('/moderators', {
                     params: {
-                        name: this.$route.params.name
+                        channel_name: this.$route.params.name
                     }
                 }).then((response) => {
-                    this.list = response.data;
+                    this.list = response.data.data;
                     this.loading = false;
-                });
+                }).catch(() => {
+                    this.loading = false; 
+                })
             },
 
             close() {
@@ -98,3 +83,20 @@
         },
     }
 </script>
+
+<style>
+    .small-modal-user {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .small-modal-user img {
+        width: 4em;
+        height: auto;
+        margin: 1em;
+        margin-left: 0;
+        border-radius: 50%;
+        border: 1px solid #635d5d;
+    }
+</style>

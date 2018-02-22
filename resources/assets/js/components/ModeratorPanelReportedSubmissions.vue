@@ -87,10 +87,6 @@ export default {
         }
     },
 
-    mounted() {
-        //
-    },
-
     methods: {
         disapproveSubmission(submission_id) {
             axios.post('/disapprove-submission', { submission_id }).then(response => {
@@ -139,10 +135,14 @@ export default {
             this.loading = true;
 
             axios
-                .post('/reported-submissions', {
-                    type: this.type,
-                    channel: this.$route.params.name,
-                    page: this.page
+                .get('/submissions/reports', {
+                    params: {
+                        type: this.type,
+                        channel_id: Store.page.channel.temp.id, 
+                        page: this.page, 
+                        with_reporter: 1, 
+                        with_submission: 1
+                    }
                 })
                 .then(response => {
                     this.items = [...this.items, ...response.data.data];
@@ -151,7 +151,7 @@ export default {
                         this.nothingFound = true;
                     }
 
-                    if (response.data.next_page_url == null) {
+                    if (response.data.links.next == null) {
                         this.NoMoreItems = true;
                     }
 

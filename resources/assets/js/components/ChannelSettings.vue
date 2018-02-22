@@ -6,14 +6,10 @@
 			</span>
 		</h3>
 
-		<el-alert v-if="customError"
-		          :title="customError"
-		          type="error"></el-alert>
-
 		<div class="form-group">
 			<div class="flex-space">
 				<div>
-					<el-button plain
+					<el-button round plain
 					           class="el-button v-button--upload"
 					           :icon="avatar.uploading ? 'el-icon-loading' : 'el-icon-upload'">
 						{{ avatar.uploading ? 'Uploading...' : 'Click To Browse'}}
@@ -71,7 +67,7 @@
 			</el-form-item>
 
 			<el-form-item label="Cover Color">
-				<el-select v-model="color"
+				<el-select v-model="cover_color"
 				           placeholder="Cover Color..."
 				           filterable>
 					<el-option v-for="item in colors"
@@ -88,7 +84,7 @@
 			</div>
 
 			<el-form-item v-if="changed">
-				<el-button type="success"
+				<el-button round type="success"
 				           size="medium"
 				           @click="save"
 				           :loading="sending">Save</el-button>
@@ -106,11 +102,10 @@ export default {
     data() {
         return {
             errors: [],
-            customError: '',
             sending: false,
             description: Store.page.channel.temp.description,
             nsfw: Store.page.channel.temp.nsfw,
-            color: Store.page.channel.temp.color,
+            cover_color: Store.page.channel.temp.cover_color,
             colors: ['Blue', 'Dark Blue', 'Red', 'Dark', 'Dark Green', 'Bright Green', 'Purple', 'Orange', 'Pink'],
             avatar: {
                 fileUploadFormData: new FormData(),
@@ -124,14 +119,14 @@ export default {
         'Store.page.channel.temp': function() {
             this.description = Store.page.channel.temp.description;
             this.nsfw = Store.page.channel.temp.nsfw;
-            this.color = Store.page.channel.temp.color;
+            this.cover_color = Store.page.channel.temp.cover_color;
         }
     },
 
     computed: {
         changed() {
             if (
-                Store.page.channel.temp.color != this.color ||
+                Store.page.channel.temp.cover_color != this.cover_color ||
                 Store.page.channel.temp.nsfw != this.nsfw ||
                 Store.page.channel.temp.description != this.description
             ) {
@@ -168,29 +163,21 @@ export default {
             this.sending = true;
 
             axios
-                .post('/channel-patch', {
-                    name: Store.page.channel.temp.name,
+                .patch('/channels', {
+                    id: Store.page.channel.temp.id,
                     description: this.description,
                     nsfw: this.nsfw,
-                    color: this.color
+                    cover_color: this.cover_color
                 })
                 .then(() => {
                     this.errors = [];
-                    this.customError = '';
 
                     Store.page.channel.temp.nsfw = this.nsfw;
-                    Store.page.channel.temp.color = this.color;
+                    Store.page.channel.temp.cover_color = this.cover_color;
                     Store.page.channel.temp.description = this.description;
                     this.sending = false;
                 })
                 .catch(error => {
-                    if (error.response.status == 500) {
-                        this.sending = false;
-                        this.customError = error.response.data;
-                        this.errors = [];
-                        return;
-                    }
-
                     this.errors = error.response.data.errors;
                     this.sending = false;
                 });

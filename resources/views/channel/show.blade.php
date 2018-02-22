@@ -28,7 +28,7 @@
 @section('script')
 	<script>
 		var preload = {
-			channel: {!! $channel !!},
+			channel: {!! json_encode($channel->resolve()) !!},
 			submissions: {!! $submissions->toJson() !!}
 		};
 	</script>

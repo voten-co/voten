@@ -37,7 +37,7 @@
                         </button>
                     </el-tooltip>
 
-                    <el-button type="primary" icon="el-icon-plus" plain size="medium" @click="submit" v-if="isLoggedIn">
+                    <el-button round type="primary" size="mini" @click="submit" v-if="isLoggedIn">
                         Submit
                     </el-button>
                 </div>
@@ -169,8 +169,14 @@
 
             refresh: _.debounce(function () {
                 this.refreshing = true;
+                
                 Store.page.home.clear();
-                Store.page.home.getSubmissions(this.sort).then(() => this.refreshing = false);
+
+                Store.page.home.getSubmissions(this.sort).then(() => {
+                    this.refreshing = false
+                }).catch(() => {
+                    this.refreshing = false
+                });
             }, 200, { leading: true, trailing: false }),
             
             submit() {

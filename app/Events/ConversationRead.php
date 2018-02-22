@@ -35,4 +35,18 @@ class ConversationRead implements ShouldBroadcast
     {
         return new PrivateChannel('App.User.'.$this->user_id);
     }
+
+    /**
+     * Get the data to broadcast.
+     *
+     * @return array
+     */
+    public function broadcastWith()
+    {
+        return [
+            'data' => [
+                'user_id' => $this->contact_id
+            ]
+        ];
+    }
 }

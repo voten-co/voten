@@ -7,6 +7,8 @@ use App\Channel;
 use App\Comment;
 use App\Events\ChannelWasUpdated;
 use App\Filters;
+use App\Http\Resources\ChannelResource;
+use App\Http\Resources\SubmissionResource;
 use App\Report;
 use App\Submission;
 use App\Traits\CachableChannel;
@@ -28,7 +30,7 @@ class ChannelController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['show', 'submissions', 'getChannel', 'moderators', 'fillStore', 'redirect']]);
+        $this->middleware('auth', ['except' => ['show', 'submissions', 'get', 'moderators', 'fillStore', 'redirect']]);
     }
 
     /**
@@ -40,7 +42,7 @@ class ChannelController extends Controller
      */
     protected function getSubmissions($channel, $sort)
     {
-        $submissions = (new Submission())->newQuery();
+        $submissions = (new Submission())->newQuery();  
 
         $submissions->where('channel_name', $channel);
 
@@ -49,25 +51,28 @@ class ChannelController extends Controller
             $submissions->whereNotIn('id', $this->hiddenSubmissions());
         }
 
-        // exclude NSFW if user doens't want to see them or if the user is not authinticated
-        if (!Auth::check() || !settings('nsfw')) {
-            $submissions->where('nsfw', false);
+        // exclude NSFW for guests 
+        if (! Auth::check()) {
+            $submissions->where('nsfw', false);                        
         }
 
-        if ($sort == 'new') {
-            $submissions->orderBy('created_at', 'desc');
+        switch ($sort) {
+            case 'new':
+                $submissions->orderBy('created_at', 'desc');
+                break;
+
+            case 'rising':
+                $submissions->where('created_at', '>=', Carbon::now()->subHour())
+                    ->orderBy('rate', 'desc');
+                break;
+
+            default:
+                // hot
+                $submissions->orderBy('rate', 'desc');
+                break;
         }
 
-        if ($sort == 'rising') {
-            $submissions->where('created_at', '>=', Carbon::now()->subHour())
-                        ->orderBy('rate', 'desc');
-        }
-
-        if ($sort == 'hot') {
-            $submissions->orderBy('rate', 'desc');
-        }
-
-        return $submissions->simplePaginate(15);
+        return $submissions->simplePaginate(15); 
     }
 
     /**
@@ -80,12 +85,14 @@ class ChannelController extends Controller
     public function submissions(Request $request)
     {
         $this->validate($request, [
-            'sort'     => 'alpha_num|max:25',
-            'page'     => 'Integer',
-            'channel'  => 'required|alpha_num|max:25',
+            'sort' => 'in:hot,new,rising|nullable|max:25',
+            'page' => 'integer|min:1',
+            'channel_name' => 'required|exists:channels,name',
         ]);
 
-        return $this->getSubmissions($request->channel, $request->sort);
+        return SubmissionResource::collection(
+            $this->getSubmissions($request->channel_name, $request->sort)
+        );
     }
 
     /**
@@ -96,10 +103,15 @@ class ChannelController extends Controller
      *
      * @return view
      */
-    public function show($channel, Request $request)
+    public function show($channel_name, Request $request)
     {
-        $submissions = $this->getSubmissions($channel, $request->sort ?? 'hot');
-        $channel = $this->getChannelByName($channel);
+        $submissions = SubmissionResource::collection(
+            $this->getSubmissions($channel_name, $request->sort ?? 'hot')
+        );
+
+        $channel = new ChannelResource(
+            $this->getChannelByName($channel_name)
+        );
 
         return view('channel.show', compact('submissions', 'channel'));
     }
@@ -109,15 +121,22 @@ class ChannelController extends Controller
      *
      * @return Collection
      */
-    public function fillStore(Request $request)
+    public function get(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required',
+            'name' => 'required_without:id|exists:channels',
+            'id' => 'required_without:name|exists:channels',
         ]);
 
-        $channel = $this->getChannelByName($request->name);
+        if (request()->filled('name')) {
+            return new ChannelResource(
+                $this->getChannelByName($request->name)
+            );
+        }
 
-        return $channel;
+        return new ChannelResource(
+            $this->getChannelById($request->id)
+        );
     }
 
     /**
@@ -130,31 +149,27 @@ class ChannelController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name'        => ['required', 'alpha_num', 'min:3', 'max:50', 'unique:channels', new \App\Rules\NotForbiddenChannelName()],
+            'name' => ['required', 'alpha_num', 'min:3', 'max:50', 'unique:channels', new \App\Rules\NotForbiddenChannelName()],
             'description' => 'required|min:10|max:250',
         ]);
 
-        if (Auth::user()->isShadowBanned()) {
-            return response('I hate to break it to you but your account has been banned.', 500);
-        }
-
         if (!$this->mustHaveMinimumXp(10) && !$this->mustBeWhitelisted()) {
-            return response('During beta, channel creation requires a minimum of 10 xp points. 
+            return response('During beta, channel creation requires a minimum of 10 xp points.
             Either do a bit of activity or contact administrators to lift the limits for your account.', 500);
         }
 
         $tooEarly = $this->tooEarlyToCreate();
 
         if ($tooEarly != false) {
-            return response("Looks like you're over doing it. You can create another channel in ".$tooEarly.' seconds. Thank you for being patient.', 500);
+            return response("Looks like you're over doing it. You can create another channel in " . $tooEarly . ' seconds. Thank you for being patient.', 500);
         }
 
         $channel = Channel::create([
-            'name'        => $request->name,
+            'name' => $request->name,
             'description' => $request->description,
-            'nsfw'        => $request->nsfw,
-            'avatar'      => '/imgs/channel-avatar.png',
-            'color'       => 'Blue',
+            'nsfw' => $request->nsfw,
+            'avatar' => '/imgs/channel-avatar.png',
+            'color' => 'Blue',
         ]);
 
         $this->setInitialUserToChannelRoles(Auth::user(), $channel);
@@ -189,7 +204,7 @@ class ChannelController extends Controller
      */
     protected function tooEarlyToCreate()
     {
-        // exclude white-listed users form this checking
+        // white-listed users are fine
         if ($this->mustBeWhitelisted()) {
             return false;
         }
@@ -221,24 +236,25 @@ class ChannelController extends Controller
     public function patch(Request $request)
     {
         $this->validate($request, [
-            'name'        => 'required|alpha_num|max:25',
-            'description' => 'required|max:230',
-            'color'       => 'required|in:Dark Blue,Blue,Red,Dark,Pink,Dark Green,Bright Green,Purple,Gray,Orange',
+            'id' => 'required|exists:channels',
+            'description' => 'required|max:230|string',
+            'cover_color' => 'required|in:Dark Blue,Blue,Red,Dark,Pink,Dark Green,Bright Green,Purple,Gray,Orange',
+            'nsfw' => 'required|boolean',
         ]);
 
-        $channel = $this->getChannelByName($request->name);
+        $channel = $this->getChannelById(request('id'));
 
         abort_unless($this->mustBeAdministrator($channel->id), 403);
 
         $channel->update([
             'description' => $request->description,
-            'color'       => $request->color,
-            'nsfw'        => ($request->nsfw ? true : false),
+            'color' => $request->cover_color,
+            'nsfw' => $request->nsfw
         ]);
 
         event(new ChannelWasUpdated($channel));
 
-        return response('The channel has been successfully updated', 200);
+        return res(200, 'The channel has been successfully updated');
     }
 
     /**
@@ -254,55 +270,11 @@ class ChannelController extends Controller
             'name' => 'required|alpha_num|max:25',
         ]);
 
-        return Channel::where('name', 'like', '%'.$request->name.'%')
-                    ->orderBy('subscribers', 'desc')
-                    ->select('name')->take(100)->get()->pluck('name');
+        return Channel::where('name', 'like', '%' . $request->name . '%')
+            ->orderBy('subscribers', 'desc')
+            ->select('name')->take(100)->get()->pluck('name');
     }
-
-    /**
-     * looks for the channel by its name.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function getChannel(Request $request)
-    {
-        $this->validate($request, [
-            'name' => 'required',
-        ]);
-
-        return $this->getChannelByName($request->name);
-    }
-
-    /**
-     * @param \App\Channel $channel
-     *
-     * @return bool
-     */
-    protected function isNSWF($channel)
-    {
-        return $channel->nsfw == 1 && Auth::user()->settings['nsfw'] == 0;
-    }
-
-    /**
-     * returns all the user models moderating the channel.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function moderators(Request $request)
-    {
-        $this->validate($request, [
-            'name' => 'required',
-        ]);
-
-        $channel = $this->getChannelByName($request->name);
-
-        return $channel->moderators;
-    }
-
+  
     /**
      * redirects old channel URLs (/c/channel/hot) to the new one (/c/channel). This is just to
      * to prevent dead URLS and also to respect our old users who shared their channels on
@@ -312,7 +284,7 @@ class ChannelController extends Controller
      */
     public function redirect($channel)
     {
-        return redirect('/c/'.$channel);
+        return redirect('/c/' . $channel);
     }
 
     /**

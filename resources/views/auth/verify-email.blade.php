@@ -1,4 +1,4 @@
-@extends('layouts.guest')
+@extends('layouts.no-sidebar')
 
 @section('title')
     <title>Email Verified | Voten</title>
@@ -29,13 +29,9 @@
             @endif
 
             @if(Auth::check())
-                <a class="v-button v-button--primary v-button-big margin-top-2" href="/">
-                    Home
-                </a>
+                <a class="el-button el-button--primary" href="/">Home</a>
             @else
-                <a class="v-button v-button--primary v-button-big margin-top-2" href="/login">
-                    Sign in
-                </a>
+                <a class="el-button el-button--primary" href="/login">Sign in</a>
             @endif
         </div>
     </div>

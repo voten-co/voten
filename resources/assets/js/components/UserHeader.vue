@@ -4,13 +4,11 @@
             <div class="container user-select full-width">
                 <div class="cols-flex">
                     <div class="user-header-left">
-                        <!-- avatar -->
                         <div class="profile-avatar">
                             <router-link :to="'/@' + userStore.username">
                                 <img :src="userStore.avatar" :alt="userStore.name" class="circle" />
                             </router-link>
                         </div>
-                        <!-- end avatar -->
                     </div>
     
                     <div class="user-header-middle">
@@ -27,12 +25,12 @@
                         <p v-text="userStore.bio"></p>
     
                         <span class="inline-block">
-    							<i class="v-icon v-submissions" aria-hidden="true"></i>{{ userStore.stats.submissionsCount
+    							<i class="v-icon v-submissions" aria-hidden="true"></i>{{ userStore.stats.submissions_count
                                 }}
     						</span>
     
                         <span class="inline-block">
-    							<i class="v-icon v-chat" aria-hidden="true"></i>{{ userStore.stats.commentsCount }}
+    							<i class="v-icon v-chat" aria-hidden="true"></i>{{ userStore.stats.comments_count }}
     						</span>
     
                         <span class="inline-block">
@@ -106,11 +104,10 @@
     
                     <message-button :id="userStore.id" v-if="$route.params.username != auth.username && !isGuest"></message-button>
     
-                    <el-button type="success" 
+                    <el-button round type="success" 
                         @click="Store.modals.preferences.show = true" 
-                        v-if="$route.params.username == auth.username" 
-                        plain 
-                        size="medium">
+                        v-if="$route.params.username == auth.username"  
+                        size="mini">
                         Edit Profile
                     </el-button>
                 </div>
@@ -215,24 +212,24 @@ export default {
         },
 
         coverBackground() {
-            if (this.userStore.color == 'Red') {
+            if (this.userStore.cover_color == 'Red') {
                 return '#9a4e4e';
-            } else if (this.userStore.color == 'Blue') {
+            } else if (this.userStore.cover_color == 'Blue') {
                 return '#5487d4';
-            } else if (this.userStore.color == 'Dark Blue') {
+            } else if (this.userStore.cover_color == 'Dark Blue') {
                 return '#2f3b49';
-            } else if (this.userStore.color == 'Dark Green') {
+            } else if (this.userStore.cover_color == 'Dark Green') {
                 return '#507e75';
-            } else if (this.userStore.color == 'Bright Green') {
+            } else if (this.userStore.cover_color == 'Bright Green') {
                 return 'rgb(117, 148, 127)';
-            } else if (this.userStore.color == 'Purple') {
+            } else if (this.userStore.cover_color == 'Purple') {
                 return '#4d4261';
-            } else if (this.userStore.color == 'Orange') {
+            } else if (this.userStore.cover_color == 'Orange') {
                 return '#ffaf40';
-            } else if (this.userStore.color == 'Pink') {
+            } else if (this.userStore.cover_color == 'Pink') {
                 return '#ec7daa';
             } else {
-                // userStore.color == 'Black'
+                // userStore.cover_color == 'Black'
                 return '#424242';
             }
         }

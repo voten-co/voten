@@ -24,7 +24,7 @@ class BackendTest extends TestCase
     }
 
     /** @test */
-    public function a_regular_authinticated_user_cant_access_backend_panel()
+    public function a_none_administrator_authinticated_user_cant_access_backend_panel()
     {
         $this->signIn();
 

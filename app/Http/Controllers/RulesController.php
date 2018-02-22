@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Channel;
+use App\Http\Resources\RuleResource;
 use App\Rule;
 use Illuminate\Http\Request;
 
@@ -23,10 +24,19 @@ class RulesController extends Controller
     public function index(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required',
+            'channel_name' => 'required_without:channel_id|exists:channels,name',
+            'channel_id' => 'required_without:channel_name|exists:channels,id',
         ]);
 
-        return Channel::where('name', $request->name)->firstOrFail()->rules()->orderBy('created_at', 'desc')->get();
+        if (request()->filled('channel_name')) {
+            return RuleResource::collection(
+                Channel::where('name', $request->channel_name)->first()->rules()->orderBy('created_at', 'desc')->get()
+            );
+        }
+
+        return RuleResource::collection(
+            Channel::where('id', $request->channel_id)->first()->rules()->orderBy('created_at', 'desc')->get()
+        );
     }
 
     /**
@@ -39,25 +49,22 @@ class RulesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title'         => 'required|max:300',
-            'channel_name'  => 'required',
+            'body' => 'required|string|max:300',
+            'channel_id' => 'required',
         ]);
 
-        $channel_id = Channel::where('name', $request->channel_name)->value('id');
+        abort_unless($this->mustBeAdministrator($request->channel_id), 403);
 
-        abort_unless($this->mustBeAdministrator($channel_id), 403);
-
-        if (Rule::where('channel_id', $channel_id)->count() > 4) {
-            return response("can't create more than 5 rules per each channel", 500);
+        if (Rule::where('channel_id', $request->channel_id)->count() > 4) {
+            return res(400, "can't create more than 5 rules per each channel");
         }
 
-        $rule = new Rule([
-            'title'       => $request->title,
-            'channel_id'  => $channel_id,
-        ]);
-        $rule->save();
-
-        return $rule;
+        return new RuleResource(
+            Rule::create([
+                'title' => $request->body,
+                'channel_id' => $request->channel_id,
+            ])
+        );
     }
 
     /**
@@ -70,18 +77,19 @@ class RulesController extends Controller
     public function patch(Request $request)
     {
         $this->validate($request, [
-            'title'       => 'required',
-            'channel_id'  => 'required',
-            'rule_id'     => 'required|integer',
+            'body' => 'required',
+            'id' => 'required|exists:rules',
         ]);
 
-        abort_unless($this->mustBeAdministrator($request->channel_id), 403);
+        $rule = Rule::find($request->id);
 
-        Rule::find($request->rule_id)->update([
-            'title' => $request->title,
+        abort_unless($this->mustBeAdministrator($rule->channel_id), 403);
+
+        $rule->update([
+            'title' => $request->body,
         ]);
 
-        return response('Rule updated successfully', 200);
+        return res(200, 'Rule updated successfully');
     }
 
     /**
@@ -94,14 +102,15 @@ class RulesController extends Controller
     public function destroy(Request $request)
     {
         $this->validate($request, [
-            'channel_id'  => 'required|integer',
-            'rule_id'     => 'required|integer',
+            'id' => 'required|exists:rules',
         ]);
 
-        abort_unless($this->mustBeAdministrator($request->channel_id), 403);
+        $rule = Rule::find($request->id);
 
-        Rule::destroy($request->rule_id);
+        abort_unless($this->mustBeAdministrator($rule->channel_id), 403);
 
-        return response('Rule was deleted.', 200);
+        Rule::destroy($request->id);
+
+        return res(200, 'Rule was deleted.');
     }
 }

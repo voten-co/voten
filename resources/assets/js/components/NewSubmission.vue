@@ -5,9 +5,6 @@
 	           @close="close"
 	           append-to-body
 	           class="user-select submit-form">
-		<el-alert v-if="customError"
-		          :title="customError"
-		          type="error"></el-alert>
 
 		<el-form label-position="top"
 		         label-width="10px">
@@ -19,7 +16,7 @@
 				          :maxlength="150"
 				          :minlength="7"
 				          v-model="title">
-					<el-button slot="append"
+					<el-button round slot="append"
 					           type="primary"
 					           v-if="submitURL && submissionType === 'link'"
 					           @click="getTitle(submitURL)"
@@ -91,7 +88,7 @@
 				<el-upload class="upload-demo"
 				           drag
 				           :limit="1"
-				           action="/gif"
+				           action="/api/gif"
 				           :file-list="gifTempArray"
 				           :on-preview="gifPreview"
 				           :on-remove="removeGif"
@@ -128,7 +125,7 @@
 				<el-upload class="upload-demo"
 				           drag
 				           :limit="20"
-				           action="/photo"
+				           action="/api/photo"
 				           :file-list="photos"
 				           :on-preview="photoPreview"
 				           :on-remove="removePhoto"
@@ -173,7 +170,7 @@
 					           :value="item">
 					</el-option>
 				</el-select>
-				<el-alert v-for="e in errors.name"
+				<el-alert v-for="e in errors.channel_name"
 				          :title="e"
 				          type="error"
 				          :key="e"></el-alert>
@@ -227,7 +224,7 @@
 					</el-tooltip>
 				</div>
 
-				<el-button type="success"
+				<el-button round type="success"
 				           size="mini"
 				           @click="submit"
 				           :disabled="!goodToGo"
@@ -252,7 +249,6 @@ export default {
     data() {
         return {
             errors: [],
-            customError: '',
 
             loading: false,
             loadingChannels: false,
@@ -323,22 +319,17 @@ export default {
     },
 
     methods: {
-        /**
-             * Closes the modal.
-             *
-             * @return void
-             */
         close() {
             this.$emit('update:visible', false);
         },
 
         /**
-             * Used for setting the values using API. This will get extended in the future to support
-             * voten sharing buttons! But for now we are just going to use it for setting the default
-             * channel so when clicked on submit in the channels, users won't have to set channel.
-             *
-             * @return
-             */
+         * Used for setting the values using API. This will get extended in the future to support
+         * voten sharing buttons! But for now we are just going to use it for setting the default
+         * channel so when clicked on submit in the channels, users won't have to set channel.
+         *
+         * @return
+         */
         submitApi() {
             if (this.$route.params.name) {
                 this.selectedCat = this.$route.params.name;
@@ -350,10 +341,10 @@ export default {
         },
 
         /**
-             * Sets the default value for suggestCats (uses user's already subscriber channels)
-             *
-             * @return void
-             */
+         * Sets the default value for suggestCats (uses user's already subscriber channels)
+         *
+         * @return void
+         */
         setDefaultChannels() {
             let array = [];
 
@@ -365,92 +356,98 @@ export default {
         },
 
         /**
-             * Submits the form.
-             *
-             * @return void
-             */
+         * Submits the form.
+         *
+         * @return void
+         */
         submit() {
             this.loading = true;
 
+            let formData = this.prepareFormData(); 
+
             axios
-                .post('/submission', {
-                    title: this.title,
-                    url: this.submitURL,
-                    text: this.text,
-                    name: this.selectedCat,
-                    type: this.submissionType,
-                    photos: _.map(this.photos, 'id'),
-                    gif_id: this.gif_id,
-                    nsfw: !this.sfw
-                })
+                .post('/submissions', formData)
                 .then(response => {
-                    // success
-                    this.errors = [];
-
-                    Store.state.submissions.upVotes.push(response.data.id);
-
-                    this.$router.push('/c/' + this.selectedCat + '/' + response.data.slug);
-
                     this.loading = false;
+
+                    Store.state.submissions.upVotes.push(response.data.data.id);
+                    this.$router.push('/c/' + this.selectedCat + '/' + response.data.data.slug);
 
                     this.close();
                     this.reset();
                 })
                 .catch(error => {
-                    // error
-                    if (error.response.status == 500) {
-                        this.customError = error.response.data;
-                        this.errors = [];
-                        this.loading = false;
-                        return;
-                    }
-
-                    this.errors = error.response.data.errors;
                     this.loading = false;
+                    this.errors = error.response.data.errors;
                 });
         },
 
+        prepareFormData() {
+            let formData = new FormData();
+
+            formData.append('title', this.title);
+            formData.append('channel_name', this.selectedCat);
+            formData.append('nsfw', !this.sfw);
+            formData.append('type', this.submissionType);
+
+            switch (this.submissionType) {
+                case 'text':
+                    formData.append('text', this.text);
+                    break;
+
+                case 'link':
+                    formData.append('url', this.submitURL);
+                    break;
+
+                case 'gif':
+                    formData.append('gif_id', this.gif_id);
+                    break;
+
+                case 'img':
+                    let arr = _.map(this.photos, 'id'); 
+                    for (let i = 0; i < arr.length; i++) {
+                        formData.append('photos_id[]', arr[i]);
+                    }
+                    break; 
+            }
+
+            return formData; 
+        }, 
+
         /**
-             * Fetches the title from the external URL (through Voten's proxy server which we contact via API)
-             *
-             * @param string typed
-             * @return void
-             */
+         * Fetches the title from the external URL (through Voten's proxy server which we contact via API)
+         *
+         * @param string typed
+         * @return void
+         */
         getTitle(typed) {
             if (!typed.trim()) return;
 
             this.loadingTitle = true;
 
             axios
-                .get('/fetch-url-title', {
+                .get('/submissions/title', {
                     params: {
                         url: typed
                     }
                 })
                 .then(response => {
-                    this.title = response.data;
+                    this.title = response.data.data.title;
                     this.loadingTitle = false;
                     this.errors.url = [];
                 })
                 .catch(error => {
-                    if (error.response.status == 500) {
-                        this.customError = error.response.data;
-                        this.errors = [];
-                        this.loadingTitle = false;
-                        return;
-                    }
-
                     this.errors = error.response.data.errors;
                     this.loadingTitle = false;
                 });
         },
 
         /**
-             * Searches through channels.
-             *
-             * @param string typed
-             * @return void
-             */
+         * Searches through channels.
+         *
+         * @param string typed
+         * @return void
+         */
         getSuggestedChannels: _.debounce(function(typed) {
             if (!typed) return;
 
@@ -470,20 +467,13 @@ export default {
                     this.loadingChannels = false;
                 });
         }, 600),
-
-        /**
-             * Switch the type.
-             *
-             * @param string newType
-             * @return void
-             */
+        
         changeSubmissionType(newType) {
             this.submissionType = newType;
         },
 
         reset() {
             this.errors = [];
-            this.customError = '';
 
             this.loading = false;
             this.loadingChannels = false;

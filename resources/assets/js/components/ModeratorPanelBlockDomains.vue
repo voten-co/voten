@@ -32,7 +32,7 @@
             </el-form-item>
 
             <el-form-item>
-                <el-button size="medium" type="danger" v-if="domain" @click="blockDomain" :loading="sending">Block
+                <el-button round size="medium" type="danger" v-if="domain" @click="blockDomain" :loading="sending">Block
                 </el-button>
             </el-form-item>
         </el-form>
@@ -77,15 +77,15 @@
                 this.sending = true
                 this.blockErrors = [];
 
-                axios.post('/block-domain', {
+                axios.post('/channels/domains/block', {
                     domain: this.domain,
                     description: this.description,
-                    channel: this.$route.params.name
+                    channel_id: Store.page.channel.temp.id, 
                 }).then((response) => {
                     this.domain = '';
                     this.description = '';
                     this.errors = [];
-                    this.blockedDomains.unshift(response.data);
+                    this.blockedDomains.unshift(response.data.data);
                     this.sending = false;
                 }).catch((error) => {
                     this.errors = error.response.data.errors;
@@ -102,12 +102,12 @@
             getBlockedDomains () {
                 this.loading = true;
 
-                axios.get('/blocked-domains', {
+                axios.get('/channels/domains/block', {
                     params: {
-                        channel: this.$route.params.name
+                        channel_id: Store.page.channel.temp.id, 
                     }
                 }).then((response) => {
-                    this.blockedDomains = response.data;
+                    this.blockedDomains = response.data.data;
                     this.loading = false;
                 }).catch(() => {
                     this.loading = false;
@@ -120,10 +120,10 @@
              * @return void
              */
             unblock(domain) {
-                axios.delete('/block-domain/destroy', {
+                axios.delete('/channels/domains/block', {
                     params: {
                         domain: domain,
-                        channel: this.$route.params.name
+                        channel_id: Store.page.channel.temp.id, 
                     }
                 }).then(() => {
                     this.blockedDomains = this.blockedDomains.filter(function (item) {

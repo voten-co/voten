@@ -2,25 +2,24 @@
 
 namespace App\Http\Middleware;
 
-use App\Permissions;
 use Closure;
+use App\Permissions;
 
 class MustBeAdministrator
 {
-    use Permissions;
+    use Permissions; 
 
     /**
      * Handle an incoming request.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure                 $next
-     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
-        abort_unless($this->mustBeVotenAdministrator(), 403);
-
+        abort_unless($this->mustBeAdministrator(request('channel_id')), 403);
+        
         return $next($request);
     }
 }

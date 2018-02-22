@@ -14,7 +14,7 @@
                             #{{ list.name }}
                         </router-link>
 
-                        <small>({{ list.subscribers }} subscribers)</small>
+                        <small>({{ list.subscribers_count }} subscribers)</small>
                     </h2>
 
                     <div class="flex-align-center">

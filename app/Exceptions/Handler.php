@@ -9,6 +9,10 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Session\TokenMismatchException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use \Symfony\Component\HttpKernel\Exception\HttpException; 
+use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
+
 
 class Handler extends ExceptionHandler
 {
@@ -20,10 +24,20 @@ class Handler extends ExceptionHandler
     protected $dontReport = [
         \Illuminate\Auth\AuthenticationException::class,
         \Illuminate\Auth\Access\AuthorizationException::class,
-        \Symfony\Component\HttpKernel\Exception\HttpException::class,
+        HttpException::class,
         \Illuminate\Database\Eloquent\ModelNotFoundException::class,
         \Illuminate\Validation\ValidationException::class,
         \Illuminate\Session\TokenMismatchException::class,
+    ];
+
+    /**
+     * A list of the inputs that are never flashed for validation exceptions.
+     *
+     * @var array
+     */
+    protected $dontFlash = [
+        'password',
+        'password_confirmation',
     ];
 
     /**
@@ -54,28 +68,42 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($request->expectsJson()) {
+            if ($exception instanceof TokenMismatchException) {
+                return res(401);
+            }
+
+            if ($exception instanceof InvalidUrlException) {
+                return res(400, 'Invalid URL');
+            }
+
+            // 404 not found
+            if ($exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException) {
+                return res(404); 
+            }
+
+            // not allowed method 
+            if ($exception instanceof MethodNotAllowedHttpException) {
+                return res(405);
+            }
+
+            // service unavailable 
+            if ($exception instanceof MaintenanceModeException) {
+                return res(503);
+            }
+            
+            if ($exception instanceof HttpException) {
+                return res(500);
+            }
+        }
+
         if ($exception instanceof TokenMismatchException) {
-            if ($request->expectsJson()) {
-                return response()->json(['error' => 'Unauthenticated.'], 401);
-            }
-
             return redirect()->guest('login');
-        }
-
-        if ($exception instanceof InvalidUrlException) {
-            return response('Invalid URL', 500);
-        }
-
-        // 404 not found
-        if ($exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException) {
-            if ($request->expectsJson()) {
-                return response()->json(['error' => 'Not found.'], 404);
-            }
         }
 
         return parent::render($request, $exception);
     }
-
+  
     /**
      * Convert an authentication exception into an unauthenticated response.
      *
@@ -87,7 +115,7 @@ class Handler extends ExceptionHandler
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         if ($request->expectsJson()) {
-            return response()->json(['error' => 'Unauthenticated.'], 401);
+            return res(401);
         }
 
         return redirect()->guest('login');

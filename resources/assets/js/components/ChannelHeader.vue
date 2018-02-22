@@ -23,7 +23,7 @@
                     <div class="channel-header-right">
                         <div class="xp">
                             <div class="xp-number">
-                                {{ Store.page.channel.temp.subscribers }}
+                                {{ Store.page.channel.temp.subscribers_count }}
                             </div>
 
                             <div class="xp-text margin-bottom-1">
@@ -88,13 +88,13 @@
                            :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark go-gray'" @click="bookmark"></i>
                     </el-tooltip>
 
-                    <el-button type="primary" @click="$eventHub.$emit('submit')"
-                               v-if="!isGuest" plain size="medium">
+                    <el-button round type="primary" @click="$eventHub.$emit('submit')"
+                               v-if="!isGuest" size="mini">
                         Submit
                     </el-button>
 
-                    <el-button type="success" @click="$router.push('/c/' + $route.params.name + '/mod')"
-                               v-if="isModerator" plain size="medium">
+                    <el-button round type="success" @click="$router.push('/c/' + $route.params.name + '/mod')"
+                               v-if="isModerator" size="mini">
                         Moderation
                     </el-button>
                 </div>
@@ -232,23 +232,23 @@
             },
 
             coverBackground () {
-                if (Store.page.channel.temp.color == 'Red') {
+                if (Store.page.channel.temp.cover_color == 'Red') {
                     return '#9a4e4e'
-                } else if (Store.page.channel.temp.color == 'Blue') {
+                } else if (Store.page.channel.temp.cover_color == 'Blue') {
                     return '#5487d4'
-                } else if (Store.page.channel.temp.color == 'Dark Blue') {
+                } else if (Store.page.channel.temp.cover_color == 'Dark Blue') {
                     return '#2f3b49'
-                } else if (Store.page.channel.temp.color == 'Dark Green') {
+                } else if (Store.page.channel.temp.cover_color == 'Dark Green') {
                     return '#507e75'
-                } else if (Store.page.channel.temp.color == 'Bright Green') {
+                } else if (Store.page.channel.temp.cover_color == 'Bright Green') {
                     return 'rgb(117, 148, 127)'
-                } else if (Store.page.channel.temp.color == 'Purple') {
+                } else if (Store.page.channel.temp.cover_color == 'Purple') {
                     return '#4d4261'
-                } else if (Store.page.channel.temp.color == 'Orange') {
+                } else if (Store.page.channel.temp.cover_color == 'Orange') {
                     return '#ffaf40'
-                } else if (Store.page.channel.temp.color == 'Pink') {
+                } else if (Store.page.channel.temp.cover_color == 'Pink') {
                     return '#ec7daa'
-                } else { // userStore.color == 'Black'
+                } else { // userStore.cover_color == 'Black'
                     return '#424242'
                 }
             }

@@ -85,23 +85,6 @@ trait Filters
     }
 
     /**
-     * Removes the children of comments.
-     *
-     * @param Illuminate\Support\Collection $collection
-     *
-     * @return Illuminate\Support\Collection $collection
-     */
-    protected function withoutChildren($collection)
-    {
-        foreach ($collection as $c) {
-            unset($c->children);
-            $c->children = [];
-        }
-
-        return $collection;
-    }
-
-    /**
      * Removes the subscribed channels from the colleciton.
      *
      * @param Illuminate\Support\Collection $collection

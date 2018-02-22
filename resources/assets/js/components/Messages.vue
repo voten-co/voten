@@ -140,7 +140,7 @@
 							</h3>
 
 							<p>
-								{{ c.last_message.data.text }}
+								{{ c.last_message.content.text }}
 							</p>
 						</div>
 					</li>
@@ -187,7 +187,7 @@
 				     id="scrollable-wrapper">
 					<div class="flex-center"
 					     v-if="moreToLoad">
-						<el-button @click="loadMore"
+						<el-button round @click="loadMore"
 						           :loading="loadingMessages">Load More</el-button>
 					</div>
 
@@ -202,7 +202,7 @@
 					</message>
 				</div>
 
-				<el-button class="new-message-notify user-select"
+				<el-button round class="new-message-notify user-select"
 				           size="small"
 				           plain
 				           icon="el-icon-arrow-down"
@@ -246,7 +246,8 @@
 					          autosize
 					          placeholder="Type your message here..."
 					          v-model="message"
-					          @keydown.enter.native="sendMessage"
+                              @keydown.meta.enter.exact.native="submit"
+                              @keydown.ctrl.enter.exact.native="submit"
 					          :disabled="disableTextArea"
 					          name="message"
 					          :maxlength="5000"
@@ -272,11 +273,11 @@
 
 					<button type="submit"
 					        :class="{ 'go-green': message.trim() }"
-					        @click="sendMessage">
+					        @click="submit">
 						<el-tooltip placement="bottom-end"
 						            transition="false">
 							<div slot="content">
-								Press Enter to send<br/> Press Shift+Enter to add a new paragraph
+								Press Command/Ctrl + Enter to send
 							</div>
 							<i class="v-icon v-send"
 							   aria-hidden="true"></i>
@@ -385,9 +386,9 @@ export default {
                         this.markLastMessageAsRead(this.currentContactId);
                     }
 
-                    this.$refs.messageForm.$refs.textarea.focus();                
+                    this.$refs.messageForm.$refs.textarea.focus();
                 } else if (this.pageRoute === 'contacts') {
-                    this.$refs.searchContacts.$refs.input.focus();                
+                    this.$refs.searchContacts.$refs.input.focus();
                 }
             }
         }
@@ -474,7 +475,7 @@ export default {
             } else if (this.quickChannelPicker.show) {
                 this.quickChannelPicker.show = false;
             } else {
-                this.close(); 
+                this.close();
             }
         },
 
@@ -497,8 +498,10 @@ export default {
          */
         leaveConversation() {
             axios
-                .post('/leave-conversation', {
-                    contact_id: this.currentContactId
+                .delete('/conversations', {
+                    params: {
+                        user_id: this.currentContactId
+                    }
                 })
                 .then(() => {
                     let contactID = this.currentContactId;
@@ -506,21 +509,21 @@ export default {
                     this.backToContacts();
 
                     // remove the contact
-                    Store.state.contacts = Store.state.contacts.filter(contact => contact.contact_id != contactID);
+                    Store.state.contacts = Store.state.contacts.filter(contact => contact.user_id != contactID);
                 });
         },
 
         /**
-             * adds the contact to the auth user's blocked user's list (the blocked usre won't be able
-             * to send further messages)
-             *
-             * @return void
-             */
+         * adds the contact to the auth user's blocked user's list (the blocked usre won't be able
+         * to send further messages)
+         *
+         * @return void
+         */
         blockUser() {
             let wasBlocked = this.isBlocked;
 
             axios
-                .post('/block-contact', {
+                .post('/conversations/block', {
                     contact_id: this.currentContactId
                 })
                 .then(() => {
@@ -534,10 +537,10 @@ export default {
         },
 
         /**
-             * Toggles the message into the selected messages
-             *
-             * @return void
-             */
+         * Toggles the message into the selected messages
+         *
+         * @return void
+         */
         selectMessage(id) {
             if (this.selectedMessages.indexOf(id) !== -1) {
                 let index = this.selectedMessages.indexOf(id);
@@ -549,12 +552,12 @@ export default {
         },
 
         /**
-             * Loops through the messages and deletes the ones that
-             * were selected. And sends the ajax-request to
-             * server to do the same.
-             *
-             * @return void
-             */
+         * Loops through the messages and deletes the ones that
+         * were selected. And sends the ajax-request to
+         * server to do the same.
+         *
+         * @return void
+         */
         deleteMessages() {
             for (let i = 0; i < this.selectedMessages.length; i++) {
                 for (let j = 0; j < Store.state.messages.length; j++) {
@@ -566,8 +569,10 @@ export default {
             }
 
             axios
-                .post('/delete-messages', {
-                    messages: this.selectedMessages
+                .delete('/messages', {
+                    params: {
+                        messages: this.selectedMessages
+                    }
                 })
                 .then(() => {
                     this.selectedMessages = [];
@@ -587,11 +592,13 @@ export default {
             this.loadingContacts = true;
 
             axios
-                .post('/search-contacts', {
-                    filter: typed
+                .get('/conversations/search', {
+                    params: {
+                        keyword: typed
+                    }
                 })
                 .then(response => {
-                    this.searchedUsers = response.data;
+                    this.searchedUsers = response.data.data;
 
                     this.loadingContacts = false;
                 })
@@ -604,8 +611,8 @@ export default {
             if (window.location.hash == '#messages') {
                 history.go(-1);
             }
-            
-            Store.modals.messages.show = false; 
+
+            Store.modals.messages.show = false;
         },
 
         backToContacts() {
@@ -617,9 +624,14 @@ export default {
             this.loadingContacts = true;
 
             axios
-                .get('/contacts')
+                .get('/conversations', {
+                    params: {
+                        with_last_message: 1,
+                        with_contact: 1
+                    }
+                })
                 .then(response => {
-                    Store.state.contacts = response.data;
+                    Store.state.contacts = response.data.data;
 
                     this.loadingContacts = false;
                 })
@@ -638,13 +650,13 @@ export default {
         },
 
         /**
-             * Fetches the messages for the selected conversaion which is especified
-             * by the contact_id. It also decides which event is needed to be
-             * fired and fires it. Also focuses on the message input.
-             *
-             * @param integer contact_id
-             * @return void
-             */
+         * Fetches the messages for the selected conversaion which is especified
+         * by the contact_id. It also decides which event is needed to be
+         * fired and fires it. Also focuses on the message input.
+         *
+         * @param integer contact_id
+         * @return void
+         */
         getMessagesByContactId(contact_id) {
             this.pageRoute = 'chat';
             this.page = 1;
@@ -663,11 +675,10 @@ export default {
                     this.loadingMessages = false;
 
                     Store.state.messages = response.data.data.reverse();
-                    this.chatScroll();
 
                     this.moreToLoad = true;
 
-                    if (response.data.next_page_url === null) {
+                    if (response.data.links.next === null) {
                         this.moreToLoad = false;
                     }
 
@@ -675,8 +686,9 @@ export default {
                         this.markLastMessageAsRead(contact_id);
                     }
 
-                    this.$nextTick(function() {
+                    this.$nextTick(() => {
                         this.$refs.messageForm.$refs.textarea.focus();
+                        this.chatScroll();
                     });
                 })
                 .catch(() => {
@@ -685,12 +697,12 @@ export default {
         },
 
         /**
-             * In case there are more messages ready to be loaded
-             * (specified by this.getMessagesByContactId()) it fetches
-             * them and adds the to the beginning of messages array.
-             *
-             * @return void
-             */
+         * In case there are more messages ready to be loaded
+         * (specified by this.getMessagesByContactId()) it fetches
+         * them and adds the to the beginning of messages array.
+         *
+         * @return void
+         */
         loadMore() {
             this.page++;
             this.loadingMessages = true;
@@ -707,7 +719,7 @@ export default {
 
                     this.loadingMessages = false;
 
-                    if (response.data.next_page_url == null) {
+                    if (response.data.links.next == null) {
                         this.moreToLoad = false;
                     }
                 })
@@ -738,34 +750,36 @@ export default {
         },
 
         /**
-             * Listens for the new messages. When receives one adds it to the
-             * Store.state.messages array, in case it's not for the current chat, stores
-             * it for the contact and then fires necessary events to notify user.
-             *
-             * @return void
-             */
+         * Listens for the new messages. When receives one adds it to the
+         * Store.state.messages array, in case it's not for the current chat, stores
+         * it for the contact and then fires necessary events to notify user.
+         *
+         * @return void
+         */
         listen() {
             Echo.private('App.User.' + auth.id)
-                .listen('MessageCreated', e => {
-                    this.updateLastMessage(e.contact_id, e.message);
+                .listen('MessageCreated', event => {
+                    this.updateLastMessage(event.data.author.id, event.data);
 
-                    if (this.currentContactId == e.contact_id) {
+                    if (this.currentContactId == event.data.author.id) {
                         let chatBox = this.$refs.scrollable;
 
                         if (chatBox.scrollHeight - chatBox.scrollTop < chatBox.offsetHeight + 500) {
-                            this.chatScroll();
+                            this.$nextTick(() => {
+                                this.chatScroll();
+                            });
                         } else {
                             this.newMessagesNotifier++;
                         }
 
-                        Store.state.messages.push(e.message);
+                        Store.state.messages.push(event.data);
                     }
 
                     // Sending web notifications to user's OS(if website is not active)
                     if (document.hidden == true) {
-                        let body = e.message.data.text;
+                        let body = event.data.content.text;
                         let link = 'new-message';
-                        let avatar = e.message.owner.avatar;
+                        let avatar = event.data.auhtor.avatar;
 
                         let title = 'New Message';
 
@@ -779,48 +793,48 @@ export default {
                         this.$eventHub.$emit('push-notification', data);
                     }
                 })
-                .listen('MessageRead', e => {
-                    this.markMessageAsRead(e.message_id, e.contact_id);
+                .listen('MessageRead', event => {
+                    this.markMessageAsRead(event.data.message_id, event.data.user_id);
                 })
-                .listen('ConversationRead', e => {
-                    this.markConversationAsRead(e.contact_id);
+                .listen('ConversationRead', event => {
+                    this.markConversationAsRead(event.data.user_id);
                 });
         },
 
         /**
-             * Updates the last saved message from the contact in "contacts page". If
-             * the contanct doesn't exist in the Store.state.contacts array, it creates
-             * One containing the last message which is sent as an arguman.
-             *
-             * @param integer contact_id (contact_id)
-             * @param object message
-             *
-             * @return void
-             */
+         * Updates the last saved message from the contact in "contacts page". If
+         * the contanct doesn't exist in the Store.state.contacts array, it creates
+         * One containing the last message which is sent as an arguman.
+         *
+         * @param integer contact_id (contact_id)
+         * @param object message
+         *
+         * @return void
+         */
         updateLastMessage(contact_id, message) {
             let i = Store.state.contacts.findIndex(c => c.contact.id === contact_id);
 
             if (i !== -1) {
                 Store.state.contacts[i].last_message = message;
             } else {
-                let contact = message.owner;
+                let contact = message.author;
                 let last_message = message;
 
                 Store.state.contacts.push({
                     contact,
-                    contact_id: contact.id,
-                    message_id: last_message.id,
+                    user_id: contact.id,
+                    last_message_id: last_message.id,
                     last_message
                 });
             }
         },
 
         /**
-             * Marks the last message of the conversaion as read, so it won't be counted in unreadMessages counting.
-             *
-             * @param integer contact_id
-             * @return void
-             */
+         * Marks the last message of the conversaion as read, so it won't be counted in unreadMessages counting.
+         *
+         * @param integer contact_id
+         * @return void
+         */
         markLastMessageAsRead(contact_id) {
             let i = Store.state.contacts.findIndex(c => c.contact.id === contact_id);
 
@@ -828,13 +842,11 @@ export default {
         },
 
         /**
-             * Submits the message, scrolls ...
-             *
-             * @return void
-             */
-        sendMessage(event) {
-            if (this.shiftPlusEnter(event)) return;
-
+         * Submits the message, scrolls ...
+         *
+         * @return void
+         */
+        submit(event) {
             event.preventDefault();
 
             if (!this.message.trim()) return;
@@ -849,33 +861,24 @@ export default {
 
             if (this.isEmpty(msgText)) return;
 
-            let data = {
-                text: msgText.trim()
-            };
-
-            Store.state.messages.push({
-                data,
-                owner: auth,
-                user_id: auth.id,
-                read_at: null,
-                created_at: this.now()
-            });
-
-            this.chatScroll();
-
             axios
-                .post('/message', {
-                    contact: this.currentContactId,
-                    text: msgText
+                .post('/messages', {
+                    user_id: this.currentContactId,
+                    body: msgText
                 })
                 .then(response => {
-                    this.updateMessage(response.data.id, response.data.data);
+                    Store.state.messages.push(response.data.data);
 
-                    if (Store.state.messages.length == 1) {
-                        this.turnUserToContact(this.currentContactId, response.data);
+                    if (Store.state.messages.length === 1) {
+                        this.turnUserToContact(this.currentContactId, response.data.data);
                     } else {
-                        this.updateLastMessage(this.currentContactId, response.data);
+                        this.updateLastMessage(this.currentContactId, response.data.data);
                     }
+
+                    this.chatScroll();
+                })
+                .catch(error => {
+                    this.message = msgText;
                 });
         },
 
@@ -885,30 +888,20 @@ export default {
 
             Store.state.contacts.unshift({
                 contact: this.currentContact,
-                contact_id: this.currentContactId,
+                user_id: this.currentContactId,
                 created_at: this.now(),
                 id: Store.state.contacts.length + 1,
                 last_message: message,
-                message_id: message.id,
-                user_id: auth.id
+                last_message_id: message.id
             });
         },
 
         /**
-             * Updates the message with the ajax respond info
-             *
-             * @return
-             */
-        updateMessage(id, data) {
-            Store.state.messages.find(m => m.data.text === data.text).id = id;
-        },
-
-        /**
-             * Marks all the messages (owned by auth) as read
-             * (The contact has opened the conversatioon)
-             *
-             * @return void
-             */
+         * Marks all the messages (owned by auth) as read
+         * (The contact has opened the conversatioon)
+         *
+         * @return void
+         */
         markConversationAsRead(contactId) {
             if (this.currentContactId != contactId) return;
 
@@ -920,16 +913,16 @@ export default {
         },
 
         broadcastAsRead() {
-            axios.post('/conversation-read', {
-                sender_id: this.currentContactId
+            axios.post('/conversations/read', {
+                user_id: this.currentContactId
             });
         },
 
         /**
-             * Marks the message as Read
-             *
-             * @return void
-             */
+         * Marks the message as Read
+         *
+         * @return void
+         */
         markMessageAsRead(messageId, contactId) {
             if (this.currentContactId != contactId) return;
 

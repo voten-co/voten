@@ -9,7 +9,7 @@
             </div>
 
             <div class="detail">
-                {{ list.pivot.role }}
+                {{ role }}
             </div>
 
             <div class="actions">
@@ -29,7 +29,7 @@
             }
         },
 
-        props: ['list'],
+        props: ['list', 'role'],
 
         computed: {
             owns() {

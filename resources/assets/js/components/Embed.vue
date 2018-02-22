@@ -21,26 +21,16 @@
                        {{ submission.title }} 
                    </span>
 
-                   <el-button type="success"
+                   <el-button round type="success"
                               size="mini"
                               plain
                               @click="goToSubmission"
                               icon="margin-right-half v-comment"
-                              v-if="$route.name != 'submission-page'">{{ submission.comments_number > 0 ? submission.comments_number + ' Comments' : 'Comment' }}</el-button>
+                              v-if="$route.name != 'submission-page'">{{ submission.comments_count > 0 ? submission.comments_count + ' Comments' : 'Comment' }}</el-button>
                </div>
-		<!-- <div slot="title">
-			<a :href="submission.data.url"
-			   target="_blank">
-				<el-button type="info"
-				           plain
-				           size="mini">
-					Open link in a new tab
-				</el-button>
-			</a>
-		</div> -->
 
 		<div class="photo-viewer">
-			<div v-html="submission.data.embed"
+			<div v-html="submission.content.embed"
 			     class="video-player-wrapper"></div>
 		</div>
 	</el-dialog>

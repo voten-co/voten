@@ -6,14 +6,10 @@
 			</span>
 		</h3>
 
-		<el-alert v-if="customError"
-		          :title="customError"
-		          type="error"></el-alert>
-
 		<div class="form-group">
 			<div class="flex-space">
 				<div>
-					<el-button class="el-button v-button--upload"
+					<el-button round class="el-button v-button--upload"
 					           plain
                                :icon="avatar.uploading ? 'el-icon-loading' : 'el-icon-upload'">
 						{{ avatar.uploading ? 'Uploading...' : 'Click To Browse'}}
@@ -53,7 +49,7 @@
 		         label-width="10px"
 		         :model="form">
 			<el-form-item label="Cover Color">
-				<el-select v-model="form.color"
+				<el-select v-model="form.cover_color"
 				           placeholder="Cover Color..."
 				           filterable>
 					<el-option v-for="item in coverColors"
@@ -117,7 +113,7 @@
 
 			<!-- submit -->
 			<el-form-item v-if="changed">
-				<el-button type="success"
+				<el-button round type="success"
 				           @click="save"
 				           :loading="sending"
 				           size="medium">Save</el-button>
@@ -136,13 +132,12 @@ export default {
         return {
             sending: false,
             errors: [],
-            customError: '',
 
             form: {
                 name: auth.name,
                 bio: auth.bio,
                 website: auth.info.website,
-                color: auth.color,
+                cover_color: auth.cover_color,
                 location: auth.location,
                 twitter: auth.info.twitter
             },
@@ -164,7 +159,7 @@ export default {
                 auth.bio != this.form.bio ||
                 auth.info.website != this.form.website ||
                 auth.location != this.form.location ||
-                auth.color != this.form.color ||
+                auth.cover_color != this.form.cover_color ||
                 auth.info.twitter != this.form.twitter
             ) {
                 return true;
@@ -199,29 +194,28 @@ export default {
             this.sending = true;
 
             axios
-                .post('/update-profile', {
+                .patch('/users/profile', {
                     name: this.form.name,
                     bio: this.form.bio,
                     website: this.form.website,
                     location: this.form.location,
-                    color: this.form.color,
+                    cover_color: this.form.cover_color,
                     twitter: this.form.twitter
                 })
                 .then(() => {
                     this.errors = [];
-                    this.customError = '';
 
                     auth.name = this.form.name;
                     auth.bio = this.form.bio;
                     auth.location = this.form.location;
-                    auth.color = this.form.color;
+                    auth.cover_color = this.form.cover_color;
                     auth.info.website = this.form.website;
                     auth.info.twitter = this.form.twitter;
 
                     if (typeof Store.page.user.temp.username != 'undefined' && Store.page.user.temp.id == auth.id) {
                         Store.page.user.temp.name = auth.name;
                         Store.page.user.temp.bio = auth.bio;
-                        Store.page.user.temp.color = auth.color;
+                        Store.page.user.temp.cover_color = auth.cover_color;
                         Store.page.user.temp.location = auth.location;
                         Store.page.user.temp.info.website = auth.info.website;
                         Store.page.user.temp.info.twitter = auth.info.twitter;
@@ -230,13 +224,6 @@ export default {
                     this.sending = false;
                 })
                 .catch(error => {
-                    if (error.response.status == 500) {
-                        this.sending = false;
-                        this.customError = error.response.data;
-                        this.errors = [];
-                        return;
-                    }
-
                     this.sending = false;
                     this.errors = error.response.data.errors;
                 });

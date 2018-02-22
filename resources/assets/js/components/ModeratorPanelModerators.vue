@@ -13,7 +13,7 @@
                         filterable
                         remote
                         placeholder="Search by username..."
-                        :remote-method="getUsers"
+                        :remote-method="search"
                         loading-text="Loading..."
                         :loading="loading">
                     <el-option
@@ -33,7 +33,7 @@
             </el-form-item>
 
             <el-form-item>
-                <el-button type="success" size="medium" v-if="role && username" @click="addModerator" :loading="sending">
+                <el-button round type="success" size="medium" v-if="role && username" @click="addModerator" :loading="sending">
                     Add
                 </el-button>
             </el-form-item>
@@ -45,91 +45,99 @@
 			</span>
         </h3>
 
-        <moderator v-for="(mod, index) in mods" :list="mod" :key="mod.id"
+        <moderator v-for="(item, index) in mods" :list="item.user" :role="item.role" :key="item.user.id"
                    @delete-moderator="mods.splice(index, 1)"></moderator>
     </section>
 </template>
 
 <script>
-    import Moderator from '../components/Moderator.vue';
+import Moderator from '../components/Moderator.vue';
 
-    export default {
-        components: { Moderator },
+export default {
+    components: { Moderator },
 
-        mixins: [],
+    data() {
+        return {
+            username: null,
+            users: [],
+            loading: false,
+            sending: false,
+            role: 'moderator',
+            mods: []
+        };
+    },
 
-        data: function () {
-            return {
-                username: null,
-                users: [],
-                loading: false,
-                sending: false,
-                role: 'moderator',
-                mods: [],
-            }
-        },
+    created() {
+        this.getMods();
+    },
 
-        created () {
-            this.getMods()
-        },
+    methods: {
+        getMods() {
+            this.users = [];
 
-        methods: {
-            getMods() {
-                this.users = [];
-
-                axios.post('/moderators', {
-                    channel_name: this.$route.params.name
-                }).then((response) => {
-                    this.mods = response.data
-                })
-            },
-
-
-            getUsers: _.debounce(function (query) {
-                if (!query) return
-
-                this.loading = true
-
-                axios.get('/users', {
+            axios
+                .get('/moderators', {
                     params: {
-                        username: query,
-                        channel: this.$route.params.name
+                        channel_name: this.$route.params.name
                     }
-                }).then((response) => {
-                    this.users = response.data
-                    this.loading = false
                 })
-            }, 600),
+                .then(response => {
+                    this.mods = response.data.data;
+                });
+        },
 
-            addModerator() {
-                this.sending = true;
+        search: _.debounce(function(query) {
+            if (!query.trim()) return;
+            this.loading = true;
 
-                axios.post('/add-moderator', {
-                    channel_name: this.$route.params.name,
+            axios
+                .get('/search', {
+                    params: {
+                        type: 'Users',
+                        keyword: query
+                    }
+                })
+                .then(response => {
+                    this.users = _.map(response.data.data, 'username');
+                    this.loading = false;
+                })
+                .catch(error => {
+                    this.loading = false;
+                });
+        }, 600),
+
+        addModerator() {
+            this.sending = true;
+
+            axios
+                .post('/moderators', {
+                    channel_id: Store.page.channel.temp.id, 
                     username: this.username,
                     role: this.role
-                }).then(() => {
-                    this.username = null
-                    this.role = 'moderator'
+                })
+                .then(() => {
+                    this.username = null;
+                    this.role = 'moderator';
 
                     this.getMods();
                     this.sending = false;
-                }).catch(() => {
+                })
+                .catch(() => {
                     this.sending = false;
                 });
-            }
-        },
+        }
+    },
 
-        beforeRouteEnter(to, from, next){
-            if (Store.page.channel.temp.name == to.params.name) {
-                // loaded
-                if (Store.state.administratorAt.indexOf(Store.page.channel.temp.id) != -1) {
-                    next()
-                }
-            } else {
-                // not loaded but let's continue (the server-side is still protecting us!)
-                next()
+    beforeRouteEnter(to, from, next) {
+        if (Store.page.channel.temp.name == to.params.name) {
+            // loaded
+            if (Store.state.administratorAt.indexOf(Store.page.channel.temp.id) != -1) {
+                next();
             }
-        },
-    };
+        } else {
+            // not loaded but let's continue (the server-side is still protecting us!)
+            next();
+        }
+    }
+};
 </script>

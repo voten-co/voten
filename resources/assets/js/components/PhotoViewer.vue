@@ -10,7 +10,7 @@
 			   :href="imageToDisplay"
 			   :title="submission.title"
 			   class="margin-right-half">
-				<el-button plain
+				<el-button round plain
 				           type="info"
 				           size="mini"
 				           icon="el-icon-download">
@@ -18,19 +18,19 @@
 				</el-button>
 			</a>
 
-			<el-button type="primary"
+			<el-button round type="primary"
 			           size="mini"
 			           plain
 			           @click="goToSubmission"
 			           icon="el-icon-picture"
 			           v-if="isAlbum && $route.name != 'submission-page'">See full album</el-button>
 			
-            <el-button type="success"
+            <el-button round type="success"
 			           size="mini"
 			           plain
 			           @click="goToSubmission"
 			           icon="margin-right-half v-comment"
-			           v-if="$route.name != 'submission-page'">{{ submission.comments_number > 0 ? submission.comments_number + ' Comments' : 'Comment' }}</el-button>
+			           v-if="$route.name != 'submission-page'">{{ submission.comments_count > 0 ? submission.comments_count + ' Comments' : 'Comment' }}</el-button>
 		</div>
 
 		<div class="photo-viewer">
@@ -61,7 +61,7 @@ export default {
 
     computed: {
         isAlbum() {
-            return this.submission.data.album;
+            return this.submission.content.album;
         },
 
         imageToDisplay() {
@@ -69,7 +69,7 @@ export default {
                 return this.image.path;
             }
 
-            return this.submission.data.path;
+            return this.submission.content.path;
         },
 
         image() {

@@ -2,13 +2,13 @@
     <div class="m-box" v-bind:class="{ 'margin-top-1': !ownsPrevious }">
         <div class="m-box-left">
             <div class="m-info user-select">
-                <img :src="list.owner.avatar" :alt="list.owner.avatarusername" class="m-avatar"
+                <img :src="list.author.avatar" :alt="list.author.username" class="m-avatar"
                      v-bind:class="{ 'hidden': ownsPrevious }">
             </div>
 
             <div class="m-content">
-                <b v-if="!ownsPrevious" class="m-username user-select">{{ '@' + list.owner.username }}</b>
-                <markdown :text="list.data.text"></markdown>
+                <b v-if="!ownsPrevious" class="m-username user-select">{{ '@' + list.author.username }}</b>
+                <markdown :text="list.content.text"></markdown>
             </div>
         </div>
 
@@ -52,7 +52,7 @@
              * @return Boolean
              */
             owns () {
-                return this.list.owner.id == auth.id
+                return this.list.author.id == auth.id
             },
 
             /**
@@ -71,11 +71,11 @@
              * @return Boolean
              */
             ownsPrevious () {
-                if (this.previous == undefined) {
-                    return false;
+                if (_.isUndefined(this.previous)) {
+                    return false; 
                 }
 
-                if (this.previous.owner.id == this.list.owner.id) {
+                if (this.previous.author.id == this.list.author.id) {
                     return true;
                 }
 
@@ -120,7 +120,7 @@
             isChatting () {
                 return Store.modals.messages.show && this.chatting
             }
-        },
+        }, 
 
         methods: {
             /**
@@ -131,15 +131,15 @@
              * @return void
              */
             markAsRead () {
-                if (this.isChatting && !this.owns && !this.list.read_at) {
-                    this.$emit('last-was-read')
+                if (this.isChatting && !this.owns && this.list.read_at === null) {                    
+                    this.$emit('last-was-read'); 
 
-                    axios.post('/message-read', {
+                    axios.post('/messages/read', {
                         message_id: this.list.id,
-                        sender_id: this.list.owner.id
-                    })
+                        user_id: this.list.author.id
+                    }); 
                 }
-            },
+            }
         }
     }
 </script>

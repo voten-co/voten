@@ -18,36 +18,36 @@ class PagesTest extends TestCase
     /** @test */
     public function about_page()
     {
-        $this->get('/about')->assertSee('Social Bookmarking For The 21st Century');
+        $this->get('/about')->assertStatus(200);
     }
 
     /** @test */
     public function credits_page()
     {
-        $this->get('/credits')->assertSee('Credits');
+        $this->get('/credits')->assertStatus(200);
     }
 
     /** @test */
     public function privacy_policy_page()
     {
-        $this->get('/privacy-policy')->assertSee('Privacy Policy');
+        $this->get('/privacy-policy')->assertStatus(200);
     }
 
     /** @test */
     public function terms_of_service_page()
     {
-        $this->get('/tos')->assertSee('Terms Of Service');
+        $this->get('/tos')->assertStatus(200);
     }
 
     /** @test */
     public function login_page_is_accessible_to_guests()
     {
-        $this->get('/login')->assertSee('Sign in with username and password');
+        $this->get('/login')->assertSee('login');
     }
 
     /** @test */
     public function register_page_is_accessible_to_guests()
     {
-        $this->get('/register')->assertSee('Sign up with/without email address');
+        $this->get('/register')->assertSee('register');
     }
 }

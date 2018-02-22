@@ -9,21 +9,24 @@ use App\Traits\CachableUser;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Http\Resources\SubmissionResource; 
 
 class HomeController extends Controller
 {
     use CachableUser, CachableSubmission, CachableChannel;
 
     /**
-     * Displays the home page.
+     * Displays the home page.h
      *
      * @param \Illuminate\Http\Request $request
      *
      * @return view
      */
-    public function homePage(Request $request)
-    {
-        $submissions = $this->guestHome($request);
+    public function homePage()
+    {        
+        $submissions = SubmissionResource::collection(
+            $this->guestHome(request())
+        );
 
         return view('home', compact('submissions'));
     }
@@ -36,13 +39,15 @@ class HomeController extends Controller
      * @return \Illuminate\Support\Collection
      */
     public function feed(Request $request)
-    {
+    {              
         $this->validate($request, [
             'page' => 'required|integer|min:1',
         ]);
 
         if (!Auth::check()) {
-            return $this->guestHome($request);
+            return SubmissionResource::collection(
+                $this->guestHome($request)
+            );
         }
 
         $submissions = (new Submission())->newQuery();
@@ -96,21 +101,22 @@ class HomeController extends Controller
 
         // exclude user's hidden submissions
         $submissions->whereNotIn('id', $this->hiddenSubmissions());
-
-        // exclude NSFW if user doens't want to see them
-        if (!settings('nsfw')) {
-            $submissions->where('nsfw', false);
+        
+        if ($request->include_nsfw_submissions == true) {
+            // 
+        } else { // exclude it by default 
+            $submissions->where('nsfw', false);            
         }
 
-        if ($request->exclude_upvoted_submissions == 'true') {
+        if ($request->exclude_upvoted_submissions == true) {
             $submissions->whereNotIn('id', $this->submissionUpvotesIds());
         }
 
-        if ($request->exclude_downvoted_submissions == 'true') {
+        if ($request->exclude_downvoted_submissions == true) {
             $submissions->whereNotIn('id', $this->submissionDownvotesIds());
         }
 
-        if ($request->exclude_bookmarked_submissions == 'true') {
+        if ($request->exclude_bookmarked_submissions == true) {
             $submissions->whereNotIn('id', $this->bookmarkedSubmissions());
         }
 
@@ -131,7 +137,9 @@ class HomeController extends Controller
 
         $submissions->groupBy('url');
 
-        return $submissions->simplePaginate(15);
+        return SubmissionResource::collection(
+            $submissions->simplePaginate(15)
+        );
     }
 
     /**
@@ -167,6 +175,6 @@ class HomeController extends Controller
 
         $submissions->groupBy('url');
 
-        return $submissions->simplePaginate(15);
+        return $submissions->simplePaginate(15); 
     }
 }

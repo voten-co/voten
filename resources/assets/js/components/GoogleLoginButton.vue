@@ -1,5 +1,5 @@
 <template>
-    <el-button href="/login/google"
+    <el-button round href="/login/google"
             @click="openGoogle"
             plain
             :size="size">

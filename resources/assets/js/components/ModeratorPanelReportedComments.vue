@@ -136,10 +136,14 @@ export default {
             this.loading = true;
 
             axios
-                .post('/reported-comments', {
-                    type: this.type,
-                    channel: this.$route.params.name,
-                    page: this.page
+                .get('/comments/reports', {
+                    params: {
+                        type: this.type,
+                        channel_id: Store.page.channel.temp.id, 
+                        page: this.page, 
+                        with_reporter: 1, 
+                        with_comment: 1
+                    }
                 })
                 .then(response => {
                     this.items = [...this.items, ...response.data.data];
@@ -148,7 +152,7 @@ export default {
                         this.nothingFound = true;
                     }
 
-                    if (response.data.next_page_url == null) {
+                    if (response.data.links.next == null) {
                         this.NoMoreItems = true;
                     }
 

@@ -33,7 +33,8 @@
 @section('script')
 	<script>
 		var preload = {
-			submission: {!! $submission !!}
+			submission: {!! json_encode($submission->resolve()) !!}, 
+			channel: {!! json_encode($channel->resolve()) !!}
 		};
 	</script>
 @endsection

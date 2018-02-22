@@ -22,7 +22,7 @@
 					         v-if="!loadingSubmission">
 						<header class="user-select flex-space">
 							<div class="v-bold">
-								<span v-show="comments.length">{{ submission.comments_number }}</span> Comments:
+								<span v-show="comments.length">{{ submission.comments_count }}</span> Comments:
 								<span class="go-gray go-small"
 								      v-if="!isGuest">({{ onlineUsersCount }} online users)</span>
 							</div>
@@ -72,7 +72,7 @@
 
 					<div class="align-center margin-bottom-1"
 					     v-if="moreComments">
-						<el-button type="success"
+						<el-button round type="success"
 						           plain
 						           class="half-width"
 						           @click="loadMoreComments"
@@ -119,8 +119,7 @@ export default {
             loadingComments: true,
             comments: [],
             sort: 'hot',
-            onlineUsers: [],
-            preload
+            onlineUsers: []
         };
     },
 
@@ -199,7 +198,7 @@ export default {
 
     computed: {
         commentors() {
-            return _.map(this.comments, 'owner');
+            return _.map(this.comments, 'author');
         },
 
         submission() {
@@ -256,7 +255,7 @@ export default {
 		 * @return void
 		 */
         newComment(comment) {
-            if (comment.parent_id != 0 || comment.submission_id != this.submission.id) return;
+            if (comment.parent_id != null || comment.submission_id != this.submission.id) return;
 
             // add broadcasted (used for styling)
             if (comment.user_id != auth.id) {
@@ -264,7 +263,7 @@ export default {
             }
 
             this.comments.unshift(comment);
-            this.submission.comments_number++;
+            this.submission.comments_count++;
 
             if (comment.user_id == auth.id) {
                 this.$nextTick(function() {
@@ -283,13 +282,13 @@ export default {
 
             Echo.channel(channelAddress)
                 .listen('CommentCreated', event => {
-                    this.$eventHub.$emit('newComment', event.comment);
+                    this.$eventHub.$emit('newComment', event.data);
                 })
                 .listen('CommentWasPatched', event => {
-                    this.$eventHub.$emit('patchedComment', event.comment);
+                    this.$eventHub.$emit('patchedComment', event.data);
                 })
                 .listen('CommentWasDeleted', event => {
-                    this.$eventHub.$emit('deletedComment', event.comment);
+                    this.$eventHub.$emit('deletedComment', event.data);
                 });
 
             // we can't do presence channel or/and listen for private channels, if the user is a guest
@@ -321,11 +320,13 @@ export default {
             this.loadingComments = true;
 
             axios
-                .get('/submission-comments', {
+                .get('/submissions/comments', {
                     params: {
-                        submission_slug: this.$route.params.slug,
                         page: this.page,
-                        sort: this.sort
+                        sort: this.sort, 
+                        submission_id: this.submission.id, 
+                        with_children: true, 
+                        with_parent: true, 
                     }
                 })
                 .then(response => {
@@ -333,12 +334,19 @@ export default {
 
                     this.comments.push(...response.data.data);
 
-                    if (response.data.next_page_url != null) {
+                    if (response.data.links.next != null) {
                         this.moreComments = true;
                     } else {
                         this.moreComments = false;
                     }
-                });
+                }).catch(error => {
+                    this.loadingComments = false;
+
+                    this.$message({
+                        message: `Something went wrong and we couldn't load comments. Try refreshing the page. `, 
+                        type: 'error'
+                    }); 
+                }); 
         },
 
         newSort(sort) {

@@ -5,7 +5,7 @@
                 Suggested Channels({{ list.length }}):
             </h2>
 
-            <el-button type="primary" @click="form = !form" size="medium">
+            <el-button round type="primary" @click="form = !form" size="medium">
                 New
             </el-button>
         </div>
@@ -77,7 +77,7 @@
                     </td>
 
                     <td>
-                        {{ item.channel.subscribers }}
+                        {{ item.channel.subscribers_count }}
                     </td>
 
                     <td>
@@ -164,7 +164,7 @@
             },
 
             submit() {
-                axios.post('/store-suggested-channel', {
+                axios.post('/channels/discover', {
                     channel_name: this.channel_name,
                     group: this.group,
                     z_index: this.z_index,

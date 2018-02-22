@@ -1,5 +1,5 @@
 <template>
-    <el-button type="success" plain size="medium" @click="sendMessage">
+    <el-button round type="success" size="mini" @click="sendMessage">
         Message
     </el-button>
 </template>
@@ -27,12 +27,12 @@
         	 * @return void
         	 */
         	getUser() {
-        		axios.get('/contact-info', {
+        		axios.get('/users', {
 	                params: {
-	                	user_id: this.id
+	                	id: this.id
 	                }
 	            }).then((response) => {
-	            	this.contact = response.data;
+	            	this.contact = response.data.data;
 	            });
         	},
 

@@ -56,14 +56,14 @@
                 Skip the tour
             </el-button>
 
-            <el-button type="primary"
+            <el-button round type="primary"
                     @click="next"
                     v-if="!areWeDoneYet"
                     size="mini">
                 Next
             </el-button>
             
-            <el-button type="success"
+            <el-button round type="success"
                     @click="skip"
                     v-if="areWeDoneYet"
                     size="mini">

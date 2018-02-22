@@ -10,12 +10,12 @@
                        {{ submission.title }} 
                    </span>
 
-                   <el-button type="success"
+                   <el-button round type="success"
                               size="mini"
                               plain
                               @click="goToSubmission"
                               icon="margin-right-half v-comment"
-                              v-if="$route.name != 'submission-page'">{{ submission.comments_number > 0 ? submission.comments_number + ' Comments' : 'Comment' }}</el-button>
+                              v-if="$route.name != 'submission-page'">{{ submission.comments_count > 0 ? submission.comments_count + ' Comments' : 'Comment' }}</el-button>
                </div>
 
 		<div class="photo-viewer">
@@ -23,8 +23,8 @@
 			       controls
 			       autoplay
 			       onclick="this.paused ? this.play() : this.pause();"
-			       :poster="submission.data.thumbnail_path">
-				<source :src="submission.data.mp4_path"
+			       :poster="submission.content.thumbnail_path">
+				<source :src="submission.content.mp4_path"
 				        type="video/mp4">
 			</video>
 		</div>

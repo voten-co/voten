@@ -64,7 +64,7 @@
 				</div>
 
 				<div class="flex-space">
-					<el-button size="mini"
+					<el-button round size="mini"
 					           @click="logMeIn"
 					           :loading="login.loading"
 					           :disabled="!login.username.trim() || !login.password.trim()"
@@ -90,7 +90,7 @@
 				More than 90% of Voten's impressive features are either disabled or hidden for guests. Registration takes only a few seconds and doesn't even require an email address!
 			</p>
 
-			<el-button type="primary"
+			<el-button round type="primary"
 			           size="mini"
 					   @click="Store.modals.authintication.show = true"
 			           class="full-width">

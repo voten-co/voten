@@ -22,6 +22,7 @@
     // align-items: center;
     padding-top: 1em;
     border-right: 2px solid #000;
+    overflow: hidden;
 
     i {
         color: #fff;
@@ -30,6 +31,22 @@
 
     .v-icon {
         font-size: 20px;
+    }
+
+    .item {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 60px;
+        position: relative;
+        cursor: pointer;
+
+        @include darker-on-hover()
+    }
+
+    .active {
+        opacity: 1;
     }
 
     .active:before {
@@ -46,29 +63,13 @@
         top: 50%;
         width: 10px;
     }
-
-    .item {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 60px;
-        position: relative;
-        cursor: pointer;
-
-        .avatar {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            border: 1px solid #9f9f9f;
-        }
-    }
 }
 
 .sidebar-right {
     flex-basis: 16em;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
     // border-left: 2px solid #e7e7e7;
     // background: #f4f5f7;
 

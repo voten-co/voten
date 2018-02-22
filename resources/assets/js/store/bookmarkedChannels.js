@@ -19,7 +19,7 @@ export default {
         .then(response => {
           this.channels = [...this.channels, ...response.data.data];
 
-          if (response.data.next_page_url == null) this.NoMoreItems = true;
+          if (response.data.links.next == null) this.NoMoreItems = true;
           if (this.channels.length == 0) this.nothingFound = true;
 
           this.loading = false;

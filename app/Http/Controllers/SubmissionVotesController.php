@@ -236,10 +236,6 @@ class SubmissionVotesController extends Controller
      */
     public function isCheating($user_id, $submission_id, $type = 'upvote')
     {
-        if (Auth::user()->isShadowBanned()) {
-            return true;
-        }
-
         // we don't want new registered users do downvotes and mess with the averate vote numbers, so:
         if ($type == 'downvote' && Auth::user()->created_at > Carbon::now()->subDays(3)) {
             return true;

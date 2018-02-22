@@ -58,7 +58,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'https://voten.co'),
 
     /*
     |--------------------------------------------------------------------------
@@ -183,12 +183,10 @@ return [
         Intervention\Image\ImageServiceProvider::class,
 
         Laravel\Tinker\TinkerServiceProvider::class,
-        Pbmedia\LaravelFFMpeg\FFMpegServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
-        ScoutEngines\Elasticsearch\ElasticsearchProvider::class,
 
         // dev only
         VueGenerators\ServiceProvider::class,

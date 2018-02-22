@@ -6,6 +6,7 @@ use App\Traits\CachableChannel;
 use App\Traits\CachableUser;
 use Auth;
 use Illuminate\Http\Request;
+use App\Http\Resources\ChannelResource; 
 
 class SubscribeController extends Controller
 {
@@ -18,7 +19,7 @@ class SubscribeController extends Controller
 
     public function index()
     {
-        return Auth::user()->subscriptions()->simplePaginate(20);
+        return ChannelResource::collection(Auth::user()->subscriptions()->simplePaginate(20));
     }
 
     /**

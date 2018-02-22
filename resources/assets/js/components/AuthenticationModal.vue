@@ -177,14 +177,14 @@
 				Login
 			</el-button>
 
-			<el-button type="success"
+			<el-button round type="success"
 			           @click="login"
 			           :loading="loading"
 			           size="small"
 			           v-if="isLogin">
 				Login
 			</el-button>
-			<el-button type="success"
+			<el-button round type="success"
 			           @click="register"
 			           :loading="loading"
 			           v-if="isRegister"

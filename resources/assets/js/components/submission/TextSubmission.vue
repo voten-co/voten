@@ -24,7 +24,7 @@
 
 			<div class="flex-space margin-top-1" v-show="editing">
 				<div>
-					<el-button type="success" @click="patch" :loading="loading" size=mini>
+					<el-button round type="success" @click="patch" :loading="loading" size=mini>
 						Edit
 					</el-button>
 					<el-button type="text" @click="cancelEditing" size="mini">
@@ -76,8 +76,8 @@
         data() {
             return {
                 editing: false,
-                body: this.submission.data.text,
-				editedBody: this.submission.data.text, 
+                body: this.submission.content.text,
+				editedBody: this.submission.content.text, 
 				preview: false,
                 loading: false
             }
@@ -105,8 +105,8 @@
 
         watch: {
             'submission' () {
-                this.body = this.submission.data.text;
-				this.editedBody = this.submission.data.text;
+                this.body = this.submission.content.text;
+				this.editedBody = this.submission.content.text;
             }
         },
 
@@ -136,8 +136,7 @@
 			patch() {
 			    this.loading = true;
 
-				axios.post('/patch-text-submission', {
-					id: this.submission.id,
+				axios.patch(`/submissions/${this.submission.id}`, {
 					text: this.editedBody
 				})
 				.then(() => {

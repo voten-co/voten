@@ -28,13 +28,7 @@
             Loading, 
             NoMoreItems
         },
-    
-        data() {
-            return {
-                preload,
-            }
-        },
-    
+        
         beforeRouteEnter(to, from, next) {
             if (typeof Store.page.channel.temp.name != 'undefined' && Store.page.channel.temp.name != to.params.name) {
                 Store.page.channel.clear();

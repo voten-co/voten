@@ -42,7 +42,7 @@
                 Cancel
             </el-button>
 
-            <el-button type="success" @click="send" :loading="sending" size="medium">
+            <el-button round type="success" @click="send" :loading="sending" size="medium">
                 Submit
             </el-button>
         </span>
@@ -98,8 +98,8 @@
             send() {
                 this.sending = true;
 
-                axios.post('/report-submission', {
-                    submission_id: this.submission.id,
+                axios.post('/submissions/reports', {
+                    id: this.submission.id,
                     subject: this.subject,
                     description: this.description
                 }).then(() => {
@@ -109,7 +109,10 @@
                     });
 
                     this.close();
-                });
+                    this.sending = false; 
+                }).catch(() => {
+                    this.sending = false;
+                }); 
             },
 
             close() {

@@ -93,7 +93,7 @@ class StoreController extends Controller
         return Auth::user()->bookmarkedChannels;
     }
 
-    public function sidebarChannels()
+    protected function sidebarChannels()
     {
         return $this->subscribedChannels();
     }
