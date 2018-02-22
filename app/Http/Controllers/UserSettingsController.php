@@ -26,19 +26,19 @@ class UserSettingsController extends Controller
     {
         $this->validate($request, [
             'cover_color' => 'in:Dark Blue,Blue,Red,Dark,Pink,Dark Green,Bright Green,Purple,Gray,Orange',
-            'location' => 'nullable|string|max:25',
-            'name' => 'nullable|string|max:25',
-            'bio' => 'nullable|max:400',
-            'website' => 'nullable|url',
-            'twitter' => 'nullable|string|max:25',
+            'location'    => 'nullable|string|max:25',
+            'name'        => 'nullable|string|max:25',
+            'bio'         => 'nullable|max:400',
+            'website'     => 'nullable|url',
+            'twitter'     => 'nullable|string|max:25',
         ]);
 
         Auth::user()->update([
-            'color' => $request->cover_color,
+            'color'    => $request->cover_color,
             'location' => $request->location,
-            'name' => $request->name,
-            'bio' => $request->bio,
-            'info' => [
+            'name'     => $request->name,
+            'bio'      => $request->bio,
+            'info'     => [
                 'website' => $request->website,
                 'twitter' => $request->twitter,
             ],
@@ -58,15 +58,15 @@ class UserSettingsController extends Controller
     {
         $this->validate($request, [
             'notify_submissions_replied' => 'required|boolean',
-            'notify_comments_replied' => 'required|boolean',
-            'notify_mentions' => 'required|boolean',
+            'notify_comments_replied'    => 'required|boolean',
+            'notify_mentions'            => 'required|boolean',
         ]);
 
         Auth::user()->update([
             'settings' => [
                 'notify_submissions_replied' => $request->notify_submissions_replied,
-                'notify_comments_replied' => $request->notify_comments_replied,
-                'notify_mentions' => $request->notify_mentions,
+                'notify_comments_replied'    => $request->notify_comments_replied,
+                'notify_mentions'            => $request->notify_mentions,
             ],
         ]);
 
@@ -83,12 +83,12 @@ class UserSettingsController extends Controller
     public function email(Request $request)
     {
         $this->validate($request, [
-            'password' => [new CurrentPassword],
-            'email' => 'email|max:255|unique:users',
+            'password' => [new CurrentPassword()],
+            'email'    => 'email|max:255|unique:users',
         ]);
 
         Auth::user()->update([
-            'email' => $request->email,
+            'email'     => $request->email,
             'confirmed' => 0,
         ]);
 
@@ -109,9 +109,9 @@ class UserSettingsController extends Controller
         $token = str_random(64);
 
         DB::table('email_verifications')->insert([
-            'email' => $user->email,
-            'user_id' => $user->id,
-            'token' => $token,
+            'email'      => $user->email,
+            'user_id'    => $user->id,
+            'token'      => $token,
             'created_at' => now(),
         ]);
 
@@ -127,7 +127,7 @@ class UserSettingsController extends Controller
     {
         $this->validate($request, [
             'new_password' => ['required', 'min:6', 'confirmed'],
-            'password' => ['required', new CurrentPassword],
+            'password'     => ['required', new CurrentPassword()],
         ]);
 
         Auth::user()->update([

@@ -17,7 +17,7 @@ class BanController extends Controller
     use CachableChannel;
 
     /**
-     * Moderator banning a user
+     * Moderator banning a user.
      *
      * @param \Illuminate\Http\Request $request
      *
@@ -26,9 +26,9 @@ class BanController extends Controller
     public function storeAsChannelModerator(Request $request)
     {
         $this->validate($request, [
-            'username' => ['required', 'exists:users', new NotSelfUsername],
-            'channel_id' => 'required|exists:channels,id',
-            'duration' => 'required|integer|min:0|max:999',
+            'username'    => ['required', 'exists:users', new NotSelfUsername()],
+            'channel_id'  => 'required|exists:channels,id',
+            'duration'    => 'required|integer|min:0|max:999',
             'description' => 'nullable|string|max:5000',
         ]);
 
@@ -43,10 +43,10 @@ class BanController extends Controller
         }
 
         $bannedUser = Ban::create([
-            'user_id' => $user->id,
-            'channel' => $channel->name,
+            'user_id'     => $user->id,
+            'channel'     => $channel->name,
             'description' => $request->description,
-            'unban_at' => $unban_at,
+            'unban_at'    => $unban_at,
         ]);
 
         $bannedUser->user = $user;
@@ -55,7 +55,7 @@ class BanController extends Controller
     }
 
     /**
-     * Voten administrator banning a user (bans everwhere and has more consequences)
+     * Voten administrator banning a user (bans everwhere and has more consequences).
      *
      * @param \Illuminate\Http\Request $request
      *
@@ -64,8 +64,8 @@ class BanController extends Controller
     public function storeAsVotenAdministrator(Request $request)
     {
         $this->validate($request, [
-            'username' => ['required', 'exists:users', new NotSelfUsername],
-            'duration' => 'integer|min:0|max:999',
+            'username'    => ['required', 'exists:users', new NotSelfUsername()],
+            'duration'    => 'integer|min:0|max:999',
             'description' => 'nullable|string|max:5000',
         ]);
 
@@ -89,10 +89,10 @@ class BanController extends Controller
         $user->update(['active' => false]);
 
         $bannedUser = Ban::create([
-            'user_id' => $user->id,
-            'channel' => 'all',
+            'user_id'     => $user->id,
+            'channel'     => 'all',
             'description' => $request->description,
-            'unban_at' => $unban_at,
+            'unban_at'    => $unban_at,
         ]);
 
         $bannedUser->user = $user;
@@ -152,14 +152,14 @@ class BanController extends Controller
     public function destroyAsChannelModerator(Request $request)
     {
         $this->validate($request, [
-            'user_id' => 'required|exists:users,id',
+            'user_id'    => 'required|exists:users,id',
             'channel_id' => 'required|exists:channels:id',
         ]);
 
         $channel = $this->getChannelById(request('channel_id'));
 
         Ban::where('user_id', $request->user_id)->where('channel', $channel->name)->delete();
-       
+
         return res(200, 'User unbanned successfully. ');
     }
 

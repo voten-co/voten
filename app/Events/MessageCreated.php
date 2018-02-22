@@ -2,13 +2,13 @@
 
 namespace App\Events;
 
+use App\Http\Resources\MessageResource;
 use App\Message;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
-use App\Http\Resources\MessageResource;
 
 class MessageCreated implements ShouldBroadcast
 {
@@ -48,7 +48,7 @@ class MessageCreated implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'data' => (new MessageResource($this->message))->resolve(), 
+            'data' => (new MessageResource($this->message))->resolve(),
         ];
     }
 }
