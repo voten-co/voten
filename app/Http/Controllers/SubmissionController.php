@@ -7,9 +7,9 @@ use App\Channel;
 use App\Events\SubmissionWasCreated;
 use App\Events\SubmissionWasDeleted;
 use App\Filters;
+use App\Http\Resources\ChannelResource;
 use App\Http\Resources\PhotoResource;
 use App\Http\Resources\SubmissionResource;
-use App\Http\Resources\ChannelResource;
 use App\Photo;
 use App\PhotoTools;
 use App\Rules\NotBannedFromChannel;
@@ -64,12 +64,12 @@ class SubmissionController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'channel_name' => ['required', 'exists:channels,name', new NotBannedFromChannel],
-            'type' => 'required|in:link,img,text,gif',
-            'title' => 'required|string|between:7,150',
-            'url' => ['required_if:type,link', 'url', new NotBlockedDomain],
-            'photos_id' => 'required_if:type,img|array|max:20',
-            'gif_id' => 'required_if:type,gif|integer',
+            'channel_name' => ['required', 'exists:channels,name', new NotBannedFromChannel()],
+            'type'         => 'required|in:link,img,text,gif',
+            'title'        => 'required|string|between:7,150',
+            'url'          => ['required_if:type,link', 'url', new NotBlockedDomain()],
+            'photos_id'    => 'required_if:type,img|array|max:20',
+            'gif_id'       => 'required_if:type,gif|integer',
         ]);
 
         // Make sure user is not overdoing it.
@@ -99,17 +99,17 @@ class SubmissionController extends Controller
 
         try {
             $submission = Submission::create([
-                'title' => $request->title,
-                'slug' => $slug = $this->slug($request->title),
-                'url' => $request->type === 'link' ? $request->url : config('app.url') . '/c/' . $channel->name . '/' . $slug,
-                'domain' => $request->type === 'link' ? domain($request->url) : null,
-                'type' => $request->type,
+                'title'        => $request->title,
+                'slug'         => $slug = $this->slug($request->title),
+                'url'          => $request->type === 'link' ? $request->url : config('app.url').'/c/'.$channel->name.'/'.$slug,
+                'domain'       => $request->type === 'link' ? domain($request->url) : null,
+                'type'         => $request->type,
                 'channel_name' => $request->channel_name,
-                'channel_id' => $channel->id,
-                'nsfw' => $request->nsfw,
-                'rate' => firstRate(),
-                'user_id' => Auth::id(),
-                'data' => $data,
+                'channel_id'   => $channel->id,
+                'nsfw'         => $request->nsfw,
+                'rate'         => firstRate(),
+                'user_id'      => Auth::id(),
+                'data'         => $data,
             ]);
 
             event(new SubmissionWasCreated($submission));
@@ -173,7 +173,7 @@ class SubmissionController extends Controller
     /**
      * Returns the submission (even if it's been soft-deleted).
      *
-     * @param integer $submission_id
+     * @param int $submission_id
      *
      * @return \Illuminate\Support\Collection
      */
@@ -181,7 +181,7 @@ class SubmissionController extends Controller
     {
         $this->validate($request, [
             'slug' => 'required_without:id|exists:submissions',
-            'id' => 'required_without:slug|exists:submissions',
+            'id'   => 'required_without:slug|exists:submissions',
         ]);
 
         if ($request->filled('slug')) {
@@ -196,7 +196,7 @@ class SubmissionController extends Controller
     /**
      * Returns all the uploaded photos for a specific submission.
      *
-     * @param integer $submission_id
+     * @param int $submission_id
      *
      * @return \Illuminate\Support\Collection
      */
@@ -234,7 +234,7 @@ class SubmissionController extends Controller
     /**
      * Removes the thumbnail.
      *
-     * @param integer $submission_id
+     * @param int $submission_id
      *
      * @return response
      */
@@ -246,16 +246,16 @@ class SubmissionController extends Controller
 
         $submission->update([
             'data' => [
-                'url' => $submission->data['url'],
-                'title' => $submission->data['title'],
-                'description' => $submission->data['description'],
-                'type' => $submission->data['type'],
-                'embed' => $submission->data['embed'],
-                'img' => null,
-                'thumbnail' => null,
-                'providerName' => $submission->data['providerName'],
+                'url'           => $submission->data['url'],
+                'title'         => $submission->data['title'],
+                'description'   => $submission->data['description'],
+                'type'          => $submission->data['type'],
+                'embed'         => $submission->data['embed'],
+                'img'           => null,
+                'thumbnail'     => null,
+                'providerName'  => $submission->data['providerName'],
                 'publishedTime' => $submission->data['publishedTime'],
-                'domain' => $submission->data['domain'] ?? domain($submission->data['url']),
+                'domain'        => $submission->data['domain'] ?? domain($submission->data['url']),
             ],
         ]);
 

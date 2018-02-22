@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use App\Filters;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\SubmissionResource;
 use App\Http\Resources\UserResource;
 use App\Rules\CurrentPassword;
+use App\Submission;
 use App\Traits\CachableUser;
 use App\User;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
-use App\Submission;
-use App\Comment;
 
 class UserController extends Controller
 {
@@ -32,7 +32,7 @@ class UserController extends Controller
     public function showSubmissions($username)
     {
         $user = new UserResource(
-            User::withTrashed()->where('username', $username)->firstOrFail(), 
+            User::withTrashed()->where('username', $username)->firstOrFail(),
             true
         );
 
@@ -54,7 +54,7 @@ class UserController extends Controller
     public function showComments($username)
     {
         $user = new UserResource(
-            User::withTrashed()->where('username', $username)->firstOrFail(), 
+            User::withTrashed()->where('username', $username)->firstOrFail(),
             true
         );
 
@@ -79,11 +79,11 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'username' => 'required_without:id|exists:users',
-            'id' => 'required_without:username|exists:users',
+            'id'       => 'required_without:username|exists:users',
         ]);
 
         if ($request->filled('username')) {
-            $user = User::where('username', $request->username)->firstOrFail(); 
+            $user = User::where('username', $request->username)->firstOrFail();
         } else {
             $user = User::findOrFail($request->id);
         }
@@ -135,11 +135,11 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'username' => 'required_without:id|exists:users',
-            'id' => 'required_without:username|exists:users',
+            'id'       => 'required_without:username|exists:users',
         ]);
 
         if ($request->filled('username')) {
-            $user = User::where('username', $request->username)->firstOrFail(); 
+            $user = User::where('username', $request->username)->firstOrFail();
         } else {
             $user = User::findOrFail($request->id);
         }
@@ -162,9 +162,9 @@ class UserController extends Controller
     public function get(Request $request)
     {
         $this->validate($request, [
-            'username' => 'required_without:id|exists:users',
-            'id' => 'required_without:username|exists:users',
-            'with_info' => 'boolean',
+            'username'   => 'required_without:id|exists:users',
+            'id'         => 'required_without:username|exists:users',
+            'with_info'  => 'boolean',
             'with_stats' => 'boolean',
         ]);
 
@@ -187,7 +187,7 @@ class UserController extends Controller
     public function destroyAsAuth(Request $request)
     {
         $this->validate($request, [
-            'password' => ['required', new CurrentPassword],
+            'password' => ['required', new CurrentPassword()],
         ]);
 
         $user = Auth::user();
@@ -209,8 +209,8 @@ class UserController extends Controller
     public function destroyAsVotenAdministrator(Request $request)
     {
         $this->validate($request, [
-            'password' => ['required', new CurrentPassword],
-            'user_id' => 'required|exists:users,id',
+            'password' => ['required', new CurrentPassword()],
+            'user_id'  => 'required|exists:users,id',
         ]);
 
         $user = User::findOrFail(request('user_id'));
