@@ -183,7 +183,6 @@ return [
         Intervention\Image\ImageServiceProvider::class,
 
         Laravel\Tinker\TinkerServiceProvider::class,
-        // Pbmedia\LaravelFFMpeg\FFMpegServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
