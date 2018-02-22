@@ -10,13 +10,13 @@ class OAuthController extends Controller
     }
 
     /**
-     * Show the OAuth page. 
-     * 
-     * @return view 
+     * Show the OAuth page.
+     *
+     * @return view
      */
     public function show()
     {
-        return 'Under construction'; 
+        return 'Under construction';
 
         return view('passport.index');
     }

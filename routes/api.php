@@ -149,7 +149,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/suggested-channel', 'SuggestionController@channel');
 
     ////////////////////////////////////////////////////////////////////////
-    // Below routes have a twin route prefixed with "guest" 
+    // Below routes have a twin route prefixed with "guest"
     ////////////////////////////////////////////////////////////////////////
     Route::get('/users', 'UserController@get');
     Route::get('/feed', 'HomeController@feed');
@@ -170,7 +170,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 });
 
 ////////////////////////////////////////////////////////////////////////
-// Below routes are the twin routes for guests  
+// Below routes are the twin routes for guests
 ////////////////////////////////////////////////////////////////////////
 Route::prefix('guest')->group(function () {
     Route::get('/users', 'UserController@get');

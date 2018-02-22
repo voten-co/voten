@@ -45,8 +45,8 @@ class ConversationRead implements ShouldBroadcast
     {
         return [
             'data' => [
-                'user_id' => $this->contact_id
-            ]
+                'user_id' => $this->contact_id,
+            ],
         ];
     }
 }
