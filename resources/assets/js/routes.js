@@ -72,7 +72,7 @@ const routes = [
         children: [
             {
                 path: '',
-                component: AdminPanelDashboard, 
+                component: AdminPanelDashboard,
                 name: 'admin-panel-dashboard'
             },
             {
