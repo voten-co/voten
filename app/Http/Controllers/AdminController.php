@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Activity;
 use App\Channel;
 use App\Comment;
 use App\Filters;
+use App\Http\Resources\ActivityResource;
+use App\Http\Resources\ChannelResource;
+use App\Http\Resources\CommentResource;
+use App\Http\Resources\SubmissionResource;
+use App\Http\Resources\UserResource;
 use App\Report;
 use App\Submission;
 use App\User;
 use Illuminate\Http\Request;
-use App\Http\Resources\SubmissionResource;
-use App\Http\Resources\CommentResource;
-use App\Http\Resources\ChannelResource;
-use App\Http\Resources\UserResource;
-use App\Activity;
-use App\Http\Resources\ActivityResource;
 
 class AdminController extends Controller
 {
@@ -28,10 +28,10 @@ class AdminController extends Controller
     public function activities()
     {
         $activities = (new Activity())->newQuery();
-        
+
         return ActivityResource::collection(
             $activities->with('owner')->orderBy('id', 'desc')->simplePaginate(30)
-        );        
+        );
     }
 
     /**
