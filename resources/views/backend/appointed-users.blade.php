@@ -43,9 +43,15 @@
                     @foreach ($appointed_users as $appointed)
                         <tr>
                             <td>
-                                <a href="/{{ '@' . $appointed->user->username }}" target="_blank">
-                                    {{ '@' . $appointed->user->username }}
-                                </a>
+                                @if (isset($appointed->user))
+                                    <a href="/{{ '@' . $appointed->user->username }}" target="_blank">
+                                        {{ '@' . $appointed->user->username }}
+                                    </a>
+                                @else
+                                    <a href="/{{ '@' . $appointed }}" target="_blank">
+                                        {{ '@' . $appointed }}
+                                    </a>
+                                @endif
                             </td>
                             <td>
                                 <span class="tag">{{ $appointed->appointed_as }}</span>
