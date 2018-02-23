@@ -98,7 +98,7 @@ export default {
 
             axios
                 .get('/admin/activities')
-                .then(response => {
+                .then((response) => {
                     this.activities.items = response.data.data;
                     this.activities.loading = false;
                 })
