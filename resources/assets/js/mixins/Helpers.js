@@ -111,8 +111,12 @@ export default {
          * @return string
          */
         str_limit(str, length) {
-            if (str.length > length)
-                return (str = str.substring(0, length) + '...');
+            if (typeof str == typeof null) {
+                return null; 
+            }
+            
+            if (str.length > length) return (str = str.substring(0, length) + '...');
+
             return str;
         },
 

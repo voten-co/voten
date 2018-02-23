@@ -3,6 +3,7 @@ import AdminPanel from './components/AdminPanel.vue';
 import AdminPanelSuggestedChannels from './components/AdminPanelSuggestedChannels.vue';
 import AdminPanelSubmissions from './components/AdminPanelSubmissions.vue';
 import AdminPanelComments from './components/AdminPanelComments.vue';
+import AdminPanelDashboard from './components/AdminPanelDashboard.vue';
 
 // For moderators only
 import ModeratorPanel from './components/ModeratorPanel.vue';
@@ -65,11 +66,15 @@ const routes = [
         name: 'subscriptions',
         meta: { title: 'My Subscriptions' }
     },
-    { path: '/big-daddy', redirect: '/big-daddy/submissions' },
     {
         path: '/big-daddy',
         component: AdminPanel,
         children: [
+            {
+                path: '',
+                component: AdminPanelDashboard, 
+                name: 'admin-panel-dashboard'
+            },
             {
                 path: 'submissions',
                 component: AdminPanelSubmissions,
