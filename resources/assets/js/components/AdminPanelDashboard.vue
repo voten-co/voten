@@ -39,7 +39,7 @@
 					<el-tooltip :content="scope.row.country_short_name"
 					            placement="top">
 						<img v-if="scope.row.country_short_name != 'unknown'"
-                        :src="scope.row.country_flag"
+						     :src="scope.row.country_flag"
 						     :alt="scope.row.country_short_name"
 						     height="20">
 					</el-tooltip>
@@ -59,8 +59,10 @@
 			                 label="Browser">
 			</el-table-column>
 
-			<el-table-column prop="ip_address"
-			                 label="IP">
+			<el-table-column label="IP">
+				<template slot-scope="scope">
+					{{ str_limit(scope.row.ip_address, 15) }}
+				</template>
 			</el-table-column>
 
 			<el-table-column label="Date">
