@@ -23,70 +23,68 @@
 </template>
 
 <script>
-    import Loading from '../components/Loading.vue';
-    import SubscribedChannel from '../components/BookmarkedChannel.vue';
-    import NoMoreItems from '../components/NoMoreItems.vue';
-    import NoContent from '../components/NoContent.vue';
-    import Helpers from '../mixins/Helpers';
+import Loading from '../components/Loading.vue';
+import SubscribedChannel from '../components/BookmarkedChannel.vue';
+import NoMoreItems from '../components/NoMoreItems.vue';
+import NoContent from '../components/NoContent.vue';
+import Helpers from '../mixins/Helpers';
 
-    export default {
-        mixins: [Helpers],
+export default {
+    mixins: [Helpers],
 
-        components: {
-            NoContent,
-            SubscribedChannel,
-            Loading,
-            NoMoreItems
+    components: {
+        NoContent,
+        SubscribedChannel,
+        Loading,
+        NoMoreItems
+    },
+
+    computed: {
+        cantLoadMore() {
+            return this.loading || this.NoMoreItems || this.nothingFound;
         },
 
-        computed: {
-            cantLoadMore() {
-                return this.loading || this.NoMoreItems || this.nothingFound;
-            },
-
-            NoMoreItems() {
-                return Store.page.subscribedChannels.NoMoreItems;
-            },
-
-            nothingFound() {
-                return Store.page.subscribedChannels.nothingFound;
-            },
-
-            channels() {
-                return Store.page.subscribedChannels.channels;
-            },
-
-            loading() {
-                return Store.page.subscribedChannels.loading;
-            },
-
-            page() {
-                return Store.page.subscribedChannels.page;
-            }
-        }, 
-       
-
-        beforeRouteEnter (to, from, next) {
-            Store.page.subscribedChannels.clear(); 
-
-            if (! Store.page.subscribedChannels.page > 0) {
-                if (typeof app != "undefined") {
-                    app.$Progress.start();
-                }
-
-                Store.page.subscribedChannels.getChannels().then(() => {
-                    next(vm => vm.$Progress.finish());
-                });
-            } else {
-                next();
-            }
+        NoMoreItems() {
+            return Store.page.subscribedChannels.NoMoreItems;
         },
 
+        nothingFound() {
+            return Store.page.subscribedChannels.nothingFound;
+        },
 
-        methods: {
-            loadMore () {
-                Store.page.subscribedChannels.getChannels(); 
-            }
+        channels() {
+            return Store.page.subscribedChannels.channels;
+        },
+
+        loading() {
+            return Store.page.subscribedChannels.loading;
+        },
+
+        page() {
+            return Store.page.subscribedChannels.page;
         }
-    };
+    },
+
+    beforeRouteEnter(to, from, next) {
+        Store.page.subscribedChannels.clear();
+
+        if (!Store.page.subscribedChannels.page > 0) {
+            if (typeof app != 'undefined') {
+                app.$Progress.start();
+            }
+
+            Store.page.subscribedChannels.getChannels().then(() => {
+                next((vm) => vm.$Progress.finish());
+            });
+        } else {
+            next();
+        }
+    },
+
+    methods: {
+        loadMore() {
+            Store.page.subscribedChannels.getChannels();
+        }
+    }
+};
 </script>

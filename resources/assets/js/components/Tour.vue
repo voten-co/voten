@@ -97,10 +97,10 @@ export default {
 
         items() {
             return Store.tour.items;
-        }, 
+        },
 
         areWeDoneYet() {
-            return this.step == this.items.length; 
+            return this.step == this.items.length;
         }
     },
 
@@ -115,14 +115,14 @@ export default {
                 Store.tour.step++;
 
                 if (this.activeTour.id == 'os-notifications') {
-                    this.askNotificationPermission(); 
+                    this.askNotificationPermission();
                 }
 
                 return;
             }
 
             this.skip();
-        }, 
+        },
 
         askNotificationPermission() {
             if (this.$route.query.newbie == 1) {
@@ -130,13 +130,14 @@ export default {
                     Notification.requestPermission();
                 } else {
                     this.$notify({
-                      title: 'Too bad!',
-                      message: 'Your browser does not support desktop notifications.',
-                      type: 'warning'
+                        title: 'Too bad!',
+                        message:
+                            'Your browser does not support desktop notifications.',
+                        type: 'warning'
                     });
                 }
             }
-        },
+        }
     }
 };
 </script>

@@ -39,7 +39,7 @@
         header {
             width: 100%;
             background: #fff;
-            padding: 0 .2em;
+            padding: 0 0.2em;
         }
     }
 
@@ -162,7 +162,6 @@
     min-height: 100%;
 }
 
-
 // bulma menu
 .menu-nav a {
     display: block;
@@ -201,13 +200,13 @@
     font-size: 79%;
     display: flex;
     align-items: center;
-    width: 100%; 
+    width: 100%;
     justify-content: space-between;
     margin-bottom: 1em;
 
     i {
         font-size: 25px;
-        cursor: pointer; 
+        cursor: pointer;
     }
 }
 
@@ -215,7 +214,6 @@
     margin-top: 20px;
 }
 // end bulma menu
-
 
 .menu-list {
     list-style: none;
@@ -249,13 +247,12 @@
     justify-content: center;
     background-color: white;
     color: #333;
-    opacity: .2;
+    opacity: 0.2;
 }
 
 .side-fixed hr {
     border-top: 1px solid rgba(192, 192, 192, 0.14);
 }
-
 
 .side-fixed a,
 .side-fixed a:focus,
@@ -272,7 +269,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    opacity: .5;
+    opacity: 0.5;
 }
 
 .no-subscription i {

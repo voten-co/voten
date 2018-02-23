@@ -1,11 +1,11 @@
 <style lang="scss">
 .submission-page-preview {
-	iframe {
-		width: 70em;
-		max-width: 100%;
-		height: 36em;
-		max-height: 48%;
-	}
+    iframe {
+        width: 70em;
+        max-width: 100%;
+        height: 36em;
+        max-height: 48%;
+    }
 }
 </style>
 
@@ -112,7 +112,17 @@ export default {
         SubmissionFooter
     },
 
-    props: ['nsfw', 'submission', 'full', 'url', 'comments', 'bookmarked', 'points', 'downvoted', 'upvoted'],
+    props: [
+        'nsfw',
+        'submission',
+        'full',
+        'url',
+        'comments',
+        'bookmarked',
+        'points',
+        'downvoted',
+        'upvoted'
+    ],
 
     data() {
         return {
@@ -123,7 +133,8 @@ export default {
     computed: {
         thumbnail() {
             return {
-                backgroundImage: 'url(' + this.submission.content.thumbnail + ')'
+                backgroundImage:
+                    'url(' + this.submission.content.thumbnail + ')'
             };
         },
 

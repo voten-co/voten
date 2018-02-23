@@ -125,15 +125,25 @@ export default {
 
     computed: {
         noSubmissions() {
-            return this.type == 'Submissions' && this.submissions.length == 0 && !this.loading;
+            return (
+                this.type == 'Submissions' &&
+                this.submissions.length == 0 &&
+                !this.loading
+            );
         },
 
         noChannels() {
-            return this.type == 'Channels' && this.channels.length == 0 && !this.loading;
+            return (
+                this.type == 'Channels' &&
+                this.channels.length == 0 &&
+                !this.loading
+            );
         },
 
         noUsers() {
-            return this.type == 'Users' && this.users.length == 0 && !this.loading;
+            return (
+                this.type == 'Users' && this.users.length == 0 && !this.loading
+            );
         },
 
         placeholder() {
@@ -174,7 +184,7 @@ export default {
                         keyword: this.filter
                     }
                 })
-                .then(response => {
+                .then((response) => {
                     if (this.type == 'Channels') {
                         this.channels = response.data.data;
                     }
@@ -186,7 +196,7 @@ export default {
                     if (this.type == 'Submissions') {
                         this.submissions = response.data.data;
                     }
-                    
+
                     this.loading = false;
                 })
                 .catch(() => {

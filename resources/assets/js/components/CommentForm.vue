@@ -322,7 +322,12 @@ export default {
         }, 600),
 
         handleKey(event, key) {
-            if (!this.quickEmojiPicker.show && !this.quickMentioner.show && !this.quickChannelPicker.show) return;
+            if (
+                !this.quickEmojiPicker.show &&
+                !this.quickMentioner.show &&
+                !this.quickChannelPicker.show
+            )
+                return;
 
             event.preventDefault();
 
@@ -356,7 +361,10 @@ export default {
             } else if (this.quickChannelPicker.show) {
                 this.quickChannelPicker.show = false;
             } else {
-                if (!_.isEmpty(this.editingComment) || !_.isEmpty(this.replyingComment)) {
+                if (
+                    !_.isEmpty(this.editingComment) ||
+                    !_.isEmpty(this.replyingComment)
+                ) {
                     this.clear();
                 }
             }
@@ -377,7 +385,12 @@ export default {
         },
 
         pick(pickedStr, starterIndex, typedLength) {
-            this.insertPickedItem('comment-form-textarea', pickedStr + ' ', starterIndex, typedLength);
+            this.insertPickedItem(
+                'comment-form-textarea',
+                pickedStr + ' ',
+                starterIndex,
+                typedLength
+            );
         },
 
         openEmojiPicker() {
@@ -441,9 +454,9 @@ export default {
 
                     this.clear();
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.loading = false;
-                    this.message = this.temp; 
+                    this.message = this.temp;
                 });
         },
 
@@ -454,17 +467,17 @@ export default {
                     submission_id: this.submission,
                     body: this.temp
                 })
-                .then(response => {
+                .then((response) => {
                     Store.state.comments.upVotes.push(response.data.data.id);
                     this.$eventHub.$emit('newComment', response.data.data);
 
                     this.clear();
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.loading = false;
-                    this.message = this.temp; 
+                    this.message = this.temp;
                 });
-        },
+        }
     }
 };
 </script>

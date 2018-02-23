@@ -46,73 +46,91 @@
 </template>
 
 <script>
-    import Helpers from '../mixins/Helpers'; 
+import Helpers from '../mixins/Helpers';
 
-    export default {
-        mixins: [Helpers], 
+export default {
+    mixins: [Helpers],
 
-        data() {
-            return {
-                form: {
-                    channelsFilter: Store.settings.rightSidebar.channelsFilter,
-                    channelsLimit: Store.settings.rightSidebar.channelsLimit, 
-                    showChannelAvatars: Store.settings.rightSidebar.showChannelAvatars, 
-                    color: Store.settings.rightSidebar.color, 
+    data() {
+        return {
+            form: {
+                channelsFilter: Store.settings.rightSidebar.channelsFilter,
+                channelsLimit: Store.settings.rightSidebar.channelsLimit,
+                showChannelAvatars:
+                    Store.settings.rightSidebar.showChannelAvatars,
+                color: Store.settings.rightSidebar.color
+            },
+
+            filters: [
+                {
+                    value: 'subscribed',
+                    description: 'Channels I have subscribed to'
                 },
-
-                filters: [
-                    {value: 'subscribed', description: 'Channels I have subscribed to',},
-                    {value: 'moderating', description: 'Channels I am moderating',},
-                    {value: 'bookmarked', description: 'Channels I have bookmarked',},
-                ], 
-
-                colors: [
-                    'Blue', 'Dark Blue', 'Red', 'Dark', 'Gray', 'Green', 'Purple'
-                ],
-            }
-        },
-
-        props: ['visible'], 
-
-        beforeDestroy() {
-            if (window.location.hash == '#sidebarSettings') {
-                history.go(-1);
-            }
-        },
-
-        created() {
-            window.location.hash = 'sidebarSettings';
-        },
-
-    
-        computed: {
-            changed() {
-                if (
-                    Store.settings.rightSidebar.channelsFilter != this.form.channelsFilter ||
-                    Store.settings.rightSidebar.channelsLimit != this.form.channelsLimit || 
-                    Store.settings.rightSidebar.showChannelAvatars != this.form.showChannelAvatars || 
-                    Store.settings.rightSidebar.color != this.form.color 
-                ) {
-                    return true;
+                {
+                    value: 'moderating',
+                    description: 'Channels I am moderating'
+                },
+                {
+                    value: 'bookmarked',
+                    description: 'Channels I have bookmarked'
                 }
-    
-                return false;
-            },
-        },
-    
-        methods: {
-            save() {
-                Store.settings.rightSidebar.channelsFilter = this.form.channelsFilter;
-                Store.settings.rightSidebar.channelsLimit = this.form.channelsLimit;
-                Store.settings.rightSidebar.showChannelAvatars = this.form.showChannelAvatars;
-                Store.settings.rightSidebar.color = this.form.color;
+            ],
 
-                this.close(); 
-            }, 
+            colors: [
+                'Blue',
+                'Dark Blue',
+                'Red',
+                'Dark',
+                'Gray',
+                'Green',
+                'Purple'
+            ]
+        };
+    },
 
-            close() {
-                this.$emit('update:visible', false);
-            },
+    props: ['visible'],
+
+    beforeDestroy() {
+        if (window.location.hash == '#sidebarSettings') {
+            history.go(-1);
         }
-    };
+    },
+
+    created() {
+        window.location.hash = 'sidebarSettings';
+    },
+
+    computed: {
+        changed() {
+            if (
+                Store.settings.rightSidebar.channelsFilter !=
+                    this.form.channelsFilter ||
+                Store.settings.rightSidebar.channelsLimit !=
+                    this.form.channelsLimit ||
+                Store.settings.rightSidebar.showChannelAvatars !=
+                    this.form.showChannelAvatars ||
+                Store.settings.rightSidebar.color != this.form.color
+            ) {
+                return true;
+            }
+
+            return false;
+        }
+    },
+
+    methods: {
+        save() {
+            Store.settings.rightSidebar.channelsFilter = this.form.channelsFilter;
+            Store.settings.rightSidebar.channelsLimit = this.form.channelsLimit;
+            Store.settings.rightSidebar.showChannelAvatars = this.form.showChannelAvatars;
+            Store.settings.rightSidebar.color = this.form.color;
+
+            this.close();
+        },
+
+        close() {
+            this.$emit('update:visible', false);
+        }
+    }
+};
 </script>

@@ -70,7 +70,12 @@ export default {
             sending: false,
             subject: 'Report a bug',
             description: '',
-            subjects: ['Report a bug', 'Thumbs-up about a feature', 'Suggestion', 'Other']
+            subjects: [
+                'Report a bug',
+                'Thumbs-up about a feature',
+                'Suggestion',
+                'Other'
+            ]
         };
     },
 
@@ -113,7 +118,7 @@ export default {
 
                     this.close();
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.sending = false;
                 });
         }

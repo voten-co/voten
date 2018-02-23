@@ -81,7 +81,7 @@ export default {
                         channel_name: this.$route.params.name
                     }
                 })
-                .then(response => {
+                .then((response) => {
                     this.mods = response.data.data;
                 });
         },
@@ -97,11 +97,11 @@ export default {
                         keyword: query
                     }
                 })
-                .then(response => {
+                .then((response) => {
                     this.users = _.map(response.data.data, 'username');
                     this.loading = false;
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.loading = false;
                 });
         }, 600),
@@ -111,7 +111,7 @@ export default {
 
             axios
                 .post('/moderators', {
-                    channel_id: Store.page.channel.temp.id, 
+                    channel_id: Store.page.channel.temp.id,
                     username: this.username,
                     role: this.role
                 })
@@ -131,7 +131,11 @@ export default {
     beforeRouteEnter(to, from, next) {
         if (Store.page.channel.temp.name == to.params.name) {
             // loaded
-            if (Store.state.administratorAt.indexOf(Store.page.channel.temp.id) != -1) {
+            if (
+                Store.state.administratorAt.indexOf(
+                    Store.page.channel.temp.id
+                ) != -1
+            ) {
                 next();
             }
         } else {

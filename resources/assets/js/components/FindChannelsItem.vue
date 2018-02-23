@@ -27,26 +27,25 @@
 </template>
 
 <script>
-    export default {
+export default {
+    data: function() {
+        return {
+            Store
+        };
+    },
 
-        data: function () {
-            return {
-				Store
-            }
-        },
+    props: ['list'],
 
-        props: ['list'],
+    methods: {
+        subscribe() {
+            this.$emit('subscribed');
 
-        methods: {
-			subscribe () {
-				this.$emit('subscribed')
+            Store.state.subscribedChannels.push(this.list);
 
-            	Store.state.subscribedChannels.push(this.list)
-
-            	axios.post('/subscribe', {
-	            	channel_id: this.list.id
-	            })
-            }
+            axios.post('/subscribe', {
+                channel_id: this.list.id
+            });
         }
-    };
+    }
+};
 </script>

@@ -4,7 +4,7 @@ export default {
     data() {
         return {
             Store,
-            meta, 
+            meta,
             auth,
             csrf: window.Laravel.csrfToken
         };
@@ -111,7 +111,12 @@ export default {
          * @return string
          */
         str_limit(str, length) {
+            if (typeof str == typeof null) {
+                return null;
+            }
+
             if (str.length > length) return (str = str.substring(0, length) + '...');
+
             return str;
         },
 
@@ -268,19 +273,24 @@ export default {
         scrolled: _.throttle(
             function(event) {
                 this.$eventHub.$emit('scrolled');
+                console.log('scrolled');
 
                 let box = event.target;
 
                 if (box.scrollHeight - box.scrollTop < box.clientHeight + 100) {
                     this.$eventHub.$emit('scrolled-to-bottom');
+                    console.log('scrolled-to-bottom');
                 }
 
                 if (box.scrollTop < 100) {
                     this.$eventHub.$emit('scrolled-to-top');
+                    console.log('scrolled-to-top');
                 } else if (box.scrollTop < 1500) {
                     this.$eventHub.$emit('scrolled-a-bit');
+                    console.log('scrolled-a-bit');
                 } else {
                     this.$eventHub.$emit('scrolled-a-lot');
+                    console.log('scrolled-a-bit');
                 }
             },
             200,
@@ -305,6 +315,6 @@ export default {
             let el = document.getElementById(scrollable);
 
             el.scrollTop = el.scrollHeight;
-        },
+        }
     }
 };

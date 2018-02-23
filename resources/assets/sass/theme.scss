@@ -99,14 +99,14 @@
 }
 
 .label-pill {
-    padding-right: .6em;
-    padding-left: .6em;
+    padding-right: 0.6em;
+    padding-left: 0.6em;
     border-radius: 10rem;
 }
 
 .label {
     display: inline-block;
-    padding: .25em .4em;
+    padding: 0.25em 0.4em;
     font-size: 75%;
     font-weight: bold;
     line-height: 1;
@@ -114,7 +114,7 @@
     text-align: center;
     white-space: nowrap;
     vertical-align: baseline;
-    border-radius: .25rem;
+    border-radius: 0.25rem;
 }
 
 .box-typical .box-typical-footer {
@@ -175,7 +175,7 @@
     margin-bottom: 0.3em;
 }
 
-.avatar-preview input[type="file"] {
+.avatar-preview input[type='file'] {
     position: absolute;
     left: 0;
     top: 0;
@@ -211,16 +211,14 @@
     transition: all 0.2s ease-in-out;
 }
 
-
-
 /////////////////////////////////////////////
-// Gray 
+// Gray
 /////////////////////////////////////////////
 .theme-gray {
-    .side-menu-wrapper.shade-item, 
+    .side-menu-wrapper.shade-item,
     .fixed-header.shade-item,
     .menu.shade-item {
-        background: inherit; 
+        background: inherit;
     }
 
     background: #f4f5f7;
@@ -270,7 +268,7 @@
 }
 
 /////////////////////////////////////////////
-// Dark Blue 
+// Dark Blue
 /////////////////////////////////////////////
 .theme-dark-blue {
     background: linear-gradient(#323e4c, #25313e);
@@ -281,7 +279,8 @@
             background-color: rgb(65, 72, 81) !important;
         }
 
-        input, i {
+        input,
+        i {
             color: #fff !important;
         }
     }
@@ -290,9 +289,9 @@
     //     border-bottom: 2px solid rgb(44, 49, 55) !important;
     // }
 
-    .menu-label, 
-    .v-config, 
-    .no-subscription, 
+    .menu-label,
+    .v-config,
+    .no-subscription,
     .menu-list a {
         color: #fff !important;
     }
@@ -310,7 +309,7 @@
     .side-menu-wrapper {
         .box {
             border-bottom: 2px solid rgb(44, 49, 55);
-            color: #fff; 
+            color: #fff;
 
             img {
                 border: 1px solid #9f9f9f;
@@ -328,10 +327,10 @@
 }
 
 /////////////////////////////////////////////
-// Blue 
+// Blue
 /////////////////////////////////////////////
 .theme-blue {
-    background: linear-gradient(#343d5a,#49516b);
+    background: linear-gradient(#343d5a, #49516b);
     border-left: 2px solid #3f4c5c;
 
     .search {
@@ -339,7 +338,8 @@
             background-color: #2a3441 !important;
         }
 
-        input, i {
+        input,
+        i {
             color: #fff !important;
         }
     }
@@ -348,9 +348,9 @@
     //     border-bottom: 2px solid rgb(44, 49, 55) !important;
     // }
 
-    .menu-label, 
-    .v-config, 
-    .no-subscription, 
+    .menu-label,
+    .v-config,
+    .no-subscription,
     .menu-list a {
         color: #fff !important;
     }
@@ -368,7 +368,7 @@
     .side-menu-wrapper {
         .box {
             border-bottom: 2px solid rgb(44, 49, 55);
-            color: #fff; 
+            color: #fff;
 
             img {
                 border: 1px solid #9f9f9f;
@@ -386,7 +386,7 @@
 }
 
 /////////////////////////////////////////////
-// Red  
+// Red
 /////////////////////////////////////////////
 .theme-red {
     background: linear-gradient(#673e3d, #523636);
@@ -397,7 +397,8 @@
             background-color: #382e2e !important;
         }
 
-        input, i {
+        input,
+        i {
             color: #fff !important;
         }
     }
@@ -406,9 +407,9 @@
     //     border-bottom: 2px solid #4a3534 !important;
     // }
 
-    .menu-label, 
-    .v-config, 
-    .no-subscription, 
+    .menu-label,
+    .v-config,
+    .no-subscription,
     .menu-list a {
         color: #fff !important;
     }
@@ -426,7 +427,7 @@
     .side-menu-wrapper {
         .box {
             border-bottom: 2px solid #4a3534;
-            color: #fff; 
+            color: #fff;
 
             img {
                 border: 1px solid #9f9f9f;
@@ -444,9 +445,9 @@
 }
 
 /////////////////////////////////////////////
-// Dark 
+// Dark
 /////////////////////////////////////////////
-.theme-dark  {
+.theme-dark {
     background: linear-gradient(#3e3e3e, #3c3c3c);
     border-left: 2px solid #646060;
 
@@ -455,7 +456,8 @@
             background-color: #5d5d5d !important;
         }
 
-        input, i {
+        input,
+        i {
             color: #fff !important;
         }
     }
@@ -464,9 +466,9 @@
     //     border-bottom: 2px solid #303030 !important;
     // }
 
-    .menu-label, 
-    .v-config, 
-    .no-subscription, 
+    .menu-label,
+    .v-config,
+    .no-subscription,
     .menu-list a {
         color: #fff !important;
     }
@@ -484,7 +486,7 @@
     .side-menu-wrapper {
         .box {
             border-bottom: 2px solid #303030;
-            color: #fff; 
+            color: #fff;
 
             img {
                 border: 1px solid #9f9f9f;
@@ -501,11 +503,10 @@
     }
 }
 
-
 /////////////////////////////////////////////
-// green 
+// green
 /////////////////////////////////////////////
-.theme-green  {
+.theme-green {
     background: linear-gradient(#455d58, #37524d);
     border-left: 2px solid #567970;
 
@@ -514,7 +515,8 @@
             background-color: #294749 !important;
         }
 
-        input, i {
+        input,
+        i {
             color: #fff !important;
         }
     }
@@ -523,9 +525,9 @@
     //     border-bottom: 2px solid #354440 !important;
     // }
 
-    .menu-label, 
-    .v-config, 
-    .no-subscription, 
+    .menu-label,
+    .v-config,
+    .no-subscription,
     .menu-list a {
         color: #fff !important;
     }
@@ -543,7 +545,7 @@
     .side-menu-wrapper {
         .box {
             border-bottom: 2px solid #354440;
-            color: #fff; 
+            color: #fff;
 
             img {
                 border: 1px solid #9f9f9f;
@@ -561,9 +563,9 @@
 }
 
 /////////////////////////////////////////////
-// Purple 
+// Purple
 /////////////////////////////////////////////
-.theme-purple  {
+.theme-purple {
     background: linear-gradient(#4d4261, #4d4463);
     border-left: 2px solid #736887;
 
@@ -572,7 +574,8 @@
             background-color: #755aa5 !important;
         }
 
-        input, i {
+        input,
+        i {
             color: #fff !important;
         }
     }
@@ -581,9 +584,9 @@
     //     border-bottom: 2px solid #43404a !important;
     // }
 
-    .menu-label, 
-    .v-config, 
-    .no-subscription, 
+    .menu-label,
+    .v-config,
+    .no-subscription,
     .menu-list a {
         color: #fff !important;
     }
@@ -601,7 +604,7 @@
     .side-menu-wrapper {
         .box {
             border-bottom: 2px solid #43404a;
-            color: #fff; 
+            color: #fff;
 
             img {
                 border: 1px solid #9f9f9f;

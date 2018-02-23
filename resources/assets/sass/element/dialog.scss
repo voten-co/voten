@@ -1,10 +1,10 @@
 // dialog
 .el-dialog__body {
-  padding: 1em 20px;
+    padding: 1em 20px;
 }
 
 .el-dialog__footer {
-  padding-top: 0;
+    padding-top: 0;
 }
 
 .el-dialog__header {
@@ -34,7 +34,7 @@
     flex: 1;
     background: #fff;
     overflow: hidden;
-        
+
     .el-dialog__body {
         overflow: auto;
         width: 100%;
@@ -44,10 +44,10 @@
         flex-grow: 1;
         -ms-flex-negative: 1;
         flex-shrink: 1;
-        margin-top: .3em;
+        margin-top: 0.3em;
     }
 }
 
 .el-message-box {
-    @include user-select(); 
+    @include user-select();
 }

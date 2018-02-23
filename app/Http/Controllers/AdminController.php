@@ -9,6 +9,12 @@ use App\Report;
 use App\Submission;
 use App\User;
 use Illuminate\Http\Request;
+use App\Http\Resources\SubmissionResource;
+use App\Http\Resources\CommentResource;
+use App\Http\Resources\ChannelResource;
+use App\Http\Resources\UserResource;
+use App\Activity;
+use App\Http\Resources\ActivityResource;
 
 class AdminController extends Controller
 {
@@ -17,6 +23,15 @@ class AdminController extends Controller
     public function __construct()
     {
         $this->middleware('voten-administrator', ['except' => ['isAdministrator']]);
+    }
+
+    public function activities()
+    {
+        $activities = (new Activity())->newQuery();
+        
+        return ActivityResource::collection(
+            $activities->with('owner')->orderBy('id', 'desc')->simplePaginate(30)
+        );        
     }
 
     /**
@@ -36,7 +51,9 @@ class AdminController extends Controller
      */
     public function submissions(Request $request)
     {
-        return SubmissionResource::collection(Submission::orderBy('id', 'desc')->simplePaginate(10));
+        return SubmissionResource::collection(
+            Submission::orderBy('id', 'desc')->simplePaginate(10)
+        );
     }
 
     /**
@@ -58,7 +75,9 @@ class AdminController extends Controller
      */
     public function channels()
     {
-        return Channel::orderBy('id', 'desc')->simplePaginate(30);
+        return ChannelResource::collection(
+            Channel::orderBy('id', 'desc')->simplePaginate(30)
+        );
     }
 
     /**
@@ -68,7 +87,9 @@ class AdminController extends Controller
      */
     public function indexUsers()
     {
-        return User::orderBy('id', 'desc')->simplePaginate(30);
+        return UserResource::collection(
+            User::orderBy('id', 'desc')->simplePaginate(30)
+        );
     }
 
     /**

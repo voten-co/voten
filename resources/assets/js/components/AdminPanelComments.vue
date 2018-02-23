@@ -96,7 +96,7 @@ export default {
                 .post('/admin/comments', {
                     page: this.page
                 })
-                .then(response => {
+                .then((response) => {
                     this.comments = [...this.comments, ...response.data.data];
 
                     if (response.data.links.next == null) {

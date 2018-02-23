@@ -12,66 +12,66 @@
 </template>
 
 <script>
-    import Submission from '../components/Submission.vue';
-    import NoContent from '../components/NoContent.vue';
-    import Loading from '../components/Loading.vue';
-    import NoMoreItems from '../components/NoMoreItems.vue';
-    import Helpers from '../mixins/Helpers';
+import Submission from '../components/Submission.vue';
+import NoContent from '../components/NoContent.vue';
+import Loading from '../components/Loading.vue';
+import NoMoreItems from '../components/NoMoreItems.vue';
+import Helpers from '../mixins/Helpers';
 
-    export default {
-        mixins: [Helpers],
+export default {
+    mixins: [Helpers],
 
-        components: {
-            Submission,
-            NoContent,
-            Loading, 
-            NoMoreItems
+    components: {
+        Submission,
+        NoContent,
+        Loading,
+        NoMoreItems
+    },
+
+    computed: {
+        cantLoadMore() {
+            return this.loading || this.NoMoreItems || this.nothingFound;
         },
 
-        computed: {
-            cantLoadMore() {
-                return this.loading || this.NoMoreItems || this.nothingFound;
-            },
-
-            NoMoreItems() {
-                return Store.page.bookmarkedSubmissions.NoMoreItems;
-            },
-
-            nothingFound() {
-                return Store.page.bookmarkedSubmissions.nothingFound;
-            },
-
-            submissions() {
-                return Store.page.bookmarkedSubmissions.submissions;
-            },
-
-            loading() {
-                return Store.page.bookmarkedSubmissions.loading;
-            },
-
-            page() {
-                return Store.page.bookmarkedSubmissions.page;
-            }
+        NoMoreItems() {
+            return Store.page.bookmarkedSubmissions.NoMoreItems;
         },
 
-        beforeRouteEnter (to, from, next) {
-            if (! Store.page.bookmarkedSubmissions.page > 0) {
-                if (typeof app != "undefined") {
-                    app.$Progress.start();
-                }
-
-                Store.page.bookmarkedSubmissions.getSubmissions().then(() => {
-                    next(vm => vm.$Progress.finish());
-                });
-            } else {
-                next();
-            }
+        nothingFound() {
+            return Store.page.bookmarkedSubmissions.nothingFound;
         },
 
-        methods: {
-            loadMore() {
-                Store.page.bookmarkedSubmissions.getSubmissions();
-            },
+        submissions() {
+            return Store.page.bookmarkedSubmissions.submissions;
+        },
+
+        loading() {
+            return Store.page.bookmarkedSubmissions.loading;
+        },
+
+        page() {
+            return Store.page.bookmarkedSubmissions.page;
         }
-    };
+    },
+
+    beforeRouteEnter(to, from, next) {
+        if (!Store.page.bookmarkedSubmissions.page > 0) {
+            if (typeof app != 'undefined') {
+                app.$Progress.start();
+            }
+
+            Store.page.bookmarkedSubmissions.getSubmissions().then(() => {
+                next((vm) => vm.$Progress.finish());
+            });
+        } else {
+            next();
+        }
+    },
+
+    methods: {
+        loadMore() {
+            Store.page.bookmarkedSubmissions.getSubmissions();
+        }
+    }
+};
 </script>

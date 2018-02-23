@@ -12,11 +12,9 @@
 
 
 <style>
-
 .cls-2 {
     fill: #d8e2e7;
 }
-
 
 .comment-emoji-button:hover .cls-2 {
     fill: #ffb803;
@@ -29,9 +27,7 @@
 
 
 <script>
-    export default {
-        props: [
-            'width', 'height',
-        ],
-    };
+export default {
+    props: ['width', 'height']
+};
 </script>

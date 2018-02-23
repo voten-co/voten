@@ -139,13 +139,13 @@ export default {
                 .get('/comments/reports', {
                     params: {
                         type: this.type,
-                        channel_id: Store.page.channel.temp.id, 
-                        page: this.page, 
-                        with_reporter: 1, 
+                        channel_id: Store.page.channel.temp.id,
+                        page: this.page,
+                        with_reporter: 1,
                         with_comment: 1
                     }
                 })
-                .then(response => {
+                .then((response) => {
                     this.items = [...this.items, ...response.data.data];
 
                     if (!this.items.length) {
@@ -164,7 +164,10 @@ export default {
     beforeRouteEnter(to, from, next) {
         if (Store.page.channel.temp.name == to.params.name) {
             // loaded
-            if (Store.state.moderatingAt.indexOf(Store.page.channel.temp.id) != -1) {
+            if (
+                Store.state.moderatingAt.indexOf(Store.page.channel.temp.id) !=
+                -1
+            ) {
                 next();
             }
         } else {

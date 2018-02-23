@@ -97,7 +97,7 @@ export default {
     },
 
     watch: {
-        'visible'() {
+        visible() {
             if (this.visible) {
                 window.location.hash = 'newChannel';
             } else {
@@ -128,7 +128,7 @@ export default {
                     description: this.description,
                     nsfw: !this.sfw
                 })
-                .then(response => {
+                .then((response) => {
                     this.errors = [];
 
                     // let's add the categoriy_id to the user's moderatingAt and administratorAt
@@ -139,13 +139,15 @@ export default {
                     Store.state.subscribedAt.push(response.data.id);
                     Store.page.channel.temp = response.data;
 
-                    this.$router.push('/c/' + response.data.name + '/mod/settings?created=1');
+                    this.$router.push(
+                        '/c/' + response.data.name + '/mod/settings?created=1'
+                    );
 
                     this.loading = false;
                     this.reset();
                     this.close();
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.errors = error.response.data.errors;
 
                     this.loading = false;

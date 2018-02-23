@@ -153,7 +153,11 @@ export default {
 
     computed: {
         showVerificationWarning() {
-            return !auth.verified_email && auth.email && !this.emailForm.showConfirmPassword;
+            return (
+                !auth.verified_email &&
+                auth.email &&
+                !this.emailForm.showConfirmPassword
+            );
         },
 
         changedEmail() {
@@ -162,7 +166,8 @@ export default {
 
         changedPassword() {
             return (
-                this.passwordForm.new_password == this.passwordForm.new_password_confirmation &&
+                this.passwordForm.new_password ==
+                    this.passwordForm.new_password_confirmation &&
                 this.passwordForm.new_password &&
                 this.passwordForm.password
             );
@@ -190,7 +195,7 @@ export default {
                     auth.email = this.emailForm.email;
                     auth.verified_email = false;
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.emailForm.errors = error.response.data.errors;
                     this.emailForm.loading = false;
                 });
@@ -216,7 +221,8 @@ export default {
                 .patch('/users/password', {
                     password: this.passwordForm.password,
                     new_password: this.passwordForm.new_password,
-                    new_password_confirmation: this.passwordForm.new_password_confirmation
+                    new_password_confirmation: this.passwordForm
+                        .new_password_confirmation
                 })
                 .then(() => {
                     this.passwordForm.password = '';
@@ -231,7 +237,7 @@ export default {
                         message: 'Password updated successfully.'
                     });
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.passwordForm.errors = error.response.data.errors;
                     this.passwordForm.loading = false;
                 });

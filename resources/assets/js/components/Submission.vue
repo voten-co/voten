@@ -164,9 +164,9 @@ export default {
          */
         destroy() {
             this.hidden = true;
-            
+
             axios.delete(`/submissions/${this.list.id}`).catch(() => {
-                this.hidden = false; 
+                this.hidden = false;
             });
         },
 
@@ -178,8 +178,10 @@ export default {
         disapprove() {
             this.hidden = true;
 
-            axios.post('/disapprove-submission', { submission_id: this.list.id }).catch(() => (this.hidden = false));
-        },
+            axios
+                .post('/disapprove-submission', { submission_id: this.list.id })
+                .catch(() => (this.hidden = false));
+        }
     }
 };
 </script>

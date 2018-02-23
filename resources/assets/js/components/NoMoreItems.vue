@@ -7,13 +7,13 @@
 </template>
 
 <script>
-    export default {
-        data: function () {
-            return {
-                visible: true
-            }
-        },
+export default {
+    data: function() {
+        return {
+            visible: true
+        };
+    },
 
-        props: ['text']
-    };
+    props: ['text']
+};
 </script>

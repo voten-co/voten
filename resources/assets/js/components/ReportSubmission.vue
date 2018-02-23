@@ -50,74 +50,77 @@
 </template>
 
 <script>
-    import Helpers from '../mixins/Helpers';
+import Helpers from '../mixins/Helpers';
 
-    export default {
-        mixins: [Helpers],
+export default {
+    mixins: [Helpers],
 
-        props: ['visible'],
+    props: ['visible'],
 
-        data () {
-            return {
-                subject: "It's spam",
-                description: "",
-                sending: false,
-                subjects: [
-                    "It's spam",
-                    "It doesn't follow channel's exclusive rules",
-                    "It doesn't follow Voten's general rules",
-                    "It's abusive or harmful",
-                    "Other"
-                ]
-            }
-        },
+    data() {
+        return {
+            subject: "It's spam",
+            description: '',
+            sending: false,
+            subjects: [
+                "It's spam",
+                "It doesn't follow channel's exclusive rules",
+                "It doesn't follow Voten's general rules",
+                "It's abusive or harmful",
+                'Other'
+            ]
+        };
+    },
 
-        computed: {
-            submission() {
-                return Store.modals.reportSubmission.submission; 
-            }
-        }, 
+    computed: {
+        submission() {
+            return Store.modals.reportSubmission.submission;
+        }
+    },
 
-        mounted() {
-            this.$nextTick(function () {
-                this.$refs.description.$refs.textarea.focus();
-            });
-        },
-       
-        beforeDestroy() {
-            if (window.location.hash == '#reportSubmission') {
-                history.go(-1);
-            }
-        },
+    mounted() {
+        this.$nextTick(function() {
+            this.$refs.description.$refs.textarea.focus();
+        });
+    },
 
-        created() {
-            window.location.hash = 'reportSubmission';
-        },
+    beforeDestroy() {
+        if (window.location.hash == '#reportSubmission') {
+            history.go(-1);
+        }
+    },
 
-        methods: {
-            send() {
-                this.sending = true;
+    created() {
+        window.location.hash = 'reportSubmission';
+    },
 
-                axios.post('/submissions/reports', {
+    methods: {
+        send() {
+            this.sending = true;
+
+            axios
+                .post('/submissions/reports', {
                     id: this.submission.id,
                     subject: this.subject,
                     description: this.description
-                }).then(() => {
+                })
+                .then(() => {
                     this.$message({
                         message: 'Report submitted. Thanks for caring!',
                         type: 'success'
                     });
 
                     this.close();
-                    this.sending = false; 
-                }).catch(() => {
                     this.sending = false;
-                }); 
-            },
-
-            close() {
-                this.$emit('update:visible', false);
-            },
+                })
+                .catch(() => {
+                    this.sending = false;
+                });
         },
+
+        close() {
+            this.$emit('update:visible', false);
+        }
     }
+};
 </script>

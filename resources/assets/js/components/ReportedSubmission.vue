@@ -67,35 +67,37 @@
 
 
 <script>
-    import Markdown from '../components/Markdown.vue';
-    import Helpers from '../mixins/Helpers';
+import Markdown from '../components/Markdown.vue';
+import Helpers from '../mixins/Helpers';
 
-    export default {
-        components: { Markdown },
+export default {
+    components: { Markdown },
 
-        mixins: [Helpers],
+    mixins: [Helpers],
 
-        data() {
-            return {
-                showDescription: false
-            }
+    data() {
+        return {
+            showDescription: false
+        };
+    },
+
+    props: ['list'],
+
+    computed: {
+        date() {
+            return moment(this.list.created_at)
+                .utc(moment().format('Z'))
+                .fromNow();
         },
 
-        props: ['list'],
-
-        computed: {
-            date() {
-                return moment(this.list.created_at).utc(moment().format("Z")).fromNow();
-            },
-
-            /**
-             * Calculates the long date to display for hover over date.
-             *
-             * @return String
-             */
-            longDate() {
-                return this.parseFullDate(this.list.created_at);
-            },
-        },
-    };
+        /**
+         * Calculates the long date to display for hover over date.
+         *
+         * @return String
+         */
+        longDate() {
+            return this.parseFullDate(this.list.created_at);
+        }
+    }
+};
 </script>

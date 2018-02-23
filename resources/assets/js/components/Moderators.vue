@@ -33,70 +33,76 @@
 </template>
 
 <script>
-    import Loading from '../components/SimpleLoading.vue';
-    import Helpers from '../mixins/Helpers';
+import Loading from '../components/SimpleLoading.vue';
+import Helpers from '../mixins/Helpers';
 
-    export default {
-        mixins: [Helpers],
+export default {
+    mixins: [Helpers],
 
-        components: {
-            Loading
-        },
+    components: {
+        Loading
+    },
 
-        props: ['visible'],
+    props: ['visible'],
 
-        data () {
-            return {
-                list: [],
-                loading: true,
-            }
-        },
+    data() {
+        return {
+            list: [],
+            loading: true
+        };
+    },
 
-        created() {
-            this.getModerators();
-        },
+    created() {
+        this.getModerators();
+    },
 
-        methods: {
-            getModerators() {
-                axios.get('/moderators', {
+    methods: {
+        getModerators() {
+            axios
+                .get('/moderators', {
                     params: {
                         channel_name: this.$route.params.name
                     }
-                }).then((response) => {
+                })
+                .then((response) => {
                     this.list = response.data.data;
                     this.loading = false;
-                }).catch(() => {
-                    this.loading = false; 
                 })
-            },
-
-            close() {
-                this.$emit('update:visible', false);
-            },
-
-            sendMessage(user) {
-                if (this.isGuest) {this.mustBeLogin(); return;}
-
-                this.$eventHub.$emit('start-conversation', user);
-                this.close();
-            }
+                .catch(() => {
+                    this.loading = false;
+                });
         },
+
+        close() {
+            this.$emit('update:visible', false);
+        },
+
+        sendMessage(user) {
+            if (this.isGuest) {
+                this.mustBeLogin();
+                return;
+            }
+
+            this.$eventHub.$emit('start-conversation', user);
+            this.close();
+        }
     }
+};
 </script>
 
 <style>
-    .small-modal-user {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+.small-modal-user {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-    .small-modal-user img {
-        width: 4em;
-        height: auto;
-        margin: 1em;
-        margin-left: 0;
-        border-radius: 50%;
-        border: 1px solid #635d5d;
-    }
+.small-modal-user img {
+    width: 4em;
+    height: auto;
+    margin: 1em;
+    margin-left: 0;
+    border-radius: 50%;
+    border: 1px solid #635d5d;
+}
 </style>

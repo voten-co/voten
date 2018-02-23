@@ -142,7 +142,17 @@ export default {
                 twitter: auth.info.twitter
             },
 
-            coverColors: ['Blue', 'Dark Blue', 'Red', 'Dark', 'Dark Green', 'Bright Green', 'Purple', 'Pink', 'Orange'],
+            coverColors: [
+                'Blue',
+                'Dark Blue',
+                'Red',
+                'Dark',
+                'Dark Green',
+                'Bright Green',
+                'Purple',
+                'Pink',
+                'Orange'
+            ],
 
             avatar: {
                 fileUploadFormData: new FormData(),
@@ -179,12 +189,12 @@ export default {
 
             axios
                 .post('/user/avatar', this.avatar.fileUploadFormData)
-                .then(response => {
+                .then((response) => {
                     location.reload();
 
                     this.avatar.uploading = false;
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.avatar.errors = error.response.data.errors;
                     this.avatar.uploading = false;
                 });
@@ -212,7 +222,10 @@ export default {
                     auth.info.website = this.form.website;
                     auth.info.twitter = this.form.twitter;
 
-                    if (typeof Store.page.user.temp.username != 'undefined' && Store.page.user.temp.id == auth.id) {
+                    if (
+                        typeof Store.page.user.temp.username != 'undefined' &&
+                        Store.page.user.temp.id == auth.id
+                    ) {
                         Store.page.user.temp.name = auth.name;
                         Store.page.user.temp.bio = auth.bio;
                         Store.page.user.temp.cover_color = auth.cover_color;
@@ -223,7 +236,7 @@ export default {
 
                     this.sending = false;
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.sending = false;
                     this.errors = error.response.data.errors;
                 });

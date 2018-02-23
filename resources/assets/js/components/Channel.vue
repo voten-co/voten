@@ -25,7 +25,10 @@ export default {
 
     computed: {
         notSafeForWorkWarning() {
-            return Store.page.channel.temp.nsfw && !Store.settings.feed.include_nsfw_submissions;
+            return (
+                Store.page.channel.temp.nsfw &&
+                !Store.settings.feed.include_nsfw_submissions
+            );
         },
 
         text() {

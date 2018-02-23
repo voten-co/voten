@@ -182,12 +182,22 @@ export default {
     computed: {
         bookmarked: {
             get() {
-                return Store.state.bookmarks.users.indexOf(Store.page.user.temp.id) !== -1 ? true : false;
+                return Store.state.bookmarks.users.indexOf(
+                    Store.page.user.temp.id
+                ) !== -1
+                    ? true
+                    : false;
             },
 
             set() {
-                if (Store.state.bookmarks.users.indexOf(Store.page.user.temp.id) !== -1) {
-                    let index = Store.state.bookmarks.users.indexOf(Store.page.user.temp.id);
+                if (
+                    Store.state.bookmarks.users.indexOf(
+                        Store.page.user.temp.id
+                    ) !== -1
+                ) {
+                    let index = Store.state.bookmarks.users.indexOf(
+                        Store.page.user.temp.id
+                    );
                     Store.state.bookmarks.users.splice(index, 1);
 
                     return;

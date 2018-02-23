@@ -59,19 +59,27 @@ export default {
             let self = this;
 
             return _.uniqBy(this.suggestions.concat(this.list), 'username')
-                .filter(item => item.username.toLowerCase().indexOf(self.searched.toLowerCase().trim()) !== -1)
+                .filter(
+                    (item) =>
+                        item.username
+                            .toLowerCase()
+                            .indexOf(self.searched.toLowerCase().trim()) !== -1
+                )
                 .slice(0, 5);
         },
 
         /**
-         * The string written after the starter character (@). This is used for filtering items. 
-         * 
-         * @return string 
+         * The string written after the starter character (@). This is used for filtering items.
+         *
+         * @return string
          */
         searched() {
             let cursorPosition = this.getCursorPositionById(this.textareaid);
 
-            return this.message.substr(this.starter + 1, cursorPosition - this.starter - 1);
+            return this.message.substr(
+                this.starter + 1,
+                cursorPosition - this.starter - 1
+            );
         }
     },
 
@@ -101,11 +109,11 @@ export default {
             axios
                 .get('/search', {
                     params: {
-                        type: 'Users', 
+                        type: 'Users',
                         keyword: this.searched
                     }
                 })
-                .then(response => {
+                .then((response) => {
                     this.list = response.data.data;
                     this.loading = false;
                 })
@@ -139,7 +147,12 @@ export default {
         },
 
         pick(user) {
-            this.$emit('pick', '@' + user.username, this.starter, this.searched.length);
+            this.$emit(
+                'pick',
+                '@' + user.username,
+                this.starter,
+                this.searched.length
+            );
 
             this.close();
         }

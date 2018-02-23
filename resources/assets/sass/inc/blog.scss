@@ -6,7 +6,7 @@
 }
 
 .b-article-index {
-	font-family: 'Sorts Mill Goudy', serif;
+    font-family: 'Sorts Mill Goudy', serif;
     border-radius: 2px;
     background: #fff;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
@@ -46,8 +46,8 @@
 }
 
 .b-share-box a:hover,
-.b-share-box a:focus{
-	color: #333;
+.b-share-box a:focus {
+    color: #333;
 }
 
 .b-share-box a i:before {
@@ -74,24 +74,24 @@
 }
 
 .b-comments {
-	padding: 4em 0px;
+    padding: 4em 0px;
     border-top: 2px solid #eaeaea;
 }
 
 .b-comments h2 {
-	margin-bottom: 1em;
+    margin-bottom: 1em;
 }
 
 @media (max-width: 768px) {
     .b-article {
-	    padding: 1em;
-	}
+        padding: 1em;
+    }
 
-	.b-comments {
-		padding: 2em 1em;
-	}
+    .b-comments {
+        padding: 2em 1em;
+    }
 
-	.flex-space {
-		flex-direction: column;
-	}
+    .flex-space {
+        flex-direction: column;
+    }
 }
