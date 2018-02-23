@@ -163,7 +163,7 @@ export default {
 
     methods: {
         loadMore() {
-            console.log('load more')
+            console.log('load more');
             Store.page.home.getSubmissions(this.sort);
         },
 
