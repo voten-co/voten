@@ -31,6 +31,7 @@
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
+        "nunomaduro/collision": "^2.0",
         "phpunit/phpunit": "~7.0",
         "symfony/css-selector": "3.1.*",
         "symfony/dom-crawler": "3.1.*"
