@@ -1,10 +1,65 @@
+<style lang="scss">
+.echo-info-wrapper {
+    display: flex;
+    justify-content: space-evenly;
+
+    .echo-info-box {
+        width: 200px;
+        height: 5em;
+        background: #4e4e84;
+        color: #fff;
+        border-radius: 4px;
+        text-align: center;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 2em;
+        padding: 1em;
+        flex-direction: column;
+
+		.info {
+			font-size: 15px;
+			opacity: 0.9;
+		}
+    }
+}
+</style>
+
+
 <template>
 	<div id="submissions"
 	     class="home-submissions">
+		<div class="echo-info-wrapper" v-if="!echo.loading">
+			<div class="echo-info-box">
+				<div class="info">
+					Online Users:
+				</div>
+
+				<div>{{ echo.items.online_connections }}</div>
+			</div>
+
+			<div class="echo-info-box">
+				<div class="info">
+					Echo Uptime:
+				</div>
+
+				{{ echo.items.uptime }}
+			</div>
+
+			<div class="echo-info-box">
+				<div class="info">
+					Echo Memory Usage:
+				</div>
+
+				{{ echo.items.memory_usage }}
+			</div>
+		</div>
+
 		<div class="flex-space">
-			<h1>
+			<h2>
 				Latest Activities:
-			</h1>
+			</h2>
 
 			<div>
 				<el-button type="info"
@@ -82,11 +137,17 @@ export default {
 
     created() {
         this.getActivities();
+        this.getEcho();
     },
 
     data() {
         return {
             activities: {
+                items: [],
+                loading: false
+            },
+
+            echo: {
                 items: [],
                 loading: false
             }
@@ -106,6 +167,21 @@ export default {
                 })
                 .catch(() => {
                     this.activities.loading = false;
+                });
+        },
+
+        getEcho() {
+            this.echo.loading = true;
+
+            axios
+                .get('/admin/echo')
+                .then(response => {
+                    console.log(response.data.data);
+                    this.echo.items = response.data.data;
+                    this.echo.loading = false;
+                })
+                .catch(() => {
+                    this.echo.loading = false;
                 });
         },
 
