@@ -10,7 +10,7 @@ class BackendTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function horizon_must_not_be_accessible_guests()
+    public function horizon_must_not_be_accessible_to_guests()
     {
         $this->signIn();
 
