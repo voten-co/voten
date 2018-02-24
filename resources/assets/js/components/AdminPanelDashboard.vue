@@ -18,10 +18,10 @@
         padding: 1em;
         flex-direction: column;
 
-		.info {
-			font-size: 15px;
-			opacity: 0.9;
-		}
+        .info {
+            font-size: 15px;
+            opacity: 0.9;
+        }
     }
 }
 </style>
@@ -161,7 +161,7 @@ export default {
 
             axios
                 .get('/admin/activities')
-                .then(response => {
+                .then((response) => {
                     this.activities.items = response.data.data;
                     this.activities.loading = false;
                 })
@@ -175,7 +175,7 @@ export default {
 
             axios
                 .get('/admin/echo')
-                .then(response => {
+                .then((response) => {
                     console.log(response.data.data);
                     this.echo.items = response.data.data;
                     this.echo.loading = false;
