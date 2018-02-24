@@ -115,7 +115,8 @@ export default {
                 return null;
             }
 
-            if (str.length > length) return (str = str.substring(0, length) + '...');
+            if (str.length > length)
+                return (str = str.substring(0, length) + '...');
 
             return str;
         },
@@ -143,7 +144,10 @@ export default {
          * @return boolean
          */
         whileTyping(event) {
-            return event.target.tagName.toLowerCase() === 'textarea' || event.target.tagName.toLowerCase() === 'input';
+            return (
+                event.target.tagName.toLowerCase() === 'textarea' ||
+                event.target.tagName.toLowerCase() === 'input'
+            );
         },
 
         /**
@@ -157,7 +161,10 @@ export default {
                 timestamp = timestamp.date;
             }
 
-            return moment(timestamp).format('DD/MM/YYYY') == moment(new Date()).format('DD/MM/YYYY');
+            return (
+                moment(timestamp).format('DD/MM/YYYY') ==
+                moment(new Date()).format('DD/MM/YYYY')
+            );
         },
 
         /**
