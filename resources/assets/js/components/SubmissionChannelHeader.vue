@@ -64,10 +64,9 @@ export default {
 
     methods: {
         goBack() {
-            if(document.referrer.indexOf('voten.co') >= 0) {
+            if (document.referrer.indexOf('voten.co') >= 0) {
                 history.go(-1);
-            }
-            else {
+            } else {
                 window.location = '/c/' + Store.page.channel.temp.name;
             }
         }
