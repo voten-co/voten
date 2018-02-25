@@ -2,18 +2,18 @@
 
 Route::group(['middleware' => ['auth:api']], function () {
     // Administrator routes
-    Route::post('/admin/check', 'AdminController@isAdministrator'); // check 
-    Route::get('/admin/users', 'AdminController@indexUsers'); // check 
-    Route::get('/admin/comments', 'AdminController@indexComments'); // check 
-    Route::get('/admin/channels', 'AdminController@indexChannels'); // check 
-    Route::get('/admin/submissions', 'AdminController@indexSubmissions'); // check 
-    Route::get('/admin/suggesteds', 'SuggestionController@adminIndex'); // check 
-    Route::post('/admin/suggesteds', 'SuggestionController@store'); // check 
-    Route::delete('/admin/suggesteds/{suggested}', 'SuggestionController@destroy'); // check 
-    Route::get('/admin/reports/comments', 'AdminController@reportedComments'); // check 
-    Route::get('/admin/reports/submissions', 'AdminController@reportedSubmissions'); // check 
-    Route::get('/admin/activities', 'AdminController@activities'); // check 
-    Route::get('/admin/echo', 'AdminController@echoServer'); // check 
+    Route::post('/admin/check', 'AdminController@isAdministrator'); // check
+    Route::get('/admin/users', 'AdminController@indexUsers'); // check
+    Route::get('/admin/comments', 'AdminController@indexComments'); // check
+    Route::get('/admin/channels', 'AdminController@indexChannels'); // check
+    Route::get('/admin/submissions', 'AdminController@indexSubmissions'); // check
+    Route::get('/admin/suggesteds', 'SuggestionController@adminIndex'); // check
+    Route::post('/admin/suggesteds', 'SuggestionController@store'); // check
+    Route::delete('/admin/suggesteds/{suggested}', 'SuggestionController@destroy'); // check
+    Route::get('/admin/reports/comments', 'AdminController@reportedComments'); // check
+    Route::get('/admin/reports/submissions', 'AdminController@reportedSubmissions'); // check
+    Route::get('/admin/activities', 'AdminController@activities'); // check
+    Route::get('/admin/echo', 'AdminController@echoServer'); // check
 
     // feedback
     Route::get('/feedbacks/{feedback}', 'FeedbacksController@get')->middleware('voten-administrator'); // check
@@ -22,11 +22,11 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::delete('/feedbacks/{feedback}', 'FeedbacksController@destroy')->middleware('voten-administrator'); // check
 
     // Find Channels
-    Route::get('/channels/discover', 'SuggestionController@discover'); // check 
+    Route::get('/channels/discover', 'SuggestionController@discover'); // check
 
     // User
-    Route::get('/fill-basic-store', 'StoreController@index');  
-    Route::delete('/users', 'UserController@destroyAsAuth'); // check 
+    Route::get('/fill-basic-store', 'StoreController@index');
+    Route::delete('/users', 'UserController@destroyAsAuth'); // check
     Route::delete('/admin/users', 'UserController@destroyAsVotenAdministrator')->middleware('voten-administrator');
     Route::patch('/users/profile', 'UserSettingsController@profile');
     Route::patch('/users/account', 'UserSettingsController@account');
