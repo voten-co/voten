@@ -19,7 +19,7 @@ class Recaptcha implements Rule
     public function passes($attribute, $value)
     {
         if (App::environment('testing')) {
-            return true; 
+            return true;
         }
 
         $client = new Client();

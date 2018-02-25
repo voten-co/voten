@@ -82,7 +82,7 @@ class CommentController extends Controller
     {
         $this->validate($request, [
             'sort'          => 'nullable|in:hot,new',
-            'page'          => 'integer|min:1'
+            'page'          => 'integer|min:1',
         ]);
 
         if ($request->sort == 'new') {
