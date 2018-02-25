@@ -1,0 +1,20 @@
+language: php
+
+php:
+  - 7.1.14
+
+before_script:
+  - cp .env.travis .env
+  - composer install --no-interaction
+  - php artisan key:generate
+  - php artisan migrate
+  - php artisan passport:install
+  - npm install
+  - npm run dev
+
+services:
+  - redis-server
+
+cache:
+  directories:
+    - vendor

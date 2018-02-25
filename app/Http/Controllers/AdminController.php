@@ -15,10 +15,12 @@ use App\Http\Resources\ChannelResource;
 use App\Http\Resources\UserResource;
 use App\Activity;
 use App\Http\Resources\ActivityResource;
+use App\Traits\EchoServer;
+use App\Http\Resources\EchoServerResource;
 
 class AdminController extends Controller
 {
-    use Filters;
+    use Filters, EchoServer;
 
     public function __construct()
     {
@@ -32,6 +34,13 @@ class AdminController extends Controller
         return ActivityResource::collection(
             $activities->with('owner')->orderBy('id', 'desc')->simplePaginate(30)
         );        
+    }
+
+    public function echoServer()
+    {
+        return new EchoServerResource(
+            $this->echoStatus()
+        );
     }
 
     /**

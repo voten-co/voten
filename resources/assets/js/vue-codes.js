@@ -96,18 +96,26 @@ window.app = new Vue({
 
     computed: {
         unreadNotifications() {
-            return Store.state.notifications.filter(
-                (item) => item.read_at == null
-            ).length;
+            try {
+                return Store.state.notifications.filter(
+                    (item) => item.read_at == null
+                ).length;
+            } catch (error) {
+                return 0;
+            }
         },
 
         unreadMessages() {
-            return Store.state.contacts.filter(
-                (item) =>
-                    !_.isUndefined(item.last_message.author) &&
-                    item.last_message.author.id != auth.id &&
-                    item.last_message.read_at == null
-            ).length;
+            try {
+                return Store.state.contacts.filter(
+                    (item) =>
+                        !_.isUndefined(item.last_message.author) &&
+                        item.last_message.author.id != auth.id &&
+                        item.last_message.read_at == null
+                ).length;
+            } catch (error) {
+                return 0;
+            }
         }
     },
 

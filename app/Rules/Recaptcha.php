@@ -4,6 +4,7 @@ namespace App\Rules;
 
 use GuzzleHttp\Client;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\App;
 
 class Recaptcha implements Rule
 {
@@ -17,6 +18,10 @@ class Recaptcha implements Rule
      */
     public function passes($attribute, $value)
     {
+        if (App::environment('testing')) {
+            return true; 
+        }
+
         $client = new Client();
 
         $response = $client->post(
