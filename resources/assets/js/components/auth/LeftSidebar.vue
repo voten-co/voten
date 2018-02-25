@@ -1,6 +1,6 @@
 
 <template>
-	<div class="sidebar-left user-select" :class="{'shade-item relative': showTour && activeTour.id === 'left-sidebar'}">
+	<div class="sidebar-left user-select" :class="showTour && activeTour.id === 'left-sidebar' ? 'shade-item relative' : 'overflow-hidden'">
 		<tour v-if="showTour && activeTour.id == 'left-sidebar'" :position="{ top: '15%', left: '6em' }"></tour>
 		
 		<div class="top">
