@@ -206,11 +206,11 @@ if (!function_exists('rssForHumans')) {
         if ($bytes < $Ki) {
             return $bytes.' B';
         } elseif ($bytes < $Mi) {
-            return round($bytes / $Ki, 3).' KiB';
+            return round($bytes / $Ki, 3);
         } elseif ($bytes < $Gi) {
-            return round($bytes / $Mi, 3).' MiB';
+            return round($bytes / $Mi, 3);
         } else {
-            return round($bytes / $Gi, 3).' GiB';
+            return round($bytes / $Gi, 3);
         }
     }
 }

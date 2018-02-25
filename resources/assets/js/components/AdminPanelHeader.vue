@@ -2,7 +2,7 @@
 	<nav class="nav has-shadow user-select admin-panel-header">
 		<div class="container">
 			<div class="nav-left">
-				<router-link :to="'/big-daddy/'" class="nav-item is-tab" active-class="is-active">
+				<router-link :to="'/big-daddy/'" class="nav-item is-tab" active-class="is-active" exact>
 					Dashboard 
 				</router-link>
 
