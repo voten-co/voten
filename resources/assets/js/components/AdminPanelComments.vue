@@ -93,8 +93,10 @@ export default {
             this.page++;
 
             axios
-                .post('/admin/comments', {
-                    page: this.page
+                .get('/admin/comments', {
+                    params: {
+                        page: this.page
+                    }
                 })
                 .then((response) => {
                     this.comments = [...this.comments, ...response.data.data];

@@ -58,7 +58,7 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Support\Collection
      */
-    public function submissions(Request $request)
+    public function indexSubmissions(Request $request)
     {
         return SubmissionResource::collection(
             Submission::orderBy('id', 'desc')->simplePaginate(10)
@@ -70,7 +70,7 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Support\Collection
      */
-    public function comments()
+    public function indexComments()
     {
         return CommentResource::collection(
             Comment::orderBy('id', 'desc')->simplePaginate(30)
@@ -82,7 +82,7 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Support\Collection
      */
-    public function channels()
+    public function indexChannels()
     {
         return ChannelResource::collection(
             Channel::orderBy('id', 'desc')->simplePaginate(30)
@@ -149,22 +149,5 @@ class AdminController extends Controller
         return Report::whereHas('comment')->whereHas('reporter')->where([
             'reportable_type' => 'App\Comment',
         ])->with('reporter', 'comment')->orderBy('created_at', 'desc')->simplePaginate(50);
-    }
-
-    /**
-     * searches the channels.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function getChannels(Request $request)
-    {
-        $this->validate($request, [
-            'name' => 'required',
-        ]);
-
-        return Channel::where('name', 'like', '%'.$request->name.'%')
-                    ->select('id', 'name')->take(100)->get()->pluck('name');
     }
 }

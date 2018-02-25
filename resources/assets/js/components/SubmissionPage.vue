@@ -329,11 +329,10 @@ export default {
             this.loadingComments = true;
 
             axios
-                .get('/submissions/comments', {
+                .get(`/submissions/${this.submission.id}/comments`, {
                     params: {
                         page: this.page,
                         sort: this.sort,
-                        submission_id: this.submission.id,
                         with_children: true,
                         with_parent: true
                     }

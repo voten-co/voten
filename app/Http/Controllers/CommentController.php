@@ -78,18 +78,17 @@ class CommentController extends Controller
      *
      * @return mixed
      */
-    public function index(Request $request)
+    public function index(Request $request, $submission_id)
     {
         $this->validate($request, [
             'sort'          => 'nullable|in:hot,new',
-            'page'          => 'integer|min:1',
-            'submission_id' => 'exists:submissions,id',
+            'page'          => 'integer|min:1'
         ]);
 
         if ($request->sort == 'new') {
             return CommentResource::collection(
                 Comment::where([
-                    ['submission_id', request('submission_id')],
+                    ['submission_id', $submission_id],
                     ['parent_id', 0],
                 ])->orderBy('created_at', 'desc')->simplePaginate(20)
             );
@@ -98,7 +97,7 @@ class CommentController extends Controller
         // Sort by default which is 'hot'
         return CommentResource::collection(
             Comment::where([
-                ['submission_id', request('submission_id')],
+                ['submission_id', $submission_id],
                 ['parent_id', 0],
             ])->orderBy('rate', 'desc')->simplePaginate(20)
         );
@@ -137,17 +136,13 @@ class CommentController extends Controller
             'body' => 'required|string|max:5000',
         ]);
 
-        try {
-            $comment = $this->getCommentById($comment_id);
-        } catch (\Exception $e) {
-            return res(400, 'Oops, something went wrong.');
-        }
+        $comment = $this->getCommentById($comment_id);
 
         abort_unless($this->mustBeOwner($comment), 403);
 
         // make sure the body has changed
         if (request('body') == $comment->body) {
-            return res(422, 'Comment has not been really edited.');
+            return res(200, 'The body is the same as it was before!.');
         }
 
         $comment->update([
@@ -169,11 +164,7 @@ class CommentController extends Controller
      */
     public function destroy($comment_id)
     {
-        try {
-            $comment = $this->getCommentById($comment_id);
-        } catch (\Exception $e) {
-            return res(400, 'Oops, something went wrong.');
-        }
+        $comment = $this->getCommentById($comment_id);
 
         abort_unless($this->mustBeOwner($comment), 403);
 

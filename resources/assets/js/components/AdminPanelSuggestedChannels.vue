@@ -115,9 +115,7 @@ export default {
     methods: {
         destroy(id) {
             axios
-                .post('/admin/suggested/destroy', {
-                    id
-                })
+                .delete(`/admin/suggesteds/${id}`)
                 .then((response) => {
                     this.list = this.list.filter(function(item) {
                         return item.id != id;
@@ -126,7 +124,7 @@ export default {
         },
 
         getSuggesteds() {
-            axios.post('/admin/suggesteds').then((response) => {
+            axios.get('/admin/suggesteds').then((response) => {
                 this.list = response.data;
             });
         },
@@ -137,13 +135,14 @@ export default {
             this.loading = true;
 
             axios
-                .get('/admin/get-channels', {
+                .get('/search', {
                     params: {
-                        name: query
+                        type: 'Channels',
+                        keyword: query
                     }
                 })
                 .then((response) => {
-                    this.channels = response.data;
+                    this.channels = _.map(response.data.data, 'name');
                     this.loading = false;
                 });
         }, 600),
@@ -169,7 +168,7 @@ export default {
 
         submit() {
             axios
-                .post('/channels/discover', {
+                .post('/admin/suggesteds', {
                     channel_name: this.channel_name,
                     group: this.group,
                     z_index: this.z_index

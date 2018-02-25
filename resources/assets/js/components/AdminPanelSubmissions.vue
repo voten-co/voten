@@ -88,8 +88,10 @@ export default {
             this.loading = true;
 
             axios
-                .post('/admin/submissions', {
-                    page: this.page
+                .get('/admin/submissions', {
+                    params: {
+                        page: this.page
+                    }
                 })
                 .then((response) => {
                     this.submissions = [
