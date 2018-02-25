@@ -64,7 +64,12 @@ export default {
 
     methods: {
         goBack() {
-            history.go(-1);
+            if(document.referrer.indexOf('voten.co') >= 0) {
+                history.go(-1);
+            }
+            else {
+                window.location = '/c/' + Store.page.channel.temp.name;
+            }
         }
     }
 };
