@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Activity;
 use App\Channel;
 use App\Comment;
 use App\Filters;
+use App\Http\Resources\ActivityResource;
+use App\Http\Resources\ChannelResource;
+use App\Http\Resources\CommentResource;
+use App\Http\Resources\EchoServerResource;
+use App\Http\Resources\SubmissionResource;
+use App\Http\Resources\UserResource;
 use App\Report;
 use App\Submission;
+use App\Traits\EchoServer;
 use App\User;
 use Illuminate\Http\Request;
-use App\Http\Resources\SubmissionResource;
-use App\Http\Resources\CommentResource;
-use App\Http\Resources\ChannelResource;
-use App\Http\Resources\UserResource;
-use App\Activity;
-use App\Http\Resources\ActivityResource;
-use App\Traits\EchoServer;
-use App\Http\Resources\EchoServerResource;
 
 class AdminController extends Controller
 {
@@ -30,10 +30,10 @@ class AdminController extends Controller
     public function activities()
     {
         $activities = (new Activity())->newQuery();
-        
+
         return ActivityResource::collection(
             $activities->with('owner')->orderBy('id', 'desc')->simplePaginate(30)
-        );        
+        );
     }
 
     public function echoServer()
