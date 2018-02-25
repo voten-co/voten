@@ -5,6 +5,8 @@ php:
 
 before_script:
   - cp .env.travis .env
+  - mysql -e 'CREATE DATABASE test_db;'
+  - composer self-update
   - composer install --no-interaction
   - php artisan key:generate
   - php artisan migrate
@@ -14,7 +16,11 @@ before_script:
 
 services:
   - redis-server
+  - mysql 
 
 cache:
   directories:
     - vendor
+
+script:
+  - vendor/bin/phpunit
