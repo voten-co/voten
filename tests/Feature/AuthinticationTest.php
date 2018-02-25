@@ -13,11 +13,11 @@ class AuthinticationTest extends TestCase
     public function a_guest_can_register_via_the_form()
     {
         $this->post('/register', [
-            'username' => 'test_username',
-            'email' => 'test@test.com',
-            'password' => 'password',
+            'username'              => 'test_username',
+            'email'                 => 'test@test.com',
+            'password'              => 'password',
             'password_confirmation' => 'password',
-            'g-recaptcha-response' => 'master_ozzy',
+            'g-recaptcha-response'  => 'master_ozzy',
         ])->assertRedirect('/discover-channels?newbie=1&sidebar=0');
     }
 
@@ -25,11 +25,11 @@ class AuthinticationTest extends TestCase
     public function a_guest_can_login()
     {
         $this->post('/register', [
-            'username' => 'test_username',
-            'email' => 'test@test.com',
-            'password' => 'password',
+            'username'              => 'test_username',
+            'email'                 => 'test@test.com',
+            'password'              => 'password',
             'password_confirmation' => 'password',
-            'g-recaptcha-response' => 'master_ozzy',
+            'g-recaptcha-response'  => 'master_ozzy',
         ]);
 
         $this->get('/logout');
@@ -44,11 +44,11 @@ class AuthinticationTest extends TestCase
     public function a_guest_can_register_via_the_api()
     {
         $this->json('POST', '/register', [
-            'username' => 'test_username',
-            'email' => 'test@test.com',
-            'password' => 'password',
+            'username'              => 'test_username',
+            'email'                 => 'test@test.com',
+            'password'              => 'password',
             'password_confirmation' => 'password',
-            'g-recaptcha-response' => 'master_ozzy',
+            'g-recaptcha-response'  => 'master_ozzy',
         ])->assertJson([
             'message' => 'Registered successfully.',
         ]);
@@ -58,11 +58,11 @@ class AuthinticationTest extends TestCase
     public function a_guest_can_login_via_the_api()
     {
         $this->post('/register', [
-            'username' => 'test_username',
-            'email' => 'test@test.com',
-            'password' => 'password',
+            'username'              => 'test_username',
+            'email'                 => 'test@test.com',
+            'password'              => 'password',
             'password_confirmation' => 'password',
-            'g-recaptcha-response' => 'master_ozzy',
+            'g-recaptcha-response'  => 'master_ozzy',
         ]);
 
         $this->get('/logout');
