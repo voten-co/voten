@@ -10,7 +10,7 @@ class AuthinticationTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function a_guest_can_register()
+    public function a_guest_can_register_via_the_form()
     {
         $this->post('/register', [
             'username'              => 'test_username',
@@ -35,6 +35,37 @@ class AuthinticationTest extends TestCase
         $this->get('/logout');
 
         $this->post('/login', [
+            'username' => 'test_username',
+            'password' => 'password',
+        ])->assertRedirect('/');
+    }
+
+    /** @test */
+    public function a_guest_can_register_via_the_api()
+    {
+        $this->json('POST', '/api/guest/register', [
+            'username' => 'test_username',
+            'email' => 'test@test.com',
+            'password'              => 'password',
+            'password_confirmation' => 'password',
+            'g-recaptcha-response' => 'master_ozzy',
+        ])->assertRedirect('/discover-channels?newbie=1&sidebar=0');
+    }
+    
+    /** @test */
+    public function a_guest_can_login_via_the_api()
+    {
+        $this->post('/register', [
+            'username'              => 'test_username',
+            'email'                 => 'test@test.com',
+            'password'              => 'password',
+            'password_confirmation' => 'password',
+            'g-recaptcha-response' => 'master_ozzy',            
+        ]);
+
+        $this->get('/logout');
+
+        $this->json('POST', '/api/guest/login', [
             'username' => 'test_username',
             'password' => 'password',
         ])->assertRedirect('/');
