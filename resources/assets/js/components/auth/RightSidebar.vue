@@ -221,7 +221,10 @@ export default {
 
     computed: {
         showLoadMoreChannels() {
-            return this.channels.length > this.channelsLimit && !this.subscribedFilter;
+            return (
+                this.channels.length > this.channelsLimit &&
+                !this.subscribedFilter
+            );
         },
 
         showDiscoverChannels() {
@@ -258,8 +261,12 @@ export default {
         },
 
         theme() {
-            if (! this.showTour) {
-                return 'theme-' + this.str_slug(Store.settings.rightSidebar.color) + ' overflow-hidden';
+            if (!this.showTour) {
+                return (
+                    'theme-' +
+                    this.str_slug(Store.settings.rightSidebar.color) +
+                    ' overflow-hidden'
+                );
             }
 
             return 'theme-' + this.str_slug(Store.settings.rightSidebar.color);
@@ -282,7 +289,10 @@ export default {
 
             return _.orderBy(
                 self.channels.filter(
-                    channel => channel.name.toLowerCase().indexOf(self.subscribedFilter.toLowerCase()) !== -1
+                    (channel) =>
+                        channel.name
+                            .toLowerCase()
+                            .indexOf(self.subscribedFilter.toLowerCase()) !== -1
                 ),
                 'subscribers_count',
                 'desc'
@@ -312,11 +322,15 @@ export default {
         },
 
         signOut() {
-            this.$confirm(`Are you sure about signing out of your account?`, 'Confirm', {
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'Never mind',
-                type: 'warning'
-            })
+            this.$confirm(
+                `Are you sure about signing out of your account?`,
+                'Confirm',
+                {
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'Never mind',
+                    type: 'warning'
+                }
+            )
                 .then(() => {
                     Vue.clearLS();
 
