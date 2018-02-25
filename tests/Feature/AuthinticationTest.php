@@ -13,9 +13,9 @@ class AuthinticationTest extends TestCase
     public function a_guest_can_register_via_the_form()
     {
         $this->post('/register', [
-            'username'              => 'test_username',
-            'email'                 => 'test@test.com',
-            'password'              => 'password',
+            'username' => 'test_username',
+            'email' => 'test@test.com',
+            'password' => 'password',
             'password_confirmation' => 'password',
             'g-recaptcha-response' => 'master_ozzy',
         ])->assertRedirect('/discover-channels?newbie=1&sidebar=0');
@@ -25,11 +25,11 @@ class AuthinticationTest extends TestCase
     public function a_guest_can_login()
     {
         $this->post('/register', [
-            'username'              => 'test_username',
-            'email'                 => 'test@test.com',
-            'password'              => 'password',
+            'username' => 'test_username',
+            'email' => 'test@test.com',
+            'password' => 'password',
             'password_confirmation' => 'password',
-            'g-recaptcha-response' => 'master_ozzy',            
+            'g-recaptcha-response' => 'master_ozzy',
         ]);
 
         $this->get('/logout');
@@ -43,31 +43,35 @@ class AuthinticationTest extends TestCase
     /** @test */
     public function a_guest_can_register_via_the_api()
     {
-        $this->json('POST', '/api/guest/register', [
+        $this->json('POST', '/register', [
             'username' => 'test_username',
             'email' => 'test@test.com',
-            'password'              => 'password',
+            'password' => 'password',
             'password_confirmation' => 'password',
             'g-recaptcha-response' => 'master_ozzy',
-        ])->assertRedirect('/discover-channels?newbie=1&sidebar=0');
+        ])->assertJson([
+            'message' => 'Registered successfully.',
+        ]);
     }
-    
+
     /** @test */
     public function a_guest_can_login_via_the_api()
     {
         $this->post('/register', [
-            'username'              => 'test_username',
-            'email'                 => 'test@test.com',
-            'password'              => 'password',
+            'username' => 'test_username',
+            'email' => 'test@test.com',
+            'password' => 'password',
             'password_confirmation' => 'password',
-            'g-recaptcha-response' => 'master_ozzy',            
+            'g-recaptcha-response' => 'master_ozzy',
         ]);
 
         $this->get('/logout');
 
-        $this->json('POST', '/api/guest/login', [
+        $res = $this->json('POST', '/login', [
             'username' => 'test_username',
             'password' => 'password',
-        ])->assertRedirect('/');
+        ])->assertJson([
+            'message' => 'Logged in successfully.',
+        ]);
     }
 }

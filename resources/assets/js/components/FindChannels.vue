@@ -9,7 +9,7 @@
 			<transition name="fade">
 				<div class="text-or-button padding-1" v-if="isNewbie && reachedMinimum">
 					<el-button round 
-						@click="$router.push({name: 'home', query: { sidebar: 1, newbie: 1 }})"
+						@click="$router.push({name: 'home', query: { newbie: 1, sidebar: 1 }})"
 						type="primary"
 					>
 						Start Voting <i class="el-icon-arrow-right el-icon-right"></i>
