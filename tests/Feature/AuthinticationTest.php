@@ -17,7 +17,7 @@ class AuthinticationTest extends TestCase
             'email'                 => 'test@test.com',
             'password'              => 'password',
             'password_confirmation' => 'password',
-            'g-recaptcha-response' => 'master_ozzy',
+            'g-recaptcha-response'  => 'master_ozzy',
         ])->assertRedirect('/discover-channels?newbie=1&sidebar=0');
     }
 
@@ -29,7 +29,7 @@ class AuthinticationTest extends TestCase
             'email'                 => 'test@test.com',
             'password'              => 'password',
             'password_confirmation' => 'password',
-            'g-recaptcha-response' => 'master_ozzy',            
+            'g-recaptcha-response'  => 'master_ozzy',
         ]);
 
         $this->get('/logout');
