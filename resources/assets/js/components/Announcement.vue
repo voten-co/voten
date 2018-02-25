@@ -1,5 +1,5 @@
 <template>
-	<div class="announcement-wrapper">
+	<div class="announcement-wrapper" v-show="show">
 		<transition-group name="el-zoom-in-bottom">
 			<div class="announcement" v-for="(value, index) in announcements" :key="value.id">
 				<markdown :text="value.body" v-if="value.body"></markdown>
@@ -29,6 +29,12 @@ export default {
 
     created() {
         this.fetch();
+    },
+
+    computed: {
+        show() {
+            return this.$route.name !== 'discover-channels';
+        }
     },
 
     methods: {
