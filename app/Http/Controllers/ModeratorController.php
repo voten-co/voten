@@ -6,8 +6,10 @@ use App\Channel;
 use App\Comment;
 use App\Events\CommentWasDeleted;
 use App\Events\SubmissionWasDeleted;
+use App\Events\SubmissionWasPinned;
 use App\Http\Resources\ModeratorResource;
 use App\Notifications\BecameModerator;
+use App\RecordsActivity;
 use App\Report;
 use App\Rules\NotSelfUsername;
 use App\Submission;
@@ -22,7 +24,7 @@ use Illuminate\Http\Request;
 
 class ModeratorController extends Controller
 {
-    use CachableSubmission, CachableChannel, CachableComment;
+    use CachableSubmission, CachableChannel, CachableComment, RecordsActivity;
 
     public function __construct()
     {
@@ -227,4 +229,77 @@ class ModeratorController extends Controller
 
         return response($request->username.' is no longer a moderator at #'.$request->channel_name, 200);
     }
+
+    /**
+     * pins the submission
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return response
+     */
+    public function pinSubmission(Request $request)
+    {
+        $this->validate($request, [
+            'submission_id' => 'required|integer',
+            'months'          => 'integer|min:0',
+            'weeks'          => 'integer|min:0',
+            'days'          => 'integer|min:0',
+            'hours'         => 'integer|min:0',
+        ]);
+
+        $submission = Submission::withTrashed()->findOrFail($request->submission_id);
+
+        abort_unless($this->mustBeModerator($submission->channel_id), 403);
+
+        $pinUntil = Carbon::now();
+        if ($request->months)
+            $pinUntil->addMonths($request->months);
+        if ($request->weeks)
+            $pinUntil->addWeeks($request->weeks);
+        if ($request->days)
+            $pinUntil->addDays($request->days);
+        if ($request->hours)
+            $pinUntil->addHours($request->hours);
+        if ($request->minutes)
+            $pinUntil->addMinutes($request->minutes);
+
+        $submission->update([
+            'pin_until' => $pinUntil,
+        ]);
+
+        event(new SubmissionWasPinned($submission, Auth::user()->id));
+
+        $this->putSubmissionInTheCache($submission);
+
+        return response('Submission pinned successfully', 200);
+    }
+
+    /**
+     * unpins the submission
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return response
+     */
+    public function unpinSubmission(Request $request)
+    {
+        $this->validate($request, [
+            'submission_id' => 'required|integer',
+        ]);
+
+        $submission = Submission::withTrashed()->findOrFail($request->submission_id);
+
+        abort_unless($this->mustBeModerator($submission->channel_id), 403);
+
+        $submission->update([
+            'pinned_until' => NULL,
+        ]);
+
+        event(new SubmissionWasUnpinned($submission, Auth::user()->id));
+
+        $this->putSubmissionInTheCache($submission);
+
+        return response('Submission unpinned successfully', 200);
+    }
+
 }
