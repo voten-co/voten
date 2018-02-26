@@ -115,6 +115,7 @@ export default {
     data() {
         return {
             page: 1,
+            perPage: 0,
             moreComments: false,
             loadingComments: true,
             comments: [],
@@ -238,9 +239,7 @@ export default {
         commentsOrder() {
             return this.sort == 'hot' ? 'rate' : 'created_at';
         }
-    },
-
-    methods: {
+    } , methods: {
         clear() {
             this.moreComments = false;
             this.page = 1;
@@ -253,15 +252,52 @@ export default {
         },
 
         /**
+         * performs sorting on array
+         */
+        doSort(items) {
+            // console.log('count: '+items.length);
+            if (this.sort == 'hot') {
+                items.sort((a, b) => {
+                    // console.log(a);
+                    // console.log(b);
+                    let cmp = this.compareItems(a.rate, b.rate);
+                    // console.log('cmp1: '+cmp);
+                    if (cmp != 0) {
+                        // console.log(this.parseDate(a.created_at));
+                        // console.log(this.parseDate(b.created_at));
+                        cmp = this.compareItems(this.parseDate(a.created_at), this.parseDate(b.created_at));
+                        // console.log('cmp2: '+cmp);
+					}
+					return cmp;
+                })
+            }
+        },
+        findCommentLevel: function(comments, parentId) {
+            //console.log(comments);
+			if (!comments || comments.length == 0)
+				return null;
+			var level;
+			for (var comment in comments) {                    //if parent is found, return it's children as proper level
+				if (comment.user_id == parentId) {
+					return comment.children;
+				}
+				else if (comment.children && comment.children.length > 0) {    //else, look deeper
+					level = findCommentLevel(comment.children, parentId);
+					if (level) {
+						return level;
+					}
+				}
+			};
+			return null;
+		},
+
+        /**
          * receives the broadcasted comment.
          *
          * @return void
          */
         newComment(comment) {
-            if (
-                comment.parent_id != null ||
-                comment.submission_id != this.submission.id
-            )
+            if (comment.submission_id != this.submission.id)
                 return;
 
             // add broadcasted (used for styling)
@@ -269,7 +305,20 @@ export default {
                 comment.broadcasted = true;
             }
 
-            this.comments.unshift(comment);
+            //find comment level
+            var isNested = comment.parent_id != null;
+            var level;
+			if (isNested) {
+			    level = this.findCommentLevel(this.comments, comment.parent_id);
+			}
+			if (!level) {
+			    level = this.comments;
+			}
+
+            //we might also find index and do not show if it's on the next pages
+            level.unshift(comment);
+            this.doSort(level);
+
             this.submission.comments_count++;
 
             if (comment.user_id == auth.id) {
