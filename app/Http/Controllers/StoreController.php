@@ -7,6 +7,7 @@ use App\Traits\CachableUser;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
+use App\Http\Resources\UserStoreResource;
 
 class StoreController extends Controller
 {
@@ -26,21 +27,23 @@ class StoreController extends Controller
      */
     public function index()
     {
-        return collect([
-            'submissionUpvotes'           => $this->submissionUpvotes(), // cached
-            'submissionDownvotes'         => $this->submissionDownvotes(), // cached
-            'commentUpvotes'              => $this->commentUpvotes(), // cached
-            'commentDownvotes'            => $this->commentDownvotes(), // cached
-            'bookmarkedSubmissions'       => $this->bookmarkedSubmissions(), // cached
-            'bookmarkedComments'          => $this->bookmarkedComments(), // cached
-            'bookmarkedChannels'          => $this->bookmarkedChannels(), // cached
-            'bookmarkedUsers'             => $this->bookmarkedUsers(), // cached
-            'subscribedChannels'          => $this->subscribedChannels(),
-            'moderatingChannels'          => $this->moderatingChannels(),
-            'moderatingChannelsRecords'   => $this->moderatingChannelsRecords(),
-            'bookmarkedChannelsRecords'   => $this->bookmarkedChannelsRecords(),
-            'blockedUsers'                => $this->blockedUsers(), // cached
-        ]);
+        return new UserStoreResource(
+            [
+                'submissionUpvotes'           => $this->submissionUpvotes(), // cached
+                'submissionDownvotes'         => $this->submissionDownvotes(), // cached
+                'commentUpvotes'              => $this->commentUpvotes(), // cached
+                'commentDownvotes'            => $this->commentDownvotes(), // cached
+                'bookmarkedSubmissions'       => $this->bookmarkedSubmissions(), // cached
+                'bookmarkedComments'          => $this->bookmarkedComments(), // cached
+                'bookmarkedChannels'          => $this->bookmarkedChannels(), // cached
+                'bookmarkedUsers'             => $this->bookmarkedUsers(), // cached
+                'subscribedChannels'          => $this->subscribedChannels(),
+                'moderatingChannels'          => $this->moderatingChannels(),
+                'moderatingChannelsRecords'   => $this->moderatingChannelsRecords(),
+                'bookmarkedChannelsRecords'   => $this->bookmarkedChannelsRecords(),
+                'blockedUsers'                => $this->blockedUsers(), // cached
+            ]
+        );
     }
 
     protected function moderatingChannelsRecords()

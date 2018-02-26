@@ -25,7 +25,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/channels/discover', 'SuggestionController@discover'); // check 
 
     // User
-    Route::get('/fill-basic-store', 'StoreController@index');  
+    Route::get('/users/store', 'StoreController@index'); // check 
     Route::delete('/users', 'UserController@destroyAsAuth'); // check 
     Route::delete('/admin/users', 'UserController@destroyAsVotenAdministrator')->middleware('voten-administrator');
     Route::patch('/users/profile', 'UserSettingsController@profile');
