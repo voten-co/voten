@@ -238,31 +238,8 @@ export default {
          */
         commentsOrder() {
             return this.sort == 'hot' ? 'rate' : 'created_at';
-        },
-
-        /**
-         * looks through the array in order to search id
-         *
-         * @return comments array
-         */
-        findCommentLevel(comments, parentId) {
-            var level;
-            for (comment in comments) {                    //if parent is found, return it's children as proper level
-                if (comment.user_id == parentId) {
-                    return comment.children;
-                }
-                else if (comment.children.length > 0) {    //else, look deeper
-                    level = this.findCommentLevel(comment.children, parentId);
-                    if (level) {
-                        return level;
-                    }
-                }
-            };
-            return null;
-        },
-    },
-
-    methods: {
+        }
+    } , methods: {
         clear() {
             this.moreComments = false;
             this.page = 1;
@@ -295,6 +272,24 @@ export default {
                 })
             }
         },
+        findCommentLevel: function(comments, parentId) {
+            //console.log(comments);
+			if (!comments || comments.length == 0)
+				return null;
+			var level;
+			for (var comment in comments) {                    //if parent is found, return it's children as proper level
+				if (comment.user_id == parentId) {
+					return comment.children;
+				}
+				else if (comment.children && comment.children.length > 0) {    //else, look deeper
+					level = findCommentLevel(comment.children, parentId);
+					if (level) {
+						return level;
+					}
+				}
+			};
+			return null;
+		},
 
         /**
          * receives the broadcasted comment.
@@ -311,8 +306,14 @@ export default {
             }
 
             //find comment level
-            let isNested = comment.parent_id != null;
-            let level = !isNested ? this.comments : this.findCommentLevel(this.comments, comment.parent_id);
+            var isNested = comment.parent_id != null;
+            var level;
+			if (isNested) {
+			    level = this.findCommentLevel(this.comments, comment.parent_id);
+			}
+			if (!level) {
+			    level = this.comments;
+			}
 
             //we might also find index and do not show if it's on the next pages
             level.unshift(comment);
