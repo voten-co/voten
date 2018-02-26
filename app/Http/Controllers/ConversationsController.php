@@ -8,9 +8,12 @@ use App\Rules\NotSelfId;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
+use App\Traits\CachableUser;
 
 class ConversationsController extends Controller
 {
+    use CachableUser;
+
     public function __construct()
     {
         $this->middleware('auth');
