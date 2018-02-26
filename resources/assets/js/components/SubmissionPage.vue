@@ -115,6 +115,7 @@ export default {
     data() {
         return {
             page: 1,
+            perPage: 0,
             moreComments: false,
             loadingComments: true,
             comments: [],
@@ -237,7 +238,28 @@ export default {
          */
         commentsOrder() {
             return this.sort == 'hot' ? 'rate' : 'created_at';
-        }
+        },
+
+        /**
+         * looks through the array in order to search id
+         *
+         * @return comments array
+         */
+        findCommentLevel(comments, parentId) {
+            var level;
+            for (comment in comments) {                    //if parent is found, return it's children as proper level
+                if (comment.user_id == parentId) {
+                    return comment.children;
+                }
+                else if (comment.children.length > 0) {    //else, look deeper
+                    level = this.findCommentLevel(comment.children, parentId);
+                    if (level) {
+                        return level;
+                    }
+                }
+            };
+            return null;
+        },
     },
 
     methods: {
@@ -253,15 +275,38 @@ export default {
         },
 
         /**
+         * performs sorting on array
+         */
+        doSort(items) {
+            if (this.sort == 'hot') {
+                items.sort((a, b) => {
+                    if (a.rate > b.rate) {
+                        return 1;
+                    } else if (a.rate < b.rate) {
+                        return 2;
+                    } else {
+                        dateA = Date.parse(a.date);
+                        dateB = Date.parse(b.date);
+                        //older first if equal (?)
+                        if (dateA < dateB) {
+                            return 1;
+                        } else if (dateA > dateB) {
+                            return -1;
+                        } else {
+                            return 0;
+                        }
+                    }
+                })
+            }
+        },
+
+        /**
          * receives the broadcasted comment.
          *
          * @return void
          */
         newComment(comment) {
-            if (
-                comment.parent_id != null ||
-                comment.submission_id != this.submission.id
-            )
+            if (comment.submission_id != this.submission.id)
                 return;
 
             // add broadcasted (used for styling)
@@ -269,7 +314,14 @@ export default {
                 comment.broadcasted = true;
             }
 
-            this.comments.unshift(comment);
+            //find comment level
+            let isNested = comment.parent_id != null;
+            let level = !isNested ? this.comments : findCommentLevel(this.comments, comment.parent_id);
+
+            //we might also find index and do not show if it's on the next pages
+            level.unshift(comment);
+            doSort(level);
+
             this.submission.comments_count++;
 
             if (comment.user_id == auth.id) {
