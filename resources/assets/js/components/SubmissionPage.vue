@@ -278,24 +278,20 @@ export default {
          * performs sorting on array
          */
         doSort(items) {
+            // console.log('count: '+items.length);
             if (this.sort == 'hot') {
                 items.sort((a, b) => {
-                    if (a.rate > b.rate) {
-                        return 1;
-                    } else if (a.rate < b.rate) {
-                        return 2;
-                    } else {
-                        dateA = Date.parse(a.date);
-                        dateB = Date.parse(b.date);
-                        //older first if equal (?)
-                        if (dateA < dateB) {
-                            return 1;
-                        } else if (dateA > dateB) {
-                            return -1;
-                        } else {
-                            return 0;
-                        }
-                    }
+                    // console.log(a);
+                    // console.log(b);
+                    let cmp = this.compareItems(a.rate, b.rate);
+                    // console.log('cmp1: '+cmp);
+                    if (cmp != 0) {
+                        // console.log(this.parseDate(a.created_at));
+                        // console.log(this.parseDate(b.created_at));
+                        cmp = this.compareItems(this.parseDate(a.created_at), this.parseDate(b.created_at));
+                        // console.log('cmp2: '+cmp);
+					}
+					return cmp;
                 })
             }
         },
@@ -316,11 +312,11 @@ export default {
 
             //find comment level
             let isNested = comment.parent_id != null;
-            let level = !isNested ? this.comments : findCommentLevel(this.comments, comment.parent_id);
+            let level = !isNested ? this.comments : this.findCommentLevel(this.comments, comment.parent_id);
 
             //we might also find index and do not show if it's on the next pages
             level.unshift(comment);
-            doSort(level);
+            this.doSort(level);
 
             this.submission.comments_count++;
 

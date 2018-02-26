@@ -322,6 +322,32 @@ export default {
             let el = document.getElementById(scrollable);
 
             el.scrollTop = el.scrollHeight;
+        },
+
+        /**
+         * Compares two items
+         *
+         * @param Date a
+         * @param Date b
+         */
+        compareItems(a, b) {
+            if (a > b) {
+                return 1;
+            } else if (a < b) {
+                return -1;
+            } else {
+                return 0;
+            }
+        },
+
+        /**
+         * Parses server date format
+         *
+         * @param String dateStr
+         */
+        parseDate(dateStr) {
+            let s = dateStr.split(/[-: ]/);
+            return new Date(s[0], s[1]-1, s[2], s[3], s[4], s[5]);
         }
     }
 };
