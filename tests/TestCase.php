@@ -3,6 +3,7 @@
 namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Laravel\Passport\Passport;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -15,6 +16,17 @@ abstract class TestCase extends BaseTestCase
         $user = $user ?: create('App\User');
 
         $this->actingAs($user);
+
+        return $this;
+    }
+    
+    protected function signInViaPassport($user = null)
+    {
+        $this->clearRedisCache();
+
+        $user = $user ?: create('App\User');
+
+        Passport::actingAs($user);
 
         return $this;
     }
