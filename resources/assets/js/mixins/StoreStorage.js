@@ -29,35 +29,55 @@ export default {
             // fresh, and that's why we're still doing the ajax request to update it. Performance baby!
             // this.preloadStore();
 
-            axios.get('/users/store').then(response => {
-                Store.state.submissions.upVotes = response.data.data.submissions.upvoteds;
-                Store.state.submissions.downVotes = response.data.data.submissions.downvoteds;
-                Store.state.comments.upVotes = response.data.data.submissions.upvoteds;
-                Store.state.comments.downVotes = response.data.data.submissions.downvoteds;
-                Store.state.bookmarks.submissions = response.data.data.submissions.bookmarkeds;
-                Store.state.bookmarks.comments = response.data.data.comments.bookmarkeds;
-                Store.state.bookmarks.channels = response.data.data.channels.bookmarkeds;
-                Store.state.bookmarks.users = response.data.data.users.bookmarkeds;
-                Store.state.subscribedChannels = response.data.data.channels.subscribeds;
-                Store.state.moderatingChannels = response.data.data.channels.moderatings;
-                Store.state.bookmarkedChannels = response.data.data.channels.bookmarkeds_records;
-                Store.state.blocks.users = response.data.data.users.blockeds_conversations;
+            axios.get('/users/store').then((response) => {
+                Store.state.submissions.upVotes =
+                    response.data.data.submissions.upvoteds;
+                Store.state.submissions.downVotes =
+                    response.data.data.submissions.downvoteds;
+                Store.state.comments.upVotes =
+                    response.data.data.submissions.upvoteds;
+                Store.state.comments.downVotes =
+                    response.data.data.submissions.downvoteds;
+                Store.state.bookmarks.submissions =
+                    response.data.data.submissions.bookmarkeds;
+                Store.state.bookmarks.comments =
+                    response.data.data.comments.bookmarkeds;
+                Store.state.bookmarks.channels =
+                    response.data.data.channels.bookmarkeds;
+                Store.state.bookmarks.users =
+                    response.data.data.users.bookmarkeds;
+                Store.state.subscribedChannels =
+                    response.data.data.channels.subscribeds;
+                Store.state.moderatingChannels =
+                    response.data.data.channels.moderatings;
+                Store.state.bookmarkedChannels =
+                    response.data.data.channels.bookmarkeds_records;
+                Store.state.blocks.users =
+                    response.data.data.users.blockeds_conversations;
 
-                response.data.data.channels.moderatings.forEach((element, index) => {
-                    Store.state.moderatingAt.push(element.id);
-                });
-
-                response.data.data.channels.subscribeds.forEach((element, index) => {
-                    Store.state.subscribedAt.push(element.id);
-                });
-
-                response.data.data.channels.moderatings_records.forEach((element, index) => {
-                    if (element.role == 'administrator') {
-                        Store.state.administratorAt.push(element.channel_id);
-                    } else if (element.role == 'moderator') {
-                        Store.state.moderatorAt.push(element.channel_id);
+                response.data.data.channels.moderatings.forEach(
+                    (element, index) => {
+                        Store.state.moderatingAt.push(element.id);
                     }
-                });
+                );
+
+                response.data.data.channels.subscribeds.forEach(
+                    (element, index) => {
+                        Store.state.subscribedAt.push(element.id);
+                    }
+                );
+
+                response.data.data.channels.moderatings_records.forEach(
+                    (element, index) => {
+                        if (element.role == 'administrator') {
+                            Store.state.administratorAt.push(
+                                element.channel_id
+                            );
+                        } else if (element.role == 'moderator') {
+                            Store.state.moderatorAt.push(element.channel_id);
+                        }
+                    }
+                );
 
                 Store.initialFilled = true;
             });

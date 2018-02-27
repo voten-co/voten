@@ -114,13 +114,11 @@ export default {
 
     methods: {
         destroy(id) {
-            axios
-                .delete(`/admin/suggesteds/${id}`)
-                .then((response) => {
-                    this.list = this.list.filter(function(item) {
-                        return item.id != id;
-                    });
+            axios.delete(`/admin/suggesteds/${id}`).then((response) => {
+                this.list = this.list.filter(function(item) {
+                    return item.id != id;
                 });
+            });
         },
 
         getSuggesteds() {
