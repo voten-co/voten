@@ -19,18 +19,15 @@ class AdminUserSeeder extends Seeder
             'confirmed' => 1,
             'verified'  => 1,
             'email'     => 'admin@admin.com',
+            
             'settings'  => json_encode([
                 'font'                          => 'Lato',
                 'sidebar_color'                 => 'Gray',
-                'nsfw'                          => false,
-                'nsfw_media'                    => false,
                 'notify_submissions_replied'    => true,
                 'notify_comments_replied'       => true,
                 'notify_mentions'               => true,
-                'exclude_upvoted_submissions'   => false,
-                'exclude_downvoted_submissions' => true,
-                'submission_small_thumbnail'    => true,
             ]),
+            
             'info' => json_encode([
                 'website' => null,
                 'twitter' => null,
