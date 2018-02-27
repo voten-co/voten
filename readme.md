@@ -7,7 +7,7 @@
   </p>
 </p>
 
-# [Voten.co](https://voten.co)
+# [Voten.co](https://voten.co) [![CircleCI](https://circleci.com/gh/voten-co/voten/tree/master.svg?style=svg)](https://circleci.com/gh/voten-co/voten/tree/master)
 
 [Voten.co](https://voten.co) is an open-source, beautiful, highly customizable yet deadly simple, and warm community. To get a quick taste of what Voten is written with please check our [credits page](https://voten.co/credits).
 
