@@ -21,7 +21,7 @@ export default {
     },
 
     beforeRouteEnter(to, from, next) {
-        axios.post('/big-daddy').then((response) => {
+        axios.post('/admin/check').then((response) => {
             if (response.data == true) {
                 next();
             }

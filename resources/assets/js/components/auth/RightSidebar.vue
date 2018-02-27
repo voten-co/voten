@@ -1,8 +1,10 @@
 <template>
 	<div class="sidebar-right user-select"
 	     :class="theme">
-		<div class="side-menu-wrapper" :class="{'shade-item relative': showTour && activeTour.id === 'right-sidebar-menu'}">
-			<tour v-if="showTour && activeTour.id == 'right-sidebar-menu'" :position="{ top: '7em', right: '21em' }"></tour>
+		<div class="side-menu-wrapper"
+		     :class="{'shade-item relative': showTour && activeTour.id === 'right-sidebar-menu'}">
+			<tour v-if="showTour && activeTour.id == 'right-sidebar-menu'"
+			      :position="{ top: '7em', right: '21em' }"></tour>
 
 			<div class="box"
 			     @click="showMenu =! showMenu">
@@ -109,8 +111,10 @@
 			</el-collapse-transition>
 		</div>
 
-		<div class="fixed-header" :class="{'shade-item relative': showTour && activeTour.id === 'right-sidebar-channels'}">
-			<tour v-if="showTour && activeTour.id == 'right-sidebar-channels'" :position="{ top: '14em', right: '21em' }"></tour>
+		<div class="fixed-header"
+		     :class="{'shade-item relative': showTour && activeTour.id === 'right-sidebar-channels'}">
+			<tour v-if="showTour && activeTour.id == 'right-sidebar-channels'"
+			      :position="{ top: '14em', right: '21em' }"></tour>
 
 			<div class="flex-space">
 				<div class="menu-label">
@@ -141,7 +145,8 @@
 			          spellcheck="false"></el-input>
 		</div>
 
-		<aside class="menu" :class="{'shade-item relative': activeTour.id === 'right-sidebar-channels'}">
+		<aside class="menu"
+		       :class="{'shade-item relative': activeTour.id === 'right-sidebar-channels'}">
 			<div class="no-subscription"
 			     v-if="!sortedSubscribeds.length">
 				<i class="v-icon v-channel"
@@ -216,10 +221,7 @@ export default {
 
     computed: {
         showLoadMoreChannels() {
-            return (
-                this.channels.length > this.channelsLimit &&
-                !this.subscribedFilter
-            );
+            return this.channels.length > this.channelsLimit && !this.subscribedFilter;
         },
 
         showDiscoverChannels() {
@@ -256,6 +258,10 @@ export default {
         },
 
         theme() {
+            if (! this.showTour) {
+                return 'theme-' + this.str_slug(Store.settings.rightSidebar.color) + ' overflow-hidden';
+            }
+
             return 'theme-' + this.str_slug(Store.settings.rightSidebar.color);
         },
 
@@ -276,10 +282,7 @@ export default {
 
             return _.orderBy(
                 self.channels.filter(
-                    (channel) =>
-                        channel.name
-                            .toLowerCase()
-                            .indexOf(self.subscribedFilter.toLowerCase()) !== -1
+                    channel => channel.name.toLowerCase().indexOf(self.subscribedFilter.toLowerCase()) !== -1
                 ),
                 'subscribers_count',
                 'desc'
@@ -309,15 +312,11 @@ export default {
         },
 
         signOut() {
-            this.$confirm(
-                `Are you sure about signing out of your account?`,
-                'Confirm',
-                {
-                    confirmButtonText: 'Yes',
-                    cancelButtonText: 'Never mind',
-                    type: 'warning'
-                }
-            )
+            this.$confirm(`Are you sure about signing out of your account?`, 'Confirm', {
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'Never mind',
+                type: 'warning'
+            })
                 .then(() => {
                     Vue.clearLS();
 

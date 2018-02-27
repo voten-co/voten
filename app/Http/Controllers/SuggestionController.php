@@ -127,16 +127,12 @@ class SuggestionController extends Controller
      *
      * @return response
      */
-    public function destroy(Request $request)
+    public function destroy(Suggested $suggested)
     {
-        $this->validate($request, [
-            'id' => 'required|integer',
-        ]);
-
-        Suggested::findOrFail($request->id)->delete();
+        $suggested->delete();
 
         Cache::forget('default-channels-ids');
 
-        return res(200, 'Channel is no longer suggested');
+        return res(200, 'Channel is no longer suggested. ');
     }
 }

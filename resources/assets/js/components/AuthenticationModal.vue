@@ -266,7 +266,7 @@ export default {
             this.loading = true;
 
             axios
-                .post('/login', {
+                .post(`${Laravel.url}/login`, {
                     username: this.loginForm.username,
                     password: this.loginForm.password,
                     remember: this.loginForm.remember
@@ -287,7 +287,7 @@ export default {
             this.loading = true;
 
             axios
-                .post('/register', {
+                .post(`${Laravel.url}/register`, {
                     username: this.registerForm.username,
                     email: this.registerForm.email,
                     password: this.registerForm.password,
@@ -302,7 +302,7 @@ export default {
                 })
                 .catch((error) => {
                     this.loading = false;
-                    this.$refs.recaptcha.reset();
+                    // this.$refs.recaptcha.reset();
                     this.registerForm.errors = error.response.data.errors;
                 });
         },

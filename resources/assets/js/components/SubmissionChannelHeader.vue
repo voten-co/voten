@@ -39,21 +39,21 @@ export default {
         },
 
         coverBackground() {
-            if (Store.page.channel.temp.color == 'Red') {
+            if (Store.page.channel.temp.cover_color == 'Red') {
                 return '#9a4e4e';
-            } else if (Store.page.channel.temp.color == 'Blue') {
+            } else if (Store.page.channel.temp.cover_color == 'Blue') {
                 return '#5487d4';
-            } else if (Store.page.channel.temp.color == 'Dark Blue') {
+            } else if (Store.page.channel.temp.cover_color == 'Dark Blue') {
                 return '#2f3b49';
-            } else if (Store.page.channel.temp.color == 'Dark Green') {
+            } else if (Store.page.channel.temp.cover_color == 'Dark Green') {
                 return '#507e75';
-            } else if (Store.page.channel.temp.color == 'Bright Green') {
+            } else if (Store.page.channel.temp.cover_color == 'Bright Green') {
                 return 'rgb(117, 148, 127)';
-            } else if (Store.page.channel.temp.color == 'Purple') {
+            } else if (Store.page.channel.temp.cover_color == 'Purple') {
                 return '#4d4261';
-            } else if (Store.page.channel.temp.color == 'Orange') {
+            } else if (Store.page.channel.temp.cover_color == 'Orange') {
                 return '#ffaf40';
-            } else if (Store.page.channel.temp.color == 'Pink') {
+            } else if (Store.page.channel.temp.cover_color == 'Pink') {
                 return '#ec7daa';
             } else {
                 // userStore.cover_color == 'Black'
@@ -64,7 +64,11 @@ export default {
 
     methods: {
         goBack() {
-            history.go(-1);
+            if (document.referrer.indexOf('voten.co') >= 0) {
+                history.go(-1);
+            } else {
+                window.location = '/c/' + Store.page.channel.temp.name;
+            }
         }
     }
 };

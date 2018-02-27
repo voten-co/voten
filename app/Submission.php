@@ -105,6 +105,7 @@ class Submission extends Model
         return [
             'id'    => $this->id,
             'title' => $this->title,
+            'url'  => $this->url,
             'rate'  => $this->rate,
         ];
     }

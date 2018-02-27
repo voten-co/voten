@@ -537,7 +537,7 @@ export default {
 
             axios
                 .post('/conversations/block', {
-                    contact_id: this.currentContactId
+                    user_id: this.currentContactId
                 })
                 .then(() => {
                     if (wasBlocked) {

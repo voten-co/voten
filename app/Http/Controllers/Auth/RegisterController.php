@@ -194,5 +194,9 @@ class RegisterController extends Controller
         ];
 
         Redis::hmset('user.'.$user->id.'.data', $userData);
+
+        if ($request->expectsJson()) {
+            return res(201, 'Registered successfully.');
+        }
     }
 }

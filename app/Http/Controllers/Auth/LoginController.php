@@ -7,6 +7,7 @@ use App\Mail\WelcomeToVoten;
 use App\PhotoTools;
 use App\User;
 use Auth;
+use Illuminate\Http\Request;
 use Faker\Factory as Faker;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Redis;
@@ -47,6 +48,20 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'logout']);
+    }
+
+    /**
+     * The user has been authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        if ($request->expectsJson()) {
+            return res(200, 'Logged in successfully.');
+        }
     }
 
     /* --------------------------------------------------------------------- */

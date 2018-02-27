@@ -22,7 +22,6 @@
     // align-items: center;
     padding-top: 1em;
     border-right: 2px solid #000;
-    overflow: hidden;
 
     i {
         color: #fff;
@@ -69,7 +68,7 @@
     flex-basis: 16em;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    // overflow: hidden;
     // border-left: 2px solid #e7e7e7;
     // background: #f4f5f7;
 
