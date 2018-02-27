@@ -60,13 +60,13 @@ jobs:
             - ./node_modules
         
       # run tests!
-      # - run: touch database/database.sqlite
-      # - run: php artisan key:generate
-      # - run: npm run dev
+      - run: touch database/database.sqlite
+      - run: php artisan key:generate
+      - run: npm run dev
 
-      # - run:
-      #    name: Run Laravel Server
-      #    command: php artisan serve
-      #    background: true
+      - run:
+         name: Run Laravel Server
+         command: php artisan serve
+         background: true
 
-      # - run: vendor/bin/phpunit
+      - run: vendor/bin/phpunit
