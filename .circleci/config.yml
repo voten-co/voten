@@ -61,7 +61,6 @@ jobs:
       - run: touch database/database.sqlite
       - run: php artisan key:generate
       - run: php artisan migrate --env=testing --force
-      - run: php artisan passport:install
       - run: npm run production
 
       - run:
