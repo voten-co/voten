@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Events\ConversationRead;
 use App\Http\Resources\ConversationResource;
 use App\Rules\NotSelfId;
+use App\Traits\CachableUser;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
-use App\Traits\CachableUser;
 
 class ConversationsController extends Controller
 {

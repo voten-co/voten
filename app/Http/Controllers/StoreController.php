@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserStoreResource;
 use App\Traits\CachableChannel;
 use App\Traits\CachableUser;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
-use App\Http\Resources\UserStoreResource;
 
 class StoreController extends Controller
 {
