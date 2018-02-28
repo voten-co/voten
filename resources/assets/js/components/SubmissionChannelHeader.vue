@@ -27,6 +27,10 @@ export default {
         };
     },
 
+    created() {
+        console.log(`referrer: "${document.referrer}"`); 
+    }, 
+
     components: { Subscribe },
 
     computed: {
@@ -64,11 +68,7 @@ export default {
 
     methods: {
         goBack() {
-            if (document.referrer.indexOf('voten.co') >= 0) {
-                history.go(-1);
-            } else {
-                window.location = '/c/' + Store.page.channel.temp.name;
-            }
+            history.go(-1); 
         }
     }
 };
