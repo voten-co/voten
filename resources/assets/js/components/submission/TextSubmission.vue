@@ -3,11 +3,9 @@
 		<!-- submission page -->
 		<div v-if="full">
 			<h1 class="submission-title">
-				<el-tooltip content="NSFW" placement="bottom" transition="false" :open-delay="500">
-					<i class="v-icon v-shocked go-red" aria-hidden="true" v-if="submission.nsfw"></i>
-				</el-tooltip>
-
 				{{ submission.title }}
+
+                <el-tag size="mini" type="danger" class="margin-left-half" v-if="submission.nsfw">NSFW</el-tag>
 			</h1>
 
 			<markdown :text="body" v-if="body && !editing"></markdown>
@@ -57,6 +55,8 @@
 					class="flex-space v-ultra-bold"
 				>
 					{{ submission.title }}
+
+                    <el-tag size="mini" type="danger" class="margin-left-half" v-if="submission.nsfw">NSFW</el-tag>
 				</router-link>
 			</h3>
 

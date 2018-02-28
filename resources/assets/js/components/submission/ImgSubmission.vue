@@ -45,20 +45,14 @@
 					             class="flex-space v-ultra-bold"
 					             v-if="!full">
 						{{ submission.title }}
+
+						<el-tag size="mini" type="danger" class="margin-left-half" v-if="submission.nsfw">NSFW</el-tag>
 					</router-link>
 
-					<h3 class="submission-title"
-					    v-else>
-						<el-tooltip content="NSFW"
-						            placement="bottom"
-						            transition="false"
-						            :open-delay="500">
-							<i class="v-icon v-shocked go-red"
-							   aria-hidden="true"
-							   v-if="submission.nsfw"></i>
-						</el-tooltip>
-
+					<h3 class="submission-title" v-else>
 						{{ submission.title }}
+
+						<el-tag size="mini" type="danger" class="margin-left-half" v-if="submission.nsfw">NSFW</el-tag>
 					</h3>
 
 					<submission-footer :url="url"
