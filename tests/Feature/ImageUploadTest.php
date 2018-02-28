@@ -16,7 +16,7 @@ class ImageUploadTest extends TestCase
     /** @test */
     public function a_user_may_upload_new_avatar_image_via_api()
     {
-        Storage::fake('fake-disk');
+        Storage::fake('ftp');
 
         $this->signInViaPassport();
 
