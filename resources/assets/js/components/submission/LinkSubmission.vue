@@ -94,7 +94,8 @@
 					                   :downvoted="downvoted"
 					                   :points="points"
 					                   @upvote="$emit('upvote')"
-					                   @downvote="$emit('downvote')"></submission-footer>
+					                   @downvote="$emit('downvote')"
+										></submission-footer>
 				</span>
 			</span>
 		</div>

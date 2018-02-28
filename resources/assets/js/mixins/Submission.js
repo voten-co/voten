@@ -12,10 +12,25 @@ export default {
     },
 
     data() {
-        return { hidden: false };
+        return {
+            hidden: false,
+            pinnedUntil: this.list.pinned_until,
+            //interval: null
+        };
     },
 
     props: ['list', 'full'],
+
+    // beforeDestroy: function() {
+    //     this.stopInterval();
+    // },
+    //
+    // mounted: function () {
+    //     if (this.list.pinned_until()) {
+    //         this.pinned_until = new Date(this.list.pinned_until);
+    //         this.startInterval();
+    //     };
+    // },
 
     computed: {
         upvoted: {
@@ -153,10 +168,50 @@ export default {
          */
         nsfw() {
             return this.list.nsfw && !auth.show_nsfw_media;
-        }
+        },
+
+        /**
+         * Computes whether or not a submission is pinned
+         *
+         * @return boolean
+         */
+        pinned(){
+            return !!this.pinnedUntil;
+        },
     },
 
     methods: {
+        // /**
+        //  * Starts the timer for updating pin
+        //  *
+        //  * @return void
+        //  */
+        // startInterval: function () {
+        //     console.log('Interval start');
+        //     if (!interval) {
+        //         this.interval = setInterval(
+        //             function () {
+        //                 if (!this.pinnedUntil) this.stopInterval();
+        //                 else if (Date.now() > this.pinnedUntil) {
+        //                     this.pinnedUntil = null;
+        //                     this.stopInterval();
+        //                 }
+        //             }.bind(this), 60000);
+        //     }
+        // },
+        //
+        // /**
+        //  * Stops the timer for updating pin
+        //  *
+        //  * @return void
+        //  */
+        // stopInterval: function () {
+        //     console.log('Interval end');
+        //     if(this.interval) {
+        //         clearInterval(this.interval);
+        //     }
+        // },
+
         /**
          * Approves the submission. Only the moderators of channel are allowed to do this.
          *
@@ -311,6 +366,46 @@ export default {
             Store.modals.gifPlayer.gif = gif;
             Store.modals.gifPlayer.submission = this.list;
             Store.modals.gifPlayer.show = true;
-        }
+        },
+
+        /**
+         * Pins the submission. Only the moderators of channel are allowed to do this.
+         *
+         * @return void
+         */
+        pin(months, weeks, days, hours) {
+            axios
+                .post('/pin-submission', {
+                    submission_id: this.list.id,
+                    months: months,
+                    weeks: weeks,
+                    days: days,
+                    hours: hours
+                })
+                .then((response) => {
+                    this.pinnedUntil = response.pinned_until;
+                    console.log(this.pinnedUntil);
+                })
+                .catch((error) => {
+                    this.pinnedUntil = null;
+                });
+        },
+
+        /**
+         * Unpins the submission. Only the moderators of channel are allowed to do this.
+         *
+         * @return void
+         */
+        unpin() {
+            axios
+                .post('/unpin-submission', {
+                    submission_id: this.list.id
+                })
+                .then((response) => {
+                    this.list.pinned_until = null;
+                })
+                .catch((error) => {
+                });
+        },
     }
 };

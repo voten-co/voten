@@ -18,6 +18,14 @@
 					<i class="el-icon-more-outline"></i>
 
 					<el-dropdown-menu slot="dropdown">
+						<el-dropdown-item v-if="showPin" @click.native="$eventHub.$on('pin',12,0,0,0)">
+							Pin
+						</el-dropdown-item>
+
+						<el-dropdown-item v-if="showUnpin" @click.native="$eventHub.$on('unpin')">
+							Unpin
+						</el-dropdown-item>
+
 						<el-dropdown-item v-if="!owns" @click.native="$emit('report')">
 							Report
 						</el-dropdown-item>
@@ -106,6 +114,22 @@ export default {
          */
         owns() {
             return auth.id == this.submission.author.id;
+        },
+
+        showPin() {
+            return (
+                !this.pinned &&
+                (Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1 ||
+                    meta.isVotenAdminstrator)
+            );
+        },
+
+        showUnpin() {
+            return (
+                this.pinned &&
+                (Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1 ||
+                    meta.isVotenAdminstrator)
+            );
         },
 
         showApprove() {

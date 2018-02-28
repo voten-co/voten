@@ -78,6 +78,14 @@
 									<i class="el-icon-more-outline"></i>
 
 									<el-dropdown-menu slot="dropdown">
+										<el-dropdown-item v-if="showPin" @click.native="pin(12,0,0,0)">
+											Pin
+										</el-dropdown-item>
+
+										<el-dropdown-item v-if="showUnpin" @click.native="unpin">
+											Unpin
+										</el-dropdown-item>
+
 										<el-dropdown-item v-if="!owns"
 										                  @click.native="report">
 											Report
@@ -181,6 +189,22 @@ export default {
             return `+${this.list.upvotes_count} | -${
                 this.list.downvotes_count
             }`;
+        },
+
+        showPin() {
+            return (
+                !this.pinned &&
+                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
+                    meta.isVotenAdminstrator)
+            );
+        },
+
+        showUnpin() {
+            return (
+                this.pinned &&
+                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
+                    meta.isVotenAdminstrator)
+            );
         },
 
         showApprove() {

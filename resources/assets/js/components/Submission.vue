@@ -125,7 +125,15 @@ import Submission from '../mixins/Submission';
 
 export default {
     mixins: [Helpers, Submission],
+    created() {
+        this.$eventHub.$on('pin', this.pin);
+        this.$eventHub.$on('unpin', this.unpin);
+    },
 
+    beforeDestroy() {
+        this.$eventHub.$off('pin', this.pin);
+        this.$eventHub.$off('unpin', this.unpin);
+    },
     methods: {
         doubleClicked() {
             if (this.isGuest) return;

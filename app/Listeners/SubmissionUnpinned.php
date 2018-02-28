@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Activity;
+use App\Events\SubmissionWasUnpinned;
 use Illuminate\Auth\Events\Registered;
 
 class SubmissionUnpinned
@@ -20,11 +21,11 @@ class SubmissionUnpinned
     /**
      * Handle the event.
      *
-     * @param SubmissionWasPinned $event
+     * @param SubmissionWasUnpinned $event
      *
      * @return void
      */
-    public function handle(SubmissionWasPinned $event)
+    public function handle(SubmissionWasUnpinned $event)
     {
         Activity::create([
             'subject_id'   => $event->submission->id,

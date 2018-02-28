@@ -34,6 +34,7 @@ class SubmissionResource extends Resource
             'created_at'      => optional($this->created_at)->toDateTimeString(),
             'url'             => $this->url,
             'domain'          => $this->domain,
+            'pinned_until'    => $this->pinned_until,
 
             'channel' => $this->when((bool) request('with_channel') == true, new ChannelResource($this->channel)),
 

@@ -21,7 +21,7 @@ use Auth;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
-
+require "../vendor/larapack/dd/src/helper.php";
 class ModeratorController extends Controller
 {
     use CachableSubmission, CachableChannel, CachableComment, RecordsActivity;
@@ -241,37 +241,47 @@ class ModeratorController extends Controller
     {
         $this->validate($request, [
             'submission_id' => 'required|integer',
-            'months'          => 'integer|min:0',
-            'weeks'          => 'integer|min:0',
-            'days'          => 'integer|min:0',
-            'hours'         => 'integer|min:0',
+            'months' => 'integer|min:0',
+            'weeks' => 'integer|min:0',
+            'days' => 'integer|min:0',
+            'hours' => 'integer|min:0',
         ]);
 
         $submission = Submission::withTrashed()->findOrFail($request->submission_id);
 
         abort_unless($this->mustBeModerator($submission->channel_id), 403);
 
-        $pinUntil = Carbon::now();
-        if ($request->months)
-            $pinUntil->addMonths($request->months);
-        if ($request->weeks)
-            $pinUntil->addWeeks($request->weeks);
-        if ($request->days)
-            $pinUntil->addDays($request->days);
-        if ($request->hours)
-            $pinUntil->addHours($request->hours);
-        if ($request->minutes)
-            $pinUntil->addMinutes($request->minutes);
+        $now = Carbon::now();
+        $pinUntil = clone $now;
 
+        if ($request->months) {
+            $pinUntil = $pinUntil->addMonths($request->months);
+        }
+        if ($request->weeks) {
+            $pinUntil = $pinUntil->addWeeks($request->weeks);
+        }
+        if ($request->days) {
+            $pinUntil = $pinUntil->addDays($request->days);
+        }
+        if ($request->hours) {
+            $pinUntil = $pinUntil->addHours($request->hours);
+        }
+
+        //If not specified, assuming infinite
+        if ($pinUntil <= $now) {
+            $pinUntil = Carbon::maxValue();
+        }
+        //or throw 400
+        //abort_unless($pinUntil > $now, 400);
         $submission->update([
-            'pin_until' => $pinUntil,
+            'pinned_until' => $pinUntil,
         ]);
 
         event(new SubmissionWasPinned($submission, Auth::user()->id));
 
         $this->putSubmissionInTheCache($submission);
 
-        return response('Submission pinned successfully', 200);
+        return ['pinned_until' => $pinUntil];
     }
 
     /**
@@ -292,7 +302,7 @@ class ModeratorController extends Controller
         abort_unless($this->mustBeModerator($submission->channel_id), 403);
 
         $submission->update([
-            'pinned_until' => NULL,
+            'pinned_until' => null,
         ]);
 
         event(new SubmissionWasUnpinned($submission, Auth::user()->id));
