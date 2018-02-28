@@ -97,6 +97,11 @@
                                v-if="isModerator" size="mini">
                         Moderation
                     </el-button>
+                    
+                    <el-button round type="warning" @click="$router.push('/c/' + $route.params.name + '/mod')"
+                               v-if="!isModerator && isVotenAdministrator" size="mini">
+                        Moderation
+                    </el-button>
                 </div>
             </div>
         </nav>
