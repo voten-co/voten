@@ -38,7 +38,7 @@ Thank you for considering contributing to the Voten. Here's a list of things you
 - [Reddit](https://www.reddit.com/r/voten/)
 - [API documentation](https://api.voten.co)
 - [#voten](https://voten.co/c/voten) (for general discussion about Voten)
-- [#votendev](https://voten.co/c/votendev) (talk is cheap, show me the code!)
+- [#votendev](https://voten.co/c/votendev) (let’s talk code!)
 
 ## API
 
