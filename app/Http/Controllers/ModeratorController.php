@@ -7,6 +7,7 @@ use App\Comment;
 use App\Events\CommentWasDeleted;
 use App\Events\SubmissionWasDeleted;
 use App\Events\SubmissionWasPinned;
+use App\Events\SubmissionWasUnpinned;
 use App\Http\Resources\ModeratorResource;
 use App\Notifications\BecameModerator;
 use App\RecordsActivity;
@@ -281,7 +282,7 @@ class ModeratorController extends Controller
 
         $this->putSubmissionInTheCache($submission);
 
-        return ['pinned_until' => $pinUntil];
+        return response(['pinned_until' => optional($pinUntil)->toDateTimeString()], 200);
     }
 
     /**
@@ -305,9 +306,9 @@ class ModeratorController extends Controller
             'pinned_until' => null,
         ]);
 
-        event(new SubmissionWasUnpinned($submission, Auth::user()->id));
-
         $this->putSubmissionInTheCache($submission);
+
+        event(new SubmissionWasUnpinned($submission, Auth::user()->id));
 
         return response('Submission unpinned successfully', 200);
     }

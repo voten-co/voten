@@ -14,7 +14,6 @@ export default {
     data() {
         return {
             hidden: false,
-            pinnedUntil: this.list.pinned_until,
             //interval: null
         };
     },
@@ -176,7 +175,7 @@ export default {
          * @return boolean
          */
         pinned(){
-            return !!this.pinnedUntil;
+            return !!this.list.pinned_until;
         },
     },
 
@@ -383,11 +382,9 @@ export default {
                     hours: hours
                 })
                 .then((response) => {
-                    this.pinnedUntil = response.pinned_until;
-                    console.log(this.pinnedUntil);
+                    this.list.pinned_until = response.data.pinned_until;
                 })
                 .catch((error) => {
-                    this.pinnedUntil = null;
                 });
         },
 

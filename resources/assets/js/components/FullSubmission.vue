@@ -191,57 +191,43 @@ export default {
             }`;
         },
 
+		isModOrAdmin() {
+            return Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 || meta.isVotenAdminstrator;
+		},
+
         showPin() {
             return (
-                !this.pinned &&
-                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
-                    meta.isVotenAdminstrator)
+                this.isModOrAdmin && !this.pinned
             );
         },
 
         showUnpin() {
             return (
-                this.pinned &&
-                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
-                    meta.isVotenAdminstrator)
+                this.isModOrAdmin && this.pinned
             );
         },
 
         showApprove() {
             return (
-                !this.list.approved_at &&
-                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
-                    meta.isVotenAdminstrator) &&
-                !this.owns
+                !this.list.approved_at && this.isModOrAdmin && !this.owns
             );
         },
 
         showDisapprove() {
             return (
-                !this.list.deleted_at &&
-                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
-                    meta.isVotenAdminstrator) &&
-                !this.owns
+                !this.list.deleted_at && this.isModOrAdmin && !this.owns
             );
         },
 
         showNSFW() {
             return (
-                (this.owns ||
-                    Store.state.moderatingAt.indexOf(this.list.channel_id) !=
-                        -1 ||
-                    meta.isVotenAdminstrator) &&
-                !this.list.nsfw
+                (this.owns || this.isModOrAdmin) && !this.list.nsfw
             );
         },
 
         showSFW() {
             return (
-                (this.owns ||
-                    Store.state.moderatingAt.indexOf(this.list.channel_id) !=
-                        -1 ||
-                    meta.isVotenAdminstrator) &&
-                this.list.nsfw
+                (this.owns || this.isModOrAdmin) && this.list.nsfw
             );
         },
 
