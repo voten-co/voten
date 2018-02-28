@@ -18,11 +18,11 @@
 					<i class="el-icon-more-outline"></i>
 
 					<el-dropdown-menu slot="dropdown">
-						<el-dropdown-item v-if="showPin" @click.native="$eventHub.$on('pin',12,0,0,0)">
+						<el-dropdown-item v-if="showPin" @click.native="$emit('pin')">
 							Pin
 						</el-dropdown-item>
 
-						<el-dropdown-item v-if="showUnpin" @click.native="$eventHub.$on('unpin')">
+						<el-dropdown-item v-if="showUnpin" @click.native="$emit('unpin')">
 							Unpin
 						</el-dropdown-item>
 
@@ -105,10 +105,6 @@ export default {
         'downvoted',
         'points'
     ],
-
-	mounted: function() {console.log(this.submission);
-        console.log('init value, pinned_until: '+this.submission.pinned_until);
-	},
 
     computed: {
         /**

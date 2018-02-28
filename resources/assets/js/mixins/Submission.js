@@ -372,14 +372,15 @@ export default {
          *
          * @return void
          */
-        pin(months, weeks, days, hours) {
+        pin(/*months, weeks, days, hours*/) {
+            console.log('Pinned id: '+this.list.id);
             axios
                 .post('/pin-submission', {
                     submission_id: this.list.id,
-                    months: months,
-                    weeks: weeks,
-                    days: days,
-                    hours: hours
+                    // months: months,
+                    // weeks: weeks,
+                    // days: days,
+                    // hours: hours
                 })
                 .then((response) => {
                     this.list.pinned_until = response.data.pinned_until;
@@ -394,6 +395,7 @@ export default {
          * @return void
          */
         unpin() {
+            console.log('Unpinned id: '+this.list.id);
             axios
                 .post('/unpin-submission', {
                     submission_id: this.list.id

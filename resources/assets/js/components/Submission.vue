@@ -43,7 +43,9 @@
 					                 :downvoted="downvoted"
 					                 @upvote="voteUp"
 					                 @downvote="voteDown"
-					                 :points="points"></text-submission>
+					                 :points="points"
+									 @pin="pin"
+									 @unpin="unpin"></text-submission>
 
 					<img-submission v-if="list.type == 'img'"
 					                :submission="list"
@@ -66,7 +68,9 @@
 					                :downvoted="downvoted"
 					                @upvote="voteUp"
 					                @downvote="voteDown"
-					                :points="points"></img-submission>
+					                :points="points"
+									@pin="pin"
+									@unpin="unpin"></img-submission>
 
 					<gif-submission v-if="list.type == 'gif'"
 					                :submission="list"
@@ -89,7 +93,9 @@
 					                :downvoted="downvoted"
 					                @upvote="voteUp"
 					                @downvote="voteDown"
-					                :points="points"></gif-submission>
+					                :points="points"
+									@pin="pin"
+									@unpin="unpin"></gif-submission>
 
 					<link-submission v-if="list.type == 'link'"
 					                 :submission="list"
@@ -112,7 +118,9 @@
 					                 :downvoted="downvoted"
 					                 @upvote="voteUp"
 					                 @downvote="voteDown"
-					                 :points="points"></link-submission>
+					                 :points="points"
+									 @pin="pin"
+									 @unpin="unpin"></link-submission>
 				</div>
 			</article>
 		</div>

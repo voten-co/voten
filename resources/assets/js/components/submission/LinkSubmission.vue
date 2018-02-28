@@ -95,6 +95,8 @@
 					                   :points="points"
 					                   @upvote="$emit('upvote')"
 					                   @downvote="$emit('downvote')"
+									   @pin="$emit('pin')"
+									   @unpin="$emit('unpin')"
 										></submission-footer>
 				</span>
 			</span>
