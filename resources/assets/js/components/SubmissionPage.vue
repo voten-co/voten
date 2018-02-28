@@ -6,11 +6,11 @@
 			<submission-channel-header></submission-channel-header>
 
 			<div class="col-full padding-bottom-1 flex1">
-				<nsfw-warning v-if="submission.nsfw == 1 && !auth.nsfw"
+				<nsfw-warning v-if="submission.nsfw == 1 && !Store.settings.feed.include_nsfw_submissions"
 				              :text="'This submission contains NSFW content which can not be displayed according to your personal settings.'">
 				</nsfw-warning>
 
-				<div v-if="submission.nsfw == 0 || auth.nsfw">
+				<div v-if="submission.nsfw == 0 || Store.settings.feed.include_nsfw_submissions">
 					<loading v-if="loadingSubmission"></loading>
 
 					<full-submission v-if="!loadingSubmission"

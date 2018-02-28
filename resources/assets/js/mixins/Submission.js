@@ -152,7 +152,7 @@ export default {
          * @return boolean
          */
         nsfw() {
-            return this.list.nsfw && !auth.show_nsfw_media;
+            return this.list.nsfw && !Store.settings.feed.include_nsfw_submissions;
         }
     },
 
