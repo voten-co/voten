@@ -38,13 +38,10 @@
 					     @click="$emit('play-gif')"></div>
 				</a>
 
-				<h1 class="submission-title"
-				    v-if="full">
-                    <el-tooltip content="NSFW" placement="bottom" transition="false" :open-delay="500">
-                        <i class="v-icon v-shocked go-red" aria-hidden="true" v-if="submission.nsfw"></i>
-                    </el-tooltip>
-
+				<h1 class="submission-title" v-if="full">
 					{{ submission.title }}
+
+					<el-tag size="mini" type="danger" class="margin-left-half" v-if="submission.nsfw">NSFW</el-tag>
 				</h1>
 
 				<div class="flex1"
@@ -52,6 +49,8 @@
 					<router-link :to="'/c/' + submission.channel_name + '/' + submission.slug"
 					             class="flex-space v-ultra-bold">
 						{{ submission.title }}
+
+						<el-tag size="mini" type="danger" class="margin-left-half" v-if="submission.nsfw">NSFW</el-tag>
 					</router-link>
 
 					<submission-footer :url="url"

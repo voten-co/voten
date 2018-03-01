@@ -14,8 +14,7 @@ export default {
             if (typeof preload != 'undefined' && preload.submissions) {
                 this.submissions = preload.submissions.data;
                 if (!this.submissions.length) this.nothingFound = true;
-                if (preload.submissions.next_page_url == null)
-                    this.NoMoreItems = true;
+                if (preload.submissions.next_page_url == null) this.NoMoreItems = true;
                 this.loading = false;
                 delete preload.submissions;
                 resolve();
@@ -28,32 +27,24 @@ export default {
                         sort,
                         page: this.page,
                         filter: Store.settings.feed.submissionsFilter,
-                        exclude_upvoted_submissions:
-                            Store.settings.feed.excludeUpvotedSubmissions,
-                        include_nsfw_submissions:
-                            Store.settings.feed.include_nsfw_submissions,
-                        exclude_downvoted_submissions:
-                            Store.settings.feed.excludeDownvotedSubmissions,
-                        exclude_bookmarked_submissions:
-                            Store.settings.feed.excludeBookmarkedSubmissions,
+                        exclude_upvoted_submissions: Store.settings.feed.excludeUpvotedSubmissions ? 1 : 0,
+                        include_nsfw_submissions: Store.settings.feed.include_nsfw_submissions ? 1 : 0,
+                        exclude_downvoted_submissions: Store.settings.feed.excludeDownvotedSubmissions ? 1 : 0,
+                        exclude_bookmarked_submissions: Store.settings.feed.excludeBookmarkedSubmissions ? 1 : 0,
                         type: Store.settings.feed.submissionsType
                     }
                 })
-                .then((response) => {
-                    this.submissions = [
-                        ...this.submissions,
-                        ...response.data.data
-                    ];
+                .then(response => {
+                    this.submissions = [...this.submissions, ...response.data.data];
 
                     if (!this.submissions.length) this.nothingFound = true;
-                    if (response.data.links.next == null)
-                        this.NoMoreItems = true;
+                    if (response.data.links.next == null) this.NoMoreItems = true;
 
                     this.loading = false;
 
                     resolve(response);
                 })
-                .catch((error) => {
+                .catch(error => {
                     reject(error);
                 });
         });

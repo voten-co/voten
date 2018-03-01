@@ -7,7 +7,7 @@
   </p>
 </p>
 
-# [Voten.co](https://voten.co)
+# [Voten.co](https://voten.co) [![CircleCI](https://circleci.com/gh/voten-co/voten/tree/master.svg?style=svg)](https://circleci.com/gh/voten-co/voten/tree/master)
 
 [Voten.co](https://voten.co) is an open-source, beautiful, highly customizable yet deadly simple, and warm community. To get a quick taste of what Voten is written with please check our [credits page](https://voten.co/credits).
 
@@ -38,7 +38,7 @@ Thank you for considering contributing to the Voten. Here's a list of things you
 - [Reddit](https://www.reddit.com/r/voten/)
 - [API documentation](https://api.voten.co)
 - [#voten](https://voten.co/c/voten) (for general discussion about Voten)
-- [#votendev](https://voten.co/c/votendev) (talk is cheap, show me the code!)
+- [#votendev](https://voten.co/c/votendev) (let’s talk code!)
 
 ## API
 

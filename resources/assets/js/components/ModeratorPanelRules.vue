@@ -163,23 +163,6 @@ export default {
             this.type = 'create';
             this.errors = [];
         }
-    },
-
-    // only administrators can access this route
-    beforeRouteEnter(to, from, next) {
-        if (Store.page.channel.temp.name == to.params.name) {
-            // loaded
-            if (
-                Store.state.administratorAt.indexOf(
-                    Store.page.channel.temp.id
-                ) != -1
-            ) {
-                next();
-            }
-        } else {
-            // not loaded but let's continue (the server-side is still protecting us!)
-            next();
-        }
     }
 };
 </script>

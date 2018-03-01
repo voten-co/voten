@@ -1,0 +1,72 @@
+# PHP CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-php/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/php:7.1-cli
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/mysql:9.4
+
+      - image: redis
+
+    working_directory: ~/laravel
+
+    steps:
+      - checkout
+
+      - run:
+         name: Download NodeJS v8
+         command: curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+
+      #sqlite needed for laravel database
+      #nodejs6 needed to run `npm run watch` later
+      - run:
+         name: Install PHP sqlite and nodejs 8
+         command: sudo apt-get install -y libsqlite3-dev nodejs
+
+      - run:
+         name: Setup Laravel testing environment variables for CircleCI test
+         command: cp .env.circle .env
+
+      - run:
+         name: Update composer to latest version
+         command: composer self-update
+
+      - restore_cache:
+          keys:
+            - composer-v1-{{ checksum "composer.json" }}
+            - composer-v1-
+      - run: composer install -n --prefer-dist --ignore-platform-reqs
+      - save_cache:
+          key: composer-v1-{{ checksum "composer.json" }}
+          paths:
+            - vendor
+
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: Install NodeJS Packages
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+        
+      # run tests!
+      - run: touch database/database.sqlite
+      - run: php artisan key:generate
+      - run: npm run dev
+
+      - run:
+         name: Run Laravel Server
+         command: php artisan serve
+         background: true
+
+      - run: vendor/bin/phpunit

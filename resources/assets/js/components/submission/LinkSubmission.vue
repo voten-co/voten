@@ -46,20 +46,13 @@
 					<a v-bind:href="submission.content.url"
 					   target="_blank"
 					   rel="nofollow">
-						<el-tooltip content="NSFW"
-						            placement="bottom"
-						            transition="false"
-						            :open-delay="500">
-							<i class="v-icon v-shocked go-red"
-							   aria-hidden="true"
-							   v-if="submission.nsfw"></i>
-						</el-tooltip>
-
 						{{ submission.title }}
 
 						<small class="go-gray">
 							- {{ submission.content.domain }}
 						</small>
+
+						<el-tag size="mini" type="danger" class="margin-left-half" v-if="submission.nsfw">NSFW</el-tag>
 					</a>
 				</h1>
 
@@ -74,6 +67,8 @@
 							<small class="go-gray">
 								- {{ submission.content.domain }}
 							</small>
+
+							<el-tag size="mini" type="danger" class="margin-left-half" v-if="submission.nsfw">NSFW</el-tag>
 						</a>
 					</h3>
 

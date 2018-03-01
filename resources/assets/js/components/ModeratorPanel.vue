@@ -90,7 +90,8 @@ export default {
             return (
                 Store.state.administratorAt.indexOf(
                     Store.page.channel.temp.id
-                ) != -1
+                ) != -1 || 
+                this.isVotenAdministrator
             );
         }
     },

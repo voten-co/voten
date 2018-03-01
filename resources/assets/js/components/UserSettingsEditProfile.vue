@@ -188,7 +188,7 @@ export default {
             this.avatar.fileUploadFormData.append('photo', e.target.files[0]);
 
             axios
-                .post('/user/avatar', this.avatar.fileUploadFormData)
+                .post('/users/avatar', this.avatar.fileUploadFormData)
                 .then((response) => {
                     location.reload();
 

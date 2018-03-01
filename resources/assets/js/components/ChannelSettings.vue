@@ -160,7 +160,7 @@ export default {
             );
 
             axios
-                .post('/channel/avatar', this.avatar.fileUploadFormData)
+                .post('/channels/avatar', this.avatar.fileUploadFormData)
                 .then((response) => {
                     location.reload();
 
@@ -194,22 +194,6 @@ export default {
                     this.errors = error.response.data.errors;
                     this.sending = false;
                 });
-        }
-    },
-
-    beforeRouteEnter(to, from, next) {
-        if (Store.page.channel.temp.name == to.params.name) {
-            // loaded
-            if (
-                Store.state.administratorAt.indexOf(
-                    Store.page.channel.temp.id
-                ) != -1
-            ) {
-                next();
-            }
-        } else {
-            // not loaded but let's continue (the server-side is still protecting us!)
-            next();
         }
     }
 };
