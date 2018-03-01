@@ -22,7 +22,6 @@ use Auth;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
-require "../vendor/larapack/dd/src/helper.php";
 class ModeratorController extends Controller
 {
     use CachableSubmission, CachableChannel, CachableComment, RecordsActivity;

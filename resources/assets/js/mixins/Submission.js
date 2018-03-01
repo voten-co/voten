@@ -13,23 +13,11 @@ export default {
 
     data() {
         return {
-            hidden: false,
-            //interval: null
+            hidden: false
         };
     },
 
     props: ['list', 'full'],
-
-    // beforeDestroy: function() {
-    //     this.stopInterval();
-    // },
-    //
-    // mounted: function () {
-    //     if (this.list.pinned_until()) {
-    //         this.pinned_until = new Date(this.list.pinned_until);
-    //         this.startInterval();
-    //     };
-    // },
 
     computed: {
         upvoted: {
@@ -180,36 +168,6 @@ export default {
     },
 
     methods: {
-        // /**
-        //  * Starts the timer for updating pin
-        //  *
-        //  * @return void
-        //  */
-        // startInterval: function () {
-        //     console.log('Interval start');
-        //     if (!interval) {
-        //         this.interval = setInterval(
-        //             function () {
-        //                 if (!this.pinnedUntil) this.stopInterval();
-        //                 else if (Date.now() > this.pinnedUntil) {
-        //                     this.pinnedUntil = null;
-        //                     this.stopInterval();
-        //                 }
-        //             }.bind(this), 60000);
-        //     }
-        // },
-        //
-        // /**
-        //  * Stops the timer for updating pin
-        //  *
-        //  * @return void
-        //  */
-        // stopInterval: function () {
-        //     console.log('Interval end');
-        //     if(this.interval) {
-        //         clearInterval(this.interval);
-        //     }
-        // },
 
         /**
          * Approves the submission. Only the moderators of channel are allowed to do this.

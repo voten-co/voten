@@ -322,15 +322,6 @@ export default {
             let el = document.getElementById(scrollable);
 
             el.scrollTop = el.scrollHeight;
-        },
-        /**
-         * Parses server date format
-         *
-         * @param String dateStr
-         */
-        parseDate(dateStr) {
-            let s = dateStr.split(/[-: ]/);
-            return new Date(s[0], s[1]-1, s[2], s[3], s[4], s[5]);
         }
     }
 };
