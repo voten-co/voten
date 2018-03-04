@@ -9,15 +9,13 @@
 		<div class="form-group">
 			<div class="flex-space">
 				<div>
-					<el-button round class="el-button v-button--upload"
-					           plain
-                               :icon="avatar.uploading ? 'el-icon-loading' : 'el-icon-upload'">
-						{{ avatar.uploading ? 'Uploading...' : 'Click To Browse'}}
+					<div round class="el-button v-button--upload el-button--default is-plain is-round" plain>
+						<i class="margin-right-half" :class="avatar.uploading ? 'el-icon-loading' : 'el-icon-upload'"></i>
 
-						<input class="v-button"
-						       type="file"
-						       @change="uploadAvatar" />
-					</el-button>
+						{{ avatar.uploading ? 'Uploading...' : 'Click To Browse'}}
+ 
+						<input class="v-button" type="file" @change="uploadAvatar" />
+					</div>
 
 					<p class="go-gray go-small">
 						The Uploaded photo must have a minimum of 
