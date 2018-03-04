@@ -120,16 +120,11 @@ class LoginController extends Controller
             'avatar'    => $this->downloadImg($providerUser->getAvatar(), 'users/avatars'),
 
             'settings' => [
-                'font'                          => 'Lato',
-                'sidebar_color'                 => 'Gray',
-                'nsfw'                          => false,
-                'nsfw_media'                    => false,
                 'notify_submissions_replied'    => true,
                 'notify_comments_replied'       => true,
                 'notify_mentions'               => true,
-                'exclude_upvoted_submissions'   => false,
-                'exclude_downvoted_submissions' => true,
             ],
+
             'info' => [
                 'website' => null,
                 'twitter' => null,

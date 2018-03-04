@@ -78,8 +78,6 @@ class RegisterController extends Controller
             'password'  => bcrypt($data['password']),
 
             'settings'  => [
-                'font'                          => 'Lato',
-                'sidebar_color'                 => 'Gray',
                 'notify_submissions_replied'    => true,
                 'notify_comments_replied'       => true,
                 'notify_mentions'               => true,
