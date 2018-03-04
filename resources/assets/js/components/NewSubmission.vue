@@ -88,7 +88,7 @@
 				<el-upload class="upload-demo"
 				           drag
 				           :limit="1"
-				           action="/api/gif"
+				           action="/api/gifs"
 				           :file-list="gifTempArray"
 				           :on-preview="gifPreview"
 				           :on-remove="removeGif"
@@ -125,7 +125,7 @@
 				<el-upload class="upload-demo"
 				           drag
 				           :limit="20"
-				           action="/api/photo"
+				           action="/api/photos"
 				           :file-list="photos"
 				           :on-preview="photoPreview"
 				           :on-remove="removePhoto"

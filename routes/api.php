@@ -128,8 +128,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     // Photo uploading
     Route::post('/channels/avatar', 'PhotoController@channelAvatar');
     Route::post('/users/avatar', 'PhotoController@userAvatar');
-    Route::post('/photo', 'PhotoController@store')->middleware('shaddow-ban');
-    Route::post('/gif', 'GifController@store')->middleware('shaddow-ban');
+    Route::post('/photos', 'PhotoController@store')->middleware('shaddow-ban');
+    Route::post('/gifs', 'GifController@store')->middleware('shaddow-ban');
 
     // notification
     Route::get('/notifications', 'NotificationsController@readIndex');
