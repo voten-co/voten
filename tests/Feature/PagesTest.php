@@ -7,6 +7,8 @@ use Tests\TestCase;
 
 class PagesTest extends TestCase
 {
+    use RefreshDatabase; 
+
     /** @test */
     public function guest_home_page()
     {
