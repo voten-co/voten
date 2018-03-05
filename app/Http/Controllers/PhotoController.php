@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Intervention\Image\ImageManagerStatic as Image;
+use App\Http\Resources\PhotoResource;
 
 class PhotoController extends Controller
 {
@@ -34,24 +35,13 @@ class PhotoController extends Controller
             'file' => 'required|image|max:10240',
         ]);
 
-        // image validation
-        if (!$request->hasFile('file') || !$request->file('file')->isValid()) {
-            return response('The uploaded photo is not acceptable. Please try another one', 500);
-        }
-
         $photo = new Photo();
         $photo->user_id = Auth::id();
-
-        try {
-            $photo->path = $this->uploadImg($request->file('file'), 'submissions/img');
-            $photo->thumbnail_path = $this->createThumbnail($photo->path, 1200, null, 'submissions/img/thumbs');
-        } catch (\Exception $exception) {
-            return response('Ooops, something went wrong', 500);
-        }
-
+        $photo->path = $this->uploadImg($request->file('file'), 'submissions/img');
+        $photo->thumbnail_path = $this->createThumbnail($request->file('file'), 1200, null, 'submissions/img/thumbs');
         $photo->save();
 
-        return $photo->id;
+        return new PhotoResource($photo);
     }
 
     /**

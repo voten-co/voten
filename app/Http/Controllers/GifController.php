@@ -8,6 +8,7 @@ use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Pbmedia\LaravelFFMpeg\FFMpegFacade as FFMpeg;
+use App\Http\Resources\GifResource;
 
 class GifController extends Controller
 {
@@ -82,6 +83,6 @@ class GifController extends Controller
             'thumbnail_path' => $this->webAddress().'submissions/gif/'.$filename.'.jpg',
         ]);
 
-        return $gif->id;
+        return new GifResource($gif);
     }
 }

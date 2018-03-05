@@ -47,8 +47,8 @@ export default {
             this.previewPhotoFileName = file.name;
             this.previewPhotoModal = true;
         },
-        successfulPhotoUpload(response, file, fileList) {
-            file.id = response;
+        successfulPhotoUpload(response, file, fileList) {            
+            file.id = response.data.id;
             this.photos.push(file);
         },
 
@@ -92,7 +92,7 @@ export default {
             this.previewGifModal = true;
         },
         successfulGifUpload(response, file, fileList) {
-            this.gif_id = response;
+            this.gif_id = response.data.id;
         }
     }
 };
