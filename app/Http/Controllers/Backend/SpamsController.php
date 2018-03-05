@@ -62,7 +62,7 @@ class SpamsController extends Controller
     }
 
     /**
-     * Shwos the spam page. A few tools to fight spammers.
+     * Shows the spam page. A few tools to fight spammers.
      *
      * @param Request $request
      *
