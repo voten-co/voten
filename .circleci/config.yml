@@ -33,11 +33,11 @@ jobs:
       
       - run:
          name: Install gd library used for image handling
-         command: sudo apt-get install php7.1-gd
+         command: sudo apt-get install -y libpng-dev
 
       - run:
          name: Install PHP Extensions
-         command: sudo docker-php-ext-install gd
+         command: sudo docker-php-ext-install gd --enable-gd-native-ttf
 
       - run:
          name: Setup Laravel testing environment variables for CircleCI test
