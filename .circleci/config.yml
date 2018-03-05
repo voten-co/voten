@@ -30,6 +30,10 @@ jobs:
       - run:
          name: Install PHP sqlite and nodejs 8
          command: sudo apt-get install -y libsqlite3-dev nodejs
+      
+      - run:
+         name: Install gd library used for image handling
+         command: sudo apt-get install -y libpng-dev
 
       - run:
          name: Setup Laravel testing environment variables for CircleCI test
