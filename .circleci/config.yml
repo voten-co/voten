@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/php:7.1-cli
+      - image: thatsamguy/trusty-php71
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -31,13 +31,13 @@ jobs:
          name: Install PHP sqlite and nodejs 8
          command: sudo apt-get install -y libsqlite3-dev nodejs
       
-      - run:
-         name: Install gd library used for image handling
-         command: sudo apt-get install -y libpng-dev
+      # - run:
+      #    name: Install gd library used for image handling
+      #    command: sudo apt-get install -y libpng-dev
 
-      - run:
-         name: Install PHP Extensions
-         command: sudo docker-php-ext-install gd libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng12-dev
+      # - run:
+      #    name: Install PHP Extensions
+      #    command: sudo docker-php-ext-install gd libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng12-dev
 
       - run:
          name: Setup Laravel testing environment variables for CircleCI test
