@@ -31,3 +31,4 @@ _ide_helper.php
 dist
 package-lock.json
 .eslintrc.js
+/storage/framework/testing
