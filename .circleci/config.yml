@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: thatsamguy/trusty-php71
+      - image: skiychan/nginx-php7
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
