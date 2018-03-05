@@ -33,7 +33,7 @@ jobs:
       
       - run:
          name: Install gd library used for image handling
-         command: sudo apt-get install -y libpng-dev libjpeg62-turbo-dev
+         command: sudo apt-get install -y libpng-dev libjpeg-dev
   
       - run:
          name: Install PHP Extensions
