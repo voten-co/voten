@@ -69,6 +69,8 @@ class BanController extends Controller
             'description' => 'nullable|string|max:5000',
         ]);
 
+        $user = User::where('username', $request->username)->firstOrFail();
+
         // remove all user's data that might have been spam and harmful to others
         DB::table('submissions')->where('user_id', $user->id)->delete();
         DB::table('comments')->where('user_id', $user->id)->delete();
