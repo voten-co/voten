@@ -37,7 +37,7 @@ jobs:
 
       - run:
          name: Install PHP Extensions
-         command: sudo docker-php-ext-install gd --enable-gd-native-ttf
+         command: sudo docker-php-ext-install gd libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng12-dev
 
       - run:
          name: Setup Laravel testing environment variables for CircleCI test
