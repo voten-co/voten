@@ -136,7 +136,7 @@ export default {
                 bio: auth.bio,
                 website: auth.info.website,
                 cover_color: auth.cover_color,
-                location: auth.location,
+                location: auth.info.location,
                 twitter: auth.info.twitter
             },
 
@@ -166,7 +166,7 @@ export default {
                 auth.name != this.form.name ||
                 auth.bio != this.form.bio ||
                 auth.info.website != this.form.website ||
-                auth.location != this.form.location ||
+                auth.info.location != this.form.location ||
                 auth.cover_color != this.form.cover_color ||
                 auth.info.twitter != this.form.twitter
             ) {
@@ -215,7 +215,7 @@ export default {
 
                     auth.name = this.form.name;
                     auth.bio = this.form.bio;
-                    auth.location = this.form.location;
+                    auth.info.location = this.form.location;
                     auth.cover_color = this.form.cover_color;
                     auth.info.website = this.form.website;
                     auth.info.twitter = this.form.twitter;
@@ -227,7 +227,7 @@ export default {
                         Store.page.user.temp.name = auth.name;
                         Store.page.user.temp.bio = auth.bio;
                         Store.page.user.temp.cover_color = auth.cover_color;
-                        Store.page.user.temp.location = auth.location;
+                        Store.page.user.temp.location = auth.info.location;
                         Store.page.user.temp.info.website = auth.info.website;
                         Store.page.user.temp.info.twitter = auth.info.twitter;
                     }

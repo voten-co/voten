@@ -41,8 +41,8 @@
                             <i class="v-icon v-link" aria-hidden="true"></i>{{ userStore.info.website }}
                         </a>
     
-                        <span v-if="userStore.location" class="inline-block">
-    							<i class="v-icon v-location" aria-hidden="true"></i>{{ userStore.location }}
+                        <span v-if="userStore.info.location" class="inline-block">
+    							<i class="v-icon v-location" aria-hidden="true"></i>{{ userStore.info.location }}
     						</span>
     
                         <span v-if="userStore.info.twitter " class="inline-block">
