@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\VerifyEmailAddress;
 
 class AuthinticationTest extends TestCase
 {
@@ -73,5 +75,23 @@ class AuthinticationTest extends TestCase
         ])->assertJson([
             'message' => 'Logged in successfully.',
         ]);
+    }
+
+    /** @test */
+    public function vertification_email_is_queued_after_registeration_with_email()
+    {
+        Mail::fake();
+
+        $this->json('POST', '/register', [
+            'username' => 'test_username',
+            'email' => 'test@test.com',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+            'g-recaptcha-response' => 'master_ozzy',
+        ])->assertJson([
+            'message' => 'Registered successfully.',
+        ]);
+
+        Mail::assertQueued(VerifyEmailAddress::class, 1); 
     }
 }
