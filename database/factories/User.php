@@ -13,8 +13,6 @@ $factory->define(\App\User::class, function (Faker $faker) {
         'confirmed'      => 0,
         
         'settings'       => [
-            'font'                          => 'Lato',
-            'sidebar_color'                 => 'Gray',
             'notify_submissions_replied'    => true,
             'notify_comments_replied'       => true,
             'notify_mentions'               => true,
