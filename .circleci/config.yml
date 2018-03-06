@@ -29,11 +29,20 @@ jobs:
       #nodejs6 needed to run `npm run watch` later
       - run:
          name: Install PHP sqlite and nodejs 8
-         command: sudo apt-get install -y libsqlite3-dev nodejs
+         command: sudo apt-get update && apt-get install -y \
+             libfreetype6-dev \
+             libjpeg62-turbo-dev \
+             libpng-dev \
+         && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+         && docker-php-ext-install -j$(nproc) gd
       
-      - run:
-         name: Install gd library used for image handling
-         command: sudo apt-get install -y libpng-dev libjpeg-dev libjpg-dev
+      # - run:
+      #    name: Install PHP sqlite and nodejs 8
+      #    command: sudo apt-get install -y libsqlite3-dev nodejs
+      
+      # - run:
+      #    name: Install gd library used for image handling
+      #    command: sudo apt-get install -y libpng-dev libjpeg-dev libjpg-dev
   
       - run:
          name: Install PHP Extensions
