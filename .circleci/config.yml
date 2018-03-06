@@ -37,7 +37,7 @@ jobs:
   
       - run:
          name: Install PHP Extensions
-         command: sudo docker-php-ext-configure gd
+         command: sudo docker-php-ext-install gd
 
       - run:
          name: Setup Laravel testing environment variables for CircleCI test
