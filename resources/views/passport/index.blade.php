@@ -1,22 +1,42 @@
-@extends('layouts.no-sidebar')
-
-@section('styles')
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-@stop 
+@extends('layouts.bootstrap') 
 
 @section('title')
-	<title>OAuth</title>
-@stop
+    <title>Developers | Voten</title>
+@stop 
 
 @section('content')
+<main role="main">
+    <div class="jumbotron">
+        <div class="col-sm-8 mx-auto">
+            <h1>
+                Developers
+            </h1>
 
-    <passport-clients></passport-clients>
+            <p>
+                The Voten API is organized around REST. It can be used to build non-automated, high-quality apps and services that interact
+                with Voten platform.
+            </p>
 
-    <passport-authorized-clients></passport-authorized-clients>
+            <p>
+                This page is for generating access tokens required for accessing the public API. You may read the API documentation for
+                more details:
+            </p>
 
-    <passport-personal-access-tokens></passport-personal-access-tokens>
+            <p>
+                <a class="btn btn-primary" href="https://api.voten.co" role="button">View API documentation »</a>
+                <a class="btn" href="/" role="button">Back to Voten.co »</a>
+            </p>
+        </div>
+    </div>
+</main>
+
+<passport-clients></passport-clients>1
+
+<br>
+
+<passport-authorized-clients></passport-authorized-clients>2
+
+<br>
+
+<passport-personal-access-tokens></passport-personal-access-tokens>3
 @stop

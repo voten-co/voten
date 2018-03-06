@@ -16,7 +16,7 @@ class OAuthController extends Controller
      */
     public function show()
     {
-        return 'Under construction';
+        // return 'Under construction';
 
         return view('passport.index');
     }
