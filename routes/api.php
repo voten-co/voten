@@ -111,6 +111,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/approve-submission', 'ModeratorController@approveSubmission');
     Route::post('/disapprove-comment', 'ModeratorController@disapproveComment');
     Route::post('/disapprove-submission', 'ModeratorController@disapproveSubmission');
+    Route::post('/pin-submission', 'ModeratorController@pinSubmission');
+    Route::post('/unpin-submission', 'ModeratorController@unpinSubmission');
 
     // messages
     Route::post('/messages', 'MessagesController@store')->middleware('shaddow-ban');

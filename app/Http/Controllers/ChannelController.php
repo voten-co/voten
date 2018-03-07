@@ -58,17 +58,17 @@ class ChannelController extends Controller
 
         switch ($sort) {
             case 'new':
-                $submissions->orderBy('created_at', 'desc');
+                $submissions->orderBy('pinned_until' ,'created_at', 'desc');
                 break;
 
             case 'rising':
-                $submissions->where('created_at', '>=', Carbon::now()->subHour())
-                    ->orderBy('rate', 'desc');
+                $submissions->where('pinned_until','created_at', '>=', Carbon::now()->subHour())
+                    ->orderBy('priority' ,'rate', 'desc');
                 break;
 
             default:
                 // hot
-                $submissions->orderBy('rate', 'desc');
+                $submissions->orderBy('pinned_until', 'rate', 'desc');
                 break;
         }
 

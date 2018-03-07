@@ -12,7 +12,9 @@ export default {
     },
 
     data() {
-        return { hidden: false };
+        return {
+            hidden: false
+        };
     },
 
     props: ['list', 'full'],
@@ -153,10 +155,20 @@ export default {
          */
         nsfw() {
             return this.list.nsfw && !Store.settings.feed.include_nsfw_submissions;
-        }
+        },
+
+        /**
+         * Computes whether or not a submission is pinned
+         *
+         * @return boolean
+         */
+        pinned(){
+            return !!this.list.pinned_until;
+        },
     },
 
     methods: {
+
         /**
          * Approves the submission. Only the moderators of channel are allowed to do this.
          *
@@ -311,6 +323,46 @@ export default {
             Store.modals.gifPlayer.gif = gif;
             Store.modals.gifPlayer.submission = this.list;
             Store.modals.gifPlayer.show = true;
-        }
+        },
+
+        /**
+         * Pins the submission. Only the moderators of channel are allowed to do this.
+         *
+         * @return void
+         */
+        pin(/*months, weeks, days, hours*/) {
+            console.log('Pinned id: '+this.list.id);
+            axios
+                .post('/pin-submission', {
+                    submission_id: this.list.id,
+                    // months: months,
+                    // weeks: weeks,
+                    // days: days,
+                    // hours: hours
+                })
+                .then((response) => {
+                    this.list.pinned_until = response.data.pinned_until;
+                })
+                .catch((error) => {
+                });
+        },
+
+        /**
+         * Unpins the submission. Only the moderators of channel are allowed to do this.
+         *
+         * @return void
+         */
+        unpin() {
+            console.log('Unpinned id: '+this.list.id);
+            axios
+                .post('/unpin-submission', {
+                    submission_id: this.list.id
+                })
+                .then((response) => {
+                    this.list.pinned_until = null;
+                })
+                .catch((error) => {
+                });
+        },
     }
 };

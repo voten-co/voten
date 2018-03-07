@@ -49,6 +49,14 @@ class EventServiceProvider extends ServiceProvider
         'Illuminate\Auth\Events\Logout' => [
             'App\Listeners\UserLoggedOut',
         ],
+
+        'Illuminate\Auth\Events\SubmissionWasPinned' => [
+            'App\Listeners\SubmissionPinned',
+        ],
+
+        'Illuminate\Auth\Events\SubmissionWasUnpinned' => [
+            'App\Listeners\SubmissionUnpinned',
+        ],
     ];
 
     /**

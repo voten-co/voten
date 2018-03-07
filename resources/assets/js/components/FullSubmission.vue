@@ -78,6 +78,14 @@
 									<i class="el-icon-more-outline"></i>
 
 									<el-dropdown-menu slot="dropdown">
+										<el-dropdown-item v-if="showPin" @click.native="pin(12,0,0,0)">
+											Pin
+										</el-dropdown-item>
+
+										<el-dropdown-item v-if="showUnpin" @click.native="unpin">
+											Unpin
+										</el-dropdown-item>
+
 										<el-dropdown-item v-if="!owns"
 										                  @click.native="report">
 											Report
@@ -183,41 +191,43 @@ export default {
             }`;
         },
 
+		isModOrAdmin() {
+            return Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 || meta.isVotenAdminstrator;
+		},
+
+        showPin() {
+            return (
+                this.isModOrAdmin && !this.pinned
+            );
+        },
+
+        showUnpin() {
+            return (
+                this.isModOrAdmin && this.pinned
+            );
+        },
+
         showApprove() {
             return (
-                !this.list.approved_at &&
-                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
-                    meta.isVotenAdminstrator) &&
-                !this.owns
+                !this.list.approved_at && this.isModOrAdmin && !this.owns
             );
         },
 
         showDisapprove() {
             return (
-                !this.list.deleted_at &&
-                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
-                    meta.isVotenAdminstrator) &&
-                !this.owns
+                !this.list.deleted_at && this.isModOrAdmin && !this.owns
             );
         },
 
         showNSFW() {
             return (
-                (this.owns ||
-                    Store.state.moderatingAt.indexOf(this.list.channel_id) !=
-                        -1 ||
-                    meta.isVotenAdminstrator) &&
-                !this.list.nsfw
+                (this.owns || this.isModOrAdmin) && !this.list.nsfw
             );
         },
 
         showSFW() {
             return (
-                (this.owns ||
-                    Store.state.moderatingAt.indexOf(this.list.channel_id) !=
-                        -1 ||
-                    meta.isVotenAdminstrator) &&
-                this.list.nsfw
+                (this.owns || this.isModOrAdmin) && this.list.nsfw
             );
         },
 

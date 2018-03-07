@@ -18,6 +18,14 @@
 					<i class="el-icon-more-outline"></i>
 
 					<el-dropdown-menu slot="dropdown">
+						<el-dropdown-item v-if="showPin" @click.native="$emit('pin')">
+							Pin
+						</el-dropdown-item>
+
+						<el-dropdown-item v-if="showUnpin" @click.native="$emit('unpin')">
+							Unpin
+						</el-dropdown-item>
+
 						<el-dropdown-item v-if="!owns" @click.native="$emit('report')">
 							Report
 						</el-dropdown-item>
@@ -108,45 +116,47 @@ export default {
             return auth.id == this.submission.author.id;
         },
 
+		pinned() {
+            return !!this.submission.pinned_until;
+		},
+
+        isModOrAdmin() {
+            return Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1 || meta.isVotenAdminstrator;
+        },
+
+        showPin() {
+            return (
+                this.isModOrAdmin && !this.pinned
+            );
+        },
+
+        showUnpin() {
+            return (
+                this.isModOrAdmin && this.pinned
+            );
+        },
+
         showApprove() {
             return (
-                !this.submission.approved_at &&
-                (Store.state.moderatingAt.indexOf(this.submission.channel_id) !=
-                    -1 ||
-                    meta.isVotenAdminstrator) &&
-                !this.owns
+                !this.submission.approved_at && this.isModOrAdmin && !this.owns
             );
         },
 
         showDisapprove() {
             return (
-                !this.submission.deleted_at &&
-                (Store.state.moderatingAt.indexOf(this.submission.channel_id) !=
-                    -1 ||
-                    meta.isVotenAdminstrator) &&
-                !this.owns
+                !this.submission.deleted_at && this.isModOrAdmin && !this.owns
             );
         },
 
         showNSFW() {
             return (
-                (this.owns ||
-                    Store.state.moderatingAt.indexOf(
-                        this.submission.channel_id
-                    ) != -1 ||
-                    meta.isVotenAdminstrator) &&
-                !this.submission.nsfw
+                (this.owns || this.isModOrAdmin) && !this.submission.nsfw
             );
         },
 
         showSFW() {
             return (
-                (this.owns ||
-                    Store.state.moderatingAt.indexOf(
-                        this.submission.channel_id
-                    ) != -1 ||
-                    meta.isVotenAdminstrator) &&
-                this.submission.nsfw
+                (this.owns || this.isModOrAdmin) && this.submission.nsfw
             );
         },
 

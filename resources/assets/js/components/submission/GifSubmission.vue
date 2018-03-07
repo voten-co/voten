@@ -71,7 +71,9 @@
 					                   :downvoted="downvoted"
 					                   :points="points"
 					                   @upvote="$emit('upvote')"
-					                   @downvote="$emit('downvote')"></submission-footer>
+					                   @downvote="$emit('downvote')"
+									   @pin="$emit('pin')"
+									   @unpin="$emit('unpin')"></submission-footer>
 				</div>
 			</span>
 		</div>

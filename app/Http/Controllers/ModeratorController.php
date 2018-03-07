@@ -6,8 +6,11 @@ use App\Channel;
 use App\Comment;
 use App\Events\CommentWasDeleted;
 use App\Events\SubmissionWasDeleted;
+use App\Events\SubmissionWasPinned;
+use App\Events\SubmissionWasUnpinned;
 use App\Http\Resources\ModeratorResource;
 use App\Notifications\BecameModerator;
+use App\RecordsActivity;
 use App\Report;
 use App\Rules\NotSelfUsername;
 use App\Submission;
@@ -19,10 +22,9 @@ use Auth;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
-
 class ModeratorController extends Controller
 {
-    use CachableSubmission, CachableChannel, CachableComment;
+    use CachableSubmission, CachableChannel, CachableComment, RecordsActivity;
 
     public function __construct()
     {
@@ -227,4 +229,87 @@ class ModeratorController extends Controller
 
         return response($request->username.' is no longer a moderator at #'.$request->channel_name, 200);
     }
+
+    /**
+     * pins the submission
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return response
+     */
+    public function pinSubmission(Request $request)
+    {
+        $this->validate($request, [
+            'submission_id' => 'required|integer',
+            'months' => 'integer|min:0',
+            'weeks' => 'integer|min:0',
+            'days' => 'integer|min:0',
+            'hours' => 'integer|min:0',
+        ]);
+
+        $submission = Submission::withTrashed()->findOrFail($request->submission_id);
+
+        abort_unless($this->mustBeModerator($submission->channel_id), 403);
+
+        $now = Carbon::now();
+        $pinUntil = clone $now;
+
+        if ($request->months) {
+            $pinUntil = $pinUntil->addMonths($request->months);
+        }
+        if ($request->weeks) {
+            $pinUntil = $pinUntil->addWeeks($request->weeks);
+        }
+        if ($request->days) {
+            $pinUntil = $pinUntil->addDays($request->days);
+        }
+        if ($request->hours) {
+            $pinUntil = $pinUntil->addHours($request->hours);
+        }
+
+        //If not specified, assuming infinite
+        if ($pinUntil <= $now) {
+            $pinUntil = Carbon::maxValue();
+        }
+        //or throw 400
+        //abort_unless($pinUntil > $now, 400);
+        $submission->update([
+            'pinned_until' => $pinUntil,
+        ]);
+
+        event(new SubmissionWasPinned($submission, Auth::user()->id));
+
+        $this->putSubmissionInTheCache($submission);
+
+        return response(['pinned_until' => optional($pinUntil)->toDateTimeString()], 200);
+    }
+
+    /**
+     * unpins the submission
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return response
+     */
+    public function unpinSubmission(Request $request)
+    {
+        $this->validate($request, [
+            'submission_id' => 'required|integer',
+        ]);
+
+        $submission = Submission::withTrashed()->findOrFail($request->submission_id);
+
+        abort_unless($this->mustBeModerator($submission->channel_id), 403);
+
+        $submission->update([
+            'pinned_until' => null,
+        ]);
+
+        $this->putSubmissionInTheCache($submission);
+
+        event(new SubmissionWasUnpinned($submission, Auth::user()->id));
+
+        return response('Submission unpinned successfully', 200);
+    }
+
 }

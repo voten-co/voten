@@ -15,6 +15,7 @@ class SubmissionResource extends Resource
      */
     public function toArray($request)
     {
+
         return [
             'id'              => $this->id,
             'slug'            => $this->slug,
@@ -34,6 +35,12 @@ class SubmissionResource extends Resource
             'created_at'      => optional($this->created_at)->toDateTimeString(),
             'url'             => $this->url,
             'domain'          => $this->domain,
+            //using ::Collection serializes Carbon Datetime array into DateTimeString
+            //in conjunction with separate toDateTimeString here
+            //leads to nulls being returned
+            //possibly connected: https://github.com/laravel/framework/issues/21703
+            'pinned_until'    => is_string($this->pinned_until)?
+                $this->pinned_until : optional($this->pinned_until)->toDateTimeString(),
 
             'channel' => $this->when((bool) request('with_channel') == true, new ChannelResource($this->channel)),
 
