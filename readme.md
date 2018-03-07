@@ -42,4 +42,4 @@ Thank you for considering contributing to the Voten. Here's a list of things you
 
 ## API
 
-Voten's public API is under development and will be out in February. The Voten API will be organized around REST. It can be used to build non-automated, high-quality apps and services that interact with the platform.
+Voten's public API is under development and will be out in March. The Voten API will be organized around REST. It can be used to build non-automated, high-quality apps and services that interact with the platform.
