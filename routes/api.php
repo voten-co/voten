@@ -190,6 +190,7 @@ Route::prefix('guest')->group(function () {
     Route::get('/users/submissions', 'UserController@submissions');
     Route::get('/users/comments', 'UserController@comments');
     Route::get('/submissions/comments', 'CommentController@index');
-    Route::post('/token/login', 'Auth\LoginController@getAccessToken');
-    Route::post('/token/register', 'Auth\RegisterController@getAccessToken');
 });
+
+Route::post('/token/login', 'Auth\LoginController@getAccessToken');
+Route::post('/token/register', 'Auth\RegisterController@getAccessToken');

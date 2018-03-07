@@ -112,7 +112,7 @@ class AuthinticationTest extends TestCase
             'password' => bcrypt('password')
         ]); 
         
-        $this->json('POST', '/api/guest/token/login', [
+        $this->json('POST', '/api/token/login', [
             'username' => 'username', 
             'password' => 'password', 
         ])->assertStatus(200)
@@ -126,7 +126,7 @@ class AuthinticationTest extends TestCase
 
         Mail::fake(); 
 
-        $this->json('POST', '/api/guest/token/register', [
+        $this->json('POST', '/api/token/register', [
             'username' => 'username', 
             'password' => 'password',
             'email' => 'test@test.com',
