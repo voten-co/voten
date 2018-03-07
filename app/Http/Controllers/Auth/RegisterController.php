@@ -11,29 +11,13 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redis;
 use Validator;
+use App\Traits\ApiAuthentication;
 
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
+    use RegistersUsers, ApiAuthentication;
 
-    use RegistersUsers;
-
-    /**
-     * Where to redirect users after login / registration.
-     *
-     * @var string
-     */
     protected $redirectTo = '/';
 
     /**
@@ -99,6 +83,10 @@ class RegisterController extends Controller
      */
     protected function pleaseConfirmEmailAddress($user)
     {
+        if (! $user->email) {
+            return; 
+        }
+
         $token = str_random(60);
 
         DB::table('email_verifications')->insert([
@@ -116,8 +104,7 @@ class RegisterController extends Controller
     /* --------------------------------------------------------------------- */
 
     /**
-     * Show the application registration form. Also make sure the user owns a registeration invite code.
-     * This of course is just for our Beta Phase which is invite-only (Yiiiks).
+     * Show the application registration form.
      *
      * @param \Illuminate\Http\Request $request
      *
@@ -157,40 +144,34 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
-        // in case there is an email address
-        if ($user->email) {
-            $this->pleaseConfirmEmailAddress($user);
-        }
+        $this->pleaseConfirmEmailAddress($user);
 
-        // set user's default data into cache to save few queries
-        $userData = [
-            'submissionsCount' => 0,
-            'commentsCount'    => 0,
-
-            'submissionXp' => 0,
-            'commentXp'    => 0,
-
-            'hiddenSubmissions' => collect(),
-            'subscriptions'     => collect(),
-
-            'blockedUsers' => collect(),
-
-            'submissionUpvotes'   => collect(),
-            'submissionDownvotes' => collect(),
-
-            'bookmarkedSubmissions' => collect(),
-            'bookmarkedComments'    => collect(),
-            'bookmarkedChannels'    => collect(),
-            'bookmarkedUsers'       => collect(),
-
-            'commentUpvotes'   => collect(),
-            'commentDownvotes' => collect(),
-        ];
-
-        Redis::hmset('user.'.$user->id.'.data', $userData);
+        $this->storeInRedis($user);
 
         if ($request->expectsJson()) {
             return res(201, 'Registered successfully.');
         }
+    }
+
+    /* --------------------------------------------------------------------- */
+    /* ----------------------------- API Methods --------------------------- */
+    /* --------------------------------------------------------------------- */
+
+    /**
+     * Logins and createa a valid access token. 
+     * 
+     * @return JSON 
+     */
+    public function getAccessToken(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        $this->pleaseConfirmEmailAddress($user);
+
+        $this->storeInRedis($user);
+
+        return $this->generateAccessToken($user);
     }
 }

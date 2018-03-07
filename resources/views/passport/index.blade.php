@@ -30,13 +30,7 @@
     </div>
 </main>
 
-<passport-clients></passport-clients>1
-
-<br>
-
-<passport-authorized-clients></passport-authorized-clients>2
-
-<br>
-
-<passport-personal-access-tokens></passport-personal-access-tokens>3
+<passport-clients></passport-clients> <br>
+<passport-authorized-clients></passport-authorized-clients> <br>
+<passport-personal-access-tokens></passport-personal-access-tokens>
 @stop

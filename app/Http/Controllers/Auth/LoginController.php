@@ -10,34 +10,15 @@ use Auth;
 use Illuminate\Http\Request;
 use Faker\Factory as Faker;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Support\Facades\Redis;
 use Socialite;
 use WhichBrowser\Parser;
+use App\Traits\ApiAuthentication;
 
 class LoginController extends Controller
 {
-    use PhotoTools;
+    use PhotoTools, AuthenticatesUsers, ApiAuthentication;
 
     protected $username = 'username';
-
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
-    use AuthenticatesUsers;
-
-    /**
-     * Where to redirect users after login / registration.
-     *
-     * @var string
-     */
     protected $redirectTo = '/';
 
     /**
@@ -134,31 +115,7 @@ class LoginController extends Controller
         \Mail::to($user->email)->queue(new WelcomeToVoten($user->username));
 
         // set user's default data into cache to save few queries
-        $userData = [
-            'submissionsCount' => 0,
-            'commentsCount'    => 0,
-
-            'submissionXp' => 0,
-            'commentXp'    => 0,
-
-            'hiddenSubmissions' => collect(),
-            'subscriptions'     => collect(),
-
-            'blockedUsers' => collect(),
-
-            'submissionUpvotes'   => collect(),
-            'submissionDownvotes' => collect(),
-
-            'bookmarkedSubmissions' => collect(),
-            'bookmarkedComments'    => collect(),
-            'bookmarkedChannels'    => collect(),
-            'bookmarkedUsers'       => collect(),
-
-            'commentUpvotes'   => collect(),
-            'commentDownvotes' => collect(),
-        ];
-
-        Redis::hmset('user.'.$user->id.'.data', $userData);
+        $this->storeInRedis($user);
 
         $user_agent_parser = new Parser($_SERVER['HTTP_USER_AGENT']);
         \App\Activity::create([
@@ -287,5 +244,41 @@ class LoginController extends Controller
         request()->merge([$field => $username]);
 
         return $field;
+    }
+
+    /* --------------------------------------------------------------------- */
+    /* ----------------------------- API Methods --------------------------- */
+    /* --------------------------------------------------------------------- */
+
+    /**
+     * Logins and createa a valid access token. 
+     * 
+     * @return JSON 
+     */
+    public function getAccessToken(Request $request)
+    {
+        $this->validateLogin($request);
+
+        // If the class is using the ThrottlesLogins trait, we can automatically throttle
+        // the login attempts for this application. We'll key this by the username and
+        // the IP address of the client making these requests into this application.
+        if ($this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+
+            return $this->sendLockoutResponse($request);
+        }
+
+        if ($this->attemptLogin($request)) {
+            $this->clearLoginAttempts($request);
+
+            return $this->generateAccessToken($this->guard()->user());
+        }
+
+        // If the login attempt was unsuccessful we will increment the number of attempts
+        // to login and redirect the user back to the login form. Of course, when this
+        // user surpasses their maximum number of attempts they will get locked out.
+        $this->incrementLoginAttempts($request);
+
+        return $this->sendFailedLoginResponse($request);
     }
 }

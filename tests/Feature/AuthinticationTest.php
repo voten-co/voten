@@ -6,10 +6,19 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\VerifyEmailAddress;
+use Illuminate\Support\Facades\Artisan;
+
 
 class AuthinticationTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function setUp()
+    {
+        parent::setUp(); 
+        
+        Artisan::call('passport:install');
+    }
 
     /** @test */
     public function a_guest_can_register_via_the_form()
@@ -93,5 +102,39 @@ class AuthinticationTest extends TestCase
         ]);
 
         Mail::assertQueued(VerifyEmailAddress::class, 1); 
+    }
+
+    /** @test */
+    public function login_and_get_access_token()
+    {
+        $user = create('App\User', [
+            'username' => 'username', 
+            'password' => bcrypt('password')
+        ]); 
+        
+        $this->json('POST', '/api/guest/token/login', [
+            'username' => 'username', 
+            'password' => 'password', 
+        ])->assertStatus(200)
+            ->assertJson(['token_type' => 'Bearer']);
+    }
+    
+    /** @test */
+    public function register_and_get_access_token()
+    {
+        $this->withoutExceptionHandling();
+
+        Mail::fake(); 
+
+        $this->json('POST', '/api/guest/token/register', [
+            'username' => 'username', 
+            'password' => 'password',
+            'email' => 'test@test.com',
+            'password_confirmation' => 'password',
+            'g-recaptcha-response' => 'master_ozzy'
+        ])->assertStatus(200)
+            ->assertJson(['token_type' => 'Bearer']);
+
+        Mail::assertQueued(VerifyEmailAddress::class, 1);
     }
 }
