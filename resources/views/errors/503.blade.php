@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Be right back.</title>
+        <title>Be right back | 503</title>
 
         <link href="https://fonts.googleapis.com/css?family=Dosis:400" rel="stylesheet" type="text/css">
 
@@ -30,8 +30,9 @@
                 text-align: center;
                 display: inline-block;
                 max-width: 40em;
-                border: 2px dashed #b2c0c6;
-                border-radius: 35px;
+                box-shadow: 0px 2px 4px rgba(0,0,0,0.18);
+                padding: 1em;
+                border-radius: 4px;
                 padding: 2em;
                 margin: 2em;
             }
@@ -63,7 +64,7 @@
         <div class="container">
             <div class="content">
                 <a href="/">
-                    <img src="/imgs/voten-circle.png" alt="voten" class="logo">
+                    <img src="/imgs/voten.png" alt="voten" class="logo">
                 </a>
 
                 <div class="title">
