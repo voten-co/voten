@@ -52,15 +52,22 @@ axios.interceptors.response.use(
         app.$Progress.fail();
 
         if (error.response.status !== 422) {
-            let errorMessage =
-                typeof error.response.data.errors.more_info == 'undefined'
-                    ? error.response.data.message
-                    : error.response.data.errors.more_info;
+            try {
+                let errorMessage =
+                    typeof error.response.data.errors.more_info == 'undefined'
+                        ? error.response.data.message
+                        : error.response.data.errors.more_info;
 
-            app.$message({
-                message: errorMessage,
-                type: 'error'
-            });
+                app.$message({
+                    message: errorMessage,
+                    type: 'error'
+                });
+            } catch (error) {
+                app.$message({
+                    message: 'Oops, something went wrong.',
+                    type: 'error'
+                });
+            }
         }
 
         return Promise.reject(error);
