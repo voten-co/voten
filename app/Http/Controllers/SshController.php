@@ -35,28 +35,4 @@ class SshController extends Controller
 
         return back();
     }
-
-    /**
-     * clears the artisan cache.
-     *
-     * @return redirect
-     */
-    public function startMaintenanceMode()
-    {
-        Artisan::call('down');
-
-        return back();
-    }
-
-    /**
-     * clears the artisan cache.
-     *
-     * @return redirect
-     */
-    public function stopMaintenanceMode()
-    {
-        Artisan::call('up');
-
-        return back();
-    }
 }

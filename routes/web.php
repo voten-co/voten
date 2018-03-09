@@ -9,7 +9,7 @@ Route::redirect('/blog', 'https://medium.com/voten', 301);
 Route::redirect('/dev', '/c/votendev', 301);
 Route::redirect('/developers', '/c/votendev', 301);
 
-Route::group(['middleware' => ['maintenance', 'http2']], function () {
+Route::group(['middleware' => ['http2']], function () {
     // Authintication routes
     Route::auth();
     Route::get('/logout', 'Auth\LoginController@logout');
@@ -42,7 +42,7 @@ Route::group(['middleware' => ['maintenance', 'http2']], function () {
     Route::get('/channels.xml', 'SitemapsController@channels');
 });
 
-Route::group(['prefix' => 'api', 'middleware' => ['maintenance']], function () {
+Route::group(['prefix' => 'api'], function () {
     // Authintication routes
     Route::auth();
     Route::get('/logout', 'Auth\LoginController@logout');
@@ -93,13 +93,11 @@ Route::get('/emails/announcement/preview', 'EmailsController@preview');
 // ssh control
 Route::post('/ssh/flush-all', 'SshController@flushAll');
 Route::post('/ssh/cache-clear', 'SshController@clearCache');
-Route::post('/ssh/stop-maintenance', 'SshController@stopMaintenanceMode');
-Route::post('/ssh/start-maintenance', 'SshController@startMaintenanceMode');
 
 // Passport
 // Route::get('/apps', 'OAuthController@show');
 
 // catch wild routes
-Route::group(['middleware' => ['maintenance', 'http2', 'auth']], function () {
+Route::group(['middleware' => ['http2', 'auth']], function () {
     Route::get('/{any}', 'PagesController@welcome')->where('any', '.*');
 });

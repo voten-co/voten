@@ -23,6 +23,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         Firewall::class,
+        \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
     ];
 
     /**
@@ -61,7 +62,6 @@ class Kernel extends HttpKernel
         'can'                 => \Illuminate\Auth\Middleware\Authorize::class,
         'guest'               => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle'            => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'maintenance'         => \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         'http2'               => \JacobBennett\Http2ServerPush\Middleware\AddHttp2ServerPush::class,
         'correct-view'        => LoadDefaultViewForAuthinticatedUsers::class,
         'voten-administrator' => MustBeVotenAdministrator::class,
