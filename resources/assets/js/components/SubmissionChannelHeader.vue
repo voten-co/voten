@@ -26,11 +26,7 @@ export default {
             Store
         };
     },
-
-    created() {
-        console.log(`referrer: "${document.referrer}"`); 
-    }, 
-
+    
     components: { Subscribe },
 
     computed: {
