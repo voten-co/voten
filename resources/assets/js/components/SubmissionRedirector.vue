@@ -1,43 +1,52 @@
 <template>
 	<section>
 		<loading v-if="loading"></loading>
+
+        <not-found v-if="showNotFound"></not-found>
 	</section>
 </template>
 
 <script>
 import Loading from '../components/Loading.vue';
+import NotFound from '../components/NotFound.vue';
 
 export default {
-    components: { Loading },
+    components: { Loading, NotFound },
 
     data() {
         return {
-            loading: true
+            loading: true, 
+            showNotFound: false, 
         };
     },
 
     created() {
-        this.getSubmission();
+        this.getSubmissionById();
     },
 
     methods: {
-        getSubmission() {
+        getSubmissionById() {
             axios
-                .get(`/submissions/${this.$route.params.id}`)
+                .get(`/submissions`, {
+                    params: {
+                        id: this.$route.params.id
+                    }
+                })
                 .then((response) => {
                     this.loading = false;
+
                     this.$router.push(
                         '/c/' +
-                            response.data.channel_name +
+                            response.data.data.channel_name +
                             '/' +
-                            response.data.slug
+                            response.data.data.slug
                     );
                 })
                 .catch((error) => {
                     this.loading = false;
 
                     if (error.response.status === 404) {
-                        this.$router.push('/deleted-submission');
+                        this.showNotFound = true; 
                     }
                 });
         }

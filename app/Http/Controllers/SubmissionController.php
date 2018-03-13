@@ -180,8 +180,8 @@ class SubmissionController extends Controller
     public function get(Request $request)
     {
         $this->validate($request, [
-            'slug' => 'required_without:id|exists:submissions',
-            'id'   => 'required_without:slug|exists:submissions',
+            'slug' => 'required_without:id',
+            'id'   => 'required_without:slug',
         ]);
 
         if ($request->filled('slug')) {
@@ -190,7 +190,9 @@ class SubmissionController extends Controller
             );
         }
 
-        return new SubmissionResource($this->getSubmissionById($request->id));
+        return new SubmissionResource(
+            $this->getSubmissionById($request->id)
+        );
     }
 
     /**

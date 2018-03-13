@@ -14,7 +14,7 @@
                     </router-link>
 
                     <div class="metadata user-select">
-                        <router-link class="go-gray h-underline" v-if="!full" :to="'/submission/' + list.submission_id">
+                        <a class="go-gray h-underline" v-if="!full" :href="'/submission/' + list.submission_id" @click.prevent="openOrigin">
                             <small>
                                 <el-tooltip :content="'Created: ' + longDate" placement="top" transition="false" :open-delay="500">
                                     <span>{{ date }}</span>
@@ -24,7 +24,7 @@
                                     <span>{{ points }} Points</span>
                                 </el-tooltip>
                             </small>
-                        </router-link>
+                        </a>
 
                         <small v-else>
                             <el-tooltip :content="'Created: ' + longDate" placement="top" transition="false" :open-delay="500">
@@ -396,6 +396,34 @@ export default {
     },
 
     methods: {
+        openOrigin() {
+            app.$Progress.start();
+
+            axios
+                .get(`/submissions`, {
+                    params: {
+                        id: this.list.id
+                    }
+                })
+                .then((response) => {
+                    this.$router.push(
+                        '/c/' +
+                            response.data.data.channel_name +
+                            '/' +
+                            response.data.data.slug
+                    );
+
+                    app.$Progress.finish();
+                })
+                .catch((error) => {
+                    app.$Progress.fail();
+
+                    // if (error.response.status === 404) {
+                    //     this.showNotFound = true; 
+                    // }
+                });
+        }, 
+
         doubleClicked() {
             if (this.isGuest) return;
 
