@@ -59,9 +59,7 @@ trait Submit
             array_push($upvotes, $submission_id);
 
             $this->updateSubmissionUpvotesIds($user->id, $upvotes);
-        } catch (\Exception $exception) {
-            app('sentry')->captureException($exception);
-        }
+        } catch (\Exception $exception) {}
     }
 
     /**
