@@ -236,6 +236,11 @@ class CommentVotesController extends Controller
      */
     public function isCheating($user_id, $comment_id, $type = 'upvote')
     {
+        // white-listed users are fine
+        if ($this->mustBeWhitelisted()) {
+            return false;
+        }
+        
         // we don't want new registered users do downvotes and mess with the averate vote numbers, so:
         if ($type == 'downvote' && Auth::user()->created_at > Carbon::now()->subDays(3)) {
             return true;
