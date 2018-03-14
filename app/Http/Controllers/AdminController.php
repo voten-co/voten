@@ -2,21 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Activity;
 use App\Channel;
 use App\Comment;
 use App\Filters;
+use App\Http\Resources\ActivityResource;
+use App\Http\Resources\ChannelResource;
+use App\Http\Resources\CommentResource;
+use App\Http\Resources\EchoServerResource;
+use App\Http\Resources\SubmissionResource;
+use App\Http\Resources\UserResource;
+use App\Message;
 use App\Report;
 use App\Submission;
+use App\Traits\EchoServer;
 use App\User;
 use Illuminate\Http\Request;
-use App\Http\Resources\SubmissionResource;
-use App\Http\Resources\CommentResource;
-use App\Http\Resources\ChannelResource;
-use App\Http\Resources\UserResource;
-use App\Activity;
-use App\Http\Resources\ActivityResource;
-use App\Traits\EchoServer;
-use App\Http\Resources\EchoServerResource;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -30,10 +33,10 @@ class AdminController extends Controller
     public function activities()
     {
         $activities = (new Activity())->newQuery();
-        
+
         return ActivityResource::collection(
             $activities->with('owner')->orderBy('id', 'desc')->simplePaginate(30)
-        );        
+        );
     }
 
     public function echoServer()
@@ -41,6 +44,82 @@ class AdminController extends Controller
         return new EchoServerResource(
             $this->echoStatus()
         );
+    }
+
+    public function statistics()
+    {
+        $stats = Cache::remember('voten-general-statistics', 60, function () {
+            return [
+                'data' => [
+                    'users' => [
+                        'today' => User::where('created_at', '>=', now()->subDay())->count(),
+                        'week' => User::where('created_at', '>=', now()->subWeek())->count(),
+                        'month' => User::where('created_at', '>=', now()->subMonth())->count(),
+                        'total' => User::all()->count(),
+                    ],
+
+                    'active_users' => [
+                        'today' => User::has('activities', '>=', 2)->whereHas('activities', function ($query) {
+                            $query->where('created_at', '>=', now()->subDay());
+                        })->count(),
+
+                        'week' => User::has('activities', '>=', 2)->whereHas('activities', function ($query) {
+                            $query->where('created_at', '>=', now()->subWeek());
+                        })->count(),
+
+                        'month' => User::has('activities', '>=', 2)->whereHas('activities', function ($query) {
+                            $query->where('created_at', '>=', now()->subMonth());
+                        })->count(),
+
+                        'total' => User::has('activities', '>=', 10)->count(),
+                    ],
+
+                    'subscriptions' => [
+                        'today' => DB::table('subscriptions')->where('created_at', '>=', now()->subDay())->count(),
+                        'week' => DB::table('subscriptions')->where('created_at', '>=', now()->subWeek())->count(),
+                        'month' => DB::table('subscriptions')->where('created_at', '>=', now()->subMonth())->count(),
+                        'total' => DB::table('subscriptions')->count(),
+                    ],
+
+                    'channels' => [
+                        'today' => Channel::where('created_at', '>=', now()->subDay())->count(),
+                        'week' => Channel::where('created_at', '>=', now()->subWeek())->count(),
+                        'month' => Channel::where('created_at', '>=', now()->subMonth())->count(),
+                        'total' => Channel::all()->count(),
+                    ],
+
+                    'comments' => [
+                        'today' => Comment::where('created_at', '>=', now()->subDay())->count(),
+                        'week' => Comment::where('created_at', '>=', now()->subWeek())->count(),
+                        'month' => Comment::where('created_at', '>=', now()->subMonth())->count(),
+                        'total' => Comment::all()->count(),
+                    ],
+
+                    'submissions' => [
+                        'today' => Submission::where('created_at', '>=', now()->subDay())->count(),
+                        'week' => Submission::where('created_at', '>=', now()->subWeek())->count(),
+                        'month' => Submission::where('created_at', '>=', now()->subMonth())->count(),
+                        'total' => Submission::all()->count(),
+                    ],
+
+                    'messages' => [
+                        'today' => Message::where('created_at', '>=', now()->subDay())->count(),
+                        'week' => Message::where('created_at', '>=', now()->subWeek())->count(),
+                        'month' => Message::where('created_at', '>=', now()->subMonth())->count(),
+                        'total' => Message::all()->count(),
+                    ],
+
+                    'reports' => [
+                        'today' => Report::where('created_at', '>=', now()->subDay())->count(),
+                        'week' => Report::where('created_at', '>=', now()->subWeek())->count(),
+                        'month' => Report::where('created_at', '>=', now()->subMonth())->count(),
+                        'total' => Report::all()->count(),
+                    ]
+                ],
+            ];
+        });
+
+        return collect($stats);
     }
 
     /**

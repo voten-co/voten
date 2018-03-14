@@ -64,7 +64,7 @@
 			<div>
 				<el-button type="info"
 				           round
-				           :icon="activities.loading ? 'el-icon-loading' : 'el-icon-refresh'"
+				           :loading="activities.loading"
 				           size="mini"
 				           class="margin-left-half"
 				           @click="getActivities">

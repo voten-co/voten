@@ -4,6 +4,7 @@ import AdminPanelSuggestedChannels from './components/AdminPanelSuggestedChannel
 import AdminPanelSubmissions from './components/AdminPanelSubmissions.vue';
 import AdminPanelComments from './components/AdminPanelComments.vue';
 import AdminPanelDashboard from './components/AdminPanelDashboard.vue';
+import AdminPanelStatistics from './components/AdminPanelStatistics.vue';
 
 // For moderators only
 import ModeratorPanel from './components/ModeratorPanel.vue';
@@ -74,6 +75,11 @@ const routes = [
                 path: '',
                 component: AdminPanelDashboard,
                 name: 'admin-panel-dashboard'
+            },
+            {
+                path: 'statistics',
+                component: AdminPanelStatistics,
+                name: 'admin-panel-statistics'
             },
             {
                 path: 'submissions',

@@ -14,6 +14,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/admin/reports/submissions', 'AdminController@reportedSubmissions'); // check 
     Route::get('/admin/activities', 'AdminController@activities'); // check 
     Route::get('/admin/echo', 'AdminController@echoServer'); // check 
+    Route::get('/admin/statistics', 'AdminController@statistics'); // check 
 
     // feedback
     Route::get('/feedbacks/{feedback}', 'FeedbacksController@get')->middleware('voten-administrator'); // check

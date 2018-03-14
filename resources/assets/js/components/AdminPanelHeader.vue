@@ -5,6 +5,10 @@
 				<router-link :to="'/big-daddy/'" class="nav-item is-tab" active-class="is-active" exact>
 					Dashboard 
 				</router-link>
+				
+				<router-link :to="'/big-daddy/statistics'" class="nav-item is-tab" active-class="is-active">
+					Statistics 
+				</router-link>
 
 				<router-link :to="'/big-daddy/submissions'" class="nav-item is-tab" active-class="is-active">
 					Submissions
