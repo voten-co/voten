@@ -10,11 +10,13 @@ class UserResource extends Resource
     use CachableUser;
 
     protected $withStats = false;
+    protected $withAdminInfo = false;
 
-    public function __construct($resource, $withStats = false)
+    public function __construct($resource, $withStats = false, $withAdminInfo = false)
     {
         $this->resource = $resource;
         $this->withStats = $withStats;
+        $this->withAdminInfo = $withAdminInfo;
     }
 
     /**
@@ -51,8 +53,15 @@ class UserResource extends Resource
                     'submission_xp'     => $this->userStats($this->id)['submission_xp'],
                     'comment_xp'        => $this->userStats($this->id)['comment_xp'],
                 ]),
-
+            
             'server_side_settings' => $this->when($this->isSelf(), $this->serverSideSettings()),
+                
+            'admin_info' => $this->when($this->withAdminInfo, [
+                'country' => $this->country(),
+                'activities_count' => $this->activities()->count() > 1 ? $this->activities()->count() : 'never',
+                'last_activiy' => $this->lastActivity() ? $this->lastActivity()->created_at->diffForHumans() : 'never',
+                'email' => $this->email,
+            ]),
         ];
     }
 

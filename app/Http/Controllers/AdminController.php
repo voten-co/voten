@@ -71,7 +71,7 @@ class AdminController extends Controller
                             $query->where('created_at', '>=', now()->subMonth());
                         })->count(),
 
-                        'total' => User::has('activities', '>=', 10)->count(),
+                        'total' => User::has('activities', '>=', 2)->count(),
                     ],
 
                     'subscriptions' => [
@@ -176,7 +176,7 @@ class AdminController extends Controller
     public function indexUsers()
     {
         return UserResource::collection(
-            User::orderBy('id', 'desc')->simplePaginate(30)
+            User::orderBy('id', 'desc')->simplePaginate(90)
         );
     }
 

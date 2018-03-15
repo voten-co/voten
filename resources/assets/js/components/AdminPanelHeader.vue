@@ -13,6 +13,10 @@
 				<router-link :to="'/big-daddy/submissions'" class="nav-item is-tab" active-class="is-active">
 					Submissions
 				</router-link>
+				
+				<router-link :to="'/big-daddy/users'" class="nav-item is-tab" active-class="is-active">
+					Users 
+				</router-link>
 
 				<router-link :to="'/big-daddy/comments'" class="nav-item is-tab" active-class="is-active">
 					Comments
