@@ -4,17 +4,24 @@ use Faker\Generator as Faker;
 
 $factory->define(\App\Submission::class, function (Faker $faker) {
     $title = $faker->sentence($nbWords = 6, $variableNbWords = true);
-    $channel = factory('App\User')->create();
+    $channel = factory('App\Channel')->create();
+    $slug = str_slug($title); 
 
     return [
-        'user_id'       => function () {
+        'title' => $title,
+        'slug' => $slug,
+        'url' => config('app.url') . '/c/' . $channel->name . '/' . $slug,
+        'domain' => null, 
+        'type' => 'text',
+        'data' => ['text' => $faker->paragraph()],
+        'rate' => firstRate(), 
+        
+        'user_id' => function () {
             return factory('App\User')->create()->id;
         },
-        'title'         => $title,
-        'data'          => ['text' => $faker->paragraph()],
-        'type'          => 'text',
-        'channel_id'    => $channel->id,
-        'channel_name'  => $channel->name,
-        'slug'          => str_slug($title),
+        
+        'nsfw' => 0, 
+        'channel_id' => $channel->id,
+        'channel_name' => $channel->name,
     ];
 });
