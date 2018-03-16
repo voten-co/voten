@@ -14,20 +14,17 @@ class MentionUsersTest extends TestCase
     {
         $john = create('App\User', ['username' => 'JohnDoe']);
 
-        $this->signIn($john);
+        $this->signInViaPassport($john);
 
         $jane = create('App\User', ['username' => 'JaneDoe']);
 
-//
-//        $this->json('post', '/comment', [
-//            'body' => 'Hey @JaneDoe look at this.',
-//            'submission_id' => 1,
-//            'parent_id' => 0
-//        ])->assertJson([
-//            'message' => 'test'
-//        ]);
+        $submission = create('App\Submission'); 
 
-//        $this->assertCount(1, $jane->notifications);
-        $this->assertTrue(true);
+        $this->json('POST', '/api/comments', [
+            'body' => 'Hello @JaneDoe Please take a look at this.', 
+            'submission_id' => $submission->id 
+        ])->assertStatus(201);
+
+        $this->assertCount(1, $jane->notifications);
     }
 }
