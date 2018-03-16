@@ -18,7 +18,7 @@ class CreateChannelsTable extends Migration
             $table->boolean('public')->default(1);
             $table->boolean('active')->default(1);
             $table->integer('subscribers')->default(1);
-            $table->json('settings');
+            $table->json('settings')->nullable();
 
             $table->softDeletes();
             $table->timestamps();
