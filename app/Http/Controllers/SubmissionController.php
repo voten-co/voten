@@ -125,7 +125,9 @@ class SubmissionController extends Controller
 
         $this->firstVote($submission->id);
 
-        return new SubmissionResource($submission);
+        return new SubmissionResource(
+            Submission::find($submission->id)
+        );
     }
 
     /**
