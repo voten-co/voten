@@ -1,6 +1,6 @@
 <template>
 	<div class="channel-header-small" v-bind:style="{ background: coverBackground }">
-		<button class="no-padding" type="button" @click="goBack">
+		<button class="no-padding lighter-on-hover" type="button" @click="goBack">
 			<i class="v-left"></i>
 		</button>
 

@@ -650,3 +650,19 @@ kbd {
         opacity: 1;
     }
 }
+
+.lighter-on-hover {
+    opacity: 1;
+
+    &:hover {
+        opacity: 0.7;
+    }
+}
+
+@mixin lighter-on-hover() {
+    opacity: 1;
+
+    &:hover {
+        opacity: 0.7;
+    }
+}
