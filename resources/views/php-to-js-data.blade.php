@@ -10,7 +10,7 @@
 
         var preload = {};
 
-        var auth = {!! json_encode((new \App\Http\Resources\UserResource(auth()->user()))->resolve()) !!}; 
+        var auth = {!! json_encode((new \App\Http\Resources\UserResource(auth()->user(), true, false, true))->resolve()) !!}; 
     </script>
 @else
     <script>

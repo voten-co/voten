@@ -11,12 +11,14 @@ class UserResource extends Resource
 
     protected $withStats = false;
     protected $withAdminInfo = false;
+    protected $withServerSideSettings = false;
 
-    public function __construct($resource, $withStats = false, $withAdminInfo = false)
+    public function __construct($resource, $withStats = false, $withAdminInfo = false, $withServerSideSettings = false)
     {
         $this->resource = $resource;
         $this->withStats = $withStats;
         $this->withAdminInfo = $withAdminInfo;
+        $this->withServerSideSettings = $withServerSideSettings;
     }
 
     /**
@@ -54,7 +56,7 @@ class UserResource extends Resource
                     'comment_xp'        => $this->userStats($this->id)['comment_xp'],
                 ]),
             
-            'server_side_settings' => $this->when($this->isSelf(), $this->serverSideSettings()),
+            'server_side_settings' => $this->when($this->isSelf() && $this->withServerSideSettings, $this->serverSideSettings()),
                 
             'admin_info' => $this->when($this->withAdminInfo, [
                 'country' => $this->country(),
