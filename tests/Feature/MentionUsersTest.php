@@ -27,4 +27,21 @@ class MentionUsersTest extends TestCase
 
         $this->assertCount(1, $jane->notifications);
     }
+    
+    /** @test */
+    public function no_notification_when_mentioning_self()
+    {
+        $john = create('App\User', ['username' => 'JohnDoe']);
+
+        $this->signInViaPassport($john);
+
+        $submission = create('App\Submission'); 
+
+        $this->json('POST', '/api/comments', [
+            'body' => 'This is @JohnDoe. Nice to meet you', 
+            'submission_id' => $submission->id 
+        ])->assertStatus(201);
+
+        $this->assertCount(0, $john->notifications);
+    }
 }
