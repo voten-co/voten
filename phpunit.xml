@@ -33,5 +33,7 @@
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
         <env name="MAIL_DRIVER" value="log"/>
+        <env name="BROADCAST_DRIVER" value="log"/>
+        <env name="SCOUT_DRIVER" value="null"/>
     </php>
 </phpunit>
