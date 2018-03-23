@@ -290,7 +290,7 @@ export default {
             const channelAddress = 'submission.' + this.$route.params.slug;
 
             Echo.channel(channelAddress)
-                .listen('CommentCreated', (event) => {
+                .listen('CommentWasCreated', (event) => {
                     this.$eventHub.$emit('newComment', event.data);
                 })
                 .listen('CommentWasPatched', (event) => {

@@ -26,6 +26,7 @@ class CommentWasDeleted implements ShouldBroadcast
         $this->comment = $comment;
         $this->submission = $submission;
         $this->deletedByAuthor = $deletedByAuthor;
+        
         $this->dontBroadcastToCurrentUser();
     }
 

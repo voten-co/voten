@@ -81,22 +81,27 @@ axios.interceptors.response.use(
  */
 import Echo from 'laravel-echo';
 
-if (Laravel.env == 'local' && Laravel.pusher.key.trim()) {
+if (Laravel.broadcasting.service == 'pusher' && Laravel.broadcasting.pusher.key.trim()) {
     window.Echo = new Echo({
         broadcaster: 'pusher',
-        key: Laravel.pusher.key,
-        cluster: Laravel.pusher.cluster
+        key: Laravel.broadcasting.pusher.key,
+        cluster: Laravel.broadcasting.pusher.cluster,
+        encrypted: true
     });
-} else if (Laravel.env == 'production' && Laravel.echo.bearerToken.trim()) {
+} else if (Laravel.broadcasting.service == 'echo' && Laravel.broadcasting.echo.bearerToken.trim()) {
     window.Echo = new Echo({
         broadcaster: 'socket.io',
-        host: Laravel.echo.host + ':' + Laravel.echo.port,
+        host: Laravel.broadcasting.echo.host + ':' + Laravel.broadcasting.echo.port,
         auth: {
             headers: {
-                Authorization: 'Bearer ' + Laravel.echo.bearerToken
+                Authorization: 'Bearer ' + Laravel.broadcasting.echo.bearerToken
             }
         }
     });
 }
 
+/**
+ * A small lirary that helps us with supporting Emojis in Voten's
+ * Great Markdown editor.
+ */
 window.emojione = require('./libs/emojione.min');

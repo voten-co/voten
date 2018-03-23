@@ -8,16 +8,20 @@
             'env' => config('app.env'),
             'recaptchaKey' => config('services.recaptcha.key'),
             'sentry' => config('sentry.dsn-js'), 
+            
+            'broadcasting' => [
+                'service' => config('broadcasting.service', null), 
 
-            'pusher' => [
-                'key' => config('broadcasting.connections.pusher.key'),
-                'cluster' => config('broadcasting.connections.pusher.options.cluster'),
-            ],
+                'pusher' => [
+                    'key' => config('broadcasting.connections.pusher.key'),
+                    'cluster' => config('broadcasting.connections.pusher.options.cluster'),
+                ],
 
-            'echo' => [
-                'host' => config('broadcasting.connections.echo.host'), 
-                'port' => config('broadcasting.connections.echo.port'), 
-                'bearerToken' => config('broadcasting.connections.echo.bearerToken'), 
+                'echo' => [
+                    'host' => config('broadcasting.connections.echo.host'), 
+                    'port' => config('broadcasting.connections.echo.port'), 
+                    'bearerToken' => config('broadcasting.connections.echo.bearerToken'), 
+                ], 
             ], 
         ];
     ?>

@@ -13,6 +13,7 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
+        // Submission 
         'App\Events\SubmissionWasCreated' => [
             'App\Listeners\NewSubmission',
         ],
@@ -20,6 +21,7 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\DestroyedSubmission',
         ],
 
+        // Comment 
         'App\Events\CommentWasCreated' => [
             'App\Listeners\NewComment',
         ],
@@ -30,10 +32,12 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\PatchedComment',
         ],
 
+        // Channel 
         'App\Events\ChannelWasUpdated' => [
             'App\Listeners\UpdatedChannel',
         ],
 
+        // Report 
         'App\Events\ReportWasCreated' => [
             'App\Listeners\NewReport',
         ],

@@ -2,7 +2,6 @@
 
 namespace App\Listeners;
 
-use App\Events\CommentCreated;
 use App\Events\CommentWasCreated;
 use App\Notifications\CommentReplied;
 use App\Notifications\SubmissionReplied;
@@ -52,9 +51,6 @@ class NewComment
 
             return;
         }
-
-        // broadcast the comment to the people online in the conversation
-        event(new CommentCreated($event->comment));
 
         if (isset($event->parentComment) && !$this->mustBeOwner($event->parentComment)) {
             $event->parentComment->notifiable->notify(new CommentReplied($event->submission, $event->comment));

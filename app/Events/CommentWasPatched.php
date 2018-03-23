@@ -25,6 +25,7 @@ class CommentWasPatched implements ShouldBroadcast
     {
         $this->comment = $comment;
         $this->submission = $submission;
+
         $this->dontBroadcastToCurrentUser();
     }
 
@@ -35,7 +36,7 @@ class CommentWasPatched implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['submission.'.$this->comment->submission->slug];
+        return ['submission.'.$this->submission->slug];
     }
 
     /**

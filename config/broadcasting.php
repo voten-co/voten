@@ -13,7 +13,7 @@ return [
     |
     | Supported: "pusher", "redis", "log", "null"
     |
-    */
+     */
 
     'default' => env('BROADCAST_DRIVER', 'log'),
 
@@ -28,7 +28,7 @@ return [
     |
     | Supported: "pusher", "echo"
     |
-    */
+     */
 
     'service' => env('BROADCAST_SERVICE', 'pusher'),
 
@@ -41,29 +41,31 @@ return [
     | to broadcast events to other systems or over websockets. Samples of
     | each available type of connection are provided inside this array.
     |
-    */
+     */
 
     'connections' => [
         'echo' => [
-            'host'  => env('ECHO_HOST', 'https://echo.voten.co'),
-            'port'  => env('ECHO_PORT', 6001),
-            'bearerToken'  => env('ECHO_BEARER_TOKEN', 'nb35mdq2ca9928qgl4sgjf3imil5811sn41qsmcaph0p3h6sa5ht8hoktdeg'),
-            'app_id'       => env('ECHO_APP_ID'),
-            'auth_key'     => env('ECHO_AUTH_KEY'),
+            'driver' => 'redis',
+            'host' => env('ECHO_HOST', 'https://echo.voten.co'),
+            'port' => env('ECHO_PORT', 6001),
+            'bearerToken' => env('ECHO_BEARER_TOKEN', 'nb35mdq2ca9928qgl4sgjf3imil5811sn41qsmcaph0p3h6sa5ht8hoktdeg'),
+            'app_id' => env('ECHO_APP_ID'),
+            'auth_key' => env('ECHO_AUTH_KEY'),
         ],
 
         'pusher' => [
-            'driver'  => 'pusher',
-            'key'     => env('PUSHER_KEY'),
-            'secret'  => env('PUSHER_SECRET'),
-            'app_id'  => env('PUSHER_APP_ID'),
+            'driver' => 'pusher',
+            'key' => env('PUSHER_APP_KEY'),
+            'secret' => env('PUSHER_APP_SECRET'),
+            'app_id' => env('PUSHER_APP_ID'),
             'options' => [
-                'cluster' => env('PUSHER_CLUSTER', 'eu'),
+                'cluster' => env('PUSHER_APP_CLUSTER', 'eu'),
+                'encrypted' => true,
             ],
         ],
 
         'redis' => [
-            'driver'     => 'redis',
+            'driver' => 'redis',
             'connection' => 'default',
         ],
 
