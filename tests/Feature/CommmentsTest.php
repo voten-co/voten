@@ -18,8 +18,6 @@ class CommmentsTest extends TestCase
     /** @test */
     public function can_post_comment_to_submission()
     {
-        $this->withoutExceptionHandling();
-
         Event::fake();
 
         $this->signInViaPassport();
