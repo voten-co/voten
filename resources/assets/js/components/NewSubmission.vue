@@ -83,7 +83,7 @@
 			</el-form-item>
 
 			<!-- GIF -->
-			<el-form-item v-if="submissionType === 'gif'"
+			<!-- <el-form-item v-if="submissionType === 'gif'"
 			              label="GIF file:">
 				<el-upload class="upload-demo"
 				           drag
@@ -109,7 +109,6 @@
 					</div>
 				</el-upload>
 
-				<!-- Preview Photo -->
 				<el-dialog :visible.sync="previewGifModal"
 				           :title="previewGifFileName"
 				           append-to-body>
@@ -117,7 +116,7 @@
 					     :src="previewGifImage"
 					     alt="preview">
 				</el-dialog>
-			</el-form-item>
+			</el-form-item> -->
 
 			<!-- Photo(s) -->
 			<el-form-item v-if="submissionType === 'img'"
@@ -145,7 +144,6 @@
 					</div>
 				</el-upload>
 
-				<!-- Preview Photo -->
 				<el-dialog :visible.sync="previewPhotoModal"
 				           :title="previewPhotoFileName"
 				           append-to-body>
@@ -214,14 +212,14 @@
 						   @click="changeSubmissionType('text')"></i>
 					</el-tooltip>
 
-					<el-tooltip content="Animated GIF"
+					<!-- <el-tooltip content="Animated GIF"
 					            placement="top"
 					            transition="false"
 					            :open-delay="500">
 						<i class="v-icon v-gif"
 						   :class="{ 'go-primary': submissionType == 'gif'}"
 						   @click="changeSubmissionType('gif')"></i>
-					</el-tooltip>
+					</el-tooltip> -->
 				</div>
 
 				<el-button round type="success"
@@ -275,13 +273,13 @@ export default {
             previewPhotoModal: false,
 
             // GIF
-            gifTempArray: [],
-            gif_id: null,
-            gifNumberLimit: 1,
-            gifSizeLimit: 50,
-            previewGifImage: '',
-            previewGifFileName: '',
-            previewGifModal: false
+            // gifTempArray: [],
+            // gif_id: null,
+            // gifNumberLimit: 1,
+            // gifSizeLimit: 50,
+            // previewGifImage: '',
+            // previewGifFileName: '',
+            // previewGifModal: false
         };
     },
 
@@ -514,11 +512,11 @@ export default {
             this.previewPhotoModal = false;
 
             // GIF
-            this.gifTempArray = [];
-            this.gif_id = null;
-            this.previewGifImage = '';
-            this.previewGifFileName = '';
-            this.previewGifModal = fals;
+            // this.gifTempArray = [];
+            // this.gif_id = null;
+            // this.previewGifImage = '';
+            // this.previewGifFileName = '';
+            // this.previewGifModal = fals;
         }
     }
 };

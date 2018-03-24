@@ -55,44 +55,44 @@ export default {
         /////////////////////////////////////////////
         /////////// GIF Upload Methods  /////////////
         /////////////////////////////////////////////
-        beforeGifUploadCheckings(file) {
-            const isInCorrectFormat = file.type === 'image/gif';
-            const doesNotExceedFileSize =
-                file.size / 1024 / 1024 < this.gifSizeLimit;
+        // beforeGifUploadCheckings(file) {
+        //     const isInCorrectFormat = file.type === 'image/gif';
+        //     const doesNotExceedFileSize =
+        //         file.size / 1024 / 1024 < this.gifSizeLimit;
 
-            if (!isInCorrectFormat) {
-                this.$message.error(
-                    'Only animated GIF files with .gif format are allowed! '
-                );
-            }
+        //     if (!isInCorrectFormat) {
+        //         this.$message.error(
+        //             'Only animated GIF files with .gif format are allowed! '
+        //         );
+        //     }
 
-            if (!doesNotExceedFileSize) {
-                this.$message.error(
-                    `Uplaoded GIF size can not exceed ${this.gifSizeLimit}mb!`
-                );
-            }
+        //     if (!doesNotExceedFileSize) {
+        //         this.$message.error(
+        //             `Uplaoded GIF size can not exceed ${this.gifSizeLimit}mb!`
+        //         );
+        //     }
 
-            return isInCorrectFormat && doesNotExceedFileSize;
-        },
-        exceededGifFileCount(files, fileList) {
-            this.$message.error(
-                `You can only Upload one GIF file per submission.`
-            );
-        },
-        failedGifUpload(err, file, fileList) {
-            this.$message.error(err.message);
-            this.gif_id = null;
-        },
-        removeGif(file, fileList) {
-            this.gif_id = null;
-        },
-        gifPreview(file) {
-            this.previewGifImage = file.url;
-            this.previewGifFileName = file.name;
-            this.previewGifModal = true;
-        },
-        successfulGifUpload(response, file, fileList) {
-            this.gif_id = response.data.id;
-        }
+        //     return isInCorrectFormat && doesNotExceedFileSize;
+        // },
+        // exceededGifFileCount(files, fileList) {
+        //     this.$message.error(
+        //         `You can only Upload one GIF file per submission.`
+        //     );
+        // },
+        // failedGifUpload(err, file, fileList) {
+        //     this.$message.error(err.message);
+        //     this.gif_id = null;
+        // },
+        // removeGif(file, fileList) {
+        //     this.gif_id = null;
+        // },
+        // gifPreview(file) {
+        //     this.previewGifImage = file.url;
+        //     this.previewGifFileName = file.name;
+        //     this.previewGifModal = true;
+        // },
+        // successfulGifUpload(response, file, fileList) {
+        //     this.gif_id = response.data.id;
+        // }
     }
 };
