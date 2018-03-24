@@ -81,6 +81,8 @@ axios.interceptors.response.use(
  */
 import Echo from 'laravel-echo';
 
+window.io = require('socket.io-client');
+
 if (Laravel.broadcasting.service == 'pusher' && Laravel.broadcasting.pusher.key.trim()) {
     window.Echo = new Echo({
         broadcaster: 'pusher',

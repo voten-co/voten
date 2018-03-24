@@ -14,7 +14,6 @@ mix
         'vue-router',
         'laravel-echo',
         'pusher-js',
-        'socket.io-client', 
         'element-ui',
         'moment-timezone',
         'vue-template-compiler'
@@ -22,7 +21,7 @@ mix
     .autoload({
         vue: 'Vue',
         lodash: '_',
-        'pusher-js': 'Pusher'
+        'pusher-js': 'Pusher',
     });
 
 // run versioning on production only
