@@ -440,7 +440,7 @@ export default {
             this.loadingTitle = true;
 
             axios
-                .get('/submissions/title', {
+                .get('/links/title', {
                     params: {
                         url: typed
                     }

@@ -23,6 +23,7 @@ use Auth;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
+use Embed\Embed;
 
 class SubmissionController extends Controller
 {
@@ -162,12 +163,18 @@ class SubmissionController extends Controller
     public function getTitleAPI(Request $request)
     {
         $this->validate($request, [
-            'url' => 'required|url',
+            'url' => 'required|url|active_url',
         ]);
+
+        try {
+            $data = Embed::create($request->url);
+        } catch (\Exception $exception) {
+            return res(500, "Ooops, we couldn't process this URL.");
+        }
 
         return response([
             'data' => [
-                'title' => $this->getTitle($request->url),
+                'title' => $data->title,
             ],
         ], 200);
     }

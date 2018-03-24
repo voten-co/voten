@@ -44,7 +44,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::patch('/submissions/{submission}', 'SubmissionController@patchTextSubmission');
     Route::delete('/submissions/{submission}', 'SubmissionController@destroy');
     Route::post('/hide-submission', 'BlockSubmissionsController@store');
-    Route::get('/submissions/title', 'SubmissionController@getTitleAPI');
+    Route::get('/links/title', 'SubmissionController@getTitleAPI');
     Route::post('/mark-submission-sfw', 'NsfwController@markAsSFW');
 
     Route::post('/mark-submission-nsfw', 'NsfwController@markAsNSFW');
