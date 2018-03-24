@@ -88,10 +88,10 @@ if (Laravel.broadcasting.service == 'pusher' && Laravel.broadcasting.pusher.key.
         cluster: Laravel.broadcasting.pusher.cluster,
         encrypted: true
     });
-} else if (Laravel.broadcasting.service == 'echo' && Laravel.broadcasting.echo.bearerToken.trim()) {
+} else if (Laravel.broadcasting.service == 'echo' && Laravel.broadcasting.echo.key.trim()) {
     window.Echo = new Echo({
         broadcaster: 'socket.io',
-        key: Laravel.broadcasting.echo.host,
+        key: Laravel.broadcasting.echo.key,
         host: Laravel.broadcasting.echo.host + ':' + Laravel.broadcasting.echo.port
     });
 }
