@@ -20,7 +20,7 @@
                 'echo' => [
                     'host' => config('broadcasting.connections.echo.host'), 
                     'port' => config('broadcasting.connections.echo.port'), 
-                    'bearerToken' => config('broadcasting.connections.echo.bearerToken'), 
+                    'key' => config('broadcasting.connections.echo.auth_key'), 
                 ], 
             ], 
         ];

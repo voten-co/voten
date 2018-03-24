@@ -11,9 +11,10 @@ mix
         'axios',
         'lodash',
         'vue-ua',
-        'pusher-js',
         'vue-router',
         'laravel-echo',
+        'pusher-js',
+        'socket.io-client', 
         'element-ui',
         'moment-timezone',
         'vue-template-compiler'

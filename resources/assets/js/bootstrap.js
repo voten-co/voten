@@ -91,12 +91,8 @@ if (Laravel.broadcasting.service == 'pusher' && Laravel.broadcasting.pusher.key.
 } else if (Laravel.broadcasting.service == 'echo' && Laravel.broadcasting.echo.bearerToken.trim()) {
     window.Echo = new Echo({
         broadcaster: 'socket.io',
-        host: Laravel.broadcasting.echo.host + ':' + Laravel.broadcasting.echo.port,
-        auth: {
-            headers: {
-                Authorization: 'Bearer ' + Laravel.broadcasting.echo.bearerToken
-            }
-        }
+        key: Laravel.broadcasting.echo.host,
+        host: Laravel.broadcasting.echo.host + ':' + Laravel.broadcasting.echo.port
     });
 }
 
