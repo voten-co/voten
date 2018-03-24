@@ -9,9 +9,10 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Embed\Embed;
 
 trait Submit
-{
+{    
     /**
      * Creates a unique slug for the submission.
      *
@@ -70,9 +71,7 @@ trait Submit
     protected function linkSubmission(Request $request)
     {
         try {
-            $apiURL = 'https://midd.voten.co/link-submission?url='.urlencode($request->url);
-
-            $info = json_decode(file_get_contents($apiURL));
+            $info = Embed::create($request->url);
 
             return [
                 'url'           => $info->url,
@@ -80,11 +79,11 @@ trait Submit
                 'description'   => $info->description,
                 'type'          => $info->type,
                 'embed'         => $info->embed,
-                'img'           => $info->img,
-                'thumbnail'     => $info->thumbnail,
+                'img'           => $this->downloadImg($info->image),
+                'thumbnail'     => $this->createThumbnail($info->image, 1200, null, "submissions/link/thumbs"),
                 'providerName'  => $info->providerName,
                 'publishedTime' => $info->publishedTime,
-                'domain'        => $info->domain,
+                'domain'        => domain($request->url),
             ];
         } catch (\Exception $e) {
             return [
@@ -141,25 +140,5 @@ trait Submit
     protected function textSubmission(Request $request)
     {
         return array_only($request->all(), ['text']);
-    }
-
-    /**
-     * whether or not the title has already been posted.
-     *
-     * @return bool
-     */
-    protected function isDuplicateTitle($title, $channel)
-    {
-        return Submission::withTrashed()->where('title', $title)->where('channel_name', $channel)->exists();
-    }
-
-    /**
-     * has user upvoted for this submission before?
-     *
-     * @return bool
-     */
-    protected function hasUserUpvotedSubmission($user_id, $submission_id)
-    {
-        return DB::table('submission_upvotes')->where('user_id', $user_id)->where('submission_id', $submission_id)->exists();
     }
 }

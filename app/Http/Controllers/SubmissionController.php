@@ -68,7 +68,7 @@ class SubmissionController extends Controller
             'channel_name' => ['required', 'exists:channels,name', new NotBannedFromChannel()],
             'type'         => 'required|in:link,img,text,gif',
             'title'        => 'required|string|between:7,150',
-            'url'          => ['required_if:type,link', 'url', new NotBlockedDomain()],
+            'url'          => ['required_if:type,link', 'url', 'active_url', new NotBlockedDomain()],
             'photos_id'    => 'required_if:type,img|array|max:20',
             'gif_id'       => 'required_if:type,gif|integer',
         ]);
@@ -117,7 +117,7 @@ class SubmissionController extends Controller
         } catch (\Exception $exception) {
             app('sentry')->captureException($exception);
 
-            return res(500, 'Ooops, something went wrong. We will take a look at it to fix.');
+            return res(500, 'Ooops, something went wrong.');
         }
 
         if ($request->type === 'img' || $request->type === 'gif') {
