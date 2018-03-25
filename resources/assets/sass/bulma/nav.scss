@@ -83,6 +83,7 @@ a.nav-item.is-tab {
     padding-right: 12px;
     cursor: pointer;
     color: #69707a;
+    transition: border-color 0.3s, background-color 0.3s, color 0.3s;
 }
 
 .nav-item {
