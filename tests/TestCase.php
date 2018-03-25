@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Laravel\Passport\Passport;
 use App\Exceptions\Handler;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Support\Facades\DB;
 
 
 abstract class TestCase extends BaseTestCase
@@ -28,6 +29,22 @@ abstract class TestCase extends BaseTestCase
         $this->clearRedisCache();
 
         $user = $user ?: create('App\User');
+
+        Passport::actingAs($user);
+
+        return $this;
+    }
+    
+    protected function signInViaPassportAsVotenAdministrator()
+    {
+        $this->clearRedisCache();
+
+        $user = create('App\User');
+
+        DB::table('appointedd_users')->insert([
+            'user_id'      => $user->id,
+            'appointed_as' => 'administrator',
+        ]);
 
         Passport::actingAs($user);
 

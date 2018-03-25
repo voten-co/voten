@@ -1,21 +1,25 @@
 <?php
 
-// This is a one-time action.
-Artisan::command('send-verification-email', function () {
-    $users = \App\User::whereNotNull('email')->where('confirmed', 0)->get();
+use App\Channel;
+use App\Mail\ChannelRemovalWarning;
+use Illuminate\Support\Facades\Mail;
 
-    foreach ($users as $user) {
-        $token = str_random(60);
+// channel removal
+Artisan::command('send-channel-removal-warning-emails', function () {
+    $inactive_channels = Channel::where('created_at', '<=', now()->subMonths(2))
+        ->whereDoesntHave('submissions', function ($query) {
+            $query->where('created_at', '>=', now()->subMonths(2));
+        })->get();
 
-        DB::table('email_verifications')->insert([
-            'email'      => $user->email,
-            'user_id'    => $user->id,
-            'token'      => $token,
-            'created_at' => now(),
-        ]);
+    foreach ($inactive_channels as $channel) {
+        $mods = $channel->moderators;
 
-        Mail::to($user->email)->queue(new \App\Mail\VerifyEmailAddress($user->username, $token));
+        foreach ($mods as $user) {
+            if ($user->confirmed) {
+                Mail::to($user->email)->queue(new ChannelRemovalWarning($user, $channel));
+            }
+        }
     }
 
-    $this->info($users->count().' Emails have been queued for sending. ');
-})->describe('Send verification emails to those who have filled an email address but have not verified it.');
+    $this->info($inactive_channels->count() . ' have been warned. ');
+})->describe('Send removal warning emails to moderators of channels inactive for more than 2 months.');

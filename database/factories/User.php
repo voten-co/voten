@@ -10,7 +10,7 @@ $factory->define(\App\User::class, function (Faker $faker) {
         'email'          => $faker->safeEmail,
         'password'       => bcrypt('password'),
         'remember_token' => str_random(10),
-        'confirmed'      => 0,
+        'confirmed'      => 1,
         'active'         => 1, 
         
         'settings'       => [
