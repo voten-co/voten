@@ -49,7 +49,11 @@ export default {
 
         downvoted: {
             get() {
-                return Store.state.submissions.downVotes.indexOf(this.list.id) !== -1 ? true : false;
+                try {
+                    return Store.state.submissions.downVotes.indexOf(this.list.id) !== -1 ? true : false;
+                } catch (error) {
+                    return false; 
+                }
             },
 
             set() {
@@ -74,7 +78,11 @@ export default {
 
         bookmarked: {
             get() {
-                return Store.state.bookmarks.submissions.indexOf(this.list.id) !== -1 ? true : false;
+                try {
+                    return Store.state.bookmarks.submissions.indexOf(this.list.id) !== -1 ? true : false;
+                } catch (error) {
+                    return false; 
+                }
             },
 
             set() {
