@@ -302,26 +302,6 @@ class BackendController extends Controller
     }
 
     /**
-     * Takes over the channel. (gives you a role in the channel as "administrator").
-     *
-     * @return redirect
-     */
-    public function takeOverChannel(Channel $channel)
-    {
-        $channel->moderators()->attach(Auth::id(), [
-            'role' => 'administrator',
-        ]);
-
-        Auth::user()->notify(new BecameModerator($channel, 'administrator'));
-
-        $this->updateChannelMods($channel->id, Auth::id());
-
-        session()->flash('status', "You're not an administrator of #".$channel->name.'. Go knock yourself out. ');
-
-        return back();
-    }
-
-    /**
      * stores a new AppointedUser record in the databas and cache.
      *
      * @param Request $request

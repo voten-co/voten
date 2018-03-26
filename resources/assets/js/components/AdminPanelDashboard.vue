@@ -30,7 +30,7 @@
 <template>
 	<div id="submissions"
 	     class="home-submissions">
-		<div class="echo-info-wrapper" v-if="!echo.loading">
+		<div class="echo-info-wrapper" v-if="!echo.loading && isUsingEcho">
 			<div class="echo-info-box">
 				<div class="info">
 					Online Users:
@@ -55,6 +55,8 @@
 				{{ echo.items.memory_usage }}
 			</div>
 		</div>
+
+		<el-alert type="warning" title="You're using Pusher for broadcasting." v-if="!isUsingEcho"></el-alert>
 
 		<div class="flex-space">
 			<h2>
@@ -152,7 +154,13 @@ export default {
                 loading: false
             }
         };
-    },
+	},
+	
+	computed: {
+		isUsingEcho() {
+			return Laravel.broadcasting.service === 'echo';
+		}
+	}, 
 
     methods: {
         getActivities() {
@@ -171,6 +179,8 @@ export default {
         },
 
         getEcho() {
+			if (! this.isUsingEcho) return; 
+
             this.echo.loading = true;
 
             axios

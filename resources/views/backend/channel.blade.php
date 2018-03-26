@@ -89,63 +89,6 @@
                         This Channel has no exclusive rules.
                     @endif
                 </div>
-
-                <hr>
-
-                <h2 class="title">
-                    Delete Channel:
-                </h2>
-
-                <div class="field">
-                    <p>
-                        Deleting a channel would delete all its records and can not be undone. It also requires your (adminstrator's) password.
-                    </p>
-                </div>
-
-                <form action="/backend/channels/{{ $channel->id }}/destroy" method="post">
-                    {{ csrf_field()  }}
-                    {{ method_field('delete') }}
-
-                    <div class="field has-addons">
-                        <div class="control flex1">
-                            <input class="input" type="password" placeholder="Your password to confirm..." required name="password">
-                        </div>
-
-                        <div class="control">
-                            <button type="submit" class="button is-danger">
-                                Delete #{{ $channel->name }}
-                            </button>
-                        </div>
-                    </div>
-                </form>
-
-                <hr>
-
-                <h2 class="title">
-                    Take Over
-                </h2>
-
-                @if($isAdministrator)
-                    <i class="field">
-                        You're already an administrator of this channel.
-                    </i>
-                @else
-                    <p class="field">
-                        This'll make you an administrator of the channel so you can take necessary actions.
-                    </p>
-
-                    <form action="/backend/channels/{{ $channel->id }}/takeover" method="post">
-                        {{ csrf_field() }}
-
-                        <div class="field has-addons">
-                            <div class="control">
-                                <button type="submit" class="button is-primary">
-                                    Take Over #{{ $channel->name }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                @endif
             </div>
         </div>
     </section>

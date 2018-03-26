@@ -114,7 +114,7 @@ class AdminController extends Controller
                         'week' => Report::where('created_at', '>=', now()->subWeek())->count(),
                         'month' => Report::where('created_at', '>=', now()->subMonth())->count(),
                         'total' => Report::all()->count(),
-                    ]
+                    ],
                 ],
             ];
         });
@@ -159,12 +159,27 @@ class AdminController extends Controller
     /**
      * Returns the latest created channels.
      *
-     * @return \Illuminate\Support\Collection
+     * @return ChannelResource
      */
     public function indexChannels()
     {
         return ChannelResource::collection(
             Channel::orderBy('id', 'desc')->simplePaginate(30)
+        );
+    }
+
+    /**
+     * Returns a list of channels that have been inactive for more than 2 months.
+     *
+     * @return ChannelResource
+     */
+    public function inactiveChannels()
+    {
+        return ChannelResource::collection(
+            Channel::where('created_at', '<=', now()->subMonths(2))
+                ->whereDoesntHave('submissions', function ($query) {
+                    $query->where('created_at', '>=', now()->subMonths(2));
+                })->get()
         );
     }
 

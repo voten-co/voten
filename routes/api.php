@@ -6,6 +6,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/admin/users', 'AdminController@indexUsers'); // check 
     Route::get('/admin/comments', 'AdminController@indexComments'); // check 
     Route::get('/admin/channels', 'AdminController@indexChannels'); // check 
+    Route::get('/admin/channels/inactive', 'AdminController@inactiveChannels'); // check
     Route::get('/admin/submissions', 'AdminController@indexSubmissions'); // check 
     Route::get('/admin/suggesteds', 'SuggestionController@adminIndex'); // check 
     Route::post('/admin/suggesteds', 'SuggestionController@store'); // check 
@@ -79,6 +80,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::patch('/channels', 'ChannelController@patch');
     Route::post('/channel-block', 'BlockChannelsController@store');
     Route::delete('/channel-unblock', 'BlockChannelsController@destroy');
+    Route::post('/channels/{channel}', 'ChannelController@destroy')->middleware('voten-administrator');
     Route::get('/get-channels', 'ChannelController@getChannels');
     Route::get('/subscribed-channels', 'SubscribeController@index');
 

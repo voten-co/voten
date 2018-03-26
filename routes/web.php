@@ -62,8 +62,6 @@ Route::get('/backend/firewall', 'BackendController@firewall');
 Route::get('/backend/appointed-users', 'BackendController@indexAppointedUsers');
 Route::get('/backend/channels', 'BackendController@showChannels');
 Route::get('/backend/channels/{channel}', 'BackendController@showChannel');
-Route::delete('/backend/channels/{channel}/destroy', 'ChannelController@destroy');
-Route::post('/backend/channels/{channel}/takeover', 'BackendController@takeOverChannel');
 Route::get('/backend/users', 'BackendController@showUsers');
 Route::get('/backend/users/{user}', 'BackendController@showUser');
 Route::delete('/backend/users/destroy', 'UserController@destroy');
