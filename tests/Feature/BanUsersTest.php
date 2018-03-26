@@ -7,11 +7,10 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Channel;
 use App\User;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 class BanUsersTest extends TestCase
 {
-    use RefreshDatabase, WithoutMiddleware; 
+    use RefreshDatabase; 
 
     /** @test */
     public function a_non_moderator_cannot_ban_users()
