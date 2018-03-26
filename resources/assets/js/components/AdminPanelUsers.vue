@@ -28,7 +28,7 @@
 					     height="20"
 					     class="circle margin-right-half">
 
-					<span v-text="str_limit(scope.row.username, 15)"></span>
+					<router-link :to="'/@' + scope.row.username">{{ str_limit(scope.row.username, 15) }}</router-link>
 				</template>
 			</el-table-column>
 
@@ -60,9 +60,6 @@
 
 					<el-button type="text"
 					           size="small">Ban</el-button>
-					
-					<el-button type="text"
-					           size="small">Message</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -90,6 +87,7 @@ export default {
 
     methods: {
         getUsers() {
+			this.$Progress.start();
             this.users.items = [];
             this.users.loading = true;
 
@@ -97,10 +95,12 @@ export default {
                 .get('/admin/users')
                 .then(response => {
                     this.users.items = response.data.data;
-                    this.users.loading = false;
+					this.users.loading = false;
+					this.$Progress.finish();
                 })
                 .catch(() => {
-                    this.users.loading = false;
+					this.users.loading = false;
+					this.$Progress.fail();
                 });
         },
 
