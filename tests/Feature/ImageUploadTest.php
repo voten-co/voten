@@ -39,9 +39,7 @@ class ImageUploadTest extends TestCase
 
     /** @test */
     public function user_can_upload_photo()
-    {
-        $this->disableExceptionHandling();        
-        
+    {        
         $this->json('POST', '/api/photos', [
             'file' => UploadedFile::fake()->image('sample.jpg')
         ])->assertStatus(201);
