@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Permissions;
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class MustBeModerator
 {
@@ -20,7 +21,9 @@ class MustBeModerator
      */
     public function handle($request, Closure $next)
     {
-        abort_unless($this->mustBeModerator(request('channel_id')), 403);
+        if (! $this->mustBeModerator(request('channel_id'))) {
+            return res(403, "You don't have necessary permissions");
+        }
 
         return $next($request);
     }

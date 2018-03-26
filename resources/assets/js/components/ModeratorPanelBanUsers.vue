@@ -109,7 +109,7 @@ export default {
             this.sending = true;
 
             axios
-                .post('/channels/users/banned', {
+                .post('/channels/users/bans', {
                     username: this.username,
                     description: this.description,
                     channel_id: Store.page.channel.temp.id,
@@ -137,7 +137,7 @@ export default {
          */
         unban(user_id) {
             axios
-                .delete('/channels/users/banned', {
+                .delete('/channels/users/bans', {
                     params: {
                         user_id,
                         channel_id: Store.page.channel.temp.id
@@ -157,7 +157,7 @@ export default {
          */
         getBannedUsers() {
             axios
-                .get('/channels/users/banned', {
+                .get('/channels/users/bans', {
                     params: {
                         channel_id: Store.page.channel.temp.id
                     }
