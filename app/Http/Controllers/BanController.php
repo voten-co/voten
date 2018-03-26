@@ -155,7 +155,7 @@ class BanController extends Controller
     {
         $this->validate($request, [
             'user_id'    => 'required|exists:users,id',
-            'channel_id' => 'required|exists:channels:id',
+            'channel_id' => 'required|exists:channels,id',
         ]);
 
         $channel = $this->getChannelById(request('channel_id'));
