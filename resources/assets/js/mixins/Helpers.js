@@ -6,6 +6,7 @@ export default {
             Store,
             meta,
             auth,
+            Laravel, 
             csrf: window.Laravel.csrfToken
         };
     },
