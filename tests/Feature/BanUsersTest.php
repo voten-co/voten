@@ -7,6 +7,8 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Channel;
 use App\User;
+use App\Submission;
+use App\Comment;
 
 class BanUsersTest extends TestCase
 {
@@ -47,6 +49,11 @@ class BanUsersTest extends TestCase
             'duration' => 1,
             'description' => 'he did something very bad :)'
         ])->assertStatus(201);
+
+        $this->assertDatabaseHas('bans', [
+            'user_id' => $to_ban_user->id,
+            'channel' => $channel->name
+        ]);
     }
     
     /** @test */
@@ -75,5 +82,39 @@ class BanUsersTest extends TestCase
             'user_id' => $to_ban_user->id, 
             'channel_id' => $channel->id
         ])->assertStatus(200);
+    }
+
+    /** @test */
+    public function a_voten_administrator_can_ban_users_and_delete_their_posts_and_comments()
+    {
+        $this->signInViaPassportAsVotenAdministrator();
+
+        $user = create(User::class);
+        create(Submission::class, ['user_id' => $user->id]);
+        create(Comment::class, ['user_id' => $user->id]);
+
+        $this->json('POST', '/api/admin/users/bans', [
+            'username' => $user->username, 
+            'duration' => 0,
+            'description' => 'He did something very bad :).'
+        ])->assertStatus(201);
+
+        $this->assertDatabaseHas('bans', [
+            'user_id' => $user->id,
+            'channel' => 'all'
+        ]);
+        
+        $this->assertDatabaseHas('users', [
+            'id' => $user->id,
+            'active' => false
+        ]);
+
+        $this->assertDatabaseMissing('submissions', [
+            'user_id' => $user->id
+        ]);
+        
+        $this->assertDatabaseMissing('comments', [
+            'user_id' => $user->id
+        ]);
     }
 }
