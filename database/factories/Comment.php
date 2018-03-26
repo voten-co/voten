@@ -15,5 +15,6 @@ $factory->define(\App\Comment::class, function (Faker $faker) {
         'upvotes'       => 1,
         'downvotes'     => 0,
         'edited_at'     => null,
+        'rate' => firstRate(),
     ];
 });
