@@ -122,8 +122,6 @@ class AuthinticationTest extends TestCase
     /** @test */
     public function register_and_get_access_token()
     {
-        $this->withoutExceptionHandling();
-
         Mail::fake(); 
 
         $this->json('POST', '/api/token/register', [
