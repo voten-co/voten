@@ -96,7 +96,8 @@ class BanUsersTest extends TestCase
         $this->json('POST', '/api/admin/users/bans', [
             'username' => $user->username, 
             'duration' => 0,
-            'description' => 'He did something very bad :).'
+            'description' => 'He did something very bad :).', 
+            'delete_posts' => 1
         ])->assertStatus(201);
 
         $this->assertDatabaseHas('bans', [
