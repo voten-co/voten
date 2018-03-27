@@ -232,7 +232,7 @@
 
                 <div class="field">
                     <p>
-                        Deleting a user would delete all its records and can not be undone. It also requires your (adminstrator's) password.
+                        Deleting a user would delete all its records and can not be undone. It also requires your (administrator's) password.
                     </p>
                 </div>
 
