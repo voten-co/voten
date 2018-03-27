@@ -144,7 +144,7 @@ export default {
             try {
                 return (
                     !this.submission.approved_at &&
-                    (Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1 || meta.isVotenAdminstrator) &&
+                    (Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1 || meta.isVotenAdministrator) &&
                     !this.owns
                 );
             } catch (error) {
@@ -156,7 +156,7 @@ export default {
             try {
                 return (
                     !this.submission.deleted_at &&
-                    (Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1 || meta.isVotenAdminstrator) &&
+                    (Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1 || meta.isVotenAdministrator) &&
                     !this.owns
                 );
             } catch (error) {
@@ -169,7 +169,7 @@ export default {
                 return (
                     (this.owns ||
                         Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1 ||
-                        meta.isVotenAdminstrator) &&
+                        meta.isVotenAdministrator) &&
                     !this.submission.nsfw
                 );
             } catch (error) {
@@ -182,7 +182,7 @@ export default {
                 return (
                     (this.owns ||
                         Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1 ||
-                        meta.isVotenAdminstrator) &&
+                        meta.isVotenAdministrator) &&
                     this.submission.nsfw
                 );
             } catch (error) {
