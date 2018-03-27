@@ -67,18 +67,20 @@ class BanController extends Controller
             'username'    => ['required', 'exists:users', new NotSelfUsername()],
             'duration'    => 'integer|min:0|max:999',
             'description' => 'nullable|string|max:5000',
+            'delete_posts' => 'boolean',
         ]);
 
         $user = User::where('username', $request->username)->firstOrFail();
 
         // remove all user's data that might have been spam and harmful to others
-        DB::table('submissions')->where('user_id', $user->id)->delete();
-        DB::table('comments')->where('user_id', $user->id)->delete();
-        DB::table('messages')->where('user_id', $user->id)->delete();
-        DB::table('reports')->where('user_id', $user->id)->delete();
-        DB::table('feedbacks')->where('user_id', $user->id)->delete();
-        DB::table('roles')->where('user_id', $user->id)->delete();
-        DB::table('conversations')->where('user_id', $user->id)->orWhere('contact_id', $user->id)->delete();
+        if ($request->delete_posts) {
+            DB::table('submissions')->where('user_id', $user->id)->delete();
+            DB::table('comments')->where('user_id', $user->id)->delete();
+            DB::table('messages')->where('user_id', $user->id)->delete();
+            DB::table('reports')->where('user_id', $user->id)->delete();
+            DB::table('feedbacks')->where('user_id', $user->id)->delete();
+            DB::table('conversations')->where('user_id', $user->id)->orWhere('contact_id', $user->id)->delete();
+        }
 
         // BAN DURATION: if the duration is set as 0 we set a really big number like 17 years!
         if ($request->duration == 0) {

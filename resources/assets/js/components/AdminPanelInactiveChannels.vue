@@ -117,8 +117,7 @@ export default {
                                 message: error.response.data.errors.password[0]
                             });
                         });
-                })
-                .catch(() => {});
+                });
         }
     }
 };

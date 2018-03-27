@@ -39,7 +39,7 @@
                 </el-input>
             </el-form-item>
 
-            <el-form-item label="For how many days(leave 0 for permanent)">
+            <el-form-item label="For how many days (leave 0 for permanent)">
                 <el-input-number v-model="duration" :step="5" :min="0"></el-input-number>
             </el-form-item>
 

@@ -59,6 +59,7 @@
 					           size="small">Details</el-button>
 
 					<el-button type="text"
+					           @click="banUser(scope.row.username)"
 					           size="small">Ban</el-button>
 				</template>
 			</el-table-column>
@@ -86,8 +87,13 @@ export default {
     },
 
     methods: {
+        banUser(username) {
+            Store.modals.banUser.username = username;
+            Store.modals.banUser.show = true;
+        },
+
         getUsers() {
-			this.$Progress.start();
+            this.$Progress.start();
             this.users.items = [];
             this.users.loading = true;
 
@@ -95,12 +101,12 @@ export default {
                 .get('/admin/users')
                 .then(response => {
                     this.users.items = response.data.data;
-					this.users.loading = false;
-					this.$Progress.finish();
+                    this.users.loading = false;
+                    this.$Progress.finish();
                 })
                 .catch(() => {
-					this.users.loading = false;
-					this.$Progress.fail();
+                    this.users.loading = false;
+                    this.$Progress.fail();
                 });
         },
 

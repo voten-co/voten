@@ -58,6 +58,7 @@
     <embed-viewer v-if="Store.modals.embedViewer.show" :visible.sync="Store.modals.embedViewer.show"></embed-viewer>
     <keyboard-shortcuts-guide v-if="Store.modals.keyboardShortcutsGuide.show" :visible.sync="Store.modals.keyboardShortcutsGuide.show"></keyboard-shortcuts-guide>
     <mobile-visitor-warning v-if="Store.modals.mobileVisitorWarning.show" :visible.sync="Store.modals.mobileVisitorWarning.show"></mobile-visitor-warning>
+    <ban-user-modal v-if="Store.modals.banUser.show" :visible.sync="Store.modals.banUser.show"></ban-user-modal>
 </div>
 
 @include('php-to-js-data')

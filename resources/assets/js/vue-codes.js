@@ -31,6 +31,7 @@ import router from './routes';
 import Announcement from './components/Announcement.vue';
 import Tour from './components/Tour';
 import MobileVisitorWarning from './components/MobileVisitorWarning';
+import BanUserModal from './components/BanUserModal';
 
 /**
  * This is our event bus, which is used for event dispatching. The base is that we create an empty
@@ -71,6 +72,7 @@ window.app = new Vue({
         PhotoViewer,
         EmbedViewer,
         LeftSidebar,
+        BanUserModal, 
         SearchModal,
         Preferences,
         NewChannel,

@@ -79,5 +79,10 @@ export default {
     mobileVisitorWarning: {
         show: false,
         hash: 'mobileVisitorWarning'
+    },
+    banUser: {
+        show: false,
+        hash: 'banUser',
+        user: [], 
     }
 };
