@@ -5,7 +5,7 @@
         var meta = {
             isGuest: false, 
             isMobileDevice: {{ isMobileDevice() ? 'true' : 'false' }}, 
-            isVotenAdminstrator: {{ Auth::user()->isVotenAdministrator() ? 'true' : 'false' }},
+            isVotenAdministrator: {{ Auth::user()->isVotenAdministrator() ? 'true' : 'false' }},
         };
 
         var preload = {};
@@ -19,7 +19,7 @@
         var meta = {
             isGuest: true, 
             isMobileDevice: {{ isMobileDevice() ? 'true' : 'false' }},
-            isVotenAdminstrator: false 
+            isVotenAdministrator: false 
         };
 
         var preload = {};
