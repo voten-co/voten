@@ -147,7 +147,7 @@
 			            placement="right"
 			            transition="false"
 			            :open-delay="500"
-			            v-if="meta.isVotenAdminstrator">
+			            v-if="meta.isVotenAdministrator">
 				<a class="item"
 				   href="/backend"
 				   target="_blank">
@@ -160,7 +160,7 @@
 			            placement="right"
 			            transition="false"
 			            :open-delay="500"
-			            v-if="meta.isVotenAdminstrator">
+			            v-if="meta.isVotenAdministrator">
 				<a class="item"
 				   @click.prevent="pushRouter('/big-daddy')"
 				   href="/big-daddy">
