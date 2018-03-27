@@ -9,7 +9,7 @@ use App\Mail\VerifyEmailAddress;
 use Illuminate\Support\Facades\Artisan;
 
 
-class AuthinticationTest extends TestCase
+class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
 
