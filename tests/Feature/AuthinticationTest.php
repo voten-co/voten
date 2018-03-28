@@ -7,6 +7,7 @@ use Tests\TestCase;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\VerifyEmailAddress;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 
 
 class AuthinticationTest extends TestCase
@@ -87,7 +88,7 @@ class AuthinticationTest extends TestCase
     }
 
     /** @test */
-    public function vertification_email_is_queued_after_registeration_with_email()
+    public function vertification_email_is_queued_after_registeration_with_email_and_can_be_used_to_verify_email()
     {
         Mail::fake();
 
@@ -101,7 +102,29 @@ class AuthinticationTest extends TestCase
             'message' => 'Registered successfully.',
         ]);
 
+        $this->assertDatabaseHas('users', [
+            'email' => 'test@test.com', 
+            'username' => 'test_username', 
+            'confirmed' => false 
+        ]);
+
         Mail::assertQueued(VerifyEmailAddress::class, 1); 
+        
+        $this->assertDatabaseHas('email_verifications', [
+            'email' => 'test@test.com',
+            'verified_at' => null 
+        ]);
+
+        $verification_token = DB::table('email_verifications')->where('email', 'test@test.com')->first()->token;
+
+        $this->get("/email/verify?token={$verification_token}")
+            ->assertStatus(200)
+            ->assertSee("Email Verified"); 
+            
+        $this->assertDatabaseMissing('email_verifications', [
+            'email' => 'test@test.com',
+            'verified_at' => null 
+        ]);
     }
 
     /** @test */
