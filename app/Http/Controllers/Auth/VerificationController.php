@@ -56,8 +56,10 @@ class VerificationController extends Controller
             ->where('email', Auth::user()->email)
             ->first();
 
-        \Mail::to(Auth::user()->email)->queue(new VerifyEmailAddress(Auth::user()->username, $email_verification->token));
+        \Mail::to(Auth::user()->email)->queue(
+            new VerifyEmailAddress(Auth::user()->username, $email_verification->token)
+        );
 
-        return response('Verification email re-sent. ', 200);
+        return res(200, 'Verification email re-sent. ');
     }
 }
