@@ -75,6 +75,10 @@ class Handler extends ExceptionHandler
             if ($exception instanceof InvalidUrlException) {
                 return res(400, 'Invalid URL');
             }
+            
+            if ($exception instanceof InvalidUrlException) {
+                return res(403, 'Invalid URL');
+            }
 
             // 404 not found
             if ($exception instanceof ModelNotFoundException || $exception instanceof NotFoundHttpException) {
@@ -92,7 +96,7 @@ class Handler extends ExceptionHandler
             }
 
             if ($exception instanceof HttpException) {
-                return res(500);
+                return res($exception->getStatusCode());
             }
         }
 
