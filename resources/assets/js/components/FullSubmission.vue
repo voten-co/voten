@@ -257,9 +257,7 @@ export default {
             }
 
             axios
-                .post('/hide-submission', {
-                    submission_id: this.list.id
-                })
+                .post(`/submissions/${this.list.id}/hide`)
                 .then(() => {
                     this.$message({
                         message:

@@ -13,7 +13,7 @@ return [
     |
     | Supported: "local", "ftp", "s3", "rackspace", "spaces"
     |
- */
+    */
 
     'default' => env('DISK_DRIVER', 'ftp'),
 

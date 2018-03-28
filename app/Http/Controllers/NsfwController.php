@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Traits\CachableSubmission;
 use Illuminate\Http\Request;
+use App\Submission;
 
 class NsfwController extends Controller
 {
@@ -17,18 +18,12 @@ class NsfwController extends Controller
     /**
      * marks the submission model as NSFW (not safe for work).
      *
-     * @param \Illuminate\Http\Request $request
+     * @param \App\Submission $submission
      *
      * @return response
      */
-    public function markAsNSFW(Request $request)
+    public function store(Submission $submission)
     {
-        $this->validate($request, [
-            'id' => 'required|integer',
-        ]);
-
-        $submission = $this->getSubmissionById($request->id);
-
         abort_unless(
             $this->mustBeOwner($submission) || $this->mustBeModerator($submission->channel_id
         ), 403);
@@ -39,24 +34,18 @@ class NsfwController extends Controller
 
         $this->putSubmissionInTheCache($submission);
 
-        return response('Submission was marked as NSFW', 200);
+        return res(200, 'Submission is no longer safe for work.');
     }
 
     /**
      * marks the submission model as SFW (safe for work).
      *
-     * @param \Illuminate\Http\Request $request
+     * @param \App\Submission $submission
      *
      * @return response
      */
-    public function markAsSFW(Request $request)
+    public function destroy(Submission $submission)
     {
-        $this->validate($request, [
-            'id' => 'required|integer',
-        ]);
-
-        $submission = $this->getSubmissionById($request->id);
-
         abort_unless(
             $this->mustBeOwner($submission) || $this->mustBeModerator($submission->channel_id
         ), 403);
@@ -67,6 +56,6 @@ class NsfwController extends Controller
 
         $this->putSubmissionInTheCache($submission);
 
-        return response('Submission was marked as SFW', 200);
+        return res(200, 'Submission is now safe for work.');
     }
 }

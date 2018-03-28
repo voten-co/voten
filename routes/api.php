@@ -42,15 +42,14 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     // submission
     Route::post('/submissions', 'SubmissionController@store')->middleware('shaddow-ban'); // checked 
-    Route::patch('/submissions/{submission}', 'SubmissionController@patchTextSubmission');
-    Route::delete('/submissions/{submission}', 'SubmissionController@destroy');
-    Route::post('/hide-submission', 'BlockSubmissionsController@store');
-    Route::get('/links/title', 'SubmissionController@getTitleAPI');
-    Route::post('/mark-submission-sfw', 'NsfwController@markAsSFW');
-
-    Route::post('/mark-submission-nsfw', 'NsfwController@markAsNSFW');
-
-    Route::delete('/submissions/{submission}/thumbnail', 'SubmissionController@removeThumbnail');
+    Route::patch('/submissions/{submission}', 'SubmissionController@patchTextSubmission'); // checked 
+    Route::delete('/submissions/{submission}', 'SubmissionController@destroy'); // checked 
+    Route::post('/submissions/{submission}/hide', 'BlockSubmissionsController@store'); // checked 
+    Route::delete('/submissions/{submission}/hide', 'BlockSubmissionsController@destroy'); // checked 
+    Route::get('/links/title', 'SubmissionController@getTitleAPI'); // checked 
+    Route::post('/submissions/{submission}/nsfw', 'NsfwController@store'); // checked 
+    Route::delete('/submissions/{submission}/nsfw', 'NsfwController@destroy'); // checked 
+    Route::delete('/submissions/{submission}/thumbnail', 'SubmissionController@removeThumbnail'); // checked 
 
     Route::get('/notifications/unseen', 'NotificationsController@unreadIndex');
 

@@ -178,9 +178,7 @@ export default {
             this.list.nsfw = false;
 
             axios
-                .post('/mark-submission-sfw', {
-                    id: this.list.id
-                })
+                .delete(`/submissions/${this.list.id}/nsfw`)
                 .catch(() => {
                     this.list.nsfw = true;
                 });
@@ -194,13 +192,9 @@ export default {
         markAsNSFW() {
             this.list.nsfw = true;
 
-            axios
-                .post('/mark-submission-nsfw', {
-                    id: this.list.id
-                })
-                .catch(() => {
-                    this.list.nsfw = false;
-                });
+            axios.post(`/submissions/${this.list.id}/nsfw`).catch(() => {
+                this.list.nsfw = false;
+            });
         },
 
         voteUp: _.debounce(

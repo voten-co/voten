@@ -6,6 +6,7 @@ use App\Traits\CachableUser;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
+use App\Submission;
 
 class BlockSubmissionsController extends Controller
 {
@@ -18,24 +19,44 @@ class BlockSubmissionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Submission $submission)
     {
-        $request->validate([
-            'submission_id' => 'required|integer',
-        ]);
-
         try {
             DB::table('hides')->insert([
                 'user_id'       => Auth::id(),
-                'submission_id' => $request->submission_id,
+                'submission_id' => $submission->id,
             ]);
 
-            // update the cach record for hiddenSubmissions:
-            $this->updateHiddenSubmissions(Auth::id(), $request->submission_id);
+            // update the cache records for hiddenSubmissions:
+            $this->updateHiddenSubmissions(Auth::id(), $submission->id);
 
-            return response('Submission blocked successfully.', 200);
+            return res(201, 'Submission is now hidden.');
         } catch (\Exception $e) {
-            return response('Something went wrong!', 500);
+            return res(500, 'Something went wrong!');
+        }
+    }
+    
+    /**
+     * Store a newly created hidden_submission in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Submission $submission)
+    {
+        try {
+            DB::table('hides')->where([
+                ['user_id', Auth::id()],
+                ['submission_id', $submission->id],
+            ])->delete();
+
+            // update the cache records for hiddenSubmissions:
+            $this->updateHiddenSubmissions(Auth::id(), $submission->id);
+
+            return res(200, 'Submission is no longer hidden.');
+        } catch (\Exception $e) {
+            return res(500, 'Something went wrong!');
         }
     }
 }
