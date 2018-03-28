@@ -2,46 +2,46 @@
 
 Route::group(['middleware' => ['auth:api']], function () {
     // Administrator routes
-    Route::post('/admin/check', 'AdminController@isAdministrator'); // check 
-    Route::get('/admin/users', 'AdminController@indexUsers'); // check 
-    Route::get('/admin/comments', 'AdminController@indexComments'); // check 
-    Route::get('/admin/channels', 'AdminController@indexChannels'); // check 
-    Route::get('/admin/channels/inactive', 'AdminController@inactiveChannels'); // check
-    Route::get('/admin/submissions', 'AdminController@indexSubmissions'); // check 
-    Route::get('/admin/suggesteds', 'SuggestionController@adminIndex'); // check 
-    Route::post('/admin/suggesteds', 'SuggestionController@store'); // check 
-    Route::delete('/admin/suggesteds/{suggested}', 'SuggestionController@destroy'); // check 
-    Route::get('/admin/reports/comments', 'AdminController@reportedComments'); // check 
-    Route::get('/admin/reports/submissions', 'AdminController@reportedSubmissions'); // check 
-    Route::get('/admin/activities', 'AdminController@activities'); // check 
-    Route::get('/admin/echo', 'AdminController@echoServer'); // check 
-    Route::get('/admin/statistics', 'AdminController@statistics'); // check 
+    Route::post('/admin/check', 'AdminController@isAdministrator'); // checked 
+    Route::get('/admin/users', 'AdminController@indexUsers'); // checked 
+    Route::get('/admin/comments', 'AdminController@indexComments'); // checked 
+    Route::get('/admin/channels', 'AdminController@indexChannels'); // checked 
+    Route::get('/admin/channels/inactive', 'AdminController@inactiveChannels'); // checked
+    Route::get('/admin/submissions', 'AdminController@indexSubmissions'); // checked 
+    Route::get('/admin/suggesteds', 'SuggestionController@adminIndex'); // checked 
+    Route::post('/admin/suggesteds', 'SuggestionController@store'); // checked 
+    Route::delete('/admin/suggesteds/{suggested}', 'SuggestionController@destroy'); // checked 
+    Route::get('/admin/reports/comments', 'AdminController@reportedComments'); // checked 
+    Route::get('/admin/reports/submissions', 'AdminController@reportedSubmissions'); // checked 
+    Route::get('/admin/activities', 'AdminController@activities'); // checked 
+    Route::get('/admin/echo', 'AdminController@echoServer'); // checked 
+    Route::get('/admin/statistics', 'AdminController@statistics'); // checked 
 
     // feedback
-    Route::get('/feedbacks/{feedback}', 'FeedbacksController@get')->middleware('voten-administrator'); // check
-    Route::get('/feedbacks', 'FeedbacksController@index')->middleware('voten-administrator'); // check
-    Route::post('/feedbacks', 'FeedbacksController@store')->middleware('shaddow-ban'); // check
-    Route::delete('/feedbacks/{feedback}', 'FeedbacksController@destroy')->middleware('voten-administrator'); // check
+    Route::get('/feedbacks/{feedback}', 'FeedbacksController@get')->middleware('voten-administrator'); // checked
+    Route::get('/feedbacks', 'FeedbacksController@index')->middleware('voten-administrator'); // checked
+    Route::post('/feedbacks', 'FeedbacksController@store')->middleware('shaddow-ban'); // checked
+    Route::delete('/feedbacks/{feedback}', 'FeedbacksController@destroy')->middleware('voten-administrator'); // checked
 
     // Find Channels
-    Route::get('/channels/discover', 'SuggestionController@discover'); // check 
+    Route::get('/channels/discover', 'SuggestionController@discover'); // checked 
 
     // User
-    Route::get('/users/store', 'StoreController@index'); // check 
-    Route::delete('/users', 'UserController@destroyAsAuth'); // check 
-    Route::delete('/admin/users', 'UserController@destroyAsVotenAdministrator')->middleware('voten-administrator');
-    Route::patch('/users/profile', 'UserSettingsController@profile');
-    Route::patch('/users/account', 'UserSettingsController@account');
-    Route::patch('/users/email', 'UserSettingsController@email');
-    Route::patch('/users/password', 'UserSettingsController@password');
-    Route::get('/users/submissions/upvoted', 'UserController@upVotedSubmissions');
-    Route::get('/users/submissions/downvoted', 'UserController@downVotedSubmissions');
-    Route::post('/email/verify/resend', 'Auth\VerificationController@resendVerifyEmailAddress');
-    Route::post('/clientside-settings', 'ClientsideSettingsController@store');
-    Route::get('/clientside-settings', 'ClientsideSettingsController@get');
+    Route::get('/users/store', 'StoreController@index'); // checked 
+    Route::delete('/users', 'UserController@destroyAsAuth'); // checked 
+    Route::delete('/admin/users', 'UserController@destroyAsVotenAdministrator')->middleware('voten-administrator'); // checked 
+    Route::patch('/users/profile', 'UserSettingsController@profile'); // checked 
+    Route::patch('/users/account', 'UserSettingsController@account'); // checked 
+    Route::patch('/users/email', 'UserSettingsController@email'); // checked 
+    Route::patch('/users/password', 'UserSettingsController@password'); // checked 
+    Route::get('/users/submissions/upvoteds', 'UserController@upVotedSubmissions'); // checked 
+    Route::get('/users/submissions/downvoteds', 'UserController@downVotedSubmissions'); // checked 
+    Route::post('/email/verify/resend', 'Auth\VerificationController@resendVerifyEmailAddress'); // checked 
+    Route::post('/users/clientside-settings', 'ClientsideSettingsController@store'); // checked 
+    Route::get('/users/clientside-settings', 'ClientsideSettingsController@get'); // checked 
 
     // submission
-    Route::post('/submissions', 'SubmissionController@store')->middleware('shaddow-ban');
+    Route::post('/submissions', 'SubmissionController@store')->middleware('shaddow-ban'); // checked 
     Route::patch('/submissions/{submission}', 'SubmissionController@patchTextSubmission');
     Route::delete('/submissions/{submission}', 'SubmissionController@destroy');
     Route::post('/hide-submission', 'BlockSubmissionsController@store');

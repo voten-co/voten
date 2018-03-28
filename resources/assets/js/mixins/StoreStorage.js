@@ -89,7 +89,7 @@ export default {
         },
 
         pushSettingsToServer() {
-            axios.post('/clientside-settings', {
+            axios.post('/users/clientside-settings', {
                 platform: 'Web',
                 json: JSON.stringify(Store.settings)
             });

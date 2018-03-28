@@ -37,13 +37,14 @@
 				</el-button>
 			</div>
 
-			<el-button round type="success"
-			           @click="emailForm.showConfirmPassword = true"
-			           :loading="emailForm.loading"
-			           size="medium"
-			           v-if="changedEmail && !emailForm.showConfirmPassword">
-				Save
-			</el-button>
+			<el-form-item v-if="changedEmail && !emailForm.showConfirmPassword">
+				<el-button round type="success"
+						@click="emailForm.showConfirmPassword = true"
+						:loading="emailForm.loading"
+						size="medium">
+					Save
+				</el-button>
+			</el-form-item>
 
 			<div v-if="emailForm.showConfirmPassword">
 				<el-form-item label="To confirm this action please enter your password">

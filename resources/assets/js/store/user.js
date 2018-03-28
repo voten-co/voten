@@ -116,7 +116,7 @@ export default {
                 this.loading = true;
 
                 axios
-                    .get('/users/submissions/upvoted', {
+                    .get('/users/submissions/upvoteds', {
                         params: { page: this.page }
                     })
                     .then((response) => {
@@ -164,7 +164,7 @@ export default {
                 this.loading = true;
 
                 axios
-                    .get('/users/submissions/downvoted', {
+                    .get('/users/submissions/downvoteds', {
                         params: { page: this.page }
                     })
                     .then((response) => {

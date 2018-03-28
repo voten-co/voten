@@ -36,7 +36,7 @@ class ClientsideSettingsController extends Controller
 
         $settings->save();
 
-        return response('Settings saved successfully', 200);
+        return res(200, 'Settings saved successfully.');
     }
 
     /**

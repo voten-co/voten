@@ -283,8 +283,9 @@ class SubmissionController extends Controller
     public function patchTextSubmission(Request $request, $submission_id)
     {
         $submission = $this->getSubmissionById($submission_id);
-
+        
         abort_unless($this->mustBeOwner($submission), 403);
+
         // make sure submission's type is "text" (at the moment submission editing is only available for text submissions)
         if ($submission->type !== 'text') {
             return res(400, 'Right now, only text submissions are editable.');
