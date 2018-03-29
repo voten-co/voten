@@ -38,7 +38,7 @@ class PhotoController extends Controller
         $photo = new Photo();
         $photo->user_id = Auth::id();
         $photo->path = $this->uploadImg($request->file('file'), 'submissions/img');
-        $photo->thumbnail_path = $this->createThumbnail($request->file('file'), 1200, null, 'submissions/img/thumbs');
+        $photo->thumbnail_path = $this->createThumbnail($request->file('file'), 600, null, 'submissions/img/thumbs');
         $photo->save();
 
         return new PhotoResource($photo);
@@ -79,7 +79,7 @@ class PhotoController extends Controller
         }
 
         // upload it
-        Storage::put($folder.'/'.$filename, $image);
+        Storage::put($folder.'/'.$filename, $image->__toString(), 'public');
         $imageAddress = $this->webAddress().$folder.'/'.$filename;
 
         // update channel's avatar
@@ -123,7 +123,7 @@ class PhotoController extends Controller
         }
 
         // upload it
-        Storage::put($folder.'/'.$filename, $image);
+        Storage::put($folder.'/'.$filename, $image->__toString(), 'public');
         $imageAddress = $this->webAddress().$folder.'/'.$filename;
 
         // update user's avatar

@@ -13,7 +13,7 @@ trait PhotoTools
     }
 
     /**
-     * Creates and saves a thumbnail for the sent photo and stores into the defined direcory( could be ftp, local...).
+     * Creates and saves a thumbnail for the sent photo and stores into the defined direcory( could be cloud, local...).
      *
      * @param  request('img')
      * @param  (int) width of the thumbnail
@@ -27,7 +27,7 @@ trait PhotoTools
         $filename = time().str_random(16).'.jpg';
         $image = Image::make($url);
 
-        if ($image->width() > 1200) {
+        if ($image->width() > 600) {
             if ($width == null || $height == null) {
                 $image = $image->resize($width, $height, function ($constraint) {
                     $constraint->aspectRatio();
@@ -37,8 +37,8 @@ trait PhotoTools
             }
         }
 
-        $image->encode();
-        Storage::put($folder.'/'.$filename, $image);
+        $image->encode(null, 60);
+        Storage::put($folder.'/'.$filename, $image->__toString(), 'public');
 
         return $this->webAddress().$folder.'/'.$filename;
     }
@@ -64,19 +64,15 @@ trait PhotoTools
         // optimize the croped image (decrease filesize)
         $image = $image->resize(250, 250);
 
-        if ($image->filesize() > 50000) { // 50kb
-            $image->encode('png', 60);
-        } else {
-            $image->encode('png', 90);
-        }
+        $image->encode('png', 60);
 
-        Storage::put($folder.'/'.$filename, $image);
+        Storage::put($folder.'/'.$filename, $image->__toString(), 'public');
 
         return $this->webAddress().$folder.'/'.$filename;
     }
 
     /**
-     * Uplaods the file into the defined direcory( could be ftp, local...). Encodes all the formates
+     * Uplaods the file into the defined direcory( could be cloud, local...). Encodes all the formates
      * into jpg, also optimizes it so the uploaded photos will have less size. In case the image is
      * in .gif format, it doesn't touch it. Just uploads the file while keeping the .gif format.
      *
@@ -94,19 +90,15 @@ trait PhotoTools
             return;
         }
 
-        if ($image->filesize() > 300000) {
-            $image->encode('jpg', 60);
-        } else {
-            $image->encode('jpg', 90);
-        }
+        $image->encode('jpg', 60);
 
-        Storage::put($folder.'/'.$filename, $image);
+        Storage::put($folder.'/'.$filename, $image->__toString(), 'public');
 
         return $this->webAddress().$folder.'/'.$filename;
     }
 
     /**
-     * Uplaods the file into the defined direcory( could be ftp, local...).
+     * Uplaods the file into the defined direcory( could be cloud, local...).
      *
      * @param  request('img')
      * @param  (string) directory the file should be uploaded to
@@ -120,13 +112,13 @@ trait PhotoTools
 
         $image->encode('png');
 
-        Storage::put($folder.'/'.$filename, $image);
+        Storage::put($folder.'/'.$filename, $image->__toString(), 'public');
 
         return $this->webAddress().$folder.'/'.$filename;
     }
 
     /**
-     * Downloads the image from the external link and stores into the defined direcory( could be ftp, local...).
+     * Downloads the image from the external link and stores into the defined direcory( could be cloud, local...).
      *
      * @param  (string) external url
      * @param  (string) directory the file should be uploaded to
@@ -138,13 +130,9 @@ trait PhotoTools
         $filename = time().str_random(16).'.jpg';
         $image = Image::make($url);
 
-        if ($image->filesize() > 300000) { // 300kb
-            $image->encode('jpg', 60);
-        } else {
-            $image->encode('jpg', 90);
-        }
+        $image->encode('jpg', 60);
 
-        Storage::put($folder.'/'.$filename, $image);
+        Storage::put($folder.'/'.$filename, $image->__toString(), 'public');
 
         return $this->webAddress().$folder.'/'.$filename;
     }

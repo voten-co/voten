@@ -62,13 +62,13 @@ class GifController extends Controller
             return response("We couldn't process the uploaded GIF at this time. Please try another one. ", 500);
         }
 
-        // get the uploaded mp4 and move it to the ftp
+        // get the uploaded mp4 and move it to the cloud 
         $mp4 = Storage::disk('local')->get('submissions/gif/'.$filename.'.mp4');
-        Storage::disk('ftp')->put('submissions/gif/'.$filename.'.mp4', $mp4);
+        Storage::disk(config('filesystems.default'))->put('submissions/gif/'.$filename.'.mp4', $mp4);
 
-        // get the uploaded jpg and move it to the ftp
+        // get the uploaded jpg and move it to the cloud 
         $jpg = Storage::disk('local')->get('submissions/gif/'.$filename.'.jpg');
-        Storage::disk('ftp')->put('submissions/gif/'.$filename.'.jpg', $jpg);
+        Storage::disk(config('filesystems.default'))->put('submissions/gif/'.$filename.'.jpg', $jpg);
 
         // delete temp files from local storage
         Storage::disk('local')->delete([

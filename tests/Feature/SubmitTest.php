@@ -21,7 +21,7 @@ class SubmitTest extends TestCase
     /** @test */
     public function can_post_a_link()
     {   
-        Storage::fake('ftp');
+        Storage::fake(config('filesystems.default'));
 
         $channel = create(Channel::class);
 
