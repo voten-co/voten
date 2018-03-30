@@ -38,7 +38,7 @@ trait PhotoTools
         }
 
         $image->encode(null, 60);
-        Storage::put($folder.'/'.$filename, $image->__toString(), 'public');
+        Storage::put($folder.'/'.$filename, $image);
 
         return $this->webAddress().$folder.'/'.$filename;
     }
@@ -66,7 +66,7 @@ trait PhotoTools
 
         $image->encode('png', 60);
 
-        Storage::put($folder.'/'.$filename, $image->__toString(), 'public');
+        Storage::put($folder.'/'.$filename, $image);
 
         return $this->webAddress().$folder.'/'.$filename;
     }
@@ -92,7 +92,7 @@ trait PhotoTools
 
         $image->encode('jpg', 60);
 
-        Storage::put($folder.'/'.$filename, $image->__toString(), 'public');
+        Storage::put($folder.'/'.$filename, $image);
 
         return $this->webAddress().$folder.'/'.$filename;
     }
@@ -112,7 +112,7 @@ trait PhotoTools
 
         $image->encode('png');
 
-        Storage::put($folder.'/'.$filename, $image->__toString(), 'public');
+        Storage::put($folder.'/'.$filename, $image);
 
         return $this->webAddress().$folder.'/'.$filename;
     }
@@ -132,7 +132,7 @@ trait PhotoTools
 
         $image->encode('jpg', 60);
 
-        Storage::put($folder.'/'.$filename, $image->__toString(), 'public');
+        Storage::put($folder.'/'.$filename, $image);
 
         return $this->webAddress().$folder.'/'.$filename;
     }

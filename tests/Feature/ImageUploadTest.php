@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Channel;
 use function GuzzleHttp\json_decode;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -13,7 +12,7 @@ use Tests\TestCase;
 
 class ImageUploadTest extends TestCase
 {
-    use RefreshDatabase, WithoutMiddleware;
+    use RefreshDatabase;
 
     public function setUp()
     {
@@ -32,9 +31,46 @@ class ImageUploadTest extends TestCase
         ])->assertStatus(422);
 
         // accept squar images
-        $uploaded_file_address = $this->json('POST', '/api/users/avatar', [
+        $first_uploaded_avatar = $this->json('POST', '/api/users/avatar', [
             'photo' => UploadedFile::fake()->image('avatar.png', 250, 250),
         ])->assertStatus(200);
+
+        Storage::disk(config('filesystems.default'))->assertExists('users/avatars/' . str_after($first_uploaded_avatar->getContent(), 'users/avatars/'));
+
+        // assert that the previous avatar has been removed
+        $second_uploaded_avatar = $this->json('POST', '/api/users/avatar', [
+            'photo' => UploadedFile::fake()->image('avatar.png', 250, 250),
+        ])->assertStatus(200);
+
+        Storage::disk(config('filesystems.default'))->assertExists('users/avatars/' . str_after($second_uploaded_avatar->getContent(), 'users/avatars/'));
+
+        // assert that the previous avatar has been removed 
+        Storage::disk(config('filesystems.default'))->assertMissing('users/avatars/' . str_after($first_uploaded_avatar->getContent(), 'users/avatars/'));
+    }
+
+    /** @test */
+    public function can_upload_channel_avatar()
+    {
+        $this->signInViaPassportAsVotenAdministrator();
+
+        $channel = create(Channel::class);
+
+        // accept square images
+        $first_uploaded_avatar = $this->json('POST', "/api/channels/{$channel->id}/avatar", [
+            'photo' => UploadedFile::fake()->image('avatar.png', 250, 250),
+        ]);
+
+        Storage::disk(config('filesystems.default'))->assertExists('channels/avatars/' . str_after($first_uploaded_avatar->getContent(), 'channels/avatars/'));
+
+        // upload anohter one
+        $second_uploaded_avatar = $this->json('POST', "/api/channels/{$channel->id}/avatar", [
+            'photo' => UploadedFile::fake()->image('avatar.png', 250, 250),
+        ]);
+
+        Storage::disk(config('filesystems.default'))->assertExists('channels/avatars/' . str_after($second_uploaded_avatar->getContent(), 'channels/avatars/'));
+
+        // assert that the previous avatar has been removed 
+        Storage::disk(config('filesystems.default'))->assertMissing('channels/avatars/' . str_after($first_uploaded_avatar->getContent(), 'channels/avatars/'));
     }
 
     /** @test */
@@ -55,47 +91,47 @@ class ImageUploadTest extends TestCase
         Storage::disk(config('filesystems.default'))->assertExists('submissions/img/thumbs/' . str_after($data->thumbnail_path, 'submissions/img/thumbs/'));
     }
 
-    // /** @test */
-    // public function photo_gets_deleted_after_submission_is_deleted()
-    // {
-    //     $channel = create(Channel::class);
+    /** @test */
+    public function photo_gets_deleted_after_submission_is_deleted()
+    {
+        $channel = create(Channel::class);
 
-    //     // upload a photo
-    //     $response = $this->json('POST', '/api/photos', [
-    //         'file' => UploadedFile::fake()->image('sample.jpg'),
-    //     ])->assertStatus(201);
-    //     $photo = json_decode($response->getContent())->data;
+        // upload a photo
+        $response = $this->json('POST', '/api/photos', [
+            'file' => UploadedFile::fake()->image('sample.jpg'),
+        ])->assertStatus(201);
+        $photo = json_decode($response->getContent())->data;
 
-    //     // create post
-    //     $submission_response = $this->json('post', '/api/submissions', [
-    //         'channel_name' => $channel->name,
-    //         'type' => 'img',
-    //         'title' => 'test title',
-    //         'photos_id' => [$photo->id],
-    //     ])->assertStatus(200);
+        // create post
+        $submission_response = $this->json('post', '/api/submissions', [
+            'channel_name' => $channel->name,
+            'type' => 'img',
+            'title' => 'test title',
+            'photos_id' => [$photo->id],
+        ])->assertStatus(200);
 
-    //     $this->assertDatabaseHas('submissions', [
-    //         'title' => 'test title',
-    //         'type' => 'img',
-    //         'channel_name' => $channel->name,
-    //     ]);
-    //     $submission = json_decode($submission_response->getContent())->data;
+        $this->assertDatabaseHas('submissions', [
+            'title' => 'test title',
+            'type' => 'img',
+            'channel_name' => $channel->name,
+        ]);
+        $submission = json_decode($submission_response->getContent())->data;
 
-    //     Storage::disk(config('filesystems.default'))->assertExists('submissions/img/' . str_after($photo->path, 'submissions/img/'));
-    //     Storage::disk(config('filesystems.default'))->assertExists('submissions/img/thumbs/' . str_after($photo->thumbnail_path, 'submissions/img/thumbs/'));
+        Storage::disk(config('filesystems.default'))->assertExists('submissions/img/' . str_after($photo->path, 'submissions/img/'));
+        Storage::disk(config('filesystems.default'))->assertExists('submissions/img/thumbs/' . str_after($photo->thumbnail_path, 'submissions/img/thumbs/'));
 
-    //     // delete post
-    //     $this->json('delete', "/api/submissions/{$submission->id}")->assertStatus(200);
+        // delete post
+        $this->json('delete', "/api/submissions/{$submission->id}")->assertStatus(200);
 
-    //     $this->assertDatabaseMissing('submissions', ['id' => $submission->id]);
+        $this->assertDatabaseMissing('submissions', ['id' => $submission->id]);
 
-    //     $this->assertDatabaseMissing('photos', [
-    //         'user_id' => Auth::id(),
-    //         'thumbnail_path' => $photo->thumbnail_path,
-    //         'path' => $photo->path,
-    //     ]);
+        $this->assertDatabaseMissing('photos', [
+            'user_id' => Auth::id(),
+            'thumbnail_path' => $photo->thumbnail_path,
+            'path' => $photo->path,
+        ]);
 
-    //     Storage::disk(config('filesystems.default'))->assertMissing('submissions/img/' . str_after($photo->path, 'submissions/img/'));
-    //     Storage::disk(config('filesystems.default'))->assertMissing('submissions/img/thumbs/' . str_after($photo->thumbnail_path, 'submissions/img/thumbs/'));
-    // }
+        Storage::disk(config('filesystems.default'))->assertMissing('submissions/img/' . str_after($photo->path, 'submissions/img/'));
+        Storage::disk(config('filesystems.default'))->assertMissing('submissions/img/thumbs/' . str_after($photo->thumbnail_path, 'submissions/img/thumbs/'));
+    }
 }

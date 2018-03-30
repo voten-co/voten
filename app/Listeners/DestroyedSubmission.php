@@ -52,11 +52,18 @@ class DestroyedSubmission
         if ($event->submission->type == 'img') {
             Photo::where('submission_id', $event->submission->id)->forceDelete();
 
-            // Storage::delete([
-            //     'submissions/img/' . str_after($event->submission->data, 'submissions/img/'),
-            //     'submissions/img/thumbs/' . str_after($event->submission->data, 'submissions/img/thumbs/'),
-            // ]);
-        }
+            Storage::delete([
+                'submissions/img/' . str_after($event->submission->data['path'], 'submissions/img/'),
+                'submissions/img/thumbs/' . str_after($event->submission->data['thumbnail_path'], 'submissions/img/thumbs/'),
+            ]);
+        } elseif ($event->submission->type == 'link') {
+            if ($event->submission->data['img'] !== null && $event->submission->data['thumbnail'] !== null) {
+               Storage::delete([
+                   'submissions/link/' . str_after($event->submission->data['img'], 'submissions/link/'),
+                   'submissions/link/thumbs/' . str_after($event->submission->data['thumbnail'], 'submissions/link/thumbs/'),
+               ]);
+            }
+        } 
     }
 
     /**

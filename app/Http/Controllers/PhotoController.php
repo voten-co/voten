@@ -49,19 +49,12 @@ class PhotoController extends Controller
      *
      * @return response
      */
-    public function channelAvatar(Request $request)
+    public function channelAvatar(Request $request, Channel $channel)
     {
         // validate
         $this->validate($request, [
-            'channel_name' => 'required',
-            'photo'        => [
-                'required',
-                'image',
-                Rule::dimensions()->minWidth(250)->minHeight(250)->ratio(1 / 1),
-            ],
+            'photo'        => ['required', 'image', Rule::dimensions()->minWidth(250)->minHeight(250)->ratio(1 / 1)]
         ]);
-        $channel = Channel::where('name', $request->channel_name)->firstOrFail();
-        abort_unless($this->mustBeAdministrator($channel->id), 403);
 
         // fill variables
         $filename = time().str_random(16).'.png';
@@ -72,15 +65,14 @@ class PhotoController extends Controller
         $image = $image->resize(250, 250);
 
         // optimize it
-        if ($image->filesize() > 50000) { // 50kb
-            $image->encode('png', 60);
-        } else {
-            $image->encode('png', 90);
-        }
+        $image->encode('png', 60);
 
         // upload it
-        Storage::put($folder.'/'.$filename, $image->__toString(), 'public');
+        Storage::put($folder.'/'.$filename, $image);
         $imageAddress = $this->webAddress().$folder.'/'.$filename;
+
+        // delete the old avatar 
+        Storage::delete('channels/avatars/' . str_after($channel->avatar, 'channels/avatars/'));
 
         // update channel's avatar
         $channel->update([
@@ -100,11 +92,7 @@ class PhotoController extends Controller
     {
         // validate
         $this->validate($request, [
-            'photo' => [
-                'required',
-                'image',
-                Rule::dimensions()->minWidth(250)->minHeight(250)->ratio(1 / 1),
-            ],
+            'photo' => ['required', 'image', Rule::dimensions()->minWidth(250)->minHeight(250)->ratio(1 / 1)]
         ]);
 
         // fill variables
@@ -116,15 +104,16 @@ class PhotoController extends Controller
         $image = $image->resize(250, 250);
 
         // optimize it
-        if ($image->filesize() > 50000) { // 50kb
-            $image->encode('png', 60);
-        } else {
-            $image->encode('png', 90);
-        }
+        $image->encode('png', 60);
 
         // upload it
-        Storage::put($folder.'/'.$filename, $image->__toString(), 'public');
+        Storage::put($folder.'/'.$filename, $image);
         $imageAddress = $this->webAddress().$folder.'/'.$filename;
+
+        // delete the old avatar 
+        if (isset(Auth::user()->avatar)) {
+            Storage::delete('users/avatars/' . str_after(Auth::user()->avatar, 'users/avatars/'));
+        }
 
         // update user's avatar
         Auth::user()->update([
