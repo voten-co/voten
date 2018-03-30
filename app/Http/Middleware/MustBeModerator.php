@@ -21,9 +21,7 @@ class MustBeModerator
      */
     public function handle($request, Closure $next)
     {
-        if (! $this->mustBeModerator(request('channel_id'))) {
-            return res(403, "You don't have necessary permissions");
-        }
+        abort_unless($request->route('channel')->id ?? $this->mustBeModerator(request('channel_id')), 403);
 
         return $next($request);
     }

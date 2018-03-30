@@ -128,7 +128,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/conversations/search', 'SearchController@conversations');
 
     // Photo uploading
-    Route::post('/channels/avatar', 'PhotoController@channelAvatar');
+    Route::post('/channels/{channel}/avatar', 'PhotoController@channelAvatar')->middleware('administrator');
     Route::post('/users/avatar', 'PhotoController@userAvatar')->middleware('shaddow-ban');
     Route::post('/photos', 'PhotoController@store')->middleware('shaddow-ban');
     // Route::post('/gifs', 'GifController@store')->middleware('shaddow-ban');

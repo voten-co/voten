@@ -19,7 +19,7 @@ class MustBeAdministrator
      */
     public function handle($request, Closure $next)
     {
-        abort_unless($this->mustBeAdministrator(request('channel_id')), 403);
+        abort_unless($request->route('channel')->id ?? $this->mustBeAdministrator(request('channel_id')), 403);
 
         return $next($request);
     }

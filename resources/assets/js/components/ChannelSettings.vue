@@ -160,7 +160,7 @@ export default {
             );
 
             axios
-                .post('/channels/avatar', this.avatar.fileUploadFormData)
+                .post(`/channels/${Store.page.channel.temp.id}/avatar`, this.avatar.fileUploadFormData)
                 .then((response) => {
                     location.reload();
 
