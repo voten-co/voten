@@ -19,7 +19,6 @@
         "laravel/scout": "4.*",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "^1.0",
-        "league/flysystem-aws-s3-v3": "^1.0",
         "pbmedia/laravel-ffmpeg": "^2.0",
         "predis/predis": "^1.1",
         "pusher/pusher-php-server": "^3.0",
