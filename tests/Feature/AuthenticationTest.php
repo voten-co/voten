@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 
 
-class AuthinticationTest extends TestCase
+class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
 
