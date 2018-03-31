@@ -66,7 +66,7 @@ export default {
         }, 
 
         isVotenAdministrator() {
-            return meta.isVotenAdminstrator; 
+            return meta.isVotenAdministrator; 
         }
     },
 

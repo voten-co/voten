@@ -187,7 +187,7 @@ export default {
             return (
                 !this.list.approved_at &&
                 (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
-                    meta.isVotenAdminstrator) &&
+                    meta.isVotenAdministrator) &&
                 !this.owns
             );
         },
@@ -196,7 +196,7 @@ export default {
             return (
                 !this.list.deleted_at &&
                 (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
-                    meta.isVotenAdminstrator) &&
+                    meta.isVotenAdministrator) &&
                 !this.owns
             );
         },
@@ -206,7 +206,7 @@ export default {
                 (this.owns ||
                     Store.state.moderatingAt.indexOf(this.list.channel_id) !=
                         -1 ||
-                    meta.isVotenAdminstrator) &&
+                    meta.isVotenAdministrator) &&
                 !this.list.nsfw
             );
         },
@@ -216,7 +216,7 @@ export default {
                 (this.owns ||
                     Store.state.moderatingAt.indexOf(this.list.channel_id) !=
                         -1 ||
-                    meta.isVotenAdminstrator) &&
+                    meta.isVotenAdministrator) &&
                 this.list.nsfw
             );
         },
