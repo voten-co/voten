@@ -9,28 +9,26 @@ use Illuminate\Http\Request;
 class NotificationsController extends Controller
 {
     /**
-     * returns unread notifications of Auth user.
+     * Index notifications of Auth user.
      *
      * @return NotificationResource
      */
-    public function unreadIndex()
+    public function index(Request $request)
     {
-        return NotificationResource::collection(Auth::user()->unreadNotifications);
-    }
+        if ($request->filter == 'seen') {
+            return NotificationResource::collection(
+                Auth::user()->notifications()
+                    ->where('read_at', '!=', null)
+                    ->simplePaginate(20)
+            );
+        } elseif ($request->filter == 'unseen') {
+            return NotificationResource::collection(
+                Auth::user()->unreadNotifications
+            );
+        }
 
-    /**
-     * paginates the last notifications of Auth user.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return NotificationResource
-     */
-    public function readIndex(Request $request)
-    {
         return NotificationResource::collection(
-            Auth::user()->notifications()
-                ->where('read_at', '!=', null)
-                ->simplePaginate(20)
+            Auth::user()->notifications
         );
     }
 

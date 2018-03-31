@@ -1,7 +1,7 @@
 export default {
     // Mark all notifications as seen.
     seenAllNotifications() {
-        axios.post('/notifications/seen').then(() => {
+        axios.post('/notifications').then(() => {
             Store.state.notifications.forEach((element, index) => {
                 if (!element.read_at) {
                     element.read_at = moment()

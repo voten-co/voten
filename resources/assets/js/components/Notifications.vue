@@ -122,7 +122,11 @@ export default {
          * @return void
          */
         getNotifications() {
-            axios.get('/notifications/unseen').then((response) => {
+            axios.get('/notifications', {
+                params: {
+                    filter: 'unseen'
+                }
+            }).then((response) => {
                 if (response.data.data.length > 0) {
                     Store.state.notifications = response.data.data;
                 }
@@ -142,7 +146,8 @@ export default {
             axios
                 .get('/notifications', {
                     params: {
-                        page: this.page
+                        page: this.page, 
+                        filter: 'seen'
                     }
                 })
                 .then((response) => {

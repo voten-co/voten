@@ -51,8 +51,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::delete('/submissions/{submission}/nsfw', 'NsfwController@destroy'); // checked 
     Route::delete('/submissions/{submission}/thumbnail', 'SubmissionController@removeThumbnail'); // checked 
 
-    Route::get('/notifications/unseen', 'NotificationsController@unreadIndex');
-
     // voting
     Route::post('/upvote-comment', 'CommentVotesController@upVote')->middleware('shaddow-ban');
     Route::post('/downvote-comment', 'CommentVotesController@downVote')->middleware('shaddow-ban');
@@ -134,8 +132,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     // Route::post('/gifs', 'GifController@store')->middleware('shaddow-ban');
 
     // notification
-    Route::get('/notifications', 'NotificationsController@readIndex');
-    Route::post('/notifications/seen', 'NotificationsController@markAsRead');
+    Route::get('/notifications', 'NotificationsController@index'); // checked 
+    Route::post('/notifications', 'NotificationsController@markAsRead'); // checked 
 
     // subscribe
     Route::post('/subscribe', 'SubscribeController@subscribeToggle')->middleware('shaddow-ban');
