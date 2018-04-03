@@ -47,6 +47,7 @@ Voten's public API is under development and will be out in April. The Voten API 
 <p align="center">
   <a href="https://codepier.io/?ref=voten"><img src="./public/imgs/partners/CodePier.jpg" width="400" alt="CodePier"></a>
 </p>
+
 ## CodePier Partnership 
 
 Voten is proudly partnered with [CodePier](https://codepier.io/?ref=voten) for taking care of our cloud needs. CodePier can install servers, configure them for Voten's used stack, and monitor platform's uptime. It even  takes care of advanced needs of ours such as installing a load-balancer. We highly suggest trying them for deploying Voten or any other PHP project of yours. 
