@@ -43,3 +43,11 @@ Thank you for considering contributing to the Voten. Here's a list of things you
 ## API
 
 Voten's public API is under development and will be out in April. The Voten API will be organized around REST. It can be used to build non-automated, high-quality apps and services that interact with the platform.
+
+## CodePier Partnership 
+
+Voten is proudly partnered with [CodePier](https://codepier.io/?ref=voten) for taking care of our cloud needs. CodePier can install servers, configure them for Voten's used stack, and monitor platform's uptime. It even  takes care of advanced needs of ours such as installing a load-balancer. We highly suggest trying them for deploying Voten or any other PHP project of yours. 
+
+<p align="center">
+  <img src="https://codepier.io/assets/img/CP_Logo_SQ-onWhite.svg">
+</p>
