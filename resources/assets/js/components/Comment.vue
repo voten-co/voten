@@ -402,7 +402,7 @@ export default {
             axios
                 .get(`/submissions`, {
                     params: {
-                        id: this.list.id
+                        id: this.list.submission_id
                     }
                 })
                 .then((response) => {
