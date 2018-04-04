@@ -65,7 +65,7 @@
                 
                 <div class="channel-admin-btn">
                     <el-dropdown size="medium" type="primary" trigger="click" :show-timeout="0" :hide-timeout="0">
-                        <i class="v-icon v-more-vertical"></i>
+                        <i class="v-icon v-more-vertical darker-on-hover"></i>
 
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item @click.native="showModeratorsModal = true">
