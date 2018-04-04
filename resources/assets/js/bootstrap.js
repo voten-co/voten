@@ -63,10 +63,7 @@ axios.interceptors.response.use(
                     type: 'error'
                 });
             } catch (error) {
-                app.$message({
-                    message: 'Oops, something went wrong.',
-                    type: 'error'
-                });
+                app.$message({ message: 'Oops, something went wrong.', type: 'error', showClose: true });
             }
         }
 
