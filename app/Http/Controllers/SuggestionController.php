@@ -28,13 +28,15 @@ class SuggestionController extends Controller
      */
     public function channel()
     {
-        try {
-            return new ChannelResource(
-                Suggested::whereNotIn('channel_id', $this->subscriptions())->inRandomOrder()->firstOrFail()->channel
-            );
-        } catch (\Exception $e) {
-            return res(200, 'No channel to suggest at this time.');
-        }
+        $suggestion = Suggested::whereNotIn('channel_id', $this->subscriptions())
+            ->inRandomOrder()
+            ->first(); 
+
+        if (isset($suggestion->channel)) {
+            return new ChannelResource($suggestion->channel);
+        } 
+
+        res(200, 'No channel to suggest at this time.');
     }
 
     /**
