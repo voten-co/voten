@@ -51,11 +51,10 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::delete('/submissions/{submission}/nsfw', 'NsfwController@destroy'); // checked 
     Route::delete('/submissions/{submission}/thumbnail', 'SubmissionController@removeThumbnail'); // checked 
 
-    // voting
-    Route::post('/upvote-comment', 'CommentVotesController@upVote')->middleware('shaddow-ban');
-    Route::post('/downvote-comment', 'CommentVotesController@downVote')->middleware('shaddow-ban');
-    Route::post('/upvote-submission', 'SubmissionVotesController@upVote')->middleware('shaddow-ban');
-    Route::post('/downvote-submission', 'SubmissionVotesController@downVote')->middleware('shaddow-ban');
+    // like 
+    Route::post('/submissions/{submission}/like', 'SubmissionLikesController@like');
+    Route::post('/upvote-comment', 'CommentVotesController@upVote');
+    Route::post('/downvote-comment', 'CommentVotesController@downVote');
 
     // bookmarks
     Route::post('/bookmark-user', 'BookmarksController@bookmarkUser');
