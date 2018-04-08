@@ -1,42 +1,54 @@
 <template>
-    <section id="reported-items">
-        <h3 class="dotted-title">
-            <span>
-                Reported Comments
-            </span>
-        </h3>
+	<section id="reported-items">
+		<h3 class="dotted-title">
+			<span>
+				Reported Comments
+			</span>
+		</h3>
 
-        <p>
-            All reports submitted by users are displayed here for you to moderate. As a moderator you will get a notification when a report is submitted unless you prefer otherwise which you can set in your settings.
-        </p>
+		<p>
+			All reports submitted by users are displayed here for you to moderate. As a moderator you will get a notification when a report is submitted unless you prefer otherwise which you can set in your settings.
+		</p>
 
-        <div class="tabs is-fullwidth">
-            <ul>
-                <router-link tag="li" active-class="is-active" :to="{ path: '' }" exact>
-                    <a>
-                        Unsolved
-                    </a>
-                </router-link>
+		<div class="tabs is-fullwidth">
+			<ul>
+				<router-link tag="li"
+				             active-class="is-active"
+				             :to="{ path: '' }"
+				             exact>
+					<a>
+						Unsolved
+					</a>
+				</router-link>
 
-                <router-link tag="li" active-class="is-active" :to="{ path: '?type=solved' }" exact>
-                    <a>
-                        Solved
-                    </a>
-                </router-link>
-            </ul>
-        </div>
+				<router-link tag="li"
+				             active-class="is-active"
+				             :to="{ path: '?type=solved' }"
+				             exact>
+					<a>
+						Solved
+					</a>
+				</router-link>
+			</ul>
+		</div>
 
-        <div class="flex-center" v-show="loading">
-            <loading></loading>
-        </div>
+		<div class="flex-center"
+		     v-show="loading">
+			<loading></loading>
+		</div>
 
-        <div class="no-more-to-load user-select" v-if="nothingFound">
-            <h3 v-text="'No records were found'"></h3>
-        </div>
+		<div class="no-more-to-load user-select"
+		     v-if="nothingFound">
+			<h3 v-text="'No records were found'"></h3>
+		</div>
 
-        <reported-comment v-for="item in items" :list="item" :key="item.id" v-if="item.comment"
-                          @disapprove-comment="disapproveComment" @approve-comment="approveComment"></reported-comment>
-    </section>
+		<reported-comment v-for="item in items"
+		                  :list="item"
+		                  :key="item.id"
+		                  v-if="item.comment"
+		                  @disapprove-comment="disapproveComment"
+		                  @approve-comment="approveComment"></reported-comment>
+	</section>
 </template>
 
 <script>
@@ -147,7 +159,7 @@ export default {
                         with_comment: 1
                     }
                 })
-                .then((response) => {
+                .then(response => {
                     this.items = [...this.items, ...response.data.data];
 
                     if (!this.items.length) {
@@ -160,9 +172,10 @@ export default {
 
                     this.loading = false;
                     app.$Progress.finish();
-                }).catch(error => {
-                    app.$Progress.fail(); 
                 })
+                .catch(error => {
+                    app.$Progress.fail();
+                });
         }
     }
 };
