@@ -77,9 +77,9 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/subscribed-channels', 'SubscribeController@index');
 
     // rule
-    Route::post('/channels/rules', 'RulesController@store');
-    Route::patch('/channels/rules', 'RulesController@patch');
-    Route::delete('/channels/rules', 'RulesController@destroy');
+    Route::post('/channels/{channel}/rules', 'RulesController@store')->middleware('administrator');
+    Route::patch('/channels/{channel}/rules/{rule}', 'RulesController@patch')->middleware('administrator');
+    Route::delete('/channels/{channel}/rules/{rule}', 'RulesController@destroy')->middleware('administrator');
 
     // block domain
     Route::get('/channels/domains/block', 'BlockDomainController@indexAsChannelModerator')->middleware('moderator');

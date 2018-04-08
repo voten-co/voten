@@ -46,23 +46,20 @@ class RulesController extends Controller
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function store(Request $request)
+    public function store(Request $request, Channel $channel)
     {
         $this->validate($request, [
-            'body'       => 'required|string|max:300',
-            'channel_id' => 'required',
+            'body'       => 'required|string|max:300'
         ]);
 
-        abort_unless($this->mustBeAdministrator($request->channel_id), 403);
-
-        if (Rule::where('channel_id', $request->channel_id)->count() > 4) {
+        if (Rule::where('channel_id', $channel->id)->count() > 4) {
             return res(400, "can't create more than 5 rules per each channel");
         }
 
         return new RuleResource(
             Rule::create([
                 'title'      => $request->body,
-                'channel_id' => $request->channel_id,
+                'channel_id' => $channel->id,
             ])
         );
     }
@@ -74,16 +71,11 @@ class RulesController extends Controller
      *
      * @return response
      */
-    public function patch(Request $request)
+    public function patch(Request $request, Channel $channel, Rule $rule)
     {
         $this->validate($request, [
             'body' => 'required',
-            'id'   => 'required|exists:rules',
         ]);
-
-        $rule = Rule::find($request->id);
-
-        abort_unless($this->mustBeAdministrator($rule->channel_id), 403);
 
         $rule->update([
             'title' => $request->body,
@@ -99,17 +91,9 @@ class RulesController extends Controller
      *
      * @return response
      */
-    public function destroy(Request $request)
+    public function destroy(Channel $channel, Rule $rule)
     {
-        $this->validate($request, [
-            'id' => 'required|exists:rules',
-        ]);
-
-        $rule = Rule::find($request->id);
-
-        abort_unless($this->mustBeAdministrator($rule->channel_id), 403);
-
-        Rule::destroy($request->id);
+        $rule->delete();
 
         return res(200, 'Rule was deleted.');
     }
