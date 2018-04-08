@@ -8,6 +8,22 @@
         background-color: #f5f8fa;
     }
 
+    .separator {
+        margin-left: 0.2em;
+        margin-right: 0.2em;
+        color: #979797;
+        font-weight: bold;
+    }
+
+    .source {
+        color: #979797;
+        font-size: 80%;
+        
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
     border: 1px solid #eaeef5;
     border-bottom: 2px solid #eaeef5;
     border-radius: 2px;
@@ -16,16 +32,16 @@
 
     .info {
         color: #979797;
-		font-size: 80%;
-		
-		a {
-			color: #979797;
-			font-weight: bold;
+        font-size: 80%;
 
-			&:hover {
-				text-decoration: underline;
-			}
-		}
+        a {
+            color: #979797;
+            font-weight: bold;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
     }
 
     .title a {
@@ -42,13 +58,22 @@
     .actions {
         margin-top: 1em;
 
-        a {
-            font-size: 13px;
-            font-weight: bold;
-            display: inline-flex;
-            align-items: center;
-            min-width: 80px;
-            color: #4c4b4b;
+        .left {
+            a {
+                font-size: 13px;
+                font-weight: bold;
+                display: inline-flex;
+                align-items: center;
+                min-width: 80px;
+                color: #4c4b4b;
+            }
+        }
+
+        .right {
+            a {
+                font-size: 13px;
+                // font-weight: bold;
+            }
         }
 
         i {
@@ -147,34 +172,44 @@
 			<!-- thumbnail -->
 			<div :style="thumbnail"
 			     v-if="showThumbnail"
-				 @click="$router.push(url)"
+			     @click="embedOrOpen"
 			     class="thumbnail pointer">
 			</div>
 
 			<!-- content -->
 			<div class="flex1"
-			     :class="'content ' + list.type">
+			     :class="'content ' + type">
 				<div class="info">
-					<router-link v-text="'@' + list.author.username" :to="userUrl(list.author.username)"></router-link> to
-					<router-link v-text="'#' + list.channel_name" :to="channelUrl(list.channel_name)"></router-link>
+					<router-link v-text="'@' + list.author.username"
+					             :to="userUrl(list.author.username)"></router-link> to
+					<router-link v-text="'#' + list.channel_name"
+					             :to="channelUrl(list.channel_name)"></router-link>
 				</div>
 
 				<div>
 					<h3 class="title">
 						<router-link :to="url"
 						             class="flex-space v-ultra-bold">
-							{{ list.title }}
-
-							<el-tag size="mini"
-							        type="danger"
-							        class="margin-left-half"
-							        v-if="list.nsfw">NSFW</el-tag>
+							{{ list.title }}        
 						</router-link>
 					</h3>
+                    
+                    <span class="separator" v-if="type === 'link'">
+                        &#183;
+                    </span>
+
+                    <a :href="list.content.url" v-if="type === 'link'" target="_blank" class="source">
+                        {{ list.domain }}
+                    </a>
+
+                    <el-tag size="mini"
+                            type="danger"
+                            class="margin-left-half"
+                            v-if="list.nsfw">NSFW</el-tag>
 				</div>
 
 				<div class="actions flex-space">
-					<div>
+					<div class="left">
 						<router-link :to="url"
 						             class="comments-icon">
 							<el-tooltip class="item"
@@ -273,17 +308,23 @@ export default {
 
     computed: {
         thumbnail() {
-            return {
-                backgroundImage: 'url(' + this.list.content.thumbnail + ')'
-            };
+            if (this.type === 'link') {
+                return {
+                    backgroundImage: 'url(' + this.list.content.thumbnail + ')'
+                };
+            } else if (this.type === 'img') {
+                return {
+                    backgroundImage: 'url(' + this.list.content.thumbnail_path + ')'
+                };
+            }
         },
 
         showThumbnail() {
-            return this.list.content.thumbnail && !this.list.nsfw;
+            return this.list.content.thumbnail || this.list.content.thumbnail_path;
         },
 
         url() {
-			return this.submissionUrl(this.list); 
+            return this.submissionUrl(this.list);
         },
 
         date() {
@@ -295,8 +336,18 @@ export default {
         doubleClicked() {
             if (this.isGuest) return;
 
-            if (! this.liked) {
+            if (!this.liked) {
                 this.like();
+            }
+        },
+
+        embedOrOpen(event) {
+            if (this.type === 'link') {
+                this.$router.push(this.url);
+            }
+
+            if (this.type === 'img') {
+                this.showPhotoViewer(this.list.content);
             }
         },
 
