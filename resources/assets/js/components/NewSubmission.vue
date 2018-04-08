@@ -382,7 +382,7 @@ export default {
                 .then((response) => {
                     this.loading = false;
 
-                    Store.state.submissions.upVotes.push(response.data.data.id);
+                    Store.state.submissions.likes.push(response.data.data.id);
                     this.$router.push(
                         '/c/' + this.selectedCat + '/' + response.data.data.slug
                     );

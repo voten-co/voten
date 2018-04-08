@@ -67,8 +67,7 @@ if (!function_exists('rate')) {
     /**
      * Calculates the rate for sorting by hot.
      *
-     * @param int       $upvotes
-     * @param int       $downvotes
+     * @param int       $likes
      * @param timestamp $created
      *
      * @return float

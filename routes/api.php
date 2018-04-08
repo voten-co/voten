@@ -34,8 +34,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::patch('/users/account', 'UserSettingsController@account'); // checked 
     Route::patch('/users/email', 'UserSettingsController@email'); // checked 
     Route::patch('/users/password', 'UserSettingsController@password'); // checked 
-    Route::get('/users/submissions/upvoteds', 'UserController@upVotedSubmissions'); // checked 
-    Route::get('/users/submissions/downvoteds', 'UserController@downVotedSubmissions'); // checked 
+    Route::get('/users/submissions/likeds', 'UserController@likedSubmissions'); // checked 
     Route::post('/email/verify/resend', 'Auth\VerificationController@resendVerifyEmailAddress'); // checked 
     Route::post('/users/clientside-settings', 'ClientsideSettingsController@store'); // checked 
     Route::get('/users/clientside-settings', 'ClientsideSettingsController@get'); // checked 
@@ -50,11 +49,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/submissions/{submission}/nsfw', 'NsfwController@store'); // checked 
     Route::delete('/submissions/{submission}/nsfw', 'NsfwController@destroy'); // checked 
     Route::delete('/submissions/{submission}/thumbnail', 'SubmissionController@removeThumbnail'); // checked 
-
-    // like 
-    Route::post('/submissions/{submission}/like', 'SubmissionLikesController@like');
-    Route::post('/upvote-comment', 'CommentVotesController@upVote');
-    Route::post('/downvote-comment', 'CommentVotesController@downVote');
+    Route::post('/submissions/{submission}/like', 'SubmissionLikesController@like'); // checked
 
     // bookmarks
     Route::post('/bookmark-user', 'BookmarksController@bookmarkUser');
@@ -67,9 +62,10 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/bookmarked-submissions', 'BookmarksController@getBookmarkedSubmissions');
 
     // Comment
-    Route::post('/comments', 'CommentController@store')->middleware('shaddow-ban'); // check
-    Route::patch('/comments/{comment}', 'CommentController@patch'); // check
-    Route::delete('/comments/{comment}', 'CommentController@destroy'); // check
+    Route::post('/comments', 'CommentController@store')->middleware('shaddow-ban'); // checked
+    Route::patch('/comments/{comment}', 'CommentController@patch'); // checked
+    Route::delete('/comments/{comment}', 'CommentController@destroy'); // checked
+    Route::post('/comments/{comment}/like', 'CommentLikesController@like'); // check ed
 
     // Channel
     Route::post('/channels', 'ChannelController@store')->middleware('shaddow-ban');

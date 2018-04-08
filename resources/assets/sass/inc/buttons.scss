@@ -172,8 +172,13 @@ button.v-button {
 
 .link-list-info {
     padding: 1em;
-    background: #fff;
     text-align: left;
+}
+
+.full-page {
+    .link-list-info {
+        background: #fff;
+    }
 }
 
 .v-button-small {

@@ -103,7 +103,7 @@ export default {
         }
     },
 
-    upVotedSubmissions: {
+    likedSubmissions: {
         NoMoreItems: false,
         submissions: [],
         loading: null,
@@ -116,7 +116,7 @@ export default {
                 this.loading = true;
 
                 axios
-                    .get('/users/submissions/upvoteds', {
+                    .get('/users/submissions/likeds', {
                         params: { page: this.page }
                     })
                     .then((response) => {
@@ -150,55 +150,7 @@ export default {
             this.nothingFound = false;
         }
     },
-
-    downVotedSubmissions: {
-        NoMoreItems: false,
-        submissions: [],
-        loading: null,
-        page: 0,
-        nothingFound: false,
-
-        getSubmissions() {
-            return new Promise((resolve, reject) => {
-                this.page++;
-                this.loading = true;
-
-                axios
-                    .get('/users/submissions/downvoteds', {
-                        params: { page: this.page }
-                    })
-                    .then((response) => {
-                        this.submissions = [
-                            ...this.submissions,
-                            ...response.data.data
-                        ];
-
-                        if (response.data.links.next == null)
-                            this.NoMoreItems = true;
-                        if (this.submissions.length < 1)
-                            this.nothingFound = true;
-
-                        this.loading = false;
-
-                        resolve(response);
-                    })
-                    .catch((error) => {
-                        this.loading = false;
-
-                        reject(error);
-                    });
-            });
-        },
-
-        clear() {
-            this.NoMoreItems = false;
-            this.submissions = [];
-            this.loading = null;
-            this.page = 0;
-            this.nothingFound = false;
-        }
-    },
-
+    
     comments: {
         NoMoreItems: false,
         comments: [],

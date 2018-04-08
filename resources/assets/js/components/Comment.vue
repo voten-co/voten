@@ -1,118 +1,228 @@
+<style lang="scss">
+.comment {
+    .v-comment-info {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .left {
+        display: flex;
+        align-items: center;
+    }
+
+    .actions-right {
+        display: flex;
+    }
+
+    .separator {
+        margin-left: 0.5em;
+        margin-right: 0.5em;
+        color: #979797;
+        font-weight: bold;
+    }
+
+    .date {
+        color: #979797;
+        font-size: 70%;
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .like-button {
+        display: inline-flex;
+        align-items: center;
+        cursor: pointer;
+
+        .count {
+            font-weight: bold;
+            font-size: 80%;
+            color: #979797;
+            margin-right: 1em;
+        }
+
+        &:hover {
+            i {
+                color: #db6e6e !important;
+            }
+
+            .count {
+                color: #db6e6e;
+            }
+        }
+    }
+
+    .v-bookmark:hover {
+        color: #edb431;
+    }
+
+    .v-reply:hover {
+        color: #78b38a;
+    }
+
+    .el-icon-more-outline:hover {
+        color: #000;
+    }
+}
+</style>
+
+
 <template>
-    <transition name="el-fade-in-linear">
-        <div class="comment v-comment-wrapper" v-show="visible" @mouseover="seen" :id="'comment' + list.id"
-	        :class="highlightClass"
-        >
-            <div class="content" @dblclick="doubleClicked">
-                <div class="v-comment-info">
-                    <router-link :to="'/' + '@' + list.author.username" class="avatar user-select">
-                        <img v-bind:src="list.author.avatar">
-                    </router-link>
+	<transition name="el-fade-in-linear">
+		<div class="comment v-comment-wrapper"
+		     v-show="visible"
+		     @mouseover="seen"
+		     :id="'comment' + list.id"
+		     :class="highlightClass">
+			<div class="content"
+			     @dblclick="doubleClicked">
+				<div class="v-comment-info">
+					<div class="display-flex">
+						<div class="left">
+							<router-link :to="'/' + '@' + list.author.username"
+							             class="avatar user-select">
+								<img v-bind:src="list.author.avatar">
+							</router-link>
 
-                    <router-link :to="'/' + '@' + list.author.username" class="author user-select">
-                        @{{ list.author.username }}
-                    </router-link>
+							<router-link :to="'/' + '@' + list.author.username"
+							             class="author user-select">
+								@{{ list.author.username }}
+							</router-link>
 
-                    <div class="metadata user-select">
-                        <a class="go-gray h-underline" v-if="!full" :href="'/submission/' + list.submission_id" @click.prevent="openOrigin">
-                            <small>
-                                <el-tooltip :content="'Created: ' + longDate" placement="top" transition="false" :open-delay="500">
-                                    <span>{{ date }}</span>
-                                </el-tooltip>
-                                —
-                                <el-tooltip :content="detailedPoints" placement="top" transition="false" :open-delay="500">
-                                    <span>{{ points }} Points</span>
-                                </el-tooltip>
-                            </small>
-                        </a>
+							<span class="separator">
+								&#183;
+							</span>
 
-                        <small v-else>
-                            <el-tooltip :content="'Created: ' + longDate" placement="top" transition="false" :open-delay="500">
-                                <span>{{ date }}</span>
+							<a class="like-button" @click="like">
+								<i class="v-icon"
+								   :class="liked ? 'v-heart-filled go-red animated bounceIn' : 'v-heart go-gray'"
+                                ></i>
+
+                                <span class="count">{{ points }}</span>
+							</a>
+
+                            <el-tooltip :content="bookmarked ? 'Unbookmark' : 'Bookmark'"
+                                        placement="top"
+                                        transition="false"
+                                        :open-delay="500">
+                                <i class="v-icon margin-left-1"
+                                   :class="{ 'go-yellow v-unbookmark': bookmarked, 'v-bookmark': !bookmarked }"
+                                   @click="bookmark"></i>
                             </el-tooltip>
-                             —
-                            <el-tooltip :content="detailedPoints" placement="top" transition="false" :open-delay="500">
-                                <span>{{ points }} Points</span>
-                            </el-tooltip>
-                        </small>
 
-                        <el-tooltip :content="'Edited: ' + editedDate" placement="top" transition="false" :open-delay="500" v-if="isEdited">
-                            <span class="edited">
+							<el-tooltip content="Reply"
+							            placement="top"
+							            transition="false"
+							            :open-delay="500">
+								<i class="v-icon v-reply margin-left-1"
+								   @click="commentReply"
+								   v-if="list.nested_level < 8 && full"></i>
+							</el-tooltip>
+
+                            <el-tooltip content="Submission"
+                                        placement="top"
+                                        transition="false"
+                                        :open-delay="500"
+                                        v-if="!full">
+                                <router-link class="reply margin-left-1"
+                                             :to="'/submission/' + list.submission_id">
+                                    <i class="v-icon v-link h-purple"></i>
+                                </router-link>
+                            </el-tooltip>
+
+                            <el-button size="mini" 
+                                class="margin-left-1"
+                                v-if="owns && full"
+                                @click="edit"
+                                round>
+                                Edit
+                            </el-button>
+						</div>
+					</div>
+
+					<div class="actions-right">
+                        <el-tooltip :content="'Edited: ' + editedDate"
+                                    placement="top"
+                                    transition="false"
+                                    :open-delay="500"
+                                    v-if="isEdited">
+                            <span class="edited go-gray">
                                 Edited
                             </span>
                         </el-tooltip>
-                    </div>
-                </div>
 
-                <div class="text">
-                    <markdown :text="list.content.text"></markdown>
-                </div>
+                        <span class="separator" v-if="isEdited">
+                            &#183;
+                        </span>
 
-                <div class="actions user-select">
-                    <el-tooltip content="Submission" placement="top" transition="false" :open-delay="500" v-if="!full">
-                        <router-link class="reply h-green" :to="'/submission/' + list.submission_id">
-                            <i class="v-icon v-link"></i>
-                        </router-link>
-                    </el-tooltip>
+						<el-tooltip :content="'Created: ' + longDate"
+						            placement="top"
+						            transition="false"
+						            :open-delay="500">
+							<a class="date margin-right-1"
+							   @click.prevent="openOrigin">
+								{{ date }}
+							</a>
+						</el-tooltip>
 
-                    <i class="v-icon v-up-fat"
-                       :class="upvoted ? 'go-primary animated bounceIn' : 'go-gray'"
-                       @click="voteUp"></i>
+						<el-dropdown size="mini"
+						             type="primary"
+						             trigger="click"
+						             :show-timeout="0"
+						             :hide-timeout="0">
+							<i class="el-icon-more-outline"></i>
 
+							<el-dropdown-menu slot="dropdown">
+								<el-dropdown-item v-if="!owns"
+								                  @click.native="report">
+									Report
+								</el-dropdown-item>
 
-                    <i class="v-icon v-down-fat"
-                       :class="downvoted ? 'go-red animated bounceIn' : 'go-gray'"
-                       @click="voteDown"></i>
+								<el-dropdown-item class="go-red"
+								                  @click.native="destroy"
+								                  v-if="owns">
+									Delete
+								</el-dropdown-item>
 
-                    <el-tooltip content="Reply" placement="top" transition="false" :open-delay="500">
-                        <i class="v-icon v-reply"
-                           @click="commentReply" v-if="list.nested_level < 8 && full"></i>
-                    </el-tooltip>
+								<el-dropdown-item class="go-green"
+								                  @click.native="approve"
+								                  v-if="showApprove"
+								                  divided>
+									Approve
+								</el-dropdown-item>
 
-                    <el-tooltip :content="bookmarked ? 'Unbookmark' : 'Bookmark'" placement="top" transition="false" :open-delay="500">
-                        <i class="v-icon"
-                           :class="{ 'go-yellow v-unbookmark': bookmarked, 'v-bookmark': !bookmarked }"
-                           @click="bookmark"></i>
-                    </el-tooltip>
+								<el-dropdown-item class="go-red"
+								                  @click.native="disapprove"
+								                  v-if="showDisapprove">
+									Delete
+								</el-dropdown-item>
+							</el-dropdown-menu>
+						</el-dropdown>
+					</div>
+				</div>
 
-                    <el-tooltip class="item" content="Edit" placement="top" transition="false" :open-delay="500" v-if="owns && full">
-                        <i class="v-icon v-edit"
-                           @click="edit"></i>
-                    </el-tooltip>
+				<div class="text">
+					<markdown :text="list.content.text"></markdown>
+				</div>
+			</div>
 
-                    <el-dropdown size="mini" type="primary" trigger="click" :show-timeout="0" :hide-timeout="0">
-                        <i class="el-icon-more-outline"></i>
+			<div class="comments"
+			     v-if="list.children.length">
+				<comment :list="c"
+				         v-for="c in sortedComments"
+				         :key="c.id"
+				         :full="full"></comment>
+			</div>
 
-                        <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item v-if="!owns" @click.native="report">
-                                Report
-                            </el-dropdown-item>
-
-                            <el-dropdown-item class="go-red" @click.native="destroy" v-if="owns">
-                                Delete
-                            </el-dropdown-item>
-                            
-                            <el-dropdown-item class="go-green" @click.native="approve" v-if="showApprove" divided>
-                                Approve
-                            </el-dropdown-item>
-                            
-                            <el-dropdown-item class="go-red" @click.native="disapprove" v-if="showDisapprove">
-                                Delete
-                            </el-dropdown-item>
-                        </el-dropdown-menu>
-                    </el-dropdown>
-                </div>
-            </div>
-
-            <div class="comments" v-if="list.children.length">
-                <comment :list="c" v-for="c in sortedComments" :key="c.id" :full="full"></comment>
-            </div>
-
-            <el-button type="text" v-if="hasMoreCommentsToLoad" @click="loadMoreComments">
-	        	Load More Comments ({{ list.children.length - childrenLimit }} more replies)
-	    	</el-button>
-        </div>
-    </transition>
+			<el-button type="text"
+			           v-if="hasMoreCommentsToLoad"
+			           @click="loadMoreComments">
+				Load More Comments ({{ list.children.length - childrenLimit }} more replies)
+			</el-button>
+		</div>
+	</transition>
 </template>
 
 
@@ -166,84 +276,39 @@ export default {
     },
 
     computed: {
-        upvoted: {
+        url() {},
+
+        liked: {
             get() {
-                return Store.state.comments.upVotes.indexOf(this.list.id) !== -1
-                    ? true
-                    : false;
+                try {
+                    return Store.state.comments.likes.indexOf(this.list.id) !== -1 ? true : false;
+                } catch (error) {
+                    return false;
+                }
             },
 
             set() {
-                if (this.currentVote === 'upvote') {
-                    this.list.upvotes_count--;
-                    let index = Store.state.comments.upVotes.indexOf(
-                        this.list.id
-                    );
-                    Store.state.comments.upVotes.splice(index, 1);
+                if (this.liked) {
+                    this.list.likes_count--;
+                    let index = Store.state.comments.likes.indexOf(this.list.id);
+                    Store.state.comments.likes.splice(index, 1);
 
                     return;
                 }
 
-                if (this.currentVote === 'downvote') {
-                    this.list.downvotes_count--;
-                    let index = Store.state.comments.downVotes.indexOf(
-                        this.list.id
-                    );
-                    Store.state.comments.downVotes.splice(index, 1);
-                }
-
-                this.list.upvotes_count++;
-                Store.state.comments.upVotes.push(this.list.id);
-            }
-        },
-
-        downvoted: {
-            get() {
-                return Store.state.comments.downVotes.indexOf(this.list.id) !==
-                    -1
-                    ? true
-                    : false;
-            },
-
-            set() {
-                if (this.currentVote === 'downvote') {
-                    this.list.downvotes_count--;
-                    let index = Store.state.comments.downVotes.indexOf(
-                        this.list.id
-                    );
-                    Store.state.comments.downVotes.splice(index, 1);
-
-                    return;
-                }
-
-                if (this.currentVote === 'upvote') {
-                    this.list.upvotes_count--;
-                    let index = Store.state.comments.upVotes.indexOf(
-                        this.list.id
-                    );
-                    Store.state.comments.upVotes.splice(index, 1);
-                }
-
-                this.list.downvotes_count++;
-                Store.state.comments.downVotes.push(this.list.id);
+                this.list.likes_count++;
+                Store.state.comments.likes.push(this.list.id);
             }
         },
 
         bookmarked: {
             get() {
-                return Store.state.bookmarks.comments.indexOf(this.list.id) !==
-                    -1
-                    ? true
-                    : false;
+                return Store.state.bookmarks.comments.indexOf(this.list.id) !== -1 ? true : false;
             },
 
             set() {
-                if (
-                    Store.state.bookmarks.comments.indexOf(this.list.id) !== -1
-                ) {
-                    let index = Store.state.bookmarks.comments.indexOf(
-                        this.list.id
-                    );
+                if (Store.state.bookmarks.comments.indexOf(this.list.id) !== -1) {
+                    let index = Store.state.bookmarks.comments.indexOf(this.list.id);
                     Store.state.bookmarks.comments.splice(index, 1);
 
                     return;
@@ -255,12 +320,6 @@ export default {
 
         isParent() {
             return this.list.parent_id == null ? true : false;
-        },
-
-        detailedPoints() {
-            return `+${this.list.upvotes_count} | -${
-                this.list.downvotes_count
-            }`;
         },
 
         highlightClass() {
@@ -284,11 +343,7 @@ export default {
         },
 
         points() {
-            let total = this.list.upvotes_count - this.list.downvotes_count;
-
-            if (total < 0) return 0;
-
-            return total;
+            return this.list.likes_count;
         },
 
         /**
@@ -315,10 +370,7 @@ export default {
          * @return {Array} comments
          */
         sortedComments() {
-            return _.orderBy(this.uniqueList, this.commentsOrder, 'desc').slice(
-                0,
-                this.childrenLimit
-            );
+            return _.orderBy(this.uniqueList, this.commentsOrder, 'desc').slice(0, this.childrenLimit);
         },
 
         /**
@@ -342,19 +394,10 @@ export default {
             return unique;
         },
 
-        /**
-         * The current vote type. It's being used to optimize the voing request on the server-side.
-         *
-         * @return mixed
-         */
-        currentVote() {
-            return this.upvoted ? 'upvote' : this.downvoted ? 'downvote' : null;
-        },
-
         date() {
             return moment(this.list.created_at)
                 .utc(moment().format('Z'))
-                .fromNow();
+                .fromNow(true);
         },
 
         /**
@@ -374,8 +417,7 @@ export default {
         showApprove() {
             return (
                 !this.list.approved_at &&
-                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
-                    meta.isVotenAdministrator) &&
+                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 || meta.isVotenAdministrator) &&
                 !this.owns
             );
         },
@@ -388,8 +430,7 @@ export default {
         showDisapprove() {
             return (
                 !this.list.deleted_at &&
-                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
-                    meta.isVotenAdministrator) &&
+                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 || meta.isVotenAdministrator) &&
                 !this.owns
             );
         }
@@ -405,24 +446,19 @@ export default {
                         id: this.list.submission_id
                     }
                 })
-                .then((response) => {
-                    this.$router.push(
-                        '/c/' +
-                            response.data.data.channel_name +
-                            '/' +
-                            response.data.data.slug
-                    );
+                .then(response => {
+                    this.$router.push('/c/' + response.data.data.channel_name + '/' + response.data.data.slug);
 
                     app.$Progress.finish();
                 })
-                .catch((error) => {
+                .catch(error => {
                     app.$Progress.fail();
 
                     // if (error.response.status === 404) {
-                    //     this.showNotFound = true; 
+                    //     this.showNotFound = true;
                     // }
                 });
-        }, 
+        },
 
         doubleClicked() {
             if (this.isGuest) return;
@@ -441,10 +477,7 @@ export default {
          * @return void
          */
         setHighlighted() {
-            if (
-                this.list.broadcasted == true ||
-                this.$route.query.comment == this.list.id
-            ) {
+            if (this.list.broadcasted == true || this.$route.query.comment == this.list.id) {
                 this.highlighted = true;
             }
         },
@@ -456,9 +489,7 @@ export default {
          */
         scrollToComment() {
             if (this.$route.query.comment == this.list.id) {
-                document
-                    .getElementById('comment' + this.list.id)
-                    .scrollIntoView();
+                document.getElementById('comment' + this.list.id).scrollIntoView();
             }
         },
 
@@ -498,13 +529,11 @@ export default {
             // owns the comment
             if (comment.author.id == auth.id) {
                 this.reply = false;
-                Store.state.comments.upVotes.push(comment.id);
+                Store.state.comments.likes.push(comment.id);
                 this.list.children.unshift(comment);
 
                 this.$nextTick(function() {
-                    document
-                        .getElementById('comment' + comment.id)
-                        .scrollIntoView();
+                    document.getElementById('comment' + comment.id).scrollIntoView();
                 });
 
                 return;
@@ -579,51 +608,18 @@ export default {
             { leading: true, trailing: false }
         ),
 
-        voteUp: _.debounce(
+        like: _.debounce(
             function() {
                 if (this.isGuest) {
                     this.mustBeLogin();
                     return;
                 }
 
-                axios.post('/upvote-comment', {
-                    comment_id: this.list.id,
-                    previous_vote: this.currentVote
+                this.liked = !this.liked;
+
+                axios.post(`/comments/${this.list.id}/like`).catch(error => {
+                    this.liked = !this.liked;
                 });
-
-                if (this.currentVote === 'upvote') {
-                    this.upvoted = false;
-                    return;
-                } else if (this.currentVote === 'downvote') {
-                    this.downvoted = false;
-                }
-
-                this.upvoted = true;
-            },
-            200,
-            { leading: true, trailing: false }
-        ),
-
-        voteDown: _.debounce(
-            function() {
-                if (this.isGuest) {
-                    this.mustBeLogin();
-                    return;
-                }
-
-                axios.post('/downvote-comment', {
-                    comment_id: this.list.id,
-                    previous_vote: this.currentVote
-                });
-
-                if (this.currentVote === 'downvote') {
-                    this.downvoted = false;
-                    return;
-                } else if (this.currentVote === 'upvote') {
-                    this.upvoted = false;
-                }
-
-                this.downvoted = true;
             },
             200,
             { leading: true, trailing: false }
@@ -637,9 +633,7 @@ export default {
         destroy() {
             this.visible = false;
 
-            axios
-                .delete(`/comments/${this.list.id}`)
-                .catch(() => (this.visible = true));
+            axios.delete(`/comments/${this.list.id}`).catch(() => (this.visible = true));
         },
 
         /**
@@ -659,9 +653,7 @@ export default {
          */
         approve() {
             this.list.approved_at = this.now();
-            axios
-                .post('/approve-comment', { comment_id: this.list.id })
-                .catch(() => (this.list.approved_at = null));
+            axios.post('/approve-comment', { comment_id: this.list.id }).catch(() => (this.list.approved_at = null));
         },
 
         /**
@@ -671,9 +663,7 @@ export default {
          */
         disapprove() {
             this.visible = false;
-            axios
-                .post('/disapprove-comment', { comment_id: this.list.id })
-                .catch(() => (this.visible = true));
+            axios.post('/disapprove-comment', { comment_id: this.list.id }).catch(() => (this.visible = true));
         }
     }
 };

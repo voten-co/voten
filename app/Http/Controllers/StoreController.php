@@ -29,10 +29,8 @@ class StoreController extends Controller
     {
         return new UserStoreResource(
             [
-                'submissionUpvotes'           => $this->submissionUpvotes(), // cached
-                'submissionDownvotes'         => $this->submissionDownvotes(), // cached
-                'commentUpvotes'              => $this->commentUpvotes(), // cached
-                'commentDownvotes'            => $this->commentDownvotes(), // cached
+                'submissionLikes'           => $this->submissionLikes(), // cached 
+                'commentLikes'              => $this->commentLikes(), // cached
                 'bookmarkedSubmissions'       => $this->bookmarkedSubmissions(), // cached
                 'bookmarkedComments'          => $this->bookmarkedComments(), // cached
                 'bookmarkedChannels'          => $this->bookmarkedChannels(), // cached
@@ -57,28 +55,16 @@ class StoreController extends Controller
         return Auth::user()->channelRoles->unique('name');
     }
 
-    // Returns Auth user's (submission) upvote records
-    protected function submissionUpvotes()
+    // Returns Auth user's (submission) likes records
+    protected function submissionLikes()
     {
-        return $this->submissionUpvotesIds();
+        return $this->submissionLikesIds();
     }
 
-    // Returns Auth user's (submission) downvote records
-    protected function submissionDownvotes()
+    // Returns Auth user's (submission) like records
+    protected function commentLikes()
     {
-        return $this->submissionDownvotesIds();
-    }
-
-    // Returns Auth user's (submission) upvote records
-    protected function commentUpvotes()
-    {
-        return $this->commentUpvotesIds();
-    }
-
-    // Returns Auth user's (submission) downvote records
-    protected function commentDownvotes()
-    {
-        return $this->commentDownvotesIds();
+        return $this->commentLikesIds();
     }
 
     // returns subscriptions of Auth user

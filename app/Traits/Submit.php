@@ -41,25 +41,25 @@ trait Submit
     }
 
     /**
-     * Up-votes on submission.
+     * Likes submission.
      *
      * @param collection $user
      * @param int        $submission_id
      *
      * @return void
      */
-    protected function firstVote($submission_id)
+    protected function firstLike($submission_id)
     {
         $user = Auth::user();
 
         try {
-            $user->submissionUpvotes()->attach($submission_id, ['ip_address' => getRequestIpAddress()]);
+            $user->likedSubmissions()->attach($submission_id, ['ip_address' => getRequestIpAddress()]);
 
-            $upvotes = $this->submissionUpvotesIds($user->id);
+            $likes = $this->submissionLikesIds($user->id);
 
-            array_push($upvotes, $submission_id);
+            array_push($likes, $submission_id);
 
-            $this->updateSubmissionUpvotesIds($user->id, $upvotes);
+            $this->updateSubmissionLikesIds($user->id, $likes);
         } catch (\Exception $exception) {}
     }
 

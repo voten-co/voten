@@ -191,13 +191,13 @@ class BackendController extends Controller
 
         $echo_server_status = $this->echoStatus();
 
-        // total numer of submission votes: (upvotes + downvotes) - numberOfSubmissions
-        $submissionVotesTotal = (DB::table('submission_upvotes')->count() + DB::table('submission_downvotes')->count()) - $submissionsTotal;
-        $submissionVotesToday = (DB::table('submission_upvotes')->where('created_at', '>=', Carbon::now()->subDay())->count() + DB::table('submission_downvotes')->where('created_at', '>=', Carbon::now()->subDay())->count()) - $submissionsToday;
+        // total numer of submission likes: (likes) - numberOfSubmissions
+        $submissionVotesTotal = (DB::table('submission_likes')->count()) - $submissionsTotal;
+        $submissionVotesToday = (DB::table('submission_likes')->where('created_at', '>=', Carbon::now()->subDay())->count()) - $submissionsToday;
 
-        // total numer of comment votes: (upvotes + downvotes) - numberOfSubmissions
-        $commentVotesTotal = (DB::table('comment_upvotes')->count() + DB::table('comment_downvotes')->count()) - $commentsTotal;
-        $commentVotesToday = (DB::table('comment_upvotes')->where('created_at', '>=', Carbon::now()->subDay())->count() + DB::table('comment_downvotes')->where('created_at', '>=', Carbon::now()->subDay())->count()) - $commentsToday;
+        // total numer of comment likes: (likes) - numberOfSubmissions
+        $commentVotesTotal = (DB::table('comment_likes')->count()) - $commentsTotal;
+        $commentVotesToday = (DB::table('comment_likes')->where('created_at', '>=', Carbon::now()->subDay())->count()) - $commentsToday;
 
         $users = User::orderBy('id', 'desc')->paginate(30);
 

@@ -30,10 +30,8 @@ export default {
             // this.preloadStore();
 
             axios.get('/users/store').then(response => {
-                Store.state.submissions.upVotes = response.data.data.submissions.upvoteds;
-                Store.state.submissions.downVotes = response.data.data.submissions.downvoteds;
-                Store.state.comments.upVotes = response.data.data.comments.upvoteds;
-                Store.state.comments.downVotes = response.data.data.comments.downvoteds;
+                Store.state.submissions.likes = response.data.data.submissions.likeds;
+                Store.state.comments.likes = response.data.data.comments.likeds;
                 Store.state.bookmarks.submissions = response.data.data.submissions.bookmarkeds;
                 Store.state.bookmarks.comments = response.data.data.comments.bookmarkeds;
                 Store.state.bookmarks.channels = response.data.data.channels.bookmarkeds;

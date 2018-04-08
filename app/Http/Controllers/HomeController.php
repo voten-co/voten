@@ -42,8 +42,7 @@ class HomeController extends Controller
     {
         $this->validate($request, [
             'page' => 'required|integer|min:1',
-            'exclude_upvoted_submissions' => 'boolean', 
-            'exclude_downvoted_submissions' => 'boolean', 
+            'exclude_liked_submissions' => 'boolean', 
             'exclude_bookmarked_submissions' => 'boolean',
             'include_nsfw_submissions' => 'boolean', 
         ]);
@@ -110,12 +109,8 @@ class HomeController extends Controller
             $submissions->where('nsfw', false);
         } 
 
-        if ($request->exclude_upvoted_submissions) {
-            $submissions->whereNotIn('id', $this->submissionUpvotesIds());
-        }
-
-        if ($request->exclude_downvoted_submissions) {
-            $submissions->whereNotIn('id', $this->submissionDownvotesIds());
+        if ($request->exclude_liked_submissions) {
+            $submissions->whereNotIn('id', $this->submissionLikesIds());
         }
 
         if ($request->exclude_bookmarked_submissions) {

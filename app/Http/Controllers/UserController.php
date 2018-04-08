@@ -97,30 +97,16 @@ class UserController extends Controller
     }
 
     /**
-     * Returns every submission that user has upvoted.
+     * Returns every submission that user has liked.
      *
      * @param \Illuminate\Http\Request $request
      *
      * @return Collections
      */
-    public function upVotedSubmissions(Request $request)
+    public function likedSubmissions(Request $request)
     {
         return SubmissionResource::collection(
-            Auth::user()->submissionUpvotes()->simplePaginate(15)
-        );
-    }
-
-    /**
-     * Returns every submission that user has upvoted.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return Collections
-     */
-    public function downVotedSubmissions(Request $request)
-    {
-        return SubmissionResource::collection(
-            Auth::user()->submissionDownvotes()->simplePaginate(15)
+            Auth::user()->submissionLikes()->simplePaginate(15)
         );
     }
 
@@ -232,19 +218,15 @@ class UserController extends Controller
         DB::table('reports')->where('user_id', $user_id)->delete();
         DB::table('subscriptions')->where('user_id', $user_id)->delete();
         DB::table('hides')->where('user_id', $user_id)->delete();
-        DB::table('votes')->where('user_id', $user_id)->delete();
         DB::table('activities')->where('user_id', $user_id)->delete();
         DB::table('feedbacks')->where('user_id', $user_id)->delete();
-        DB::table('comment_votes')->where('user_id', $user_id)->delete();
         DB::table('photos')->where('user_id', $user_id)->delete();
         DB::table('bookmarks')->where('user_id', $user_id)->delete();
         DB::table('roles')->where('user_id', $user_id)->delete();
         DB::table('conversations')->where('user_id', $user_id)->orWhere('contact_id', $user_id)->delete();
         DB::table('hidden_users')->where('user_id', $user_id)->delete();
-        DB::table('submission_upvotes')->where('user_id', $user_id)->delete();
-        DB::table('submission_downvotes')->where('user_id', $user_id)->delete();
-        DB::table('comment_upvotes')->where('user_id', $user_id)->delete();
-        DB::table('comment_downvotes')->where('user_id', $user_id)->delete();
+        DB::table('submission_likes')->where('user_id', $user_id)->delete();
+        DB::table('comment_likes')->where('user_id', $user_id)->delete();
         DB::table('appointedd_users')->where('user_id', $user_id)->delete();
     }
 }

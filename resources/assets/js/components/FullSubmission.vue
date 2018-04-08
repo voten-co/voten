@@ -1,7 +1,32 @@
+<style lang="scss">
+.submission-full {
+    .actions {
+        a {
+            font-size: 13px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            color: #4c4b4b;
+            cursor: pointer;
+        }
+
+        i {
+            color: #657786;
+            font-size: 17px;
+            margin-left: 1em;
+        }
+
+        .count {
+            margin-left: 0.5em;
+        }
+    }
+}
+</style>
+
+
 <template>
 	<transition name="fade">
-		<div class="submission-wrapper"
-		     v-show="!hidden">
+		<div class="submission-wrapper submission-full">
 			<article class="flex1"
 			         v-bind:class="'box-typical profile-post ' + list.type">
 				<!-- header -->
@@ -32,50 +57,58 @@
 							</div>
 						</div>
 
-						<div class="flex-center">
+						<div class="actions flex-center">
 							<div>
-								<el-tooltip content="Edit"
-								            placement="bottom"
-								            transition="false"
-								            :open-delay="500">
-									<a class="reply"
-									   v-if="owns && (list.type == 'text')"
-									   @click="edit">
+								<!-- <a class="reply"
+								   v-if="owns && (list.type == 'text')"
+								   @click="edit">
+									<el-tooltip content="Edit"
+									            placement="bottom"
+									            transition="false"
+									            :open-delay="500">
 										<i class="v-icon v-edit go-gray h-purple pointer"></i>
-									</a>
-								</el-tooltip>
+									</el-tooltip>
+								</a> -->
+								<el-button size="mini"
+								           class=""
+								           v-if="owns && (list.type == 'text')"
+								           @click="edit"
+								           round>
+									Edit
+								</el-button>
 							</div>
 
-							<div class="voting-wrapper display-none">
-								<a class="fa-stack align-right"
-								   @click="voteUp">
-									<i class="v-icon v-up-fat"
-									   :class="upvoted ? 'go-primary animated bounceIn' : 'go-gray'"></i>
-								</a>
-
-								<el-tooltip :content="detailedPoints"
+							<a @click="like">
+								<el-tooltip content="Like"
 								            placement="bottom"
 								            transition="false"
 								            :open-delay="500">
-									<div class="detail">
-										{{ points }} Points
-									</div>
+									<i class="v-icon like-icon"
+									   :class="liked ? 'v-heart-filled go-red animated bounceIn' : 'v-heart go-gray h-red'"></i>
 								</el-tooltip>
 
-								<a class="fa-stack align-right"
-								   @click="voteDown">
-									<i class="v-icon v-down-fat"
-									   :class="downvoted ? 'go-red animated bounceIn' : 'go-gray'"></i>
-								</a>
-							</div>
+								<span class="count"
+								      v-text="points"></span>
+							</a>
 
-							<div class="margin-left-1">
+							<a class="fa-stack"
+							   @click="bookmark">
+								<el-tooltip :content="bookmarked ? 'Unbookmark' : 'Bookmark'"
+								            placement="bottom-end"
+								            transition="false"
+								            :open-delay="500">
+									<i class="v-icon h-yellow"
+									   :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'"></i>
+								</el-tooltip>
+							</a>
+
+							<div class="margin-right-1">
 								<el-dropdown size="medium"
 								             type="primary"
 								             trigger="click"
 								             :show-timeout="0"
 								             :hide-timeout="0">
-									<i class="el-icon-more-outline"></i>
+									<i class="el-icon-more-outline h-black"></i>
 
 									<el-dropdown-menu slot="dropdown">
 										<el-dropdown-item v-if="!owns"
@@ -123,24 +156,13 @@
 										</el-dropdown-item>
 									</el-dropdown-menu>
 								</el-dropdown>
-
-								<el-tooltip :content="bookmarked ? 'Unbookmark' : 'Bookmark'"
-								            placement="bottom-end"
-								            transition="false"
-								            :open-delay="500">
-									<a class="fa-stack"
-									   @click="bookmark">
-										<i class="v-icon h-yellow"
-										   :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark'"></i>
-									</a>
-								</el-tooltip>
 							</div>
 						</div>
 					</div>
 				</div>
 
 				<!-- content -->
-				<div class="profile-post-content">
+				<div class="profile-post-content full-page">
 					<text-submission v-if="list.type == 'text'"
 					                 :submission="list"
 					                 :nsfw="nsfw"
@@ -161,7 +183,6 @@
 					<link-submission v-if="list.type == 'link'"
 					                 :submission="list"
 					                 :nsfw="nsfw"
-					                 :full="full"
 					                 @embed="showEmbed"></link-submission>
 				</div>
 			</article>
@@ -177,17 +198,10 @@ export default {
     mixins: [Helpers, Submission],
 
     computed: {
-        detailedPoints() {
-            return `+${this.list.upvotes_count} | -${
-                this.list.downvotes_count
-            }`;
-        },
-
         showApprove() {
             return (
                 !this.list.approved_at &&
-                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
-                    meta.isVotenAdministrator) &&
+                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 || meta.isVotenAdministrator) &&
                 !this.owns
             );
         },
@@ -195,8 +209,7 @@ export default {
         showDisapprove() {
             return (
                 !this.list.deleted_at &&
-                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
-                    meta.isVotenAdministrator) &&
+                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 || meta.isVotenAdministrator) &&
                 !this.owns
             );
         },
@@ -204,8 +217,7 @@ export default {
         showNSFW() {
             return (
                 (this.owns ||
-                    Store.state.moderatingAt.indexOf(this.list.channel_id) !=
-                        -1 ||
+                    Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
                     meta.isVotenAdministrator) &&
                 !this.list.nsfw
             );
@@ -214,8 +226,7 @@ export default {
         showSFW() {
             return (
                 (this.owns ||
-                    Store.state.moderatingAt.indexOf(this.list.channel_id) !=
-                        -1 ||
+                    Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 ||
                     meta.isVotenAdministrator) &&
                 this.list.nsfw
             );
@@ -256,15 +267,12 @@ export default {
                 return;
             }
 
-            axios
-                .post(`/submissions/${this.list.id}/hide`)
-                .then(() => {
-                    this.$message({
-                        message:
-                            'You will no longer see this post in your feed.',
-                        type: 'success'
-                    });
+            axios.post(`/submissions/${this.list.id}/hide`).then(() => {
+                this.$message({
+                    message: 'You will no longer see this post in your feed.',
+                    type: 'success'
                 });
+            });
 
             history.go(-1);
         },
@@ -302,11 +310,7 @@ export default {
                     });
                 });
 
-            if (this.full) {
-                history.go(-1);
-            } else {
-                this.hidden = true;
-            }
+            history.go(-1);
         }
     }
 };

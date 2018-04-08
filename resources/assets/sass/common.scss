@@ -186,6 +186,10 @@ img {
     margin-right: 1em;
 }
 
+.margin-left-0 {
+    margin-left: 0em !important;
+}
+
 .margin-left-1 {
     margin-left: 1em;
 }
@@ -401,6 +405,10 @@ hr {
 
 .h-yellow:hover {
     color: $yellow-color !important;
+}
+
+.h-black:hover {
+    color: $black-color !important;
 }
 
 .go-purple {

@@ -56,14 +56,13 @@ class CommentController extends Controller
             'level'         => isset($parentComment) ? ($parentComment->level + 1) : 0, 
             'submission_id' => $submission->id,
             'rate'          => firstRate(),
-            'upvotes'       => 1,
-            'downvotes'     => 0,
+            'likes'       => 1,
             'edited_at'     => null,
         ]);
 
         event(new CommentWasCreated($comment, $submission, $author, $parentComment));
 
-        $this->firstVote($author, $comment->id);
+        $this->firstLike($author, $comment->id);
 
         // save a query by setting the author:
         $comment->owner = $author;
@@ -104,20 +103,20 @@ class CommentController extends Controller
     }
 
     /**
-     * Up-votes on comment.
+     * Likes comment.
      *
      * @param collection $user
      * @param int        $comment_id
      *
      * @return void
      */
-    protected function firstVote($user, $comment_id)
+    protected function firstLike($user, $comment_id)
     {
         try {
-            $user->commentUpvotes()->attach($comment_id, ['ip_address' => getRequestIpAddress()]);
-            $upvotes = $this->commentUpvotesIds($user->id);
-            array_push($upvotes, $comment_id);
-            $this->updateCommentUpvotesIds($user->id, $upvotes);
+            $user->commentLikes()->attach($comment_id, ['ip_address' => getRequestIpAddress()]);
+            $likes = $this->commentLikesIds($user->id);
+            array_push($likes, $comment_id);
+            $this->updateCommentLikesIds($user->id, $likes);
         } catch (Exception $exception) {
             app('sentry')->captureException($exception);
         }

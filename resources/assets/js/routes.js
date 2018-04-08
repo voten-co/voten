@@ -40,8 +40,7 @@ import Channel from './components/Channel.vue';
 import UserPage from './components/UserPage.vue';
 import DeletedSubmissionPage from './components/DeletedSubmissionPage.vue';
 import BookmarkedSubmissions from './components/BookmarkedSubmissions.vue';
-import UserUpvotedSubmissions from './components/UserUpvotedSubmissions.vue';
-import UserDownvotedSubmissions from './components/UserDownvotedSubmissions.vue';
+import UserLikedSubmissions from './components/UserLikedSubmissions.vue';
 import SubscribedChannels from './components/SubscribedChannels.vue';
 
 const routes = [
@@ -122,14 +121,9 @@ const routes = [
                 name: 'user-comments'
             },
             {
-                path: 'upvoted-submissions',
-                component: UserUpvotedSubmissions,
-                name: 'user-upvotes'
-            },
-            {
-                path: 'downvoted-submissions',
-                component: UserDownvotedSubmissions,
-                name: 'user-downvotes'
+                path: 'liked-submissions',
+                component: UserLikedSubmissions,
+                name: 'user-likes'
             }
         ]
     },

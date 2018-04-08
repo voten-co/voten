@@ -69,11 +69,9 @@
 					                   @approve="$emit('approve')"
 					                   @disapprove="$emit('disapprove')"
 					                   @removethumbnail="$emit('removethumbnail')"
-					                   :upvoted="upvoted"
-					                   :downvoted="downvoted"
+					                   :liked="liked"
 					                   :points="points"
-					                   @upvote="$emit('upvote')"
-					                   @downvote="$emit('downvote')"></submission-footer>
+					                   @like="$emit('like')"></submission-footer>
 				</div>
 			</span>
 		</div>
@@ -97,8 +95,7 @@ export default {
         bookmarked: {},
         url: {},
         comments: {},
-        upvoted: {},
-        downvoted: {},
+        liked: {},
         points: {},
         full: {
             type: Boolean,

@@ -1,12 +1,10 @@
 export default {
     submissions: {
-        upVotes: [],
-        downVotes: []
+        likes: [],
     },
 
     comments: {
-        upVotes: [],
-        downVotes: []
+        likes: [],
     },
 
     bookmarks: {

@@ -124,7 +124,7 @@ class SubmissionController extends Controller
             $this->updateSubmissionIdForUploadedFile($request, $submission->id);
         }
 
-        $this->firstVote($submission->id);
+        $this->firstLike($submission->id);
 
         return new SubmissionResource(
             Submission::find($submission->id)

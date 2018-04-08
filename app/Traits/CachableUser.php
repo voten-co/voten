@@ -36,11 +36,9 @@ trait CachableUser
             'bookmarkedChannels'    => DB::table('bookmarks')->where(['user_id' => $user->id, 'bookmarkable_type' => 'App\Channel'])->pluck('bookmarkable_id'),
             'bookmarkedUsers'       => DB::table('bookmarks')->where(['user_id' => $user->id, 'bookmarkable_type' => 'App\User'])->pluck('bookmarkable_id'),
 
-            'submissionUpvotes'   => $user->submissionUpvotesIds(),
-            'submissionDownvotes' => $user->submissionDownvotesIds(),
+            'submissionLikes'   => $user->submissionLikesIds(),
 
-            'commentUpvotes'   => $user->commentUpvotesIds(),
-            'commentDownvotes' => $user->commentDownvotesIds(),
+            'commentLikes'   => $user->commentLikesIds(),
         ];
 
         Redis::hmset('user.'.$id.'.data', $userData);
@@ -444,155 +442,79 @@ trait CachableUser
     }
 
     /**
-     * Returns the IDs of auth uers's upvoted submissions.
+     * Returns the IDs of auth uers's liked submissions.
      *
      * @return array
      */
-    protected function submissionUpvotesIds($id = 0)
+    protected function submissionLikesIds($id = 0)
     {
         if ($id === 0) {
             $id = Auth::id();
         }
 
-        if ($value = Redis::hget('user.'.$id.'.data', 'submissionUpvotes')) {
+        if ($value = Redis::hget('user.'.$id.'.data', 'submissionLikes')) {
             return json_decode($value);
         }
 
         $result = $this->cacheUserData($id);
 
-        return json_decode($result['submissionUpvotes']);
+        return json_decode($result['submissionLikes']);
     }
 
     /**
-     * Returns the IDs of auth uers's downvoted submissions.
+     * Returns the IDs of auth uers's liked comments.
      *
      * @return array
      */
-    protected function submissionDownvotesIds($id = 0)
+    protected function commentLikesIds($id = 0)
     {
         if ($id === 0) {
             $id = Auth::id();
         }
 
-        if ($value = Redis::hget('user.'.$id.'.data', 'submissionDownvotes')) {
+        if ($value = Redis::hget('user.'.$id.'.data', 'commentLikes')) {
             return json_decode($value);
         }
 
         $result = $this->cacheUserData($id);
 
-        return json_decode($result['submissionDownvotes']);
+        return json_decode($result['commentLikes']);
     }
 
     /**
-     * Returns the IDs of auth uers's upvoted comments.
-     *
-     * @return array
-     */
-    protected function commentUpvotesIds($id = 0)
-    {
-        if ($id === 0) {
-            $id = Auth::id();
-        }
-
-        if ($value = Redis::hget('user.'.$id.'.data', 'commentUpvotes')) {
-            return json_decode($value);
-        }
-
-        $result = $this->cacheUserData($id);
-
-        return json_decode($result['commentUpvotes']);
-    }
-
-    /**
-     * Returns the IDs of auth uers's downvoted comments.
-     *
-     * @return array
-     */
-    protected function commentDownvotesIds($id = 0)
-    {
-        if ($id === 0) {
-            $id = Auth::id();
-        }
-
-        if ($value = Redis::hget('user.'.$id.'.data', 'commentDownvotes')) {
-            return json_decode($value);
-        }
-
-        $result = $this->cacheUserData($id);
-
-        return json_decode($result['commentDownvotes']);
-    }
-
-    /**
-     * updates the upvotes records of the auth user.
+     * updates the likes records of the auth user.
      *
      * @param int    $id
-     * @param string $upvotes
+     * @param string $likes
      *
      * @return void
      */
-    protected function updateSubmissionUpvotesIds($id, $upvotes)
+    protected function updateSubmissionLikesIds($id, $likes)
     {
         // we need to make sure the cached data exists
-        if (!Redis::hget('user.'.$id.'.data', 'submissionUpvotes')) {
+        if (!Redis::hget('user.'.$id.'.data', 'submissionLikes')) {
             $this->cacheUserData($id);
         }
 
-        Redis::hset('user.'.$id.'.data', 'submissionUpvotes', json_encode($upvotes));
+        Redis::hset('user.'.$id.'.data', 'submissionLikes', json_encode($likes));
     }
 
     /**
-     * updates the downvotes records of the auth user.
-     *
-     * @param int   $user_id
-     * @param array $downvotes
-     *
-     * @return void
-     */
-    protected function updateSubmissionDownvotesIds($id, $downvotes)
-    {
-        // we need to make sure the cached data exists
-        if (!Redis::hget('user.'.$id.'.data', 'submissionDownvotes')) {
-            $this->cacheUserData($id);
-        }
-
-        Redis::hset('user.'.$id.'.data', 'submissionDownvotes', json_encode($downvotes));
-    }
-
-    /**
-     * updates the upvotes records of the auth user.
+     * updates the likes records of the auth user.
      *
      * @param int    $id
-     * @param string $upvotes
+     * @param string $likes
      *
      * @return void
      */
-    protected function updateCommentUpvotesIds($id, $upvotes)
+    protected function updateCommentLikesIds($id, $likes)
     {
         // we need to make sure the cached data exists
-        if (!Redis::hget('user.'.$id.'.data', 'commentUpvotes')) {
+        if (!Redis::hget('user.'.$id.'.data', 'commentLikes')) {
             $this->cacheUserData($id);
         }
 
-        Redis::hset('user.'.$id.'.data', 'commentUpvotes', json_encode($upvotes));
-    }
-
-    /**
-     * updates the downvotes records of the auth user.
-     *
-     * @param int   $user_id
-     * @param array $downvotes
-     *
-     * @return void
-     */
-    protected function updateCommentDownvotesIds($id, $downvotes)
-    {
-        // we need to make sure the cached data exists
-        if (!Redis::hget('user.'.$id.'.data', 'commentDownvotes')) {
-            $this->cacheUserData($id);
-        }
-
-        Redis::hset('user.'.$id.'.data', 'commentDownvotes', json_encode($downvotes));
+        Redis::hset('user.'.$id.'.data', 'commentLikes', json_encode($likes));
     }
 
     /**

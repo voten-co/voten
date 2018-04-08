@@ -20,13 +20,8 @@
 				</div>
 
 				<div class="form-toggle">
-					<span>Exclude my upvoted submissions:</span>
-					<el-switch v-model="form.excludeUpvotedSubmissions"></el-switch>
-				</div>
-
-				<div class="form-toggle">
-					<span>Exclude my downvoted submissions:</span>
-					<el-switch v-model="form.excludeDownvotedSubmissions"></el-switch>
+					<span>Exclude my liked submissions:</span>
+					<el-switch v-model="form.excludeLikedSubmissions"></el-switch>
 				</div>
 
 				<div class="form-toggle no-border">
@@ -62,7 +57,8 @@
 		<span slot="footer"
 		      class="dialog-footer"
 		      v-if="changed">
-			<el-button round type="success"
+			<el-button round
+			           type="success"
 			           @click="save"
 			           size="medium">
 				Save
@@ -82,34 +78,26 @@ export default {
     data() {
         return {
             form: {
-                include_nsfw_submissions:
-                    Store.settings.feed.include_nsfw_submissions,
-                excludeUpvotedSubmissions:
-                    Store.settings.feed.excludeUpvotedSubmissions,
-                excludeDownvotedSubmissions:
-                    Store.settings.feed.excludeDownvotedSubmissions,
+                include_nsfw_submissions: Store.settings.feed.include_nsfw_submissions,
+                excludeLikedSubmissions: Store.settings.feed.excludeLikedSubmissions,
                 submissionsFilter: Store.settings.feed.submissionsFilter,
                 submissionsType: Store.settings.feed.submissionsType,
-                excludeBookmarkedSubmissions:
-                    Store.settings.feed.excludeBookmarkedSubmissions
+                excludeBookmarkedSubmissions: Store.settings.feed.excludeBookmarkedSubmissions
             },
 
             filters: [
                 { value: 'all', description: 'Submissions from all channels' },
                 {
                     value: 'subscribed',
-                    description:
-                        'Only submissions from channels I am subscribed to'
+                    description: 'Only submissions from channels I am subscribed to'
                 },
                 {
                     value: 'moderating',
-                    description:
-                        'Only submissions from channels I am moderating'
+                    description: 'Only submissions from channels I am moderating'
                 },
                 {
                     value: 'bookmarked',
-                    description:
-                        'Only submissions from channels I have bookmarked'
+                    description: 'Only submissions from channels I have bookmarked'
                 },
                 {
                     value: 'by-bookmarked-users',
@@ -122,18 +110,11 @@ export default {
     computed: {
         changed() {
             if (
-                Store.settings.feed.include_nsfw_submissions !=
-                    this.form.include_nsfw_submissions ||
-                Store.settings.feed.excludeUpvotedSubmissions !=
-                    this.form.excludeUpvotedSubmissions ||
-                Store.settings.feed.excludeDownvotedSubmissions !=
-                    this.form.excludeDownvotedSubmissions ||
-                Store.settings.feed.submissionsFilter !=
-                    this.form.submissionsFilter ||
-                Store.settings.feed.submissionsType !=
-                    this.form.submissionsType ||
-                Store.settings.feed.excludeBookmarkedSubmissions !=
-                    this.form.excludeBookmarkedSubmissions
+                Store.settings.feed.include_nsfw_submissions != this.form.include_nsfw_submissions ||
+                Store.settings.feed.excludeLikedSubmissions != this.form.excludeLikedSubmissions ||
+                Store.settings.feed.submissionsFilter != this.form.submissionsFilter ||
+                Store.settings.feed.submissionsType != this.form.submissionsType ||
+                Store.settings.feed.excludeBookmarkedSubmissions != this.form.excludeBookmarkedSubmissions
             ) {
                 return true;
             }
@@ -155,8 +136,7 @@ export default {
     methods: {
         save() {
             Store.settings.feed.include_nsfw_submissions = this.form.include_nsfw_submissions;
-            Store.settings.feed.excludeUpvotedSubmissions = this.form.excludeUpvotedSubmissions;
-            Store.settings.feed.excludeDownvotedSubmissions = this.form.excludeDownvotedSubmissions;
+            Store.settings.feed.excludeLikedSubmissions = this.form.excludeLikedSubmissions;
             Store.settings.feed.submissionsFilter = this.form.submissionsFilter;
             Store.settings.feed.submissionsType = this.form.submissionsType;
             Store.settings.feed.excludeBookmarkedSubmissions = this.form.excludeBookmarkedSubmissions;

@@ -23,8 +23,7 @@ class CommentResource extends Resource
             'parent_id'       => $this->parent_id == 0 ? null : $this->parent_id,
             'nested_level'    => $this->level,
             'rate'            => $this->rate,
-            'upvotes_count'   => $this->upvotes,
-            'downvotes_count' => $this->downvotes,
+            'likes_count'   => $this->likes,
 
             'content' => ['text' => $this->body],
 

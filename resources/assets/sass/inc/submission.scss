@@ -282,7 +282,12 @@
 
 .side-vote-icon {
     cursor: pointer;
-    font-size: 16px;
+    font-size: 17px;
+}
+
+.vote-number {
+    font-size: 90%;
+    font-weight: bold;
 }
 
 .link-list-info a {
@@ -308,6 +313,14 @@
     a {
         color: #999 !important;
         font-weight: bold;
+        display: inline-flex;
+        align-items: center;
+
+        .count {
+            font-size: 80%;
+            margin-left: .3em;
+            margin-right: .9em;
+        }
     }
 
     .el-dropdown i {
@@ -316,7 +329,7 @@
 }
 
 .submisison-small-thumbnail {
-    margin-right: 10px;
+    margin-right: 1em;
 }
 
 .comments-icon {

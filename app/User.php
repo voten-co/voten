@@ -151,56 +151,46 @@ class User extends Authenticatable
     /* --------------------- submission voting methods --------------------- */
     /* --------------------------------------------------------------------- */
 
-    public function submissionUpvotes()
+    public function likedSubmissions()
     {
-        return $this->belongsToMany(Submission::class, 'submission_upvotes')
+        return $this->belongsToMany(Submission::class, 'submission_likes')
             ->withTimestamps()
-            ->orderBy('submission_upvotes.created_at', 'desc');
+            ->orderBy('submission_likes.created_at', 'desc');
     }
 
-    public function submissionUpvotesIds()
+    public function submissionLikesIds()
     {
-        return DB::table('submission_upvotes')->where('user_id', $this->id)->get()->pluck('submission_id');
+        return DB::table('submission_likes')->where('user_id', $this->id)->get()->pluck('submission_id');
     }
 
-    public function submissionDownvotes()
+    public function submissionLikes()
     {
-        return $this->belongsToMany(Submission::class, 'submission_downvotes')
+        return $this->belongsToMany(Submission::class, 'submission_likes')
             ->withTimestamps()
-            ->orderBy('submission_downvotes.created_at', 'desc');
+            ->orderBy('submission_likes.created_at', 'desc');
     }
-
-    public function submissionDownvotesIds()
-    {
-        return DB::table('submission_downvotes')->where('user_id', $this->id)->get()->pluck('submission_id');
-    }
-
+ 
     /* --------------------------------------------------------------------- */
     /* ----------------------- comment voting methods ---------------------- */
     /* --------------------------------------------------------------------- */
 
-    public function commentUpvotes()
+    public function likedComments()
     {
-        return $this->belongsToMany(Comment::class, 'comment_upvotes')
+        return $this->belongsToMany(Comment::class, 'comment_likes')
             ->withTimestamps()
-            ->orderBy('comment_upvotes.created_at', 'desc');
+            ->orderBy('comment_likes.created_at', 'desc');
     }
 
-    public function commentUpvotesIds()
+    public function commentLikes()
     {
-        return DB::table('comment_upvotes')->where('user_id', $this->id)->get()->pluck('comment_id');
-    }
-
-    public function commentDownvotes()
-    {
-        return $this->belongsToMany(Comment::class, 'comment_downvotes')
+        return $this->belongsToMany(Comment::class, 'comment_likes')
             ->withTimestamps()
-            ->orderBy('comment_downvotes.created_at', 'desc');
+            ->orderBy('comment_likes.created_at', 'desc');
     }
 
-    public function commentDownvotesIds()
+    public function commentLikesIds()
     {
-        return DB::table('comment_downvotes')->where('user_id', $this->id)->get()->pluck('comment_id');
+        return DB::table('comment_likes')->where('user_id', $this->id)->get()->pluck('comment_id');
     }
 
     /* --------------------------------------------------------------------- */

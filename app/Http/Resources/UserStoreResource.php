@@ -16,14 +16,12 @@ class UserStoreResource extends JsonResource
     {
         return [
             'submissions' => [
-                'upvoteds' => data_get($this, 'submissionUpvotes'),
-                'downvoteds' => data_get($this, 'submissionDownvotes'), 
+                'likeds' => data_get($this, 'submissionLikes'),
                 'bookmarkeds' => data_get($this, 'bookmarkedSubmissions')
             ],
 
             'comments' => [
-                'upvoteds' => data_get($this, 'commentUpvotes'),
-                'downvoteds' => data_get($this, 'commentDownvotes'),
+                'likeds' => data_get($this, 'commentLikes'),
                 'bookmarkeds' => data_get($this, 'bookmarkedComments')
             ], 
             

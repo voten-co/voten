@@ -111,18 +111,11 @@
 						Comments
 					</router-link>
 
-					<router-link :to="'/@' + $route.params.username + '/upvoted-submissions'"
+					<router-link :to="'/@' + $route.params.username + '/liked-submissions'"
 					             class="nav-item is-tab"
 					             active-class="is-active"
 					             v-if="isAuth">
-						Upvoted
-					</router-link>
-
-					<router-link :to="'/@' + $route.params.username + '/downvoted-submissions'"
-					             class="nav-item is-tab"
-					             active-class="is-active"
-					             v-if="isAuth">
-						Downvoted
+						Liked Submissions 
 					</router-link>
 				</div>
 

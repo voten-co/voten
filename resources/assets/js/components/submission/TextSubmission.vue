@@ -23,7 +23,7 @@
 			<div class="flex-space margin-top-1" v-show="editing">
 				<div>
 					<el-button round type="success" @click="patch" :loading="loading" size=mini>
-						Edit
+						Save
 					</el-button>
 					<el-button type="text" @click="cancelEditing" size="mini">
 						Cancel
@@ -61,8 +61,8 @@
 			</h3>
 
 			<submission-footer :url="url" :comments="comments" :bookmarked="bookmarked" :submission="submission"
-				@bookmark="$emit('bookmark')" @report="$emit('report')" @hide="$emit('hide')" @nsfw="$emit('nsfw')" @sfw="$emit('sfw')" @destroy="$emit('destroy')" @approve="$emit('approve')" @disapprove="$emit('disapprove')" @removethumbnail="$emit('removethumbnail')" :upvoted="upvoted" :downvoted="downvoted" :points="points"
-				@upvote="$emit('upvote')" @downvote="$emit('downvote')"
+				@bookmark="$emit('bookmark')" @report="$emit('report')" @hide="$emit('hide')" @nsfw="$emit('nsfw')" @sfw="$emit('sfw')" @destroy="$emit('destroy')" @approve="$emit('approve')" @disapprove="$emit('disapprove')" @removethumbnail="$emit('removethumbnail')" :liked="liked" :points="points"
+				@like="$emit('like')"
 			></submission-footer>
 		</div>
 	</div>
@@ -89,8 +89,7 @@ export default {
         url: {},
         comments: {},
         bookmarked: {},
-        upvoted: {},
-        downvoted: {},
+        liked: {},
         points: {},
         full: {
             type: Boolean,

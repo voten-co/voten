@@ -3,8 +3,7 @@ export default {
 
     feed: {
         include_nsfw_submissions: false,
-        excludeUpvotedSubmissions: false,
-        excludeDownvotedSubmissions: true,
+        excludeLikedSubmissions: false,
         excludeBookmarkedSubmissions: false,
         submissionsFilter: 'subscribed',
         submissionsType: 'All'

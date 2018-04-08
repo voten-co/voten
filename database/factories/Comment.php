@@ -12,8 +12,7 @@ $factory->define(\App\Comment::class, function (Faker $faker) {
         'parent_id'     => 0,
         'level'         => 0,
         'submission_id' => $submission->id,
-        'upvotes'       => 1,
-        'downvotes'     => 0,
+        'likes'       => 1,
         'edited_at'     => null,
         'rate' => firstRate(),
     ];

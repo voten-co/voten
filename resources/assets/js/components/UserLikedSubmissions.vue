@@ -1,14 +1,14 @@
 <template>
-	<div class="padding-bottom-10 flex1" :class="{'flex-center' : nothingFound}" id="submissions"
+	<div class="padding-bottom-10 flex1" :class="{'flex-center' : nothingFound}" id="submissions" 
 		v-infinite-scroll="loadMore" infinite-scroll-disabled="cantLoadMore" @scroll.passive="scrolled"
 	>
 		<div v-for="submission in submissions" v-bind:key="submission.id">
 			<submission :list="submission"></submission>
 		</div>
 	
-		<no-content v-if="nothingFound" :text="'This user has not downvoted any submissions yet'"></no-content>
+		<no-content v-if="nothingFound" :text="'This user has not liked any submissions yet'"></no-content>
 	
-		<loading v-if="loading"></loading>
+		<loading v-if="loading && page > 1"></loading>
 	
 		<no-more-items :text="'No more items to load'" v-if="NoMoreItems && !nothingFound"></no-more-items>
 	</div>
@@ -16,8 +16,8 @@
 
 <script>
 import Submission from '../components/Submission.vue';
-import Loading from '../components/Loading.vue';
 import NoContent from '../components/NoContent.vue';
+import Loading from '../components/Loading.vue';
 import NoMoreItems from '../components/NoMoreItems.vue';
 import Helpers from '../mixins/Helpers';
 
@@ -33,23 +33,23 @@ export default {
 
     computed: {
         NoMoreItems() {
-            return Store.page.user.downVotedSubmissions.NoMoreItems;
+            return Store.page.user.likedSubmissions.NoMoreItems;
         },
 
         submissions() {
-            return Store.page.user.downVotedSubmissions.submissions;
+            return Store.page.user.likedSubmissions.submissions;
         },
 
         loading() {
-            return Store.page.user.downVotedSubmissions.loading;
+            return Store.page.user.likedSubmissions.loading;
         },
 
         page() {
-            return Store.page.user.downVotedSubmissions.page;
+            return Store.page.user.likedSubmissions.page;
         },
 
         nothingFound() {
-            return Store.page.user.downVotedSubmissions.nothingFound;
+            return Store.page.user.likedSubmissions.nothingFound;
         },
 
         cantLoadMore() {
@@ -62,16 +62,16 @@ export default {
             typeof Store.page.user.temp.username != 'undefined' &&
             Store.page.user.temp.username != to.params.username
         ) {
-            Store.page.user.downVotedSubmissions.clear();
+            Store.page.user.likedSubmissions.clear();
         }
 
-        if (Store.page.user.downVotedSubmissions.page === 0) {
+        if (Store.page.user.likedSubmissions.page === 0) {
             if (typeof app != 'undefined') {
                 app.$Progress.start();
             }
 
             Promise.all([
-                Store.page.user.downVotedSubmissions.getSubmissions(),
+                Store.page.user.likedSubmissions.getSubmissions(),
                 Store.page.user.getUser(to.params.username)
             ]).then(() => {
                 next((vm) => {
@@ -88,18 +88,16 @@ export default {
     beforeRouteUpdate(to, from, next) {
         if (to.hash !== from.hash) return;
 
-        Store.page.user.downVotedSubmissions.clear();
+        Store.page.user.likedSubmissions.clear();
 
         this.$Progress.start();
 
         Promise.all([
-            Store.page.user.downVotedSubmissions.getSubmissions(),
+            Store.page.user.likedSubmissions.getSubmissions(),
             Store.page.user.getUser(to.params.username, false)
         ]).then((values) => {
             Store.page.user.setUser(values[1]);
-            this.setPageTitle(
-                'Down-voted Submissions | @' + to.params.username
-            );
+            this.setPageTitle('Up-voted Submissions | @' + to.params.username);
             this.$Progress.finish();
             next();
         });
@@ -107,7 +105,7 @@ export default {
 
     methods: {
         loadMore() {
-            Store.page.user.downVotedSubmissions.getSubmissions();
+            Store.page.user.likedSubmissions.getSubmissions();
         }
     }
 };

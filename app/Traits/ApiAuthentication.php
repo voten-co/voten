@@ -27,16 +27,14 @@ trait ApiAuthentication
 
             'blockedUsers' => collect(),
 
-            'submissionUpvotes'   => collect(),
-            'submissionDownvotes' => collect(),
+            'submissionLikes'   => collect(),
 
             'bookmarkedSubmissions' => collect(),
             'bookmarkedComments'    => collect(),
             'bookmarkedChannels'    => collect(),
             'bookmarkedUsers'       => collect(),
 
-            'commentUpvotes'   => collect(),
-            'commentDownvotes' => collect(),
+            'commentLikes'   => collect(),
         ];
 
         Redis::hmset('user.'.$user->id.'.data', $userData);
