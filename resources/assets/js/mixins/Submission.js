@@ -18,6 +18,10 @@ export default {
     props: ['list', 'full'],
 
     computed: {
+        type() {
+            return this.list.type;
+        }, 
+
         liked: {
             get() {
                 try {

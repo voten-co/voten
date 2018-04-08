@@ -246,7 +246,7 @@ export default {
 
             return moment(timestamp)
                 .tz(timezone)
-                .fromNow();
+                .fromNow(true);
         },
 
         /**
