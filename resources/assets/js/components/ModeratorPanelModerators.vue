@@ -1,53 +1,62 @@
 <template>
-    <section>
-        <h3 class="dotted-title">
+	<section>
+		<h3 class="dotted-title">
 			<span>
 				Add New Moderator
 			</span>
-        </h3>
+		</h3>
 
-        <el-form label-position="top" label-width="10px">
-            <el-form-item label="Username">
-                <el-select
-                        v-model="username"
-                        filterable
-                        remote
-                        placeholder="Search by username..."
-                        :remote-method="search"
-                        loading-text="Loading..."
-                        :loading="loading">
-                    <el-option
-                            v-for="item in users"
-                            :key="item"
-                            :label="item"
-                            :value="item">
-                    </el-option>
-                </el-select>
-            </el-form-item>
+		<el-form label-position="top"
+		         label-width="10px">
+			<el-form-item label="Username">
+				<el-select v-model="username"
+				           filterable
+				           remote
+				           placeholder="Search by username..."
+				           :remote-method="search"
+				           loading-text="Loading..."
+				           :loading="loading">
+					<el-option v-for="item in users"
+					           :key="item"
+					           :label="item"
+					           :value="item">
+					</el-option>
+				</el-select>
+			</el-form-item>
 
-            <el-form-item label="Role">
-                <el-radio-group v-model="role">
-                    <el-radio label="administrator" border></el-radio>
-                    <el-radio label="moderator" border></el-radio>
-                </el-radio-group>
-            </el-form-item>
+			<el-form-item label="Role">
+				<el-radio-group v-model="role">
+					<el-radio label="administrator"
+					          border></el-radio>
+					<el-radio label="moderator"
+					          border></el-radio>
+				</el-radio-group>
+			</el-form-item>
 
-            <el-form-item>
-                <el-button round type="success" size="medium" v-if="role && username" @click="addModerator" :loading="sending">
-                    Add
-                </el-button>
-            </el-form-item>
-        </el-form>
+			<el-form-item>
+				<el-button round
+				           type="success"
+				           size="medium"
+				           v-if="role && username"
+				           @click="addModerator"
+				           :loading="sending">
+					Add
+				</el-button>
+			</el-form-item>
+		</el-form>
 
-        <h3 class="dotted-title">
+		<h3 class="dotted-title">
 			<span>
 				All Moderators
 			</span>
-        </h3>
+		</h3>
 
-        <moderator v-for="(item, index) in mods" :list="item.user" :role="item.role" :key="item.user.id"
-                   @delete-moderator="mods.splice(index, 1)"></moderator>
-    </section>
+		<moderator v-for="(item, index) in mods"
+		           :list="item.user"
+		           :role="item.role"
+		           :key="item.user.id"
+		           @delete-moderator="mods.splice(index, 1)"></moderator>
+	</section>
 </template>
 
 <script>
@@ -73,6 +82,8 @@ export default {
 
     methods: {
         getMods() {
+            app.$Progress.finish();
+            app.$Progress.start();
             this.users = [];
 
             axios
@@ -81,8 +92,12 @@ export default {
                         channel_name: this.$route.params.name
                     }
                 })
-                .then((response) => {
+                .then(response => {
                     this.mods = response.data.data;
+                    app.$Progress.finish();
+                })
+                .catch(error => {
+                    app.$Progress.fail();
                 });
         },
 
@@ -97,11 +112,11 @@ export default {
                         keyword: query
                     }
                 })
-                .then((response) => {
+                .then(response => {
                     this.users = _.map(response.data.data, 'username');
                     this.loading = false;
                 })
-                .catch((error) => {
+                .catch(error => {
                     this.loading = false;
                 });
         }, 600),

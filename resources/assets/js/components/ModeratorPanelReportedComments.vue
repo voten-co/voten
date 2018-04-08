@@ -134,6 +134,8 @@ export default {
         getItems() {
             this.page++;
             this.loading = true;
+            app.$Progress.finish();
+            app.$Progress.start();
 
             axios
                 .get('/comments/reports', {
@@ -157,7 +159,10 @@ export default {
                     }
 
                     this.loading = false;
-                });
+                    app.$Progress.finish();
+                }).catch(error => {
+                    app.$Progress.fail(); 
+                })
         }
     }
 };

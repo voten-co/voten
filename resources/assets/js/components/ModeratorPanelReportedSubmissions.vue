@@ -1,43 +1,54 @@
 <template>
-    <section id="reported-items">
-        <h3 class="dotted-title">
-            <span>
-                Reported Submissions
-            </span>
-        </h3>
+	<section id="reported-items">
+		<h3 class="dotted-title">
+			<span>
+				Reported Submissions
+			</span>
+		</h3>
 
-        <p>
-            All reports submitted by users are displayed here for you to moderate. As a moderator you will get a notification when a report is submitted unless you prefer otherwise which you can set in your settings.
-        </p>
+		<p>
+			All reports submitted by users are displayed here for you to moderate. As a moderator you will get a notification when a report is submitted unless you prefer otherwise which you can set in your settings.
+		</p>
 
-        <div class="tabs is-fullwidth">
-            <ul>
-                <router-link tag="li" active-class="is-active" :to="{ path: '' }" exact>
-                    <a>
-                        Unsolved
-                    </a>
-                </router-link>
+		<div class="tabs is-fullwidth">
+			<ul>
+				<router-link tag="li"
+				             active-class="is-active"
+				             :to="{ path: '' }"
+				             exact>
+					<a>
+						Unsolved
+					</a>
+				</router-link>
 
-                <router-link tag="li" active-class="is-active" :to="{ path: '?type=solved' }" exact>
-                    <a>
-                        Solved
-                    </a>
-                </router-link>
-            </ul>
-        </div>
+				<router-link tag="li"
+				             active-class="is-active"
+				             :to="{ path: '?type=solved' }"
+				             exact>
+					<a>
+						Solved
+					</a>
+				</router-link>
+			</ul>
+		</div>
 
-        <div class="flex-center" v-show="loading">
-            <loading></loading>
-        </div>
+		<div class="flex-center"
+		     v-show="loading">
+			<loading></loading>
+		</div>
 
-        <div class="no-more-to-load user-select" v-if="nothingFound">
-            <h3 v-text="'No records were found'"></h3>
-        </div>
+		<div class="no-more-to-load user-select"
+		     v-if="nothingFound">
+			<h3 v-text="'No records were found'"></h3>
+		</div>
 
-        <reported-submission v-for="item in items" :list="item" :key="item.id" v-if="item.submission"
-                             @disapprove-submission="disapproveSubmission"
-                             @approve-submission="approveSubmission"></reported-submission>
-    </section>
+		<reported-submission v-for="item in items"
+		                     :list="item"
+		                     :key="item.id"
+		                     v-if="item.submission"
+		                     @disapprove-submission="disapproveSubmission"
+		                     @approve-submission="approveSubmission"></reported-submission>
+	</section>
 </template>
 
 <script>
@@ -89,31 +100,27 @@ export default {
 
     methods: {
         disapproveSubmission(submission_id) {
-            axios
-                .post('/disapprove-submission', { submission_id })
-                .then((response) => {
-                    this.items = this.items.filter(function(item) {
-                        return item.submission.id != submission_id;
-                    });
-
-                    if (!this.items.length) {
-                        this.nothingFound = true;
-                    }
+            axios.post('/disapprove-submission', { submission_id }).then(response => {
+                this.items = this.items.filter(function(item) {
+                    return item.submission.id != submission_id;
                 });
+
+                if (!this.items.length) {
+                    this.nothingFound = true;
+                }
+            });
         },
 
         approveSubmission(submission_id) {
-            axios
-                .post('/approve-submission', { submission_id })
-                .then((response) => {
-                    this.items = this.items.filter(function(item) {
-                        return item.submission.id != submission_id;
-                    });
-
-                    if (!this.items.length) {
-                        this.nothingFound = true;
-                    }
+            axios.post('/approve-submission', { submission_id }).then(response => {
+                this.items = this.items.filter(function(item) {
+                    return item.submission.id != submission_id;
                 });
+
+                if (!this.items.length) {
+                    this.nothingFound = true;
+                }
+            });
         },
 
         loadMore() {
@@ -137,6 +144,8 @@ export default {
         getItems() {
             this.page++;
             this.loading = true;
+            app.$Progress.finish();
+            app.$Progress.start();
 
             axios
                 .get('/submissions/reports', {
@@ -148,7 +157,7 @@ export default {
                         with_submission: 1
                     }
                 })
-                .then((response) => {
+                .then(response => {
                     this.items = [...this.items, ...response.data.data];
 
                     if (!this.items.length) {
@@ -160,9 +169,13 @@ export default {
                     }
 
                     this.loading = false;
+                    app.$Progress.finish();
+                })
+                .catch(error => {
+                    app.$Progress.fail();
                 });
         }
-    },
+    }
 };
 </script>
 

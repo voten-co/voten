@@ -32,7 +32,9 @@
             </el-form-item>
 
             <el-form-item v-if="type == 'edit'">
-                <el-button round size="medium" type="success" :v-if="title" @click="patch" :loading="editing">Edit</el-button>
+                <el-button round size="medium" type="success" :v-if="title" @click="patch" :loading="editing">
+                    Edit
+                </el-button>
             </el-form-item>
         </el-form>
 
@@ -75,9 +77,8 @@ export default {
             this.sending = true;
 
             axios
-                .post('/channels/rules', {
-                    body: this.title,
-                    channel_id: Store.page.channel.temp.id
+                .post(`/channels/${Store.page.channel.temp.id}/rules`, {
+                    body: this.title
                 })
                 .then((response) => {
                     this.items.unshift(response.data.data);
@@ -92,6 +93,8 @@ export default {
 
         getItems() {
             this.loading = true;
+            app.$Progress.finish();
+            app.$Progress.start(); 
 
             axios
                 .get('/channels/rules', {
@@ -102,19 +105,17 @@ export default {
                 .then((response) => {
                     this.items = response.data.data;
                     this.loading = false;
+                    app.$Progress.finish(); 
                 })
                 .catch(() => {
                     this.loading = false;
+                    app.$Progress.fail(); 
                 });
         },
 
         destroy(rule_id, channel_id) {
             axios
-                .delete('/channels/rules', {
-                    params: {
-                        id: rule_id
-                    }
-                })
+                .delete(`/channels/${Store.page.channel.temp.id}/rules/${rule_id}`)
                 .then(() => {
                     this.items = this.items.filter(function(item) {
                         return item.id != rule_id;
@@ -123,7 +124,7 @@ export default {
         },
 
         editRule(rule) {
-            this.title = rule.title;
+            this.title = rule.body;
             this.id = rule.id;
             this.channel_id = rule.channel_id;
 
@@ -134,9 +135,8 @@ export default {
             this.editing = true;
 
             axios
-                .patch('/channels/rules', {
+                .patch(`/channels/${Store.page.channel.temp.id}/rules/${this.id}`, {
                     body: this.title,
-                    id: this.id
                 })
                 .then(() => {
                     let id = this.id;
@@ -145,7 +145,7 @@ export default {
                         return ob.id === id;
                     }
 
-                    this.items.find(findObject).title = this.title;
+                    this.items.find(findObject).body = this.title;
 
                     this.clear();
                     this.editing = false;
