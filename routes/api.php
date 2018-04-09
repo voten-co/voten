@@ -23,9 +23,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/feedbacks', 'FeedbacksController@store')->middleware('shaddow-ban'); // checked
     Route::delete('/feedbacks/{feedback}', 'FeedbacksController@destroy')->middleware('voten-administrator'); // checked
 
-    // find Channels
-    Route::get('/channels/discover', 'SuggestionController@discover'); // checked 
-
     // user
     Route::get('/users/store', 'StoreController@index'); // checked 
     Route::delete('/users', 'UserController@destroyAsAuth'); // checked 
@@ -40,7 +37,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/users/clientside-settings', 'ClientsideSettingsController@get'); // checked 
     Route::post('/users/{user}/bookmark', 'BookmarksController@bookmarkUser'); // checked 
     Route::get('/users/bookmarked', 'BookmarksController@getBookmarkedUsers'); // checked 
-    
 
     // submission
     Route::post('/submissions', 'SubmissionController@store')->middleware('shaddow-ban'); // checked 
@@ -74,6 +70,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/subscribed-channels', 'SubscribeController@index');
     Route::post('/channels/{channel}/bookmark', 'BookmarksController@bookmarkChannel'); // checked 
     Route::get('/channels/bookmarked', 'BookmarksController@getBookmarkedChannels'); // checked 
+    Route::get('/channels/discover', 'SuggestionController@discover'); // checked 
 
     // rule
     Route::post('/channels/{channel}/rules', 'RulesController@store')->middleware('administrator'); // checked 
