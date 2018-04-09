@@ -219,13 +219,9 @@ export default {
 
                 this.bookmarked = !this.bookmarked;
 
-                axios
-                    .post('/bookmark-submission', {
-                        id: this.list.id
-                    })
-                    .catch(() => {
-                        this.bookmarked = !this.bookmarked;
-                    });
+                axios.post(`/submissions/${this.list.id}/bookmark`).catch(() => {
+                    this.bookmarked = !this.bookmarked;
+                });
             },
             200,
             { leading: true, trailing: false }

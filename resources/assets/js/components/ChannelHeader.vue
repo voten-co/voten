@@ -199,9 +199,7 @@ export default {
                 this.bookmarked = !this.bookmarked;
 
                 axios
-                    .post('/bookmark-channel', {
-                        id: Store.page.channel.temp.id
-                    })
+                    .post(`/channels/${Store.page.channel.temp.id}/bookmark`)
                     .catch(() => {
                         this.bookmarked = !this.bookmarked;
                     });

@@ -207,9 +207,7 @@ export default {
                 this.bookmarked = !this.bookmarked;
 
                 axios
-                    .post('/bookmark-user', {
-                        id: Store.page.user.temp.id
-                    })
+                    .post(`/users/${Store.page.user.temp.id}/bookmark`)
                     .catch(() => {
                         this.bookmarked = !this.bookmarked;
                     });

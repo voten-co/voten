@@ -11,23 +11,18 @@ export default {
             this.page++;
 
             axios
-                .get('/bookmarked-users', {
-                    params: {
-                        page: this.page
-                    }
-                })
-                .then((response) => {
+                .get('/users/bookmarked', { params: { page: this.page } })
+                .then(response => {
                     this.users = [...this.users, ...response.data.data];
 
-                    if (response.data.links.next == null)
-                        this.NoMoreItems = true;
+                    if (response.data.links.next == null) this.NoMoreItems = true;
                     if (this.users.length == 0) this.nothingFound = true;
 
                     this.loading = false;
 
                     resolve(response);
                 })
-                .catch((error) => {
+                .catch(error => {
                     reject(error);
                 });
         });

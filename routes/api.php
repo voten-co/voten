@@ -23,10 +23,10 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/feedbacks', 'FeedbacksController@store')->middleware('shaddow-ban'); // checked
     Route::delete('/feedbacks/{feedback}', 'FeedbacksController@destroy')->middleware('voten-administrator'); // checked
 
-    // Find Channels
+    // find Channels
     Route::get('/channels/discover', 'SuggestionController@discover'); // checked 
 
-    // User
+    // user
     Route::get('/users/store', 'StoreController@index'); // checked 
     Route::delete('/users', 'UserController@destroyAsAuth'); // checked 
     Route::delete('/admin/users', 'UserController@destroyAsVotenAdministrator')->middleware('voten-administrator'); // checked 
@@ -38,6 +38,9 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/email/verify/resend', 'Auth\VerificationController@resendVerifyEmailAddress'); // checked 
     Route::post('/users/clientside-settings', 'ClientsideSettingsController@store'); // checked 
     Route::get('/users/clientside-settings', 'ClientsideSettingsController@get'); // checked 
+    Route::post('/users/{user}/bookmark', 'BookmarksController@bookmarkUser'); // checked 
+    Route::get('/users/bookmarked', 'BookmarksController@getBookmarkedUsers'); // checked 
+    
 
     // submission
     Route::post('/submissions', 'SubmissionController@store')->middleware('shaddow-ban'); // checked 
@@ -50,22 +53,16 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::delete('/submissions/{submission}/nsfw', 'NsfwController@destroy'); // checked 
     Route::delete('/submissions/{submission}/thumbnail', 'SubmissionController@removeThumbnail'); // checked 
     Route::post('/submissions/{submission}/like', 'SubmissionLikesController@like'); // checked
-
-    // bookmarks
-    Route::post('/bookmark-user', 'BookmarksController@bookmarkUser');
-    Route::post('/bookmark-comment', 'BookmarksController@bookmarkComment');
-    Route::post('/bookmark-channel', 'BookmarksController@bookmarkChannel');
-    Route::get('/bookmarked-users', 'BookmarksController@getBookmarkedUsers');
-    Route::post('/bookmark-submission', 'BookmarksController@bookmarkSubmission');
-    Route::get('/bookmarked-comments', 'BookmarksController@getBookmarkedComments');
-    Route::get('/bookmarked-channels', 'BookmarksController@getBookmarkedChannels');
-    Route::get('/bookmarked-submissions', 'BookmarksController@getBookmarkedSubmissions');
+    Route::post('/submissions/{submission}/bookmark', 'BookmarksController@bookmarkSubmission'); // checked 
+    Route::get('/submissions/bookmarked', 'BookmarksController@getBookmarkedSubmissions'); // checked 
 
     // Comment
     Route::post('/comments', 'CommentController@store')->middleware('shaddow-ban'); // checked
     Route::patch('/comments/{comment}', 'CommentController@patch'); // checked
     Route::delete('/comments/{comment}', 'CommentController@destroy'); // checked
-    Route::post('/comments/{comment}/like', 'CommentLikesController@like'); // check ed
+    Route::post('/comments/{comment}/like', 'CommentLikesController@like'); // checked
+    Route::post('/comments/{comment}/bookmark', 'BookmarksController@bookmarkComment'); // checked
+    Route::get('/comments/bookmarked', 'BookmarksController@getBookmarkedComments'); // checked  
 
     // Channel
     Route::post('/channels', 'ChannelController@store')->middleware('shaddow-ban');
@@ -75,11 +72,13 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/channels/{channel}', 'ChannelController@destroy')->middleware('voten-administrator');
     Route::get('/get-channels', 'ChannelController@getChannels');
     Route::get('/subscribed-channels', 'SubscribeController@index');
+    Route::post('/channels/{channel}/bookmark', 'BookmarksController@bookmarkChannel'); // checked 
+    Route::get('/channels/bookmarked', 'BookmarksController@getBookmarkedChannels'); // checked 
 
     // rule
-    Route::post('/channels/{channel}/rules', 'RulesController@store')->middleware('administrator');
-    Route::patch('/channels/{channel}/rules/{rule}', 'RulesController@patch')->middleware('administrator');
-    Route::delete('/channels/{channel}/rules/{rule}', 'RulesController@destroy')->middleware('administrator');
+    Route::post('/channels/{channel}/rules', 'RulesController@store')->middleware('administrator'); // checked 
+    Route::patch('/channels/{channel}/rules/{rule}', 'RulesController@patch')->middleware('administrator'); // checked 
+    Route::delete('/channels/{channel}/rules/{rule}', 'RulesController@destroy')->middleware('administrator'); // checked 
 
     // block domain
     Route::get('/channels/domains/block', 'BlockDomainController@indexAsChannelModerator')->middleware('moderator');

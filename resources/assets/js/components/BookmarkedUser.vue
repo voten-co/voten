@@ -77,9 +77,7 @@ export default {
                 this.bookmarked = !this.bookmarked;
 
                 axios
-                    .post('/bookmark-user', {
-                        id: this.list.id
-                    })
+                    .post(`/users/${this.list.id}/bookmark`)
                     .catch(() => {
                         this.bookmarked = !this.bookmarked;
                     });

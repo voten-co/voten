@@ -11,26 +11,18 @@ export default {
             this.loading = true;
 
             axios
-                .get('/bookmarked-submissions', {
-                    params: {
-                        page: this.page
-                    }
-                })
-                .then((response) => {
-                    this.submissions = [
-                        ...this.submissions,
-                        ...response.data.data
-                    ];
+                .get('/submissions/bookmarked', { params: { page: this.page } })
+                .then(response => {
+                    this.submissions = [...this.submissions, ...response.data.data];
 
-                    if (response.data.links.next == null)
-                        this.NoMoreItems = true;
+                    if (response.data.links.next == null) this.NoMoreItems = true;
                     if (this.submissions.length == 0) this.nothingFound = true;
 
                     this.loading = false;
 
                     resolve(response);
                 })
-                .catch((error) => {
+                .catch(error => {
                     reject(error);
                 });
         });

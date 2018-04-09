@@ -14,6 +14,9 @@ use App\Traits\CachableUser;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
+use App\Submission;
+use App\Comment;
+use App\Channel;
 
 class BookmarksController extends Controller
 {
@@ -77,94 +80,78 @@ class BookmarksController extends Controller
      *
      * @return \Illuminate\Support\Collection
      */
-    public function bookmarkSubmission(Request $request)
+    public function bookmarkSubmission(Submission $submission)
     {
-        $this->validate($request, [
-            'id' => 'required|integer',
-        ]);
-
-        $submission = $this->getSubmissionById($request->id);
-
         $type = $submission->bookmark();
 
-        if ($type == 'bookmarked') {
-            $this->updateBookmarkedSubmissions(Auth::user()->id, $submission->id, true);
-        } else {
-            $this->updateBookmarkedSubmissions(Auth::user()->id, $submission->id, false);
+        if ($type === 'bookmarked') {
+            $this->updateBookmarkedSubmissions(Auth::id(), $submission->id, true);
+
+            return res(201, "Bookmarked successfully.");
         }
 
-        return $type;
+        $this->updateBookmarkedSubmissions(Auth::id(), $submission->id, false);
+        
+        return res(200, "Unbookmarked successfully.");
     }
-
+    
     /**
-     * (un)Bookmarks the comment.
+     * Favorited submissions by Auth user.
      *
-     * @return status
+     * @return \Illuminate\Support\Collection
      */
-    public function bookmarkComment(Request $request)
+    public function bookmarkComment(Comment $comment)
     {
-        $this->validate($request, [
-            'id' => 'required|integer',
-        ]);
-
-        $comment = $this->getCommentById($request->id);
-
         $type = $comment->bookmark();
 
-        if ($type == 'bookmarked') {
-            $this->updateBookmarkedComments(Auth::user()->id, $comment->id, true);
-        } else {
-            $this->updateBookmarkedComments(Auth::user()->id, $comment->id, false);
+        if ($type === 'bookmarked') {
+            $this->updateBookmarkedComments(Auth::id(), $comment->id, true);
+
+            return res(201, "Bookmarked successfully.");
         }
 
-        return $type;
+        $this->updateBookmarkedComments(Auth::id(), $comment->id, false);
+        
+        return res(200, "Unbookmarked successfully.");
     }
-
+    
     /**
-     * (un)Bookmarks the channel.
+     * Favorited submissions by Auth user.
      *
-     * @return status
+     * @return \Illuminate\Support\Collection
      */
-    public function bookmarkChannel(Request $request)
+    public function bookmarkChannel(Channel $channel)
     {
-        $this->validate($request, [
-            'id' => 'required|integer',
-        ]);
-
-        $channel = $this->getChannelById($request->id);
-
         $type = $channel->bookmark();
 
-        if ($type == 'bookmarked') {
-            $this->updateBookmarkedChannels(Auth::user()->id, $channel->id, true);
-        } else {
-            $this->updateBookmarkedChannels(Auth::user()->id, $channel->id, false);
+        if ($type === 'bookmarked') {
+            $this->updateBookmarkedChannels(Auth::id(), $channel->id, true);
+
+            return res(201, "Bookmarked successfully.");
         }
 
-        return $type;
+        $this->updateBookmarkedChannels(Auth::id(), $channel->id, false);
+        
+        return res(200, "Unbookmarked successfully.");
     }
-
+    
     /**
      * (un)Bookmarks the user.
      *
      * @return status
      */
-    public function bookmarkUser(Request $request)
+    public function bookmarkUser(User $user)
     {
-        $this->validate($request, [
-            'id' => 'required|integer',
-        ]);
-
-        $user = User::where('id', $request->id)->firstOrFail();
-
         $type = $user->bookmark();
 
-        if ($type == 'bookmarked') {
-            $this->updateBookmarkedUsers(Auth::user()->id, $user->id, true);
-        } else {
-            $this->updateBookmarkedUsers(Auth::user()->id, $user->id, false);
+        if ($type === 'bookmarked') {
+            $this->updateBookmarkedUsers(Auth::id(), $user->id, true);
+
+            return res(201, "Bookmarked successfully.");
         }
 
-        return $type;
+        $this->updateBookmarkedUsers(Auth::id(), $user->id, false);
+
+        return res(200, "Unbookmarked successfully.");
     }
 }

@@ -11,23 +11,18 @@ export default {
             this.page++;
 
             axios
-                .get('/bookmarked-comments', {
-                    params: {
-                        page: this.page
-                    }
-                })
-                .then((response) => {
+                .get('/comments/bookmarked', { params: { page: this.page } })
+                .then(response => {
                     this.comments = [...this.comments, ...response.data.data];
 
-                    if (response.data.links.next == null)
-                        this.NoMoreItems = true;
+                    if (response.data.links.next == null) this.NoMoreItems = true;
                     if (this.comments.length == 0) this.nothingFound = true;
 
                     this.loading = false;
 
                     resolve(response);
                 })
-                .catch((error) => {
+                .catch(error => {
                     reject(error);
                 });
         });
