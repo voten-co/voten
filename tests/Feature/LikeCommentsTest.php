@@ -15,8 +15,7 @@ class LikeCommentsTest extends TestCase
     public function setUp()
     {
         parent::setUp(); 
-        
-        $this->withoutExceptionHandling();
+
         $this->signInViaPassport();
     }
 
