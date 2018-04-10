@@ -21,7 +21,7 @@ class MustBeModerator
      */
     public function handle($request, Closure $next)
     {
-        abort_unless($request->route('channel')->id ?? $this->mustBeModerator(request('channel_id')), 403);
+        abort_unless($this->mustBeModerator($request->route('channel')->id ?? request('channel_id')), 403);
 
         return $next($request);
     }
