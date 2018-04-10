@@ -1,114 +1,143 @@
 <template>
-    <div>
-        <div v-bind:style="{ background: coverBackground }" class="channel-header-big profile-cover"
-             v-show="showFirstHeader">
-            <div class="container user-select full-width">
-                <div class="cols-flex">
-                    <div class="channel-header-left">
-                        <!-- avatar -->
-                        <div class="profile-avatar">
-                            <router-link :to="'/c/' + Store.page.channel.temp.name">
-                                <img v-bind:src="Store.page.channel.temp.avatar" v-bind:alt="Store.page.channel.temp.name"/>
-                            </router-link>
-                        </div>
-                        <!-- end avatar -->
-                    </div>
+	<div>
+		<div v-bind:style="{ background: coverBackground }"
+		     class="channel-header-big profile-cover"
+		     v-show="showFirstHeader">
+			<div class="container user-select full-width">
+				<div class="cols-flex">
+					<div class="channel-header-left">
+						<!-- avatar -->
+						<div class="profile-avatar">
+							<router-link :to="'/c/' + Store.page.channel.temp.name">
+								<img v-bind:src="Store.page.channel.temp.avatar"
+								     v-bind:alt="Store.page.channel.temp.name" />
+							</router-link>
+						</div>
+						<!-- end avatar -->
+					</div>
 
-                    <div class="channel-header-middle flex-align-center">
-                        <p>
-                            {{ Store.page.channel.temp.description }}
-                        </p>
-                    </div>
+					<div class="channel-header-middle flex-align-center">
+						<p>
+							{{ Store.page.channel.temp.description }}
+						</p>
+					</div>
 
-                    <div class="channel-header-right">
-                        <div class="xp">
-                            <div class="xp-number">
-                                {{ Store.page.channel.temp.subscribers_count }}
-                            </div>
+					<div class="channel-header-right">
+						<div class="xp">
+							<div class="xp-number">
+								{{ Store.page.channel.temp.subscribers_count }}
+							</div>
 
-                            <div class="xp-text margin-bottom-1">
-                                Subscribers
-                            </div>
+							<div class="xp-text margin-bottom-1">
+								Subscribers
+							</div>
 
-                            <subscribe v-if="!isGuest" subscribed-class="unsubscribe"
-                                       unsubscribed-class="subscribe"></subscribe>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+							<subscribe v-if="!isGuest"
+							           subscribed-class="unsubscribe"
+							           unsubscribed-class="subscribe"></subscribe>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-        <nav class="nav has-shadow user-select">
-            <div class="container">
-                <div class="nav-left">
-                    <router-link :to="{ path: '/c/' + $route.params.name }" class="nav-item is-tab"
-                                 :class="{ 'is-active': sort == 'hot' }">
-                        Hot
-                    </router-link>
+		<nav class="nav has-shadow user-select">
+			<div class="container">
+				<div class="nav-left">
+					<router-link :to="{ path: '/c/' + $route.params.name }"
+					             class="nav-item is-tab"
+					             :class="{ 'is-active': sort == 'hot' }">
+						Hot
+					</router-link>
 
-                    <router-link :to="{ path: '/c/' + $route.params.name + '?sort=new' }" class="nav-item is-tab"
-                                 :class="{ 'is-active': sort == 'new' }">
-                        New
-                    </router-link>
+					<router-link :to="{ path: '/c/' + $route.params.name + '?sort=new' }"
+					             class="nav-item is-tab"
+					             :class="{ 'is-active': sort == 'new' }">
+						New
+					</router-link>
 
-                    <router-link :to="{ path: '/c/' + $route.params.name + '?sort=rising'  }" class="nav-item is-tab"
-                                 :class="{ 'is-active': sort == 'rising' }">
-                        Rising
-                    </router-link>
-                </div>
+					<router-link :to="{ path: '/c/' + $route.params.name + '?sort=rising'  }"
+					             class="nav-item is-tab"
+					             :class="{ 'is-active': sort == 'rising' }">
+						Rising
+					</router-link>
+				</div>
 
-                <el-tooltip content="Scroll to top" placement="bottom" transition="false" :open-delay="500">
-                    <h1 class="title pointer" @click="scrollToTop('submissions')">
-                        <i class="v-icon v-channel" aria-hidden="true"></i>{{ Store.page.channel.temp.name }}
-                    </h1>
-                </el-tooltip>
-                
-                <div class="channel-admin-btn">
-                    <el-dropdown size="medium" type="primary" trigger="click" :show-timeout="0" :hide-timeout="0">
-                        <i class="v-icon v-more-vertical darker-on-hover"></i>
+				<el-tooltip content="Scroll to top"
+				            placement="bottom"
+				            transition="false"
+				            :open-delay="500">
+					<h1 class="title pointer"
+					    @click="scrollToTop('submissions')">
+						<i class="v-icon v-channel"
+						   aria-hidden="true"></i>{{ Store.page.channel.temp.name }}
+					</h1>
+				</el-tooltip>
 
-                        <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item @click.native="showModeratorsModal = true">
-                                Moderators
-                            </el-dropdown-item>
+				<div class="channel-admin-btn">
+					<el-dropdown size="medium"
+					             type="primary"
+					             trigger="click"
+					             :show-timeout="0"
+					             :hide-timeout="0">
+						<i class="v-icon v-more-vertical darker-on-hover"></i>
 
-                            <el-dropdown-item @click.native="showRulesModal = true">
-                                Rules
-                            </el-dropdown-item>
+						<el-dropdown-menu slot="dropdown">
+							<el-dropdown-item @click.native="showModeratorsModal = true">
+								Moderators
+							</el-dropdown-item>
 
-                            <el-dropdown-item @click.native="block">
-                                Block
-                            </el-dropdown-item>
-                        </el-dropdown-menu>
-                    </el-dropdown>
+							<el-dropdown-item @click.native="showRulesModal = true">
+								Rules
+							</el-dropdown-item>
 
-                    <el-tooltip :content="bookmarked ? 'Unbookmark this channel' : 'Bookmark this channel'"
-                                placement="bottom" transition="false" :open-delay="500">
-                        <i class="v-icon h-yellow pointer"
-                           :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark go-gray'" @click="bookmark"></i>
-                    </el-tooltip>
+							<el-dropdown-item @click.native="block">
+								Block/Unblock
+							</el-dropdown-item>
+						</el-dropdown-menu>
+					</el-dropdown>
 
-                    <el-button round type="primary" @click="$eventHub.$emit('submit')"
-                               v-if="!isGuest" size="mini">
-                        Submit
-                    </el-button>
+					<el-tooltip :content="bookmarked ? 'Unbookmark this channel' : 'Bookmark this channel'"
+					            placement="bottom"
+					            transition="false"
+					            :open-delay="500">
+						<i class="v-icon h-yellow pointer"
+						   :class="bookmarked ? 'go-yellow v-unbookmark' : 'v-bookmark go-gray'"
+						   @click="bookmark"></i>
+					</el-tooltip>
 
-                    <el-button round type="success" @click="$router.push('/c/' + $route.params.name + '/mod')"
-                               v-if="isModerator" size="mini">
-                        Moderation
-                    </el-button>
-                    
-                    <el-button round type="warning" @click="$router.push('/c/' + $route.params.name + '/mod')"
-                               v-if="!isModerator && isVotenAdministrator" size="mini">
-                        Moderation
-                    </el-button>
-                </div>
-            </div>
-        </nav>
+					<el-button round
+					           type="primary"
+					           @click="$eventHub.$emit('submit')"
+					           v-if="!isGuest"
+					           size="mini">
+						Submit
+					</el-button>
 
-        <moderators :visible.sync="showModeratorsModal" v-if="showModeratorsModal"></moderators>
-        <rules :visible.sync="showRulesModal" v-if="showRulesModal"></rules>
-    </div>
+					<el-button round
+					           type="success"
+					           @click="$router.push('/c/' + $route.params.name + '/mod')"
+					           v-if="isModerator"
+					           size="mini">
+						Moderation
+					</el-button>
+
+					<el-button round
+					           type="warning"
+					           @click="$router.push('/c/' + $route.params.name + '/mod')"
+					           v-if="!isModerator && isVotenAdministrator"
+					           size="mini">
+						Moderation
+					</el-button>
+				</div>
+			</div>
+		</nav>
+
+		<moderators :visible.sync="showModeratorsModal"
+		            v-if="showModeratorsModal"></moderators>
+		<rules :visible.sync="showRulesModal"
+		       v-if="showRulesModal"></rules>
+	</div>
 </template>
 
 <script>
@@ -161,32 +190,34 @@ export default {
                 return;
             }
 
-            this.$confirm(
-                `Blocking a channel will exclude it form your feed. Are you sure about this?`,
-                'Warning',
-                {
-                    confirmButtonText: 'Yes',
-                    cancelButtonText: 'Never mind',
-                    type: 'warning'
-                }
-            )
-                .then(() => {
-                    axios
-                        .post('/channel-block', {
-                            channel_id: Store.page.channel.temp.id
-                        })
-                        .then(() => {
-                            this.$router.push('/');
+            app.$Progress.start();
 
-                            this.$message({
-                                type: 'success',
-                                message: `You no longer will see submissions from #${
-                                    Store.page.channel.temp.name
-                                } in your feed. `
-                            });
+            axios
+                .post(`/channels/${Store.page.channel.temp.id}/block`)
+                .then(response => {
+                    app.$Progress.finish();
+                    
+                    // blocked
+                    if (response.status === 201) {
+                        this.$message({
+                            type: 'success',
+                            message: `#${
+                                Store.page.channel.temp.name
+                            } is now blocked for you. You won't see submissions from #${
+                                Store.page.channel.temp.name
+                            } in your feed. `
                         });
+                    } else if (response.status === 200) {
+                        // unblocked
+                        this.$message({
+                            type: 'success',
+                            message: `#${Store.page.channel.temp.name} is no longer blocked.`
+                        });
+                    }
                 })
-                .catch(() => {});
+                .catch(error => {
+                    app.$Progress.fail();
+                });
         },
 
         bookmark: _.debounce(
@@ -198,11 +229,9 @@ export default {
 
                 this.bookmarked = !this.bookmarked;
 
-                axios
-                    .post(`/channels/${Store.page.channel.temp.id}/bookmark`)
-                    .catch(() => {
-                        this.bookmarked = !this.bookmarked;
-                    });
+                axios.post(`/channels/${Store.page.channel.temp.id}/bookmark`).catch(() => {
+                    this.bookmarked = !this.bookmarked;
+                });
             },
             200,
             { leading: true, trailing: false }
@@ -222,27 +251,17 @@ export default {
 
         bookmarked: {
             get() {
-                return Store.state.bookmarks.channels.indexOf(
-                    Store.page.channel.temp.id
-                ) !== -1
-                    ? true
-                    : false;
+                return Store.state.bookmarks.channels.indexOf(Store.page.channel.temp.id) !== -1 ? true : false;
             },
 
             set() {
-                if (
-                    Store.state.bookmarks.channels.indexOf(
-                        Store.page.channel.temp.id
-                    ) !== -1
-                ) {
-                    let index = Store.state.bookmarks.channels.indexOf(
-                        Store.page.channel.temp.id
-                    );
+                if (Store.state.bookmarks.channels.indexOf(Store.page.channel.temp.id) !== -1) {
+                    let index = Store.state.bookmarks.channels.indexOf(Store.page.channel.temp.id);
                     Store.state.bookmarks.channels.splice(index, 1);
 
                     let removeItem = Store.page.channel.temp.id;
                     Store.state.bookmarkedChannels = Store.state.bookmarkedChannels.filter(
-                        (channel) => channel.id != removeItem
+                        channel => channel.id != removeItem
                     );
 
                     return;
@@ -260,10 +279,7 @@ export default {
         },
 
         isModerator() {
-            return (
-                Store.state.moderatingAt.indexOf(Store.page.channel.temp.id) !=
-                -1
-            );
+            return Store.state.moderatingAt.indexOf(Store.page.channel.temp.id) != -1;
         },
 
         coverBackground() {

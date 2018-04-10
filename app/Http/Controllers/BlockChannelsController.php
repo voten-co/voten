@@ -6,11 +6,12 @@ use App\Traits\CachableUser;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
+use App\Channel;
 
 class BlockChannelsController extends Controller
 {
     use CachableUser;
-
+    
     /**
      * Store a newly created hidden_channel record in storage.
      *
@@ -18,45 +19,30 @@ class BlockChannelsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function block(Request $request, Channel $channel)
     {
-        $request->validate([
-            'channel_id' => 'required|exists:channels,id',
-        ]);
-
-        try {
-            DB::table('hidden_channels')->insert([
-                'user_id'     => Auth::id(),
-                'channel_id'  => $request->channel_id,
-            ]);
-
-            // update the cach record for hiddenSubmissions:
-            $this->updateHiddenChannels(Auth::id(), $request->channel_id);
-
-            return response('Channel blocked successfully.', 200);
-        } catch (\Exception $e) {
-            return response('Something went wrong!', 500);
+        if ($unblock = $this->hasAlreadyBlocked($channel->id)) {
+            Auth::user()->blockedChannels()->detach($channel->id);
+        } else {
+            Auth::user()->blockedChannels()->attach($channel->id);
         }
+
+        $this->updateBlockedChannels(Auth::id(), $channel->id, $unblock);
+
+        return $unblock ? res(200, "Unblocked channel successfully.") : res(201, "Blocked channel successfully.");
     }
 
     /**
-     * Remove the hidden_channel record from storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Http\Response
+     * Is the item previosly blocked by the authenticated user 
+     * 
+     * @param integer $channel_id 
+     * @return boolean 
      */
-    public function destroy(Request $request)
+    protected function hasAlreadyBlocked($channel_id)
     {
-        $request->validate([
-            'channel_id' => 'required|exists:channels,id',
-        ]);
-
-        DB::table('hidden_channels')->where([
-            ['user_id', Auth::id()],
-            ['channel_id', $request->channel_id],
-        ])->delete();
-
-        return response('Channel unblocked successfully.', 200);
+        return DB::table('blocked_channels')->where([
+            ['user_id', Auth::id()], 
+            ['channel_id', $channel_id]
+        ])->exists(); 
     }
 }

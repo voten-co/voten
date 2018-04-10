@@ -63,8 +63,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     // channel
     Route::post('/channels', 'ChannelController@store')->middleware('shaddow-ban'); // checked
     Route::patch('/channels/{channel}', 'ChannelController@patch')->middleware('administrator'); // checked 
-    Route::post('/channel-block', 'BlockChannelsController@store');
-    Route::delete('/channel-unblock', 'BlockChannelsController@destroy');
+    Route::post('/channels/{channel}/block', 'BlockChannelsController@block'); // checked 
     Route::post('/channels/{channel}', 'ChannelController@destroy')->middleware('voten-administrator');
     Route::get('/subscribed-channels', 'SubscribeController@index');
     Route::post('/channels/{channel}/bookmark', 'BookmarksController@bookmarkChannel'); // checked 

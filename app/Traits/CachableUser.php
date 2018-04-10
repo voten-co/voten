@@ -145,18 +145,23 @@ trait CachableUser
     }
 
     /**
-     * updates the hiddenChannels records of the auth user.
+     * updates the blockedChannel records of the auth user.
      *
      * @param int $id
      * @param int $channel_id
+     * @param boolean $alreadyBlocked
      *
      * @return void
      */
-    protected function updateHiddenChannels($id, $channel_id)
+    protected function updateBlockedChannels($id, $channel_id, $alreadyBlocked)
     {
         $hiddenChannels = $this->hiddenChannels($id);
 
-        array_push($hiddenChannels, $channel_id);
+        if ($alreadyBlocked) {
+            $hiddenChannels = array_values(array_diff($hiddenChannels, [$channel_id]));
+        } else {
+            array_push($hiddenChannels, $channel_id);
+        }
 
         // we need to make sure the cached data exists
         if (!Redis::hget('user.'.$id.'.data', 'hiddenChannels')) {

@@ -74,6 +74,10 @@ class User extends Authenticatable
         return DB::table('hides')->where('user_id', $this->id)->get()->pluck('submission_id');
     }
 
+    /* --------------------------------------------------------------------- */
+    /* --------------------------- blocked channels ------------------------ */
+    /* --------------------------------------------------------------------- */
+
     /**
      * Blocked channels (all except these).
      *
@@ -81,7 +85,14 @@ class User extends Authenticatable
      */
     public function hiddenChannels()
     {
-        return DB::table('hidden_channels')->where('user_id', $this->id)->get()->pluck('channel_id');
+        return DB::table('blocked_channels')->where('user_id', $this->id)->get()->pluck('channel_id');
+    }
+
+    public function blockedChannels()
+    {
+        return $this->belongsToMany(Channel::class, 'blocked_channels')
+            ->withTimestamps()
+            ->orderBy('blocked_channels.created_at', 'desc');
     }
 
     public function seenAnnouncements()
