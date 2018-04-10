@@ -277,18 +277,6 @@ class ChannelController extends Controller
     }
 
     /**
-     * redirects old channel URLs (/c/channel/hot) to the new one (/c/channel). This is just to
-     * to prevent dead URLS and also to respect our old users who shared their channels on
-     * social media to support us. To them!
-     *
-     * @return redirect
-     */
-    public function redirect($channel)
-    {
-        return redirect('/c/'.$channel);
-    }
-
-    /**
      * Destroys the channel record and all its related records. Currently only Voten administrators have such permission.
      *
      * @param Channel $channel

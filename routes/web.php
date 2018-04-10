@@ -29,7 +29,6 @@ Route::group(['middleware' => ['http2']], function () {
 
     // guest browsing routes
     Route::get('/c/{channel}', 'ChannelController@show')->middleware('correct-view');
-    Route::get('/c/{channel}/hot', 'ChannelController@redirect');
     Route::get('/c/{channel}/{slug}', 'SubmissionController@show')->middleware('correct-view');
     Route::get('/@{username}', 'UserController@showSubmissions')->middleware('correct-view');
     Route::get('/@{username}/comments', 'UserController@showComments')->middleware('correct-view');
