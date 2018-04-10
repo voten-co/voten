@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Auth;
+use App\Channel;
 
 class ChannelsTest extends TestCase
 {
@@ -23,7 +24,7 @@ class ChannelsTest extends TestCase
     }
 
     /** @test */
-    public function a_user_with_good_karma_can_create_a_channel()
+    public function a_user_with_good_karma_can_create_a_channel_and_then_edit_it()
     {
         $user = create(User::class, ['submission_xp' => 10]);
 
@@ -51,6 +52,7 @@ class ChannelsTest extends TestCase
         $this->json('post', '/api/channels', [
             'name' => 'myNewChannel',
             'description' => 'describing my new cool channel',
+            'nsfw' => 1,
         ])
             ->assertStatus(201)
             ->assertJson([
@@ -58,18 +60,57 @@ class ChannelsTest extends TestCase
                     'name' => 'myNewChannel',
                     'description' => 'describing my new cool channel',
                     'subscribers_count' => 0,
-                    'submissions_count' => 0,
                     'comments_count' => 0,
+                    'nsfw' => true,
                     'cover_color' => 'Blue'
                 ]
             ]);
 
         $this->assertDatabaseHas('channels', [
             'name' => 'myNewChannel', 
-            'description' => 'describing my new cool channel'
+            'description' => 'describing my new cool channel', 
+            'nsfw' => true,
         ]);
 
         // assert that he's the administrator of the created channel 
         $this->assertTrue(Auth::user()->moderatingIds()->contains(1));
+
+        // assert edit 
+        $this->json("patch", "/api/channels/1", [
+            'description' => 'new description',
+            'cover_color' => 'Dark',
+            'nsfw' => 0,
+        ])->assertStatus(200);
+
+        $this->assertDatabaseHas('channels', [
+            'name' => 'myNewChannel', 
+            'description' => 'new description', 
+            'color' => 'Dark',
+            'nsfw' => false,
+        ]);
+    }
+
+    /** @test */
+    public function non_administrator_cannot_edit_channel()
+    {
+        $channel_creator = create(User::class, ['submission_xp' => 10]);
+
+        $this->signInViaPassport($channel_creator);
+
+        // assert creation  
+        $this->json('post', '/api/channels', [
+            'name' => 'myNewChannel',
+            'description' => 'describing my new cool channel',
+            'nsfw' => 1,
+        ])->assertStatus(201);
+
+        // login as a second user 
+        $this->signInViaPassport(create(User::class));
+        
+        $this->json("patch", "/api/channels/1", [
+            'description' => 'new description',
+            'cover_color' => 'Dark',
+            'nsfw' => 0,
+        ])->assertStatus(403);
     }
 }

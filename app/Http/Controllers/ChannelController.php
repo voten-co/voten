@@ -237,18 +237,13 @@ class ChannelController extends Controller
      *
      * @return response
      */
-    public function patch(Request $request)
+    public function patch(Request $request, Channel $channel)
     {
         $this->validate($request, [
-            'id'          => 'required|exists:channels',
             'description' => 'required|max:230|string',
             'cover_color' => 'required|in:Dark Blue,Blue,Red,Dark,Pink,Dark Green,Bright Green,Purple,Gray,Orange',
             'nsfw'        => 'required|boolean',
         ]);
-
-        $channel = $this->getChannelById(request('id'));
-
-        abort_unless($this->mustBeAdministrator($channel->id), 403);
 
         $channel->update([
             'description' => $request->description,
