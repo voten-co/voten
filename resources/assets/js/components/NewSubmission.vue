@@ -16,7 +16,8 @@
 				          :maxlength="150"
 				          :minlength="7"
 				          v-model="title">
-					<el-button round slot="append"
+					<el-button round
+					           slot="append"
 					           type="primary"
 					           v-if="submitURL && submissionType === 'link'"
 					           @click="getTitle(submitURL)"
@@ -222,7 +223,8 @@
 					</el-tooltip> -->
 				</div>
 
-				<el-button round type="success"
+				<el-button round
+				           type="success"
 				           size="mini"
 				           @click="submit"
 				           :disabled="!goodToGo"
@@ -270,7 +272,7 @@ export default {
             photosSizeLimit: 10,
             previewPhotoImage: '',
             previewPhotoFileName: '',
-            previewPhotoModal: false,
+            previewPhotoModal: false
 
             // GIF
             // gifTempArray: [],
@@ -286,28 +288,14 @@ export default {
     computed: {
         goodToGo() {
             if (this.submissionType == 'link') {
-                return (
-                    this.title.trim().length > 0 &&
-                    this.selectedCat &&
-                    this.submitURL &&
-                    !this.loading
-                );
+                return this.title.trim().length > 0 && this.selectedCat && this.submitURL && !this.loading;
             }
 
             if (this.submissionType == 'img') {
-                return (
-                    this.title.trim().length > 0 &&
-                    this.selectedCat &&
-                    this.photos.length &&
-                    !this.loading
-                );
+                return this.title.trim().length > 0 && this.selectedCat && this.photos.length && !this.loading;
             }
 
-            return (
-                this.title.trim().length > 0 &&
-                this.selectedCat &&
-                !this.loading
-            );
+            return this.title.trim().length > 0 && this.selectedCat && !this.loading;
         }
     },
 
@@ -379,18 +367,16 @@ export default {
 
             axios
                 .post('/submissions', formData)
-                .then((response) => {
+                .then(response => {
                     this.loading = false;
 
                     Store.state.submissions.likes.push(response.data.data.id);
-                    this.$router.push(
-                        '/c/' + this.selectedCat + '/' + response.data.data.slug
-                    );
+                    this.$router.push('/c/' + this.selectedCat + '/' + response.data.data.slug);
 
                     this.close();
                     this.reset();
                 })
-                .catch((error) => {
+                .catch(error => {
                     this.loading = false;
                     this.errors = error.response.data.errors;
                 });
@@ -445,12 +431,12 @@ export default {
                         url: typed
                     }
                 })
-                .then((response) => {
+                .then(response => {
                     this.title = response.data.data.title;
                     this.loadingTitle = false;
                     this.errors.url = [];
                 })
-                .catch((error) => {
+                .catch(error => {
                     this.errors = error.response.data.errors;
                     this.loadingTitle = false;
                 });
@@ -468,13 +454,14 @@ export default {
             this.loadingChannels = true;
 
             axios
-                .get('/get-channels', {
+                .get('/search', {
                     params: {
-                        name: typed
+                        type: 'Channels',
+                        keyword: typed
                     }
                 })
-                .then((response) => {
-                    this.suggestedCats = response.data;
+                .then(response => {
+                    this.suggestedCats = _.map(response.data.data, 'name');
                     this.loadingChannels = false;
                 })
                 .catch(() => {

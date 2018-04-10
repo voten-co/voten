@@ -66,7 +66,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/channel-block', 'BlockChannelsController@store');
     Route::delete('/channel-unblock', 'BlockChannelsController@destroy');
     Route::post('/channels/{channel}', 'ChannelController@destroy')->middleware('voten-administrator');
-    Route::get('/get-channels', 'ChannelController@getChannels');
     Route::get('/subscribed-channels', 'SubscribeController@index');
     Route::post('/channels/{channel}/bookmark', 'BookmarksController@bookmarkChannel'); // checked 
     Route::get('/channels/bookmarked', 'BookmarksController@getBookmarkedChannels'); // checked 

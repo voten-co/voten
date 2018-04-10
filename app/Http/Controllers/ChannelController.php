@@ -257,24 +257,6 @@ class ChannelController extends Controller
     }
 
     /**
-     * Searches channels. Mostly used for submiting new submissions.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function getChannels(Request $request)
-    {
-        $this->validate($request, [
-            'name' => 'required|alpha_num|max:25',
-        ]);
-
-        return Channel::where('name', 'like', '%'.$request->name.'%')
-            ->orderBy('subscribers', 'desc')
-            ->select('name')->take(100)->get()->pluck('name');
-    }
-
-    /**
      * Destroys the channel record and all its related records. Currently only Voten administrators have such permission.
      *
      * @param Channel $channel
