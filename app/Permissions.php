@@ -172,6 +172,8 @@ trait Permissions
      */
     protected function mustHaveMinimumXp($number)
     {
+        return (Auth::user()->submission_xp + Auth::user()->comment_xp) >= $number; 
+
         $stats = $this->userStats(Auth::id());
 
         return ($stats['submission_xp'] + $stats['comment_xp']) >= $number;

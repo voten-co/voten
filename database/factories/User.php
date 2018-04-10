@@ -23,5 +23,8 @@ $factory->define(\App\User::class, function (Faker $faker) {
             'website' => null,
             'twitter' => null,
         ],
+
+        'submission_xp' => 0, 
+        'comment_xp' => 0, 
     ];
 });

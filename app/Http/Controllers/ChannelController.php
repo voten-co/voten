@@ -155,14 +155,17 @@ class ChannelController extends Controller
         ]);
 
         if (!$this->mustHaveMinimumXp(10) && !$this->mustBeWhitelisted()) {
-            return response('During beta, channel creation requires a minimum of 10 xp points.
-            Either do a bit of activity or contact administrators to lift the limits for your account.', 403);
+            return res(
+                403, 
+                'During beta, channel creation requires a minimum of 10 xp points.
+                Either do a bit of activity or contact administrators to lift the limits for your account.'
+            );
         }
 
         $tooEarly = $this->tooEarlyToCreate();
 
         if ($tooEarly != false) {
-            return response("Looks like you're over doing it. You can create another channel in ".$tooEarly.' seconds. Thank you for being patient.', 500);
+            return res(423, "Looks like you're over doing it. You can create another channel in ".$tooEarly.' seconds. Thank you for being patient.');
         }
 
         $channel = Channel::create([
@@ -175,7 +178,7 @@ class ChannelController extends Controller
 
         $this->setInitialUserToChannelRoles(Auth::user(), $channel);
 
-        return $channel;
+        return new ChannelResource($channel);
     }
 
     /**

@@ -60,8 +60,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/comments/{comment}/bookmark', 'BookmarksController@bookmarkComment'); // checked
     Route::get('/comments/bookmarked', 'BookmarksController@getBookmarkedComments'); // checked  
 
-    // Channel
-    Route::post('/channels', 'ChannelController@store')->middleware('shaddow-ban');
+    // channel
+    Route::post('/channels', 'ChannelController@store')->middleware('shaddow-ban'); // checked
     Route::patch('/channels', 'ChannelController@patch');
     Route::post('/channel-block', 'BlockChannelsController@store');
     Route::delete('/channel-unblock', 'BlockChannelsController@destroy');

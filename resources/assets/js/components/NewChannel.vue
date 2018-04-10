@@ -132,15 +132,15 @@ export default {
                     this.errors = [];
 
                     // let's add the categoriy_id to the user's moderatingAt and administratorAt
-                    Store.state.moderatingAt.push(response.data.id);
-                    Store.state.administratorAt.push(response.data.id);
-                    Store.state.moderatingChannels.push(response.data);
-                    Store.state.subscribedChannels.push(response.data);
-                    Store.state.subscribedAt.push(response.data.id);
-                    Store.page.channel.temp = response.data;
+                    Store.state.moderatingAt.push(response.data.data.id);
+                    Store.state.administratorAt.push(response.data.data.id);
+                    Store.state.moderatingChannels.push(response.data.data);
+                    Store.state.subscribedChannels.push(response.data.data);
+                    Store.state.subscribedAt.push(response.data.data.id);
+                    Store.page.channel.temp = response.data.data;
 
                     this.$router.push(
-                        '/c/' + response.data.name + '/mod/settings?created=1'
+                        '/c/' + response.data.data.name + '/mod/settings?created=1'
                     );
 
                     this.loading = false;
