@@ -75,9 +75,7 @@ export default {
                 this.subscribed = !this.subscribed;
 
                 axios
-                    .post('/subscribe', {
-                        channel_id: Store.page.channel.temp.id
-                    })
+                    .post(`/channels/${Store.page.channel.temp.id}/subscribe`)
                     .catch(() => {
                         this.subscribed = !this.subscribed;
                     });

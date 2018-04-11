@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Resources\ChannelResource;
 use App\Traits\CachableChannel;
 use App\Traits\CachableUser;
-use Auth;
 use Illuminate\Http\Request;
+use App\Channel;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class SubscribeController extends Controller
 {
@@ -19,62 +21,65 @@ class SubscribeController extends Controller
 
     public function index()
     {
-        return ChannelResource::collection(Auth::user()->subscriptions()->simplePaginate(20));
+        return ChannelResource::collection(
+            Auth::user()->subscriptions()->simplePaginate(20)
+        );
     }
 
     /**
-     * subscribing/unsubscrbing to channels.
+     * Toggle subscription to a channel.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param integer $channel 
      *
-     * @return status
+     * @return Response 
      */
-    public function subscribeToggle(Request $request)
+    public function subscribe(Channel $channel)
     {
-        $this->validate($request, [
-            'channel_id' => 'required|integer',
-        ]);
-
-        $user = Auth::user();
-
-        try {
-            $result = $user->subscriptions()->toggle($request->channel_id);
-        } catch (\Exception $e) {
-            return response('duplicate action', 200);
+        if ($isUnsubscribed = $this->hasAlreadySubscribed($channel->id)) {
+            Auth::user()->subscriptions()->detach($channel->id);
+        } else {
+            Auth::user()->subscriptions()->attach($channel->id);
         }
 
-        // subscibed
-        if ($result['attached']) {
-            $this->updateSubscriptions($user->id, $request->channel_id, true);
+        $this->handleCache(Auth::id(), $channel->id, $isUnsubscribed);
 
-            $this->updateChannelSubscribersCount($request->channel_id);
-
-            return response('Subscribed', 200);
-        }
-
-        // unsubscribed
-        $this->updateSubscriptions($user->id, $request->channel_id, false);
-
-        $this->updateChannelSubscribersCount($request->channel_id, -1);
-
-        return response('Unsubscribed', 200);
+        return $isUnsubscribed ? res(200, "Unsubscribed from {$channel->name} channel successfully.") : res(201, "Subscribed to {$channel->name} successfully.");
     }
 
     /**
-     * whether or not the user is subscribed to the channel.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return string
+     * Handles cache records that need modifications because of the new subscriptio record. 
+     * 
+     * @param integer $user_id 
+     * @param integer $channel_id 
+     * @param boolean $isUnsubscribed 
+     * 
+     * @return void 
      */
-    public function isSubscribed(Request $request)
+    protected function handleCache($user_id, $channel_id, $isUnsubscribed)
     {
-        $this->validate($request, [
-            'channel_id' => 'required|integer',
-        ]);
+        if ($isUnsubscribed) {
+            $this->updateSubscriptions($user_id, $channel_id, false);
+            $this->updateChannelSubscribersCount($channel_id, -1);
 
-        $subscriptions = $this->subscriptions();
+            return;
+        }
 
-        return in_array($request->channel_id, $subscriptions) ? 'true' : 'false';
+        $this->updateSubscriptions($user_id, $channel_id, true);
+        $this->updateChannelSubscribersCount($channel_id);
+    }
+
+    /**
+    * Is Auth user already subscribed to the channel. 
+    * 
+    * @param integer $channel_id 
+
+    * @return boolean 
+    */
+    protected function hasAlreadySubscribed($channel_id)
+    {
+        return DB::table('subscriptions')->where([
+            ['user_id', Auth::id()], 
+            ['channel_id', $channel_id]
+        ])->exists();    
     }
 }

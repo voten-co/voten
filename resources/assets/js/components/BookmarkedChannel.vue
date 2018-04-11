@@ -152,9 +152,7 @@ export default {
                 this.subscribed = !this.subscribed;
 
                 axios
-                    .post('/subscribe', {
-                        channel_id: this.list.id
-                    })
+                    .post(`/channels/${this.list.id}/subscribe`)
                     .catch(() => {
                         this.subscribed = !this.subscribed;
                     });

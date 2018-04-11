@@ -11,23 +11,18 @@ export default {
             this.loading = true;
 
             axios
-                .get('/subscribed-channels', {
-                    params: {
-                        page: this.page
-                    }
-                })
-                .then((response) => {
+                .get('/channels/subscribed', { params: { page: this.page } })
+                .then(response => {
                     this.channels = [...this.channels, ...response.data.data];
 
-                    if (response.data.links.next == null)
-                        this.NoMoreItems = true;
+                    if (response.data.links.next == null) this.NoMoreItems = true;
                     if (this.channels.length == 0) this.nothingFound = true;
 
                     this.loading = false;
 
                     resolve(response);
                 })
-                .catch((error) => {
+                .catch(error => {
                     reject(error);
                 });
         });

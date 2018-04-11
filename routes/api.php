@@ -65,10 +65,11 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::patch('/channels/{channel}', 'ChannelController@patch')->middleware('administrator'); // checked 
     Route::post('/channels/{channel}/block', 'BlockChannelsController@block'); // checked 
     Route::post('/channels/{channel}/destroy', 'ChannelController@destroy')->middleware('voten-administrator'); // checked 
-    Route::get('/subscribed-channels', 'SubscribeController@index');
     Route::post('/channels/{channel}/bookmark', 'BookmarksController@bookmarkChannel'); // checked 
     Route::get('/channels/bookmarked', 'BookmarksController@getBookmarkedChannels'); // checked 
     Route::get('/channels/discover', 'SuggestionController@discover'); // checked 
+    Route::post('/channels/{channel}/subscribe', 'SubscribeController@subscribe'); // checked
+    Route::get('/channels/subscribed', 'SubscribeController@index'); // checked 
 
     // rule
     Route::post('/channels/{channel}/rules', 'RulesController@store')->middleware('administrator'); // checked 
@@ -123,10 +124,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     // notification
     Route::get('/notifications', 'NotificationsController@index'); // checked 
     Route::post('/notifications', 'NotificationsController@markAsRead'); // checked 
-
-    // subscribe
-    Route::post('/subscribe', 'SubscribeController@subscribeToggle')->middleware('shaddow-ban');
-    Route::get('/is-subscribed', 'SubscribeController@isSubscribed');
 
     // report
     Route::post('/comments/reports', 'ReportCommentsController@store')->middleware('shaddow-ban');

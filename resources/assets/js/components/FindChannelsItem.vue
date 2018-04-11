@@ -42,9 +42,7 @@ export default {
 
             Store.state.subscribedChannels.push(this.list);
 
-            axios.post('/subscribe', {
-                channel_id: this.list.id
-            });
+            axios.post(`/channels/${this.list.id}/subscribe`);
         }
     }
 };
