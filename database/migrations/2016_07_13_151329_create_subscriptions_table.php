@@ -16,7 +16,6 @@ class CreateSubscriptionsTable extends Migration
             $table->primary(['user_id', 'channel_id']);
             $table->integer('user_id')->unsigned()->index();
             $table->integer('channel_id')->unsigned()->index();
-            // $table->timestamps();
         });
     }
 
