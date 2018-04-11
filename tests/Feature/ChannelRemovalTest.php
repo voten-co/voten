@@ -78,4 +78,48 @@ class ChannelRemovalTest extends TestCase
             ->assertStatus(200)
             ->assertJsonCount(2, 'data');
     }
+
+    /** @test */
+    public function a_voten_administrator_can_delete_a_channel()
+    {
+        $channel = create(Channel::class);
+        $submission = create(Submission::class, ['channel_name' => $channel->name, 'channel_id' => $channel->id]);
+        
+        $this->assertDatabaseHas('channels', [
+            'id' => $channel->id,
+            'name' => $channel->name,
+        ]);
+        $this->assertDatabaseHas('submissions', [
+            'id' => $submission->id,
+            'slug' => $submission->slug,
+        ]);
+
+        // assert current password is sent correctly 
+        $this->json("post", "/api/channels/{$channel->id}/destroy", [
+            'password' => 'not_correct_password'
+        ])  
+            ->assertStatus(422)
+            ->assertJson([
+                "message" => "The given data was invalid.",
+                "errors" => [
+                    "password" => [
+                        "Password is incorrect.",
+                    ]
+                ],
+            ]);
+
+        // assert destroy 
+        $this->json("post", "/api/channels/{$channel->id}/destroy", [
+            'password' => 'password'
+        ])->assertStatus(200);
+
+        $this->assertDatabaseMissing('channels', [
+            'id' => $channel->id,
+            'name' => $channel->name,
+        ]);
+        $this->assertDatabaseMissing('submissions', [
+            'id' => $submission->id,
+            'slug' => $submission->slug,
+        ]);
+    }
 }
