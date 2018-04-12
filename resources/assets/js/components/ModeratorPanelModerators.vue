@@ -9,23 +9,24 @@
 		<el-form label-position="top"
 		         label-width="10px">
 			<el-form-item label="Username">
-				<el-select v-model="username"
+				<el-select v-model="addModeratorForm.user_id"
+				           value-key="username"
 				           filterable
 				           remote
 				           placeholder="Search by username..."
 				           :remote-method="search"
 				           loading-text="Loading..."
-				           :loading="loading">
-					<el-option v-for="item in users"
-					           :key="item"
-					           :label="item"
-					           :value="item">
+				           :loading="addModeratorForm.loading">
+					<el-option v-for="item in addModeratorForm.users"
+					           :key="item.id"
+					           :label="item.username"
+					           :value="item.id">
 					</el-option>
 				</el-select>
 			</el-form-item>
 
 			<el-form-item label="Role">
-				<el-radio-group v-model="role">
+				<el-radio-group v-model="addModeratorForm.role">
 					<el-radio label="administrator"
 					          border></el-radio>
 					<el-radio label="moderator"
@@ -37,9 +38,9 @@
 				<el-button round
 				           type="success"
 				           size="medium"
-				           v-if="role && username"
+				           v-if="addModeratorForm.role && addModeratorForm.user_id"
 				           @click="addModerator"
-				           :loading="sending">
+				           :loading="addModeratorForm.sending">
 					Add
 				</el-button>
 			</el-form-item>
@@ -67,11 +68,14 @@ export default {
 
     data() {
         return {
-            username: null,
-            users: [],
-            loading: false,
-            sending: false,
-            role: 'moderator',
+            addModeratorForm: {
+                user_id: null,
+                users: [],
+                role: 'moderator',
+                sending: false,
+                loading: false,
+            }, 
+            
             mods: []
         };
     },
@@ -84,14 +88,10 @@ export default {
         getMods() {
             app.$Progress.finish();
             app.$Progress.start();
-            this.users = [];
+            this.addModeratorForm.users = [];
 
             axios
-                .get('/moderators', {
-                    params: {
-                        channel_name: this.$route.params.name
-                    }
-                })
+                .get(`/channels/${Store.page.channel.temp.id}/moderators`)
                 .then(response => {
                     this.mods = response.data.data;
                     app.$Progress.finish();
@@ -103,7 +103,7 @@ export default {
 
         search: _.debounce(function(query) {
             if (!query.trim()) return;
-            this.loading = true;
+            this.addModeratorForm.loading = true;
 
             axios
                 .get('/search', {
@@ -113,32 +113,31 @@ export default {
                     }
                 })
                 .then(response => {
-                    this.users = _.map(response.data.data, 'username');
-                    this.loading = false;
+                    this.addModeratorForm.users = response.data.data;
+                    this.addModeratorForm.loading = false;
                 })
                 .catch(error => {
-                    this.loading = false;
+                    this.addModeratorForm.loading = false;
                 });
         }, 600),
 
         addModerator() {
-            this.sending = true;
+            this.addModeratorForm.sending = true;
 
             axios
-                .post('/moderators', {
-                    channel_id: Store.page.channel.temp.id,
-                    username: this.username,
-                    role: this.role
+                .post(`/channels/${Store.page.channel.temp.id}/moderators`, {
+                    user_id: this.addModeratorForm.user_id,
+                    role: this.addModeratorForm.role
                 })
                 .then(() => {
-                    this.username = null;
-                    this.role = 'moderator';
+                    this.addModeratorForm.user_id = null;
+                    this.addModeratorForm.role = 'moderator';
 
                     this.getMods();
-                    this.sending = false;
+                    this.addModeratorForm.sending = false;
                 })
                 .catch(() => {
-                    this.sending = false;
+                    this.addModeratorForm.sending = false;
                 });
         }
     }

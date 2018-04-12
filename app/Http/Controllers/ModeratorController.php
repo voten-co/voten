@@ -30,28 +30,15 @@ class ModeratorController extends Controller
     }
 
     /**
-     * returns cateogry's mods with their role.
+     * Returns channel's list of moderators with their role.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Channel $channel
      *
      * @return \Illuminate\Support\Collection
      */
-    public function index(Request $request)
+    public function index(Channel $channel)
     {
-        $this->validate($request, [
-            'channel_name' => 'required_without:channel_id|exists:channels,name',
-            'channel_id'   => 'required_without:channel_name|exists:channels,id',
-        ]);
-
-        if ($request->filled('channel_name')) {
-            return ModeratorResource::collection(
-                Channel::where('name', $request->channel_name)->first()->moderators
-            );
-        }
-
-        return ModeratorResource::collection(
-            Channel::findOrFail($request->channel_id)->moderators
-        );
+        return ModeratorResource::collection($channel->moderators);
     }
 
     /**
@@ -178,27 +165,24 @@ class ModeratorController extends Controller
      *
      * @return response
      */
-    public function store(Request $request)
+    public function store(Request $request, Channel $channel)
     {
         $this->validate($request, [
-            'channel_id' => 'required|exists:channels,id',
-            'username'   => ['required', 'exists:users', new NotSelfUsername()],
+            'user_id'   => 'required|exists:users,id',
             'role'       => 'in:administrator,moderator',
         ]);
 
-        $channel = $this->getChannelById(request('channel_id'));
-
-        abort_unless($this->mustBeAdministrator($channel->id), 403);
-
-        $user = User::where('username', $request->username)->firstOrFail();
-
-        $channel->moderators()->attach($user->id, [
+        $channel->moderators()->attach(request('user_id'), [
             'role' => $request->role,
         ]);
 
-        $user->notify(new BecameModerator($channel, $request->role));
+        $new_moderator = User::find(request('user_id'));
 
-        $this->updateChannelMods($channel->id, $user->id);
+        $new_moderator->notify(
+            new BecameModerator($channel, $request->role)
+        );
+
+        $this->updateChannelMods($channel->id, request('user_id'));
 
         return res(201, 'New moderator added successfully');
     }
@@ -208,23 +192,12 @@ class ModeratorController extends Controller
      *
      * @return response
      */
-    public function destroy(Request $request)
+    public function destroy(Channel $channel, User $user)
     {
-        $this->validate($request, [
-            'channel_name' => 'required',
-            'username'     => 'required',
-        ]);
+        $channel->moderators()->detach($user->id);
 
-        $channel = Channel::where('name', $request->channel_name)->firstOrFail();
+        $this->updateChannelMods($channel->id, $user->id);
 
-        abort_unless($this->mustBeAdministrator($channel->id) && $request->username != Auth::user()->username, 403);
-
-        $user_id = User::where('username', $request->username)->value('id');
-
-        $channel->moderators()->detach($user_id);
-
-        $this->updateChannelMods($channel->id, $user_id);
-
-        return response($request->username.' is no longer a moderator at #'.$request->channel_name, 200);
+        return res(200, $user->username.' is no longer a moderator at #'. $channel->name);
     }
 }

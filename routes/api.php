@@ -95,8 +95,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::delete('/admin/users/bans', 'BanController@destroyAsVotenAdministrator')->middleware('voten-administrator');
 
     // moderation
-    Route::post('/moderators', 'ModeratorController@store');
-    Route::post('/destroy-moderator', 'ModeratorController@destroy');
+    Route::post('/channels/{channel}/moderators', 'ModeratorController@store')->middleware('administrator'); // checked 
+    Route::delete('/channels/{channel}/moderators/{user}', 'ModeratorController@destroy')->middleware('administrator'); // checked
     Route::post('/approve-comment', 'ModeratorController@approveComment');
     Route::post('/approve-submission', 'ModeratorController@approveSubmission');
     Route::post('/disapprove-comment', 'ModeratorController@disapproveComment');
@@ -145,7 +145,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('/submissions', 'SubmissionController@get');
     Route::get('/submissions/{submission}/comments', 'CommentController@index');
-    Route::get('/moderators', 'ModeratorController@index');
+    Route::get('/channels/{channel}/moderators', 'ModeratorController@index'); // checked 
     Route::get('/channels/rules', 'RulesController@index');
     Route::get('/emojis', 'EmojiController@index');
     Route::get('/submissions/photos', 'SubmissionController@getPhotos');
@@ -167,7 +167,7 @@ Route::prefix('guest')->group(function () {
 
     Route::get('/submissions', 'SubmissionController@get');
     Route::get('/submissions/{submission}/comments', 'CommentController@index');
-    Route::get('/moderators', 'ModeratorController@index');
+    Route::get('/channels/{channel}/moderators', 'ModeratorController@index'); // checked 
     Route::get('/channels/rules', 'RulesController@index');
     Route::get('/emojis', 'EmojiController@index');
     Route::get('/submissions/photos', 'SubmissionController@getPhotos');

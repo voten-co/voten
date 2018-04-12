@@ -40,10 +40,7 @@ export default {
     methods: {
         destroy() {
             axios
-                .post('/destroy-moderator', {
-                    username: this.list.username,
-                    channel_name: this.$route.params.name
-                })
+                .delete(`/channels/${Store.page.channel.temp.id}/moderators/${this.list.id}`)
                 .then(() => {
                     this.$emit('delete-moderator');
                 });

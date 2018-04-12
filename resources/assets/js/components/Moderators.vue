@@ -59,11 +59,7 @@ export default {
     methods: {
         getModerators() {
             axios
-                .get('/moderators', {
-                    params: {
-                        channel_name: this.$route.params.name
-                    }
-                })
+                .get(`/channels/${Store.page.channel.temp.id}/moderators`)
                 .then((response) => {
                     this.list = response.data.data;
                     this.loading = false;
