@@ -10,6 +10,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Auth;
 
 class ChannelRemovalTest extends TestCase
 {
@@ -34,21 +35,9 @@ class ChannelRemovalTest extends TestCase
         $moderator = create(User::class, ['username' => 'admin']);
 
         // create moderators for channels
-        $this->json('POST', '/api/moderators', [
-            'channel_id' => $inactive_channel1->id,
-            'username' => 'admin',
-            'role' => 'administrator',
-        ])->assertStatus(201);
-        $this->json('POST', '/api/moderators', [
-            'channel_id' => $inactive_channel2->id,
-            'username' => 'admin',
-            'role' => 'administrator',
-        ])->assertStatus(201);
-        $this->json('POST', '/api/moderators', [
-            'channel_id' => $active_channel->id,
-            'username' => 'admin',
-            'role' => 'administrator',
-        ])->assertStatus(201);
+        $inactive_channel1->moderators()->attach(Auth::id(), ['role' => 'administrator']);
+        $inactive_channel2->moderators()->attach(Auth::id(), ['role' => 'administrator']);
+        $active_channel->moderators()->attach(Auth::id(), ['role' => 'administrator']); 
 
         create(Submission::class, [
             'channel_name' => $active_channel->name, 'channel_id' => $active_channel->id, 'created_at' => now()->subMonth(),

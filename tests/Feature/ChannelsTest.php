@@ -59,8 +59,6 @@ class ChannelsTest extends TestCase
                 'data' => [
                     'name' => 'myNewChannel',
                     'description' => 'describing my new cool channel',
-                    'subscribers_count' => 0,
-                    'comments_count' => 0,
                     'nsfw' => true,
                     'cover_color' => 'Blue'
                 ]
