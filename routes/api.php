@@ -20,7 +20,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     // feedback
     Route::get('/feedbacks/{feedback}', 'FeedbacksController@get')->middleware('voten-administrator'); // checked
     Route::get('/feedbacks', 'FeedbacksController@index')->middleware('voten-administrator'); // checked
-    Route::post('/feedbacks', 'FeedbacksController@store')->middleware('shaddow-ban'); // checked
+    Route::post('/feedbacks', 'FeedbacksController@store')->middleware('shadow-ban'); // checked
     Route::delete('/feedbacks/{feedback}', 'FeedbacksController@destroy')->middleware('voten-administrator'); // checked
 
     // user
@@ -39,7 +39,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/users/bookmarked', 'BookmarksController@getBookmarkedUsers'); // checked 
 
     // submission
-    Route::post('/submissions', 'SubmissionController@store')->middleware('shaddow-ban'); // checked 
+    Route::post('/submissions', 'SubmissionController@store')->middleware('shadow-ban'); // checked 
     Route::patch('/submissions/{submission}', 'SubmissionController@patchTextSubmission'); // checked 
     Route::delete('/submissions/{submission}', 'SubmissionController@destroy'); // checked 
     Route::post('/submissions/{submission}/hide', 'BlockSubmissionsController@store'); // checked 
@@ -53,7 +53,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/submissions/bookmarked', 'BookmarksController@getBookmarkedSubmissions'); // checked 
 
     // Comment
-    Route::post('/comments', 'CommentController@store')->middleware('shaddow-ban'); // checked
+    Route::post('/comments', 'CommentController@store')->middleware('shadow-ban'); // checked
     Route::patch('/comments/{comment}', 'CommentController@patch'); // checked
     Route::delete('/comments/{comment}', 'CommentController@destroy'); // checked
     Route::post('/comments/{comment}/like', 'CommentLikesController@like'); // checked
@@ -61,7 +61,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/comments/bookmarked', 'BookmarksController@getBookmarkedComments'); // checked  
 
     // channel
-    Route::post('/channels', 'ChannelController@store')->middleware('shaddow-ban'); // checked
+    Route::post('/channels', 'ChannelController@store')->middleware('shadow-ban'); // checked
     Route::patch('/channels/{channel}', 'ChannelController@patch')->middleware('administrator'); // checked 
     Route::post('/channels/{channel}/block', 'BlockChannelsController@block'); // checked 
     Route::post('/channels/{channel}/destroy', 'ChannelController@destroy')->middleware('voten-administrator'); // checked 
@@ -103,7 +103,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/disapprove-submission', 'ModeratorController@disapproveSubmission');
 
     // messages
-    Route::post('/messages', 'MessagesController@store')->middleware('shaddow-ban');
+    Route::post('/messages', 'MessagesController@store')->middleware('shadow-ban');
     Route::get('/messages', 'MessagesController@index');
     Route::delete('/messages', 'MessagesController@destroy');
     Route::post('/messages/read', 'MessagesController@markAsRead');
@@ -117,18 +117,18 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     // Photo uploading
     Route::post('/channels/{channel}/avatar', 'PhotoController@channelAvatar')->middleware('administrator');
-    Route::post('/users/avatar', 'PhotoController@userAvatar')->middleware('shaddow-ban');
-    Route::post('/photos', 'PhotoController@store')->middleware('shaddow-ban');
-    // Route::post('/gifs', 'GifController@store')->middleware('shaddow-ban');
+    Route::post('/users/avatar', 'PhotoController@userAvatar')->middleware('shadow-ban');
+    Route::post('/photos', 'PhotoController@store')->middleware('shadow-ban');
+    // Route::post('/gifs', 'GifController@store')->middleware('shadow-ban');
 
     // notification
     Route::get('/notifications', 'NotificationsController@index'); // checked 
     Route::post('/notifications', 'NotificationsController@markAsRead'); // checked 
 
     // report
-    Route::post('/comments/reports', 'ReportCommentsController@store')->middleware('shaddow-ban');
+    Route::post('/comments/reports', 'ReportCommentsController@store')->middleware('shadow-ban');
     Route::get('/comments/reports', 'ReportCommentsController@index');
-    Route::post('/submissions/reports', 'ReportSubmissionsController@store')->middleware('shaddow-ban');
+    Route::post('/submissions/reports', 'ReportSubmissionsController@store')->middleware('shadow-ban');
     Route::get('/submissions/reports', 'ReportSubmissionsController@index');
 
     Route::post('/announcement/seen', 'AnnouncementController@seen');

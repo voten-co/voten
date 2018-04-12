@@ -67,6 +67,6 @@ class Kernel extends HttpKernel
         'voten-administrator' => MustBeVotenAdministrator::class,
         'administrator'       => MustBeAdministrator::class,
         'moderator'           => MustBeModerator::class,
-        'shaddow-ban'         => ShadowBan::class,
+        'shadow-ban'         => ShadowBan::class,
     ];
 }
