@@ -480,7 +480,6 @@ export default {
             this.loadingChannels = false;
             this.selectedCat = null;
             this.suggestedCats = [];
-            this.submissionType = 'text';
             this.title = '';
             this.sfw = true;
 
