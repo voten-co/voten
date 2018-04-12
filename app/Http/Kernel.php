@@ -3,7 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\Firewall;
-use App\Http\Middleware\LoadDefaultViewForAuthinticatedUsers;
+use App\Http\Middleware\LoadDefaultViewForAuthenticatedUsers;
 use App\Http\Middleware\MustBeAdministrator;
 use App\Http\Middleware\MustBeModerator;
 use App\Http\Middleware\MustBeVotenAdministrator;
@@ -63,7 +63,7 @@ class Kernel extends HttpKernel
         'guest'               => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle'            => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'http2'               => \JacobBennett\Http2ServerPush\Middleware\AddHttp2ServerPush::class,
-        'correct-view'        => LoadDefaultViewForAuthinticatedUsers::class,
+        'correct-view'        => LoadDefaultViewForAuthenticatedUsers::class,
         'voten-administrator' => MustBeVotenAdministrator::class,
         'administrator'       => MustBeAdministrator::class,
         'moderator'           => MustBeModerator::class,

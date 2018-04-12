@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class LoadDefaultViewForAuthinticatedUsers
+class LoadDefaultViewForAuthenticatedUsers
 {
     /**
      * Handle an incoming request.
