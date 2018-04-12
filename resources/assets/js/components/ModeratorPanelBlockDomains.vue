@@ -38,8 +38,9 @@
 				           size="medium"
 				           type="danger"
 				           v-if="domain"
-				           @click="blockDomain"
-				           :loading="sending">Block
+				           @click="store"
+				           :loading="sending">
+					Block
 				</el-button>
 			</el-form-item>
 		</el-form>
@@ -54,7 +55,7 @@
 		<blocked-domain v-for="blocked in blockedDomains"
 		                :list="blocked"
 		                :key="blocked.id"
-		                @unblock="unblock"></blocked-domain>
+		                @unblock="destroy"></blocked-domain>
 	</section>
 </template>
 
@@ -64,7 +65,7 @@ import BlockedDomain from '../components/BlockedDomain.vue';
 export default {
     components: { BlockedDomain },
 
-    data: function() {
+    data() {
         return {
             loading: false,
             sending: false,
@@ -76,21 +77,20 @@ export default {
     },
 
     created() {
-        this.getBlockedDomains();
+        this.get();
     },
 
     methods: {
-        blockDomain() {
+        store() {
             if (!this.domain) return;
 
             this.sending = true;
             this.blockErrors = [];
 
             axios
-                .post('/channels/domains/block', {
+                .post(`/channels/${Store.page.channel.temp.id}/blocked-domains`, {
                     domain: this.domain,
-                    description: this.description,
-                    channel_id: Store.page.channel.temp.id
+                    description: this.description
                 })
                 .then(response => {
                     this.domain = '';
@@ -110,17 +110,13 @@ export default {
          *
          * @return void
          */
-        getBlockedDomains() {
+        get() {
             app.$Progress.finish();
             app.$Progress.start();
             this.loading = true;
 
             axios
-                .get('/channels/domains/block', {
-                    params: {
-                        channel_id: Store.page.channel.temp.id
-                    }
-                })
+                .get(`/channels/${Store.page.channel.temp.id}/blocked-domains`)
                 .then(response => {
                     this.blockedDomains = response.data.data;
                     this.loading = false;
@@ -137,18 +133,11 @@ export default {
          *
          * @return void
          */
-        unblock(domain) {
+        destroy(blocked_domain_id) {
             axios
-                .delete('/channels/domains/block', {
-                    params: {
-                        domain: domain,
-                        channel_id: Store.page.channel.temp.id
-                    }
-                })
-                .then(() => {
-                    this.blockedDomains = this.blockedDomains.filter(function(item) {
-                        return item.domain != domain;
-                    });
+                .delete(`/channels/${Store.page.channel.temp.id}/blocked-domains/${blocked_domain_id}`)
+                .then(response => {
+                    this.blockedDomains = this.blockedDomains.filter(item => item.id != blocked_domain_id);
                 });
         }
     }

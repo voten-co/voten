@@ -77,9 +77,9 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::delete('/channels/{channel}/rules/{rule}', 'RulesController@destroy')->middleware('administrator'); // checked 
 
     // block domain
-    Route::get('/channels/domains/block', 'BlockDomainController@indexAsChannelModerator')->middleware('moderator');
-    Route::post('/channels/domains/block', 'BlockDomainController@storeAsChannelModerator')->middleware('moderator');
-    Route::delete('/channels/domains/block', 'BlockDomainController@destroyAsChannelModerator')->middleware('moderator');
+    Route::get('/channels/{channel}/blocked-domains', 'BlockDomainController@indexAsChannelModerator')->middleware('moderator'); // checked 
+    Route::post('/channels/{channel}/blocked-domains', 'BlockDomainController@storeAsChannelModerator')->middleware('moderator'); // checked 
+    Route::delete('/channels/{channel}/blocked-domains/{domain}', 'BlockDomainController@destroyAsChannelModerator')->middleware('moderator'); // checked 
     // (admin)
     Route::get('/admin/domains/block', 'BlockDomainController@indexAsVotenAdministrator')->middleware('voten-administrator');
     Route::post('/admin/domains/block', 'BlockDomainController@storeAsVotenAdministrator')->middleware('voten-administrator');

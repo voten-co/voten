@@ -15,7 +15,7 @@
                 </el-tooltip>
 
                 <el-tooltip content="Unblock" placement="top" transition="false" :open-delay="500">
-                    <i class="pointer v-icon go-gray v-delete h-red" @click="$emit('unblock', list.domain)"></i>
+                    <i class="pointer v-icon go-gray v-delete h-red" @click="$emit('unblock', list.id)"></i>
                 </el-tooltip>
             </div>
         </div>
