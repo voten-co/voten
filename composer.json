@@ -28,6 +28,7 @@
         "zachleigh/laravel-vue-generators": "^0.1.1"
     },
     "require-dev": {
+        "codedungeon/phpunit-result-printer": "^0.14.0",
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
