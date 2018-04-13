@@ -13,7 +13,7 @@
 		<el-form label-position="top"
 		         label-width="10px">
 			<el-form-item label="Username">
-				<el-select v-model="username"
+				<el-select v-model="user_id"
 				           filterable
 				           remote
 				           placeholder="Search by username..."
@@ -21,9 +21,9 @@
 				           loading-text="Loading..."
 				           :loading="loading">
 					<el-option v-for="item in users"
-					           :key="item"
-					           :label="item"
-					           :value="item">
+					           :key="item.id"
+					           :label="item.username"
+					           :value="item.id">
 					</el-option>
 				</el-select>
 			</el-form-item>
@@ -46,8 +46,8 @@
 				<el-button round
 				           size="medium"
 				           type="danger"
-				           v-if="username"
-				           @click="banUser"
+				           v-if="user_id"
+				           @click="store"
 				           :loading="sending">Ban</el-button>
 			</el-form-item>
 		</el-form>
@@ -62,7 +62,7 @@
 		<banned-user v-for="banned in bannedUsers"
 		             :list="banned"
 		             :key="banned.id"
-		             @unban="unban"></banned-user>
+		             @unban="destroy"></banned-user>
 	</section>
 </template>
 
@@ -78,7 +78,7 @@ export default {
         return {
             loading: false,
             sending: false,
-            username: null,
+            user_id: null,
             description: '',
             duration: 1,
             users: [],
@@ -88,7 +88,7 @@ export default {
     },
 
     created() {
-        this.getBannedUsers();
+        this.index();
     },
 
     methods: {
@@ -104,7 +104,7 @@ export default {
                     }
                 })
                 .then(response => {
-                    this.users = _.map(response.data.data, 'username');
+                    this.users = response.data.data; 
                     this.loading = false;
                 })
                 .catch(error => {
@@ -112,19 +112,18 @@ export default {
                 });
         }, 600),
 
-        banUser() {
+        store() {
             this.sending = true;
 
             axios
-                .post('/channels/users/bans', {
-                    username: this.username,
+                .post(`/channels/${Store.page.channel.temp.id}/banned-users`, {
+                    user_id: this.user_id,
                     description: this.description,
-                    channel_id: Store.page.channel.temp.id,
                     duration: this.duration
                 })
                 .then(response => {
                     // add the banned user to the this.bannedUsers array
-                    this.username = '';
+                    this.user_id = null;
                     this.description = '';
                     this.duration = 0;
 
@@ -142,18 +141,11 @@ export default {
          *
          * @return void
          */
-        unban(user_id) {
+        destroy(user_id) {
             axios
-                .delete('/channels/users/bans', {
-                    params: {
-                        user_id,
-                        channel_id: Store.page.channel.temp.id
-                    }
-                })
+                .delete(`/channels/${Store.page.channel.temp.id}/banned-users/${user_id}`)
                 .then(() => {
-                    this.bannedUsers = this.bannedUsers.filter(function(item) {
-                        return item.user_id != user_id;
-                    });
+                    this.bannedUsers = this.bannedUsers.filter(item => item.user_id != user_id);
                 });
         },
 
@@ -162,16 +154,12 @@ export default {
          *
          * @return void
          */
-        getBannedUsers() {
+        index() {
             app.$Progress.finish();
             app.$Progress.start();
 
             axios
-                .get('/channels/users/bans', {
-                    params: {
-                        channel_id: Store.page.channel.temp.id
-                    }
-                })
+                .get(`/channels/${Store.page.channel.temp.id}/banned-users`)
                 .then(response => {
                     this.bannedUsers = response.data.data;
                     app.$Progress.finish();

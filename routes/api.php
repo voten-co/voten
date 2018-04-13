@@ -86,13 +86,13 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::delete('/admin/domains/block', 'BlockDomainController@destroyAsVotenAdministrator')->middleware('voten-administrator');
 
     // ban user
-    Route::post('/channels/users/bans', 'BanController@storeAsChannelModerator')->middleware('moderator');
-    Route::get('/channels/users/bans', 'BanController@indexasChannelModerator')->middleware('moderator');
-    Route::delete('/channels/users/bans', 'BanController@destroyAsChannelModerator')->middleware('moderator');
+    Route::post('/channels/{channel}/banned-users', 'BanController@storeAsChannelModerator')->middleware('moderator'); // checked 
+    Route::get('/channels/{channel}/banned-users', 'BanController@indexAsChannelModerator')->middleware('moderator'); // checked 
+    Route::delete('/channels/{channel}/banned-users/{user}', 'BanController@destroyAsChannelModerator')->middleware('moderator'); // checked 
     // (admin)
-    Route::post('/admin/users/bans', 'BanController@storeAsVotenAdministrator')->middleware('voten-administrator');
-    Route::get('/admin/users/bans', 'BanController@indexAsVotenAdministrator')->middleware('voten-administrator');
-    Route::delete('/admin/users/bans', 'BanController@destroyAsVotenAdministrator')->middleware('voten-administrator');
+    Route::post('/admin/banned-users', 'BanController@storeAsVotenAdministrator')->middleware('voten-administrator'); // checked 
+    Route::get('/admin/banned-users', 'BanController@indexAsVotenAdministrator')->middleware('voten-administrator'); // checked 
+    Route::delete('/admin/banned-users/{user}', 'BanController@destroyAsVotenAdministrator')->middleware('voten-administrator'); // checked 
 
     // moderation
     Route::post('/channels/{channel}/moderators', 'ModeratorController@store')->middleware('administrator'); // checked 

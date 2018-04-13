@@ -22,9 +22,8 @@ class BanUsersTest extends TestCase
 
         $this->signInViaPassport();
 
-        $this->json('POST', '/api/channels/users/bans', [
-            'username' => $user->username, 
-            'channel_id' => $channel->id,
+        $this->json('POST', "/api/channels/{$channel->id}/banned-users", [
+            'user_id' => $user->id,
             'duration' => 1,
             'description' => 'he did something very bad :)'
         ])->assertStatus(403);
@@ -43,9 +42,8 @@ class BanUsersTest extends TestCase
             'role' => 'moderator',
         ]);
 
-        $this->json('POST', '/api/channels/users/bans', [
-            'username' => $to_ban_user->username, 
-            'channel_id' => $channel->id,
+        $this->json('POST', "/api/channels/{$channel->id}/banned-users", [
+            'user_id' => $to_ban_user->id, 
             'duration' => 1,
             'description' => 'he did something very bad :)'
         ])->assertStatus(201);
@@ -70,52 +68,64 @@ class BanUsersTest extends TestCase
         ]);
 
         // ban 
-        $this->json('POST', '/api/channels/users/bans', [
-            'username' => $to_ban_user->username, 
-            'channel_id' => $channel->id,
+        $this->json('POST', "/api/channels/{$channel->id}/banned-users", [
+            'user_id' => $to_ban_user->id,
             'duration' => 0,
             'description' => 'He did something very bad :).'
         ])->assertStatus(201);
 
         // unban 
-        $this->json('DELETE', '/api/channels/users/bans', [
-            'user_id' => $to_ban_user->id, 
-            'channel_id' => $channel->id
-        ])->assertStatus(200);
+        $this->json('DELETE', "/api/channels/{$channel->id}/banned-users/{$to_ban_user->id}")->assertStatus(200);
+        // user must be already banned to begin with:
+        $this->json('DELETE', "/api/channels/{$channel->id}/banned-users/100")->assertStatus(404);
     }
 
     /** @test */
-    public function a_voten_administrator_can_ban_users_and_delete_their_posts_and_comments()
+    public function a_voten_administrator_can_ban_users_and_delete_their_posts_and_comments_and_unban_them()
     {
-        $this->signInViaPassportAsVotenAdministrator();
-
         $user = create(User::class);
         create(Submission::class, ['user_id' => $user->id]);
         create(Comment::class, ['user_id' => $user->id]);
 
-        $this->json('POST', '/api/admin/users/bans', [
-            'username' => $user->username, 
+        $this->signInViaPassport();
+        $this->json('POST', '/api/admin/banned-users', [
+            'user_id' => $user->id, 
+            'duration' => 0,
+            'description' => 'He did something very bad :).', 
+            'delete_posts' => 1
+        ])->assertStatus(403);
+
+        $this->signInViaPassportAsVotenAdministrator();
+
+        $this->json('POST', '/api/admin/banned-users', [
+            'user_id' => $user->id, 
             'duration' => 0,
             'description' => 'He did something very bad :).', 
             'delete_posts' => 1
         ])->assertStatus(201);
-
         $this->assertDatabaseHas('bans', [
             'user_id' => $user->id,
             'channel' => 'all'
         ]);
-        
         $this->assertDatabaseHas('users', [
             'id' => $user->id,
             'active' => false
         ]);
-
         $this->assertDatabaseMissing('submissions', [
             'user_id' => $user->id
         ]);
-        
         $this->assertDatabaseMissing('comments', [
             'user_id' => $user->id
+        ]);
+
+        $this->json("delete", "/api/admin/banned-users/{$user->id}")->assertStatus(200);
+        $this->assertDatabaseMissing('bans', [
+            'user_id' => $user->id,
+            'channel' => 'all'
+        ]);
+        $this->assertDatabaseHas('users', [
+            'id' => $user->id,
+            'active' => true
         ]);
     }
 }
