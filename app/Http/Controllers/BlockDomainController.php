@@ -95,17 +95,21 @@ class BlockDomainController extends Controller
     /**
      * Unblock.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Channel $channel
+     * @param string $domain
      *
      * @return response
      */
-    public function destroyAsChannelModerator(Request $request, Channel $channel, BlockedDomain $domain)
+    public function destroyAsChannelModerator(Channel $channel, $domain)
     {
-        $temp = $domain->domain; 
+        $blockedDomain = BlockedDomain::where([
+            ['channel', $channel->name], 
+            ['domain', $domain]
+        ])->firstOrFail();
 
-        $domain->delete(); 
+        $blockedDomain->delete(); 
 
-        return res(200, "{$temp} is no longer blacklisted at #{$channel->name}. ");
+        return res(200, "{$domain} is no longer blacklisted at #{$channel->name}. ");
     }
 
     /**

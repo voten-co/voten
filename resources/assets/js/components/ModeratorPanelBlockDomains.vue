@@ -133,11 +133,11 @@ export default {
          *
          * @return void
          */
-        destroy(blocked_domain_id) {
+        destroy(blocked_domain) {
             axios
-                .delete(`/channels/${Store.page.channel.temp.id}/blocked-domains/${blocked_domain_id}`)
+                .delete(`/channels/${Store.page.channel.temp.id}/blocked-domains/${blocked_domain}`)
                 .then(response => {
-                    this.blockedDomains = this.blockedDomains.filter(item => item.id != blocked_domain_id);
+                    this.blockedDomains = this.blockedDomains.filter(item => item.domain != blocked_domain);
                 });
         }
     }

@@ -21,7 +21,7 @@ class BlockDomainsForChannelsTest extends TestCase
 
         // assert a non-moderator gets 403 
         $this->json("post", "/api/channels/{$channel->id}/blocked-domains")->assertStatus(403);
-
+        
         $channel->moderators()->attach(Auth::id(), ['role' => 'moderator']); 
 
         $this->json("post", "/api/channels/{$channel->id}/blocked-domains", [
@@ -50,7 +50,7 @@ class BlockDomainsForChannelsTest extends TestCase
             ]);
         
         // unblock 
-        $this->json("delete", "/api/channels/{$channel->id}/blocked-domains/1")->assertStatus(200);
+        $this->json("delete", "/api/channels/{$channel->id}/blocked-domains/laravel.com")->assertStatus(200);
         $this->assertDatabaseMissing('blocked_domains', [
             'domain' => 'laravel.com',
             'channel' => $channel->name,
