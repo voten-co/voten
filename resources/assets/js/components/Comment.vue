@@ -95,22 +95,22 @@
 								&#183;
 							</span>
 
-							<a class="like-button" @click="like">
+							<a class="like-button"
+							   @click="like">
 								<i class="v-icon"
-								   :class="liked ? 'v-heart-filled go-red animated bounceIn' : 'v-heart go-gray'"
-                                ></i>
+								   :class="liked ? 'v-heart-filled go-red animated bounceIn' : 'v-heart go-gray'"></i>
 
-                                <span class="count">{{ points }}</span>
+								<span class="count">{{ points }}</span>
 							</a>
 
-                            <el-tooltip :content="bookmarked ? 'Unbookmark' : 'Bookmark'"
-                                        placement="top"
-                                        transition="false"
-                                        :open-delay="500">
-                                <i class="v-icon margin-left-1"
-                                   :class="{ 'go-yellow v-unbookmark': bookmarked, 'v-bookmark': !bookmarked }"
-                                   @click="bookmark"></i>
-                            </el-tooltip>
+							<el-tooltip :content="bookmarked ? 'Unbookmark' : 'Bookmark'"
+							            placement="top"
+							            transition="false"
+							            :open-delay="500">
+								<i class="v-icon margin-left-1"
+								   :class="{ 'go-yellow v-unbookmark': bookmarked, 'v-bookmark': !bookmarked }"
+								   @click="bookmark"></i>
+							</el-tooltip>
 
 							<el-tooltip content="Reply"
 							            placement="top"
@@ -121,41 +121,42 @@
 								   v-if="list.nested_level < 8 && full"></i>
 							</el-tooltip>
 
-                            <el-tooltip content="Submission"
-                                        placement="top"
-                                        transition="false"
-                                        :open-delay="500"
-                                        v-if="!full">
-                                <router-link class="reply margin-left-1"
-                                             :to="'/submission/' + list.submission_id">
-                                    <i class="v-icon v-link h-purple"></i>
-                                </router-link>
-                            </el-tooltip>
+							<el-tooltip content="Submission"
+							            placement="top"
+							            transition="false"
+							            :open-delay="500"
+							            v-if="!full">
+								<router-link class="reply margin-left-1"
+								             :to="'/submission/' + list.submission_id">
+									<i class="v-icon v-link h-purple"></i>
+								</router-link>
+							</el-tooltip>
 
-                            <el-button size="mini" 
-                                class="margin-left-1"
-                                v-if="owns && full"
-                                @click="edit"
-                                round>
-                                Edit
-                            </el-button>
+							<el-button size="mini"
+							           class="margin-left-1"
+							           v-if="owns && full"
+							           @click="edit"
+							           round>
+								Edit
+							</el-button>
 						</div>
 					</div>
 
 					<div class="actions-right">
-                        <el-tooltip :content="'Edited: ' + editedDate"
-                                    placement="top"
-                                    transition="false"
-                                    :open-delay="500"
-                                    v-if="isEdited">
-                            <span class="edited go-gray">
-                                Edited
-                            </span>
-                        </el-tooltip>
+						<el-tooltip :content="'Edited: ' + editedDate"
+						            placement="top"
+						            transition="false"
+						            :open-delay="500"
+						            v-if="isEdited">
+							<span class="edited go-gray">
+								Edited
+							</span>
+						</el-tooltip>
 
-                        <span class="separator" v-if="isEdited">
-                            &#183;
-                        </span>
+						<span class="separator"
+						      v-if="isEdited">
+							&#183;
+						</span>
 
 						<el-tooltip :content="'Created: ' + longDate"
 						            placement="top"
@@ -596,11 +597,9 @@ export default {
 
                 this.bookmarked = !this.bookmarked;
 
-                axios
-                    .post(`/comments/${this.list.id}/bookmark`)
-                    .catch(() => {
-                        this.bookmarked = !this.bookmarked;
-                    });
+                axios.post(`/comments/${this.list.id}/bookmark`).catch(() => {
+                    this.bookmarked = !this.bookmarked;
+                });
             },
             200,
             { leading: true, trailing: false }
@@ -651,7 +650,7 @@ export default {
          */
         approve() {
             this.list.approved_at = this.now();
-            axios.post('/approve-comment', { comment_id: this.list.id }).catch(() => (this.list.approved_at = null));
+            axios.post(`/comments/${this.list.id}/approve`).catch(() => (this.list.approved_at = null));
         },
 
         /**
@@ -661,7 +660,7 @@ export default {
          */
         disapprove() {
             this.visible = false;
-            axios.post('/disapprove-comment', { comment_id: this.list.id }).catch(() => (this.visible = true));
+            axios.post(`/comments/${this.list.id}/disapprove`).catch(() => (this.visible = true));
         }
     }
 };

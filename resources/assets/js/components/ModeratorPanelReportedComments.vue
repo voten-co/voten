@@ -102,10 +102,8 @@ export default {
 
     methods: {
         disapproveComment(comment_id) {
-            axios.post('/disapprove-comment', { comment_id }).then(() => {
-                this.items = this.items.filter(function(item) {
-                    return item.comment.id != comment_id;
-                });
+            axios.post(`/comments/${comment_id}/disapprove`).then(() => {
+                this.items = this.items.filter(item => item.comment.id != comment_id);
 
                 if (!this.items.length) {
                     this.nothingFound = true;
@@ -114,10 +112,8 @@ export default {
         },
 
         approveComment(comment_id) {
-            axios.post('/approve-comment', { comment_id }).then(() => {
-                this.items = this.items.filter(function(item) {
-                    return item.comment.id != comment_id;
-                });
+            axios.post(`/comments/${comment_id}/approve`).then(() => {
+                this.items = this.items.filter(item => item.comment.id != comment_id);
 
                 if (!this.items.length) {
                     this.nothingFound = true;

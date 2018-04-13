@@ -104,58 +104,49 @@ class ModeratorController extends Controller
     /**
      * Approves the comment so it no longer can be reported.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Comment $comment
      *
      * @return response
      */
-    public function approveComment(Request $request)
+    public function approveComment(Comment $comment)
     {
-        $this->validate($request, [
-            'comment_id' => 'required|integer',
-        ]);
+        abort_unless($this->mustBeModerator($comment->channel_id), 403);
 
-        abort_unless($this->mustBeModerator(Comment::withTrashed()->where('id', $request->comment_id)->value('channel_id')), 403);
-
-        DB::table('comments')->where('id', $request->comment_id)->update([
+        DB::table('comments')->where('id', $comment->id)->update([
             'approved_at' => Carbon::now(),
             'deleted_at'  => null,
         ]);
 
         // remove all the reports related to this model
         Report::where([
-            'reportable_id'   => $request->comment_id,
+            'reportable_id'   => $comment->id,
             'reportable_type' => 'App\Comment',
         ])->delete();
 
-        return response('Comment approved successfully', 200);
+        return res(200, 'Comment approved successfully');
     }
 
     /**
      * softDeletes the comment so that the owner can see it but it won't be visible in the channel.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Comment $comment
      *
      * @return response
      */
-    public function disapproveComment(Request $request)
+    public function disapproveComment(Comment $comment)
     {
-        $this->validate($request, [
-            'comment_id' => 'required|integer',
-        ]);
-
-        $comment = $this->getCommentById($request->comment_id);
-        $submission = $this->getSubmissionById($comment->submission_id);
-
         abort_unless($this->mustBeModerator($comment->channel_id), 403);
+        
+        $submission = $this->getSubmissionById($comment->submission_id);
 
         event(new CommentWasDeleted($comment, $submission, false));
 
-        DB::table('comments')->where('id', $request->comment_id)->update([
+        DB::table('comments')->where('id', $comment->id)->update([
             'approved_at' => null,
             'deleted_at'  => Carbon::now(),
         ]);
 
-        return response('Comment deleted successfully', 200);
+        return res(200, 'Comment disapproved successfully');
     }
 
     /**
