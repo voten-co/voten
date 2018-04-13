@@ -79,11 +79,9 @@ class BlockDomainController extends Controller
     /**
      * Returns all the domains that are blocked for submitting(url type submission) to this channel.
      *
-     * @param \Illuminate\Http\Request $request
-     *
      * @return BlockedDomainResource
      */
-    public function indexVotenAdministrator(Request $request)
+    public function indexAsVotenAdministrator()
     {
         return BlockedDomainResource::collection(
             BlockedDomain::where('channel', 'all')
@@ -115,17 +113,18 @@ class BlockDomainController extends Controller
     /**
      * Unblock.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param string $domain
      *
      * @return response
      */
-    public function destroyAsVotenAdministrator(Request $request)
+    public function destroyAsVotenAdministrator($domain)
     {
-        $this->validate($request, [
-            'domain' => 'required',
-        ]);
+        abort_unless(
+            BlockedDomain::where('domain', $domain)->where('channel', 'all')->exists()
+            , 404
+        ); 
 
-        BlockedDomain::where('domain', $request->domain)
+        BlockedDomain::where('domain', $domain)
             ->where('channel', 'all')
             ->delete();
 
