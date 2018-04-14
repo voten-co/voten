@@ -430,7 +430,7 @@ export default {
          */
         showDisapprove() {
             return (
-                !this.list.deleted_at &&
+                !this.list.disapproved_at &&
                 (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 || meta.isVotenAdministrator) &&
                 !this.owns
             );
@@ -464,12 +464,9 @@ export default {
         doubleClicked() {
             if (this.isGuest) return;
 
-            if (this.owns) {
-                this.edit();
-                return;
+            if (!this.liked) {
+                this.like();
             }
-
-            this.commentReply();
         },
 
         /**
