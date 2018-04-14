@@ -193,7 +193,7 @@ export default {
 
     methods: {
         banUser() {
-			Store.modals.banUser.username = Store.page.user.temp.username; 
+			Store.modals.banUser.user = Store.page.user.temp; 
 			Store.modals.banUser.show = true; 
         },
 

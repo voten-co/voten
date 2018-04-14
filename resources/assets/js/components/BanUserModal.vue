@@ -70,8 +70,12 @@ export default {
     },
 
     computed: {
+        user_id() {
+            return Store.modals.banUser.user.id;
+        }, 
+
         username() {
-            return Store.modals.banUser.username;
+            return Store.modals.banUser.user.username;
         }
     },
 
@@ -94,8 +98,8 @@ export default {
             this.loading = true;
 
             axios
-                .post(`/admin/users/bans`, {
-                    username: this.username,
+                .post(`/admin/banned-users`, {
+                    user_id: this.user_id,
                     duration: this.duration,
                     description: this.description, 
                     delete_posts: this.deletePosts ? 1 : 0, 
