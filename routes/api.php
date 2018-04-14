@@ -85,7 +85,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/channels/{channel}/blocked-domains', 'BlockDomainController@indexAsChannelModerator')->middleware('moderator'); // checked 
     Route::post('/channels/{channel}/blocked-domains', 'BlockDomainController@storeAsChannelModerator')->middleware('moderator'); // checked 
     Route::delete('/channels/{channel}/blocked-domains/{domain}', 'BlockDomainController@destroyAsChannelModerator')->middleware('moderator'); // checked 
-    // (admin)
+    // as voten administrator: 
     Route::get('/admin/blocked-domains', 'BlockDomainController@indexAsVotenAdministrator')->middleware('voten-administrator'); // checked
     Route::post('/admin/blocked-domains', 'BlockDomainController@storeAsVotenAdministrator')->middleware('voten-administrator'); // checked
     Route::delete('/admin/blocked-domains/{domain}', 'BlockDomainController@destroyAsVotenAdministrator')->middleware('voten-administrator'); // checked
@@ -94,26 +94,27 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/channels/{channel}/banned-users', 'BanController@storeAsChannelModerator')->middleware('moderator'); // checked 
     Route::get('/channels/{channel}/banned-users', 'BanController@indexAsChannelModerator')->middleware('moderator'); // checked 
     Route::delete('/channels/{channel}/banned-users/{user}', 'BanController@destroyAsChannelModerator')->middleware('moderator'); // checked 
-    // (admin)
+    // as voten administrator: 
     Route::post('/admin/banned-users', 'BanController@storeAsVotenAdministrator')->middleware('voten-administrator'); // checked 
     Route::get('/admin/banned-users', 'BanController@indexAsVotenAdministrator')->middleware('voten-administrator'); // checked 
     Route::delete('/admin/banned-users/{user}', 'BanController@destroyAsVotenAdministrator')->middleware('voten-administrator'); // checked 
 
-    // moderation
+    // moderator 
     Route::post('/channels/{channel}/moderators', 'ModeratorController@store')->middleware('administrator'); // checked 
     Route::delete('/channels/{channel}/moderators/{user}', 'ModeratorController@destroy')->middleware('administrator'); // checked
 
-    // messages
+    // message
     Route::post('/messages', 'MessagesController@store')->middleware('shadow-ban'); // checked 
-    Route::get('/messages', 'MessagesController@index');
-    Route::delete('/messages', 'MessagesController@destroy');
-    Route::post('/messages/read', 'MessagesController@markAsRead');
+    Route::get('/messages', 'MessagesController@index'); // checked 
+    Route::delete('/messages', 'MessagesController@batchDestroy'); // checked  
+    Route::delete('/messages/{message}', 'MessagesController@destroy'); // checked
+    Route::post('/messages/{message}/read', 'MessagesController@markAsRead'); // checked
 
     // conversations
-    Route::get('/conversations', 'ConversationsController@index');
-    Route::delete('/conversations', 'ConversationsController@destroy');
-    Route::post('/conversations/read', 'ConversationsController@broadcastConversationAsRead');
-    Route::get('/conversations/search', 'SearchController@conversations');
+    Route::get('/conversations', 'ConversationsController@index'); // checked
+    Route::delete('/conversations/{user}', 'ConversationsController@destroy'); // checked 
+    Route::post('/conversations/{user}/read', 'ConversationsController@broadcastConversationAsRead'); // checked
+    Route::get('/conversations/search', 'SearchController@conversations'); // checked
 
     // Photo uploading
     Route::post('/channels/{channel}/avatar', 'PhotoController@channelAvatar')->middleware('administrator');

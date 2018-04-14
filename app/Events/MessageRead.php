@@ -7,25 +7,22 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
+use App\Http\Resources\MessageResource;
 
 class MessageRead implements ShouldBroadcast
 {
     use InteractsWithSockets, SerializesModels;
 
-    public $message_id;
-    public $contact_id;
-    public $user_id;
+    public $message;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($message_id, $contact_id, $user_id)
+    public function __construct($message)
     {
-        $this->message_id = $message_id;
-        $this->contact_id = $user_id;
-        $this->user_id = $contact_id;
+        $this->message = $message;
         // $this->dontBroadcastToCurrentUser();
     }
 
@@ -36,7 +33,7 @@ class MessageRead implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('App.User.'.$this->user_id);
+        return new PrivateChannel('App.User.'.$this->message->user_id);
     }
 
     /**
@@ -47,10 +44,7 @@ class MessageRead implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'data' => [
-                'user_id'    => $this->contact_id,
-                'message_id' => $this->message_id,
-            ],
+           'data' => (new MessageResource($this->message))->resolve(),
         ];
     }
 }

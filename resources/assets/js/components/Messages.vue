@@ -816,11 +816,8 @@ export default {
                         this.$eventHub.$emit('push-notification', data);
                     }
                 })
-                .listen('MessageRead', (event) => {
-                    this.markMessageAsRead(
-                        event.data.message_id,
-                        event.data.user_id
-                    );
+                .listen('MessageRead', (event) => {                    
+                    this.markMessageAsRead(event.data);
                 })
                 .listen('ConversationRead', (event) => {
                     this.markConversationAsRead(event.data.user_id);
@@ -950,9 +947,7 @@ export default {
         },
 
         broadcastAsRead() {
-            axios.post('/conversations/read', {
-                user_id: this.currentContactId
-            });
+            axios.post(`/conversations/${this.currentContactId}/read`);
         },
 
         /**
@@ -960,12 +955,8 @@ export default {
          *
          * @return void
          */
-        markMessageAsRead(messageId, contactId) {
-            if (this.currentContactId != contactId) return;
-
-            Store.state.messages.find(
-                (m) => m.id === messageId
-            ).read_at = this.now();
+        markMessageAsRead(message) {
+            Store.state.messages.find(m => m.id === message.id).read_at = this.now();
         }
     }
 };

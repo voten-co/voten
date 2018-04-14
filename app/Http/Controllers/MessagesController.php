@@ -11,9 +11,9 @@ use App\Message;
 use App\Rules\NotSelfId;
 use App\Traits\CachableUser;
 use App\User;
-use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MessagesController extends Controller
 {
@@ -34,7 +34,7 @@ class MessagesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'body'    => 'required|max:5000',
+            'body' => 'required|max:5000',
             'user_id' => ['required', new NotSelfId(), 'exists:users,id'],
         ]);
 
@@ -85,8 +85,7 @@ class MessagesController extends Controller
     public function index(Request $request)
     {
         $this->validate($request, [
-            'contact_id' => 'required|integer',
-            'page'       => 'required|integer',
+            'contact_id' => ['required', 'exists:users,id', new NotSelfId],
         ]);
 
         $messages = Auth::user()->conversations()
@@ -111,7 +110,19 @@ class MessagesController extends Controller
      *
      * @return Response
      */
-    public function destroy(Request $request)
+    public function destroy(Message $message)
+    {
+        Auth::user()->conversations()->detach($message->id);
+
+        return res(200, ' message deleted successfully.');
+    }
+    
+    /**
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return Response
+     */
+    public function batchDestroy(Request $request)
     {
         $request->validate([
             'messages' => 'array|min:1',
@@ -119,7 +130,7 @@ class MessagesController extends Controller
 
         Auth::user()->conversations()->detach($request->input('messages'));
 
-        return res(200, count($request->input('messages')).' messages were deleted.');
+        return res(200, count($request->input('messages')) . ' messages were deleted.');
     }
 
     /**
@@ -143,17 +154,22 @@ class MessagesController extends Controller
      *
      * @return (string) status
      */
-    public function markAsRead(Request $request)
+    public function markAsRead(Message $message)
     {
-        $this->validate($request, [
-            'message_id' => 'required|integer',
-            'user_id'    => 'required|integer',
+        abort_unless(
+            Auth::user()->conversations()->where([
+                ['contact_id', $message->user_id],
+                ['message_id', $message->id]
+            ])->exists()
+            , 403
+        );
+
+        $message->update([
+            'read_at' => now(),
         ]);
 
-        event(new MessageRead($request->message_id, $request->user_id, Auth::user()->id));
+        event(new MessageRead($message));
 
-        Message::find($request->message_id)->update(['read_at' => now()]);
-
-        return res(200, 'message was read.');
+        return res(200, 'Message marked as read successfully.');
     }
 }

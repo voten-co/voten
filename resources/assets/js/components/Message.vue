@@ -132,11 +132,8 @@ export default {
          */
         markAsRead() {
             if (this.isChatting && !this.owns && this.list.read_at === null) {
-                this.$emit('last-was-read');
-
-                axios.post('/messages/read', {
-                    message_id: this.list.id,
-                    user_id: this.list.author.id
+                axios.post(`/messages/${this.list.id}/read`).then(response => {
+                    this.$emit('last-was-read');                    
                 });
             }
         }
