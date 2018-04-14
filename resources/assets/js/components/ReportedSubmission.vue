@@ -48,7 +48,7 @@
                 <el-tooltip content="Delete Submission" placement="top" transition="false" :open-delay="500">
                     <i class="pointer v-icon go-gray v-delete h-red"
                        @click="$emit('disapprove-submission', list.submission.id)"
-                       :class="list.submission.deleted_at ? 'display-hidden' : ''"></i>
+                       :class="list.submission.solved_at ? 'display-hidden' : ''"></i>
                 </el-tooltip>
 
                 <el-tooltip content="Approve Submission" placement="top" transition="false" :open-delay="500">

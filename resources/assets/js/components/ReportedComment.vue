@@ -45,7 +45,7 @@
 
                 <el-tooltip content="Delete Comment" placement="top" transition="false" :open-delay="500">
                     <i class="pointer v-icon go-gray v-delete h-red" @click="$emit('disapprove-comment', list.comment.id)"
-                       :class="list.comment.deleted_at ? 'display-hidden' : ''"></i>
+                       :class="list.comment.solved_at ? 'display-hidden' : ''"></i>
                 </el-tooltip>
 
                 <el-tooltip content="Approve Comment" placement="top" transition="false" :open-delay="500">

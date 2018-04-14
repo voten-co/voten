@@ -201,7 +201,7 @@ export default {
         showDisapprove() {
             try {
                 return (
-                    !this.submission.deleted_at &&
+                    !this.submission.disapproved_at &&
                     (Store.state.moderatingAt.indexOf(this.submission.channel_id) != -1 || meta.isVotenAdministrator) &&
                     !this.owns
                 );

@@ -24,6 +24,11 @@ class Comment extends Model
         'owner', 'children',
     ];
 
+    protected $dates = [
+        'approved_at',
+        'deleted_at'
+    ];
+
     /**
      * A comment has an owner.
      *

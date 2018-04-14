@@ -44,17 +44,13 @@ class ModeratorController extends Controller
     /**
      * Approves the submission so it no longer can be reported.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param integer $submission
      *
      * @return response
      */
-    public function approveSubmission(Request $request)
+    public function approveSubmission($submission_id)
     {
-        $this->validate($request, [
-            'submission_id' => 'required|integer',
-        ]);
-
-        $submission = Submission::withTrashed()->findOrFail($request->submission_id);
+        $submission = Submission::withTrashed()->findOrFail($submission_id);
 
         abort_unless($this->mustBeModerator($submission->channel_id), 403);
 
@@ -67,28 +63,22 @@ class ModeratorController extends Controller
 
         // remove all the reports related to this model
         Report::where([
-            'reportable_id'   => $request->submission_id,
+            'reportable_id'   => $submission->id,
             'reportable_type' => 'App\Submission',
         ])->delete();
 
-        return response('Submission approved', 200);
+        return res(200, 'Submission approved');
     }
 
     /**
      * softDeletes the submission so that the owner can see it but it won't be visible in the channel.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Submission $submission
      *
      * @return response
      */
-    public function disapproveSubmission(Request $request)
+    public function disapproveSubmission(Submission $submission)
     {
-        $this->validate($request, [
-            'submission_id' => 'required|integer',
-        ]);
-
-        $submission = $this->getSubmissionById($request->submission_id);
-
         abort_unless($this->mustBeModerator($submission->channel_id), 403);
 
         $submission->update([
@@ -98,18 +88,20 @@ class ModeratorController extends Controller
 
         event(new SubmissionWasDeleted($submission, false));
 
-        return response('Submission deleted successfully', 200);
+        return res(200, 'Submission deleted successfully');
     }
 
     /**
      * Approves the comment so it no longer can be reported.
      *
-     * @param Comment $comment
+     * @param integer $comment
      *
      * @return response
      */
-    public function approveComment(Comment $comment)
+    public function approveComment($comment_id)
     {
+        $comment = Comment::withTrashed()->findOrFail($comment_id);
+        
         abort_unless($this->mustBeModerator($comment->channel_id), 403);
 
         DB::table('comments')->where('id', $comment->id)->update([

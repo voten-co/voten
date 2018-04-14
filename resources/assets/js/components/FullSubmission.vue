@@ -208,7 +208,7 @@ export default {
 
         showDisapprove() {
             return (
-                !this.list.deleted_at &&
+                !this.list.disapproved_at &&
                 (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 || meta.isVotenAdministrator) &&
                 !this.owns
             );
@@ -300,9 +300,7 @@ export default {
          */
         disapprove() {
             axios
-                .post('/disapprove-submission', {
-                    submission_id: this.list.id
-                })
+                .post(`/submissions/${this.list.id}/disapprove`)
                 .then(() => {
                     this.$message({
                         message: 'Post was successfully deleted.',

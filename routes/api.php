@@ -51,6 +51,9 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/submissions/{submission}/like', 'SubmissionLikesController@like'); // checked
     Route::post('/submissions/{submission}/bookmark', 'BookmarksController@bookmarkSubmission'); // checked 
     Route::get('/submissions/bookmarked', 'BookmarksController@getBookmarkedSubmissions'); // checked 
+    Route::post('/submissions/{submission}/approve', 'ModeratorController@approveSubmission');
+    Route::post('/submissions/{submission}/disapprove', 'ModeratorController@disapproveSubmission');
+
 
     // comment
     Route::post('/comments', 'CommentController@store')->middleware('shadow-ban'); // checked
@@ -99,8 +102,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     // moderation
     Route::post('/channels/{channel}/moderators', 'ModeratorController@store')->middleware('administrator'); // checked 
     Route::delete('/channels/{channel}/moderators/{user}', 'ModeratorController@destroy')->middleware('administrator'); // checked
-    Route::post('/approve-submission', 'ModeratorController@approveSubmission');
-    Route::post('/disapprove-submission', 'ModeratorController@disapproveSubmission');
 
     // messages
     Route::post('/messages', 'MessagesController@store')->middleware('shadow-ban');

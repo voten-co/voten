@@ -6,6 +6,7 @@ use App\Submission;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Channel;
 
 class SubmissionsTest extends TestCase
 {
@@ -120,5 +121,60 @@ class SubmissionsTest extends TestCase
             ->assertStatus(200);
 
         $this->assertDatabaseHas('submissions', ['id' => $submission->id, 'nsfw' => 0]);
+    }
+
+    /** @test */
+    public function a_channel_moderator_can_approve_a_submission()
+    {
+        $submission_author = create(User::class);
+        $submission = create(Submission::class, [
+            'user_id' => $submission_author->id,
+        ]); 
+
+        $this->json("post", "/api/submissions/{$submission->id}/approve")->assertStatus(401);
+
+        $this->signInViaPassport($submission_author);
+
+        $this->json("post", "/api/submissions/{$submission->id}/approve")->assertStatus(403);
+
+        $channel = Channel::find($submission->channel_id);
+        $channel->moderators()->attach($moderator = create(User::class), ['role' => 'moderator']);
+
+        $this->signInViaPassport($moderator);
+
+        $this->json("post", "/api/submissions/{$submission->id}/approve")->assertStatus(200);        
+
+        $this->assertDatabaseHas('submissions', [
+            'id' => $submission->id,
+            'approved_at' => now(),
+        ]);
+    }
+
+    /** @test */
+    public function a_channel_moderator_can_disapprove_a_submission()
+    {
+        $submission_author = create(User::class);
+        $submission = create(Submission::class, [
+            'user_id' => $submission_author->id,
+        ]); 
+
+        $this->json("post", "/api/submissions/{$submission->id}/disapprove")->assertStatus(401);
+
+        $this->signInViaPassport($submission_author);
+
+        $this->json("post", "/api/submissions/{$submission->id}/disapprove")->assertStatus(403);
+
+        $channel = Channel::find($submission->channel_id);
+        $channel->moderators()->attach($moderator = create(User::class), ['role' => 'moderator']);
+
+        $this->signInViaPassport($moderator);
+
+        $this->json("post", "/api/submissions/{$submission->id}/disapprove")->assertStatus(200);        
+
+        $this->assertDatabaseHas('submissions', [
+            'id' => $submission->id,
+            'approved_at' => null,
+            'deleted_at' => now()->toDateTimeString(),
+        ]);
     }
 }

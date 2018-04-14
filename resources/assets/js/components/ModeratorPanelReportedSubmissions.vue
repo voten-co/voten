@@ -100,10 +100,8 @@ export default {
 
     methods: {
         disapproveSubmission(submission_id) {
-            axios.post('/disapprove-submission', { submission_id }).then(response => {
-                this.items = this.items.filter(function(item) {
-                    return item.submission.id != submission_id;
-                });
+            axios.post(`/submissions/${submission_id}/disapprove`).then(response => {
+                this.items = this.items.filter(item => item.submission.id != submission_id);
 
                 if (!this.items.length) {
                     this.nothingFound = true;
@@ -112,10 +110,8 @@ export default {
         },
 
         approveSubmission(submission_id) {
-            axios.post('/approve-submission', { submission_id }).then(response => {
-                this.items = this.items.filter(function(item) {
-                    return item.submission.id != submission_id;
-                });
+            axios.post(`/submissions/${submission_id}/approve`).then(response => {
+                this.items = this.items.filter(item => item.submission.id != submission_id);
 
                 if (!this.items.length) {
                     this.nothingFound = true;

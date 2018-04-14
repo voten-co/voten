@@ -112,11 +112,7 @@ export default {
         },
 
         showDisapprove() {
-            return (
-                !this.list.deleted_at &&
-                (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 || meta.isVotenAdministrator) &&
-                !this.owns
-            );
+            return !this.list.disapproved_at && (Store.state.moderatingAt.indexOf(this.list.channel_id) != -1 || meta.isVotenAdministrator) && !this.owns;
         },
 
         showNSFW() {
@@ -152,9 +148,7 @@ export default {
             this.list.approved_at = this.now();
 
             axios
-                .post('/approve-submission', {
-                    submission_id: this.list.id
-                })
+                .post(`/submissions/${this.list.id}/approve`)
                 .catch(() => {
                     this.list.approved_at = null;
                 });

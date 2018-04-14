@@ -24,6 +24,11 @@ class Submission extends Model
     protected $casts = [
         'data' => 'json',
     ];
+    
+    protected $dates = [
+        'approved_at',
+        'deleted_at'
+    ];
 
     protected $with = ['owner'];
 
