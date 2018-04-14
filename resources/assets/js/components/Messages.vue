@@ -536,14 +536,13 @@ export default {
             let wasBlocked = this.isBlocked;
 
             axios
-                .post('/conversations/block', {
-                    user_id: this.currentContactId
-                })
+                .post(`/users/${this.currentContactId}/block`)
                 .then(() => {
                     if (wasBlocked) {
                         let index = Store.state.blocks.users.indexOf(
                             this.currentContactId
                         );
+                        
                         Store.state.blocks.users.splice(index, 1);
                     } else {
                         Store.state.blocks.users.push(this.currentContactId);

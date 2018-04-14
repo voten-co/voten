@@ -37,6 +37,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/users/clientside-settings', 'ClientsideSettingsController@get'); // checked 
     Route::post('/users/{user}/bookmark', 'BookmarksController@bookmarkUser'); // checked 
     Route::get('/users/bookmarked', 'BookmarksController@getBookmarkedUsers'); // checked 
+    Route::post('/users/{user}/block', 'BlockUsersController@block'); // checked 
 
     // submission
     Route::post('/submissions', 'SubmissionController@store')->middleware('shadow-ban'); // checked 
@@ -51,9 +52,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/submissions/{submission}/like', 'SubmissionLikesController@like'); // checked
     Route::post('/submissions/{submission}/bookmark', 'BookmarksController@bookmarkSubmission'); // checked 
     Route::get('/submissions/bookmarked', 'BookmarksController@getBookmarkedSubmissions'); // checked 
-    Route::post('/submissions/{submission}/approve', 'ModeratorController@approveSubmission');
-    Route::post('/submissions/{submission}/disapprove', 'ModeratorController@disapproveSubmission');
-
+    Route::post('/submissions/{submission}/approve', 'ModeratorController@approveSubmission'); // checked 
+    Route::post('/submissions/{submission}/disapprove', 'ModeratorController@disapproveSubmission'); // checked 
 
     // comment
     Route::post('/comments', 'CommentController@store')->middleware('shadow-ban'); // checked
@@ -104,7 +104,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::delete('/channels/{channel}/moderators/{user}', 'ModeratorController@destroy')->middleware('administrator'); // checked
 
     // messages
-    Route::post('/messages', 'MessagesController@store')->middleware('shadow-ban');
+    Route::post('/messages', 'MessagesController@store')->middleware('shadow-ban'); // checked 
     Route::get('/messages', 'MessagesController@index');
     Route::delete('/messages', 'MessagesController@destroy');
     Route::post('/messages/read', 'MessagesController@markAsRead');
@@ -112,8 +112,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     // conversations
     Route::get('/conversations', 'ConversationsController@index');
     Route::delete('/conversations', 'ConversationsController@destroy');
-    Route::post('/conversations/read', 'ConversationsController@broadcastConversaionAsRead');
-    Route::post('/conversations/block', 'ConversationsController@block');
+    Route::post('/conversations/read', 'ConversationsController@broadcastConversationAsRead');
     Route::get('/conversations/search', 'SearchController@conversations');
 
     // Photo uploading

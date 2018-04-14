@@ -35,7 +35,7 @@ class MessagesController extends Controller
     {
         $this->validate($request, [
             'body'    => 'required|max:5000',
-            'user_id' => ['required', 'integer', new NotSelfId(), 'exists:users,id'],
+            'user_id' => ['required', new NotSelfId(), 'exists:users,id'],
         ]);
 
         $message = Auth::user()->messages()->create([
