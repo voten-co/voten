@@ -69,7 +69,7 @@ export default {
             Store.state.subscribedChannels.push(this.channel);
             Store.state.subscribedAt.push(this.channel.id);
 
-            axios.post(`/channels/${this.channel.idid}/subscribe`);
+            axios.post(`/channels/${this.channel.id}/subscribe`);
 
             this.visible = false;
         }
