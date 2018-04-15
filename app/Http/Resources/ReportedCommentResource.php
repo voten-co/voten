@@ -26,7 +26,7 @@ class ReportedCommentResource extends Resource
             'created_at'  => optional($this->created_at)->toDateTimeString(),
             'solved_at'   => optional($this->deleted_at)->toDateTimeString(),
 
-            'comment'  => $this->when((bool) $request->with_comment == true, new SubmissionResource($this->submission)),
+            'comment'  => $this->when((bool) $request->with_comment == true, new CommentResource($this->comment)),
             'reporter' => $this->when((bool) $request->with_reporter == true, new UserResource($this->reporter)),
         ];
     }
