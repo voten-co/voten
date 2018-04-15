@@ -19,7 +19,7 @@
 
     @include('env-to-js-data')
 
-    <link rel="shortcut icon" href="/imgs/favicon.png">
+    <link rel="shortcut icon" href="{{ config('app.favicon') }}">
 </head>
 
 <body>

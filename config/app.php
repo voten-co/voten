@@ -20,6 +20,7 @@ return [
     'twitter-url'      => 'https://twitter.com/voten_co',
     'github_url'       => 'https://github.com/voten-co/voten',
     'blog_url'         => 'https://medium.com/voten',
+    'favicon'          => env('FAVICON_PATH', '/imgs/favicon.png'), 
 
     /*
     |--------------------------------------------------------------------------

@@ -16,7 +16,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('env-to-js-data')
-    <link rel="shortcut icon" href="/imgs/favicon.png">
+    <link rel="shortcut icon" href="{{ config('app.favicon') }}">
 </head>
 
 <body>
