@@ -124,12 +124,12 @@
 							<el-tooltip content="Submission"
 							            placement="top"
 							            transition="false"
-							            :open-delay="500"
-							            v-if="!full">
-								<router-link class="reply margin-left-1"
-								             :to="'/submission/' + list.submission_id">
+							            :open-delay="500">
+								<a class="reply margin-left-1"
+								   v-if="!full"
+								   @click.prevent="openOrigin">
 									<i class="v-icon v-link h-purple"></i>
-								</router-link>
+								</a>
 							</el-tooltip>
 
 							<el-button size="mini"
@@ -442,22 +442,14 @@ export default {
             app.$Progress.start();
 
             axios
-                .get(`/submissions`, {
-                    params: {
-                        id: this.list.submission_id
-                    }
-                })
+                .get(`/submissions/${this.list.submission_id}`)
                 .then(response => {
-                    this.$router.push('/c/' + response.data.data.channel_name + '/' + response.data.data.slug);
+                    this.$router.push(this.submissionUrl(response.data.data));
 
                     app.$Progress.finish();
                 })
                 .catch(error => {
                     app.$Progress.fail();
-
-                    // if (error.response.status === 404) {
-                    //     this.showNotFound = true;
-                    // }
                 });
         },
 
