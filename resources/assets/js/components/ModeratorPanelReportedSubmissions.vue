@@ -144,10 +144,9 @@ export default {
             app.$Progress.start();
 
             axios
-                .get('/submissions/reports', {
+                .get(`/channels/${Store.page.channel.temp.id}/submissions/reported`, {
                     params: {
                         type: this.type,
-                        channel_id: Store.page.channel.temp.id,
                         page: this.page,
                         with_reporter: 1,
                         with_submission: 1

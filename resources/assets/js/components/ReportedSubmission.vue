@@ -85,9 +85,7 @@ export default {
 
     computed: {
         date() {
-            return moment(this.list.created_at)
-                .utc(moment().format('Z'))
-                .fromNow();
+            return this.parsDiffForHumans(this.list.created_at); 
         },
 
         /**

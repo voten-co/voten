@@ -66,7 +66,7 @@ export default {
                 "It's spam",
                 "It doesn't follow channel's exclusive rules",
                 "It doesn't follow Voten's general rules",
-                "It's abusive or harmful",
+                "It's harassing me or someone that I know",
                 'Other'
             ]
         };
@@ -99,8 +99,7 @@ export default {
             this.sending = true;
 
             axios
-                .post('/comments/reports', {
-                    id: this.comment.id,
+                .post(`/comments/${this.comment.id}/report`, {
                     subject: this.subject,
                     description: this.description
                 })

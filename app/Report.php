@@ -15,7 +15,9 @@ class Report extends Model
      *
      * @var array
      */
-    protected $dates = ['deleted_at', 'solved'];
+    protected $dates = [
+        'deleted_at'
+    ];
 
     /**
      * The attributes that are mass assignable.

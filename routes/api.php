@@ -54,6 +54,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/submissions/bookmarked', 'BookmarksController@getBookmarkedSubmissions'); // checked 
     Route::post('/submissions/{submission}/approve', 'ModeratorController@approveSubmission'); // checked 
     Route::post('/submissions/{submission}/disapprove', 'ModeratorController@disapproveSubmission'); // checked 
+    Route::post('/submissions/{submission}/report', 'ReportSubmissionsController@store')->middleware('shadow-ban'); // checked 
 
     // comment
     Route::post('/comments', 'CommentController@store')->middleware('shadow-ban'); // checked
@@ -64,6 +65,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/comments/bookmarked', 'BookmarksController@getBookmarkedComments'); // checked  
     Route::post('/comments/{comment}/approve', 'ModeratorController@approveComment'); // checked
     Route::post('/comments/{comment}/disapprove', 'ModeratorController@disapproveComment'); // checked
+    Route::post('/comments/{comment}/report', 'ReportCommentsController@store')->middleware('shadow-ban');
 
     // channel
     Route::post('/channels', 'ChannelController@store')->middleware('shadow-ban'); // checked
@@ -127,10 +129,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/notifications', 'NotificationsController@markAsRead'); // checked 
 
     // report
-    Route::post('/comments/reports', 'ReportCommentsController@store')->middleware('shadow-ban');
-    Route::get('/comments/reports', 'ReportCommentsController@index');
-    Route::post('/submissions/reports', 'ReportSubmissionsController@store')->middleware('shadow-ban');
-    Route::get('/submissions/reports', 'ReportSubmissionsController@index');
+    Route::get('/channels/{channel}/comments/reported', 'ReportCommentsController@index')->middleware('moderator'); // checked
+    Route::get('/channels/{channel}/submissions/reported', 'ReportSubmissionsController@index')->middleware('moderator'); // checked
 
     Route::post('/announcement/seen', 'AnnouncementController@seen');
 
@@ -144,7 +144,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/channels/submissions', 'ChannelController@submissions');
     Route::get('/announcement', 'AnnouncementController@get');
 
-    Route::get('/submissions', 'SubmissionController@get');
+    Route::get('/submissions', 'SubmissionController@getBySlug');
     Route::get('/submissions/{submission}/comments', 'CommentController@index');
     Route::get('/channels/{channel}/moderators', 'ModeratorController@index'); // checked 
     Route::get('/channels/rules', 'RulesController@index');
@@ -155,6 +155,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/users/submissions', 'UserController@submissions');
     Route::get('/users/comments', 'UserController@comments');
     Route::get('/submissions/comments', 'CommentController@index');
+    Route::get('/submissions/{submission}', 'SubmissionController@getById'); // checked 
 });
 
 ////////////////////////////////////////////////////////////////////////
@@ -166,7 +167,7 @@ Route::prefix('guest')->group(function () {
     Route::get('/channels/submissions', 'ChannelController@submissions');
     Route::get('/announcement', 'AnnouncementController@get');
 
-    Route::get('/submissions', 'SubmissionController@get');
+    Route::get('/submissions', 'SubmissionController@getBySlug');
     Route::get('/submissions/{submission}/comments', 'CommentController@index');
     Route::get('/channels/{channel}/moderators', 'ModeratorController@index'); // checked 
     Route::get('/channels/rules', 'RulesController@index');
@@ -177,6 +178,7 @@ Route::prefix('guest')->group(function () {
     Route::get('/users/submissions', 'UserController@submissions');
     Route::get('/users/comments', 'UserController@comments');
     Route::get('/submissions/comments', 'CommentController@index');
+    Route::get('/submissions/{submission}', 'SubmissionController@getById'); // checked 
 });
 
 Route::post('/token/login', 'Auth\LoginController@getAccessToken');

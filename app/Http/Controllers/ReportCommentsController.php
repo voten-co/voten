@@ -7,8 +7,10 @@ use App\Http\Resources\ReportedCommentResource;
 use App\Report;
 use App\Submission;
 use App\Traits\CachableChannel;
-use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
+use App\Channel;
 
 class ReportCommentsController extends Controller
 {
@@ -26,49 +28,56 @@ class ReportCommentsController extends Controller
      *
      * @return response
      */
-    public function store(Request $request)
+    public function store(Request $request, Comment $comment)
     {
         $this->validate($request, [
-            'id'         => 'required|exists:comments,id',
-            'subject'    => 'required|string',
+            'subject' => [
+                'required',
+                Rule::in(
+                    [
+                        "It's spam", 
+                        "It doesn't follow channel's exclusive rules", 
+                        "It doesn't follow Voten's general rules",
+                        "It's harassing me or someone that I know", 
+                        "Other"
+                    ]
+                ),
+            ],
+            'description' => 'nullable|string|max:5000'
         ]);
 
-        if (Comment::where('id', $request->id)->where('approved_at', '!=', null)->exists()) {
-            return res(200, 'The comment has already been approved by a moderator. That means it can not be reported.');
+        if ($comment->approved_at === null) {
+            Report::create([
+                'subject'         => $request->subject,
+                'reportable_type' => "App\Comment",
+                'reportable_id'   => $comment->id,
+                'user_id'         => Auth::id(),
+                'channel_id'      => $comment->channel_id,
+                'description'     => $request->description,
+            ]);
         }
 
-        $report = Report::create([
-            'subject'         => $request->subject,
-            'reportable_type' => "App\Comment",
-            'reportable_id'   => $request->id,
-            'user_id'         => Auth::user()->id,
-            'channel_id'      => Comment::where('id', $request->id)->value('channel_id'),
-            'description'     => $request->description,
-        ]);
-
-        return res(201, 'Report submitted successfully.');
+        return res(200, 'Report submitted successfully.');
     }
 
     /**
      * Indexes the reported comments.
      *
      * @param \Illuminate\Http\Request $request
+     * @param Channel $channel
      *
      * @return \Illuminate\Support\Collection
      */
-    public function index(Request $request)
+    public function index(Request $request, Channel $channel)
     {
         $this->validate($request, [
-            'channel_id'  => 'required|exists:channels,id',
-            'type'        => 'nullable|in:solved,unsolved',
+            'type' => 'nullable|in:solved,unsolved',
         ]);
-
-        abort_unless($this->mustBeModerator($request->channel_id), 403);
 
         if ($request->type == 'solved') {
             return ReportedCommentResource::collection(
                 Report::onlyTrashed()->whereHas('comment')->whereHas('reporter')->where([
-                    'channel_id'      => $request->channel_id,
+                    'channel_id'      => $channel->id,
                     'reportable_type' => 'App\Comment',
                 ])->with('reporter', 'comment.submission')->orderBy('created_at', 'desc')->simplePaginate(50)
             );
@@ -77,7 +86,7 @@ class ReportCommentsController extends Controller
         // default type which is "unsolved"
         return ReportedCommentResource::collection(
             Report::whereHas('comment')->whereHas('reporter')->where([
-                'channel_id'      => $request->channel_id,
+                'channel_id'      => $channel->id,
                 'reportable_type' => 'App\Comment',
             ])->with('reporter', 'comment.submission')->orderBy('created_at', 'desc')->simplePaginate(50)
         );
