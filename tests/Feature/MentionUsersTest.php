@@ -4,14 +4,23 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\UsernameMentioned;
 
 class MentionUsersTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function setUp()
+    {
+        parent::setUp(); 
+        
+        Notification::fake();        
+    }
+
     /** @test */
     public function mentioned_users_in_a_comment_are_notified()
-    {
+    {        
         $john = create('App\User', ['username' => 'JohnDoe']);
 
         $this->signInViaPassport($john);
@@ -25,7 +34,7 @@ class MentionUsersTest extends TestCase
             'submission_id' => $submission->id 
         ])->assertStatus(201);
 
-        $this->assertCount(1, $jane->notifications);
+        Notification::assertSentTo($jane, UsernameMentioned::class);
     }
     
     /** @test */
@@ -42,6 +51,6 @@ class MentionUsersTest extends TestCase
             'submission_id' => $submission->id 
         ])->assertStatus(201);
 
-        $this->assertCount(0, $john->notifications);
+        Notification::assertNotSentTo($john, UsernameMentioned::class);
     }
 }
