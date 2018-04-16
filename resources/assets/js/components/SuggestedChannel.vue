@@ -46,11 +46,11 @@ export default {
     },
 
     created() {
-        this.getChannel();
+        this.get();
     },
 
     methods: {
-        getChannel() {
+        get() {
             axios.get('/suggested-channel').then((response) => {
                 // We got nothing to suggest.
                 if (_.isUndefined(response.data.data)) return;

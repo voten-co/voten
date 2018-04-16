@@ -59,7 +59,7 @@
                 </thead>
 
                 <tbody>
-                <tr v-for="item in list">
+                <tr v-for="item in list" :key="item.id">
                     <td>
                         <router-link :to="'/c/' + item.channel.name">
                             <b>#{{ item.channel.name }}</b>
@@ -100,7 +100,7 @@ export default {
             loading: false,
             channel_name: null,
             group: '',
-            z_index: 0,
+            z_index: 1,
             list: [],
             Store,
             channels: []
@@ -115,17 +115,15 @@ export default {
     methods: {
         destroy(id) {
             axios
-                .delete(`/admin/suggesteds/${id}`)
+                .delete(`/admin/suggested-channels/${id}`)
                 .then((response) => {
-                    this.list = this.list.filter(function(item) {
-                        return item.id != id;
-                    });
+                    this.list = this.list.filter(item => item.id != id);
                 });
         },
 
         getSuggesteds() {
-            axios.get('/admin/suggesteds').then((response) => {
-                this.list = response.data;
+            axios.get('/admin/suggested-channels').then((response) => {
+                this.list = response.data.data;
             });
         },
 
@@ -168,7 +166,7 @@ export default {
 
         submit() {
             axios
-                .post('/admin/suggesteds', {
+                .post('/admin/suggested-channels', {
                     channel_name: this.channel_name,
                     group: this.group,
                     z_index: this.z_index
@@ -176,7 +174,7 @@ export default {
                 .then((response) => {
                     this.channel_name = null;
                     this.group = '';
-                    this.list.unshift(response.data);
+                    this.list.unshift(response.data.data);
                 });
         }
     }

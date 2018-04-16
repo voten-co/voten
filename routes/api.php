@@ -8,9 +8,9 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/admin/channels', 'AdminController@indexChannels'); // checked 
     Route::get('/admin/channels/inactive', 'AdminController@inactiveChannels'); // checked
     Route::get('/admin/submissions', 'AdminController@indexSubmissions'); // checked 
-    Route::get('/admin/suggesteds', 'SuggestionController@adminIndex'); // checked 
-    Route::post('/admin/suggesteds', 'SuggestionController@store'); // checked 
-    Route::delete('/admin/suggesteds/{suggested}', 'SuggestionController@destroy'); // checked 
+    Route::get('/admin/suggested-channels', 'SuggestionController@index'); // checked 
+    Route::post('/admin/suggested-channels', 'SuggestionController@store'); // checked 
+    Route::delete('/admin/suggested-channels/{suggested}', 'SuggestionController@destroy'); // checked 
     Route::get('/admin/reports/comments', 'AdminController@reportedComments'); // checked 
     Route::get('/admin/reports/submissions', 'AdminController@reportedSubmissions'); // checked 
     Route::get('/admin/activities', 'AdminController@activities'); // checked 
@@ -79,6 +79,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/channels/{channel}/subscribe', 'SubscribeController@subscribe'); // checked
     Route::get('/channels/subscribed', 'SubscribeController@index'); // checked 
     Route::post('/channels/{channel}/avatar', 'PhotoController@channelAvatar')->middleware('administrator'); // checked     
+    Route::get('/suggested-channel', 'SuggestionController@get'); // checked     
 
     // rule
     Route::post('/channels/{channel}/rules', 'RulesController@store')->middleware('administrator'); // checked 
@@ -134,8 +135,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/channels/{channel}/submissions/reported', 'ReportSubmissionsController@index')->middleware('moderator'); // checked
 
     Route::post('/announcement/seen', 'AnnouncementController@seen');
-
-    Route::get('/suggested-channel', 'SuggestionController@channel');
 
     ////////////////////////////////////////////////////////////////////////
     // Below routes have a twin route prefixed with "guest"

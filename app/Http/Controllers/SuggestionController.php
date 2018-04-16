@@ -11,6 +11,7 @@ use App\Traits\CachableUser;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use App\Http\Resources\SuggestedChannelResource;
 
 class SuggestionController extends Controller
 {
@@ -18,7 +19,7 @@ class SuggestionController extends Controller
 
     public function __construct()
     {
-        $this->middleware('voten-administrator', ['except' => ['channel', 'discover']]);
+        $this->middleware('voten-administrator', ['except' => ['get', 'discover']]);
     }
 
     /**
@@ -26,7 +27,7 @@ class SuggestionController extends Controller
      *
      * @return \Illuminate\Support\Collection $channel
      */
-    public function channel()
+    public function get()
     {
         $suggestion = Suggested::whereNotIn('channel_id', $this->subscriptions())
             ->inRandomOrder()
@@ -40,7 +41,7 @@ class SuggestionController extends Controller
     }
 
     /**
-     * Returnes a collection of suggested channels for the auth user.
+     * Returns a collection of suggested channels for the auth user.
      *
      * @param \Illuminate\Http\Request $request
      *
@@ -96,22 +97,21 @@ class SuggestionController extends Controller
     {
         $this->validate($request, [
             'channel_name'  => 'required',
-            'z_index'       => 'required|integer',
+            'z_index'       => 'required|integer|min:1',
+            'group'       => 'nullable',
         ]);
 
         $channel = $this->getChannelByName($request->channel_name);
-
-        $suggested = new Suggested([
+         
+        $suggested_channel = Suggested::create([
             'z_index'     => $request->z_index,
             'group'       => $request->group,
             'channel_id'  => $channel->id,
         ]);
 
-        $suggested->save();
-
         Cache::forget('default-channels-ids');
 
-        return Suggested::findOrFail($suggested->id);
+        return new SuggestedChannelResource($suggested_channel);
     }
 
     /**
@@ -119,9 +119,11 @@ class SuggestionController extends Controller
      *
      * @return \Illuminate\Support\Collection
      */
-    public function adminIndex()
+    public function index()
     {
-        return Suggested::all();
+        return SuggestedChannelResource::collection(
+            Suggested::all()
+        );
     }
 
     /**
