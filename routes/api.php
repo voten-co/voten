@@ -31,6 +31,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::patch('/users/account', 'UserSettingsController@account'); // checked 
     Route::patch('/users/email', 'UserSettingsController@email'); // checked 
     Route::patch('/users/password', 'UserSettingsController@password'); // checked 
+    Route::post('/auth/avatar', 'PhotoController@userAvatar')->middleware('shadow-ban'); // checked    
     Route::get('/users/submissions/likeds', 'UserController@likedSubmissions'); // checked 
     Route::post('/email/verify/resend', 'Auth\VerificationController@resendVerifyEmailAddress'); // checked 
     Route::post('/users/clientside-settings', 'ClientsideSettingsController@store'); // checked 
@@ -77,6 +78,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/channels/discover', 'SuggestionController@discover'); // checked 
     Route::post('/channels/{channel}/subscribe', 'SubscribeController@subscribe'); // checked
     Route::get('/channels/subscribed', 'SubscribeController@index'); // checked 
+    Route::post('/channels/{channel}/avatar', 'PhotoController@channelAvatar')->middleware('administrator'); // checked     
 
     // rule
     Route::post('/channels/{channel}/rules', 'RulesController@store')->middleware('administrator'); // checked 
@@ -118,10 +120,9 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/conversations/{user}/read', 'ConversationsController@broadcastConversationAsRead'); // checked
     Route::get('/conversations/search', 'SearchController@conversations'); // checked
 
-    // Photo uploading
-    Route::post('/channels/{channel}/avatar', 'PhotoController@channelAvatar')->middleware('administrator');
-    Route::post('/users/avatar', 'PhotoController@userAvatar')->middleware('shadow-ban');
-    Route::post('/photos', 'PhotoController@store')->middleware('shadow-ban');
+    // media 
+    Route::post('/photos', 'PhotoController@store')->middleware('shadow-ban'); // checked 
+    Route::get('/photos/{photo}', 'PhotoController@get'); // checked 
     // Route::post('/gifs', 'GifController@store')->middleware('shadow-ban');
 
     // notification

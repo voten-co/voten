@@ -45,6 +45,18 @@ class PhotoController extends Controller
     }
 
     /**
+     * Get the uploaded photo. 
+     * 
+     * @param integer $photo
+     * 
+     * @return PhotoResource
+     */
+    public function get(Photo $photo)
+    {
+        return new PhotoResource($photo);
+    }
+
+    /**
      * upload and update channel's avatar.
      *
      * @return response

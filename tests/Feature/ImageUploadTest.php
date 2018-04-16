@@ -19,26 +19,33 @@ class ImageUploadTest extends TestCase
         parent::setUp();
 
         Storage::fake(config('filesystems.default'));
+
         $this->signInViaPassport();
     }
 
     /** @test */
-    public function user_can_upload_avatar()
+    public function user_can_upload_new_avatar()
     {
         // don't accept non-square images
-        $this->json('POST', '/api/users/avatar', [
+        $this->json('POST', '/api/auth/avatar', [
             'photo' => UploadedFile::fake()->image('avatar.png', 250, 100),
         ])->assertStatus(422);
 
-        // accept squar images
-        $first_uploaded_avatar = $this->json('POST', '/api/users/avatar', [
+        // accept square images
+        $first_uploaded_avatar = $this->json('POST', '/api/auth/avatar', [
             'photo' => UploadedFile::fake()->image('avatar.png', 250, 250),
-        ])->assertStatus(200);
+        ])
+            ->assertStatus(200)
+            ->assertJson([
+                'data' => [
+
+                ]
+            ]);
 
         Storage::disk(config('filesystems.default'))->assertExists('users/avatars/' . str_after($first_uploaded_avatar->getContent(), 'users/avatars/'));
 
         // assert that the previous avatar has been removed
-        $second_uploaded_avatar = $this->json('POST', '/api/users/avatar', [
+        $second_uploaded_avatar = $this->json('POST', '/api/auth/avatar', [
             'photo' => UploadedFile::fake()->image('avatar.png', 250, 250),
         ])->assertStatus(200);
 
@@ -49,7 +56,7 @@ class ImageUploadTest extends TestCase
     }
 
     /** @test */
-    public function can_upload_channel_avatar()
+    public function channel_administrator_can_upload_new_channel_avatar()
     {
         $this->signInViaPassportAsVotenAdministrator();
 
@@ -62,7 +69,7 @@ class ImageUploadTest extends TestCase
 
         Storage::disk(config('filesystems.default'))->assertExists('channels/avatars/' . str_after($first_uploaded_avatar->getContent(), 'channels/avatars/'));
 
-        // upload anohter one
+        // upload another one
         $second_uploaded_avatar = $this->json('POST', "/api/channels/{$channel->id}/avatar", [
             'photo' => UploadedFile::fake()->image('avatar.png', 250, 250),
         ]);
@@ -78,7 +85,15 @@ class ImageUploadTest extends TestCase
     {
         $response = $this->json('POST', '/api/photos', [
             'file' => UploadedFile::fake()->image('sample.jpg'),
-        ])->assertStatus(201);
+        ])
+            ->assertStatus(201)
+            ->assertJson([
+                'data' => [
+                    'submission_id' => null,
+                    'created_at' => now()->toDateTimeString(),
+                    'expires_after_secs' => (3600 * 24) * 1, // 24 hours 
+                ]
+            ]);
         $data = json_decode($response->getContent())->data;
 
         $this->assertDatabaseHas('photos', [
@@ -89,6 +104,17 @@ class ImageUploadTest extends TestCase
 
         Storage::disk(config('filesystems.default'))->assertExists('submissions/img/' . str_after($data->path, 'submissions/img/'));
         Storage::disk(config('filesystems.default'))->assertExists('submissions/img/thumbs/' . str_after($data->thumbnail_path, 'submissions/img/thumbs/'));
+
+        // get it: 
+        $this->json("get", "/api/photos/{$data->id}")
+            ->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'submission_id' => null,
+                    'created_at' => now()->toDateTimeString(),
+                    'expires_after_secs' => (3600 * 24) * 1, // 24 hours 
+                ]
+            ]);
     }
 
     /** @test */
