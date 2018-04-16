@@ -134,7 +134,11 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/channels/{channel}/comments/reported', 'ReportCommentsController@index')->middleware('moderator'); // checked
     Route::get('/channels/{channel}/submissions/reported', 'ReportSubmissionsController@index')->middleware('moderator'); // checked
 
-    Route::post('/announcement/seen', 'AnnouncementController@seen');
+    // announcement
+    Route::post('/announcements', 'AnnouncementController@store'); // checked 
+    Route::post('/announcements/{announcement}/seen', 'AnnouncementController@seen'); // checked 
+    Route::delete('/announcements/{announcement}', 'AnnouncementController@destroy'); // checked 
+    Route::get('/announcements', 'AnnouncementController@get'); // checked 
 
     ////////////////////////////////////////////////////////////////////////
     // Below routes have a twin route prefixed with "guest"
@@ -142,7 +146,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/users', 'UserController@get');
     Route::get('/feed', 'HomeController@feed');
     Route::get('/channels/submissions', 'ChannelController@submissions');
-    Route::get('/announcement', 'AnnouncementController@get');
 
     Route::get('/submissions', 'SubmissionController@getBySlug');
     Route::get('/submissions/{submission}/comments', 'CommentController@index');
@@ -165,8 +168,6 @@ Route::prefix('guest')->group(function () {
     Route::get('/users', 'UserController@get');
     Route::get('/feed', 'HomeController@feed');
     Route::get('/channels/submissions', 'ChannelController@submissions');
-    Route::get('/announcement', 'AnnouncementController@get');
-
     Route::get('/submissions', 'SubmissionController@getBySlug');
     Route::get('/submissions/{submission}/comments', 'CommentController@index');
     Route::get('/channels/{channel}/moderators', 'ModeratorController@index'); // checked 

@@ -1,10 +1,16 @@
 <template>
-	<div class="announcement-wrapper" v-show="show">
+	<div class="announcement-wrapper"
+	     v-show="show">
 		<transition-group name="el-zoom-in-bottom">
-			<div class="announcement" v-for="(value, index) in announcements" :key="value.id">
-				<markdown :text="value.body" v-if="value.body"></markdown>
-				
-				<i class="v-icon block-before v-cancel pointer" aria-hidden="true" @click="close(value.id)"></i>
+			<div class="announcement"
+			     v-for="(value, index) in announcements"
+			     :key="value.id">
+				<markdown :text="value.content"
+				          v-if="value.content"></markdown>
+
+				<i class="v-icon block-before v-cancel pointer"
+				   aria-hidden="true"
+				   @click="close(value.id)"></i>
 			</div>
 		</transition-group>
 	</div>
@@ -28,7 +34,7 @@ export default {
     },
 
     created() {
-        this.fetch();
+        this.get();
     },
 
     computed: {
@@ -46,13 +52,9 @@ export default {
          * @return void
          */
         close(id) {
-            this.announcements = this.announcements.filter(function(item) {
-                return item.id != id;
-            });
+            this.announcements = this.announcements.filter(item => item.id !== id);
 
-            axios.post('/announcement/seen', {
-                announcement_id: id
-            });
+            axios.post(`/announcements/${id}/seen`);
         },
 
         /**
@@ -60,9 +62,9 @@ export default {
          *
          * @return void
          */
-        fetch() {
-            axios.get('/announcement').then((response) => {
-                this.announcements = response.data;
+        get() {
+            axios.get('/announcements').then(response => {
+                this.announcements = response.data.data;
             });
         }
     }
@@ -94,11 +96,11 @@ export default {
     a {
         color: #333;
     }
-}
 
-.announcement .v-cancel {
-    flex-basis: 65px;
-    display: flex;
-    justify-content: center;
+    .v-cancel {
+        flex-basis: 65px;
+        display: flex;
+        justify-content: center;
+    }
 }
 </style>
