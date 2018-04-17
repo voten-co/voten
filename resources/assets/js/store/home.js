@@ -30,7 +30,7 @@ export default {
                         exclude_liked_submissions: Store.settings.feed.excludeLikedSubmissions ? 1 : 0,
                         include_nsfw_submissions: Store.settings.feed.include_nsfw_submissions ? 1 : 0,
                         exclude_bookmarked_submissions: Store.settings.feed.excludeBookmarkedSubmissions ? 1 : 0,
-                        type: Store.settings.feed.submissionsType
+                        submissions_type: Store.settings.feed.submissionsType
                     }
                 })
                 .then(response => {

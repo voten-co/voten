@@ -10,12 +10,6 @@ class PagesTest extends TestCase
     use RefreshDatabase; 
 
     /** @test */
-    public function guest_home_page()
-    {
-        $this->get('/')->assertStatus(200);
-    }
-
-    /** @test */
     public function about_page()
     {
         $this->get('/about')->assertStatus(200);

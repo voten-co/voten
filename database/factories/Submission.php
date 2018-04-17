@@ -45,3 +45,9 @@ $factory->state(\App\Submission::class, 'link', function (Faker $faker) {
         ]
     ];
 });
+
+$factory->state(\App\Submission::class, 'nsfw', function (Faker $faker) {
+    return [
+        'nsfw' => 1, 
+    ];
+});

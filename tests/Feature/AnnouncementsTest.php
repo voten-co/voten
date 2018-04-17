@@ -28,7 +28,7 @@ class AnnouncementsTest extends TestCase
         $this->assertDatabaseHas('announcements', [
             'body'    => 'her dear users pay attentions please',
             'title'   => 'first announcement',
-            'active_until' => now()->addDays(3)
+            'active_until' => now()->addDays(3)->toDateTimeString()
         ]);
     }
 
