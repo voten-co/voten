@@ -153,7 +153,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/emojis', 'EmojiController@index'); // dirty fix for now 
     Route::get('/submissions/photos', 'SubmissionController@getPhotos');
     Route::get('/search', 'SearchController@index'); // checked 
-    Route::get('/channels', 'ChannelController@get');
+    Route::get('/channels', 'ChannelController@getByName'); // checked 
+    Route::get('/channels/{channel}', 'ChannelController@getById'); // checked 
     Route::get('/users/{user}/submissions', 'UserController@submissions'); // checked 
     Route::get('/user-submissions', 'UserController@submissionsByUsername'); // dirty fix for now 
     Route::get('/users/{user}/comments', 'UserController@comments'); // checked 
@@ -176,7 +177,8 @@ Route::prefix('guest')->group(function () {
     Route::get('/emojis', 'EmojiController@index'); // dirty fix for now 
     Route::get('/submissions/photos', 'SubmissionController@getPhotos');
     Route::get('/search', 'SearchController@index'); // checked 
-    Route::get('/channels', 'ChannelController@get');
+    Route::get('/channels', 'ChannelController@getByName'); // checked 
+    Route::get('/channels/{channel}', 'ChannelController@getById'); // checked 
     Route::get('/users/{user}/submissions', 'UserController@submissions'); // checked
     Route::get('/user-submissions', 'UserController@submissionsByUsername'); // dirty fix for now 
     Route::get('/users/{user}/comments', 'UserController@comments'); // checked 

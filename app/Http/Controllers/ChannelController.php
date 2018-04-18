@@ -122,7 +122,17 @@ class ChannelController extends Controller
      *
      * @return Collection
      */
-    public function get(Request $request)
+    public function getById(Channel $channel)
+    {
+        return new ChannelResource($channel);
+    }
+    
+    /**
+     * Returns all the nesseccary information to fill the channelStore on front-end.
+     *
+     * @return Collection
+     */
+    public function getByName(Request $request)
     {
         $this->validate($request, [
             'name' => 'required_without:id|exists:channels',
