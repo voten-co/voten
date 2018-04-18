@@ -31,11 +31,7 @@ export default {
             this.loading = true;
 
             axios
-                .get('/users', {
-                    params: {
-                        id: this.id
-                    }
-                })
+                .get(`/users/${this.id}`)
                 .then(response => {
                     this.contact = response.data.data;
                     this.loading = false;

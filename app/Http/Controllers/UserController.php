@@ -75,18 +75,23 @@ class UserController extends Controller
      *
      * @return Collections
      */
-    public function submissions(Request $request)
+    public function submissions(User $user)
+    {
+        return SubmissionResource::collection(
+            $user->submissions()
+                ->withTrashed()
+                ->orderBy('created_at', 'desc')
+                ->simplePaginate(15)
+        );
+    }
+    
+    public function submissionsByUsername(Request $request)
     {
         $this->validate($request, [
-            'username' => 'required_without:id|exists:users',
-            'id'       => 'required_without:username|exists:users',
+            'username' => 'required|exists:users',
         ]);
 
-        if ($request->filled('username')) {
-            $user = User::where('username', $request->username)->firstOrFail();
-        } else {
-            $user = User::findOrFail($request->id);
-        }
+        $user = User::whereUsername(request('username'))->firstOrFail();
 
         return SubmissionResource::collection(
             $user->submissions()
@@ -117,18 +122,22 @@ class UserController extends Controller
      *
      * @return Collection
      */
-    public function comments(Request $request)
+    public function comments(User $user)
+    {
+        return CommentResource::collection(
+            $user->comments()
+                ->withTrashed()
+                ->orderBy('created_at', 'desc')
+                ->simplePaginate(15)
+        );
+    }
+    public function commentsByUsername(Request $request)
     {
         $this->validate($request, [
-            'username' => 'required_without:id|exists:users',
-            'id'       => 'required_without:username|exists:users',
+            'username' => 'required|exists:users',
         ]);
 
-        if ($request->filled('username')) {
-            $user = User::where('username', $request->username)->firstOrFail();
-        } else {
-            $user = User::findOrFail($request->id);
-        }
+        $user = User::whereUsername(request('username'))->firstOrFail();
 
         return CommentResource::collection(
             $user->comments()
@@ -139,30 +148,41 @@ class UserController extends Controller
     }
 
     /**
-     * Returns all the nesseccary info to fill userStore in forn-end.
+     * Get user model using the username. 
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return JSON
+     * @return UserResource
      */
-    public function get(Request $request)
+    public function getByUsername(Request $request)
     {
         $this->validate($request, [
             'username'   => 'required_without:id|exists:users',
-            'id'         => 'required_without:username|exists:users',
             'with_info'  => 'boolean',
             'with_stats' => 'boolean',
         ]);
 
-        if ($request->filled('username')) {
-            return new UserResource(
-                User::withTrashed()->where('username', $request->username)->first()
-            );
-        }
-
         return new UserResource(
-            User::withTrashed()->where('id', $request->id)->first()
+            User::withTrashed()->where('username', $request->username)->first()
         );
+    }
+
+    /**
+     * Get user model via the id. 
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param integer $user
+     *
+     * @return UserResource
+     */
+    public function getById(Request $request, User $user)
+    {
+        $this->validate($request, [
+            'with_info'  => 'boolean',
+            'with_stats' => 'boolean',
+        ]);
+
+        return new UserResource($user);
     }
 
     /**

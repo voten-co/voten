@@ -65,7 +65,7 @@ export default {
                 }
 
                 axios
-                    .get('/users/submissions', {
+                    .get('/user-submissions', {
                         params: {
                             page: this.page,
                             username: username
@@ -116,7 +116,7 @@ export default {
                 this.loading = true;
 
                 axios
-                    .get('/users/submissions/likeds', {
+                    .get('/auth/submissions/liked', {
                         params: { page: this.page }
                     })
                     .then((response) => {
@@ -176,7 +176,7 @@ export default {
                 }
 
                 axios
-                    .get('/users/comments', {
+                    .get('/user-comments', {
                         params: { page: this.page, username: username }
                     })
                     .then((response) => {
