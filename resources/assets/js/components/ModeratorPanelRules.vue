@@ -97,7 +97,7 @@ export default {
             app.$Progress.start(); 
 
             axios
-                .get('/channels/rules', {
+                .get(`/channels/${Store.page.channel.temp.id}/rules`, {
                     params: {
                         channel_name: this.$route.params.name
                     }

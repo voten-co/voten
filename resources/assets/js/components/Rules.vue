@@ -59,11 +59,7 @@ export default {
             this.loading = true;
 
             axios
-                .get('/channels/rules', {
-                    params: {
-                        channel_name: this.$route.params.name
-                    }
-                })
+                .get(`/channels/${Store.page.channel.temp.id}/rules`)
                 .then((response) => {
                     this.rules = response.data.data;
 

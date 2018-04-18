@@ -15,27 +15,16 @@ class RulesController extends Controller
     }
 
     /**
-     * indexes all the related records.
+     * Index rules of the channel.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param integer $channel
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return RuleResource
      */
-    public function index(Request $request)
+    public function index(Channel $channel)
     {
-        $this->validate($request, [
-            'channel_name' => 'required_without:channel_id|exists:channels,name',
-            'channel_id'   => 'required_without:channel_name|exists:channels,id',
-        ]);
-
-        if (request()->filled('channel_name')) {
-            return RuleResource::collection(
-                Channel::where('name', $request->channel_name)->first()->rules()->orderBy('created_at', 'desc')->get()
-            );
-        }
-
         return RuleResource::collection(
-            Channel::where('id', $request->channel_id)->first()->rules()->orderBy('created_at', 'desc')->get()
+            $channel->rules()->orderBy('created_at', 'desc')->get()
         );
     }
 
@@ -74,7 +63,7 @@ class RulesController extends Controller
     public function patch(Request $request, Channel $channel, Rule $rule)
     {
         $this->validate($request, [
-            'body' => 'required',
+            'body' => 'required|string|max:300',
         ]);
 
         $rule->update([

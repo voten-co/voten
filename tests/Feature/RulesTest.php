@@ -6,10 +6,12 @@ use App\Channel;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Rule;
+use Illuminate\Foundation\Testing\WithFaker;
 
 class RulesTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
 
     /** @test */
     public function a_moderator_can_create_rules_edit_and_delete_them()
@@ -46,5 +48,45 @@ class RulesTest extends TestCase
             'title' => 'edited text',
             'channel_id' => $channel->id 
         ]);
+    }
+
+    /** @test */
+    public function a_user_can_get_rules_of_the_channel()
+    {
+        $this->signInViaPassport();
+        
+        $channel = create(Channel::class);
+        
+        Rule::create([
+            'title'      => $this->faker->paragraph(),
+            'channel_id' => $channel->id,
+        ]); 
+        Rule::create([
+            'title'      => $this->faker->paragraph(),
+            'channel_id' => $channel->id,
+        ]); 
+        
+        $this->json("get", "/api/channels/{$channel->id}/rules")
+            ->assertStatus(200)
+            ->assertJsonCount(2, 'data');
+    }
+
+    /** @test */
+    public function a_guest_can_get_rules_of_the_channel()
+    {
+        $channel = create(Channel::class);
+        
+        Rule::create([
+            'title'      => $this->faker->paragraph(),
+            'channel_id' => $channel->id,
+        ]); 
+        Rule::create([
+            'title'      => $this->faker->paragraph(),
+            'channel_id' => $channel->id,
+        ]); 
+        
+        $this->json("get", "/api/guest/channels/{$channel->id}/rules")
+            ->assertStatus(200)
+            ->assertJsonCount(2, 'data');
     }
 }

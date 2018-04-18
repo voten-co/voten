@@ -150,7 +150,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/submissions', 'SubmissionController@getBySlug'); // checked 
     Route::get('/submissions/{submission}/comments', 'CommentController@index');
     Route::get('/channels/{channel}/moderators', 'ModeratorController@index'); // checked 
-    Route::get('/channels/rules', 'RulesController@index');
+    Route::get('/channels/{channel}/rules', 'RulesController@index'); // checked 
     Route::get('/emojis', 'EmojiController@index');
     Route::get('/submissions/photos', 'SubmissionController@getPhotos');
     Route::get('/search', 'SearchController@index'); // checked 
@@ -174,7 +174,7 @@ Route::prefix('guest')->group(function () {
     Route::get('/submissions', 'SubmissionController@getBySlug'); // checked
     Route::get('/submissions/{submission}/comments', 'CommentController@index');
     Route::get('/channels/{channel}/moderators', 'ModeratorController@index'); // checked 
-    Route::get('/channels/rules', 'RulesController@index');
+    Route::get('/channels/{channel}/rules', 'RulesController@index'); // checked 
     Route::get('/emojis', 'EmojiController@index');
     Route::get('/submissions/photos', 'SubmissionController@getPhotos');
     Route::get('/search', 'SearchController@index'); // checked 
