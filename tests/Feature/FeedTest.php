@@ -26,7 +26,7 @@ class FeedTest extends TestCase
         $channel3 = create(Channel::class, ['id' => 3]);
         $channel4 = create(Channel::class, ['id' => 4]);
 
-        // create a total of 66 submissions: 
+        // create a total of 66 + 9 submissions: 
         factory(Submission::class, 20)->create(['channel_id' => $channel1->id]);
         factory(Submission::class, 24)->create(['channel_id' => $channel2->id]);
         factory(Submission::class, 22)->create(['channel_id' => $channel3->id]);
@@ -115,7 +115,7 @@ class FeedTest extends TestCase
         $this->json("get", "/api/feed", [
             'page' => 5,
             'filter' => 'all',
-        ])->assertStatus(200)->assertJsonCount(8, 'data');
+        ])->assertStatus(200)->assertJsonCount(9, 'data');
     }
     
     /** @test */
@@ -178,13 +178,13 @@ class FeedTest extends TestCase
             'page' => 5,
             'filter' => 'all',
             'include_nsfw_submissions' => 0 // the default 
-        ])->assertStatus(200)->assertJsonCount(8, 'data');
+        ])->assertStatus(200)->assertJsonCount(9, 'data');
         
         $this->json("get", "/api/feed", [
             'page' => 5,
             'filter' => 'all',
             'include_nsfw_submissions' => 1
-        ])->assertStatus(200)->assertJsonCount(9, 'data');
+        ])->assertStatus(200)->assertJsonCount(10, 'data');
     }
     
     /** @test */
@@ -195,7 +195,7 @@ class FeedTest extends TestCase
         $this->json("get", "/api/feed", [
             'page' => 5,
             'filter' => 'all', 
-        ])->assertStatus(200)->assertJsonCount(8, 'data');
+        ])->assertStatus(200)->assertJsonCount(9, 'data');
 
         $this->json("post", "/api/submissions/1/like")->assertStatus(201);
         $this->json("post", "/api/submissions/2/like")->assertStatus(201);
@@ -204,7 +204,7 @@ class FeedTest extends TestCase
             'page' => 5,
             'filter' => 'all',
             'exclude_liked_submissions' => 1
-        ])->assertStatus(200)->assertJsonCount(6, 'data');
+        ])->assertStatus(200)->assertJsonCount(7, 'data');
     }
     
     /** @test */
@@ -215,7 +215,7 @@ class FeedTest extends TestCase
         $this->json("get", "/api/feed", [
             'page' => 5,
             'filter' => 'all', 
-        ])->assertStatus(200)->assertJsonCount(8, 'data');
+        ])->assertStatus(200)->assertJsonCount(9, 'data');
 
         $this->json("post", "/api/submissions/1/bookmark")->assertStatus(201);
         $this->json("post", "/api/submissions/2/bookmark")->assertStatus(201);
@@ -224,34 +224,34 @@ class FeedTest extends TestCase
             'page' => 5,
             'filter' => 'all',
             'exclude_liked_submissions' => 1
-        ])->assertStatus(200)->assertJsonCount(6, 'data');
+        ])->assertStatus(200)->assertJsonCount(7, 'data');
     }
 
-    /** @test */
-    public function a_user_can_sort_his_feed_by_hot()
-    {
-        // todo
-        $this->assertTrue(true);
-    }
+    // /** @test */
+    // public function a_user_can_sort_his_feed_by_hot()
+    // {
+    //     // todo
+    //     $this->assertTrue(true);
+    // }
 
-    /** @test */
-    public function a_user_can_sort_his_feed_by_new()
-    {
-        // todo
-        $this->assertTrue(true);
-    }
+    // /** @test */
+    // public function a_user_can_sort_his_feed_by_new()
+    // {
+    //     // todo
+    //     $this->assertTrue(true);
+    // }
     
-    /** @test */
-    public function a_user_can_sort_his_feed_by_rising()
-    {
-        // todo
-        $this->assertTrue(true);
-    }
+    // /** @test */
+    // public function a_user_can_sort_his_feed_by_rising()
+    // {
+    //     // todo
+    //     $this->assertTrue(true);
+    // }
     
-    /** @test */
-    public function a_user_wont_get_duplicate_submissions_about_the_same_url()
-    {
-        // todo
-        $this->assertTrue(true);
-    }
+    // /** @test */
+    // public function a_user_wont_get_duplicate_submissions_about_the_same_url()
+    // {
+    //     // todo
+    //     $this->assertTrue(true);
+    // }
 }
