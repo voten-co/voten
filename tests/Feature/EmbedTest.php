@@ -20,12 +20,12 @@ class EmbedTest extends TestCase
     public function can_fetch_title_from_external_link()
     {
         $res = $this->json('GET', '/api/links/title', [
-            'url' => 'https://voten.co',
+            'url' => 'https://github.com/voten-co/voten',
         ])
             ->assertStatus(200)
             ->assertJson([
                 'data' => [
-                    'title' => 'Voten: Where your vote matters',
+                    'title' => 'voten-co/voten',
                 ],
             ]);
     }
