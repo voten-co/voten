@@ -153,7 +153,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/channels/rules', 'RulesController@index');
     Route::get('/emojis', 'EmojiController@index');
     Route::get('/submissions/photos', 'SubmissionController@getPhotos');
-    Route::get('/search', 'SearchController@index');
+    Route::get('/search', 'SearchController@index'); // checked 
     Route::get('/channels', 'ChannelController@get');
     Route::get('/users/{user}/submissions', 'UserController@submissions'); // checked 
     Route::get('/user-submissions', 'UserController@submissionsByUsername'); // dirty fix for now 
@@ -177,7 +177,7 @@ Route::prefix('guest')->group(function () {
     Route::get('/channels/rules', 'RulesController@index');
     Route::get('/emojis', 'EmojiController@index');
     Route::get('/submissions/photos', 'SubmissionController@getPhotos');
-    Route::get('/search', 'SearchController@index');
+    Route::get('/search', 'SearchController@index'); // checked 
     Route::get('/channels', 'ChannelController@get');
     Route::get('/users/{user}/submissions', 'UserController@submissions'); // checked
     Route::get('/user-submissions', 'UserController@submissionsByUsername'); // dirty fix for now 

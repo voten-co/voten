@@ -30,30 +30,26 @@ class SearchController extends Controller
             'keyword'  => 'required|string',
         ]);
 
-        try {
-            if (strtolower($request->type) == 'channels') {
+        switch (strtolower($request->input('type', 'channels'))) {
+            case 'channels':
                 return ChannelResource::collection(
                     Channel::search($request->keyword)->paginate(20)
                 );
-            }
-
-            if (strtolower($request->type) == 'submissions') {
+                break;
+            
+            case 'submissions':
                 return SubmissionResource::collection(
                     $this->sugarFilter(
                         Submission::search($request->keyword)->paginate(20)
                     )
                 );
-            }
-
-            if (strtolower($request->type) == 'users') {
+                break;
+            
+            case 'users':
                 return UserResource::collection(
                     User::search($request->keyword)->paginate(20)
                 );
-            }
-        } catch (\Exception $exception) {
-            app('sentry')->captureException($exception);
-
-            return res(500, 'Oops, something went wrong.');
+                break;
         }
     }
 
