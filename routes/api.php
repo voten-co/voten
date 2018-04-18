@@ -148,7 +148,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/feed', 'HomeController@feed'); // checked 
     Route::get('/channels/submissions', 'ChannelController@submissions');
     Route::get('/submissions', 'SubmissionController@getBySlug'); // checked 
-    Route::get('/submissions/{submission}/comments', 'CommentController@index');
     Route::get('/channels/{channel}/moderators', 'ModeratorController@index'); // checked 
     Route::get('/channels/{channel}/rules', 'RulesController@index'); // checked 
     Route::get('/emojis', 'EmojiController@index');
@@ -159,7 +158,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/user-submissions', 'UserController@submissionsByUsername'); // dirty fix for now 
     Route::get('/users/{user}/comments', 'UserController@comments'); // checked 
     Route::get('/user-comments', 'UserController@commentsByUsername'); // dirty fix for now 
-    Route::get('/submissions/comments', 'CommentController@index');
+    Route::get('/submissions/{submission}/comments', 'CommentController@index'); // checked  
     Route::get('/submissions/{submission}', 'SubmissionController@getById'); // checked 
 });
 
@@ -172,7 +171,6 @@ Route::prefix('guest')->group(function () {
     Route::get('/feed', 'HomeController@guestFeed')->middleware('guest'); // checked 
     Route::get('/channels/submissions', 'ChannelController@submissions');
     Route::get('/submissions', 'SubmissionController@getBySlug'); // checked
-    Route::get('/submissions/{submission}/comments', 'CommentController@index');
     Route::get('/channels/{channel}/moderators', 'ModeratorController@index'); // checked 
     Route::get('/channels/{channel}/rules', 'RulesController@index'); // checked 
     Route::get('/emojis', 'EmojiController@index');
@@ -183,7 +181,7 @@ Route::prefix('guest')->group(function () {
     Route::get('/user-submissions', 'UserController@submissionsByUsername'); // dirty fix for now 
     Route::get('/users/{user}/comments', 'UserController@comments'); // checked 
     Route::get('/user-comments', 'UserController@commentsByUsername'); // dirty fix for now 
-    Route::get('/submissions/comments', 'CommentController@index');
+    Route::get('/submissions/{submission}/comments', 'CommentController@index'); // checked  
     Route::get('/submissions/{submission}', 'SubmissionController@getById'); // checked 
 });
 

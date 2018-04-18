@@ -15,6 +15,7 @@ use App\Traits\CachableUser;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Submission;
 
 class CommentController extends Controller
 {
@@ -77,7 +78,7 @@ class CommentController extends Controller
      *
      * @return mixed
      */
-    public function index(Request $request, $submission_id)
+    public function index(Request $request, Submission $submission)
     {
         $this->validate($request, [
             'sort'          => 'nullable|in:hot,new',
@@ -86,19 +87,13 @@ class CommentController extends Controller
 
         if ($request->sort == 'new') {
             return CommentResource::collection(
-                Comment::where([
-                    ['submission_id', $submission_id],
-                    ['parent_id', 0],
-                ])->orderBy('created_at', 'desc')->simplePaginate(20)
+                $submission->comments()->where('parent_id', 0)->orderBy('created_at', 'desc')->simplePaginate(20)
             );
         }
 
         // Sort by default which is 'hot'
         return CommentResource::collection(
-            Comment::where([
-                ['submission_id', $submission_id],
-                ['parent_id', 0],
-            ])->orderBy('rate', 'desc')->simplePaginate(20)
+            $submission->comments()->where('parent_id', 0)->orderBy('rate', 'desc')->simplePaginate(20)
         );
     }
 
