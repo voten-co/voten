@@ -146,7 +146,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/users', 'UserController@getByUsername'); // checked 
     Route::get('/users/{user}', 'UserController@getById'); // checked 
     Route::get('/feed', 'HomeController@feed'); // checked 
-    Route::get('/channels/submissions', 'ChannelController@submissions');
+    Route::get('/channels/submissions', 'ChannelController@submissionsByChannelName'); // checked 
+    Route::get('/channels/{channel}/submissions', 'ChannelController@submissions'); // checked 
     Route::get('/submissions', 'SubmissionController@getBySlug'); // checked 
     Route::get('/channels/{channel}/moderators', 'ModeratorController@index'); // checked 
     Route::get('/channels/{channel}/rules', 'RulesController@index'); // checked 
@@ -170,7 +171,8 @@ Route::prefix('guest')->group(function () {
     Route::get('/users', 'UserController@getByUsername'); // checked 
     Route::get('/users/{user}', 'UserController@getById'); // checked 
     Route::get('/feed', 'HomeController@guestFeed')->middleware('guest'); // checked 
-    Route::get('/channels/submissions', 'ChannelController@submissions');
+    Route::get('/channels/submissions', 'ChannelController@submissionsByChannelName'); // checked 
+    Route::get('/channels/{channel}/submissions', 'ChannelController@submissions'); // checked 
     Route::get('/submissions', 'SubmissionController@getBySlug'); // checked
     Route::get('/channels/{channel}/moderators', 'ModeratorController@index'); // checked 
     Route::get('/channels/{channel}/rules', 'RulesController@index'); // checked 

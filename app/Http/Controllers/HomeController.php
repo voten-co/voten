@@ -24,9 +24,7 @@ class HomeController extends Controller
      */
     public function homePage()
     {
-        $submissions = SubmissionResource::collection(
-            $this->guestHome(request())
-        );
+        $submissions = $this->guestFeed(request());
 
         return view('home', compact('submissions'));
     }

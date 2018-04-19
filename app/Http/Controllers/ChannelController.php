@@ -31,17 +31,18 @@ class ChannelController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['show', 'submissions', 'get', 'moderators', 'fillStore', 'redirect']]);
+        $this->middleware('auth', ['except' => ['show', 'submissions', 'submissionsByChannelName', 'get', 'getByName', 'moderators', 'fillStore', 'redirect']]);
     }
 
     /**
-     * gets submissions.
+     * Returns submissions.
      *
      * @param string $channel
+     * @param string $sort
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function getSubmissions($channel, $sort)
+    protected function getSubmissions($channel, $sort = 'hot')
     {
         $submissions = (new Submission())->newQuery();
 
@@ -66,9 +67,8 @@ class ChannelController extends Controller
                 $submissions->where('created_at', '>=', Carbon::now()->subHour())
                     ->orderBy('rate', 'desc');
                 break;
-
-            default:
-                // hot
+            
+            case 'hot':
                 $submissions->orderBy('rate', 'desc');
                 break;
         }
@@ -81,18 +81,38 @@ class ChannelController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return \Illuminate\Support\Collection
+     * @return SubmissionResource
      */
-    public function submissions(Request $request)
+    public function submissionsByChannelName(Request $request)
     {
         $this->validate($request, [
-            'sort'         => 'in:hot,new,rising|nullable|max:25',
+            'sort'         => 'in:hot,new,rising|nullable',
             'page'         => 'integer|min:1',
             'channel_name' => 'required|exists:channels,name',
         ]);
 
         return SubmissionResource::collection(
             $this->getSubmissions($request->channel_name, $request->sort)
+        );
+    }
+
+    /**
+     * Get submissions API with ajax calls.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param integer $channel
+     *
+     * @return SubmissionResource
+     */
+    public function submissions(Request $request, Channel $channel)
+    {
+        $this->validate($request, [
+            'sort'         => 'nullable|in:hot,new,rising',
+            'page'         => 'integer|min:1',
+        ]);
+
+        return SubmissionResource::collection(
+            $this->getSubmissions($channel->name, strtolower($request->input('sort', 'hot')))
         );
     }
 
@@ -118,7 +138,7 @@ class ChannelController extends Controller
     }
 
     /**
-     * Returns all the nesseccary information to fill the channelStore on front-end.
+     * Returns all the necessary information to fill the channelStore on front-end.
      *
      * @return Collection
      */

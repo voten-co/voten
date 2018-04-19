@@ -27,10 +27,10 @@ class FeedTest extends TestCase
         $channel4 = create(Channel::class, ['id' => 4]);
 
         // create a total of 66 + 9 submissions: 
-        factory(Submission::class, 20)->create(['channel_id' => $channel1->id]);
-        factory(Submission::class, 24)->create(['channel_id' => $channel2->id]);
-        factory(Submission::class, 22)->create(['channel_id' => $channel3->id]);
-        factory(Submission::class, 3)->create(['channel_id' => $channel4->id]);
+        factory(Submission::class, 20)->create(['channel_id' => $channel1->id, 'channel_name' => $channel1->name]);
+        factory(Submission::class, 24)->create(['channel_id' => $channel2->id, 'channel_name' => $channel2->name]);
+        factory(Submission::class, 22)->create(['channel_id' => $channel3->id, 'channel_name' => $channel3->name]);
+        factory(Submission::class, 3)->create(['channel_id' => $channel4->id, 'channel_name' => $channel4->name]);
 
         // make $channel1 and $channel2 suggested channels:
         Suggested::create([
@@ -225,6 +225,19 @@ class FeedTest extends TestCase
             'filter' => 'all',
             'exclude_liked_submissions' => 1
         ])->assertStatus(200)->assertJsonCount(7, 'data');
+    }
+
+    /** @test */
+    public function a_user_can_get_submissions_of_a_channel()
+    {
+        $this->signInViaPassport();
+
+        $this->json("get", "/api/channels/4/submissions", [
+            'sort' => 'hot', 
+            'page' => 1
+        ])
+            ->assertStatus(200)
+            ->assertJsonCount(3, 'data');
     }
 
     // /** @test */
