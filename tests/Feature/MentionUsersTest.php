@@ -29,9 +29,8 @@ class MentionUsersTest extends TestCase
 
         $submission = create('App\Submission'); 
 
-        $this->json('POST', '/api/comments', [
-            'body' => 'Hello @JaneDoe Please take a look at this.', 
-            'submission_id' => $submission->id 
+        $this->json('POST', "/api/submissions/{$submission->id}/comments", [
+            'body' => 'Hello @JaneDoe Please take a look at this.' 
         ])->assertStatus(201);
 
         Notification::assertSentTo($jane, UsernameMentioned::class);
@@ -46,9 +45,8 @@ class MentionUsersTest extends TestCase
 
         $submission = create('App\Submission'); 
 
-        $this->json('POST', '/api/comments', [
-            'body' => 'This is @JohnDoe. Nice to meet you', 
-            'submission_id' => $submission->id 
+        $this->json('POST', "/api/submissions/{$submission->id}/comments", [
+            'body' => 'This is @JohnDoe. Nice to meet you'
         ])->assertStatus(201);
 
         Notification::assertNotSentTo($john, UsernameMentioned::class);
