@@ -21,7 +21,7 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['get', 'submissions', 'comments', 'showSubmissions', 'showComments']]);
+        $this->middleware('auth', ['except' => ['getById', 'getByUsername', 'submissions', 'comments', 'showSubmissions', 'showComments']]);
     }
 
     /**
