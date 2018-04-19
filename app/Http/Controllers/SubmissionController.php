@@ -31,7 +31,7 @@ class SubmissionController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['get', 'getPhotos', 'show']]);
+        $this->middleware('auth', ['except' => ['getBySlug', 'getPhotos', 'show', 'getById']]);
     }
 
     /**
