@@ -176,8 +176,7 @@ export default {
             this.sending = true;
 
             axios
-                .patch('/channels', {
-                    id: Store.page.channel.temp.id,
+                .patch(`/channels/${Store.page.channel.temp.id}`, {
                     description: this.description,
                     nsfw: this.nsfw,
                     cover_color: this.cover_color
