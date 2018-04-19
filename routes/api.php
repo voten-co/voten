@@ -58,7 +58,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/submissions/{submission}/report', 'ReportSubmissionsController@store')->middleware('shadow-ban'); // checked 
 
     // comment
-    Route::post('/comments', 'CommentController@store')->middleware('shadow-ban'); // checked
+    Route::post('/submissions/{submission}/comments', 'CommentController@store')->middleware('shadow-ban'); // checked
     Route::patch('/comments/{comment}', 'CommentController@patch'); // checked
     Route::delete('/comments/{comment}', 'CommentController@destroy'); // checked
     Route::post('/comments/{comment}/like', 'CommentLikesController@like'); // checked

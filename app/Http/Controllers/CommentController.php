@@ -30,22 +30,21 @@ class CommentController extends Controller
      * Stores the submitted comment.
      *
      * @param \Illuminate\Http\Request $request
+     * @param Submission $submission
      *
      * @return \Illuminate\Support\Collection $comment
      */
-    public function store(Request $request)
+    public function store(Request $request, Submission $submission)
     {
         $this->validate($request, [
             'body'          => 'required|string|max:5000',
             'parent_id'     => 'nullable|integer',
-            'submission_id' => 'required|integer|exists:submissions,id',
         ]);
 
         if ($this->tooEarlyToCreate(3)) {
             return res(429, "Looks like you're over doing it. You can't submit more than 3 comments per minute");
         }
-
-        $submission = $this->getSubmissionById($request->submission_id);
+        
         $author = Auth::user();
         $parentComment = (!is_null($request->parent_id) && $request->parent_id > 0) ? $this->getCommentById($request->parent_id) : null;
 

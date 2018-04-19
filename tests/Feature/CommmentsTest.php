@@ -24,10 +24,11 @@ class CommmentsTest extends TestCase
 
         $submission = create(Submission::class);
 
-        $this->json('POST', '/api/comments', [
+        $this->json("post", "/api/submissions/{$submission->id}/comments", [
             'submission_id' => $submission->id,
             'body' => 'some cool comment which BTW supports **markdown**',
-        ])->assertStatus(201);
+        ])
+            ->assertStatus(201);
 
         $this->assertDatabaseHas('comments', [
             'submission_id' => $submission->id,
