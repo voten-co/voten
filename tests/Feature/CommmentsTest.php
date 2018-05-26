@@ -39,6 +39,27 @@ class CommmentsTest extends TestCase
     }
 
     /** @test */
+    public function can_get_a_posted_comment()
+    {
+        $this->signInViaPassport();
+
+        $comment = create(Comment::class);
+
+        $this->json("get", "/api/comments/{$comment->id}")
+            ->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'id' => $comment->id,
+                    'user_id' => $comment->user_id,
+                    'submission_id' => $comment->submission_id,
+                    'author' => [
+                        'id' => $comment->user_id
+                    ],
+                ]
+            ]);
+    }
+
+    /** @test */
     public function a_channel_moderator_can_approve_a_comment()
     {
         $comment_author = create(User::class);

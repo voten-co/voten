@@ -71,6 +71,18 @@ class CommentController extends Controller
     }
 
     /**
+     * Get a comment record. 
+     * 
+     * @param integer $comment 
+     * 
+     * @return CommentResource
+     */
+    public function get(Comment $comment)
+    {
+        return new CommentResource($comment);
+    }
+
+    /**
      * Paginates the comments of a submission.
      *
      * @param Request $request

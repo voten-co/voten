@@ -64,6 +64,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/comments/{comment}/like', 'CommentLikesController@like'); // checked
     Route::post('/comments/{comment}/bookmark', 'BookmarksController@bookmarkComment'); // checked
     Route::get('/comments/bookmarked', 'BookmarksController@getBookmarkedComments'); // checked  
+    Route::get('/comments/{comment}', 'CommentController@get'); // checked  
     Route::post('/comments/{comment}/approve', 'ModeratorController@approveComment'); // checked
     Route::post('/comments/{comment}/disapprove', 'ModeratorController@disapproveComment'); // checked
     Route::post('/comments/{comment}/report', 'ReportCommentsController@store')->middleware('shadow-ban');
