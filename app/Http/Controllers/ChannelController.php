@@ -212,7 +212,7 @@ class ChannelController extends Controller
     }
 
     /**
-     * sets intial subscriptions, roles, etc.
+     * sets initial subscriptions, roles, etc.
      *
      * @param Illuminate\Support\Collection $user
      * @param Illuminate\Support\Collection $channel
@@ -272,18 +272,17 @@ class ChannelController extends Controller
         $this->validate($request, [
             'description' => 'required|max:230|string',
             'cover_color' => 'required|in:Dark Blue,Blue,Red,Dark,Pink,Dark Green,Bright Green,Purple,Gray,Orange',
-            'nsfw'        => 'required|boolean',
         ]);
 
         $channel->update([
             'description' => $request->description,
             'color'       => $request->cover_color,
-            'nsfw'        => $request->nsfw,
+            'nsfw'        => $request->input('nsfw', 0),
         ]);
 
         event(new ChannelWasUpdated($channel));
 
-        return res(200, 'The channel has been successfully updated');
+        return res(200, 'Channel has been updated successfully.');
     }
 
     /**

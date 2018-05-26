@@ -78,7 +78,11 @@ class ChannelsTest extends TestCase
             'description' => 'new description',
             'cover_color' => 'Dark',
             'nsfw' => 0,
-        ])->assertStatus(200);
+        ])  
+            ->assertStatus(200)
+            ->assertJson([
+                'message' => 'Channel has been updated successfully.'
+            ]);
 
         $this->assertDatabaseHas('channels', [
             'name' => 'myNewChannel',
