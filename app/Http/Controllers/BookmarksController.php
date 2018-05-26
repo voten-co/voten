@@ -30,7 +30,7 @@ class BookmarksController extends Controller
     /**
      * Favorited submissions by Auth user.
      *
-     * @return \Illuminate\Support\Collection
+     * @return SubmissionResource
      */
     public function getBookmarkedSubmissions()
     {
@@ -42,7 +42,7 @@ class BookmarksController extends Controller
     /**
      * Favorited comments by Auth user.
      *
-     * @return \Illuminate\Support\Collection
+     * @return CommentResource
      */
     public function getBookmarkedComments()
     {
@@ -54,7 +54,7 @@ class BookmarksController extends Controller
     /**
      * Favorited channels by Auth user.
      *
-     * @return \Illuminate\Support\Collection
+     * @return ChannelResource
      */
     public function getBookmarkedChannels()
     {
@@ -66,7 +66,7 @@ class BookmarksController extends Controller
     /**
      * Favorited channels by Auth user.
      *
-     * @return \Illuminate\Support\Collection
+     * @return UserResource
      */
     public function getBookmarkedUsers()
     {
@@ -78,7 +78,7 @@ class BookmarksController extends Controller
     /**
      * Favorited submissions by Auth user.
      *
-     * @return \Illuminate\Support\Collection
+     * @return response 
      */
     public function bookmarkSubmission(Submission $submission)
     {
@@ -98,7 +98,7 @@ class BookmarksController extends Controller
     /**
      * Favorited submissions by Auth user.
      *
-     * @return \Illuminate\Support\Collection
+     * @return response
      */
     public function bookmarkComment(Comment $comment)
     {
@@ -118,7 +118,7 @@ class BookmarksController extends Controller
     /**
      * Favorited submissions by Auth user.
      *
-     * @return \Illuminate\Support\Collection
+     * @return response
      */
     public function bookmarkChannel(Channel $channel)
     {
@@ -138,7 +138,7 @@ class BookmarksController extends Controller
     /**
      * (un)Bookmarks the user.
      *
-     * @return status
+     * @return response
      */
     public function bookmarkUser(User $user)
     {
