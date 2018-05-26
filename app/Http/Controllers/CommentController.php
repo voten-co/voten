@@ -157,7 +157,7 @@ class CommentController extends Controller
 
         event(new CommentWasPatched($comment, $comment->submission));
 
-        return res(200, 'Comment edited successfully');
+        return res(200, 'Comment edited successfully.');
     }
 
     /**
