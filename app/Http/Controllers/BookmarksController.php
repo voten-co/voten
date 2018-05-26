@@ -91,10 +91,10 @@ class BookmarksController extends Controller
         }
 
         $this->updateBookmarkedSubmissions(Auth::id(), $submission->id, false);
-        
-        return res(200, "Unbookmarked successfully.");
+
+        return res(200, "Undid bookmark successfully.");
     }
-    
+
     /**
      * Favorited submissions by Auth user.
      *
@@ -111,10 +111,10 @@ class BookmarksController extends Controller
         }
 
         $this->updateBookmarkedComments(Auth::id(), $comment->id, false);
-        
-        return res(200, "Unbookmarked successfully.");
+
+        return res(200, "Undid bookmark successfully.");
     }
-    
+
     /**
      * Favorited submissions by Auth user.
      *
@@ -131,10 +131,10 @@ class BookmarksController extends Controller
         }
 
         $this->updateBookmarkedChannels(Auth::id(), $channel->id, false);
-        
-        return res(200, "Unbookmarked successfully.");
+
+        return res(200, "Undid bookmark successfully.");
     }
-    
+
     /**
      * (un)Bookmarks the user.
      *
@@ -152,6 +152,6 @@ class BookmarksController extends Controller
 
         $this->updateBookmarkedUsers(Auth::id(), $user->id, false);
 
-        return res(200, "Unbookmarked successfully.");
+        return res(200, "Undid bookmark successfully.");
     }
 }
