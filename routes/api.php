@@ -190,5 +190,5 @@ Route::prefix('guest')->group(function () {
     Route::get('/submissions/{submission}', 'SubmissionController@getById'); // checked 
 });
 
-Route::post('/token/login', 'Auth\LoginController@getAccessToken');
-Route::post('/token/register', 'Auth\RegisterController@getAccessToken');
+Route::post('/token/login', 'Auth\LoginController@getAccessToken'); // checked 
+Route::post('/token/register', 'Auth\RegisterController@getAccessToken'); // checked 
