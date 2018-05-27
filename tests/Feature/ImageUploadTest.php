@@ -61,7 +61,12 @@ class ImageUploadTest extends TestCase
         $first_uploaded_avatar = $this->json('POST', "/api/channels/{$channel->id}/avatar", [
             'photo' => UploadedFile::fake()->image('avatar.png', 250, 250),
         ]);
-
+        
+        // assert response is the documented format:
+        $first_uploaded_avatar
+            ->assertStatus(200)
+            ->assertSeeText($first_uploaded_avatar->getContent());
+        
         Storage::disk(config('filesystems.default'))->assertExists('channels/avatars/' . str_after($first_uploaded_avatar->getContent(), 'channels/avatars/'));
 
         // upload another one
