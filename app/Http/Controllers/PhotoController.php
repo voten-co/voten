@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Channel;
+use App\Http\Resources\PhotoResource;
 use App\Photo;
 use App\PhotoTools;
 use App\Traits\CachableChannel;
@@ -11,7 +12,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Intervention\Image\ImageManagerStatic as Image;
-use App\Http\Resources\PhotoResource;
 
 class PhotoController extends Controller
 {
@@ -45,10 +45,10 @@ class PhotoController extends Controller
     }
 
     /**
-     * Get the uploaded photo. 
-     * 
+     * Get the uploaded photo.
+     *
      * @param integer $photo
-     * 
+     *
      * @return PhotoResource
      */
     public function get(Photo $photo)
@@ -65,11 +65,11 @@ class PhotoController extends Controller
     {
         // validate
         $this->validate($request, [
-            'photo'        => ['required', 'image', Rule::dimensions()->minWidth(250)->minHeight(250)->ratio(1 / 1)]
+            'photo' => ['required', 'image', Rule::dimensions()->minWidth(250)->minHeight(250)->ratio(1 / 1)],
         ]);
 
         // fill variables
-        $filename = time().str_random(16).'.png';
+        $filename = time() . str_random(16) . '.png';
         $image = Image::make($request->file('photo')->getRealPath());
         $folder = 'channels/avatars';
 
@@ -80,10 +80,10 @@ class PhotoController extends Controller
         $image->encode('png', 60);
 
         // upload it
-        Storage::put($folder.'/'.$filename, $image);
-        $imageAddress = $this->webAddress().$folder.'/'.$filename;
+        Storage::put($folder . '/' . $filename, $image);
+        $imageAddress = $this->webAddress() . $folder . '/' . $filename;
 
-        // delete the old avatar 
+        // delete the old avatar
         Storage::delete('channels/avatars/' . str_after($channel->avatar, 'channels/avatars/'));
 
         // update channel's avatar
@@ -104,11 +104,11 @@ class PhotoController extends Controller
     {
         // validate
         $this->validate($request, [
-            'photo' => ['required', 'image', Rule::dimensions()->minWidth(250)->minHeight(250)->ratio(1 / 1)]
+            'photo' => ['required', 'image', Rule::dimensions()->minWidth(250)->minHeight(250)->ratio(1 / 1)],
         ]);
 
         // fill variables
-        $filename = time().str_random(16).'.png';
+        $filename = time() . str_random(16) . '.png';
         $image = Image::make($request->file('photo')->getRealPath());
         $folder = 'users/avatars';
 
@@ -119,10 +119,10 @@ class PhotoController extends Controller
         $image->encode('png', 60);
 
         // upload it
-        Storage::put($folder.'/'.$filename, $image);
-        $imageAddress = $this->webAddress().$folder.'/'.$filename;
+        Storage::put($folder . '/' . $filename, $image);
+        $imageAddress = $this->webAddress() . $folder . '/' . $filename;
 
-        // delete the old avatar 
+        // delete the old avatar
         if (isset(Auth::user()->avatar)) {
             Storage::delete('users/avatars/' . str_after(Auth::user()->avatar, 'users/avatars/'));
         }
