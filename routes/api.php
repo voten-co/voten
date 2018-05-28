@@ -41,9 +41,9 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/users/{user}/block', 'BlockUsersController@block'); // checked 
 
     // submission
-    Route::post('/submissions', 'SubmissionController@store')->middleware('shadow-ban'); // checked 
-    Route::patch('/submissions/{submission}', 'SubmissionController@patchTextSubmission'); // checked 
-    Route::delete('/submissions/{submission}', 'SubmissionController@destroy'); // checked 
+    Route::post('/submissions', 'SubmissionController@store')->middleware('shadow-ban'); 
+    Route::patch('/submissions/{submission}', 'SubmissionController@patchTextSubmission'); 
+    Route::delete('/submissions/{submission}', 'SubmissionController@destroy'); 
     Route::post('/submissions/{submission}/hide', 'BlockSubmissionsController@store'); // checked 
     Route::delete('/submissions/{submission}/hide', 'BlockSubmissionsController@destroy'); // checked 
     Route::get('/links/title', 'SubmissionController@getTitleAPI'); // checked 
@@ -55,14 +55,14 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/submissions/bookmarked', 'BookmarksController@getBookmarkedSubmissions'); // checked 
     Route::post('/submissions/{submission}/approve', 'ModeratorController@approveSubmission'); // checked 
     Route::post('/submissions/{submission}/disapprove', 'ModeratorController@disapproveSubmission'); // checked 
-    Route::post('/submissions/{submission}/report', 'ReportSubmissionsController@store')->middleware('shadow-ban'); // checked 
+    Route::post('/submissions/{submission}/report', 'ReportSubmissionsController@store')->middleware('shadow-ban'); 
 
     // comment
-    Route::post('/submissions/{submission}/comments', 'CommentController@store')->middleware('shadow-ban'); // checked
-    Route::patch('/comments/{comment}', 'CommentController@patch'); // checked
-    Route::delete('/comments/{comment}', 'CommentController@destroy'); // checked
-    Route::post('/comments/{comment}/like', 'CommentLikesController@like'); // checked
-    Route::post('/comments/{comment}/bookmark', 'BookmarksController@bookmarkComment'); // checked
+    Route::post('/submissions/{submission}/comments', 'CommentController@store')->middleware('shadow-ban');
+    Route::patch('/comments/{comment}', 'CommentController@patch');
+    Route::delete('/comments/{comment}', 'CommentController@destroy');
+    Route::post('/comments/{comment}/like', 'CommentLikesController@like');
+    Route::post('/comments/{comment}/bookmark', 'BookmarksController@bookmarkComment');
     Route::get('/comments/bookmarked', 'BookmarksController@getBookmarkedComments'); // checked  
     Route::get('/comments/{comment}', 'CommentController@get'); // checked  
     Route::post('/comments/{comment}/approve', 'ModeratorController@approveComment'); // checked
