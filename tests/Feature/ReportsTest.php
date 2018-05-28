@@ -33,7 +33,9 @@ class ReportsTest extends TestCase
 
         $this->json("post", "/api/submissions/{$submission->id}/report", [
             "subject" => "It's harassing me or someone that I know",
-        ])->assertStatus(200);
+        ])
+            ->assertStatus(200)
+            ->assertSeeText('Report submitted successfully.');
 
         $this->assertDatabaseHas('reports', [
             'channel_id' => $submission->channel_id,
