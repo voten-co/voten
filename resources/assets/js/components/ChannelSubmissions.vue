@@ -77,6 +77,10 @@ export default {
             next();
         });
     },
+    
+    beforeDestroy() {
+        this.$eventHub.$off('refresh-channel-submissions');
+    }
 
     created() {
         this.$eventHub.$on('refresh-channel-submissions', this.refresh);
