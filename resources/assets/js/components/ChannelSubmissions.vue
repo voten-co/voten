@@ -77,15 +77,15 @@ export default {
             next();
         });
     },
-    
-    beforeDestroy() {
-        this.$eventHub.$off('refresh-channel-submissions');
-    }
 
     created() {
         this.$eventHub.$on('refresh-channel-submissions', this.refresh);
         this.setPageTitle('#' + this.$route.params.name);
     },
+
+    beforeDestroy() {
+        this.$eventHub.$off('refresh-channel-submissions');
+    }, 
 
     computed: {
         NoMoreItems() {
