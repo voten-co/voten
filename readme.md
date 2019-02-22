@@ -12,7 +12,6 @@
 [Voten.co](https://voten.co) is an open-source, beautiful, highly customizable yet deadly simple, and warm community. To get a quick taste of what Voten is written with please check our [credits page](https://voten.co/credits).
 
 <hr>
-<br>
 <h2 align="center">JesseAI</h2>
 
 [Check out](https://github.com/jesse-ai/jesse) my latest open-source project, an advanced cryptocurrency algo-trading framework called Jesse. 
