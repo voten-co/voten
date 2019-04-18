@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Suggested extends Model
 {
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'suggesteds';
+    
+    /**
      * Fillable fields for the table.
      *
      * @var array

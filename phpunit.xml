@@ -7,8 +7,7 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
-         stopOnFailure="false"
-         printerClass="Codedungeon\PHPUnitPrettyResultPrinter\Printer">
+         stopOnFailure="false">
     <testsuites>
         <testsuite name="Feature">
             <directory suffix="Test.php">./tests/Feature</directory>
@@ -32,7 +31,7 @@
         <env name="DB_DATABASE" value=":memory:"/>
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
-        <env name="QUEUE_DRIVER" value="sync"/>
+        <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="MAIL_DRIVER" value="log"/>
         <env name="BROADCAST_DRIVER" value="log"/>
         <env name="SCOUT_DRIVER" value="null"/>

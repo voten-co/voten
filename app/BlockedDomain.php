@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class BlockedDomain extends Model
 {
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'blocked_domains';
+
     use RecordsActivity;
 
     /**

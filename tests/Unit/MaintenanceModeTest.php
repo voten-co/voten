@@ -10,8 +10,9 @@ use Illuminate\Support\Facades\Artisan;
 class MaintenanceModeTest extends TestCase
 {
     use RefreshDatabase; 
+    public $mockConsoleOutput = false;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp(); 
 

@@ -12,6 +12,13 @@ class Channel extends Model
 {
     use Bookmarkable, RecordsActivity, SoftDeletes, Searchable;
 
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'channels';
+
     protected static $recordEvents = ['created', 'deleted'];
 
     /**

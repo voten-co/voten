@@ -9,6 +9,13 @@ class Rule extends Model
     use RecordsActivity;
 
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'rules';
+
+    /**
      * Fillable fields for the table.
      *
      * @var array

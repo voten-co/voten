@@ -1,13 +1,13 @@
 <?php
 
 // redirect a few commonly used pages to their correct address.
-Route::redirect('/api', 'https://api.voten.co', 301);
-Route::redirect('/help', 'https://help.voten.co', 301);
-Route::redirect('/help-center', 'https://help.voten.co', 301);
-Route::redirect('/source-code', 'https://github.com/voten-co/voten', 301);
-Route::redirect('/blog', 'https://medium.com/voten', 301);
-Route::redirect('/dev', '/c/votendev', 301);
-Route::redirect('/developers', '/c/votendev', 301);
+Route::permanentRedirect('/api', 'https://api.voten.co');
+Route::permanentRedirect('/help', 'https://help.voten.co');
+Route::permanentRedirect('/help-center', 'https://help.voten.co');
+Route::permanentRedirect('/source-code', 'https://github.com/voten-co/voten');
+Route::permanentRedirect('/blog', 'https://medium.com/voten');
+Route::permanentRedirect('/dev', '/c/votendev');
+Route::permanentRedirect('/developers', '/c/votendev');
 
 Route::group(['middleware' => ['http2']], function () {
     // Authintication routes

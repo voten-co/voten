@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Gif extends Model
 {
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'gifs';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array

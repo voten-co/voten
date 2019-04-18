@@ -11,6 +11,13 @@ class Report extends Model
     use SoftDeletes, RecordsActivity;
 
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'reports';
+
+    /**
      * The attributes that should be mutated to dates.
      *
      * @var array

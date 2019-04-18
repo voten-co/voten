@@ -13,8 +13,9 @@ use Illuminate\Support\Facades\DB;
 class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
+    public $mockConsoleOutput = false;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp(); 
         

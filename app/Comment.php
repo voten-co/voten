@@ -9,6 +9,13 @@ class Comment extends Model
 {
     use Bookmarkable, RecordsActivity, SoftDeletes;
 
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'comments';
+
     protected static $recordEvents = ['created', 'deleted'];
 
     /**

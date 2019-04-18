@@ -78,8 +78,7 @@ trait CachableChannel
      */
     protected function channelStats($id)
     {
-        $stats = Redis::hmget('channel.'.$id.'.data',
-                        'submissionsCount', 'commentsCount', 'subscribersCount');
+        $stats = Redis::hmget('channel.'.$id.'.data', 'submissionsCount', 'commentsCount', 'subscribersCount');
 
         // if channel's data is not cached, then fetch it from database and then cache it
         if (json_decode($stats[0]) === null || json_decode($stats[1]) === null || json_decode($stats[2]) === null) {

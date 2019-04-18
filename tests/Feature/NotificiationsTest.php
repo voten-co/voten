@@ -10,7 +10,7 @@ class NotificiationsTest extends TestCase
 {
     use RefreshDatabase; 
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp(); 
         
@@ -20,7 +20,7 @@ class NotificiationsTest extends TestCase
     /** @test */
     public function users_get_seen_notifications()
     {
-        $this->json('get', '/api/notifications'. [
+        $this->json('get', '/api/notifications', [
             'filter' => 'seen'
         ])->assertStatus(200);
     }
@@ -34,7 +34,7 @@ class NotificiationsTest extends TestCase
     /** @test */
     public function users_get_unseen_notifications()
     {
-        $this->json('get', '/api/notifications'. [
+        $this->json('get', '/api/notifications', [
             'filter' => 'unseen'
         ])->assertStatus(200);
     }

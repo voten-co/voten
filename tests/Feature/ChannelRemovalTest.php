@@ -15,8 +15,9 @@ use Illuminate\Support\Facades\Auth;
 class ChannelRemovalTest extends TestCase
 {
     use RefreshDatabase;
+    public $mockConsoleOutput = false;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

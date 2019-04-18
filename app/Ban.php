@@ -9,6 +9,13 @@ class Ban extends Model
     use RecordsActivity;
 
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'bans';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array

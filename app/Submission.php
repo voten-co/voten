@@ -11,6 +11,13 @@ class Submission extends Model
     use Bookmarkable, SoftDeletes, Searchable, RecordsActivity;
 
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'submissions';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array

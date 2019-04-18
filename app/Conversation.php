@@ -10,6 +10,13 @@ class Conversation extends Model
         'message_id', 'user_id', 'contact_id',
     ];
 
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'conversations';
+
     protected $with = ['last_message', 'contact'];
 
     /**

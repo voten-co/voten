@@ -33,7 +33,7 @@ return [
     |
     */
 
-    'env' => env('APP_ENV', 'production'),
+    'env' => env('APP_ENV', 'local'),
 
     /*
     |--------------------------------------------------------------------------
@@ -46,7 +46,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', false),
+    'debug' => env('APP_DEBUG', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -59,7 +59,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://voten.co'),
+    'url' => env('APP_URL', 'http://voten.test'),
 
     /*
     |--------------------------------------------------------------------------
@@ -162,19 +162,6 @@ return [
         App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
-        // Added packages
-        Intervention\Image\ImageServiceProvider::class,
-
-        Laravel\Tinker\TinkerServiceProvider::class,
-        Laravel\Socialite\SocialiteServiceProvider::class,
-        Laravel\Passport\PassportServiceProvider::class,
-        Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
-        Laravel\Scout\ScoutServiceProvider::class,
-
-        // dev only
-        VueGenerators\ServiceProvider::class,
-        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
     ],
 
     /*
@@ -222,13 +209,6 @@ return [
         'URL'          => Illuminate\Support\Facades\URL::class,
         'Validator'    => Illuminate\Support\Facades\Validator::class,
         'View'         => Illuminate\Support\Facades\View::class,
-
-        // added packages
-        'Image'     => Intervention\Image\Facades\Image::class,
-        'Responder' => Flugg\Responder\Facades\Responder::class,
-        'FFMpeg'    => Pbmedia\LaravelFFMpeg\FFMpegFacade::class,
-        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-        'Sentry'    => Sentry\SentryLaravel\SentryFacade::class,
 
     ],
 

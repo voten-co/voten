@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class FireWallBannedIp extends Model
 {
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'fire_wall_banned_ips';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array

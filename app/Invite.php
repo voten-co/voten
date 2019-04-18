@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Invite extends Model
 {
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'invites';
+
+    /**
      *   The attributes that are mass assignable.
      *
      *   @var array

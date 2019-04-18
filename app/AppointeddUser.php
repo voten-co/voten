@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class AppointeddUser extends Model
 {
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'appointedd_users';
+    
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
