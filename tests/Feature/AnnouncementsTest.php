@@ -15,11 +15,11 @@ class AnnouncementsTest extends TestCase
     {
         // assert permission:
         $this->signInViaPassport();
-        $this->json("post", "/api/announcements")->assertStatus(403);
+        $this->json("post", "api/announcements")->assertStatus(403);
 
         $this->signInViaPassportAsVotenAdministrator();
          
-        $this->json("post", "/api/announcements", [
+        $this->json("post", "api/announcements", [
             'body'    => 'her dear users pay attentions please',
             'title'   => 'first announcement',
             'duration' => 3
@@ -37,12 +37,12 @@ class AnnouncementsTest extends TestCase
     {
         // create 2 announcements  
         $this->signInViaPassportAsVotenAdministrator();
-        $this->json("post", "/api/announcements", [
+        $this->json("post", "api/announcements", [
             'body'    => $this->faker->paragraph(),
             'title'   => $this->faker->name(),
             'duration' => 3
         ])->assertStatus(201);
-        $this->json("post", "/api/announcements", [
+        $this->json("post", "api/announcements", [
             'body'    => $this->faker->paragraph(),
             'title'   => $this->faker->name(),
             'duration' => 3
@@ -50,7 +50,7 @@ class AnnouncementsTest extends TestCase
 
         $this->signInViaPassport();
 
-        $this->json("get", "/api/announcements")
+        $this->json("get", "api/announcements")
             ->assertStatus(200)
             ->assertJsonCount(2, 'data');
     }
@@ -60,12 +60,12 @@ class AnnouncementsTest extends TestCase
     {
         // create 2 announcements  
         $this->signInViaPassportAsVotenAdministrator();
-        $this->json("post", "/api/announcements", [
+        $this->json("post", "api/announcements", [
             'body'    => $this->faker->paragraph(),
             'title'   => $this->faker->name(),
             'duration' => 3
         ])->assertStatus(201);
-        $this->json("post", "/api/announcements", [
+        $this->json("post", "api/announcements", [
             'body'    => $this->faker->paragraph(),
             'title'   => $this->faker->name(),
             'duration' => 3
@@ -73,16 +73,16 @@ class AnnouncementsTest extends TestCase
 
         $this->signInViaPassport();
         
-        $this->json("get", "/api/announcements")
+        $this->json("get", "api/announcements")
             ->assertStatus(200)
             ->assertJsonCount(2, 'data');
 
         // mark is as seen: 
-        $this->json("post", "/api/announcements/1/seen")
+        $this->json("post", "api/announcements/1/seen")
             ->assertStatus(200);
 
         // Now gets only one: 
-        $this->json("get", "/api/announcements")
+        $this->json("get", "api/announcements")
             ->assertStatus(200)
             ->assertJsonCount(1, 'data');
     }
@@ -92,18 +92,18 @@ class AnnouncementsTest extends TestCase
     {
         // create 2 announcements  
         $this->signInViaPassportAsVotenAdministrator();
-        $this->json("post", "/api/announcements", [
+        $this->json("post", "api/announcements", [
             'body'    => $this->faker->paragraph(),
             'title'   => $this->faker->name(),
             'duration' => 3
         ])->assertStatus(201);
-        $this->json("post", "/api/announcements", [
+        $this->json("post", "api/announcements", [
             'body'    => $this->faker->paragraph(),
             'title'   => $this->faker->name(),
             'duration' => 3
         ])->assertStatus(201);
         
-        $this->json("get", "/api/announcements")
+        $this->json("get", "api/announcements")
             ->assertStatus(200)
             ->assertJsonCount(2, 'data');
 
@@ -112,7 +112,7 @@ class AnnouncementsTest extends TestCase
             ->assertStatus(200);
 
         // Now gets only one: 
-        $this->json("get", "/api/announcements")
+        $this->json("get", "api/announcements")
             ->assertStatus(200)
             ->assertJsonCount(1, 'data');
 

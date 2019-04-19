@@ -39,6 +39,6 @@ class PhotoResource extends Resource
      */
     protected function calculateExpiresAfterSeconds($created_at)
     {
-        return $created_at->addHours(24)->diffInSeconds(now());
+        return $created_at->addHours(24)->startOfSecond()->diffInSeconds(now()->startOfSecond());
     }
 }
