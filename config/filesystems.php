@@ -87,6 +87,6 @@ return [
 
     ],
 
-    'cdn_url'      => env('CDN_URL', 'https://cdn.voten.co/'),
+    'cdn_url'      => env('CDN_URL', 'https://cdn.voten.co'),
 
 ];

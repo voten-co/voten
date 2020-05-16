@@ -9,13 +9,17 @@ trait PhotoTools
 {
     protected function webAddress()
     {
+        if (config('filesystems.default') == 'public') {
+            return config('app.url');
+        }
+
         return config('filesystems.cdn_url');
     }
 
     /**
      * Creates and saves a thumbnail for the sent photo and stores into the defined direcory( could be cloud, local...).
      *
-     * @param  request('img')
+     * @param request('img')
      * @param  (int) width of the thumbnail
      * @param  (int) height of the thumbnail
      * @param  (string) directory the file should be uploaded to
@@ -24,7 +28,7 @@ trait PhotoTools
      */
     protected function createThumbnail($url, $width, $height, $folder = 'submissions/img/thumbs')
     {
-        $filename = time().str_random(16).'.jpg';
+        $filename = time() . str_random(16) . '.jpg';
         $image = Image::make($url);
 
         if ($image->width() > 600) {
@@ -38,26 +42,26 @@ trait PhotoTools
         }
 
         $image->encode(null, 60);
-        Storage::put($folder.'/'.$filename, $image);
+        Storage::put($folder . '/' . $filename, $image);
 
-        return $this->webAddress().$folder.'/'.$filename;
+        return $this->webAddress() . '/' . $folder . '/' . $filename;
     }
 
     /**
      * Crops the uploaded photo with the sent coordinates.
      *
      * @param string $url
-     * @param int    $width
-     * @param int    $height
-     * @param int    $x
-     * @param int    $y
+     * @param int $width
+     * @param int $height
+     * @param int $x
+     * @param int $y
      * @param string $folder
      *
      * @return string
      */
     protected function cropImg($url, $width, $height, $x, $y, $folder = 'users/avatars')
     {
-        $filename = time().str_random(16).'.png';
+        $filename = time() . str_random(16) . '.png';
         $image = Image::make($url);
         $image = $image->crop($width, $height, $x, $y);
 
@@ -66,9 +70,9 @@ trait PhotoTools
 
         $image->encode('png', 60);
 
-        Storage::put($folder.'/'.$filename, $image);
+        Storage::put($folder . '/' . $filename, $image);
 
-        return $this->webAddress().$folder.'/'.$filename;
+        return $this->webAddress() . '/' . $folder . '/' . $filename;
     }
 
     /**
@@ -76,14 +80,14 @@ trait PhotoTools
      * into jpg, also optimizes it so the uploaded photos will have less size. In case the image is
      * in .gif format, it doesn't touch it. Just uploads the file while keeping the .gif format.
      *
-     * @param  request('img')
+     * @param request('img')
      * @param  (string) directory the file should be uploaded to
      *
      * @return (string) the path of uploaded file
      */
     protected function uploadImg($image, $folder = 'submissions/img')
     {
-        $filename = time().str_random(16).'.jpg';
+        $filename = time() . str_random(16) . '.jpg';
         $image = Image::make($image->getRealPath());
 
         if (!$image->filesize()) {
@@ -92,29 +96,29 @@ trait PhotoTools
 
         $image->encode('jpg', 60);
 
-        Storage::put($folder.'/'.$filename, $image);
+        Storage::put($folder . '/' . $filename, $image);
 
-        return $this->webAddress().$folder.'/'.$filename;
+        return $this->webAddress() . '/' . $folder . '/' . $filename;
     }
 
     /**
      * Uplaods the file into the defined direcory( could be cloud, local...).
      *
-     * @param  request('img')
+     * @param request('img')
      * @param  (string) directory the file should be uploaded to
      *
      * @return (string) the path of uploaded file
      */
     protected function uploadImgPNG($image, $folder = 'submissions/img')
     {
-        $filename = time().str_random(16).'.png';
+        $filename = time() . str_random(16) . '.png';
         $image = Image::make($image->getRealPath());
 
         $image->encode('png');
 
-        Storage::put($folder.'/'.$filename, $image);
+        Storage::put($folder . '/' . $filename, $image);
 
-        return $this->webAddress().$folder.'/'.$filename;
+        return $this->webAddress() . '/' . $folder . '/' . $filename;
     }
 
     /**
@@ -127,13 +131,13 @@ trait PhotoTools
      */
     protected function downloadImg($url, $folder = 'submissions/link')
     {
-        $filename = time().str_random(16).'.jpg';
+        $filename = time() . str_random(16) . '.jpg';
         $image = Image::make($url);
 
         $image->encode('jpg', 60);
 
-        Storage::put($folder.'/'.$filename, $image);
+        Storage::put($folder . '/' . $filename, $image);
 
-        return $this->webAddress().$folder.'/'.$filename;
+        return $this->webAddress() . '/' . $folder . '/' . $filename;
     }
 }
