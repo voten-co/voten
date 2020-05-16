@@ -10,7 +10,7 @@ trait PhotoTools
     protected function webAddress()
     {
         if (config('filesystems.default') == 'public') {
-            return config('app.url');
+            return config('app.url') . '/storage';
         }
 
         return config('filesystems.cdn_url');
