@@ -248,8 +248,8 @@ export default {
 
         date() {
             return moment(this.userStore.created_at)
-                .utc(moment().format('MMM Do'))
-                .format('MMM Do');
+                .utc(moment().format('MMM Do YYYY'))
+                .format('MMM Do YYYY');
         },
 
         coverBackground() {
