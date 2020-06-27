@@ -12,6 +12,7 @@
 [Voten.co](https://voten.co) is an open-source, beautiful, highly customizable yet deadly simple, and warm community. To get a quick taste of what Voten is written with please check our [credits page](https://voten.co/credits).
 
 <hr>
+
 ## Update:
 
 I currently don't have the time that is required to maintain Voten. I am however open to contract work in case you need help with developing your fork of Voten, or any other development gig. You can reach me at algo@hey.com
