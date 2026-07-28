@@ -19,9 +19,10 @@
     <link rel="shortcut icon" href="{{ config('app.favicon') }}">
 </head>
 
-<body>
+<body class="{{ config('app.demo_mode') ? 'demo-site' : '' }}">
 
 @include('google-analytics')
+@include('partials.demo-banner')
 
 <div id="voten-app">
     <vue-progress-bar></vue-progress-bar>

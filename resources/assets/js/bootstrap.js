@@ -1,6 +1,6 @@
 import Raven from 'raven-js';
 import RavenVue from 'raven-js/plugins/vue';
-if (Laravel.env !== 'local') {
+if (Laravel.env !== 'local' && Laravel.sentry) {
     Raven.config(Laravel.sentry)
         .addPlugin(RavenVue, Vue)
         .install();
@@ -93,6 +93,50 @@ if (Laravel.broadcasting.service == 'pusher' && Laravel.broadcasting.pusher.key.
         key: Laravel.broadcasting.echo.key,
         host: Laravel.broadcasting.echo.host + ':' + Laravel.broadcasting.echo.port
     });
+} else {
+    const disabledChannel = {
+        here(callback) {
+            callback([]);
+            return this;
+        },
+        joining() {
+            return this;
+        },
+        leaving() {
+            return this;
+        },
+        listen() {
+            return this;
+        },
+        listenForWhisper() {
+            return this;
+        },
+        notification() {
+            return this;
+        },
+        stopListening() {
+            return this;
+        },
+        whisper() {
+            return this;
+        }
+    };
+
+    // Keep realtime-only UI hooks inert when the demo runs without Pusher or Echo.
+    window.Echo = {
+        channel() {
+            return disabledChannel;
+        },
+        join() {
+            return disabledChannel;
+        },
+        leave() {
+            return this;
+        },
+        private() {
+            return disabledChannel;
+        }
+    };
 }
 
 /**

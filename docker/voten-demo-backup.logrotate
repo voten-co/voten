@@ -1,0 +1,7 @@
+/var/log/voten-demo-backup.log {
+    weekly
+    rotate 4
+    compress
+    missingok
+    notifempty
+}

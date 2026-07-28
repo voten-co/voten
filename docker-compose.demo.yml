@@ -1,0 +1,98 @@
+services:
+  app:
+    build:
+      context: .
+    image: voten-demo-app:latest
+    restart: unless-stopped
+    env_file:
+      - ../.env
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - voten_storage:/var/www/html/storage
+
+  queue:
+    image: voten-demo-app:latest
+    restart: unless-stopped
+    command: php artisan queue:work --sleep=3 --tries=2 --timeout=90
+    healthcheck:
+      disable: true
+    env_file:
+      - ../.env
+    depends_on:
+      app:
+        condition: service_healthy
+    volumes:
+      - voten_storage:/var/www/html/storage
+
+  scheduler:
+    image: voten-demo-app:latest
+    restart: unless-stopped
+    command: /bin/sh -c "while true; do php artisan schedule:run --no-interaction; sleep 60; done"
+    healthcheck:
+      disable: true
+    env_file:
+      - ../.env
+    depends_on:
+      app:
+        condition: service_healthy
+    volumes:
+      - voten_storage:/var/www/html/storage
+
+  mysql:
+    image: mysql:5.7
+    restart: unless-stopped
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - voten_mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - voten_redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    env_file:
+      - ../.env
+    depends_on:
+      app:
+        condition: service_healthy
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./docker/Caddyfile:/etc/caddy/Caddyfile:ro
+      - voten_caddy_data:/data
+      - voten_caddy_config:/config
+
+volumes:
+  voten_storage:
+  voten_mysql:
+  voten_redis:
+  voten_caddy_data:
+  voten_caddy_config:

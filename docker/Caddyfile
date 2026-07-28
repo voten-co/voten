@@ -1,0 +1,31 @@
+{
+	auto_https disable_redirects
+}
+
+(voten_app) {
+	encode gzip zstd
+
+	header {
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "SAMEORIGIN"
+		-X-Powered-By
+	}
+
+	reverse_proxy app:80
+}
+
+http://{$DEMO_DOMAIN} {
+	@needs_https {
+		not header X-Forwarded-Proto https
+		not path /.well-known/acme-challenge/*
+	}
+	redir @needs_https https://{$DEMO_DOMAIN}{uri} permanent
+
+	import voten_app
+}
+
+https://{$DEMO_DOMAIN} {
+	import voten_app
+}

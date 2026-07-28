@@ -21,6 +21,7 @@ return [
     'github_url'       => 'https://github.com/voten-co/voten',
     'blog_url'         => 'https://medium.com/voten',
     'favicon'          => env('FAVICON_PATH', '/imgs/favicon.png'), 
+    'demo_mode'        => env('DEMO_MODE', false),
 
     /*
     |--------------------------------------------------------------------------
