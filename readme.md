@@ -13,11 +13,11 @@
 
 <hr>
 
-## Update:
+## Archived project by Special.lu
 
-I currently don't have the time that is required to maintain Voten. I am however open to contract work in case you need help with developing your fork of Voten, or any other development gig. You can reach me at algo@hey.com
+Voten is no longer actively maintained. It is preserved as one of [Special.lu](https://special.lu)'s older web design and development projects. You can explore a restored, sample-content-filled version at [voten.special.lu](https://voten.special.lu).
 
-My new open-source project is [Jesse](https://github.com/jesse-ai/jesse), an advanced cryptocurrency algo-trading framework written in Python. 
+[Special.lu](https://special.lu) is a Luxembourg creative and web design agency. If you need a new website, a redesign, or custom web development, [contact Special.lu](https://special.lu/contact) to discuss your project.
 
 <br>
 <hr>
