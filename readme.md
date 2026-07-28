@@ -23,6 +23,16 @@ Voten is no longer actively maintained. It is preserved as one of [Special.lu](h
 <hr>
 <br>
 
+## Deploying the demo
+
+The restored demo ships with a reproducible Docker deployment, automatic HTTPS, deterministic sample content, queues, scheduled tasks, and backups.
+
+See **[DEPLOYMENT.md](DEPLOYMENT.md)** for the quick installation, manual recovery steps, upgrades, backups, restoration, and safe shutdown instructions.
+
+<br>
+<hr>
+<br>
+
 ## Contributing
 
 Thank you for considering contributing to the Voten. Here's a list of things you can do to support Voten:

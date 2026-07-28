@@ -144,9 +144,13 @@ class HomeController extends Controller
     {
         $submissions = (new Submission())->newQuery();
 
-        $submissions->whereIn(
-            'channel_id', $this->getDefaultChannels()
-        );
+        // Demo installations should remain useful even if suggested-channel
+        // configuration is accidentally removed from the database.
+        if (! config('app.demo_mode')) {
+            $submissions->whereIn(
+                'channel_id', $this->getDefaultChannels()
+            );
+        }
 
         $submissions->where('nsfw', false);
 

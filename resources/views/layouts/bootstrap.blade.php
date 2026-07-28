@@ -19,8 +19,9 @@
     <link rel="shortcut icon" href="{{ config('app.favicon') }}">
 </head>
 
-<body>
+<body class="{{ config('app.demo_mode') ? 'demo-site' : '' }}">
     @include('google-analytics')
+    @include('partials.demo-banner')
     <div id="bootstrap4">
         <br>
         <div class="container">

@@ -115,7 +115,9 @@ class SubmissionController extends Controller
 
             event(new SubmissionWasCreated($submission));
         } catch (\Exception $exception) {
-            app('sentry')->captureException($exception);
+            if (app()->bound('sentry')) {
+                app('sentry')->captureException($exception);
+            }
 
             return res(500, 'Ooops, something went wrong.');
         }

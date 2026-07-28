@@ -25,7 +25,8 @@
     <link rel="shortcut icon" href="{{ config('app.favicon') }}">
 </head>
 
-<body>
+<body class="{{ config('app.demo_mode') ? 'demo-site' : '' }}">
+@include('partials.demo-banner')
 
 <div id="backend">
     @include('backend.header')

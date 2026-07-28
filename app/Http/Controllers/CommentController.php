@@ -124,7 +124,9 @@ class CommentController extends Controller
             array_push($likes, $comment_id);
             $this->updateCommentLikesIds($user->id, $likes);
         } catch (Exception $exception) {
-            app('sentry')->captureException($exception);
+            if (app()->bound('sentry')) {
+                app('sentry')->captureException($exception);
+            }
         }
     }
 
